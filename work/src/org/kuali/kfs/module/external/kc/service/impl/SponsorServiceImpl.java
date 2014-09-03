@@ -27,12 +27,13 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.dto.SponsorCriteriaDto;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
-import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.SponsorWebSoapService;
 import org.kuali.kra.external.sponsor.SponsorWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -42,7 +43,7 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
  *
  */
 
-public class SponsorServiceImpl implements ExternalizableBusinessObjectService {
+public class SponsorServiceImpl implements ExternalizableLookupableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SponsorServiceImpl.class);
 
     protected SponsorWebService getWebService() {
@@ -94,6 +95,11 @@ public class SponsorServiceImpl implements ExternalizableBusinessObjectService {
             }
             return agencies;
         }
+    }
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        return new ArrayList(findMatching(fieldValues));
     }
 
  }

@@ -22,12 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class tests posting of ICR Encumbrance entries to the general ledger table.
@@ -53,7 +57,9 @@ public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestB
 
         // Init services
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
+        this.icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
         this.posterIcrEncumbranceEntriesStep = SpringContext.getBean(PosterIcrEncumbranceEntriesStep.class);
+        this.posterIcrEncumbranceEntriesStep.setParameterService(SpringContext.getBean(ParameterService.class));
         this.unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 
@@ -111,6 +117,7 @@ public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestB
      */
     @Override
     public void testExecute() {
+        TestUtils.setSystemParameter(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, "Y");
 
         // Generate a feed file, (see IcrEncumbranceFeedTest for full test coverage)
         File feedFile = icrEncumbranceService.buildIcrEncumbranceFeed();

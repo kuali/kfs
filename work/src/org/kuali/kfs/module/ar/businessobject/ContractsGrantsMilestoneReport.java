@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -38,7 +37,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     private Long milestoneNumber;
     private KualiDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
-    private String billedIndicator = KFSConstants.ParameterValues.STRING_NO;
+    private boolean billed = false;
     private boolean active;
     private ContractsAndGrantsAward award;
     private Account account;
@@ -98,22 +97,12 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
         this.milestoneAmount = milestoneAmount;
     }
 
-    /**
-     * Gets the billedIndicator attribute.
-     *
-     * @return Returns the billedIndicator.
-     */
-    public String getBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    /**
-     * Sets the billedIndicator attribute value.
-     *
-     * @param billedIndicator The billedIndicator to set.
-     */
-    public void setBilledIndicator(String isItBilled) {
-        this.billedIndicator = isItBilled;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     @Override
@@ -258,7 +247,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
             m.put("milestoneExpectedCompletionDate", this.milestoneExpectedCompletionDate.toString());
         }
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
-        m.put("billedIndicator", this.billedIndicator);
+        m.put("billed", this.billed);
         return m;
     }
 

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -48,8 +49,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -89,7 +88,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private java.util.Date dateEmailProcessed;
     public Date paymentDate;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
-    private boolean showEventsInd = true;
+    private boolean showEvents = true;
 
     /**
      * Default constructor.
@@ -175,7 +174,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    @SuppressWarnings("null")
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
@@ -198,10 +196,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
 
                         if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-                            contractsGrantsInvoiceDocumentService.correctMilestones(invoice.getInvoiceMilestones());
+                            contractsGrantsInvoiceDocumentService.updateMilestonesBilledIndicator(false,invoice.getInvoiceMilestones());
                         }
                         else if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-                            contractsGrantsInvoiceDocumentService.correctBills(invoice.getInvoiceBills());
+                            contractsGrantsInvoiceDocumentService.updateBillsBilledIndicator(false,invoice.getInvoiceBills());
                         }
                     }
                     else {
@@ -215,7 +213,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             }
             else {
                 // update Milestones and Bills when invoice goes to final state
-                contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,invoiceMilestones,invoiceBills);
+                contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(true, invoiceMilestones, invoiceBills);
             }
 
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);
@@ -452,22 +450,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        if ( ObjectUtils.isNull(proposalNumber)) {
-            award = null;
-        } else {
-            if ( award == null || !award.getProposalNumber().equals(proposalNumber))  {
-                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class);
-                if ( moduleService != null ) {
-                    Map<String,Object> key = new HashMap<String, Object>(1);
-                    key.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-                    award = moduleService.getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, key);
-                } else {
-                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
-                }
-            }
-        }
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
         return award;
-
     }
 
     /**
@@ -774,21 +758,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the showEventsInd attribute.
+     * Gets the showEvents attribute.
      *
-     * @return Returns the showEventsInd attribute.
+     * @return Returns the showEvents attribute.
      */
-    public boolean isShowEventsInd() {
-        return showEventsInd;
+    public boolean isShowEvents() {
+        return showEvents;
     }
 
     /**
-     * Sets the showEventsInd attribute.
+     * Sets the showEvents attribute.
      *
-     * @param showEventsInd The showEventsInd to set.
+     * @param showEvents The showEvents to set.
      */
-    public void setShowEventsInd(boolean showEventsInd) {
-        this.showEventsInd = showEventsInd;
+    public void setShowEvents(boolean showEvents) {
+        this.showEvents = showEvents;
     }
 
     public String getCustomerNumber() {

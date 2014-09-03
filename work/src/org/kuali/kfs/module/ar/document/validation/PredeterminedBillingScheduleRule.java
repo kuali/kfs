@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.PredeterminedBillingScheduleMaintenanceService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
@@ -40,6 +40,7 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(PredeterminedBillingScheduleRule.class);
     protected PredeterminedBillingSchedule newPredeterminedBillingScheduleCopy;
 
+    private static volatile PredeterminedBillingScheduleMaintenanceService predeterminedBillingScheduleMaintenanceService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -133,8 +134,8 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
     private boolean checkForDuplicateBillNumbers() {
         boolean isValid = true;
 
-        Set<Long> billNumbers = new HashSet();
-        Set<Long> duplicateBillNumbers = new HashSet();
+        Set<Long> billNumbers = new HashSet<>();
+        Set<Long> duplicateBillNumbers = new HashSet<>();
 
         for (Bill bill: newPredeterminedBillingScheduleCopy.getBills()) {
             if (!billNumbers.add(bill.getBillNumber())) {
@@ -151,7 +152,7 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
                 // we will highlight.
                 boolean copiedToInvoice = false;
                 if (ObjectUtils.isNotNull(bill.getBillIdentifier())) {
-                    if (SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasBillBeenCopiedToInvoice(bill.getProposalNumber(), bill.getBillIdentifier().toString())) {
+                    if (getPredeterminedBillingScheduleMaintenanceService().hasBillBeenCopiedToInvoice(bill.getProposalNumber(), bill.getBillIdentifier().toString())) {
                         copiedToInvoice = true;
                     }
                 }
@@ -176,4 +177,10 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
         newPredeterminedBillingScheduleCopy = (PredeterminedBillingSchedule) super.getNewBo();
     }
 
+    public static PredeterminedBillingScheduleMaintenanceService getPredeterminedBillingScheduleMaintenanceService() {
+        if (predeterminedBillingScheduleMaintenanceService == null) {
+            predeterminedBillingScheduleMaintenanceService = SpringContext.getBean(PredeterminedBillingScheduleMaintenanceService.class);
+        }
+        return predeterminedBillingScheduleMaintenanceService;
+    }
 }

@@ -49,23 +49,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Rules for the Award maintenance document.
  */
 public class AwardRule extends CGMaintenanceDocumentRuleBase {
+
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
-    protected boolean contractsGrantsBillingEnhancementsInd;
     protected Award newAwardCopy;
-
-
-    /**
-     * Default constructor.
-     */
-    public AwardRule() {
-        super();
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.debug("Entering AwardRule.processCustomSaveDocumentBusinessRules");
@@ -90,14 +80,14 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkForDuplicateAwardOrganization();
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
-        success &= checkFundManagersExist(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS);
+        success &= checkFundManagersExist(newAwardCopy.getAwardFundManagers(), KFSPropertyConstants.AWARD_FUND_MANAGERS);
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
         success &= checkProjectDirectorsStatuses(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkFederalPassThrough();
         success &= checkSuspendedAwardInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         success &= checkStopWorkReason();
-        if(contractsGrantsBillingEnhancementsInd){
+        if(contractsGrantsBillingEnhancementActive){
             success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
             success &= checkInvoicingOptions();
             success &= checkAwardInvoiceAccounts();
@@ -124,7 +114,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         }
         return true;
     }
-
 
     /**
      * checks to see if at least 1 award account exists
@@ -501,16 +490,16 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         boolean success = true;
 
         Person fundManager = awardFundManager.getFundManager();
-        if(contractsGrantsBillingEnhancementsInd){
-        if (StringUtils.isBlank(awardFundManager.getPrincipalId()) || ObjectUtils.isNull(fundManager)) {
-            String errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_FUND_MANAGERS + "." + "fundManager.principalName";
-            String label = this.getDataDictionaryService().getAttributeLabel(AwardFundManager.class, "fundManager.principalName");
-            String message = label + "(" + awardFundManager.getPrincipalId() + ")";
+        if(contractsGrantsBillingEnhancementActive){
+            if (StringUtils.isBlank(awardFundManager.getPrincipalId()) || ObjectUtils.isNull(fundManager)) {
+                String errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_FUND_MANAGERS + "." + "fundManager.principalName";
+                String label = this.getDataDictionaryService().getAttributeLabel(AwardFundManager.class, "fundManager.principalName");
+                String message = label + "(" + awardFundManager.getPrincipalId() + ")";
 
-            putFieldError(errorPath, KFSKeyConstants.ERROR_EXISTENCE, message);
+                putFieldError(errorPath, KFSKeyConstants.ERROR_EXISTENCE, message);
 
-            success &= false;
-        }
+                success &= false;
+            }
         }
         return success;
     }
@@ -544,7 +533,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
         //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementsInd) {
+        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementActive) {
             if (!ObjectUtils.isNull(awardInvoiceAccounts) || !awardInvoiceAccounts.isEmpty()) {
                 int arCount = 0;
                 int incomeCount = 0;
@@ -596,24 +585,26 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
         // Determine billing frequency
         BillingFrequency billingFrequency = newAwardCopy.getBillingFrequency();
-        String billingFrequencyCode = billingFrequency.getFrequency();
+        if (ObjectUtils.isNotNull(billingFrequency)) {
+            String billingFrequencyCode = billingFrequency.getFrequency();
 
-        // Check for Predetermined and Milestone billing schedules
-        if (ObjectUtils.isNotNull(billingFrequencyCode) &&
-                (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
-                 CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
+            // Check for Predetermined and Milestone billing schedules
+            if (ObjectUtils.isNotNull(billingFrequencyCode) &&
+                    (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
+                     CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
 
-            // Get count of active accounts on Award
-            Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
-            for (AwardAccount account : awardAccounts) {
-                if (account.isActive()) {
-                    numberOfActiveAccounts++;
-                }
+                // Get count of active accounts on Award
+                Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
+                for (AwardAccount account : awardAccounts) {
+                    if (account.isActive()) {
+                        numberOfActiveAccounts++;
+                    }
 
-                // if more than one account, add error and return out
-                if (numberOfActiveAccounts > 1) {
-                    putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT);
-                    return false;
+                    // if more than one account, add error and return out
+                    if (numberOfActiveAccounts > 1) {
+                        putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT);
+                        return false;
+                    }
                 }
             }
         }

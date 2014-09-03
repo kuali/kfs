@@ -19,7 +19,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,28 +26,23 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
-import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
-import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardInvoiceAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
@@ -60,10 +54,8 @@ import org.kuali.kfs.module.ar.fixture.InvoiceDetailAccountObjectCodeFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceSuspensionCategoryFixture;
-import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.ar.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -73,7 +65,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -83,16 +74,21 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
     ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
+    ContractsGrantsInvoiceCreateDocumentServiceImpl contractsGrantsInvoiceCreateDocumentServiceImpl = new ContractsGrantsInvoiceCreateDocumentServiceImpl();
     /**
      * @see junit.framework.TestCase#setUp()
      */
     @Override
     protected void setUp() throws Exception {
-        contractsGrantsInvoiceDocumentServiceImpl.setAwardAccountObjectCodeTotalBilledDao(SpringContext.getBean(AwardAccountObjectCodeTotalBilledDao.class));
         contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
+
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setAwardAccountObjectCodeTotalBilledDao(SpringContext.getBean(AwardAccountObjectCodeTotalBilledDao.class));
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(contractsGrantsInvoiceDocumentServiceImpl);
         super.setUp();
     }
 
@@ -132,7 +128,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
 
@@ -255,7 +251,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         // set InvoiceDetailAccountObjectCodes
         InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_1 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();
@@ -329,10 +325,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method is intented to test if the source accounting lines are created properly for every type of GLPE and invoicing
+     * This method is intended to test if the source accounting lines are created properly for every type of GLPE and invoicing
      * option in the award.
      */
-    public void testCreateSourceAccountingLinesAndGLPEs() {
+    public void testCreateSourceAccountingLines() {
 
         String coaCode = "BL";
         String orgCode = "SRS";
@@ -556,13 +552,11 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         try {
-            contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(contractsGrantsInvoiceDocument);
-
+            contractsGrantsInvoiceDocumentService.createSourceAccountingLines(contractsGrantsInvoiceDocument);
         }
         catch (WorkflowException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Call to createSourceAccountingLinesAndGLPEs failed with WorkflowException.");
         }
-
 
         CustomerInvoiceDetail invoiceDetail = (CustomerInvoiceDetail) contractsGrantsInvoiceDocument.getSourceAccountingLine(0);
 
@@ -577,14 +571,12 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
             assertEquals(invoiceDetail.getAccountsReceivableObjectCode(), customerInvoiceDetail.getAccountsReceivableObjectCode());
         }
         assertEquals(invoiceDetail.getAmount(), customerInvoiceDetail.getAmount());
-
-
     }
 
     /**
      * Tests isAwardHasClosedAccountWithCurrentExpenditures() method of service.
      */
-    public void testIsAwardHasClosedAccountWithCurrentExpenditures() {
+    public void testDoesAwardHaveClosedAccountWithCurrentExpenditures() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
@@ -601,49 +593,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
 
-        assertFalse(contractsGrantsInvoiceDocumentServiceImpl.isAwardHasClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument));
+        assertFalse(contractsGrantsInvoiceDocumentServiceImpl.doesAwardHaveClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument));
 
-    }
-
-    /**
-     * Tests the GetInvoiceDocumentsForReferralToCollectionsLookup() method of service class.
-     */
-    public void testGetInvoiceDocumentsForReferralToCollectionsLookup() throws WorkflowException {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentDao(SpringContext.getBean(ContractsGrantsInvoiceDocumentDao.class));
-        Map<String, String> fieldValues = new LinkedHashMap<String, String>();
-        fieldValues.put("agencyNumber", "11505");
-
-        // To create a basic invoice with test data
-        String coaCode = "BL";
-        String orgCode = "SRS";
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
-        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        awardAccounts.add(awardAccount_1);
-        award.getActiveAwardAccounts().clear();
-
-        award.getActiveAwardAccounts().add(awardAccount_1);
-        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
-
-        // To add data for OrganizationOptions as fixture.
-        OrganizationOptions organizationOptions = new OrganizationOptions();
-
-        organizationOptions.setChartOfAccountsCode(coaCode);
-        organizationOptions.setOrganizationCode(orgCode);
-        organizationOptions.setProcessingChartOfAccountCode(coaCode);
-        organizationOptions.setProcessingOrganizationCode(orgCode);
-        SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
-
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
-        cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
-            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
-            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
-        }
-        documentService.saveDocument(cgInvoice);
-
-        assertTrue(contractsGrantsInvoiceDocumentServiceImpl.getInvoiceDocumentsForReferralToCollectionsLookup(fieldValues).size() > 0);
     }
 }

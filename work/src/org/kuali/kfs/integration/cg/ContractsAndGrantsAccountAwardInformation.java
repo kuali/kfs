@@ -17,12 +17,13 @@ package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Information about an award associated with an account.
  */
-public interface ContractsAndGrantsAccountAwardInformation extends ExternalizableBusinessObject {
+public interface ContractsAndGrantsAccountAwardInformation extends ExternalizableBusinessObject, Inactivatable {
 
     /**
      * Gets the proposalNumber attribute.
@@ -65,15 +66,6 @@ public interface ContractsAndGrantsAccountAwardInformation extends Externalizabl
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts();
-
-    /**
-     * This method returns the Award object associated with this AwardAccount.
-     *
-     * @return The Award object associated with this AwardAccount.
-     */
-
-    //KFSMI-861 : Removing this method as it's not being referenced.
-    //public ContractsAndGrantsAward getAward();
 
     /**
      * Gets the name of the project director for the associated award.

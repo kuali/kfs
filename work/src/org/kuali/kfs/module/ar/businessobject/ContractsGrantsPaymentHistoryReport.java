@@ -60,9 +60,6 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
         m.put("customerName", this.customerName);
         m.put("invoiceNumber", this.invoiceNumber);
 
-//        m.put("reversedIndicator", this.reversedIndicator);
-//        m.put("appliedIndicator", this.appliedIndicator);
-
         return m;
     }
 

@@ -62,11 +62,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected String tempVendorAddressGeneratedIdentifier;
     protected String oldPayeeType = StringUtils.EMPTY;
 
-    /* Start TEM REFUND Merge */
-    protected String tempCustomerNumber;
-    protected String tempCustomerAddressIdentifier;
-	/* End TEM REFUND Merge */
-
     protected boolean hasMultipleAddresses = false;
 
     protected DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
@@ -450,24 +445,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public void setCanExport(boolean canExport) {
         this.canExport = canExport;
     }
-
-	/* Start TEM REFUND Merge */
-    public String getTempCustomerNumber() {
-        return tempCustomerNumber;
-    }
-
-    public void setTempCustomerNumber(String tempCustomerNumber) {
-        this.tempCustomerNumber = tempCustomerNumber;
-    }
-
-    public String getTempCustomerAddressIdentifier() {
-        return tempCustomerAddressIdentifier;
-    }
-
-    public void setTempCustomerAddressIdentifier(String tempCustomerAddressIdentifier) {
-        this.tempCustomerAddressIdentifier = tempCustomerAddressIdentifier;
-    }
-    /* End TEM REFUND Merge */
 
     /**
      * RQ_AP_0760 : Ability to view disbursement information on the

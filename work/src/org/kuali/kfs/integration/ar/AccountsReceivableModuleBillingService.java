@@ -53,29 +53,11 @@ public interface AccountsReceivableModuleBillingService {
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
 
     /**
-     * This method sets the proposalNumber on a given MilestoneSchedule. This is used to associate the
-     * MilestoneSchedule with an Award.
-     *
-     * @param milestoneSchedule
-     * @param proposalNumber
-     */
-    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
-
-    /**
      * This method returns a new instance of the PredeterminedBillingSchedule class.
      *
      * @return new PredeterminedBillingSchedule instance
      */
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule();
-
-    /**
-     * This method sets the proposalNumber on a given PredeterminedBillingSchedule. This is used to associate the
-     * PredeterminedBillingSchedule with an Award.
-     *
-     * @param predeterminedBillingSchedule
-     * @param proposalNumber
-     */
-    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber);
 
     /**
      * Checks to see if the award corresponding to the passed in proposalNumber has a

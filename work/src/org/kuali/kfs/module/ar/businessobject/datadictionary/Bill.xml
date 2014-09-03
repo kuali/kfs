@@ -34,7 +34,7 @@
 				<ref bean="Bill-billDescription" />
 				<ref bean="Bill-estimatedAmount" />
 				<ref bean="Bill-billDate" />
-				<ref bean="Bill-billedIndicator" />
+				<ref bean="Bill-billed" />
 				<ref bean="Bill-active" />
 			</list>
 		</property>
@@ -137,13 +137,13 @@
 		<property name="shortLabel" value="BillDate" />
 	</bean>
 
-	<bean id="Bill-billedIndicator" parent="Bill-billedIndicator-parentBean" />
+	<bean id="Bill-billed" parent="Bill-billed-parentBean" />
  
-	<bean id="Bill-billedIndicator-parentBean" abstract="true"
+	<bean id="Bill-billed-parentBean" abstract="true"
  		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="billedIndicator" />
+		<property name="name" value="billed" />
  		<property name="label" value="Billed" />
-		<property name="shortLabel" value="billedIndicator" />
+		<property name="shortLabel" value="billed" />
  	</bean>
 
 	<bean id="Bill-active" parent="Bill-active-parentBean"/>
@@ -173,7 +173,7 @@
 							<bean parent="FieldDefinition" p:attributeName="billDescription" />
 							<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 							<bean parent="FieldDefinition" p:attributeName="billDate" />
-							<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="billed" />
 					        <bean parent="FieldDefinition" p:attributeName="active"/>
 						</list>
 					</property>
@@ -203,7 +203,7 @@
 				<bean parent="FieldDefinition" p:attributeName="billDescription" />
 				<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 				<bean parent="FieldDefinition" p:attributeName="billDate" />
-				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
@@ -215,7 +215,7 @@
 				<bean parent="FieldDefinition" p:attributeName="billDescription" />
 				<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 				<bean parent="FieldDefinition" p:attributeName="billDate" />
-				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
 		        <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

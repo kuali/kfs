@@ -65,7 +65,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
                 if (mil.isActive() && ObjectUtils.isNotNull(mil.getMilestoneExpectedCompletionDate())) {
                     Date milestoneDate = mil.getMilestoneExpectedCompletionDate();
                     double days = (today.getTime() - milestoneDate.getTime()) / (double)KFSConstants.MILLSECONDS_PER_DAY;
-                    if (days <= limitDays && !mil.isBilledIndicator() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
+                    if (days <= limitDays && !mil.isBilled() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
                         milestonesToNotify.add(mil);
                     }
                 }
@@ -81,7 +81,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
      * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService#sendAdviceNotifications()
      */
     protected void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
-        arEmailService.sendEmail(milestones, award);
+        arEmailService.sendEmailNotificationsForMilestones(milestones, award);
     }
 
     /**

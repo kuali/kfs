@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type="text/javascript" src="scripts/module/ar/awardObjectInfo.js"></script>
+
 <%@ attribute name="eventAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for cash control detail fields."%>
 <%@ attribute name="readOnly" required="true" description="determines whether the cash control detail will be displayed readonly"%>
@@ -48,12 +50,12 @@
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="${readOnly}" expandedTextArea="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
-			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
+			property="${propertyName}.followup" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedInd}"
-			property="${propertyName}.completedInd" readOnly="${readOnly}" onclick="clearDate(this.name, '${propertyName}.completedDate');" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}"
+			property="${propertyName}.completed" readOnly="${readOnly}" onclick="clearDate(this.name, '${propertyName}.completedDate');" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedDate}"
 			property="${propertyName}.completedDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.postedDate}"
@@ -89,12 +91,12 @@
 			property="${propertyName}.activityDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="false" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
-			property="${propertyName}.followupInd" readOnly="true" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
+			property="${propertyName}.followup" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedInd}" onclick="clearDate(this.name, '${propertyName}.completedDate');"
-			property="${propertyName}.completedInd" readOnly="false" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}" onclick="clearDate(this.name, '${propertyName}.completedDate');"
+			property="${propertyName}.completed" readOnly="false" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedDate}"
 			property="${propertyName}.completedDate" readOnly="false" /></td>
 		<td align=left class="${cssClass}">

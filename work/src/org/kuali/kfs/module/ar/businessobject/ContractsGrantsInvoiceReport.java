@@ -44,7 +44,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     private KualiDecimal paymentAmount;
     private KualiDecimal remainingAmount;
     private Long ageInDays;
-    private TransientContractsGrantsAttributes dummyBusinessObject;
+    private TransientContractsGrantsBillingAttributes dummyBusinessObject;
 
     private ContractAndGrantsProposal proposal;
     private ContractsGrantsInvoiceDocument invoiceDocument;
@@ -323,7 +323,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
      *
      * @return Returns the dummyBusinessObject.
      */
-    public TransientContractsGrantsAttributes getDummyBusinessObject() {
+    public TransientContractsGrantsBillingAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }
 
@@ -332,7 +332,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
      *
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
-    public void setDummyBusinessObject(TransientContractsGrantsAttributes dummyBusinessObject) {
+    public void setDummyBusinessObject(TransientContractsGrantsBillingAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 

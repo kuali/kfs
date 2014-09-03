@@ -41,7 +41,7 @@
 				<ref bean="PredeterminedBillingSchedule-bills.billDescription" />
 				<ref bean="PredeterminedBillingSchedule-bills.estimatedAmount" />
 				<ref bean="PredeterminedBillingSchedule-bills.billDate" />
-				<ref bean="PredeterminedBillingSchedule-bills.billedIndicator" />
+				<ref bean="PredeterminedBillingSchedule-bills.billed" />
 				<ref bean="PredeterminedBillingSchedule-bills.active" />
 			</list>
 		</property>
@@ -191,11 +191,11 @@
 		<property name="name" value="bills.billDate" />
 	</bean>
 
-	<bean id="PredeterminedBillingSchedule-bills.billedIndicator" parent="PredeterminedBillingSchedule-bills.billedIndicator-parentBean" />
+	<bean id="PredeterminedBillingSchedule-bills.billed" parent="PredeterminedBillingSchedule-bills.billed-parentBean" />
 
-	<bean id="PredeterminedBillingSchedule-bills.billedIndicator-parentBean"
-		abstract="true" parent="Bill-billedIndicator">
-		<property name="name" value="bills.billedIndicator" />
+	<bean id="PredeterminedBillingSchedule-bills.billed-parentBean"
+		abstract="true" parent="Bill-billed">
+		<property name="name" value="bills.billed" />
 	</bean>
 
 	<bean id="PredeterminedBillingSchedule-bills.active" parent="PredeterminedBillingSchedule-bills.active-parentBean" />
@@ -247,7 +247,7 @@
 										<bean parent="FieldDefinition" p:attributeName="billDescription" />
 										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 										<bean parent="FieldDefinition" p:attributeName="billDate" />
-										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+										<bean parent="FieldDefinition" p:attributeName="billed" />
 										<bean parent="FieldDefinition" p:attributeName="active" />
 									</list>
 								</property>

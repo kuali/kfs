@@ -376,14 +376,14 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     public boolean checkGLPEsNotGenerated(CashControlDocument cashControlDocument) {
 
-        boolean isSuccess = true;
+        boolean success = true;
         List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
 
         if (glpes != null && !glpes.isEmpty()) {
-            isSuccess = false;
+            success = false;
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
         }
-        return isSuccess;
+        return success;
 
     }
 
@@ -395,7 +395,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     public boolean checkAllAppDocsApproved(CashControlDocument cashControlDocument) {
 
-        boolean allAppDocsApprovedInd = true;
+        boolean allAppDocsApproved = true;
 
         for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
 
@@ -404,7 +404,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
             if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
-                allAppDocsApprovedInd = false;
+                allAppDocsApproved = false;
 
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -418,7 +418,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         }
 
-        return allAppDocsApprovedInd;
+        return allAppDocsApproved;
 
     }
 
@@ -429,9 +429,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     @Override
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
-        boolean isSuccess = true;
-        isSuccess &= checkGLPEsNotGenerated(transactionalDocument);
-        return isSuccess;
+        boolean success = true;
+        success &= checkGLPEsNotGenerated(transactionalDocument);
+        return success;
 
     }
 
@@ -441,12 +441,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     @Override
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
 
-        boolean isSuccess = true;
-        isSuccess &= checkPaymentMedium(transactionalDocument);
-        if (isSuccess) {
-            isSuccess &= checkGLPEsNotGenerated(transactionalDocument);
+        boolean success = true;
+        success &= checkPaymentMedium(transactionalDocument);
+        if (success) {
+            success &= checkGLPEsNotGenerated(transactionalDocument);
         }
-        return isSuccess;
+        return success;
 
     }
 

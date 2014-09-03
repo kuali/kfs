@@ -93,11 +93,11 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(event);
         isValid = (errorMap.getErrorCount() == originalErrorCount);
 
-        if (ObjectUtils.isNotNull(event.isFollowupInd()) && event.isFollowupInd() && event.getFollowupDate() == null) {
+        if (ObjectUtils.isNotNull(event.isFollowup()) && event.isFollowup() && event.getFollowupDate() == null) {
             errorMap.putError(ArPropertyConstants.EventFields.FOLLOW_UP_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_FOLLOW_UP_DATE_REQUIRED);
             isValid = false;
         }
-        if (ObjectUtils.isNotNull(event.isCompletedInd()) && event.isCompletedInd() && event.getCompletedDate() == null) {
+        if (ObjectUtils.isNotNull(event.isCompleted()) && event.isCompleted() && event.getCompletedDate() == null) {
             errorMap.putError(ArPropertyConstants.EventFields.COMPLETED_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
             isValid = false;
         }

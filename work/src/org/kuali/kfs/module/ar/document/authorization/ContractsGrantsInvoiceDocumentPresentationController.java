@@ -18,8 +18,10 @@ package org.kuali.kfs.module.ar.document.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Contracts Grants Invoice Document Presentation Controller class.
@@ -44,36 +46,14 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         }
     }
 
-    /**
-     * This method returns true if Billing Schedule is Milestone.
-     *
-     * @param document
-     * @return
-     */
-    public boolean isBillingFrequencyMilestone(ContractsGrantsInvoiceDocument document) {
-        String milestone = ArConstants.MILESTONE_BILLING_SCHEDULE_CODE;
-        if (milestone.equals(document.getInvoiceGeneralDetail().getBillingFrequency())) {
+    public boolean canProrate(ContractsGrantsInvoiceDocument document) {
+        if (canEdit(document) &&
+                KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.CG_PRORATE_BILL_IND)) &&
+                !StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequency()) &&
+                !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequency())) {
             return true;
         }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * This method returns true if Billing Schedule is Predetermined Billing.
-     *
-     * @param document
-     * @return
-     */
-    public boolean isBillingFrequencyPredeterminedBillingSchedule(ContractsGrantsInvoiceDocument document) {
-        String predetermined = ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE;
-        if (predetermined.equals(document.getInvoiceGeneralDetail().getBillingFrequency())) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 
 }

@@ -25,10 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -40,8 +41,8 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class ReferralToCollectionsSummaryAction extends KualiAction {
 
     /**
-     * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice
-     * Summary page. 2. Retrieves the list of selected awards by agency for creating invoices.
+     * 1. This method passes the control from the Referral To Collections lookup to the Referral To Collections
+     * Summary page. 2. Retrieves the list of selected invoices by award for creating the Referral To Collections document.
      *
      * @param mapping
      * @param form
@@ -64,7 +65,7 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
     }
 
     /**
-     * This method would create invoices for the list of awards. It calls the batch process to reuse the functionality to create the
+     * This method initiates a Referral To Collections document for the list of invoices.
      * invoices.
      *
      * @param mapping
@@ -85,14 +86,14 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         parameters.put(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, lookupResultsSequenceNumber);
-        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArPropertyConstants.REFERRAL_TO_COLL_DOC_TYPE);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.REFERRAL_TO_COLLECTIONS);
         String referralToCollectionsSummaryUrl = UrlFactory.parameterizeUrl("arReferralToCollectionsDocument.do", parameters);
         return new ActionForward(referralToCollectionsSummaryUrl, true);
     }
 
     /**
-     * To cancel the document, invoices are not created when the cancel method is called.
+     * To cancel the process, the Referral To Collections document is not created when the cancel method is called.
      *
      * @param mapping
      * @param form

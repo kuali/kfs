@@ -22,16 +22,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -48,19 +45,11 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     protected String selectedAgencyName;
     protected String selectedCustomerNumber;
     protected String selectedCustomerName;
-    protected ContractsGrantsInvoiceDocument selectedInvoiceApplication;
-    protected transient ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsInvoiceDocument selectedInvoiceApplication = null;
+    protected transient static volatile CollectionActivityDocumentService collectionActivityDocumentService;
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#search(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-
-    protected String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
-    // multi-value lookup.
-    protected String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
-    // results service instead?
-    protected String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
+    // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
+    protected String lookupResultsSequenceNumber;
 
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
@@ -68,32 +57,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    }
-
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
-
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
-    }
-
-    public String getLookedUpCollectionName() {
-        return lookedUpCollectionName;
-    }
-
-    public void setLookedUpCollectionName(String lookedUpCollectionName) {
-        this.lookedUpCollectionName = lookedUpCollectionName;
-    }
-
-
-    /**
-     * Default constructor for CollectionActivityDocumentForm.
-     */
-    public CollectionActivityDocumentForm() {
-        super();
-        selectedInvoiceApplication = null;
-        contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
     }
 
     /**
@@ -128,7 +91,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     public void setSelectedInvoiceDocumentNumber(String selectedInvoiceDocumentNumber) {
         this.selectedInvoiceDocumentNumber = selectedInvoiceDocumentNumber;
     }
-
 
     /**
      * Gets the selectedProposalNumber attribute.
@@ -227,7 +189,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return a ContractsGrantsInvoiceDocument
      */
     public ContractsGrantsInvoiceDocument getInvoiceApplication(int index) {
-        return (ContractsGrantsInvoiceDocument) getCgInvoices().get(index);
+        return getCgInvoices().get(index);
     }
 
     /**
@@ -245,8 +207,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return Returns the selectedInvoiceBalance.
      */
     public KualiDecimal getSelectedInvoiceBalance() {
-        ContractsGrantsInvoiceDocument invoiceApplication = getSelectedInvoiceApplication();
-        return invoiceApplication.getOpenAmount();
+        return getSelectedInvoiceApplication().getOpenAmount();
     }
 
     /**
@@ -255,8 +216,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return Returns the selectedInvoiceTotalAmount.
      */
     public KualiDecimal getSelectedInvoiceTotalAmount() {
-        ContractsGrantsInvoiceDocument invoiceApplication = getSelectedInvoiceApplication();
-        return invoiceApplication.getSourceTotal();
+        return getSelectedInvoiceApplication().getSourceTotal();
     }
 
     /**
@@ -265,8 +225,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return Returns the selectedInvoicePaymentAmount.
      */
     public KualiDecimal getSelectedInvoicePaymentAmount() {
-        ContractsGrantsInvoiceDocument invoiceDoc = this.getSelectedInvoiceApplication();
-        return contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(invoiceDoc.getDocumentNumber());
+        return getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(getSelectedInvoiceApplication().getDocumentNumber());
     }
 
     /**
@@ -275,8 +234,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return Returns the selectedProposalNumber.
      */
     public Date getSelectedInvoicePaymentDate() {
-        ContractsGrantsInvoiceDocument invoiceDoc = this.getSelectedInvoiceApplication();
-        return contractsGrantsInvoiceDocumentService.retrievePaymentDateByDocumentNumber(invoiceDoc.getDocumentNumber());
+        return getCollectionActivityDocumentService().retrievePaymentDateByDocumentNumber(getSelectedInvoiceApplication().getDocumentNumber());
     }
 
     /**
@@ -285,7 +243,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return Returns the selectedInvoiceBalanceDue.
      */
     public KualiDecimal getSelectedInvoiceBalanceDue() {
-        ContractsGrantsInvoiceDocument invoiceApplication = getSelectedInvoiceApplication();
         return getSelectedInvoiceTotalAmount().subtract(getSelectedInvoicePaymentAmount());
     }
 
@@ -294,7 +251,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return ArPropertyConstants.COLLECTION_ACTIVTY_DOC_TYPE;
+        return ArConstants.ArDocumentTypeCodes.COLLECTION_ACTIVTY;
     }
 
     /**
@@ -303,34 +260,34 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument _previousInvoiceDocument = null;
+        ContractsGrantsInvoiceDocument previousInvoiceDocument = null;
 
         ContractsGrantsInvoiceDocument selectedCGInvoiceDocument = getSelectedInvoiceApplication();
-        if (null == selectedCGInvoiceDocument || 2 > getCgInvoices().size()) {
-            _previousInvoiceDocument = null;
+        if (ObjectUtils.isNull(selectedCGInvoiceDocument) || getCgInvoices().size() < 2) {
+            previousInvoiceDocument = null;
         }
         else {
             Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
-            ContractsGrantsInvoiceDocument previousInvoiceDocument = iterator.next();
+            ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = iterator.next();
             String selectedInvoiceDocumentNumber = selectedCGInvoiceDocument.getDocumentNumber();
-            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(previousInvoiceDocument.getDocumentNumber())) {
-                _previousInvoiceDocument = null;
+            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(contractsGrantsInvoiceDocument.getDocumentNumber())) {
+                previousInvoiceDocument = null;
             }
             else {
                 while (iterator.hasNext()) {
                     ContractsGrantsInvoiceDocument currentInvoiceDocument = iterator.next();
                     String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                     if (null != currentInvoiceDocumentNumber && currentInvoiceDocumentNumber.equals(selectedCGInvoiceDocument.getDocumentNumber())) {
-                        _previousInvoiceDocument = previousInvoiceDocument;
+                        previousInvoiceDocument = contractsGrantsInvoiceDocument;
                     }
                     else {
-                        previousInvoiceDocument = currentInvoiceDocument;
+                        contractsGrantsInvoiceDocument = currentInvoiceDocument;
                     }
                 }
             }
         }
 
-        return null == _previousInvoiceDocument ? "" : _previousInvoiceDocument.getDocumentNumber();
+        return null == previousInvoiceDocument ? "" : previousInvoiceDocument.getDocumentNumber();
     }
 
     /**
@@ -339,11 +296,11 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument _nextInvoiceDocument = null;
+        ContractsGrantsInvoiceDocument nextInvoiceDocument = null;
 
         ContractsGrantsInvoiceDocument selectedInvoiceDocument = getSelectedInvoiceApplication();
-        if (null == selectedInvoiceDocument || 2 > getCgInvoices().size()) {
-            _nextInvoiceDocument = null;
+        if (ObjectUtils.isNull(selectedInvoiceDocument) || getCgInvoices().size() < 2) {
+            nextInvoiceDocument = null;
         }
         else {
             Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
@@ -352,16 +309,16 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
                 String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                 if (currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
                     if (iterator.hasNext()) {
-                        _nextInvoiceDocument = iterator.next();
+                        nextInvoiceDocument = iterator.next();
                     }
                     else {
-                        _nextInvoiceDocument = null;
+                        nextInvoiceDocument = null;
                     }
                 }
             }
         }
 
-        return null == _nextInvoiceDocument ? "" : _nextInvoiceDocument.getDocumentNumber();
+        return null == nextInvoiceDocument ? "" : nextInvoiceDocument.getDocumentNumber();
     }
 
     /**
@@ -392,14 +349,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.ServletRequest)
-     */
-    @Override
-    public void reset(ActionMapping mapping, ServletRequest request) {
-        super.reset(mapping, request);
-    }
-
-    /**
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -414,6 +363,12 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
             }
             SpringContext.getBean(CollectionActivityDocumentService.class).loadAwardInformationForCollectionActivityDocument(colActDoc);
         }
+    }
 
+    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
+        if (collectionActivityDocumentService == null) {
+            collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+        }
+        return collectionActivityDocumentService;
     }
 }

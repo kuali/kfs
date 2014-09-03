@@ -33,10 +33,9 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -44,10 +43,11 @@ import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocum
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
+import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
-import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
+import org.kuali.kfs.module.ar.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -72,17 +72,23 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
     public ContractsAndGrantsCategory category;
     public ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument;
     public ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
+    ContractsGrantsInvoiceCreateDocumentServiceImpl contractsGrantsInvoiceCreateDocumentServiceImpl;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
-        contractsGrantsInvoiceDocumentServiceImpl.setAwardAccountObjectCodeTotalBilledDao(SpringContext.getBean(AwardAccountObjectCodeTotalBilledDao.class));
         contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(businessObjectService);
         contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
+
+        contractsGrantsInvoiceCreateDocumentServiceImpl = new ContractsGrantsInvoiceCreateDocumentServiceImpl();
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setAwardAccountObjectCodeTotalBilledDao(SpringContext.getBean(AwardAccountObjectCodeTotalBilledDao.class));
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setBusinessObjectService(businessObjectService);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(contractsGrantsInvoiceDocumentServiceImpl);
 
         category = new ContractsAndGrantsCategory();
         category.setCategoryCode("testCode");
@@ -350,7 +356,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         // all
         List<ContractsGrantsInvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
@@ -442,7 +448,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     public void testCheckAwardContractControlAccounts_ValidInvoicingByAward() throws Exception {
@@ -471,7 +477,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     public void testCheckAwardContractControlAccounts_InvalidInvoicingByAwardMultipleCCAs() throws Exception {
@@ -491,7 +497,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     private void refreshAccounts(ContractsAndGrantsBillingAward award) {

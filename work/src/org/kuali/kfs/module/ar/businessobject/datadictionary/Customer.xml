@@ -620,7 +620,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="customerInvoiceTemplateCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Invoice Template" />
+		<property name="label" value="Invoice Template" />
 		<property name="shortLabel" value="InvType" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">

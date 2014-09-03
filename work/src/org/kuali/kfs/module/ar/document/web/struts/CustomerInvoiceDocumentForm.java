@@ -168,7 +168,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         //  draw the Error Correction button if appropriate
         if (presoController.canErrorCorrect(invoiceDocument)) {
             String printButtonURL = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-            addExtraButton("methodToCall.correct", printButtonURL + "buttonsmall_correction.gif", "Correct");
+            extraButtons.add(generateErrorCorrectionButton());
         }
 
         return extraButtons;

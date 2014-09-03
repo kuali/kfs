@@ -98,7 +98,7 @@
 					<reportElement
 						x="0"
 						y="15"
-						width="40"
+						width="30"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -111,7 +111,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="45"
+						x="35"
 						y="15"
 						width="40"
 						height="25"
@@ -126,9 +126,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="240"
+						x="235"
 						y="15"
-						width="40"
+						width="35"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -141,9 +141,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="285"
+						x="275"
 						y="15"
-						width="40"
+						width="35"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -156,9 +156,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="340"
+						x="315"
 						y="15"
-						width="40"
+						width="45"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -171,9 +171,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="400"
+						x="365"
 						y="15"
-						width="40"
+						width="45"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -186,9 +186,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="440"
+						x="415"
 						y="15"
-						width="40"
+						width="75"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -201,7 +201,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="485"
+						x="495"
 						y="15"
 						width="40"
 						height="25"
@@ -216,7 +216,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="530"
+						x="540"
 						y="15"
 						width="30"
 						height="25"

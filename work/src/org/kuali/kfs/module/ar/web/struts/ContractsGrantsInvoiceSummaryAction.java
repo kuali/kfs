@@ -132,7 +132,7 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         }
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-        contractsGrantsInvoiceSummaryForm.setAwardInvoicedInd(true);
+        contractsGrantsInvoiceSummaryForm.setAwardInvoiced(true);
         int validationErrors = 0;
         int validAwards = 0;
 
@@ -144,7 +144,9 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
             awards = cgInvoiceDocumentCreateService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL.getCode());
             validationErrors += contractsGrantsInvoiceDocumentErrorLogs.size();
             validAwards += awards.size();
-            errorMessages = cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
+            if (awards.size() > 0) {
+                errorMessages = cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
+            }
         }
         if (validationErrors > 0) {
             // At a minimum, show users a message that errors occurred, check report for details.

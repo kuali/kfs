@@ -17,14 +17,11 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Contracts Grants Letter Of Credit Review Document Presentation Controller.
@@ -36,26 +33,19 @@ public class ContractsGrantsLetterOfCreditReviewDocumentPresentationController e
      */
     @Override
     public Set<String> getEditModes(Document document) {
-
         Set<String> editModes = super.getEditModes(document);
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) document;
 
-        if (StringUtils.equals(contractsGrantsLOCReviewDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated()) {
             editModes.add(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB);
         }
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
-            editModes.add(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON);
+        if (workflowDocument.isCanceled() || workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal()) {
             //To remove recalculate button and make amount to draw field readonly.
             editModes.add(ArAuthorizationConstants.ContractsGrantsLetterOfCreditReviewDocumentEditMode.HIDE_RECALCULATE_BUTTON);
             editModes.add(ArAuthorizationConstants.ContractsGrantsLetterOfCreditReviewDocumentEditMode.DISABLE_AMT_TO_DRAW);
+        }
 
-        }
-        else {
-            if (editModes.contains(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON)) {
-                editModes.remove(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON);
-            }
-        }
         return editModes;
     }
 
@@ -65,12 +55,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentPresentationController e
     @Override
     public boolean canCancel(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
-            return false;
-        }
-        else{
-        return !isDocStatusCodeInitiated(document);
-        }
+        return (canEdit(document) && !workflowDocument.isInitiated());
     }
 
     /**
@@ -79,20 +64,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentPresentationController e
     @Override
     public boolean canSave(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
-            return false;
-        }
-        else{
-        return !isDocStatusCodeInitiated(document);
-        }
-    }
-
-    /**
-     * Returns true if the document passed in is in initiated status.
-     */
-    protected boolean isDocStatusCodeInitiated(Document document) {
-        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) document;
-        return (StringUtils.equals(contractsGrantsLOCReviewDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE));
+        return (canEdit(document) && !workflowDocument.isInitiated());
     }
 
 }

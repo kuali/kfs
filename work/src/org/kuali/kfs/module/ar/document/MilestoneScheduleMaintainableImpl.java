@@ -22,11 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.MilestoneScheduleMaintenanceService;
 import org.kuali.kfs.module.ar.document.validation.impl.MilestoneScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,23 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Methods for the Milestone Schedule maintenance document UI.
  */
 public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainable {
-
-    /**
-     * Constructs an MilestoneScheduleMaintainableImpl.
-     */
-    public MilestoneScheduleMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a MilestoneScheduleMaintainableImpl.
-     *
-     * @param award
-     */
-    public MilestoneScheduleMaintainableImpl(MilestoneSchedule milestoneSchedule) {
-        super(milestoneSchedule);
-        this.setBoClass(milestoneSchedule.getClass());
-    }
+    private static volatile MilestoneScheduleMaintenanceService milestoneScheduleMaintenanceService;
 
     /**
      * This method is called to check if the award already has milestones set, and to validate on refresh
@@ -71,15 +56,12 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        if (StringUtils.equals("awardLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
-
-            boolean isMilestonesExist = MilestoneScheduleRuleUtil.checkIfMilestonesExists(getMilestoneSchedule());
-            if (isMilestonesExist) {
+        if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
+            if (MilestoneScheduleRuleUtil.checkIfMilestonesExists(getMilestoneSchedule())) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, ArKeyConstants.ERROR_AWARD_MILESTONE_SCHEDULE_EXISTS, new String[] { getMilestoneSchedule().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
-
             }
         }
         else {
@@ -88,7 +70,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
     }
 
    /**
-    * Not to copy over the Milestones billedIndicators and billIdentifiers to prevent
+    * Not to copy over the Milestones billed and milestoneIdentifier values to prevent
     * bad data and PK issues when saving new Milestones.
     */
     @Override
@@ -97,10 +79,10 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
         // clear out Bill IDs so new ones will get generated for these bills
         // reset billed indicator in case bill we're copying from was already billed
-        List<Milestone> milestonss = getMilestoneSchedule().getMilestones();
-        if (ObjectUtils.isNotNull(milestonss)) {
-            for (Milestone milestone:milestonss) {
-                milestone.setBilledIndicator(false);
+        List<Milestone> milestones = getMilestoneSchedule().getMilestones();
+        if (ObjectUtils.isNotNull(milestones)) {
+            for (Milestone milestone:milestones) {
+                milestone.setBilled(false);
                 milestone.setMilestoneIdentifier(null);
             }
         }
@@ -143,9 +125,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
      * @param section Milestone section to review and possibly set readonly
      * @param proposalNumber used to look for CG Invoice docs
      */
-    private void prepareMilestonesTab(Section section, Long proposalNumber) {
-        ContractsGrantsInvoiceDocumentService cgInvDocService  = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
+    protected void prepareMilestonesTab(Section section, Long proposalNumber) {
         for (Row row : section.getRows()) {
             for (Field field : row.getFields()) {
                 if (field.getCONTAINER().equalsIgnoreCase(field.getFieldType())) {
@@ -155,7 +135,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
                             if (ObjectUtils.getNestedAttributePrimitive(containerRowfield.getPropertyName()).matches(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER)) {
                                 String milestoneId = containerRowfield.getPropertyValue();
                                 if (StringUtils.isNotEmpty(milestoneId)) {
-                                    if (cgInvDocService.hasMilestoneBeenCopiedToInvoice(proposalNumber, milestoneId)) {
+                                    if (getMilestoneScheduleMaintenanceService().hasMilestoneBeenCopiedToInvoice(proposalNumber, milestoneId)) {
                                         for (Field rowfield : row.getFields()) {
                                             if (rowfield.getCONTAINER().equalsIgnoreCase(rowfield.getFieldType())) {
                                                 for (Row fieldContainerRow : rowfield.getContainerRows()) {
@@ -175,15 +155,18 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
         }
     }
 
-
     /**
      * Gets the underlying Milestone Schedule.
-     *
      * @return
      */
     public MilestoneSchedule getMilestoneSchedule() {
-
         return (MilestoneSchedule) getBusinessObject();
     }
 
+    public MilestoneScheduleMaintenanceService getMilestoneScheduleMaintenanceService() {
+        if (milestoneScheduleMaintenanceService == null) {
+            milestoneScheduleMaintenanceService = SpringContext.getBean(MilestoneScheduleMaintenanceService.class);
+        }
+        return milestoneScheduleMaintenanceService;
+    }
 }

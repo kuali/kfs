@@ -38,6 +38,15 @@ public class ContractsAndGrantsModuleBillingServiceNoOp implements ContractsAndG
     }
 
     /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService#updateAwardIfNecessary(java.lang.Long, org.kuali.kfs.integration.cg.ContractsAndGrantsAward)
+     */
+    @Override
+    public ContractsAndGrantsBillingAward updateAwardIfNecessary(Long proposalNumber, ContractsAndGrantsBillingAward currentAward ) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setLastBilledDateToAwardAccount(java.util.Map,
      *      java.lang.String, java.sql.Date)
      */

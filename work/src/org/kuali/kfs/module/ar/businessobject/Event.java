@@ -39,9 +39,9 @@ public class Event extends PersistableBusinessObjectBase {
     private String activityCode;
     private Date activityDate;
     private String activityText;
-    private boolean followupInd;
+    private boolean followup;
     private Date followupDate;
-    private boolean completedInd;
+    private boolean completed;
     private Date completedDate;
     private Timestamp postedDate;
     private String userPrincipalId;
@@ -65,9 +65,9 @@ public class Event extends PersistableBusinessObjectBase {
         this.activityCode = event.activityCode;
         this.activityDate = event.activityDate;
         this.activityText = event.activityText;
-        this.followupInd = event.followupInd;
+        this.followup = event.followup;
         this.followupDate = event.followupDate;
-        this.completedInd = event.completedInd;
+        this.completed = event.completed;
         this.completedDate = event.completedDate;
         this.postedDate = event.postedDate;
         this.userPrincipalId = event.userPrincipalId;
@@ -185,21 +185,21 @@ public class Event extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the followupInd attribute.
+     * Gets the followup attribute.
      *
-     * @return Returns the followupInd.
+     * @return Returns the followup.
      */
-    public boolean isFollowupInd() {
-        return followupInd;
+    public boolean isFollowup() {
+        return followup;
     }
 
     /**
-     * Sets the followupInd attribute.
+     * Sets the followup attribute.
      *
-     * @param followupInd The followupInd attribute to set.
+     * @param followup The followup attribute to set.
      */
-    public void setFollowupInd(boolean followupInd) {
-        this.followupInd = followupInd;
+    public void setFollowup(boolean followup) {
+        this.followup = followup;
     }
 
     /**
@@ -221,21 +221,21 @@ public class Event extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the completedInd attribute.
+     * Gets the completed attribute.
      *
-     * @return Returns the completedInd attribute.
+     * @return Returns the completed attribute.
      */
-    public boolean isCompletedInd() {
-        return completedInd;
+    public boolean isCompleted() {
+        return completed;
     }
 
     /**
-     * Sets the completedInd attribute.
+     * Sets the completed attribute.
      *
-     * @param completedInd The completedInd attribute to set.
+     * @param completed The completed attribute to set.
      */
-    public void setCompletedInd(boolean completedInd) {
-        this.completedInd = completedInd;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     /**
@@ -361,7 +361,7 @@ public class Event extends PersistableBusinessObjectBase {
                 invoiceDocument = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(this.invoiceNumber);
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("A WorkflowException was thrown when trying to open the details parent document.  This should never happen.", e);
+                throw new RuntimeException("A WorkflowException was thrown when trying to open the details parent document.", e);
             }
         }
         return invoiceDocument;

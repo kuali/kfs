@@ -32,6 +32,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -40,7 +41,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
-import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
@@ -109,38 +109,31 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterNew(document, parameters);
-        try {
 
-            // Retrieving Default Invoicing Option
-            String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.invoicingCode.get(defaultInvoiceParm);
-
-
-            // Retrieving Default Billing Schedule
-            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
-
-            // Set Invoicing Option
-
-            if (ObjectUtils.isNotNull(defaultInvoiceType)) {
-                getAward().setInvoicingOptions(defaultInvoiceType);
-            }
-            else {
-                getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
-            }
+        // Retrieving Default Invoicing Option
+        String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
+        String defaultInvoiceType = CGIntegrationConstants.AwardInvoicingOption.Types.get(defaultInvoiceParm);
 
 
-            // Set Billing Schedule
-            if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
-                getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
-            }
-            else {
-                getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
-            }
+        // Retrieving Default Billing Schedule
+        String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
 
+        // Set Invoicing Option
 
+        if (ObjectUtils.isNotNull(defaultInvoiceType)) {
+            getAward().setInvoicingOptions(defaultInvoiceType);
         }
-        catch (IllegalArgumentException e) {
-            getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
+        else {
+            getAward().setInvoicingOptions(CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode());
+        }
+
+
+        // Set Billing Schedule
+        if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
+            getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
+        }
+        else {
+            getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
         }
     }
 
@@ -405,7 +398,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
      *
      * @param director the FundManager to refresh
      */
-    private static void refreshWithSecondaryKey(CGFundManager fundManager) {
+    private static void refreshWithSecondaryKey(AwardFundManager fundManager) {
         Person cdFundMgr = fundManager.getFundManager();
         if (ObjectUtils.isNotNull(cdFundMgr)) {
             String secondaryKey = cdFundMgr.getPrincipalName();

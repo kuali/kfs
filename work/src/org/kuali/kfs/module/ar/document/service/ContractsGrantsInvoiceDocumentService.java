@@ -23,22 +23,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
-import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class defines all the service methods for Contracts and Grants invoice Document.
@@ -51,7 +46,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param document the cash control document
      * @throws WorkflowException
      */
-    public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
+    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
 
     /**
      * This method creates Source Accounting lines enabling the creation of GLPEs in the document.
@@ -93,47 +88,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal getPredeterminedBillingBilledToDateAmount(Long proposalNumber);
 
     /**
-     * Returns the billed to date amount for the given Proposal Number.
-     *
-     * @param awardAccounts
-     * @return
-     */
-    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
-
-    /**
-     * If any of the current expenditures for the cost categories on the Contracts Grants Invoice Document have changed,
-     * recalculate the Object Code amounts.
-     *
-     * @param contractsGrantsInvoiceDocument document containing cost categories to review
-     * @return true if expenditure value changed, false otherwise
-     */
-    public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
-
-    /**
      * Returns the total amount billed to date for an Award.
      *
      * @param proposalNumber used to find the AwardAccountObjectCodeTotalBilled
      * @return billed to date amount
      */
     public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber);
-
-    /**
-     * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
-     *
-     * @param locFund
-     * @param errorFileName
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName);
-
-    /**
-     * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund group
-     *
-     * @param locFundGroup
-     * @param errorFileName
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName);
 
     /**
      * This method retrieves CG invoice documents that match the given field values
@@ -154,49 +114,11 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude);
 
     /**
-     * This method retrieves CG invoice documents that match the given field values
-     *
-     * @param fieldValues field values to match
-     * @param beginningInvoiceBillingDate Beginning invoice billing date for range
-     * @param endingInvoicebillingDate Ending invoice billing date for range
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteriaAndBillingDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoicebillingDate);
-
-    /**
      * This method updates the Suspension Categories on the document
      *
      * @param contractsGrantsInvoiceDocument
      */
     public void updateSuspensionCategoriesOnDocument(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
-
-    /**
-     * This method would make sure the amounts of the current period are not included. So it calculates the cumulative and
-     * subtracts the current period values. This would be done for Billing Frequencies - Monthly, Quarterly, Semi-Annual and Annual.
-     *
-     * @param lastBilledDate
-     * @param glBalance
-     * @return
-     */
-    public KualiDecimal retrieveAccurateBalanceAmount(java.sql.Date lastBilledDate, Balance glBalance);
-
-    /**
-     * This method get the milestones with the criteria defined and set value to isBilledIndicator.
-     *
-     * @param invoiceMilestones
-     * @param string
-     * @throws Exception
-     */
-    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) throws Exception;
-
-    /**
-     * This method get the bills with the criteria defined and set value to isBilledIndicator.
-     *
-     * @param invoiceBills
-     * @param value
-     * @throws Exception
-     */
-    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) throws Exception;
 
     /**
      * This method calculates and returns the total payments applied to date for an award.
@@ -217,14 +139,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate);
 
     /**
-     * Check if Award Invoicing suspended by user.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsBillingAward award);
-
-    /**
      * Get award accounts's control accounts
      *
      * @param award
@@ -233,102 +147,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
 
     /**
-     * Check iF Award has no accounts assigned
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if Preferred Billing Frequency is set correctly.
-     *
-     * @param award
-     * @return False if preferred billing schedule is set as perdetermined billing schedule or milestone billing schedule, and award
-     *         has no award account or more than 1 award accounts assigned.
-     */
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if the value of PreferredBillingFrequency is in the value set.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if the final Invoice for all accounts in the invoice have already been built.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award);
-
-    /**
      * Retrieve all the expired accounts of an award
      *
      * @param award
      * @return
      */
     public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Checks if the award has valid milestones to invoice.
-     *
-     * @param award
-     * @return true if has valid milestones to invoice. false if not.
-     */
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Checks if the award has valid milestones to invoice.
-     *
-     * @param award
-     * @return true if has valid milestones to invoice. false if not.
-     */
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if agency owning award has no customer record
-     *
-     * @param award
-     * @return
-     */
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code
-     * from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
-
-    /**
-     * this method checks If all accounts of award has invoices in progress.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
 
     /**
      * To retrieve processing chart code and org code from the billing chart code and org code
@@ -340,37 +164,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public List<String> getProcessingFromBillingCodes(String coaCode, String orgCode);
 
     /**
-     * To retrieve invoices matching the dunning letter distribution lookup values.
-     *
-     * @param fieldValues
-     * @return collection of DunningLetterDistributionLookupResult
-     */
-    public Collection<DunningLetterDistributionLookupResult> getInvoiceDocumentsForDunningLetterLookup(Map<String, String> fieldValues);
-
-    /**
      * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.
      *
      * @param proposalNumber
-     * @param outputFileStream
      * @return
      */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber, String errorFileName);
-
-    /**
-     * To retrieve the payment amount by given document number.
-     *
-     * @param documentNumber The invoice number of the document.
-     * @return Returns the total payment amount.
-     */
-    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber);
-
-    /**
-     * To retrieve the first payment date by given document number.
-     *
-     * @param documentNumber The invoice number of the document.
-     * @return Returns the first payment date.
-     */
-    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
+    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber);
 
     /**
      * Determine if the collectorPrincipalId can view the invoice, leverages role qualifiers
@@ -383,22 +182,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean canViewInvoice(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalId);
 
     /**
-     * This method retrieves the CGDocs with their workflow headers.
-     *
-     * @param invoices
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> attachWorkflowHeadersToCGInvoices(Collection<ContractsGrantsInvoiceDocument> invoices);
-
-    /**
-     * Gets the invoice documents based on field values.
-     *
-     * @param fieldValues The fields which needs to be put in criteria.
-     * @return Returns the list of ReferralToCollectionsLookupResult.
-     */
-    public Collection<ReferralToCollectionsLookupResult> getInvoiceDocumentsForReferralToCollectionsLookup(Map<String, String> fieldValues);
-
-    /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice.
      * If this is the final invoice, also sets Final Billed indicator on Award Account
      *
@@ -407,13 +190,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public void updateLastBilledDate(ContractsGrantsInvoiceDocument document);
 
     /**
-     * This method updates the Bills and Milestone objects isItBilles Field.
+     * This method updates the Bills and Milestone objects billed Field.
      *
-     * @param string
+     * @param billed
      * @param invoiceMilestones
      * @param invoiceBills
      */
-    public void updateBillsAndMilestones(String string,List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
+    public void updateBillsAndMilestones(boolean billed, List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
 
     /**
      * This method generates the attached invoices for the invoice addresses in the Contracts and Grants Invoice Document.
@@ -437,32 +220,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @throws WorkflowException
      */
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException;
-
-    /**
-     * This method corrects the Maintenance Document for Predetermined Billing
-     *
-     * @param invoiceBills
-     * @throws WorkflowException
-     */
-    public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException;
-
-    /**
-     * This method corrects the Maintenance Document for milestones
-     *
-     * @param invoiceMilestones
-     * @throws WorkflowException
-     */
-    public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException;
-
-    /**
-     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
-     * corresponding invoice attributes.
-     *
-     * @param award The associated award that the invoice will be linked to.
-     * @param awardAccounts
-     * @param document
-     */
-    public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document);
 
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
@@ -492,33 +249,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
 
     /**
-     * Has the Bill been copied to an Invoice Bill on an invoice doc?
-     *
-     * @param proposalNumber proposal number to check
-     * @param billId billId to check
-     * @return true if the Bill has been copied, false if otherwise
-     */
-    public boolean hasBillBeenCopiedToInvoice(Long proposalNumber, String billId);
-
-    /**
-     * Has the Milestone been copied to an Invoice Milestone on an invoice doc?
-     *
-     * @param proposalNumber proposal number to check
-     * @param milestoneId milestoneId to check
-     * @return true if the Milestone has been copied, false if otherwise
-     */
-    public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId);
-
-    /**
-     * Determines if the given invoice template can be utilized by the given current user
-     *
-     * @param invoiceTemplate the invoice template to check
-     * @param user the user to check if they can utilize the template
-     * @return true if the user can utilize the template, false otherwise
-     */
-    public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user);
-
-    /**
      * Determines if the given invoice template can be utilized by the given CGB Invoice Document based on
      * a comparison of the billing chart/org of the invoiceTemplate to the billing chart/org of the invoice doc.
      *
@@ -527,4 +257,42 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the document can utilize the template, false otherwise
      */
     public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
+
+    /**
+     * This method retrieves all Invoice Documents that match the given field values, excluding the given
+     * invoice numbers.
+     *
+     * @param fieldValues for search criteria.
+     * @return Returns the invoices which matches the given field values.
+     */
+    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues);
+
+    /**
+     * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
+     *
+     * @return Set<String> objectCodes
+     */
+    public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories(ContractsGrantsInvoiceDocument document);
+
+    /**
+     * Determines whether the given ContractsGrantsInvoiceDocument is "effective" or not: if it is disapproved, cancelled, or error corrected then it is NOT effective,
+     * and in all other cases, it is effective
+     * @param invoiceDocument the invoice document to check
+     * @return true if the document is "effective" given the rules above, false otherwise
+     */
+    public boolean isInvoiceDocumentEffective(String documentNumber);
+
+    /**
+     * Update the billed indicator on a List of given Invoice Bills
+     * @param billed the value for the billed indicator
+     * @param invoiceBills the bills to update
+     */
+    public void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills);
+
+    /**
+     * Update the billed indicator on a List of given Milestones
+     * @param billed the value for the billed indicator
+     * @param invoiceMilestones the invoice milestones to update
+     */
+    public void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones);
 }

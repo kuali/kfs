@@ -23,6 +23,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
@@ -42,6 +44,9 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     private boolean active = true;
     private String invoiceDocumentStatus;
 
+    private Account account;
+    private Chart chartOfAccounts;
+    private Person projectDirector;
 
     /**
      * Gets the amountToDraw attribute.
@@ -231,34 +236,45 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
         this.active = active;
     }
 
+    public Person getProjectDirector() {
+        return projectDirector;
+    }
+
+    public void setProjectDirector(Person projectDirector) {
+        this.projectDirector = projectDirector;
+    }
+
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
     @Override
     public String getProjectDirectorName() {
-        return "";
+        if (!ObjectUtils.isNull(getProjectDirector())) {
+            return getProjectDirector().getName();
+        }
+        return null;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
     public Account getAccount() {
-        return null;
+        return account;
     }
 
-    // KFSMI-861 : Removing this method as it's been removed from the Interface.
-    // public ContractsAndGrantsAward getAward() {
-    // return null;
-    // }
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
 
     @Override
     public Chart getChartOfAccounts() {
-        return null;
+        return chartOfAccounts;
     }
-
-    public void prepareForWorkflow() {
-    }
-
 
     @Override
     public void refresh() {
     }
+
 }

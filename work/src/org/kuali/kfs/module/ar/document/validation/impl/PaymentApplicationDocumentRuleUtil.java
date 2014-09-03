@@ -27,28 +27,16 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.parameter.ParameterEvaluator;
-import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -259,132 +247,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
         isValid &= validateNonInvoicedLineAmount(nonInvoiced, paymentApplicationDocument, totalFromControl);
 
-
-        // extra check, if its a refund then perform DV rules check
-        if (nonInvoiced.isRefundIndicator()) {
-            isValid &= validateNonInvoicedRefundDisbursementVoucherRules(nonInvoiced, paymentApplicationDocument);
-        }
-
         return isValid;
-    }
-
-    /**
-     * @param nonInvoiced
-     * @param paymentApplicationDocument
-     * @return
-     */
-    protected static boolean validateNonInvoicedRefundDisbursementVoucherRules(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument) {
-        boolean isValid = true;
-
-        SystemInformation systemInformation = SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear());
-
-        if (ObjectUtils.isNull(systemInformation)) {
-            // put error message
-            GlobalVariables.getMessageMap().putError(KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB, ArKeyConstants.PaymentApplicationDocumentErrors.ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION, paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear().toString());
-
-            isValid = false;
-        }
-        else {
-            String paymentReasonCode = systemInformation.getRefundPaymentReasonCode();
-            if (StringUtils.isBlank(paymentReasonCode)) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB, ArKeyConstants.PaymentApplicationDocumentErrors.ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_PAYMENT_REASON, paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear().toString());
-                isValid = false;
-            }
-
-            if (ObjectUtils.isNull(systemInformation.getRefundDocumentationLocation())) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB, ArKeyConstants.PaymentApplicationDocumentErrors.ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_DOCUMENTATION_LOCATION, paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear().toString());
-                isValid = false;
-            }
-
-            isValid = isValid & validateAccountNumber(paymentApplicationDocument, nonInvoiced, paymentReasonCode);
-            isValid = isValid & validateObjectCode(paymentApplicationDocument, nonInvoiced, paymentReasonCode);
-        }
-
-        return isValid;
-    }
-
-    /**
-     * @param paymentApplicationDocument
-     * @param nonInvoicedForValidation
-     * @param documentPaymentReason
-     * @return
-     */
-    protected static boolean validateObjectCode(PaymentApplicationDocument paymentApplicationDocument, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
-        MessageMap errors = GlobalVariables.getMessageMap();
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
-        boolean objectCodeAllowed = true;
-
-        // must get these manually, instead of from the document, because the object has not yet been set
-        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(nonInvoicedForValidation.getChartOfAccountsCode(), nonInvoicedForValidation.getAccountNumber());
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(nonInvoicedForValidation.getChartOfAccountsCode(), nonInvoicedForValidation.getFinancialObjectCode());
-
-        // object code exist done in super, check we have a valid object
-        if (ObjectUtils.isNull(account) || ObjectUtils.isNull(objectCode)) {
-            return false;
-        }
-
-        // make sure object code is active
-        if (!objectCode.isFinancialObjectActiveCode()) {
-            errors.putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_INACTIVE, "Object Code");
-            objectCodeAllowed = false;
-        }
-
-        if (StringUtils.isBlank(documentPaymentReason)) {
-            return objectCodeAllowed;
-        }
-
-        // check object level is in permitted list for payment reason
-        objectCodeAllowed = objectCodeAllowed && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, documentPaymentReason, objectCode.getFinancialObjectLevelCode()).evaluateAndAddError(NonInvoiced.class, "financialObject.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
-        // check object code is in permitted list for payment reason
-        objectCodeAllowed = objectCodeAllowed && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, documentPaymentReason, nonInvoicedForValidation.getFinancialObjectCode()).evaluateAndAddError(NonInvoiced.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
-        objectCodeAllowed = objectCodeAllowed && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, account.getSubFundGroupCode(), objectCode.getFinancialObjectSubTypeCode()).evaluateAndAddError(NonInvoiced.class, "financialObject.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
-        return objectCodeAllowed;
-    }
-
-    /**
-     * Checks account number restrictions, including restrictions in parameters table.
-     *
-     * @param FinancialDocument submitted financial document
-     * @param accountingLine accounting line in submitted accounting document
-     * @return true if account exists, falls within global function code restrictions, and account's sub fund is in permitted list
-     *         for payment reason
-     */
-    protected static boolean validateAccountNumber(PaymentApplicationDocument paymentApplicationDocumentForValidation, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
-        MessageMap errors = GlobalVariables.getMessageMap();
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
-        String errorKey = KFSPropertyConstants.ACCOUNT_NUMBER;
-        boolean accountNumberAllowed = true;
-
-        // must get these manually, instead of from the document, because the object has not yet been set
-        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(nonInvoicedForValidation.getChartOfAccountsCode(), nonInvoicedForValidation.getAccountNumber());
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(nonInvoicedForValidation.getChartOfAccountsCode(), nonInvoicedForValidation.getFinancialObjectCode());
-
-
-        // account exist and object exist done in super, check we have a valid object
-        if (ObjectUtils.isNull(account) || ObjectUtils.isNull(objectCode)) {
-            return false;
-        }
-
-        // global function code restrictions
-        if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, account.getFinancialHigherEdFunctionCd());
-            // accountNumberAllowed is true now
-            accountNumberAllowed = evaluator.evaluateAndAddError(NonInvoiced.class, "account.financialHigherEdFunctionCd", KFSPropertyConstants.ACCOUNT_NUMBER);
-        }
-
-        if (StringUtils.isBlank(documentPaymentReason)) {
-            return accountNumberAllowed;
-        }
-
-        // check sub fund is in permitted list for payment reason
-        accountNumberAllowed = accountNumberAllowed && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, documentPaymentReason, account.getSubFundGroupCode()).evaluateAndAddError(NonInvoiced.class, "account.subFundGroupCode", KFSPropertyConstants.ACCOUNT_NUMBER);
-
-        return accountNumberAllowed;
     }
 
     /**
@@ -563,20 +426,6 @@ public class PaymentApplicationDocumentRuleUtil {
                 return false;
             }
         }
-    }
-
-    /**
-     * This method sums the amounts for a List of NonInvoiceds. This is used separately from
-     * PaymentApplicationDocument.getTotalUnapplied()
-     *
-     * @return
-     */
-    protected static KualiDecimal getSumOfNonInvoiceds(List<NonInvoiced> nonInvoiceds) {
-        KualiDecimal sum = new KualiDecimal(0);
-        for (NonInvoiced nonInvoiced : nonInvoiceds) {
-            sum = sum.add(nonInvoiced.getFinancialDocumentLineAmount());
-        }
-        return sum;
     }
 
 }

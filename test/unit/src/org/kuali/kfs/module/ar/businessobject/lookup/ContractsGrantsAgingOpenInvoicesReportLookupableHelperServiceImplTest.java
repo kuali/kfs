@@ -36,6 +36,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsAgingOpenInvoicesReportService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingOpenInvoicesReportForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -108,6 +109,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         agingOpenInvoicesReportLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         agingOpenInvoicesReportLookupableHelperServiceImpl.setBusinessObjectClass(ContractsGrantsAgingOpenInvoicesReport.class);
         agingOpenInvoicesReportLookupableHelperServiceImpl.setContractsGrantsAgingOpenInvoicesReportService(SpringContext.getBean(ContractsGrantsAgingOpenInvoicesReportService.class));
+        agingOpenInvoicesReportLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
         fieldValues = new LinkedHashMap();
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

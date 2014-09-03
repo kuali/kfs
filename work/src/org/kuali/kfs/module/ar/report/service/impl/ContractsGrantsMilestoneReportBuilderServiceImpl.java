@@ -46,7 +46,7 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
             // set report data
             setReportDate(cgMilestoneReport, reportDetail);
 
-            reportDetail.setDisplaySubtotalInd(false);
+            reportDetail.setDisplaySubtotal(false);
 
             details.add(reportDetail);
         }
@@ -75,7 +75,12 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
 
         BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
         reportDetail.setMilestoneAmount(milestoneAmount);
-        reportDetail.setBilledIndicator(cgInvoiceReportEntry.getBilledIndicator());
+        if (cgInvoiceReportEntry.isBilled()) {
+            reportDetail.setBilled(KFSConstants.ParameterValues.YES);
+        } else {
+            reportDetail.setBilled(KFSConstants.ParameterValues.NO);
+        }
+
         if (cgInvoiceReportEntry.isActive()) {
             reportDetail.setActive(KFSConstants.ParameterValues.YES);
         } else {

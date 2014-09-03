@@ -17,10 +17,12 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Award;
@@ -33,6 +35,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation of Contracts & Grants module billing service which will allow AR to utilize KC functionality to perform CGB actions.
@@ -45,6 +48,22 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     @Override
     public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded) {
         return (List<Award>)getAwardService().getSearchResults(fieldValues);
+    }
+
+    @Override
+    public ContractsAndGrantsBillingAward updateAwardIfNecessary(Long proposalNumber, ContractsAndGrantsBillingAward currentAward ) {
+        ContractsAndGrantsBillingAward award = currentAward;
+
+        if (ObjectUtils.isNull(proposalNumber)) {
+            award = null;
+        } else {
+            if (ObjectUtils.isNull(currentAward) || !currentAward.getProposalNumber().equals(proposalNumber))  {
+                Map<String, Long> primaryKeys = new HashMap<>();
+                primaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+                award = (Award)awardService.findByPrimaryKey(primaryKeys);
+            }
+        }
+        return award;
     }
 
     public ExternalizableLookupableBusinessObjectService getAwardService() {

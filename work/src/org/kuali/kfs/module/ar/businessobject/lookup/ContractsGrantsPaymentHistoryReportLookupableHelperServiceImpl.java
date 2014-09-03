@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Defines a custom lookup for the Payment History Report.
@@ -54,7 +55,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
         Collection<ContractsGrantsPaymentHistoryReport> displayList = new ArrayList<ContractsGrantsPaymentHistoryReport>();
 
-        lookupFormFields.put(ArConstants.INVOICE_DOCUMENT_TYPE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        lookupFormFields.put(ArPropertyConstants.INVOICE_DOCUMENT_TYPE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
         Collection<CashControlDocument> cgCashControlDocs = getLookupService().findCollectionBySearchHelper(CashControlDocument.class, lookupFormFields, true);
 
 
@@ -84,7 +85,9 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         cgPaymentHistoryReport.setPaymentDate(new java.sql.Date(paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()));
 
                         cgPaymentHistoryReport.setCustomerNumber(cashControlDetail.getCustomerNumber());
-                        cgPaymentHistoryReport.setCustomerName(cashControlDetail.getCustomer().getCustomerName());
+                        if (!ObjectUtils.isNull(cashControlDetail.getCustomer())) {
+                            cgPaymentHistoryReport.setCustomerName(cashControlDetail.getCustomer().getCustomerName());
+                        }
                         cgPaymentHistoryReport.setPaymentAmount(appliedPayment.getInvoiceItemAppliedAmount());
                         cgPaymentHistoryReport.setInvoiceNumber(appliedPayment.getFinancialDocumentReferenceInvoiceNumber());
                         cgPaymentHistoryReport.setInvoiceAmount(appliedPayment.getCustomerInvoiceDocument().getTotalDollarAmount());

@@ -17,12 +17,12 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Attribute Reference Dummy Business Object
  */
-public class ArGenericAttributes extends PersistableBusinessObjectBase {
+public class ArGenericAttributes extends TransientBusinessObjectBase {
 
     private Long proposalNumber;
     private String agencyNumber;

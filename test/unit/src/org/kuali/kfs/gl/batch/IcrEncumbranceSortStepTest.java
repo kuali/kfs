@@ -23,8 +23,11 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * A class to test functionality of the IcrEncumbranceSortStepTest class.
@@ -44,6 +47,7 @@ public class IcrEncumbranceSortStepTest extends IcrEncumbranceStepTestBase {
     public void setUp() throws Exception {
         super.setUp();
         icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
+        icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
     }
 
     /**
@@ -52,6 +56,7 @@ public class IcrEncumbranceSortStepTest extends IcrEncumbranceStepTestBase {
      */
     @Override
     public void testExecute(){
+        TestUtils.setSystemParameter(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, "Y");
 
         // Create an input file via the related service
         File inputFile = icrEncumbranceService.buildIcrEncumbranceFeed();

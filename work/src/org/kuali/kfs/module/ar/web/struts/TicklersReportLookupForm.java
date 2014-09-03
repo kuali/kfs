@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,6 @@ import org.kuali.rice.kim.api.identity.Person;
  */
 public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
-    private static final long serialVersionUID = 1L;
     private String principalId;
 
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
@@ -40,7 +39,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Gets the principal Id of collector.
-     * 
+     *
      * @return Returns the principal id of collector.
      */
     public String getPrincipalId() {
@@ -49,7 +48,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Sets the principal id of collector.
-     * 
+     *
      * @param principalId The principal id of collector to set.
      */
     public void setPrincipalId(String principalId) {
@@ -58,7 +57,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Gets the lookup role namespace code of user.
-     * 
+     *
      * @return Returns lookup role namespace code.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -67,7 +66,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Gets the lookup role name of user.
-     * 
+     *
      * @return Returns the lookup role name.
      */
     public String getUserLookupRoleName() {
@@ -76,7 +75,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Gets the collector object for given principal id.
-     * 
+     *
      * @return Returns the collector object of principal id.
      */
     public Person getCollector() {
@@ -86,7 +85,7 @@ public class TicklersReportLookupForm extends ContractsGrantsReportLookupForm {
 
     /**
      * Sets the collector object.
-     * 
+     *
      * @param collector The collector object to set.
      */
     public void setCollector(Person collector) {

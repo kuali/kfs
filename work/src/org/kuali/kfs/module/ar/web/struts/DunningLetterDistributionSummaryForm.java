@@ -32,7 +32,7 @@ public class DunningLetterDistributionSummaryForm extends KualiForm {
     private boolean dunningLetterNotSent;
 
     /**
-     * Initialize contractsGrantsInvoiceLookupResults and awardInvoiced.
+     * Initialize contractsGrantsInvoiceLookupResults and dunningLetterNotSent.
      */
     public DunningLetterDistributionSummaryForm() {
         dunningLetterDistributionLookupResults = new ArrayList<DunningLetterDistributionLookupResult>();

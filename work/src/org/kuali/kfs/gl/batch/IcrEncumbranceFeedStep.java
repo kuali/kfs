@@ -17,14 +17,17 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.IcrEncumbranceService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 
 /**
  * This step builds a file of ICR Encumbrance Entries
  */
 public class IcrEncumbranceFeedStep extends AbstractStep {
-    private IcrEncumbranceService icrEncumbranceService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrEncumbranceFeedStep.class);
+    protected IcrEncumbranceService icrEncumbranceService;
 
     /**
      * This step builds a file of ICR Encumbrance Entries for posting to the General Ledger
@@ -36,7 +39,12 @@ public class IcrEncumbranceFeedStep extends AbstractStep {
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        icrEncumbranceService.buildIcrEncumbranceFeed();
+        final boolean shouldRunIcrEncumbranceActivity = this.getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM);
+        if (shouldRunIcrEncumbranceActivity) {
+            icrEncumbranceService.buildIcrEncumbranceFeed();
+        } else {
+            LOG.info("Skipping running of IcrEncumbranceFeedStep because parameter KFS-GL / Encumbrance / USE_ICR_ENCUMBRANCE_IND has turned this functionality off.");
+        }
         return true;
     }
 

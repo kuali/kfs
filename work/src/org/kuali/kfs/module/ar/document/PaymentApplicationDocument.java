@@ -15,16 +15,12 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -33,7 +29,6 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -45,19 +40,16 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -65,33 +57,27 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Payment Application Document.
  */
-public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling, Correctable, Copyable {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
@@ -104,7 +90,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected Collection<NonAppliedDistribution> nonAppliedDistributions;
     protected NonAppliedHolding nonAppliedHolding;
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    protected String refundDocumentNumber;
     protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
     protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected Long proposalNumber;// For loc creation type = Award
@@ -218,11 +203,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public KualiDecimal getSumOfInvoicePaidApplieds() {
         KualiDecimal amount = KualiDecimal.ZERO;
         for (InvoicePaidApplied payment : getInvoicePaidApplieds()) {
-            KualiDecimal _amount = payment.getInvoiceItemAppliedAmount();
-            if (null == _amount) {
-                _amount = KualiDecimal.ZERO;
+            KualiDecimal invoiceItemAppliedAmount = payment.getInvoiceItemAppliedAmount();
+            if (null == invoiceItemAppliedAmount) {
+                invoiceItemAppliedAmount = KualiDecimal.ZERO;
             }
-            amount = amount.add(_amount);
+            amount = amount.add(invoiceItemAppliedAmount);
         }
         return amount;
     }
@@ -640,7 +625,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (ObjectUtils.isNotNull(holding)) {
             GeneralLedgerPendingEntry actualCreditUnapplied = new GeneralLedgerPendingEntry();
             actualCreditUnapplied.setUniversityFiscalYear(getPostingYear());
-            actualCreditUnapplied.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            actualCreditUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             actualCreditUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualCreditUnapplied.setFinancialObjectCode(unappliedObjectCode);
@@ -668,7 +653,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             GeneralLedgerPendingEntry offsetDebitUnapplied = new GeneralLedgerPendingEntry();
             offsetDebitUnapplied.setUniversityFiscalYear(actualCreditUnapplied.getUniversityFiscalYear());
-            offsetDebitUnapplied.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            offsetDebitUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             offsetDebitUnapplied.setChartOfAccountsCode(actualCreditUnapplied.getChartOfAccountsCode());
             offsetDebitUnapplied.setAccountNumber(actualCreditUnapplied.getAccountNumber());
             OffsetDefinition offsetDebitDefinition = offsetDefinitionService.getByPrimaryId(getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), paymentApplicationDocumentTypeCode, KFSConstants.BALANCE_TYPE_ACTUAL);
@@ -688,7 +673,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             GeneralLedgerPendingEntry actualDebitUnapplied = new GeneralLedgerPendingEntry();
             actualDebitUnapplied.setUniversityFiscalYear(getPostingYear());
-            actualDebitUnapplied.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            actualDebitUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             actualDebitUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualDebitUnapplied.setFinancialObjectCode(unappliedObjectCode);
@@ -713,7 +698,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             // So set the values into the offsets based on the values in the actuals.
             GeneralLedgerPendingEntry offsetCreditUnapplied = new GeneralLedgerPendingEntry();
             offsetCreditUnapplied.setUniversityFiscalYear(actualDebitUnapplied.getUniversityFiscalYear());
-            offsetCreditUnapplied.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            offsetCreditUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             offsetCreditUnapplied.setChartOfAccountsCode(actualDebitUnapplied.getChartOfAccountsCode());
             offsetCreditUnapplied.setAccountNumber(actualDebitUnapplied.getAccountNumber());
             OffsetDefinition offsetCreditDefinition = offsetDefinitionService.getByPrimaryId(getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), paymentApplicationDocumentTypeCode, KFSConstants.BALANCE_TYPE_ACTUAL);
@@ -737,7 +722,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             // Actual entries
             GeneralLedgerPendingEntry actualCreditEntry = new GeneralLedgerPendingEntry();
             actualCreditEntry.setUniversityFiscalYear(getPostingYear());
-            actualCreditEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            actualCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             actualCreditEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
             actualCreditEntry.setAccountNumber(nonInvoiced.getAccountNumber());
             actualCreditEntry.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
@@ -771,7 +756,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
-            actualDebitEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            actualDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             actualDebitEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualDebitEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
 
@@ -809,7 +794,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             // Offset entries
             GeneralLedgerPendingEntry offsetDebitEntry = new GeneralLedgerPendingEntry();
-            offsetDebitEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            offsetDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             offsetDebitEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
             offsetDebitEntry.setAccountNumber(nonInvoiced.getAccountNumber());
             offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
@@ -829,7 +814,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             sequenceHelper.increment();
 
             GeneralLedgerPendingEntry offsetCreditEntry = new GeneralLedgerPendingEntry();
-            offsetCreditEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             offsetCreditEntry.setUniversityFiscalYear(getPostingYear());
             offsetCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             offsetCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
@@ -870,7 +855,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
             actualDebitEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualDebitEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
-            actualDebitEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            actualDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             actualDebitEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount().abs());
             if (hasCashControlDocument()) {
                 actualDebitEntry.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
@@ -905,7 +890,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setUniversityFiscalYear(getPostingYear());
             actualCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
-            actualCreditEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            actualCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             actualCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount().abs());
             actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
@@ -923,7 +908,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
             offsetDebitEntry.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             offsetDebitEntry.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            offsetDebitEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_CREDIT_CODE));
+            offsetDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             offsetDebitEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount().abs());
             offsetDebitEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             offsetDebitEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
@@ -956,7 +941,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setUniversityFiscalYear(getPostingYear());
             offsetCreditEntry.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             offsetCreditEntry.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            offsetCreditEntry.setTransactionDebitCreditCode(getReversalCreditDebitCodeWhenNecessary(KFSConstants.GL_DEBIT_CODE));
+            offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             offsetCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount().abs());
             offsetCreditEntry.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
@@ -1057,13 +1042,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     @Override
     public List<String> getWorkflowEngineDocumentIdsToLock() {
-        if (this.isPaymentApplicationCorrection()) {
-            if (StringUtils.isNotBlank(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber())) {
-                List<String> documentIds = new ArrayList<String>();
-                documentIds.add(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
-                return documentIds;
-            }
-        }
         List<String> docIdStrings = getInvoiceNumbersToUpdateOnFinal();
         if (docIdStrings == null || docIdStrings.isEmpty()) {
             return null;
@@ -1072,30 +1050,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * This method returns true if this document is a reversal for another document
-     *
-     * @return
-     */
-    public boolean isPaymentApplicationCorrection() {
-        return ObjectUtils.isNotNull(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-
-        // handle a Correction/Reversal document
-        if (this.isPaymentApplicationCorrection() && getDocumentHeader().getWorkflowDocument().isSaved()) {
-            if (cashControlDetail != null) {
-                cashControlDetail.setCustomerPaymentDescription("This Cash Control Detail corrects document number " + this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
-                cashControlDetail.setFinancialDocumentLineAmount(cashControlDetail.getFinancialDocumentLineAmount().negated());
-                saveCashControlDetail(cashControlDetail);
-            }
-        }
-
 
         if (getDocumentHeader().getWorkflowDocument().isFinal()) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -1125,28 +1084,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     invoice.setOpenInvoiceIndicator(false);
                     getDocService().updateDocument(invoice);
                 }
-
-
-                // if correcting, then unclose invoice
-                if (isPaymentApplicationCorrection() && !invoice.isOpenInvoiceIndicator()) {
-                    invoice.setOpenInvoiceIndicator(true);
-                    invoice.setClosedDate(null);
-                    getDocService().updateDocument(invoice);
-                }
-
-            }
-
-            // for refunds need to spawn DV document
-            boolean isRefund = false;
-            for (NonInvoiced nonInvoiced : nonInvoiceds) {
-                if (nonInvoiced.isRefundIndicator()) {
-                    isRefund = true;
-                    break;
-                }
-            }
-
-            if (isRefund) {
-                SpringContext.getBean(PaymentApplicationDocumentService.class).createDisbursementVoucherDocumentForRefund(this);
             }
         }
     }
@@ -1619,260 +1556,5 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
-
-    /**
-     * @return
-     */
-    public String getRefundDocumentNumber() {
-        return refundDocumentNumber;
-    }
-
-    /**
-     * @param refundDocumentNumber
-     */
-    public void setRefundDocumentNumber(String refundDocumentNumber) {
-        this.refundDocumentNumber = refundDocumentNumber;
-    }
-
-    /**
-     * @return
-     */
-    public KualiDecimal getRefundAmount() {
-        if (StringUtils.isNotBlank(refundDocumentNumber)) {
-            try {
-                Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(refundDocumentNumber);
-
-                return ((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentTotalAmount();
-            }
-            catch (WorkflowException ex) {
-                // just swallow exception and return 0 amount
-            }
-        }
-
-        return KualiDecimal.ZERO;
-    }
-
-    /**
-     * @return
-     */
-    public String getRefundDate() {
-        if (StringUtils.isNotBlank(refundDocumentNumber)) {
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = SpringContext.getBean(org.kuali.rice.krad.workflow.service.WorkflowDocumentService.class).loadWorkflowDocument(refundDocumentNumber, GlobalVariables.getUserSession().getPerson());
-            }
-            catch (NumberFormatException ex) {
-                // just swallow exception and return empty string
-            }
-            catch (WorkflowException ex) {
-                // just swallow exception and return empty string
-            }
-
-            if (workflowDocument != null) {
-                Timestamp refundDate = new Timestamp(workflowDocument.getDateCreated().getMillis());
-                return SpringContext.getBean(DateTimeService.class).toDateString(refundDate);
-            }
-        }
-
-        return "";
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
-     */
-    @Override
-    public void toErrorCorrection() throws WorkflowException {
-        super.toErrorCorrection();
-    }
-
-    /**
-     * @param cashControlDocumentNumber
-     * @throws WorkflowException
-     */
-    public void toErrorCorrectionWrapper(String cashControlDocumentNumber) throws WorkflowException {
-        toErrorCorrection();
-        setNewCashControlDetailDocumentNumber(cashControlDocumentNumber);
-
-        // setNewCashControlDetailDocumentNumber();
-        if (nonAppliedHolding != null) {
-            nonAppliedHolding.setReferenceFinancialDocumentNumber(this.getDocumentNumber());
-        }
-
-        reduceCashControlTotalByRefundAmount();
-
-        negateDocumentValues();
-
-        // save the Payment Application Document automatically
-        SpringContext.getBean(DocumentService.class).saveDocument(this);
-    }
-
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#setNewDocumentHeader()
-     */
-    @Override
-    protected void setNewDocumentHeader() throws WorkflowException {
-        PaymentApplicationDocument newDoc = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-        newDoc.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
-        newDoc.getDocumentHeader().setOrganizationDocumentNumber(getDocumentHeader().getOrganizationDocumentNumber());
-
-        // this part is overriden to not use setObjectPropertyDeep. We do not want to change the CashControlDocument header
-        try {
-            setObjectPropertyDeep(this, KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber.getClass(), newDoc.getDocumentNumber());
-        }
-        catch (Exception e) {
-            LOG.error("Unable to set document number property in copied document " + e.getMessage(), e);
-            throw new RuntimeException("Unable to set document number property in copied document " + e.getMessage(), e);
-        }
-
-        // replace current documentHeader with new documentHeader
-        setDocumentHeader(newDoc.getDocumentHeader());
-
-        saveARDocumentHeader(accountsReceivableDocumentHeader);
-    }
-
-    /*
-     * Custom setObjectPropertyDeep for PaymentApplicationDocument only since CashControlDocument does not need to be set Copied
-     * from org.kuali.rice.krad.util.ObjectUtils
-     */
-    /**
-     *
-     */
-    private void setObjectPropertyDeep(Object bo, String propertyName, Class type, Object propertyValue) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-
-        // Base return cases to avoid null pointers & infinite loops
-        if (ObjectUtils.isNull(bo) || !PropertyUtils.isReadable(bo, propertyName) || (propertyValue != null && propertyValue.equals(ObjectUtils.getPropertyValue(bo, propertyName))) || (type != null && !type.equals(ObjectUtils.easyGetPropertyType(bo, propertyName)))) {
-            return;
-        }
-
-        // need to materialize the updateable collections before resetting the property, because it may be used in the retrieval
-        ObjectUtils.materializeUpdateableCollections(bo);
-
-        // Set the property in the BO
-        ObjectUtils.setObjectProperty(bo, propertyName, type, propertyValue);
-
-        // Now drill down and check nested BOs and BO lists
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(bo.getClass());
-        for (int i = 0; i < propertyDescriptors.length; i++) {
-
-            PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
-
-            // Business Objects
-            if (propertyDescriptor.getPropertyType() != null && (BusinessObject.class).isAssignableFrom(propertyDescriptor.getPropertyType()) && PropertyUtils.isReadable(bo, propertyDescriptor.getName())) {
-                Object nestedBo = ObjectUtils.getPropertyValue(bo, propertyDescriptor.getName());
-                if (nestedBo instanceof BusinessObject) {
-                    if (!"cashControlDocument".equals(propertyDescriptor.getName())) {
-                        setObjectPropertyDeep(nestedBo, propertyName, type, propertyValue);
-                    }
-                }
-            }
-
-            // Lists
-            else if (propertyDescriptor.getPropertyType() != null && (List.class).isAssignableFrom(propertyDescriptor.getPropertyType()) && ObjectUtils.getPropertyValue(bo, propertyDescriptor.getName()) != null) {
-
-                List propertyList = (List) ObjectUtils.getPropertyValue(bo, propertyDescriptor.getName());
-                for (Object listedBo : propertyList) {
-                    if (listedBo != null && listedBo instanceof BusinessObject) {
-                        setObjectPropertyDeep(listedBo, propertyName, type, propertyValue);
-                    }
-                } // end for
-            }
-        } // end for
-    }
-
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#validateBusinessRules(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
-     */
-    @Override
-    public void validateBusinessRules(KualiDocumentEvent event) {
-        // override for payment reversal, we don't need to check at this point. Fields should be uneditable.
-        if (!isPaymentApplicationCorrection()) {
-            super.validateBusinessRules(event);
-        }
-    }
-
-    // save AccountsReceivableDocumentHeader
-    private void saveARDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        SpringContext.getBean(BusinessObjectService.class).save(accountsReceivableDocumentHeader);
-    }
-
-    /**
-     * @param cashControlDocumentNumber
-     */
-    private void setNewCashControlDetailDocumentNumber(String cashControlDocumentNumber) {
-        if (cashControlDetail != null) {
-            cashControlDetail.setDocumentNumber(cashControlDocumentNumber);
-            cashControlDetail.setReferenceFinancialDocumentNumber(documentNumber);
-        }
-    }
-
-    /**
-     *
-     */
-    private void saveCashControlDetail(CashControlDetail cashControlDetail) {
-       SpringContext.getBean(BusinessObjectService.class).save(cashControlDetail);
-    }
-
-    /**
-     * @param code
-     * @return
-     */
-    private String getReversalCreditDebitCodeWhenNecessary(String code) {
-        if (isPaymentApplicationCorrection()) {
-            if (code.equals(KFSConstants.GL_CREDIT_CODE)) {
-                return KFSConstants.GL_DEBIT_CODE;
-            }
-            else if (code.equals(KFSConstants.GL_DEBIT_CODE)) {
-                return KFSConstants.GL_CREDIT_CODE;
-            }
-            else {
-                LOG.error("Invalid credit or debit code used when generating GLPE.");
-            }
-        }
-        return code;
-    }
-
-    /**
-     *
-     */
-    // Reduce the Cash Control Total Amount by removing the total from Refunds for error Correction Documents.
-    private void reduceCashControlTotalByRefundAmount() {
-        KualiDecimal refundTotal = KualiDecimal.ZERO;
-        for (NonInvoiced invoiced : getNonInvoiceds()) {
-            if (invoiced.isRefundIndicator()) {
-                refundTotal = refundTotal.add(invoiced.getFinancialDocumentLineAmount());
-            }
-        }
-
-        getCashControlDetail().setFinancialDocumentLineAmount(getCashControlDetail().getFinancialDocumentLineAmount().subtract(refundTotal));
-    }
-
-    /**
-     *
-     */
-    private void negateDocumentValues() {
-        for (InvoicePaidApplied invoicePaidApplied : getInvoicePaidApplieds()) {
-            invoicePaidApplied.setInvoiceItemAppliedAmount(invoicePaidApplied.getInvoiceItemAppliedAmount().negated());
-        }
-
-        List<NonInvoiced> nonInvoiceds = getNonInvoiceds();
-        List<NonInvoiced> nonInvoicedsToRemove = new ArrayList<NonInvoiced>();
-
-        for (NonInvoiced nonInvoiced : nonInvoiceds) {
-            if (nonInvoiced.isRefundIndicator()) {
-                nonInvoicedsToRemove.add(nonInvoiced);
-            }
-            else {
-                nonInvoiced.setFinancialDocumentLineAmount(nonInvoiced.getFinancialDocumentLineAmount().negated());
-            }
-        }
-
-        // remove Non-AR item from list for Correction Document, because you can't reverse a check that has been sent out.
-        nonInvoiceds.removeAll(nonInvoicedsToRemove);
-
-        if (nonAppliedHolding != null) {
-            nonAppliedHolding.setFinancialDocumentLineAmount(nonAppliedHolding.getFinancialDocumentLineAmount().negated());
-        }
-    }
-
 
 }

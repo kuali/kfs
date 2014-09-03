@@ -29,17 +29,13 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class LetterOfCreditFund extends PersistableBusinessObjectBase implements ContractsAndGrantsLetterOfCreditFund, MutableInactivatable {
 
     private String letterOfCreditFundCode;
-    private String fundDescription;
-
+    private String letterOfCreditFundDescription;
     private String letterOfCreditFundGroupCode;
     private KualiDecimal letterOfCreditFundAmount;
-
     private Date letterOfCreditFundStartDate;
     private Date letterOfCreditFundExpirationDate;
-
     private LetterOfCreditFundGroup letterOfCreditFundGroup;
     private boolean active;
-
 
     /**
      * Gets the active attribute.
@@ -51,7 +47,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return active;
     }
 
-
     /**
      * Sets the active attribute value.
      *
@@ -61,7 +56,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
     public void setActive(boolean active) {
         this.active = active;
     }
-
 
     /**
      * Gets the letterOfCreditFundGroup attribute.
@@ -73,7 +67,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return letterOfCreditFundGroup;
     }
 
-
     /**
      * Sets the letterOfCreditFundGroup attribute value.
      *
@@ -83,48 +76,43 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         this.letterOfCreditFundGroup = letterOfCreditFundGroup;
     }
 
-
     /**
-     * Gets the fundCode attribute.
+     * Gets the letterOfCreditFundCode attribute.
      *
-     * @return Returns the fundCode.
+     * @return Returns the letterOfCreditFundCode.
      */
     @Override
     public String getLetterOfCreditFundCode() {
         return letterOfCreditFundCode;
     }
 
-
     /**
-     * Sets the fundCode attribute value.
+     * Sets the letterOfCreditFundCode attribute value.
      *
-     * @param fundCode The fundCode to set.
+     * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
-
     /**
-     * Gets the fundDescr attribute.
+     * Gets the letterOfCreditFundDescription attribute.
      *
-     * @return Returns the fundDescr.
+     * @return Returns the letterOfCreditFundDescription.
      */
     @Override
-    public String getFundDescription() {
-        return fundDescription;
+    public String getLetterOfCreditFundDescription() {
+        return letterOfCreditFundDescription;
     }
-
 
     /**
-     * Sets the fundDescr attribute value.
+     * Sets the letterOfCreditFundDescription attribute value.
      *
-     * @param fundDescr The fundDescr to set.
+     * @param letterOfCreditFundDescription The letterOfCreditFundDescription to set.
      */
-    public void setFundDescription(String fundDescr) {
-        this.fundDescription = fundDescr;
+    public void setLetterOfCreditFundDescription(String letterOfCreditFundDescription) {
+        this.letterOfCreditFundDescription = letterOfCreditFundDescription;
     }
-
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
@@ -136,7 +124,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return letterOfCreditFundGroupCode;
     }
 
-
     /**
      * Sets the letterOfCreditFundGroupCode attribute value.
      *
@@ -145,7 +132,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
         this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
     }
-
 
     /**
      * Gets the letterOfCreditFundAmount attribute.
@@ -157,7 +143,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return letterOfCreditFundAmount;
     }
 
-
     /**
      * Sets the letterOfCreditFundAmount attribute value.
      *
@@ -166,7 +151,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
     public void setLetterOfCreditFundAmount(KualiDecimal letterOfCreditFundAmount) {
         this.letterOfCreditFundAmount = letterOfCreditFundAmount;
     }
-
 
     /**
      * Gets the letterOfCreditFundStartDate attribute.
@@ -178,7 +162,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return letterOfCreditFundStartDate;
     }
 
-
     /**
      * Sets the letterOfCreditFundStartDate attribute value.
      *
@@ -187,7 +170,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
     public void setLetterOfCreditFundStartDate(Date letterOfCreditFundStartDate) {
         this.letterOfCreditFundStartDate = letterOfCreditFundStartDate;
     }
-
 
     /**
      * Gets the letterOfCreditFundExpirationDate attribute.
@@ -199,7 +181,6 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         return letterOfCreditFundExpirationDate;
     }
 
-
     /**
      * Sets the letterOfCreditFundExpirationDate attribute value.
      *
@@ -209,18 +190,15 @@ public class LetterOfCreditFund extends PersistableBusinessObjectBase implements
         this.letterOfCreditFundExpirationDate = letterOfCreditFundExpirationDate;
     }
 
-
-
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("letterOfCreditFundCode", this.letterOfCreditFundCode.toString());
-        m.put("fundDescr", this.fundDescription.toString());
+        m.put("fundDescr", this.letterOfCreditFundDescription.toString());
         m.put("letterOfCreditFundGroupCode", this.letterOfCreditFundGroupCode.toString());
         m.put("letterOfCreditFundAmount", this.letterOfCreditFundAmount.toString());
         m.put("letterOfCreditFundStartDate", this.letterOfCreditFundStartDate.toString());
         m.put("letterOfCreditFundExpirationDate", this.letterOfCreditFundExpirationDate.toString());
         return m;
     }
-
 
 }

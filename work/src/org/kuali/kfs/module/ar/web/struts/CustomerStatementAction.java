@@ -17,12 +17,12 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Properties;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,18 +31,17 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class handles Actions for lookup flow
@@ -76,50 +75,40 @@ public class CustomerStatementAction extends KualiAction {
 
         HashMap<String, String> params = new HashMap<String, String>();
         if(StringUtils.isNotBlank(chartCode)) {
-            params.put("chartCode", chartCode);
+            params.put(ArPropertyConstants.CustomerStatementFields.CHART_CODE, chartCode);
+            request.setAttribute(ArPropertyConstants.CustomerStatementFields.CHART_CODE, chartCode);
         }
         if(StringUtils.isNotBlank(orgCode)) {
-            params.put("orgCode", orgCode);
+            params.put(ArPropertyConstants.CustomerStatementFields.ORG_CODE, orgCode);
+            request.setAttribute(ArPropertyConstants.CustomerStatementFields.ORG_CODE, orgCode);
         }
         if(StringUtils.isNotBlank(customerNumber)) {
-            params.put("customerNumber", customerNumber);
+            params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+            request.setAttribute(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         }
         if(StringUtils.isNotBlank(accountNumber)) {
-            params.put("accountNumber", accountNumber);
+            params.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+            request.setAttribute(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         }
         if(StringUtils.isNotBlank(statementFormat)) {
-            params.put("statementFormat", statementFormat);
+            params.put(ArPropertyConstants.CustomerStatementFields.STATEMENT_FORMAT, statementFormat);
         } else {
-            params.put("statementFormat", "Summary");
+            params.put(ArPropertyConstants.CustomerStatementFields.STATEMENT_FORMAT, ArConstants.STATEMENT_FORMAT_SUMMARY);
         }
         if(StringUtils.isNotBlank(includeZeroBalanceCustomers)) {
-            params.put("includeZeroBalanceCustomers", includeZeroBalanceCustomers);
+            params.put(ArPropertyConstants.CustomerStatementFields.INCLUDE_ZERO_BALANCE_CUSTOMERS, includeZeroBalanceCustomers);
         } else {
-            params.put("includeZeroBalanceCustomers", "No");
+            params.put(ArPropertyConstants.CustomerStatementFields.INCLUDE_ZERO_BALANCE_CUSTOMERS, ArConstants.INCLUDE_ZERO_BALANCE_NO);
         }
 
-        String methodToCallPrintPDF = "printStatementPDF";
-        String methodToCallStart = "start";
-        String printPDFUrl = getUrlForPrintStatement(basePath, methodToCallPrintPDF, params);
-        String displayTabbedPageUrl = getUrlForPrintStatement(basePath, methodToCallStart, params);
+        String printPDFUrl = getUrlForPrintStatement(basePath, ArConstants.PRINT_STATEMENT_PDF_METHOD, params);
+        String displayTabbedPageUrl = getUrlForPrintStatement(basePath, KFSConstants.START_METHOD, params);
 
-        request.setAttribute("printPDFUrl", printPDFUrl);
-        request.setAttribute("displayTabbedPageUrl", displayTabbedPageUrl);
-        if(!StringUtils.isBlank(chartCode)) {
-            request.setAttribute("chartCode", chartCode);
-        }
-        if(!StringUtils.isBlank(orgCode)) {
-            request.setAttribute("orgCode", orgCode);
-        }
-        if(!StringUtils.isBlank(customerNumber)) {
-            request.setAttribute("customerNumber", customerNumber);
-        }
-        if(!StringUtils.isBlank(accountNumber)) {
-            request.setAttribute("accountNumber", accountNumber);
-        }
-        request.setAttribute("printLabel", "Customer Statement");
-        return mapping.findForward("arPrintPDF");
+        request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printPDFUrl);
+        request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayTabbedPageUrl);
+        request.setAttribute(ArPropertyConstants.PRINT_LABEL, ArConstants.CUSTOMER_STATEMENT_LABEL);
 
+        return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
     }
 
     public ActionForward printStatementPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -153,86 +142,18 @@ public class CustomerStatementAction extends KualiAction {
             reports = reportService.generateStatementByAccount(accountNumber, statementFormat, includeZeroBalanceCustomers);
             fileName.append(accountNumber);
         }
+        fileName.append("-StatementBatchPDFs.pdf");
+
         if (reports.size() != 0) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int pageOffset = 0;
-            ArrayList<PdfReader> master = new ArrayList<PdfReader>();
-            int f = 0;
-            //   File file = new File(fileName);
-            Document document = null;
-            PdfCopy  writer = null;
+            List<byte[]> contents = new ArrayList<>();
             for (CustomerStatementResultHolder customerStatementResultHolder : reports) {
                 File file = customerStatementResultHolder.getFile();
-                // we create a reader for a certain document
-                String reportName = file.getAbsolutePath();
-                PdfReader reader = new PdfReader(reportName);
-                reader.consolidateNamedDestinations();
-                // we retrieve the total number of pages
-                int n = reader.getNumberOfPages();
-                List<PdfReader> bookmarks = SimpleBookmark.getBookmark(reader);
-                if (bookmarks != null) {
-                    if (pageOffset != 0) {
-                        SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
-                    }
-                    master.addAll(bookmarks);
-                }
-                pageOffset += n;
-
-                if (f == 0) {
-                    // step 1: creation of a document-object
-                    document = new Document(reader.getPageSizeWithRotation(1));
-                    // step 2: we create a writer that listens to the document
-                    writer = new PdfCopy(document, baos);
-                    // step 3: we open the document
-                    document.open();
-                }
-                // step 4: we add content
-                PdfImportedPage page;
-                for (int i = 0; i < n; ) {
-                    ++i;
-                    page = writer.getImportedPage(reader, i);
-                    writer.addPage(page);
-                }
-                writer.freeReader(reader);
-                f++;
+                byte[] data = Files.readAllBytes(file.toPath());
+                contents.add(data);
             }
 
-            if (!master.isEmpty())
-             {
-                writer.setOutlines(master);
-            // step 5: we close the document
-            }
-
-            document.close();
-            // csForm.setReports(file);
-
-            StringBuffer sbContentDispValue = new StringBuffer();
-            String useJavascript = request.getParameter("useJavascript");
-            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                sbContentDispValue.append("attachment");
-            }
-            else {
-                sbContentDispValue.append("inline");
-            }
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(fileName);
-
-            contentDisposition = sbContentDispValue.toString();
-
-            fileName.append("-StatementBatchPDFs.pdf");
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", contentDisposition);
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Pragma", "public");
-            response.setContentLength(baos.size());
-
-            // write to output
-            ServletOutputStream sos = response.getOutputStream();
-            baos.writeTo(sos);
-            sos.flush();
-            sos.close();
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(contents);
+            KfsWebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, fileName.toString(), Boolean.parseBoolean(request.getParameter(KFSConstants.ReportGeneration.USE_JAVASCRIPT)));
 
             // update reported data for the detailed statement
             if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) {
@@ -264,14 +185,12 @@ public class CustomerStatementAction extends KualiAction {
      * @return The URL
      */
     private String getUrlForPrintStatement(String basePath, String methodToCall, HashMap<String, String> params) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arCustomerStatement.do?methodToCall=").append(methodToCall);
-        Set<String> keys = params.keySet();
-        for(String key : keys) {
-            result.append("&").append(key).append("=").append(params.get(key));
-        }
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.CUSTOMER_STATEMENT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.putAll(params);
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
 }

@@ -45,6 +45,7 @@ import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -97,7 +98,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList, sortPropertyName);
 
         // build search criteria for report
-        buildReportForSearchCriteria(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), lookupForm.getFieldsForLookup());
+        buildSearchCriteriaReportSection(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), lookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(cgSuspendedInvoiceSummaryReportDataHolder, baos);
@@ -118,7 +119,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @param searchCriteria the reporty versions of the fields
      * @param fieldsForLookup the fields from the lookup itself
      */
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
+    protected void buildSearchCriteriaReportSection(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
@@ -126,8 +127,11 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
             if (StringUtils.isNotBlank(fieldString) && StringUtils.isNotBlank(valueString) &&
                     !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString) &&
                     !fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
-                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = generateDataHolder(fieldString, valueString);
-                searchCriteria.add(criteriaData);
+                final ControlDefinition controldef = getDataDictionaryService().getAttributeControlDefinition(getPrintSearchCriteriaClass(), fieldString);
+                if (controldef != null && !controldef.isHidden()) {
+                    ContractsGrantsReportSearchCriteriaDataHolder criteriaData = generateDataHolder(fieldString, valueString);
+                    searchCriteria.add(criteriaData);
+                }
             }
         }
     }

@@ -15,11 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script type='text/javascript'
-	src="dwr/interface/CollectionActivityDocumentService.js"></script>
-<script language="JavaScript" type="text/javascript"
-	src="scripts/module/ar/awardObjectInfo.js"></script>
-
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
@@ -48,21 +43,16 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
 					literalLabel="Proposal Number" horizontal="true" />
-				<td><c:choose>
-						<c:when test="${!readOnly}">
-							<c:set var="onblurForInvoice" value="loadAwardInfo( this.name);" />
-						</c:when>
-						<c:otherwise>
-							<c:set var="onblurForInvoice" value="" />
-						</c:otherwise>
-					</c:choose> <kul:htmlControlAttribute readOnly="true"
+				<td>
+					<kul:htmlControlAttribute readOnly="true"
 						attributeEntry="${awardAttributes.proposalNumber}"
-						property="selectedProposalNumber" forceRequired="true" /> <c:if
-						test="${readOnly ne true}">
+						property="selectedProposalNumber" forceRequired="true" /> 
+					<c:if test="${readOnly ne true}">
 						<kul:lookup
 							boClassName="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 							fieldConversions="proposalNumber:selectedProposalNumber" />
-					</c:if></td>
+					</c:if>
+				</td>
 			</tr>
 
 			<tr>
@@ -152,11 +142,11 @@
 									<kul:htmlAttributeHeaderCell
 										attributeEntry="${eventAttributes.activityText}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.followupInd}" />
+										attributeEntry="${eventAttributes.followup}" />
 									<kul:htmlAttributeHeaderCell
 										attributeEntry="${eventAttributes.followupDate}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.completedInd}" />
+										attributeEntry="${eventAttributes.completed}" />
 									<kul:htmlAttributeHeaderCell
 										attributeEntry="${eventAttributes.completedDate}" />
 									<kul:htmlAttributeHeaderCell
@@ -299,7 +289,7 @@
 										<tr>
 											<c:choose>
 												<c:when
-													test="${!KualiForm.document.selectedInvoiceApplication.showEventsInd}">
+													test="${!KualiForm.document.selectedInvoiceApplication.showEvents}">
 													<td colspan='2'>Events can not be displayed.</td>
 												</c:when>
 												<c:otherwise>
@@ -316,11 +306,11 @@
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.activityText}" />
 																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.followupInd}" />
+																	attributeEntry="${eventAttributes.followup}" />
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.followupDate}" />
 																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.completedInd}" />
+																	attributeEntry="${eventAttributes.completed}" />
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.completedDate}" />
 																<kul:htmlAttributeHeaderCell

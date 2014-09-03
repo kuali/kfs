@@ -129,16 +129,10 @@ public class ContractsGrantsAgingReportServiceTest extends KualiTestBase {
     /**
      * Tests filterContractsGrantsAgingReport() method of service.
      */
-    public void testFilterContractsGrantsAgingReport() {
+    public void testFilterContractsGrantsAgingReport() throws ParseException {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.CUSTOMER_NUMBER, CUSTOMER_NUMBER);
-        try {
-            Map<String, List<ContractsGrantsInvoiceDocument>> customerMap = contractsGrantsAgingReportService.filterContractsGrantsAgingReport(fieldValues, null, null);
-            assertNotNull(customerMap);
-        }
-        catch (ParseException ex) {
-            LOG.error("An Exception was thrown while trying to filter contracts grants aging report.", ex);
-            throw new RuntimeException("An Exception was thrown while trying to save a new Customer Collector.", ex);
-        }
+        Map<String, List<ContractsGrantsInvoiceDocument>> customerMap = contractsGrantsAgingReportService.filterContractsGrantsAgingReport(fieldValues, null, null);
+        assertNotNull(customerMap);
     }
 }

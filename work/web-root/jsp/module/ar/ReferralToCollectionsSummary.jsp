@@ -21,29 +21,19 @@
 	docTitle="Referral To Collections Summary">
 
 	<div id="globalbuttons" class="globalbuttons">
-		<c:if test="${KualiForm.awardInvoicedInd}">
-			<html:image
-				src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif"
-				styleClass="globalbuttons" property="methodToCall.cancel"
-				title="return" alt="return" />
-		</c:if>
-
-		<c:if test="${!KualiForm.awardInvoicedInd}">
-
-			<ar:documentSummaryResults lookupResultsProperty="referralToCollectionsLookupResults" lookupResultTitleProperties="proposalNumber" tabTitleName="Award">
-				<ar:referralToCollectionsSummaryResultContent/>
-			</ar:documentSummaryResults>
-			<kul:panelFooter />
-			<html:image
-				src="${ConfigProperties.externalizable.images.url}buttonsmall_create.gif"
-				styleClass="globalbuttons"
-				property="methodToCall.createInvoices.number${KualiForm.lookupResultsSequenceNumber}"
-				title="create Invoices" alt="create Invoices" />
-			<html:image
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
-				styleClass="globalbuttons" property="methodToCall.cancel"
-				title="cancel" alt="cancel" />
-		</c:if>
+		<ar:documentSummaryResults lookupResultsProperty="referralToCollectionsLookupResults" lookupResultTitleProperties="proposalNumber" tabTitleName="Award">
+			<ar:referralToCollectionsSummaryResultContent/>
+		</ar:documentSummaryResults>
+		<kul:panelFooter />
+		<html:image
+			src="${ConfigProperties.externalizable.images.url}buttonsmall_create.gif"
+			styleClass="globalbuttons"
+			property="methodToCall.createInvoices.number${KualiForm.lookupResultsSequenceNumber}"
+			title="create Invoices" alt="create Invoices" />
+		<html:image
+			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
+			styleClass="globalbuttons" property="methodToCall.cancel"
+			title="cancel" alt="cancel" />
 	</div>
 	
 </kul:page>

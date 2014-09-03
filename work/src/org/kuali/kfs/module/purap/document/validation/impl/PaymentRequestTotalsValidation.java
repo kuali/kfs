@@ -108,7 +108,7 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
             PaymentRequestItem item = (PaymentRequestItem) purApItem;
             if (item.getItemQuantity() != null && item.getExtendedPrice() !=null) {
                 if (item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                    KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
                 }
             }
         }

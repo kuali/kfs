@@ -27,7 +27,7 @@
 	<field name="suspenseCategory" class="java.lang.String"/>
 	<field name="sortedFieldValue" class="java.lang.String"/>
 	<field name="subTotal" class="java.math.BigDecimal"/>
-	<field name="displaySubtotalInd" class="java.lang.Boolean"/>
+	<field name="displaySubtotal" class="java.lang.Boolean"/>
 	<field name="totalInvoicesSuspended" class="java.lang.Long"/>
 	<field name="categoryDescription" class="java.lang.String"/>
 

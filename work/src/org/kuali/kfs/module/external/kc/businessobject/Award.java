@@ -96,6 +96,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String suspensionReason;
     private String instrumentTypeCode;
     private String invoicingOptions;
+    private String invoicingOptionDescription;
     private KualiDecimal minInvoiceAmount;
     private boolean autoApproveIndicator;
     private String lookupPersonUniversalIdentifier;
@@ -816,6 +817,15 @@ public class Award implements ContractsAndGrantsBillingAward {
     public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getInvoicingOptionDescription() {
+        return invoicingOptionDescription;
+    }
+
+    public void setInvoicingOptionDescription(String invoicingOptionDescription) {
+        this.invoicingOptionDescription = invoicingOptionDescription;
     }
 }
 

@@ -19,20 +19,20 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Agency;
-import org.kuali.kfs.module.cg.businessobject.CGFundManager;
+import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Primaryable;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.CodedAttribute;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -49,6 +49,13 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = { PROJECT_DIRECTOR_DECEASED };
 
     protected static final String AGENCY_TYPE_CODE_FEDERAL = "F";
+
+    protected boolean contractsGrantsBillingEnhancementActive;
+
+    public CGMaintenanceDocumentRuleBase() {
+        super();
+        contractsGrantsBillingEnhancementActive = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
+    }
 
     /**
      * Checks to see if the end date is after the begin date
@@ -122,18 +129,17 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @param <T>
-     * @param projectDirectors
-     * @param elementClass
+     *
+     * @param fundManagers
      * @param collectionName
      * @return
      */
-    protected <T extends CGFundManager> boolean checkFundManagersExist(List<T> fundManagers, Class<T> elementClass, String collectionName) {
+    protected boolean checkFundManagersExist(List<AwardFundManager> fundManagers, String collectionName) {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.FUND_MANAGER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
+        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(AwardFundManager.class, personUserPropertyName);
         int i = 0;
-        for (T fm : fundManagers) {
+        for (AwardFundManager fm : fundManagers) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
             String id = fm.getPrincipalId();
             if (StringUtils.isBlank(id) || (SpringContext.getBean(PersonService.class).getPerson(id) == null)) {

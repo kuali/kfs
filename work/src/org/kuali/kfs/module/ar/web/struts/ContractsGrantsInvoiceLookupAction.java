@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -62,8 +62,8 @@ public class ContractsGrantsInvoiceLookupAction extends ContractsGrantsMultipleV
 
         for (ResultRow row : resultTable) {
             // actual object ids are on sub result rows, not on parent rows
-            if (row instanceof ContractsGrantsInvoiceResultRow) {
-                for (ResultRow subResultRow : ((ContractsGrantsInvoiceResultRow) row).getSubResultRows()) {
+            if (row instanceof ContractsGrantsLookupResultRow) {
+                for (ResultRow subResultRow : ((ContractsGrantsLookupResultRow) row).getSubResultRows()) {
                     String objId = subResultRow.getObjectId();
                     selectedObjectIds.put(objId, objId);
                 }

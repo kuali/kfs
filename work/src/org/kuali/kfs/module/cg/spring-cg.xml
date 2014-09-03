@@ -105,6 +105,9 @@
     <bean id="contractsAndGrantsBillingService"  parent="contractsAndGrantsBillingService-parentBean"/>
     <bean id="contractsAndGrantsBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsBillingServiceImpl" abstract="true" />
 
+    <bean id="contractsAndGrantsLookupService"  parent="contractsAndGrantsLookupService-parentBean"/>
+    <bean id="contractsAndGrantsLookupService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsLookupServiceImpl" abstract="true" />
+
     <bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
     <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" >
     <property name="awardService" ref="awardService" />
@@ -131,10 +134,8 @@
 	<bean id="contractsAndGrantsModuleBillingService" parent="contractsAndGrantsModuleBillingService-parentBean" scope="prototype"/>
 	<bean id="contractsAndGrantsModuleBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleBillingServiceImpl" abstract="true" >
 		<property name="awardService" ref="awardService" />
-		<property name="parameterService" ref="parameterService" />
-		<property name="agencyService" ref="agencyService" />
-		<property name="cfdaService" ref="cfdaService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupService" ref="lookupService" />
 	</bean>
 
 	<!-- DAOs -->
@@ -163,6 +164,9 @@
 	
 	<bean id="proposalLookupableHelperService" parent="proposalLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="proposalLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+        <property name="contractsAndGrantsLookupService">
+            <ref bean="contractsAndGrantsLookupService" />
+        </property>
 	</bean>
 
 	<bean id="proposalLookupable"  parent="proposalLookupable-parentBean" scope="prototype"/>
@@ -177,8 +181,8 @@
         <property name="accountsReceivableModuleBillingService">
             <ref bean="accountsReceivableModuleBillingService" />
         </property>
-        <property name="personService">
-            <ref bean="personService" />
+        <property name="contractsAndGrantsLookupService">
+            <ref bean="contractsAndGrantsLookupService" />
         </property>
     </bean>
 
@@ -317,6 +321,9 @@
 		scope="prototype" parent="lookupableHelperService">
 		<property name="accountsReceivableModuleBillingService">
 			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 

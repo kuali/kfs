@@ -62,9 +62,9 @@ public class ReferralToCollectionsReportServiceImpl implements ReferralToCollect
     protected String proposalNumber;
     protected String accountNumber;
     protected String invoiceNumber;
-    protected boolean considerProposalNumberInd;
-    protected boolean considerAccountNumberInd;
-    protected boolean considerinvoiceNumberInd;
+    protected boolean considerProposalNumber;
+    protected boolean considerAccountNumber;
+    protected boolean considerinvoiceNumber;
 
     protected PersonService personService;
 
@@ -137,7 +137,7 @@ public class ReferralToCollectionsReportServiceImpl implements ReferralToCollect
 
         String collectorPrincName = lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME).toString();
         String collector = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.COLLECTOR).toString();
-        proposalNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.PROPOSAL_NUMBER).toString();
+        proposalNumber = lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER).toString();
         String agencyNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER).toString();
         invoiceNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.INVOICE_NUMBER).toString();
         accountNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.ACCOUNT_NUMBER).toString();
@@ -146,25 +146,25 @@ public class ReferralToCollectionsReportServiceImpl implements ReferralToCollect
             fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_NUMBER, agencyNumber);
         }
 
-        considerProposalNumberInd = false;
-        considerinvoiceNumberInd = false;
-        considerAccountNumberInd = false;
+        considerProposalNumber = false;
+        considerinvoiceNumber = false;
+        considerAccountNumber = false;
 
         // considering final docs
         fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotEmpty(proposalNumber.trim())) {
-            considerProposalNumberInd = true;
+            considerProposalNumber = true;
             fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
         if (ObjectUtils.isNotNull(invoiceNumber) && StringUtils.isNotEmpty(invoiceNumber.trim())) {
-            considerinvoiceNumberInd = true;
+            considerinvoiceNumber = true;
             fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_NUMBER, invoiceNumber);
         }
 
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber.trim())) {
-            considerAccountNumberInd = true;
+            considerAccountNumber = true;
             fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_NUMBER, accountNumber);
         }
 
@@ -394,15 +394,15 @@ public class ReferralToCollectionsReportServiceImpl implements ReferralToCollect
         boolean isValidIN = true;
         boolean isValidAN = true;
 
-        if (considerProposalNumberInd) {
+        if (considerProposalNumber) {
             isValidPN = refDetail.getProposalNumber().toString().equals(proposalNumber);
         }
 
-        if (considerinvoiceNumberInd) {
+        if (considerinvoiceNumber) {
             isValidIN = refDetail.getInvoiceNumber().toString().equals(invoiceNumber);
         }
 
-        if (considerAccountNumberInd) {
+        if (considerAccountNumber) {
             isValidAN = refDetail.getAccountNumber().toString().equals(accountNumber);
         }
 

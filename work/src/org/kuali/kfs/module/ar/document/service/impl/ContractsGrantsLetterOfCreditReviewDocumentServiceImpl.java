@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,12 +33,15 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditReviewDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements ContractsGrantsLetterOfCreditReviewDocumentService {
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
     protected BusinessObjectService businessObjectService;
@@ -96,54 +99,64 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
      */
     @Override
     public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
-
-        // 2. Get the Cumulative amount from GL Balances.
         KualiDecimal balAmt = KualiDecimal.ZERO;
         KualiDecimal expAmt = KualiDecimal.ZERO;
         KualiDecimal incAmt = KualiDecimal.ZERO;
         KualiDecimal claimOnCash = KualiDecimal.ZERO;
-        List<Balance> glBalances = new ArrayList<Balance>();
         Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
-        List<Integer> fiscalYears = new ArrayList<Integer>();
-        Calendar c = Calendar.getInstance();
-
 
         Integer fiscalYear = getUniversityDateService().getFiscalYear(awardBeginningDate);
 
-        for (Integer i = fiscalYear; i <= currentYear; i++) {
-            fiscalYears.add(i);
-        }
-        List<String> objectTypeCodeList = new ArrayList<String>();
-        objectTypeCodeList.add(ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-        objectTypeCodeList.add(ArPropertyConstants.INCOME_OBJECT_TYPE);
+        for (Integer currFiscalYear = fiscalYear; currFiscalYear <= currentYear; currFiscalYear++) {
+            final List<String> objectTypeCodeList = getIncomeAndExpenseObjectTypesForFiscalYear(currFiscalYear);
+            final Collection<Balance> glBalances = retrieveBalancesForAwardAccount(awardAccount, currFiscalYear, objectTypeCodeList);
 
-        for (Integer eachFiscalYr : fiscalYears) {
-            Map<String, Object> balanceKeys = new HashMap<String, Object>();
-            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
-            glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
-        }
-        for (Balance bal : glBalances) {
-            if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+            for (Balance bal : glBalances) {
+                if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                    if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
-                    expAmt = expAmt.add(balAmt);
-                }
-                else if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.INCOME_OBJECT_TYPE)) {
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                        expAmt = expAmt.add(balAmt);
+                    }
+                    else if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.INCOME_OBJECT_TYPE)) {
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
-                    incAmt = incAmt.add(balAmt);
+                        incAmt = incAmt.add(balAmt);
+                    }
                 }
             }
         }
-
         return claimOnCash = incAmt.subtract(expAmt);
+    }
 
+    /**
+     * Looks up a Collection of Balances for a given award Account
+     * @param awardAccount award account to find balances for
+     * @param fiscalYear the fiscal year to find balances for
+     * @param objectTypeCodeList the selection of object type codes the balance may have
+     */
+    protected Collection<Balance> retrieveBalancesForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, Integer fiscalYear, List<String> objectTypeCodeList) {
+        Map<String, Object> balanceKeys = new HashMap<String, Object>();
+        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+        balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
+        return getBusinessObjectService().findMatching(Balance.class, balanceKeys);
+    }
 
+    /**
+     * Retrieves the SystemOptions for the given fiscal year and pulls the income/cash and expense/expenditure object types
+     * from that business object
+     * @param fiscalYear the fiscal year to find income and expense object types for
+     * @return a List of the object type codes for the income and expense object types for the given fiscal year
+     */
+    protected List<String> getIncomeAndExpenseObjectTypesForFiscalYear(Integer fiscalYear) {
+        final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+        List<String> expenseTypes = new ArrayList<>();
+        expenseTypes.add(systemOptions.getFinObjectTypeIncomecashCode());
+        expenseTypes.add(systemOptions.getFinObjTypeExpenditureexpCd());
+        return expenseTypes;
     }
 
     /**
@@ -155,7 +168,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
     @Override
     public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
 
-        // 1. To get the billed to date amount for every award account based on the criteria passed.
+        // Get the billed to date amount for every award account based on the criteria passed.
         List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = getAwardAccountObjectCodeTotalBilledDao().getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
         KualiDecimal billedAmount = KualiDecimal.ZERO;
         KualiDecimal amountAvailableToDraw = KualiDecimal.ZERO;

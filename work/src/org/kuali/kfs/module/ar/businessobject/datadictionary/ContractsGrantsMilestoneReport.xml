@@ -30,7 +30,7 @@
 				<ref bean="ContractsGrantsMilestoneReport-milestoneNumber" />
 				<ref bean="ContractsGrantsMilestoneReport-milestoneAmount" />
 				<ref bean="ContractsGrantsMilestoneReport-milestoneExpectedCompletionDate" />
-				<ref bean="ContractsGrantsMilestoneReport-billedIndicator" />
+				<ref bean="ContractsGrantsMilestoneReport-billed" />
 				<ref bean="ContractsGrantsMilestoneReport-active" />
 			</list>
 		</property>
@@ -143,9 +143,9 @@
 		<property name="shortLabel" value="ExpctdMileStnDate" />
 	</bean>
 
-	<bean id="ContractsGrantsMilestoneReport-billedIndicator" parent="ContractsGrantsMilestoneReport-billedIndicator-parentBean" />
-	<bean id="ContractsGrantsMilestoneReport-billedIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="billedIndicator" />
+	<bean id="ContractsGrantsMilestoneReport-billed" parent="ContractsGrantsMilestoneReport-billed-parentBean" />
+	<bean id="ContractsGrantsMilestoneReport-billed-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="billed" />
 		<property name="label" value="Billed" />
 		<property name="shortLabel" value="Billed" />
 	</bean>
@@ -178,7 +178,7 @@
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
-				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
@@ -189,7 +189,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
-				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

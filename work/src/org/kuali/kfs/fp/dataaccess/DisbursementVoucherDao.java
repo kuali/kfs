@@ -22,13 +22,6 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 public interface DisbursementVoucherDao {
 
     /**
-     * Saves the Disbursement Voucher Document
-     *
-     * @param document
-     */
-    public void save(DisbursementVoucherDocument document);
-
-    /**
      * Returns a document by its document number
      *
      * @param fdocNbr
@@ -45,24 +38,5 @@ public interface DisbursementVoucherDao {
      */
     public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly);
 
-    /* Start TEM REFUND Merge */
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status that
-     * are not AR refunds
-     *
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getNonARDocumentsByHeaderStatus(String statusCode);
-
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status and
-     * are AR refunds
-     *
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getARDocumentsByHeaderStatus(String statusCode);
-    /* End TEM REFUND Merge */
 }
 

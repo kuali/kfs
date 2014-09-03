@@ -24,16 +24,13 @@ import org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocu
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Form Class for Contracts and Grants Invoice Document.
  */
 public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentForm {
-    private KualiDecimal currentTotal = KualiDecimal.ZERO;
 
     /**
      * @see org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm#getExtraButtons()
@@ -50,22 +47,13 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
         ContractsGrantsInvoiceDocumentPresentationController presoController = (ContractsGrantsInvoiceDocumentPresentationController) docHelperService.getDocumentPresentationController(cgInvoiceDocument);
         // add Correct Button
         if (presoController.canErrorCorrect(cgInvoiceDocument)) {
-            addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
+            extraButtons.add(generateErrorCorrectionButton());
         }
         // add Prorate Button
-        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.CG_PRORATE_BILL_IND))
-                && !presoController.isBillingFrequencyMilestone(cgInvoiceDocument) && !presoController.isBillingFrequencyPredeterminedBillingSchedule(cgInvoiceDocument) && !cgInvoiceDocument.isCorrectionDocument()) {
-            addExtraButton("methodToCall.prorateBill", buttonUrl + "buttonsmall_prorate.gif", "Prorate Bill");
+        if (presoController.canProrate(cgInvoiceDocument)) {
+            addExtraButton(ArConstants.PRORATE_BUTTON_METHOD, buttonUrl + ArConstants.PRORATE_BUTTON_FILE_NAME, ArConstants.PRORATE_BUTTON_ALT_TEXT);
         }
         return extraButtons;
-    }
-
-    /**
-     * Constructs a ContractsGrantsInvoiceDocumentForm.java. Also sets new customer invoice document detail to a newly constructed
-     * customer invoice detail.
-     */
-    public ContractsGrantsInvoiceDocumentForm() {
-        super();
     }
 
     /**
@@ -73,7 +61,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "CINV";
+        return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE;
     }
 
     /**
@@ -84,14 +72,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
     }
 
     public KualiDecimal getCurrentTotal() {
-
-        currentTotal = getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDateAmount());
-        return currentTotal;
+        return getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDateAmount());
     }
-    public void setCurrentTotal(KualiDecimal currentTotal) {
-        this.currentTotal = currentTotal;
-    }
-
-
 
 }

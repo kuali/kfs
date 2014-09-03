@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cg.fixture;
 
 import java.sql.Date;
 
+import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -29,24 +30,24 @@ public enum AwardFixture {
     CG_AWARD2(new Long(11), "1968-07-01", "1969-06-30", new KualiDecimal(7708.00), new KualiDecimal(2016.00), KualiDecimal.ZERO, false, null, true, null),
     CG_AWARD3(new Long(1234), "2011-01-01", "2011-09-22", new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, null, true, null),
 
-    CG_AWARD_INV_AWARD(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, null),
-    CG_AWARD_INV_ACCOUNT(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INCOME_ACCOUNT, true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_INV_CCA(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT, true, null),
+    CG_AWARD_INV_AWARD(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, null),
+    CG_AWARD_INV_ACCOUNT(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.ACCOUNT.getCode(), true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_INV_CCA(new Long(111), "2011-10-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.CONTRACT_CONTROL.getCode(), true, null),
 
-    CG_AWARD_MONTHLY_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_MILESTONE_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE),
-    CG_AWARD_PREDETERMINED_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE),
-    CG_AWARD_QUAR_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_SEMI_ANN_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_ANNUAL_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_LOCB_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE),
-    CG_AWARD_MONTHLY_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_MILESTONE_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE),
-    CG_AWARD_PREDETERMINED_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE),
-    CG_AWARD_QUAR_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_SEMI_ANN_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_ANNUAL_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE),
-    CG_AWARD_LOCB_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGPropertyConstants.INV_AWARD, true, CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
+    CG_AWARD_MONTHLY_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_MILESTONE_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE),
+    CG_AWARD_PREDETERMINED_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE),
+    CG_AWARD_QUAR_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_SEMI_ANN_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_ANNUAL_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_LOCB_BILLED_DATE_NULL(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE),
+    CG_AWARD_MONTHLY_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_MILESTONE_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE),
+    CG_AWARD_PREDETERMINED_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE),
+    CG_AWARD_QUAR_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_SEMI_ANN_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_ANNUAL_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE),
+    CG_AWARD_LOCB_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", null, null, null, false, CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode(), true, CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
 
     private Long proposalNumber;
     private String awardBeginningDate;

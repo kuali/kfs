@@ -15,18 +15,10 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * LookupAction file for Ticklers Report.
@@ -39,30 +31,6 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
     @Override
     public String generateReportTitle(LookupForm lookupForm) {
         return null;
-    }
-
-    /**
-     * This method Prepares the list of search criteria given in lookupscreen for displaying it PDF file.
-     *
-     * @param searchCriteria
-     * @param fieldsForLookup
-     */
-    @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        for (Object field : fieldsForLookup.keySet()) {
-
-            String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
-            String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
-
-            if (!fieldString.equals("") && !fieldString.equals(ArPropertyConstants.TicklersReportFields.COLLECTOR) && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
-                criteriaData.setSearchFieldLabel(label);
-                criteriaData.setSearchFieldValue(valueString);
-                searchCriteria.add(criteriaData);
-            }
-        }
     }
 
     /**

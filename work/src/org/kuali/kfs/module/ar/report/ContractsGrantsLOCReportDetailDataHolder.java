@@ -37,7 +37,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     private BigDecimal subTotal;
 
-    public boolean displaySubtotalInd;
+    public boolean displaySubtotal;
 
 
     /**
@@ -69,17 +69,17 @@ public class ContractsGrantsLOCReportDetailDataHolder {
     }
 
     /**
-     * @return displaySubtotalInd
+     * @return displaySubtotal
      */
-    public boolean isDisplaySubtotalInd() {
-        return displaySubtotalInd;
+    public boolean isDisplaySubtotal() {
+        return displaySubtotal;
     }
 
     /**
-     * @param displaySubtotalInd
+     * @param displaySubtotal
      */
-    public void setDisplaySubtotalInd(boolean displaySubtotalInd) {
-        this.displaySubtotalInd = displaySubtotalInd;
+    public void setDisplaySubtotal(boolean displaySubtotal) {
+        this.displaySubtotal = displaySubtotal;
     }
 
     /**

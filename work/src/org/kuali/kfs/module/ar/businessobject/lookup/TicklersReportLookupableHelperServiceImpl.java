@@ -86,7 +86,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             fieldValues.put(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, activityCode);
         }
 
-        final String proposalNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER);
+        final String proposalNumber = (String) lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
             fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
         }
@@ -97,7 +97,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         }
 
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
-        fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP_IND, "true");
+        fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP, "true");
 
         Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues,false,null);
 
@@ -172,7 +172,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                 if (ObjectUtils.isNotNull(event.getCollectionActivityType())) {
                     ticklerReport.setActivityDescription(event.getCollectionActivityType().getActivityDescription());
                 }
-                ticklerReport.setCompletedInd(event.isCompletedInd());
+                ticklerReport.setCompleted(event.isCompleted());
                 ticklerReport.setActivityDate(event.getActivityDate());
                 ticklerReport.setUser(event.getUser().getName());
                 displayList.add(ticklerReport);
@@ -224,7 +224,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
                     col.setColumnAnchor(a);
                 }
-                else if (col.getPropertyName().equals(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER)) {
+                else if (col.getPropertyName().equals(ArPropertyConstants.PROPOSAL_NUMBER)) {
                     String url = this.getAwardLookupUrl(propValue);
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
@@ -274,7 +274,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
+        params.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
     }
 

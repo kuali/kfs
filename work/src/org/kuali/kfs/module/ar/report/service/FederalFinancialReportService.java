@@ -15,20 +15,12 @@
  */
 package org.kuali.kfs.module.ar.report.service;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
-
-import com.lowagie.text.DocumentException;
 
 
 /**
  * Services to support the Federal Financial Report
  */
 public interface FederalFinancialReportService {
-    public static final Object FEDERAL_FORM_425 = "425";
-    public static final Object FEDERAL_FORM_425A = "425A";
     public static final String FINANCIAL_FORM_REQUIRED = "Please select a Financial Form to generate.";
     public static final String FISCAL_YEAR_AND_PERIOD_REQUIRED = "Enter both period and fiscal year.";
     public static final String PROPOSAL_NUMBER_REQUIRED = "Please enter a proposal Number for SF425.";
@@ -61,17 +53,4 @@ public interface FederalFinancialReportService {
      */
     public String getUrlForPrintInvoice(String basePath, String docId, String period, String year, String agencyNumber, String formType, String methodToCall);
 
-    /**
-     * Mangles the given report file into a PDF
-     * @param report the original report to PDFerize
-     * @param formType the type of form we're reporting on
-     * @param period the accounting period
-     * @param proposalNumber the proposal number of the report
-     * @param agencyNumber the agency number of the report
-     * @param useJavascript whether javascript is being used, which affects content disposition
-     * @return the report holder with the bytes of the PDF and the content disposition
-     * @throws DocumentException if the pdf cannot be written
-     * @throws IOException for more general output errors
-     */
-    public ReportPDFHolder pdferizeReport(File report, String formType, String period, String proposalNumber, String agencyNumber, boolean useJavascript) throws DocumentException, IOException;
 }

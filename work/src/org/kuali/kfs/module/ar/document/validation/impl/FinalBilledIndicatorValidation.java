@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import java.util.Iterator;
+import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -25,22 +25,20 @@ import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is Validation class for FinalBilledIndicator.
  */
 public class FinalBilledIndicatorValidation {
 
-    private static final String INVOICE_NOT_FINALIZED_ERROR_MESSAGE = "The Invoice is not Final.";
-    private static final String INVOICE_NOT_FINAL_ERROR_MESSAGE = "The Invoice is not marked as Final Bill.";
-    private static final String INVALID_INVOICE_ERROR_MESSAGE = "Not a valid Contracts and Grants Invoice document number.";
-    private static final String NO_ENTRY_ERROR_MESSAGE = "Please enter a Contracts and Grants Invoice document number.";
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinalBilledIndicatorValidation.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinalBilledIndicatorValidation.class);
+
     /**
      * This method validates the Document for valid invoices for reversal.
      *
@@ -49,14 +47,14 @@ public class FinalBilledIndicatorValidation {
      */
     public static boolean validateDocument(Document document) {
         boolean valid = true;
-        if (((FinalBilledIndicatorDocument) document).getInvoiceEntries() == null || ((FinalBilledIndicatorDocument) document).getInvoiceEntries().size() == 0) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, NO_ENTRY_ERROR_MESSAGE);
+
+        List<FinalBilledIndicatorEntry> invoiceEntries = ((FinalBilledIndicatorDocument) document).getInvoiceEntries();
+        if (CollectionUtils.isEmpty(invoiceEntries)) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_NO_INVOICE);
             valid = false;
-        }
-        else {
-            Iterator<FinalBilledIndicatorEntry> iterator = ((FinalBilledIndicatorDocument) document).getInvoiceEntries().iterator();
-            while (iterator.hasNext()) {
-                valid &= validateEntry(iterator.next());
+        } else {
+            for (FinalBilledIndicatorEntry entry: invoiceEntries) {
+                valid &= validateEntry(entry);
             }
         }
         return valid;
@@ -69,8 +67,8 @@ public class FinalBilledIndicatorValidation {
      * @return
      */
     public static boolean validateEntry(FinalBilledIndicatorEntry entry) {
-        if (entry == null || entry.getInvoiceDocumentNumber() == null) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, NO_ENTRY_ERROR_MESSAGE);
+        if (ObjectUtils.isNull(entry) || ObjectUtils.isNull(entry.getInvoiceDocumentNumber())) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_NO_INVOICE);
             return false;
         }
 
@@ -86,24 +84,18 @@ public class FinalBilledIndicatorValidation {
     public static boolean validContractsGrantsInvoiceValidation(FinalBilledIndicatorEntry entry) {
         String docNumber = entry.getInvoiceDocumentNumber();
 
-        // KFSMI-7919: invalid document number if not numeric
-        if (!StringUtils.isNumeric(docNumber)) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
-            return false;
-        }
-
         Document testDocument;
         try {
             if (SpringContext.getBean(DocumentService.class).documentExists(docNumber)) {
                 testDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docNumber);
                 if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE))) {
-                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_INVALID_INVOICE);
                     return false;
                 }
                 return entryValidations((ContractsGrantsInvoiceDocument) testDocument);
             }
             else {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_INVALID_INVOICE);
                 return false;
             }
         }
@@ -120,12 +112,13 @@ public class FinalBilledIndicatorValidation {
      * @return
      */
     public static boolean entryValidations(ContractsGrantsInvoiceDocument document) {
-        if (! ( DocumentStatus.FINAL.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()) || DocumentStatus.PROCESSED.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()) ) ) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVOICE_NOT_FINALIZED_ERROR_MESSAGE);
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.isFinal() && !workflowDocument.isProcessed()) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_FINAL);
             return false;
         }
         if (!document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVOICE_NOT_FINAL_ERROR_MESSAGE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_MARKED_FINAL_BILL);
             return false;
         }
         return true;

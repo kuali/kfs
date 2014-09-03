@@ -27,23 +27,23 @@ public enum DunningLetterTemplateFixture {
 
     CG_DLTS1("LT1", "Letter Template for Test", "Test File name", true);
 
-    private String letterTemplateCode;
-    private String letterTemplateDescription;
+    private String dunningLetterTemplateCode;
+    private String dunningLetterTemplateDescription;
     private String filename;
     private boolean active;
 
-    private DunningLetterTemplateFixture(String letterTemplateCode, String letterTemplateDescription, String filename, boolean active) {
+    private DunningLetterTemplateFixture(String dunningLetterTemplateCode, String dunningLetterTemplateDescription, String filename, boolean active) {
 
-        this.letterTemplateCode = letterTemplateCode;
-        this.letterTemplateDescription = letterTemplateDescription;
+        this.dunningLetterTemplateCode = dunningLetterTemplateCode;
+        this.dunningLetterTemplateDescription = dunningLetterTemplateDescription;
         this.filename = filename;
         this.active = active;
     }
 
     public DunningLetterTemplate createDunningLetterTemplate() {
         DunningLetterTemplate dunningLetterTemplate = new DunningLetterTemplate();
-        dunningLetterTemplate.setLetterTemplateCode(this.letterTemplateCode);
-        dunningLetterTemplate.setLetterTemplateDescription(this.letterTemplateDescription);
+        dunningLetterTemplate.setDunningLetterTemplateCode(this.dunningLetterTemplateCode);
+        dunningLetterTemplate.setDunningLetterTemplateDescription(this.dunningLetterTemplateDescription);
         dunningLetterTemplate.setFilename(this.filename);
         dunningLetterTemplate.setActive(this.active);
         return dunningLetterTemplate;

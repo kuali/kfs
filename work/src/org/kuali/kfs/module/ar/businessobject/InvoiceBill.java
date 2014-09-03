@@ -36,17 +36,17 @@ public class InvoiceBill extends PersistableBusinessObjectBase {
     private String billDescription;
     private Long billIdentifier;
     private Date billDate;
-    private boolean billedIndicator;
+    private boolean billed;
     private KualiDecimal estimatedAmount;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
 
-    public boolean isBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    public void setBilledIndicator(boolean billedIndicator) {
-        this.billedIndicator = billedIndicator;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     /**
@@ -236,7 +236,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
 
-        m.put("isBilledIndicator", this.billedIndicator);
+        m.put("billed", this.billed);
 
         if (this.estimatedAmount != null) {
             m.put("estimatedAmount", this.estimatedAmount.toString());

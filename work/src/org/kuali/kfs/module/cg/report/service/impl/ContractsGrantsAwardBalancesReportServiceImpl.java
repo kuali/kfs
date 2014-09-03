@@ -40,13 +40,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsGrantsAwardBalancesReportService {
 
     protected ReportGenerationService reportGenerationService;
+    private ReportInfo contractsGrantsAwardBalancesReportInfo;
 
     @Override
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
 
         return generateReport(reportDataHolder, contractsGrantsAwardBalancesReportInfo, baos);
     }
-
 
     /**
      *
@@ -100,8 +100,6 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
     }
-
-    private ReportInfo contractsGrantsAwardBalancesReportInfo;
 
     /**
      *

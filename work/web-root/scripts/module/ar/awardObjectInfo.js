@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2009 The Kuali Foundation
+ * Copyright 2008-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,42 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function loadAwardInfo( proposalNumberFieldName ) {
-	alert(2);
-    var proposalNumber = 67;
-    var proposalNumber = dwr.util.getValue(proposalNumberFieldName).toUpperCase();
-    alert(1);
-	if (proposalNumber=='') {
-		clearRecipients( "document.agencyNumber" );
-		clearRecipients( "document.agencyName" );
-		clearRecipients( "document.customerNumber" );
-		clearRecipients( "document.customerName" );
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-				alert(data);
-			if ( data != null && typeof data == 'object' ) {
-				alert(data.agency.agencyNumber);
-				setRecipientValue( "document.agencyNumber", data.agency.agencyNumber );
-				setRecipientValue( "document.agencyName", data.agency.fullName );
-				setRecipientValue( "document.customerNumber", data.agency.customer.customerNumber );
-				setRecipientValue( "document.customerName", data.agency.customer.customerName );
-			} else {
-				setRecipientValue( "document.agencyNumber", wrapError( "award not found" ), true );			
-				clearRecipients( "document.agencyName" );
-				clearRecipients( "document.customerNumber" );
-				clearRecipients( "document.customerName" );
-			} },
-			errorHandler:function( errorMessage ) {
-				setRecipientValue( "document.agencyNumber", wrapError( "award not found" ), true );			
-				clearRecipients( "document.agencyName" );
-				clearRecipients( "document.customerNumber" );
-				clearRecipients( "document.customerName" );
-			}
-		};
-		CollectionActivityDocumentService.retrieveAwardByProposalNumber( proposalNumber, dwrReply );
-	}
-}
 
 function clearDate(booleanFieldName, dateFieldName) {
 	var clearDate = dwr.util.getValue( booleanFieldName );

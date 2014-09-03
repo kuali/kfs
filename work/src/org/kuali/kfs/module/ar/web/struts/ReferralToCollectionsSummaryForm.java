@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
-import java.util.ArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -29,14 +29,12 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<ReferralToCollectionsLookupResult> referralToCollectionsLookupResults;
-    private boolean awardInvoicedInd;
 
     /**
-     * Default constructor. Initializes referralToCollectionsLookupResults and awardInvoicedInd.
+     * Default constructor. Initializes referralToCollectionsLookupResults.
      */
     public ReferralToCollectionsSummaryForm() {
         referralToCollectionsLookupResults = new ArrayList<ReferralToCollectionsLookupResult>();
-        awardInvoicedInd = false;
     }
 
     /**
@@ -86,21 +84,4 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
         return referralToCollectionsLookupResult;
     }
 
-    /**
-     * Gets the awardInvoicedInd attribute.
-     *
-     * @return Returns the awardInvoicedInd.
-     */
-    public boolean isAwardInvoicedInd() {
-        return awardInvoicedInd;
-    }
-
-    /**
-     * Sets the awardInvoicedInd attribute.
-     *
-     * @param awardInvoicedInd The awardInvoicedInd to set.
-     */
-    public void setAwardInvoicedInd(boolean awardInvoicedInd) {
-        this.awardInvoicedInd = awardInvoicedInd;
-    }
 }

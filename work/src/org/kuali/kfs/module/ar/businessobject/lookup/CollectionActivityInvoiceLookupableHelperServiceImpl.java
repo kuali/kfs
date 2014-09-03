@@ -25,9 +25,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -37,16 +37,18 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Defines a lookupable helper service class for Referral To Collections Report.
+ * Defines a lookupable helper service class for the Collection Activity Report.
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
+    protected CollectionActivityDocumentService collectionActivityDocumentService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
@@ -61,8 +63,8 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         List<CollectionActivityInvoiceLookup> results = new ArrayList<CollectionActivityInvoiceLookup>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        Long proposalNumber = new Long((String) fieldValues.get(ArPropertyConstants.CollectionActivityDocumentFields.PROPOSAL_NUMBER));
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber, "");
+        Long proposalNumber = new Long((String) fieldValues.get(ArPropertyConstants.PROPOSAL_NUMBER));
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
 
         for (ContractsGrantsInvoiceDocument invoiceDocument : cgInvoices) {
             results.add(convert(invoiceDocument));
@@ -86,7 +88,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail())) {
             cl.setBillingFrequency(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency());
         }
-        cl.setPaymentAmount(contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
+        cl.setPaymentAmount(getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
         cl.setBalanceDue(cl.getInvoiceAmount().subtract(cl.getPaymentAmount()));
         cl.setAge(contractsGrantsInvoiceDocument.getAge());
         return cl;
@@ -155,7 +157,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
                 }
                 lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                 HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-                CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+                ResultRow row = new ResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
                     row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                     row.setRowId(returnUrl.getName());
                     row.setReturnUrlHtmlData(returnUrl);
@@ -187,5 +189,13 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
+        return collectionActivityDocumentService;
+    }
+
+    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
+        this.collectionActivityDocumentService = collectionActivityDocumentService;
     }
 }

@@ -26,7 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -78,8 +78,8 @@ public class DunningLetterDistributionLookupAction extends ContractsGrantsMultip
 
         for (ResultRow row : resultTable) {
             // actual object ids are on sub result rows, not on parent rows
-            if (row instanceof DunningLetterDistributionResultRow) {
-                for (ResultRow subResultRow : ((DunningLetterDistributionResultRow) row).getSubResultRows()) {
+            if (row instanceof ContractsGrantsLookupResultRow) {
+                for (ResultRow subResultRow : ((ContractsGrantsLookupResultRow) row).getSubResultRows()) {
                     String objId = subResultRow.getObjectId();
                     selectedObjectIds.put(objId, objId);
                 }

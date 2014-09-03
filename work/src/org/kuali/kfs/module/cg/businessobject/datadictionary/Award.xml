@@ -122,9 +122,6 @@
 				<bean parent="CollectionDefinition" p:name="awardSubcontractors"
 					p:label="Award Subcontractors" p:shortLabel="Subcontractors"
 					p:elementLabel="Subcontractor" />
-				<bean parent="CollectionDefinition" p:name="milestones"
-					p:label="Milestones" p:shortLabel="Milestones" p:elementLabel="Milestone" />
-
 			</list>
 		</property>
 		<property name="relationships">

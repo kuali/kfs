@@ -48,7 +48,7 @@ public interface ContractsAndGrantsLetterOfCreditFund extends ExternalizableBusi
      *
      * @return Returns the fundDescr.
      */
-    public String getFundDescription();
+    public String getLetterOfCreditFundDescription();
 
 
     /**

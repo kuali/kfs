@@ -68,29 +68,22 @@ function toggle(id) {
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<ar:paymentApplicationControlInformation
-		isCustomerSelected="${isCustomerSelected}"
+	<ar:paymentApplicationControlInformation isCustomerSelected="${isCustomerSelected}"
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
 		customerAttributes="${customerAttributes}"
 		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
 		invoiceAttributes="${invoiceAttributes}" readOnly="${readOnly}" />
 
-	<c:if test="${empty KualiForm.editingMode['errorCorrection']}">
-		<ar:paymentApplicationSummaryOfAppliedFunds
-			isCustomerSelected="${isCustomerSelected}"
-			hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-			readOnly="${readOnly}" />
+	<ar:paymentApplicationSummaryOfAppliedFunds isCustomerSelected="${isCustomerSelected}"
+		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" readOnly="${readOnly}" />
 
-		<ar:paymentApplicationQuickApplyToInvoice
-			isCustomerSelected="${isCustomerSelected}"
-			hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-			readOnly="${readOnly}"
-			customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
-			invoiceAttributes="${invoiceAttributes}" />
-	</c:if>
+	<ar:paymentApplicationQuickApplyToInvoice isCustomerSelected="${isCustomerSelected}"
+		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
+		readOnly="${readOnly}"
+		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
+		invoiceAttributes="${invoiceAttributes}" />
 
-	<ar:paymentApplicationApplyToInvoiceDetail
-		customerAttributes="${customerAttributes}"
+	<ar:paymentApplicationApplyToInvoiceDetail customerAttributes="${customerAttributes}"
 		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
 		invoiceAttributes="${invoiceAttributes}" readOnly="${readOnly}" />
 

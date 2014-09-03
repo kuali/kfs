@@ -47,7 +47,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private String activityComment;
     private Date activityDate;
     private Date followupDate;
-    private boolean completedInd;
+    private boolean completed;
     private Date completedDate;
     private String userPrincipalId;
 
@@ -367,21 +367,21 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the completedInd attribute.
+     * Gets the completed attribute.
      *
-     * @return Return the completedInd
+     * @return Return the completed
      */
-    public boolean isCompletedInd() {
-        return completedInd;
+    public boolean isCompleted() {
+        return completed;
     }
 
     /**
-     * Sets the completedInd attribute.
+     * Sets the completed attribute.
      *
-     * @param completedInd The completedInd to set.
+     * @param completed The completed to set.
      */
-    public void setCompletedInd(boolean completedInd) {
-        this.completedInd = completedInd;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     /**

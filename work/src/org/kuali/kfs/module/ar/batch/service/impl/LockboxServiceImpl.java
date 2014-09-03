@@ -102,7 +102,7 @@ public class LockboxServiceImpl implements LockboxService {
 
     Lockbox ctrlLockbox;
     CashControlDocument cashControlDocument;
-    boolean anyRecordsFoundInd;
+    boolean anyRecordsFound = false;
 
 
 
@@ -112,7 +112,7 @@ public class LockboxServiceImpl implements LockboxService {
 
         ctrlLockbox = new Lockbox();
         cashControlDocument = null;
-        anyRecordsFoundInd = false;
+        anyRecordsFound = false;
         try {
             //  create the pdf doc
             com.lowagie.text.Document pdfdoc = getPdfDoc();
@@ -139,7 +139,7 @@ public class LockboxServiceImpl implements LockboxService {
                 }
 
                 //  if no records were found, write something useful to the report
-                if (!anyRecordsFoundInd) {
+                if (!anyRecordsFound) {
                     writeDetailLine(pdfdoc, "NO LOCKBOX RECORDS WERE FOUND");
                 }
 
@@ -178,7 +178,7 @@ public class LockboxServiceImpl implements LockboxService {
     @Override
     @Transactional
     public void processLockbox(Lockbox lockbox, com.lowagie.text.Document pdfdoc) {
-        anyRecordsFoundInd = true;
+        anyRecordsFound = true;
         LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
 
         //  retrieve the processingOrg (system information) for this lockbox number
@@ -413,12 +413,12 @@ public class LockboxServiceImpl implements LockboxService {
             throw new RuntimeException("A Exception was thrown while trying to load PayApp #" + payAppDocNumber + ".", e);
         }
 
-        boolean isAutoApprove = canAutoApprove(customerInvoiceDocument, lockbox, payAppDoc);
+        boolean autoApprove = canAutoApprove(customerInvoiceDocument, lockbox, payAppDoc);
         String annotation = "CREATED & SAVED";
 
         //  if the lockbox amount matches the invoice amount, then create, save and approve a PayApp, and then
         // mark the invoice
-        if (isAutoApprove){
+        if (autoApprove){
             LOG.info("   lockbox amount matches invoice total document amount [" + customerInvoiceDocument.getTotalDollarAmount() + "].");
             annotation = "CREATED, SAVED, and BLANKET APPROVED";
 
@@ -480,9 +480,9 @@ public class LockboxServiceImpl implements LockboxService {
     }
 
     protected boolean canAutoApprove(CustomerInvoiceDocument invoice, Lockbox lockbox, PaymentApplicationDocument payAppDoc) {
-        boolean returnInd = invoice.getOpenAmount().equals(lockbox.getInvoicePaidOrAppliedAmount());
-        returnInd &= ObjectUtils.isNotNull(payAppDoc.getCashControlDetail().getCustomerNumber());
-        return returnInd;
+        boolean retVal = invoice.getOpenAmount().equals(lockbox.getInvoicePaidOrAppliedAmount());
+        retVal &= ObjectUtils.isNotNull(payAppDoc.getCashControlDetail().getCustomerNumber());
+        return retVal;
     }
 
     protected void routePayAppWithoutBusinessRules(String payAppDocNumber, String annotation) {

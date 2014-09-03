@@ -56,6 +56,7 @@ public class Agency implements ContractsAndGrantsBillingAgency, MutableInactivat
         setDunsPlusFourNumber(kcSponsor.getDunsPlusFourNumber());
         setStateAgencyIndicator(kcSponsor.isStateAgency());
         setCustomerTypeCode(kcSponsor.getCustomerTypeCode());
+        setCustomerNumber(kcSponsor.getCustomerNumber());
         setActive(kcSponsor.isActive());
         agencyAddresses = new ArrayList<AgencyAddress>();
         agencyAddresses.add(new AgencyAddress(this, kcSponsor.getContactInformation()));

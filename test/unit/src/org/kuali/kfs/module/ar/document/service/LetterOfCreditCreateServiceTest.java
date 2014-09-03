@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import org.kuali.kfs.module.ar.ArConstants;
@@ -34,7 +33,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -54,7 +52,7 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
     }
 
     @SuppressWarnings("null")
-    public void testCreateCashControlDocuments() {
+    public void testCreateCashControlDocuments() throws Exception {
         // To set the input parameters.
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         LetterOfCreditCreateService leterOfCreditCreateService = SpringContext.getBean(LetterOfCreditCreateService.class);
@@ -70,47 +68,28 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
         // To create error file and store all the errors in it.
         File errOutPutFile = new File(errOutputFile);
         PrintStream outputFileStream = null;
-
-        try {
-            outputFileStream = new PrintStream(errOutPutFile);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        outputFileStream = new PrintStream(errOutPutFile);
 
         KualiDecimal totalAmount = new KualiDecimal(1000);
 
         String documentNumber = leterOfCreditCreateService.createCashControlDocuments(null, null, null, totalAmount, outputFileStream);
         // To check if both cash control document and payment application document has been created.
         CashControlDocument cashcontrolDocument = null;
-
-        try {
-            cashcontrolDocument = (CashControlDocument) documentService.getByDocumentHeaderId(documentNumber);
-        }
-        catch (WorkflowException ex) {
-
-            ex.printStackTrace();
-        }
+        cashcontrolDocument = (CashControlDocument) documentService.getByDocumentHeaderId(documentNumber);
 
         assertNotNull(cashcontrolDocument);
 
         if (ObjectUtils.isNotNull(cashcontrolDocument)) {
-
             PaymentApplicationDocument paymentApplicationDocument = null;
-
-
             paymentApplicationDocument = cashcontrolDocument.getCashControlDetail(0).getReferenceFinancialDocument();
-
             assertNotNull(paymentApplicationDocument);
-
         }
-
     }
 
     /**
      * To test if there is a cash control document existing in saved / enroute/processed state.
      */
-    public void testValidatecashControlDocument() {
+    public void testValidatecashControlDocument() throws Exception {
 
         LetterOfCreditCreateService leterOfCreditCreateService = SpringContext.getBean(LetterOfCreditCreateService.class);
 
@@ -119,44 +98,26 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
 
         File errOutPutFile = new File("testValidatecashControlDocument");
         PrintStream outputFileStream = null;
+        outputFileStream = new PrintStream(errOutPutFile);
 
-        try {
-            outputFileStream = new PrintStream(errOutPutFile);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CashControlDocument cashControlDoc = (CashControlDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashControlDocument.class);
+        cashControlDoc.getDocumentHeader().setDocumentDescription("JUNIT TEST");
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+        accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
+        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode("UA");
+        accountsReceivableDocumentHeader.setProcessingOrganizationCode("VPIT");
+        cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        cashControlDoc.setLetterOfCreditCreationType(locCreationType);
+        cashControlDoc.setProposalNumber(new Long(locValue));
+        cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
 
-        try {
-            CashControlDocument cashControlDoc = (CashControlDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashControlDocument.class);
-            cashControlDoc.getDocumentHeader().setDocumentDescription("JUNIT TEST");
-            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
-            accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
-            accountsReceivableDocumentHeader.setProcessingChartOfAccountCode("UA");
-            accountsReceivableDocumentHeader.setProcessingOrganizationCode("VPIT");
-            cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-            cashControlDoc.setLetterOfCreditCreationType(locCreationType);
-            cashControlDoc.setProposalNumber(new Long(locValue));
-            cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-
-            CashControlDetail cashControlDetail = new CashControlDetail();
-            cashControlDetail.setFinancialDocumentLineAmount(new KualiDecimal("100"));
-            cashControlDetail.setReferenceFinancialDocumentNumber(cashControlDoc.getDocumentNumber());
-            cashControlDoc.getCashControlDetails().add(cashControlDetail);
-            SpringContext.getBean(CashControlDocumentService.class).addNewCashControlDetail("JUNIT TEST", cashControlDoc, cashControlDetail);
-            cashControlDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
-            SpringContext.getBean(DocumentService.class).saveDocument(cashControlDoc);
-
-            // Set cashcontrol document to Cancelled and check.
-
-
-            assertFalse(leterOfCreditCreateService.validatecashControlDocument(null, locCreationType, locValue, outputFileStream));
-
-
-        }
-        catch (WorkflowException ex) {
-
-            ex.printStackTrace();
-        }
+        CashControlDetail cashControlDetail = new CashControlDetail();
+        cashControlDetail.setFinancialDocumentLineAmount(new KualiDecimal("100"));
+        cashControlDetail.setReferenceFinancialDocumentNumber(cashControlDoc.getDocumentNumber());
+        cashControlDoc.getCashControlDetails().add(cashControlDetail);
+        SpringContext.getBean(CashControlDocumentService.class).addNewCashControlDetail("JUNIT TEST", cashControlDoc, cashControlDetail);
+        cashControlDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+        SpringContext.getBean(DocumentService.class).saveDocument(cashControlDoc);
+        assertFalse(leterOfCreditCreateService.validatecashControlDocument(null, locCreationType, locValue, outputFileStream));
     }
 }

@@ -44,7 +44,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private String fundManager;
     private Long proposalNumber;
     private String awardDocumentNumber;
-    private boolean markedAsFinalInd;
+    private boolean markedAsFinal;
     private Date awardEndDate;
     private KualiDecimal invoiceAmountTo;
     private KualiDecimal invoiceAmountFrom;
@@ -79,7 +79,6 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private Chart chart;
     private ContractsAndGrantsBillingAward award;
     private Organization organization;
-    private boolean finalInvoiceInd;
 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
@@ -241,21 +240,21 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the markedAsFinalInd attribute.
+     * Gets the markedAsFinal attribute.
      *
-     * @return Returns the markedAsFinalInd.
+     * @return Returns the markedAsFinal.
      */
-    public boolean isMarkedAsFinalInd() {
-        return markedAsFinalInd;
+    public boolean isMarkedAsFinal() {
+        return markedAsFinal;
     }
 
     /**
-     * Sets the markedAsFinalInd attribute value.
+     * Sets the markedAsFinal attribute value.
      *
-     * @param markedAsFinalInd The markedAsFinalInd to set.
+     * @param markedAsFinal The markedAsFinal to set.
      */
-    public void setMarkedAsFinalInd(boolean markedAsFinalInd) {
-        this.markedAsFinalInd = markedAsFinalInd;
+    public void setMarkedAsFinal(boolean markedAsFinal) {
+        this.markedAsFinal = markedAsFinal;
     }
 
     /**
@@ -710,25 +709,6 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
      */
     public void setProcessingOrBillingChartCode(String processingOrBillingChartCode) {
         this.processingOrBillingChartCode = processingOrBillingChartCode;
-    }
-
-    /**
-     * Gets the finalInvoiceInd attribute.
-     *
-     * @return Returns the finalInvoiceInd
-     */
-
-    public boolean isFinalInvoiceInd() {
-        return finalInvoiceInd;
-    }
-
-    /**
-     * Sets the finalInvoiceInd attribute.
-     *
-     * @param finalInvoiceInd The finalInvoiceInd to set.
-     */
-    public void setFinalInvoiceInd(boolean finalInvoiceInd) {
-        this.finalInvoiceInd = finalInvoiceInd;
     }
 
     /**

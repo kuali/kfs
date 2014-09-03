@@ -46,8 +46,13 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
         String processingChartOfAccountsCode = qualification.get(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE);
         String processingOrganizationCode = qualification.get(ArKimAttributes.PROCESSING_ORGANIZATION_CODE);
 
-        matches &= (doesOrgMatch(billingChartOfAccountsCode, billingOrganizationCode, ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.BILLING_ORGANIZATION_CODE, roleQualifier)
-                || doesOrgMatch(processingChartOfAccountsCode, processingOrganizationCode, ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.PROCESSING_ORGANIZATION_CODE, roleQualifier));
+        // only test chart/org if either billing chart/org or processing chart/org are populated
+        // otherwise we only care if customer matches
+        if ((StringUtils.isNotBlank(billingChartOfAccountsCode) && StringUtils.isNotBlank(billingOrganizationCode) ||
+                (StringUtils.isNotBlank(processingChartOfAccountsCode) && StringUtils.isNotBlank(processingOrganizationCode)))) {
+            matches &= (doesOrgMatch(billingChartOfAccountsCode, billingOrganizationCode, ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.BILLING_ORGANIZATION_CODE, roleQualifier)
+                    || doesOrgMatch(processingChartOfAccountsCode, processingOrganizationCode, ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.PROCESSING_ORGANIZATION_CODE, roleQualifier));
+        }
 
         return matches;
     }

@@ -19,7 +19,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,19 +32,15 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -169,31 +164,6 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     public String generateReportTitle(LookupForm lookupForm) {
         final String reportTitlePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_REPORTS_AGING_REPORT_TITLE);
         return MessageFormat.format(reportTitlePattern, (String) lookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
-    }
-
-    /**
-     * This method is used to build pdf report search criteria for Collection activity report
-     *
-     * @param searchCriteria
-     * @param fieldsForLookup
-     */
-    @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        for (Object field : fieldsForLookup.keySet()) {
-            String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
-            String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
-            if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(getPrintSearchCriteriaClass(), fieldString);
-                if (!(controldef instanceof HiddenControlDefinition)) {
-                    ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
-                    criteriaData.setSearchFieldLabel(label);
-                    criteriaData.setSearchFieldValue(valueString);
-                    searchCriteria.add(criteriaData);
-                }
-            }
-        }
     }
 
     /**

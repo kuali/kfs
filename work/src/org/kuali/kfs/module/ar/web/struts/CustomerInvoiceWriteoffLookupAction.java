@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -47,7 +47,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
 
     /**
      * This method performs the operations necessary for a multiple value lookup to select all of the results and rerender the page
-     * 
+     *
      * @param multipleValueLookupForm
      * @param maxRowsPerPage
      * @return a list of result rows, used by the UI to render the page
@@ -71,8 +71,8 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
         for (ResultRow row : resultTable) {
 
             // actual object ids are on sub result rows, not on parent rows
-            if (row instanceof CustomerInvoiceWriteoffLookupResultRow) {
-                for (ResultRow subResultRow : ((CustomerInvoiceWriteoffLookupResultRow) row).getSubResultRows()) {
+            if (row instanceof ContractsGrantsLookupResultRow) {
+                for (ResultRow subResultRow : ((ContractsGrantsLookupResultRow) row).getSubResultRows()) {
                     String objId = subResultRow.getObjectId();
                     selectedObjectIds.put(objId, objId);
                 }
@@ -92,7 +92,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
 
     /**
      * This method does the processing necessary to return selected results and sends a redirect back to the lookup caller
-     * 
+     *
      * @param mapping
      * @param form must be an instance of MultipleValueLookupForm
      * @param request
@@ -100,6 +100,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
         if (StringUtils.isBlank(multipleValueLookupForm.getLookupResultsSequenceNumber())) {

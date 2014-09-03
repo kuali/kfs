@@ -20,18 +20,16 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class unfinalizes the invoices that have previously been finalized.
  */
 public class FinalBilledIndicatorDocument extends TransactionalDocumentBase {
-
-    public FinalBilledIndicatorDocument() {
-    }
 
     private List<FinalBilledIndicatorEntry> invoiceEntries = new ArrayList<FinalBilledIndicatorEntry>();
 

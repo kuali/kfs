@@ -28,7 +28,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder {
     private Long totalInvoicesSuspended;
     private String sortedFieldValue;
     private BigDecimal subTotal;
-    public boolean displaySubtotalInd;
+    public boolean displaySubtotal;
 
 
     /**
@@ -86,21 +86,21 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder {
     }
 
     /**
-     * Gets the displaySubtotalInd attribute.
+     * Gets the displaySubtotal attribute.
      *
-     * @return Returns the displaySubtotalInd
+     * @return Returns the displaySubtotal
      */
-    public boolean isDisplaySubtotalInd() {
-        return displaySubtotalInd;
+    public boolean isDisplaySubtotal() {
+        return displaySubtotal;
     }
 
     /**
-     * Sets the displaySubtotalInd attribute value.
+     * Sets the displaySubtotal attribute value.
      *
-     * @param displaySubtotalInd The displaySubtotalInd to set.
+     * @param displaySubtotal The displaySubtotal to set.
      */
-    public void setDisplaySubtotalInd(boolean displaySubtotalInd) {
-        this.displaySubtotalInd = displaySubtotalInd;
+    public void setDisplaySubtotal(boolean displaySubtotal) {
+        this.displaySubtotal = displaySubtotal;
     }
 
     /**

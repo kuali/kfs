@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
@@ -64,7 +63,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,document.getInvoiceMilestones(),document.getInvoiceBills());
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateBillsAndMilestones(true, document.getInvoiceMilestones(), document.getInvoiceBills());
 
         List<Milestone> updatedMilestones = (List<Milestone>) boService.findMatching(Milestone.class, map);
         assertTrue(CollectionUtils.isNotEmpty(updatedMilestones));
@@ -72,7 +71,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
         if (CollectionUtils.isNotEmpty(updatedMilestones)) {
             Iterator<Milestone> iterator = updatedMilestones.iterator();
             while (iterator.hasNext()) {
-                assertTrue(iterator.next().isBilledIndicator());
+                assertTrue(iterator.next().isBilled());
             }
         }
 
@@ -83,7 +82,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
             Iterator<Bill> iterator = updatedBills.iterator();
 
             while (iterator.hasNext()) {
-                assertTrue(iterator.next().isBilledIndicator());
+                assertTrue(iterator.next().isBilled());
             }
         }
     }
@@ -104,21 +103,11 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
         }
     }
 
-    @ConfigureContext(session = khuntley)
-    private void route() {
-        try {
-            AccountingDocumentTestUtils.testRouteDocument(document, documentService);
-            documentService.prepareWorkflowDocument(document);
-            documentService.superUserApproveDocument(document, "");
-            documentService.routeDocument(document, "routing test doc", new Vector());
-            workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), "", null);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-        catch (Exception ex) {
-
-            ex.printStackTrace();
-        }
+    private void route() throws Exception {
+        AccountingDocumentTestUtils.testRouteDocument(document, documentService);
+        documentService.prepareWorkflowDocument(document);
+        documentService.superUserApproveDocument(document, "");
+        documentService.routeDocument(document, "routing test doc", new Vector());
+        workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), "", null);
     }
 }

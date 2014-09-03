@@ -264,7 +264,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
             events = new ArrayList<Event>();
             for (ContractsGrantsInvoiceDocument invoice : invoices) {
                 List<Event> invoiceEvents = invoice.getEvents();
-                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty() && invoice.isShowEventsInd()) {
+                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty() && invoice.isShowEvents()) {
                     events.addAll(invoiceEvents);
                 }
             }
@@ -431,7 +431,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         String errOutputFile = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.EVT_CREATION_CLN_ACT_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber, errOutputFile);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
 
         if (!CollectionUtils.isEmpty(cgInvoices)) {
             cgInvoices = this.validateInvoices(cgInvoices);
@@ -454,10 +454,10 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         Iterator<ContractsGrantsInvoiceDocument> invoiceItr = cgInvoices.iterator();
         for (ContractsGrantsInvoiceDocument invoice : cgInvoices) {
             if (!collectionActivityDocumentService.validateInvoiceForSavedEvents(invoice.getDocumentNumber(), this.getDocumentNumber())) {
-                invoice.setShowEventsInd(false);
+                invoice.setShowEvents(false);
             }
             else {
-                invoice.setShowEventsInd(true);
+                invoice.setShowEvents(true);
             }
         }
         return cgInvoices;

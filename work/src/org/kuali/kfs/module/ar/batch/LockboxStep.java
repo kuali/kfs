@@ -28,14 +28,14 @@ public class LockboxStep extends AbstractStep {
 
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        boolean resultInd = true;
+        boolean result = true;
         try {
-            resultInd = lockboxService.processLockboxes();
+            result = lockboxService.processLockboxes();
         } catch (WorkflowException e) {
             LOG.error("problem during lockboxService.processLockboxes()", e);
             throw new RuntimeException("Could not process lockbox documents", e);
         }
-        return resultInd;
+        return result;
     }
 
     public void setLockboxService(LockboxService ls) {

@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -41,14 +40,12 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditRevie
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditReviewDocumentService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -290,16 +287,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
             List<ContractsAndGrantsBillingAward> validAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
-            // To retrieve the batch file directory name as "reports/cg"
-            ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
-
-            // Set destination folder path
-            String destinationFolderPath = StringUtils.EMPTY;
-            List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
-            if (CollectionUtils.isNotEmpty(batchDirectories)){
-                destinationFolderPath = batchDirectories.get(0);
-            }
-
             validAwards = (List<ContractsAndGrantsBillingAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC.getCode());
 
             if (CollectionUtils.isEmpty(validAwards)) {
@@ -514,17 +501,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 }
 
             }
-            // To retrieve the batch file directory name as "reports/cg"
-            ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
-
-            // Set destination folder path
-            String destinationFolderPath = StringUtils.EMPTY;
-
-            List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
-            if (CollectionUtils.isNotEmpty(batchDirectories)){
-                destinationFolderPath = batchDirectories.get(0);
-            }
-
             contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC);
 
             //To route the invoices automatically as the initator would be system user after a wait time.

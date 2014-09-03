@@ -79,18 +79,8 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
     }
 
     @Override
-    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
-        ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
-    }
-
-    @Override
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
         return new PredeterminedBillingSchedule();
-    }
-
-    @Override
-    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
-        ((PredeterminedBillingSchedule) predeterminedBillingSchedule).setProposalNumber(proposalNumber);
     }
 
     /**
@@ -121,11 +111,7 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         MilestoneSchedule schedule = getBusinessObjectService().findByPrimaryKey(MilestoneSchedule.class, map);
-        if (ObjectUtils.isNotNull(schedule)) {
-            return true;
-        } else {
-            return false;
-        }
+        return ObjectUtils.isNotNull(schedule);
     }
 
     @Override

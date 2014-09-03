@@ -30,7 +30,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -87,13 +86,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
                 cgMilestoneReport.setMilestoneNumber(milestone.getMilestoneNumber());
                 cgMilestoneReport.setMilestoneExpectedCompletionDate(milestone.getMilestoneExpectedCompletionDate());
                 cgMilestoneReport.setMilestoneAmount(milestone.getMilestoneAmount());
-                if (milestone.isBilledIndicator()) {
-                    cgMilestoneReport.setBilledIndicator(KFSConstants.ParameterValues.YES);
-                }
-                else {
-                    cgMilestoneReport.setBilledIndicator(KFSConstants.ParameterValues.NO);
-                }
-
+                cgMilestoneReport.setBilled(milestone.isBilled());
                 cgMilestoneReport.setActive(milestone.isActive());
 
                 displayList.add(cgMilestoneReport);
@@ -120,14 +113,14 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
         final String lowerBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
         final String upperBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
-        final String milestoneExpectedCompletionDate = fixDateCriteria(lowerBoundMilestoneExpectedCompletionDate, upperBoundMilestoneExpectedCompletionDate, false);
+        final String milestoneExpectedCompletionDate = getContractsGrantsReportHelperService().fixDateCriteria(lowerBoundMilestoneExpectedCompletionDate, upperBoundMilestoneExpectedCompletionDate, false);
         if (!StringUtils.isBlank(milestoneExpectedCompletionDate)) {
             lookupCriteria.put(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE, milestoneExpectedCompletionDate);
         }
 
-        final String billedIndicator = (String)lookupFormFields.get(ArPropertyConstants.BILLED_INDICATOR);
-        if (!StringUtils.isBlank(billedIndicator)) {
-            lookupCriteria.put(ArPropertyConstants.BILLED_INDICATOR, billedIndicator);
+        final String billed = (String)lookupFormFields.get(ArPropertyConstants.BILLED);
+        if (!StringUtils.isBlank(billed)) {
+            lookupCriteria.put(ArPropertyConstants.BILLED, billed);
         }
 
         final String active = (String)lookupFormFields.get(KFSPropertyConstants.ACTIVE);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import java.util.ArrayList;
 
 /**
  * Form class for Referral To Collections.
@@ -43,12 +43,12 @@ public class ReferralToCollectionsDocumentForm extends FinancialSystemTransactio
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return ArPropertyConstants.REFERRAL_TO_COLL_DOC_TYPE;
+        return ArConstants.ArDocumentTypeCodes.REFERRAL_TO_COLLECTIONS;
     }
 
     /**
      * Gets the referralToCollectionsDocument attribute.
-     * 
+     *
      * @return Returns the referralToCollectionsDocument attribute.
      */
     public ReferralToCollectionsDocument getReferralToCollectionsDocument() {
@@ -57,7 +57,7 @@ public class ReferralToCollectionsDocumentForm extends FinancialSystemTransactio
 
     /**
      * Gets the lookupResultsSequenceNumber attribute.
-     * 
+     *
      * @return Returns the lookupResultsSequenceNumber attribute.
      */
     public String getLookupResultsSequenceNumber() {
@@ -66,7 +66,7 @@ public class ReferralToCollectionsDocumentForm extends FinancialSystemTransactio
 
     /**
      * Sets the lookupResultsSequenceNumber attribute.
-     * 
+     *
      * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
@@ -75,7 +75,7 @@ public class ReferralToCollectionsDocumentForm extends FinancialSystemTransactio
 
     /**
      * Gets the collection referralToCollectionsDetail.
-     * 
+     *
      * @return Returns the collection referralToCollectionsDetails.
      */
     public Collection<ReferralToCollectionsDetail> getReferralToCollectionsDetails() {
@@ -84,7 +84,7 @@ public class ReferralToCollectionsDocumentForm extends FinancialSystemTransactio
 
     /**
      * Sets the referralToCollectionsDetails attribute.
-     * 
+     *
      * @param referralToCollectionsDetails The referralToCollectionsDetails collection to set.
      */
     public void setReferralToCollectionsDetails(Collection<ReferralToCollectionsDetail> referralToCollectionsDetails) {

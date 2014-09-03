@@ -21,6 +21,9 @@
 		<property name="inquiryDefinition">
 			<ref bean="Agency-inquiryDefinition" />
 		</property>
+		<property name="lookupDefinition">
+			<ref bean="Agency-lookupDefinition"/>
+		</property>
 		<property name="titleAttribute" value="agencyNumber" />
 		<property name="objectLabel" value="Agency" />
 		<property name="attributes">
@@ -31,6 +34,9 @@
 				<ref bean="Agency-inStateIndicator" />
 				<ref bean="Agency-indirectAmount" />
 				<ref bean="Agency-reportsToAgencyNumber" />
+				<ref bean="Agency-dunsPlusFourNumber" />
+				<ref bean="Agency-customerNumber" />
+				<ref bean="Agency-customerTypeCode" />
 				<ref bean="Agency-active" />
 			</list>
 		</property>
@@ -125,6 +131,45 @@
 		<property name="label" value="Reports To Agency Number" />
 		<property name="shortLabel" value="Reports To Agency Number" />
 	</bean>
+	<bean id="Agency-dunsPlusFourNumber" parent="Agency-dunsPlusFourNumber-parentBean" />
+
+	<bean id="Agency-dunsPlusFourNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="dunsPlusFourNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="DUNS Plus Four Number" />
+		<property name="shortLabel" value="DUNS Plus Four Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="22" />
+		</property>
+		<property name="summary" value="DUNS Plus Four Number" />
+		<property name="description" value="DUNS Plus Four Number" />
+	</bean>
+	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
+
+	<bean id="Agency-customerNumber-parentBean" abstract="true"
+		parent="CommonAttributes-customerNumber">
+		<property name="name" value="customerNumber" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Customer Number" />
+	</bean>
+
+	<bean id="Agency-customerTypeCode" parent="Agency-customerTypeCode-parentBean" />
+
+	<bean id="Agency-customerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerTypeCode" />
+		<property name="label" value="Customer Type" />
+		<property name="shortLabel" value="Customer Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
 	<bean id="Agency-active" parent="Agency-active-parentBean" />
 
 	<bean id="Agency-active-parentBean" abstract="true"
@@ -154,11 +199,52 @@
 				<bean parent="FieldDefinition" p:attributeName="reportingName" />
 				<bean parent="FieldDefinition" p:attributeName="fullName" />
 				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="Agency-lookupDefinition" parent="Agency-lookupDefinition-parentBean" />
+
+	<bean id="Agency-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Agency Lookup" />
+		<property name="lookupableID" value="sponsorLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>fullName</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+				<bean parent="FieldDefinition" p:attributeName="reportingName" />
+				<bean parent="FieldDefinition" p:attributeName="fullName" />
+				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
+				<bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+				<bean parent="FieldDefinition" p:attributeName="reportingName" />
+				<bean parent="FieldDefinition" p:attributeName="fullName" />
+				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />			
+			</list>
+		</property>
+	</bean>	
 
 </beans>

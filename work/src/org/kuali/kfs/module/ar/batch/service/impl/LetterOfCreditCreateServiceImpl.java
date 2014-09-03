@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -213,7 +214,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
             if (CollectionUtils.isNotEmpty(cashControlDetails)) {
                 isExists = true;
-                String error = ArConstants.BatchFileSystem.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
+                String error = ArKeyConstants.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
                 try {
 
                     writeErrorEntry(error, outputFileStream);
@@ -430,7 +431,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                 while (it.hasNext()) {
                     ContractsAndGrantsLetterOfCreditFund letterOfCreditFund = it.next();
                     // Retrieve invoices per loc fund and loc creation type specification.
-                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
+                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
                     // When all the invoices are final.
                     if (!CollectionUtils.isEmpty(cgInvoices)) {
                         KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -494,7 +495,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                     ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
 
                     // Retrieve invoices per loc fund group and loc creation type specification.
-                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
+                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
                     if (!CollectionUtils.isEmpty(cgInvoices)) {
                         KualiDecimal totalAmount = KualiDecimal.ZERO;
                         // Get the total amount for the cash control document.
@@ -525,6 +526,107 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
         }
+    }
+
+    /**
+     * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
+     *
+     * @param locFund
+     * @param errorFileName
+     * @return
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
+        String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND, locFund);
+        cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
+        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
+        if (!CollectionUtils.isEmpty(invalidInvoices)) {
+            return null;
+
+        }
+        return cgInvoices;
+    }
+
+    /**
+     * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund group
+     *
+     * @param locFundGroup
+     * @param errorFileName
+     * @return
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
+        String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND_GRP, locFundGroup);
+        cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
+        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
+        if (!CollectionUtils.isEmpty(invalidInvoices)) {
+            return null;
+
+        }
+        return cgInvoices;
+    }
+
+    /**
+     * This method validates invoices and output an error file including unqualified invoices with reason stated.
+     *
+     * @param cgInvoices
+     * @param outputFileStream
+     * @return
+     */
+    protected List<String> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices, String detail, String errorFileName) {
+        boolean isInvalid = false;
+        String line = null;
+        List<String> invalidGroup = new ArrayList<String>();
+        try {
+            if (CollectionUtils.isEmpty(cgInvoices)) {
+                line = "There were no invoices retrieved to process for " + detail;
+                invalidGroup.add(line);
+
+                File errOutPutFile = new File(errorFileName);
+                PrintStream outputFileStream = null;
+
+                outputFileStream = new PrintStream(errOutPutFile);
+                outputFileStream.println(line);
+
+                return invalidGroup;
+            }
+            for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                isInvalid = false;
+                // if the invoices are not final yet - then the LOC cannot be created
+                if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                    invalidGroup.add(line);
+                    isInvalid = true;
+                }
+
+                // if invalid is true, the award is unqualified.
+                // records the unqualified award with failed reasons.
+                if (isInvalid) {
+                    File errOutPutFile = new File(errorFileName);
+                    PrintStream outputFileStream = null;
+
+                    outputFileStream = new PrintStream(errOutPutFile);
+                    outputFileStream.println(line);
+                    outputFileStream.println();
+                }
+            }
+        }
+        catch (IOException ioe) {
+            LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
+            throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
+        }
+
+        return invalidGroup;
     }
 
     /**

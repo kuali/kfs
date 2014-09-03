@@ -23,9 +23,7 @@ import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
-import org.kuali.kfs.module.cg.fixture.AgencyAddressFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,15 +46,11 @@ public class CGMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     @Override
     public void setUp() throws Exception {
         rule = new CGMaintenanceDocumentRuleBase();
-        agencyNumber = new Long(12851);
+        agencyNumber = new Long(55076);
         proposalNumber = new Long(39603);
         boService = SpringContext.getBean(BusinessObjectService.class);
         award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         agency = boService.findBySinglePrimaryKey(Agency.class, agencyNumber);
-        // save a test agency address since we don't have those in our test data
-        AgencyAddress agencyAddress = AgencyAddressFixture.CG_AGENCY_ADD3.createAgencyAddress();
-        agencyAddress.setAgencyNumber(String.valueOf(agencyNumber));
-        boService.save(agencyAddress);
     }
 
     public void testCheckEndAfterBegin() {
@@ -69,7 +63,7 @@ public class CGMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     public void testAll() {
         assertTrue(rule.checkPrimary(agency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class));
         assertTrue(rule.checkProjectDirectorsExist(award.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS));
-        assertTrue(rule.checkFundManagersExist(award.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS));
+        assertTrue(rule.checkFundManagersExist(award.getAwardFundManagers(), KFSPropertyConstants.AWARD_FUND_MANAGERS));
         assertTrue(rule.checkProjectDirectorsExist(award.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS));
         assertTrue(rule.checkProjectDirectorsStatuses(award.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS));
         assertTrue(rule.checkFederalPassThrough(award.getFederalPassThroughIndicator(), award.getAgency(), award.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR));

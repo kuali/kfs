@@ -30,7 +30,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
-import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -133,7 +133,7 @@ public class ContractsGrantsInvoiceLookupUtil {
 
         for (String selectedProposalNumber: selectedProposalNumbers) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, selectedProposalNumber);
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, selectedProposalNumber);
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
             if (ObjectUtils.isNotNull(award)) {
                 awards.add(award);
@@ -163,15 +163,15 @@ public class ContractsGrantsInvoiceLookupUtil {
             List<ResultRow> results = SpringContext.getBean(LookupResultsService.class).retrieveResultsTable(lookupResultsSequenceNumber, personId);
             for (ResultRow result:results) {
                 List<Column> columns = result.getColumns();
-                if (result instanceof ContractsGrantsInvoiceResultRow) {
-                    for (ResultRow subResultRow : ((ContractsGrantsInvoiceResultRow) result).getSubResultRows()) {
+                if (result instanceof ContractsGrantsLookupResultRow) {
+                    for (ResultRow subResultRow : ((ContractsGrantsLookupResultRow) result).getSubResultRows()) {
                         String objId = subResultRow.getObjectId();
                         if (selectedIds.contains(objId)) {
                             // This is somewhat brittle - it depends on the fact that the Proposal Number is one of
                             // the columns in the sub result rows. If that changes, this will no longer work and will
                             // need to be changed.
                             for (Column column: subResultRow.getColumns()) {
-                                if (StringUtils.equals(column.getPropertyName(), ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER)) {
+                                if (StringUtils.equals(column.getPropertyName(), ArPropertyConstants.PROPOSAL_NUMBER)) {
                                     selectedProposalNumbers.add(subResultRow.getColumns().get(0).getPropertyValue());
                                     break;
                                 }

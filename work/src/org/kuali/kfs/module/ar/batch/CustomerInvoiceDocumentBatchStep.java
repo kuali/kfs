@@ -281,16 +281,16 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
             throw new RuntimeException("A WorkflowException was thrown when trying to load Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
         }
 
-        boolean wentToFinalInd = false;
+        boolean wentToFinal = false;
         try {
-            wentToFinalInd = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
+            wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
         }
         catch (Exception e) {
             throw new RuntimeException("An Exception was thrown when trying to monitor writeoff doc #" + writeoffDocNumber +" going to FINAL.", e);
         }
 
         //  if the doc didnt go to final, then blanket approve the doc, bypassing all rules
-        if (!wentToFinalInd) {
+        if (!wentToFinal) {
             try {
                 if (writeoff.getDocumentHeader().getWorkflowDocument().isFinal()) {
 
@@ -302,16 +302,16 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
             }
 
             //  wait for it to go to final
-            wentToFinalInd = false;
+            wentToFinal = false;
             try {
-                wentToFinalInd = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
+                wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
             }
             catch (Exception e) {
                 throw new RuntimeException("An Exception was thrown when trying to monitor writeoff doc #" + writeoffDocNumber +" going to FINAL.", e);
             }
         }
 
-        if (!wentToFinalInd) {
+        if (!wentToFinal) {
             throw new RuntimeException("InvoiceWriteoff document #" + writeoffDocNumber + " failed to route to FINAL.");
         }
     }
@@ -334,23 +334,23 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         long maxWaitMs = maxWaitSeconds * 1000;
         long pauseMs = pauseSeconds * 1000;
 
-        boolean valueChangedInd = false;
-        boolean interruptedInd = false;
+        boolean valueChanged = false;
+        boolean interrupted = false;
         long startTimeMs = System.currentTimeMillis();
         long endTimeMs = startTimeMs + maxWaitMs;
 
         Thread.sleep(pauseMs / 10); // the first time through, sleep a fraction of the specified time
-        valueChangedInd = monitor.valueChanged();
-        while (!interruptedInd && !valueChangedInd && (System.currentTimeMillis() < endTimeMs)) {
+        valueChanged = monitor.valueChanged();
+        while (!interrupted && !valueChanged && (System.currentTimeMillis() < endTimeMs)) {
             try {
                 Thread.sleep(pauseMs);
             }
             catch (InterruptedException e) {
-                interruptedInd = true;
+                interrupted = true;
             }
-            valueChangedInd = monitor.valueChanged();
+            valueChanged = monitor.valueChanged();
         }
-        return valueChangedInd;
+        return valueChanged;
     }
 
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode) {

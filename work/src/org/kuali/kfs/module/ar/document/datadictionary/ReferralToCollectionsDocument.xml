@@ -35,6 +35,9 @@
 				<ref bean="ReferralToCollectionsDocument-referralTypeCode" />
 			</list>
 		</property>
+	    <property name="workflowAttributes">
+	      	<ref bean="ReferralToCollectionsDocument-workflowAttributes"/>
+	    </property>
 		<property name="validationMap" ref="ReferralToCollectionsDocument-validations" />
 	</bean>
 
@@ -58,24 +61,24 @@
 	<bean id="ReferralToCollectionsDocument-customerTypeCode" parent="ReferralToCollectionsDocument-customerTypeCode-parentBean" />
 	<bean id="ReferralToCollectionsDocument-customerTypeCode-parentBean" abstract="true" parent="Customer-customerTypeCode"/>
 
-  <bean id="ReferralToCollectionsDocument-collectionStatusCode" parent="ReferralToCollectionsDocument-collectionStatusCode-parentBean"/>
+  	<bean id="ReferralToCollectionsDocument-collectionStatusCode" parent="ReferralToCollectionsDocument-collectionStatusCode-parentBean"/>
 
-  <bean id="ReferralToCollectionsDocument-collectionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="collectionStatusCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Collection Status"/>
-    <property name="shortLabel" value="Collection Status"/>
-    <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-		<bean parent="SelectControlDefinition"
-			p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CollectionStatusTypeValuesFinder"
-			p:includeKeyInLabel="false" />
-	</property>
-  </bean>
+  	<bean id="ReferralToCollectionsDocument-collectionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="collectionStatusCode"/>
+	    <property name="forceUppercase" value="true"/>
+	    <property name="label" value="Collection Status"/>
+	    <property name="shortLabel" value="Collection Status"/>
+	    <property name="maxLength" value="6"/>
+	    <property name="validationPattern">
+	      	<ref bean="AnyCharacterValidation" />
+	    </property>
+	    <property name="required" value="false"/>
+	    <property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CollectionStatusTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+  	</bean>
   
 	<bean id="ReferralToCollectionsDocument-referralTypeCode" parent="ReferralToCollectionsDocument-referralTypeCode-parentBean" />
 	<bean id="ReferralToCollectionsDocument-referralTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -93,6 +96,12 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
+	
+	<!-- workflow attributes -->
+  	<bean id="ReferralToCollectionsDocument-workflowAttributes" parent="ReferralToCollectionsDocument-workflowAttributes-parentBean"/>
+  
+  	<bean id="ReferralToCollectionsDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+  	</bean>
 	
 	<bean id="ReferralToCollectionsDocument-validations" parent="ReferralToCollectionsDocument-validations-parentBean" />
 	<bean id="ReferralToCollectionsDocument-validations-parentBean" abstract="true"

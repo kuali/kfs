@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -24,20 +22,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
-import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -48,24 +39,15 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -332,230 +314,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     @Override
     public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied) {
-        boolean isPairs = true;
-        isPairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
-        isPairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
-        return isPairs;
+        boolean pairs = true;
+        pairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
+        pairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
+        return pairs;
     }
-
-    /* Start TEM REFUND merge */
-    /**
-     * Creates a new disbursement voucher document populated from the given payment application document. The DV is initiated as the
-     * initiator of the payment application document. The DV is then saved to inbox, routed, or blanket approved based on parameter
-     * configuration
-     *
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createDisbursementVoucherDocumentForRefund(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
-     */
-    @Override
-    public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
-        // changed session to initiator of payment application so DV will save to their inbox
-        UserSession userSession = GlobalVariables.getUserSession();
-
-
-        Person initiator = personService.getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
-
-        DisbursementVoucherDocument disbursementVoucherDocument = null;
-        try {
-            disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
-        }
-        catch (WorkflowException we) {
-            LOG.error("Error creating new disbursement voucher document: " + we.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + we.getMessage(), we);
-        }
-
-        populateDisbursementVoucherFields(disbursementVoucherDocument, paymentApplicationDocument);
-
-        // save, route, or blanketapprove based on parameter
-        boolean saveDVInd = false;
-        boolean routeDVInd = false;
-        boolean blanketApproveDVInd = false;
-
-        String dvRouteConfig = parameterService.getParameterValueAsString(PaymentApplicationDocument.class, ArConstants.ArRefunding.DV_ROUTE_PARAMETER_NAME);
-        if (StringUtils.isNotBlank(dvRouteConfig)) {
-            if (ArConstants.ArRefunding.DV_ROUTE_SAVE.equals(dvRouteConfig)) {
-                saveDVInd = true;
-            }
-            else if (ArConstants.ArRefunding.DV_ROUTE_ROUTE.equals(dvRouteConfig)) {
-                routeDVInd = true;
-            }
-            else if (ArConstants.ArRefunding.DV_ROUTE_BLANKETAPPROVE.equals(dvRouteConfig)) {
-                blanketApproveDVInd = true;
-            }
-        }
-        else {
-            // default
-            saveDVInd = true;
-        }
-
-        try {
-            if (blanketApproveDVInd) {
-                boolean isValid = kualiRuleService.applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
-                if (isValid) {
-                    documentService.blanketApproveDocument(disbursementVoucherDocument, "blanket approved for payment application refund", new ArrayList());
-                }
-                else {
-                    saveDVInd = true;
-                }
-            }
-            else if (routeDVInd) {
-                boolean isValid = kualiRuleService.applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
-                if (isValid) {
-                    documentService.routeDocument(disbursementVoucherDocument, "routed for payment application refund", new ArrayList());
-                }
-                else {
-                    saveDVInd = true;
-                }
-            }
-
-            if (saveDVInd) {
-                // clear message map so save can happen
-                GlobalVariables.setMessageMap(new MessageMap());
-
-                documentService.saveDocument(disbursementVoucherDocument);
-            }
-        }
-        catch (WorkflowException ex) {
-            LOG.error("cannot submit DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
-            throw new RuntimeException("cannot submit DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
-        }
-
-        // update payment app with dv info
-        paymentApplicationDocument.setRefundDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-        businessObjectService.save(paymentApplicationDocument);
-
-        // set user session back
-        GlobalVariables.setUserSession(userSession);
-    }
-
-    /**
-     * Populates the given disbursement voucher document from the given payment application document based on predetermined rules
-     *
-     * @param disbursementVoucherDocument - disbursement voucher document instance to populate
-     * @param paymentApplicationDocument - payment application document instance to pull values from
-     */
-    protected void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, PaymentApplicationDocument paymentApplicationDocument) {
-        disbursementVoucherDocument.setRefundIndicator(true);
-
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION));
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentApplicationDocument.getDocumentNumber());
-        disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-        // init document
-        disbursementVoucherDocument.initiateDocument();
-
-        // get customer primary address to populate address dv fields
-        CustomerAddress customerAddress = customerAddressService.getPrimaryAddress(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
-        if (customerAddress != null) {
-            disbursementVoucherDocument.templateCustomer(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getCustomer(), customerAddress);
-        }
-
-        // set defaults
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode("P");
-
-        // get system information for processing org
-        SystemInformation systemInformation = systemInformationService.getByProcessingChartOrgAndFiscalYear(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear());
-
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(systemInformation.getRefundPaymentReasonCode());
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(systemInformation.getRefundDocumentationLocationCode());
-
-        // build check stub text
-        String appliedInvoices = "";
-        for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            if (StringUtils.isNotBlank(appliedInvoices)) {
-                appliedInvoices += ", ";
-            }
-            appliedInvoices += invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber();
-        }
-
-        String checkStubText = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.MESSAGE_REFUND_DV_CHECK_STUB_TEXT);
-        checkStubText = MessageFormat.format(checkStubText, paymentApplicationDocument.getDocumentNumber(), appliedInvoices);
-        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
-
-        // set accounting
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
-            if (nonInvoiced.isRefundIndicator()) {
-                SourceAccountingLine accountingLine = new SourceAccountingLine();
-
-                accountingLine.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
-                accountingLine.setAccountNumber(nonInvoiced.getAccountNumber());
-
-                if (StringUtils.isNotBlank(nonInvoiced.getSubAccountNumber())) {
-                    accountingLine.setSubAccountNumber(nonInvoiced.getSubAccountNumber());
-                }
-
-                if (StringUtils.isNotBlank(systemInformation.getRefundFinancialObjectCode())) {
-                    accountingLine.setFinancialObjectCode(systemInformation.getRefundFinancialObjectCode());
-                }
-                else {
-                    accountingLine.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
-                }
-
-                if (StringUtils.isNotBlank(nonInvoiced.getFinancialSubObjectCode())) {
-                    accountingLine.setFinancialSubObjectCode(nonInvoiced.getFinancialSubObjectCode());
-                }
-
-                if (StringUtils.isNotBlank(nonInvoiced.getProjectCode())) {
-                    accountingLine.setProjectCode(nonInvoiced.getProjectCode());
-                }
-
-                accountingLine.setAmount(nonInvoiced.getFinancialDocumentLineAmount());
-                accountingLine.setPostingYear(paymentApplicationDocument.getPostingYear());
-                accountingLine.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
-
-                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-
-                totalAmount = totalAmount.add(nonInvoiced.getFinancialDocumentLineAmount());
-            }
-        }
-
-        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#addNoteToPaymentRequestDocument(java.lang.String,
-     *      java.lang.String)
-     */
-    @Override
-    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText) {
-        // retrieve payment request
-        Map<String, String> searchParameters = new HashMap<String, String>();
-        searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
-
-        List<PaymentApplicationDocument> documents = (List<PaymentApplicationDocument>) businessObjectService.findMatching(PaymentApplicationDocument.class, searchParameters);
-        if (documents != null && !documents.isEmpty()) {
-            PaymentApplicationDocument document = documents.get(0);
-
-            Note note = documentService.createNoteFromDocument(document, noteText);
-            note.setRemoteObjectIdentifier(document.getObjectId());
-            note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
-            note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-
-            document.addNote(note);
-
-            businessObjectService.save(document);
-        }
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getProcessingOrganizationForRelatedPaymentRequestDocument(java.lang.String)
-     */
-    @Override
-    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
-        // retrieve payment request
-        Map<String, String> searchParameters = new HashMap<String, String>();
-        searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
-
-        PaymentApplicationDocument document = (PaymentApplicationDocument) businessObjectService.findMatching(PaymentApplicationDocument.class, searchParameters);
-        if (document != null) {
-            return document.getAccountsReceivableDocumentHeader().getProcessingOrganization();
-        }
-
-        return null;
-    }
-
-    /* End TEM REFUND merge */
 
     public DocumentService getDocumentService() {
         return documentService;
@@ -620,8 +383,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    /* End TEM REFUND Merge */
-
 
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();

@@ -50,7 +50,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @see #getProposalTotalAmount
      * @see #setProposalTotalAmount
      */
-    @SuppressWarnings( { "unused" })
     private KualiDecimal proposalTotalAmount;
 
     private KualiDecimal proposalDirectCostAmount;

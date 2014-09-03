@@ -102,14 +102,14 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     }
 
     public CustomerInvoiceDocument getCustomerInvoiceDocument() {
-        CustomerInvoiceDocument _customerInvoiceDocument = null;
+        CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
-            _customerInvoiceDocument = (CustomerInvoiceDocument) getDocumentService().getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
+            customerInvoiceDocument = (CustomerInvoiceDocument) getDocumentService().getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
         }
         catch (WorkflowException e) {
             throw new RuntimeException("WorkflowException thrown when trying to retrieve Invoice document [" + getFinancialDocumentReferenceInvoiceNumber() + "]", e);
         }
-        return _customerInvoiceDocument;
+        return customerInvoiceDocument;
     }
 
     public ObjectCode getAccountsReceivableObjectCode() {

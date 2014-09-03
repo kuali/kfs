@@ -19,6 +19,15 @@
 		<property name="documentTypeName" value="FBI" />
 		<property name="documentClass"
 			value="org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument" />
+		<property name="workflowAttributes">
+	      	<ref bean="FinalBilledIndicatorDocument-workflowAttributes"/>
+	    </property>
 	</bean>
+
+	<!-- workflow attributes -->
+  	<bean id="FinalBilledIndicatorDocument-workflowAttributes" parent="FinalBilledIndicatorDocument-workflowAttributes-parentBean"/>
+  
+  	<bean id="FinalBilledIndicatorDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+  	</bean>
 
 </beans>

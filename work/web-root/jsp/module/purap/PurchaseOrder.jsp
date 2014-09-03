@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<c:set var="camsFullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="PurchaseOrderDocument"
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
@@ -125,7 +127,8 @@
 				camsSystemAttributes="${DataDictionary.PurchaseOrderCapitalAssetSystem.attributes}"
 				camsAssetAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}"
 				camsLocationAttributes="${DataDictionary.PurchaseOrderCapitalAssetLocation.attributes}" 
-				isPurchaseOrder="true" />
+				isPurchaseOrder="true"
+				fullEntryMode="${camsFullEntryMode}" />
 
 		    <purap:paymentinfo
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 

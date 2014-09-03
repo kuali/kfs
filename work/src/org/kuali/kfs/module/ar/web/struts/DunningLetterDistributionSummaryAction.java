@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -24,7 +23,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -38,6 +36,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -100,15 +99,7 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         byte[] finalReport = getDunningLetterDistributionService().createDunningLettersForAllResults(lookupResults);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (finalReport.length > 0 && getDunningLetterDistributionService().createZipOfPDFs(finalReport, baos)) {
-            response.setContentType("application/zip");
-            response.setHeader("Content-disposition", "attachment; filename=Dunning_Letters_" + FILE_NAME_TIMESTAMP.format(new Date()) + ".zip");
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Pragma", "public");
-            response.setContentLength(baos.size());
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            IOUtils.copy(bais, response.getOutputStream());
-            response.getOutputStream().flush();
+            WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.ZIP_MIME_TYPE, baos, "Dunning_Letters_" + FILE_NAME_TIMESTAMP.format(new Date()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION);
             return null;
         }
         else {

@@ -19,13 +19,13 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 
 /**
@@ -40,7 +40,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
     private Long milestoneNumber;
     private Long milestoneIdentifier;
     private String milestoneDescription;
-    private boolean billedIndicator = false;
+    private boolean billed = false;
     private KualiDecimal milestoneAmount;
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
@@ -55,7 +55,8 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
+        return award;
     }
 
     /**
@@ -76,12 +77,12 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
         return invoiceDocument;
     }
 
-    public boolean isBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    public void setBilledIndicator(boolean billedIndicator) {
-        this.billedIndicator = billedIndicator;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     /**
@@ -249,7 +250,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
         m.put("milestoneDescription", this.milestoneDescription);
-        m.put("billedIndicator", this.billedIndicator);
+        m.put("billed", this.billed);
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }

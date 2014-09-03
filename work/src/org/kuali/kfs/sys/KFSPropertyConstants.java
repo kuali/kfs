@@ -143,9 +143,11 @@ public class KFSPropertyConstants {
     public static final String ATTRIBUTE_SUMMARY = KRADPropertyConstants.ATTRIBUTE_SUMMARY;
     public static final String ATTRIBUTE_VALIDATING_EXPRESSION = KRADPropertyConstants.ATTRIBUTE_VALIDATING_EXPRESSION;
     public static final String AUTHENTICATION_USER_ID = "authenticationUserId";
+    public static final String AWARD = "award";
     public static final String AWARD_ACCOUNTS = "awardAccounts";
     public static final String AWARD_ACCUMULATED_TO_DATE_DIRECT_COST_AMOUNT = "awardAccumulatedToDateDirectCostAmount";
     public static final String AWARD_BEGINNING_DATE = "awardBeginningDate";
+    public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
     public static final String AWARD_ENTRY_DATE = "awardEntryDate";
     public static final String AWARD_FEDERAL_PASS_THROUGH_INDICATOR = "awardFederalPassThroughIndicator";
@@ -157,7 +159,9 @@ public class KFSPropertyConstants {
     public static final String AWARD_PERIOD_END_MONTH = "awardPeriodEndMonth";
     public static final String AWARD_PERIOD_END_YEAR = "awardPeriodEndYear";
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
+    public static final String AWARD_PROJECT_TITLE = "awardProjectTitle";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
+    public static final String AWARD_STATUS_CODE = "awardStatusCode";
     public static final String AWARD_SUBCONTRACTORS = "awardSubcontractors";
     public static final String AWARD_THRESHOLD_AMOUNT = "awardThresholdAmount";
     public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";

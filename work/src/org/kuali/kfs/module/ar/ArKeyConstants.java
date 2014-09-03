@@ -72,6 +72,28 @@ public class ArKeyConstants {
     // CostomerInvoiceDocument constants:
     public static final String INVOICE_CLOSE_NOTE_TEXT= "note.document.customerInvoiceDocument.closeInvoiceNote";
 
+    //Batch File System
+    static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "error.cginvoice.award.startDate.missing";
+    static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "error.cginvoice.user.suspended";
+    static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "error.cginvoice.award.inactive";
+    static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "error.cginvoice.award.missing";
+    static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "error.cginvoice.billing.missing.frequency";
+    static final public String CGINVOICE_CREATION_NO_ACTIVE_ACCOUNTS_ASSIGNED_ERROR = "error.cginvoice.no.active.accounts.assigned";
+    static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "error.cginvoice.already.billed";
+    static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
+    static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";
+    static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "error.loc.not.final";
+    static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "error.loc.csh.ctrl.in.progress";
+    static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "error.cginvoice.award.not.eligible.invoice";
+    static final public String CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES = "error.cginvoice.award.not.valid.milestones";
+    static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "error.cginvoice.award.not.valid.bills";
+    static final public String CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS = "error.cgivoice.award.not.valid.accounts";
+    static final public String CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD = "error.cginvoice.award.not.valid.customer";
+    static final public String CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP = "error.cginvoice.sys.info.not.setup";
+    static final public String CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT = "error.cginvoice.award.not.ar.account";
+    static final public String CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS = "error.cginvoice.award.invoice.progress";
+    static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "error.cginvoice.award.offset.not.setup";
+
     // Organization Accounting Defaults errors
     public static final class OrganizationAccountingDefaultErrors {
         public static final String WRITE_OFF_OBJECT_CODE_INVALID = "error.document.organizationAccountingDefaultMaintenance.writeOffObjectCodeInvalid";
@@ -172,7 +194,6 @@ public class ArKeyConstants {
     public static final String ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY = "error.ar.bankNotEligibleForDepositActivity";
     public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";
     public static final String CASH_CTRL_DOC_CREATED_BY_BATCH = "message.ar.cashControlDocCreatedByLOC";
-    public static final String CASH_CTRL_DOC_CORRECTION = "message.ar.cashControlDocCorrection";
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
     public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";
@@ -236,8 +257,6 @@ public class ArKeyConstants {
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
         public static final String ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION = "error.document.paymentApplication.missing.system.information";
-        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_PAYMENT_REASON = "error.system.information.missing.refund.payment.reason";
-        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_DOCUMENTATION_LOCATION = "error.system.information.missing.refund.documentation.location";
     }
 
     public static class CollectionActivityDocumentErrors {
@@ -282,16 +301,6 @@ public class ArKeyConstants {
         public static final String NO_AWARD = "error.invoice.create.document.no.award";
         public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
     }
-
-    // Final Billed Indicator Error
-    public static final String FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY = "error.custom";
-
-    /* Start TEM REFUND Merge */
-    // ar refunding
-    public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
-    public static final String MESSAGE_REFUND_DV_CHECK_STUB_TEXT = "message.document.refundDV.checkStubText";
-
-    /* End TEM REFUND Merge */
 
     // Collection Activity Type errors
     public static class CollectionActivityTypeConstants {
@@ -360,6 +369,14 @@ public class ArKeyConstants {
 
      public static final String ERROR_REPORT_INVALID_CALCULATED_PATTERN = "error.report.invalid.calculated.pattern";
 
+     public static class TemplateUploadErrors {
+         public static final String ERROR_TEMPLATE_UPLOAD_NO_TEMPLATE = "error.template.upload.no.template";
+         public static final String ERROR_TEMPLATE_UPLOAD_NO_TEMPLATE_TYPE = "error.template.upload.no.template.type";
+         public static final String ERROR_TEMPLATE_UPLOAD_USER_NOT_AUTHORIZED = "error.template.upload.user.not.authorized";
+         public static final String ERROR_TEMPLATE_UPLOAD_TEMPLATE_NOT_AVAILABLE = "error.template.upload.template.not.available";
+         public static final String ERROR_TEMPLATE_UPLOAD_INVALID_FILE_TYPE = "error.template.upload.invalid.file.type";
+     }
+
      // messages for Transmit Contracts & Grants Invoices
      public static final String NO_DELIVERY_TYPE_SELECTED = "error.no.delivery.type.selected";
      public static final String NO_PRINCIPAL_NAME_FOUND = "error.no.principal.name.found";
@@ -373,5 +390,32 @@ public class ArKeyConstants {
 
      public static final String CGINVOICE_EMAIL_SUBJECT = "cginvoice.email.subject";
      public static final String CGINVOICE_EMAIL_BODY = "cginvoice.email.body";
+
+     // messages for LOC pdf
+     public static final String LOC_REVIEW_PDF_TITLE = "locreview.pdf.title";
+     public static final String LOC_REVIEW_PDF_HEADER_FUND_GROUP_CODE = "locreview.pdf.header.fund.group.code";
+     public static final String LOC_REVIEW_PDF_HEADER_FUND_CODE = "locreview.pdf.header.fund.code";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_NUMBER = "locreview.pdf.header.document.number";
+     public static final String LOC_REVIEW_PDF_HEADER_APP_DOC_STATUS = "locreview.pdf.header.application.document.status";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR = "locreview.pdf.header.initiator.principal.name";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE = "locreview.pdf.header.create.date";
+     public static final String LOC_REVIEW_PDF_SUBHEADER_AWARDS = "locreview.pdf.subheader.awards";
+
+     public static final String LOC_REVIEW_CREATION_TYPE = "message.locreview.creation.type";
+
+     // Final Billed Indicator Validation error messages
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_FINAL = "error.final.billed.indicator.invoice.not.final";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_MARKED_FINAL_BILL = "error.final.billed.indicator.invoice.not.marked.final.bill";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVALID_INVOICE = "error.final.billed.indicator.invalid.invoice";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_NO_INVOICE = "error.final.billed.indicator.no.invoice";
+
+     public static final String INVOICE_ADDRESS_PDF_WATERMARK_COPY = "invoice.address.pdf.copy.watermark";
+     public static final String INVOICE_ADDRESS_PDF_WATERMARK_FINAL = "invoice.address.pdf.final.watermark";
+     public static final String INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX = "invoice.address.pdf.copy.filename.suffix";
+     public static final String INVOICE_ADDRESS_PDF_FINAL_NOTE = "invoice.address.pdf.final.note";
+     public static final String INVOICE_ADDRESS_PDF_COPY_NOTE = "invoice.address.pdf.copy.note";
+
+     public static final String CONTRACTS_GRANTS_INVOICE_FINAL_STATUS_MESSAGE = "contracts.grants.invoice.final.status.message";
+     public static final String CONTRACTS_GRANTS_INVOICE_CORRECTED_STATUS_MESSAGE = "contracts.grants.invoice.corrected.status.message";
 
 }

@@ -16,22 +16,24 @@
 package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,11 +43,15 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -57,10 +63,13 @@ import org.springframework.util.StringUtils;
  * A number of methods which help the C&G Billing reports build their PDFs and do look-ups
  */
 public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsReportHelperService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsReportHelperServiceImpl.class);
+
     protected DataDictionaryService dataDictionaryService;
     protected ReportGenerationService reportGenerationService;
     protected ConfigurationService configurationService;
     protected DateTimeService dateTimeService;
+    protected PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder, org.kuali.kfs.sys.report.ReportInfo, java.io.ByteArrayOutputStream)
@@ -185,17 +194,63 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#appendEndTimeToDate(java.lang.String)
      */
     @Override
-    public String appendEndTimeToDate(String dateString) {
-        String resultString = dateString;
-        if (!org.apache.commons.lang.StringUtils.isBlank(dateString)) {
-            Date endOfDay = DateUtils.addMilliseconds(DateUtils.ceiling(getDateTimeService().getCurrentDate(), Calendar.DATE), -1);
-            String endOfDayTime = KFSConstants.BLANK_SPACE + getDateTimeService().toString(endOfDay, ArConstants.REPORT_TIME_FORMAT);
-            // only add time string if it hasn't already been added (for some reason this method gets called twice when generating the pdf report)
-            if (!org.apache.commons.lang.StringUtils.contains(dateString, endOfDayTime)) {
-                resultString += endOfDayTime;
+    public String correctEndDateForTime(String dateString) {
+        try {
+            final Date dateDate = DateUtils.addDays(dateTimeService.convertToDate(dateString), 1);
+            final String newDateString = dateTimeService.toString(dateDate, KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+            return newDateString;
+        }
+        catch (ParseException ex) {
+            LOG.warn("invalid date format for errorDate: " + dateString);
+        }
+        return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#fixDateCriteria(java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+    public String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
+        final String correctedUpperBound = includeTime && !org.apache.commons.lang.StringUtils.isBlank(dateUpperBound) ? correctEndDateForTime(dateUpperBound) : dateUpperBound;
+        if (!org.apache.commons.lang.StringUtils.isBlank(dateLowerBound)) {
+            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+                return dateLowerBound+SearchOperator.BETWEEN.op()+correctedUpperBound;
+            } else {
+                return SearchOperator.GREATER_THAN_EQUAL.op()+dateLowerBound;
+            }
+        } else {
+            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+                return SearchOperator.LESS_THAN_EQUAL.op()+correctedUpperBound;
             }
         }
-        return resultString;
+        return null;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#lookupPrincipalIds(java.lang.String)
+     */
+    @Override
+    public Set<String> lookupPrincipalIds(String principalName) {
+        if (org.apache.commons.lang.StringUtils.isBlank(principalName)) {
+            return new HashSet<String>();
+        }
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, principalName);
+        final Collection<Person> peoples = getPersonService().findPeople(fieldValues);
+
+        if (peoples == null || peoples.isEmpty()) {
+            return new HashSet<String>();
+        }
+
+        Set<String> principalIdsSet = new HashSet<String>();
+        for (Person person : peoples) {
+            principalIdsSet.add(person.getPrincipalId());
+        }
+
+        return principalIdsSet;
     }
 
     public DataDictionaryService getDataDictionaryService() {
@@ -235,6 +290,14 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     @Override

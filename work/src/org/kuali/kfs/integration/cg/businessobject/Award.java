@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -55,7 +56,6 @@ public class Award implements ContractsAndGrantsBillingAward {
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
      */
-    @SuppressWarnings("unused")
     protected KualiDecimal awardTotalAmount;
 
     private String awardAddendumNumber;
@@ -178,7 +178,7 @@ public class Award implements ContractsAndGrantsBillingAward {
      */
     @Override
     public ContractAndGrantsProposal getProposal() {
-        return null;
+        return proposal;
     }
 
     /**
@@ -1097,6 +1097,11 @@ public class Award implements ContractsAndGrantsBillingAward {
         return invoicingOptions;
     }
 
+    @Override
+    public String getInvoicingOptionDescription() {
+        return CGIntegrationConstants.AwardInvoicingOption.Types.get(invoicingOptions);
+    }
+
 
     /**
      * Sets the invoicingOptions attribute value.
@@ -1325,13 +1330,6 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     /**
      *
-     * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
-     */
-    public void prepareForWorkflow1() {
-    }
-
-    /**
-     *
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     @Override
@@ -1434,6 +1432,7 @@ public class Award implements ContractsAndGrantsBillingAward {
         this.stopWorkIndicator = stopWorkIndicator;
     }
 
+    @Override
     public String getStopWorkReason() {
         return stopWorkReason;
     }

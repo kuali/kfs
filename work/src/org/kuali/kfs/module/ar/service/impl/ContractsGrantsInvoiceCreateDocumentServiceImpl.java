@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,32 +33,57 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
+import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
+import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
+import org.kuali.kfs.module.ar.businessobject.InvoiceDetailTotal;
+import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -82,16 +109,22 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected AccountService accountService;
     protected AccountingPeriodService accountingPeriodService;
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
     protected BusinessObjectService businessObjectService;
     protected ConfigurationService configurationService;
+    protected ContractsGrantsBillingAwardVerificationService contractsGrantsBillingAwardVerificationService;
+    protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected CustomerService customerService;
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
     protected KualiModuleService kualiModuleService;
+    protected ParameterService parameterService;
     protected VerifyBillingFrequencyService verifyBillingFrequencyService;
     protected WorkflowDocumentService workflowDocumentService;
+    protected UniversityDateService universityDateService;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
@@ -149,7 +182,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
         // Check if awardaccounts has the same control account
         int accountNum = awd.getActiveAwardAccounts().size();
-        Collection<Account> controlAccounts = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
+        Collection<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
         if (controlAccounts == null || controlAccounts.size() < accountNum) {
             final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.BILL_BY_CONTRACT_VALID_ACCOUNTS, awd.getProposalNumber().toString());
             errorMessages.add(errorMessage);
@@ -158,19 +191,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // check if control accounts of awardaccounts are the same
             boolean isValid = true;
             if (accountNum != 1) {
-                Account tmpAcct1, tmpAcct2;
-
-                Object[] awardAccounts = awd.getActiveAwardAccounts().toArray();
-                for (int i = 0; i < awardAccounts.length - 1; i++) {
-                    tmpAcct1 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i]).getAccount().getContractControlAccount();
-                    tmpAcct2 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
-
-                    if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !tmpAcct1.equals(tmpAcct2)) {
-                        final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.DIFFERING_CONTROL_ACCOUNTS, awd.getProposalNumber().toString());
-                        errorMessages.add(errorMessage);
-                        isValid = false;
-                        break;
+                Set<Account> distinctAwardAccounts = new HashSet<>();
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
+                    if (!ObjectUtils.isNull(awardAccount.getAccount().getContractControlAccount())) {
+                        distinctAwardAccounts.add(awardAccount.getAccount().getContractControlAccount());
                     }
+                }
+                if (distinctAwardAccounts.size() > 1) {
+                    final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.DIFFERING_CONTROL_ACCOUNTS, awd.getProposalNumber().toString());
+                    errorMessages.add(errorMessage);
+                    isValid = false;
                 }
             }
 
@@ -201,8 +231,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
         List<ContractsAndGrantsBillingAwardAccount> tmpAcctList = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        List<Account> controlAccounts = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
-        List<Account> controlAccountsTemp = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
+        List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
+        List<Account> controlAccountsTemp = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
 
         if (controlAccounts == null || (controlAccounts.size() != awd.getActiveAwardAccounts().size())) {// to check if the number of contract control accounts is same as the number of accounts
             final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_CONTROL_ACCOUNT, awd.getProposalNumber().toString());
@@ -269,6 +299,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
             if (!awardAccount.isFinalBilledIndicator()) {
                 // only one account is added into the list to create cgin
+                tmpAcctList.clear();
                 tmpAcctList.add(awardAccount);
 
                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
@@ -325,7 +356,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     cgInvoiceDocument.setBilledByOrganizationCode(organizationCode);
 
                     // b) set processing org and chart code
-                    List<String> procCodes = contractsGrantsInvoiceDocumentService.getProcessingFromBillingCodes(chartOfAccountsCode, organizationCode);
+                    List<String> procCodes = getContractsGrantsInvoiceDocumentService().getProcessingFromBillingCodes(chartOfAccountsCode, organizationCode);
 
                     AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
                     accountsReceivableDocumentHeader.setDocumentNumber(cgInvoiceDocument.getDocumentNumber());
@@ -348,8 +379,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
                     cgInvoiceDocument.setAward(awd);
-                    contractsGrantsInvoiceDocumentService.populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
-                    contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(cgInvoiceDocument);
+                    populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
+                    contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument);
                     if (ObjectUtils.isNotNull(cgInvoiceDocument.getAward())) {
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }
@@ -369,6 +400,793 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         return cgInvoiceDocument;
+    }
+
+    /**
+     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
+     * corresponding invoice attributes.
+     *
+     * @param award The associated award that the invoice will be linked to.
+     * @param awardAccounts
+     * @param document
+     */
+    protected void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
+        if (ObjectUtils.isNotNull(award)) {
+
+            // Invoice General Detail section
+            document.setProposalNumber(award.getProposalNumber());
+            InvoiceGeneralDetail invoiceGeneralDetail = new InvoiceGeneralDetail();
+            invoiceGeneralDetail.setDocumentNumber(document.getDocumentNumber());
+
+            // Set the last Billed Date and Billing Period
+            Timestamp ts = new Timestamp(new java.util.Date().getTime());
+            java.sql.Date today = new java.sql.Date(ts.getTime());
+            AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
+            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            invoiceGeneralDetail.setBillingPeriod(pair[0] + " to " + pair[1]);
+            invoiceGeneralDetail.setLastBilledDate(pair[1]);
+
+
+            populateInvoiceDetailFromAward(invoiceGeneralDetail, award);
+            document.setInvoiceGeneralDetail(invoiceGeneralDetail);
+            // To set Bill by address identifier because it is a required field - set the value to 1 as it is never being used.
+            document.setCustomerBillToAddressIdentifier(1);
+
+            // Set Invoice due date to current date as it is required field and never used.
+            document.setInvoiceDueDate(dateTimeService.getCurrentSqlDateMidnight());
+
+            // copy award's customer address to invoice address details
+            document.getInvoiceAddressDetails().clear();
+
+            ContractsAndGrantsBillingAgency agency = award.getAgency();
+            if (ObjectUtils.isNotNull(agency)) {
+                final List<InvoiceAddressDetail> invoiceAddressDetails = buildInvoiceAddressDetailsFromAgency(agency, document.getDocumentNumber());
+                document.getInvoiceAddressDetails().addAll(invoiceAddressDetails);
+            }
+
+            java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();
+            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {// To check if award has milestones
+                final List<Milestone> milestones = getContractsGrantsBillingUtilityService().getActiveMilestonesForProposalNumber(award.getProposalNumber());
+                if (!CollectionUtils.isEmpty(milestones)) {
+                    // copy award milestones to invoice milestones
+                    document.getInvoiceMilestones().clear();
+                    final List<InvoiceMilestone> invoiceMilestones = buildInvoiceMilestones(milestones, invoiceDate);
+                    document.getInvoiceMilestones().addAll(invoiceMilestones);
+                }
+            }
+            else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {// To check if award has bills
+                final List<Bill> bills = getContractsGrantsBillingUtilityService().getActiveBillsForProposalNumber(award.getProposalNumber());
+                if (!CollectionUtils.isEmpty(bills)) {
+                    // copy award milestones to invoice milestones
+                    document.getInvoiceBills().clear();
+                    final List<InvoiceBill> invoiceBills = buildInvoiceBills(bills, invoiceDate);
+                    document.getInvoiceBills().addAll(invoiceBills);
+                }
+            }
+            else {
+
+                // To set values for categories and populate invoice details section
+                generateValuesForAccountObjectCodes(awardAccounts, award, document);
+                generateValuesForCategories(awardAccounts, document);
+            }
+
+            // copy award's accounts to invoice account details
+            document.getAccountDetails().clear();
+            final List<InvoiceAccountDetail> invoiceAccountDetails = buildInvoiceAcccountDetails(award, awardAccounts, document.getDocumentNumber(), document.getInvoiceGeneralDetail());
+            document.getAccountDetails().addAll(invoiceAccountDetails);
+            // Set some basic values to invoice Document
+            populateContractsGrantsInvoiceDocument(award, document);
+
+        }
+    }
+
+    /**
+     * Builds a List of InvoiceAccountDetails for a given Award to place on a generated Contracts & Grants Invoice document
+     * @param award the award associated with the being-built CINV document
+     * @param awardAccounts the valid-to-bill accounts on that award
+     * @param documentNumber the document number of the CINV document in process of construction
+     * @param invoiceGeneralDetail the general detail on the CINV document
+     * @return a List of generated account details
+     */
+    protected List<InvoiceAccountDetail> buildInvoiceAcccountDetails(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, final String documentNumber, InvoiceGeneralDetail invoiceGeneralDetail) {
+        List<InvoiceAccountDetail> invoiceAccountDetails = new ArrayList<>();
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
+
+            InvoiceAccountDetail invoiceAccountDetail = new InvoiceAccountDetail();
+            invoiceAccountDetail.setDocumentNumber(documentNumber);
+
+            invoiceAccountDetail.setAccountNumber(awardAccount.getAccountNumber());
+            if (ObjectUtils.isNotNull(awardAccount.getAccount()) && StringUtils.isNotEmpty(awardAccount.getAccount().getContractControlAccountNumber())) {
+                invoiceAccountDetail.setContractControlAccountNumber(awardAccount.getAccount().getContractControlAccountNumber());
+            }
+            invoiceAccountDetail.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
+            invoiceAccountDetail.setProposalNumber(award.getProposalNumber());
+            updateBudgetsAndCumulativesForInvoiceAccountDetail(invoiceAccountDetail, invoiceGeneralDetail.getLastBilledDate(), invoiceGeneralDetail.getBillingFrequency(), award.getAwardBeginningDate());
+            invoiceAccountDetails.add(invoiceAccountDetail);
+        }
+        return invoiceAccountDetails;
+    }
+
+    /**
+     * Generates InvoiceBills for each of the given Bills
+     * @param bills the bulls to associate with a contracts & grants billing invoice
+     * @param invoiceDate the date of the invoice we're building
+     * @return the List of generated InvoiceBill objects
+     */
+    protected List<InvoiceBill> buildInvoiceBills(List<Bill> bills, java.sql.Date invoiceDate) {
+        List<InvoiceBill> invoiceBills = new ArrayList<>();
+        for (Bill awdBill : bills) {
+            // To check for null - Bill Completion date.
+            // To consider the completed milestones only.
+            if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilled() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                InvoiceBill invBill = new InvoiceBill();
+                invBill.setProposalNumber(awdBill.getProposalNumber());
+                invBill.setBillNumber(awdBill.getBillNumber());
+                invBill.setBillIdentifier(awdBill.getBillIdentifier());
+                invBill.setBillDescription(awdBill.getBillDescription());
+                invBill.setBilled(awdBill.isBilled());
+                invBill.setBillDate(awdBill.getBillDate());
+                invBill.setEstimatedAmount(awdBill.getEstimatedAmount());
+                invoiceBills.add(invBill);
+            }
+        }
+        return invoiceBills;
+    }
+
+    /**
+     * Generates InvoiceMilestones for each of the given milestones
+     * @param milestones the milestones to associate with a contracts & grants billing invoice
+     * @param invoiceDate the date of the invoice we're building
+     * @return the List of InvoiceMilestones
+     */
+    protected List<InvoiceMilestone> buildInvoiceMilestones(List<Milestone> milestones, java.sql.Date invoiceDate) {
+        List<InvoiceMilestone> invoiceMilestones = new ArrayList<>();
+        for (Milestone awdMilestone : milestones) {
+            // To consider the completed milestones only.
+            // To check for null - Milestone Completion date.
+
+            if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilled() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
+
+                InvoiceMilestone invMilestone = new InvoiceMilestone();
+                invMilestone.setProposalNumber(awdMilestone.getProposalNumber());
+                invMilestone.setMilestoneNumber(awdMilestone.getMilestoneNumber());
+                invMilestone.setMilestoneIdentifier(awdMilestone.getMilestoneIdentifier());
+                invMilestone.setMilestoneDescription(awdMilestone.getMilestoneDescription());
+                invMilestone.setBilled(awdMilestone.isBilled());
+                invMilestone.setMilestoneActualCompletionDate(awdMilestone.getMilestoneActualCompletionDate());
+                invMilestone.setMilestoneAmount(awdMilestone.getMilestoneAmount());
+                invoiceMilestones.add(invMilestone);
+            }
+        }
+        return invoiceMilestones;
+    }
+
+    /**
+     * Builds a list of InvoiceAddressDetails based on the customer associated with an Agency
+     * @param agency the agency associated with the proposal we're building a CINV document for
+     * @param documentNumber the document number of the CINV document we're creating
+     * @return a List of the generated invoice address details
+     */
+    protected List<InvoiceAddressDetail> buildInvoiceAddressDetailsFromAgency(ContractsAndGrantsBillingAgency agency, String documentNumber) {
+        Map<String, Object> mapKey = new HashMap<String, Object>();
+        mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, agency.getCustomerNumber());
+        final List<CustomerAddress> customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
+
+        List<InvoiceAddressDetail> invoiceAddressDetails = new ArrayList<>();
+        for (CustomerAddress customerAddress : customerAddresses) {
+            InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
+            invoiceAddressDetail.setCustomerNumber(customerAddress.getCustomerNumber());
+            invoiceAddressDetail.setDocumentNumber(documentNumber);
+            invoiceAddressDetail.setCustomerAddressIdentifier(customerAddress.getCustomerAddressIdentifier());
+            invoiceAddressDetail.setCustomerAddressTypeCode(customerAddress.getCustomerAddressTypeCode());
+            invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode(customerAddress.getInvoiceTransmissionMethodCode());
+            invoiceAddressDetail.setCustomerEmailAddress(customerAddress.getCustomerEmailAddress());
+            if (StringUtils.isNotBlank(customerAddress.getCustomerInvoiceTemplateCode())) {
+                invoiceAddressDetail.setCustomerInvoiceTemplateCode(customerAddress.getCustomerInvoiceTemplateCode());
+            } else {
+                AccountsReceivableCustomer customer = agency.getCustomer();
+                if (ObjectUtils.isNotNull(customer) && StringUtils.isNotBlank(customer.getCustomerInvoiceTemplateCode())) {
+                    invoiceAddressDetail.setCustomerInvoiceTemplateCode(customer.getCustomerInvoiceTemplateCode());
+                }
+            }
+            invoiceAddressDetails.add(invoiceAddressDetail);
+        }
+        return invoiceAddressDetails;
+    }
+
+    /**
+     * 1. This method is responsible to populate categories column for the ContractsGrantsInvoice Document. 2. The categories are
+     * retrieved from the Maintenance document as a collection and then a logic with conditions to handle ranges of Object Codes. 3.
+     * Once the object codes are retrieved and categories are set the performAccountingCalculations method of InvoiceDetail BO will
+     * do all the accounting calculations.
+     */
+    public void generateValuesForCategories(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
+
+        Set<String> categoryArray = new HashSet<String>();
+
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = retrieveAllBillingCategories();
+
+        // query database for award account object code details. then divi them up into categories
+        List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = getAwardAccountObjectCodeTotalBilledDao().getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
+
+        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
+            // To add all the values from Category Array to Invoice Details category only if they are retrieved well.
+
+            ContractsGrantsInvoiceDetail invDetail = new ContractsGrantsInvoiceDetail();
+            invDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+            invDetail.setCategoryCode(category.getCategoryCode());
+            invDetail.setCategoryName(category.getCategoryName());
+            invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
+            // calculate total billed first
+            Set<String> completeObjectCodeArrayForSingleCategory = contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory(category, document);
+            performBilledAndExpenditureCalculationForDetail(invDetail, awardAccountObjectCodeTotalBilleds, document.getInvoiceDetailAccountObjectCodes(), completeObjectCodeArrayForSingleCategory);
+
+            // calculate the rest using billed to date
+            performBudgetCalculationsOnInvoiceDetail(invDetail, awardAccounts, completeObjectCodeArrayForSingleCategory, document.getAward().getAwardBeginningDate());// accounting
+                                                                                                                                                      // calculations
+            // happening here
+            document.getInvoiceDetails().add(invDetail);
+        }
+
+        // To calculate total values for Invoice Detail section.
+        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
+        InvoiceDetailTotal indirectCostTotal = new InvoiceDetailTotal();
+
+        for (ContractsGrantsInvoiceDetail invD : document.getInvoiceDetailsWithIndirectCosts()) {
+            // To sum up values for indirect Cost Invoice Details
+            if (invD.isIndirectCostIndicator()) {
+                indirectCostTotal.sumInvoiceDetail(invD);
+            }
+            else {
+                directCostTotal.sumInvoiceDetail(invD);
+            }
+        }
+        ContractsGrantsInvoiceDetail directCostInvDetail = new ContractsGrantsInvoiceDetail();
+        directCostInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+
+        directCostInvDetail.setCategoryCode(ArConstants.TOTAL_DIRECT_COST_CD);
+        directCostInvDetail.setCategoryName(ArConstants.TOTAL_DIRECT_COST);
+        directCostInvDetail.setBudget(directCostTotal.getBudget());
+        directCostInvDetail.setExpenditures(directCostTotal.getExpenditures());
+        directCostInvDetail.setCumulative(directCostTotal.getCumulative());
+        directCostInvDetail.setBilled(directCostTotal.getBilled());
+        document.getInvoiceDetails().add(directCostInvDetail);
+
+        // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
+
+        ContractsGrantsInvoiceDetail indInvDetail = new ContractsGrantsInvoiceDetail();
+        indInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+        indInvDetail.setIndirectCostIndicator(true);
+        indInvDetail.setCategoryCode(ArConstants.TOTAL_IN_DIRECT_COST_CD);
+        indInvDetail.setCategoryName(ArConstants.TOTAL_IN_DIRECT_COST);
+        indInvDetail.setBudget(indirectCostTotal.getBudget());
+        indInvDetail.setExpenditures(indirectCostTotal.getExpenditures());
+        indInvDetail.setCumulative(indirectCostTotal.getCumulative());
+        indInvDetail.setBilled(indirectCostTotal.getBilled());
+        document.getInvoiceDetails().add(indInvDetail);
+
+        // Sum up the direct cost and indirect cost invoice details.
+
+        ContractsGrantsInvoiceDetail totalInvDetail = new ContractsGrantsInvoiceDetail();
+        totalInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+        totalInvDetail.setCategoryCode(ArConstants.TOTAL_COST_CD);
+        totalInvDetail.setCategoryName(ArConstants.TOTAL_COST);
+
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
+        if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
+            totalInvDetail.setBudget(directCostTotal.getBudget().add(indirectCostTotal.getBudget()));
+            totalInvDetail.setExpenditures(directCostTotal.getExpenditures().add(indirectCostTotal.getExpenditures()));
+            totalInvDetail.setCumulative(directCostTotal.getCumulative().add(indirectCostTotal.getCumulative()));
+            totalInvDetail.setBilled(directCostTotal.getBilled().add(indirectCostTotal.getBilled()));
+        }
+
+        document.getInvoiceDetails().add(totalInvDetail);
+    }
+
+    /**
+     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
+     * corresponding invoice attributes.
+     * @param invoiceGeneralDetail the invoice detail to populate
+     * @param award The associated award that the invoice will be linked to.
+     */
+    protected void populateInvoiceDetailFromAward(InvoiceGeneralDetail invoiceGeneralDetail, ContractsAndGrantsBillingAward award) {
+        // copy General details from award to the invoice
+        invoiceGeneralDetail.setAwardTotal(award.getAwardTotalAmount());
+        invoiceGeneralDetail.setAgencyNumber(award.getAgencyNumber());
+        if (ObjectUtils.isNotNull(award.getPreferredBillingFrequency())) {
+            invoiceGeneralDetail.setBillingFrequency(award.getPreferredBillingFrequency());
+        }
+        if (ObjectUtils.isNotNull(award.getInstrumentTypeCode())) {
+            invoiceGeneralDetail.setInstrumentTypeCode(award.getInstrumentTypeCode());
+        }
+        // To set Award Date range - this would be (Award Start Date to Award Stop Date)
+        String awdDtRange = award.getAwardBeginningDate() + " to " + award.getAwardEndingDate();
+        invoiceGeneralDetail.setAwardDateRange(awdDtRange);
+
+        // set the billed to Date Field
+        // To check if award has milestones
+        if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
+        }
+        else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
+        }
+        else {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
+        }
+    }
+
+    /**
+     *
+     * @param awardAccounts
+     * @param award
+     */
+    protected void generateValuesForAccountObjectCodes(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
+        final Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = retrieveAllBillingCategories();
+        final Map<String, Set<String>> objectCodeFromCategoriesMap = mapCategoriesToDocumentObjectCodes(document, contractsAndGrantsCategories);
+        // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case of fiscal year change)
+        final Integer awardBeginningYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
+        final Set<String> awardObjectCodes = contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromContractsAndGrantsCategories(document);
+
+        final List<Balance> glBalances = retrieveBalancesForAwardAccounts(awardAccounts, awardBeginningYear, currentYear, awardObjectCodes);
+
+        for (Balance bal : glBalances) {
+            if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+
+                for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
+                    Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
+
+                    // if the object code from this balance is in the list of object code retrieved from the category, then include in the detail
+                    if (objectCodeFromCategoriesSet.contains(bal.getObjectCode())) {
+                        final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(bal, category, document.getDocumentNumber(), document.getProposalNumber());
+
+                        if (!document.getInvoiceDetailAccountObjectCodes().contains(invoiceDetailAccountObjectCode)) {
+                            document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                        }
+
+                        // Retrieve cumulative amounts based on the biling period.
+
+                        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
+                        }
+                        else {// This code should be removed. This is temporary - just to make sure the amounts are pulled up.
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
+                        }
+
+                        // add this single account object code item to the list in the Map
+                        businessObjectService.save(invoiceDetailAccountObjectCode);
+
+                        break; // found a match into which category, we can stop and move on to next balance entry
+                    }
+                }
+            }
+        }
+
+        // Modifying the code to set invoiceDetailaccountobject codes calculation here checking with loc review indicator and also
+        // accounting more than one fiscal years.
+
+        for (ContractsAndGrantsBillingAwardAccount awdAcct : awardAccounts) {
+            if (awdAcct.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
+
+                List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodeList = new ArrayList<InvoiceDetailAccountObjectCode>();
+                for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
+                    if (invoiceDetailAccountObjectCode.getDocumentNumber().equals(document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getProposalNumber()) && invoiceDetailAccountObjectCode.getAccountNumber().equals(awdAcct.getAccountNumber()) && invoiceDetailAccountObjectCode.getChartOfAccountsCode().equals(awdAcct.getChartOfAccountsCode())) {
+                        invoiceDetailAccountObjectCodeList.add(invoiceDetailAccountObjectCode);
+                    }
+                }
+                amountToDrawForObjectCodes = awdAcct.getAmountToDraw().divide(new KualiDecimal(invoiceDetailAccountObjectCodeList.size()));
+
+                // Now to set the divided value equally to all the object code rows.
+                for (InvoiceDetailAccountObjectCode invDtllAcctOB : invoiceDetailAccountObjectCodeList) {
+                    invDtllAcctOB.setCurrentExpenditures(amountToDrawForObjectCodes);
+                }
+            }
+            else {
+                // code to write values from award acct total billed amount to invoice detail account object code..
+
+                Map<String, Object> totalBilledKeys = new HashMap<String, Object>();
+                totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+                totalBilledKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awdAcct.getChartOfAccountsCode());
+                totalBilledKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awdAcct.getAccountNumber());
+
+                List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
+
+                for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
+                    if (!CollectionUtils.isEmpty(awardAccountObjectCodeTotalBilledList)) {
+                        for (AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled : awardAccountObjectCodeTotalBilledList) {
+                            if (invoiceDetailAccountObjectCode.getFinancialObjectCode().equalsIgnoreCase(awardAccountObjectCodeTotalBilled.getFinancialObjectCode())) {
+                                invoiceDetailAccountObjectCode.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled());
+                            }
+                        }
+                    }
+                    // Set current expenditures
+                    invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(invoiceDetailAccountObjectCode.getTotalBilled()));
+
+                }
+            }
+
+        }
+    }
+
+    /**
+     * get the categories and create a new set for each one
+     * @param document
+     * @param contractsAndGrantsCategories
+     * @return
+     */
+    protected Map<String, Set<String>> mapCategoriesToDocumentObjectCodes(ContractsGrantsInvoiceDocument document, Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories) {
+        Map<String, Set<String>> objectCodeFromCategoriesMap = new HashMap<>();
+        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
+            // populate the category object code maps
+            objectCodeFromCategoriesMap.put(category.getCategoryCode(), contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory(category, document));
+        }
+        return objectCodeFromCategoriesMap;
+    }
+
+    /**
+     * @return a Collection of all active contracts and grants billing categories
+     */
+    protected Collection<ContractsAndGrantsCategory> retrieveAllBillingCategories() {
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ACTIVE, true);
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        return contractsAndGrantsCategories;
+    }
+
+    /**
+     * Retrieves or constructs an InvoiceDetailAccountObjectCode based on a given balance and billing category
+     * @param bal the balance to get the account object code from
+     * @param category the billing category the account object code should come from
+     * @param documentNumber the number of the CINV document we are currently building
+     * @param proposalNumber the proposal number associated with the award on the CINV document we're currently building
+     * @return the retrieved or constructed (if nothing was found in the database) InvoiceDetailAccountObjectCode object
+     */
+    protected InvoiceDetailAccountObjectCode getInvoiceDetailAccountObjectCodeByBalanceAndCategory(Balance bal, ContractsAndGrantsCategory category, final String documentNumber, final Long proposalNumber) {
+        // Check if there is an existing invoice detail account object code existing (if there are more than one fiscal years)
+        Map<String, Object> invDtlKeys = new HashMap<String, Object>();
+        invDtlKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        invDtlKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bal.getChartOfAccountsCode());
+        invDtlKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bal.getAccountNumber());
+        invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());
+        invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = businessObjectService.findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
+
+        if (ObjectUtils.isNull(invoiceDetailAccountObjectCode)) {
+            invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
+            invoiceDetailAccountObjectCode.setDocumentNumber(documentNumber);
+            invoiceDetailAccountObjectCode.setProposalNumber(proposalNumber);
+            invoiceDetailAccountObjectCode.setFinancialObjectCode(bal.getObjectCode());
+            invoiceDetailAccountObjectCode.setCategoryCode(category.getCategoryCode());
+            invoiceDetailAccountObjectCode.setAccountNumber(bal.getAccountNumber());
+            invoiceDetailAccountObjectCode.setChartOfAccountsCode(bal.getChartOfAccountsCode());
+        }
+        return invoiceDetailAccountObjectCode;
+    }
+
+    /**
+     * Retrieves all balances between the beginning of the award and the current fiscal year for the given award accounts
+     * @param awardAccounts the award accounts to look up balances for
+     * @param awardBeginningYear the first year of the award
+     * @param currentYear the current year
+     * @param awardObjectCodes the object codes which the award accounts need to retrieve associated balances for
+     * @return the retrieved balances
+     */
+    protected List<Balance> retrieveBalancesForAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, final Integer awardBeginningYear, Integer currentYear, final Set<String> awardObjectCodes) {
+        List<Balance> glBalances = new ArrayList<Balance>();
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
+            for (int fy = awardBeginningYear; fy <= currentYear; fy++) {
+                Map<String, Object> balanceKeys = new HashMap<String, Object>();
+                balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+                balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+                balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fy);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_CODE, awardObjectCodes);
+                glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
+            }
+        }
+        return glBalances;
+    }
+
+    /**
+     * This method will set Budgets and Cumulative Expenditure amounts for each invoice account detail.
+     * @param invoiceAccountDetail the invoice account detail to update
+     * @param lastBilledDate the last billed date on the award
+     * @param billingFrequency the billing frequency on the award
+     * @param awardBeginningDate the beginning date of the award
+     */
+    protected void updateBudgetsAndCumulativesForInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail, java.sql.Date lastBilledDate, String billingFrequency, java.sql.Date awardBeginningDate) {
+        List<Balance> glBalances = new ArrayList<Balance>();
+        Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
+        List<Integer> fiscalYears = new ArrayList<Integer>();
+        Calendar c = Calendar.getInstance();
+
+        Integer awardBeginningFiscalYear = getUniversityDateService().getFiscalYear(awardBeginningDate);
+
+        for (Integer i = awardBeginningFiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
+        }
+        List<String> balanceTypeCodeList = new ArrayList<String>();
+        balanceTypeCodeList.add(ArPropertyConstants.BUDGET_BALANCE_TYPE);
+        balanceTypeCodeList.add(ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+        for (Integer eachFiscalYr : fiscalYears) {
+            Map<String, Object> balanceKeys = new HashMap<String, Object>();
+            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, invoiceAccountDetail.getChartOfAccountsCode());
+            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceAccountDetail.getAccountNumber());
+            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
+            glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
+        }
+        KualiDecimal budAmt = KualiDecimal.ZERO;
+        KualiDecimal balAmt = KualiDecimal.ZERO;
+        KualiDecimal cumAmt = KualiDecimal.ZERO;
+
+        for (Balance bal : glBalances) {
+            if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.BUDGET_BALANCE_TYPE)) {
+                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                    budAmt = budAmt.add(balAmt);
+                }
+                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
+                    if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+
+                        cumAmt = cumAmt.add(calculateBalanceAmountWithoutLastBilledPeriod(lastBilledDate, bal));
+                    }
+                    else {// For other billing frequencies
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                        cumAmt = cumAmt.add(balAmt);
+                    }
+                }
+
+            }
+        }
+        // To set Budgets and cumulative amounts
+        invoiceAccountDetail.setBudgetAmount(budAmt);
+        invoiceAccountDetail.setCumulativeAmount(cumAmt);
+    }
+
+    /**
+     * This method helps in setting up basic values for Contracts Grants Invoice Document
+     */
+    protected void populateContractsGrantsInvoiceDocument(ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
+        if (ObjectUtils.isNotNull(award.getAgency())) {
+            if (ObjectUtils.isNotNull(document.getAccountsReceivableDocumentHeader())) {
+                document.getAccountsReceivableDocumentHeader().setCustomerNumber(award.getAgency().getCustomerNumber());
+            }
+            Customer customer = getCustomerService().getByPrimaryKey(award.getAgency().getCustomerNumber());
+            if (ObjectUtils.isNotNull(customer)) {
+                document.setCustomerName(customer.getCustomerName());
+            }
+        }
+        // To set open invoice indicator to true to help doing cash control for the invoice
+        document.setOpenInvoiceIndicator(true);
+
+        // To set LOC creation type and appropriate values from award.
+        if (StringUtils.isNotEmpty(award.getLetterOfCreditCreationType())) {
+            document.setLetterOfCreditCreationType(award.getLetterOfCreditCreationType());
+        }
+        // To set up values for Letter of Credit Fund and Fund Group irrespective of the LOC Creation type.
+        if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode())) {
+            document.setLetterOfCreditFundCode(award.getLetterOfCreditFundCode());
+        }
+        if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
+            if (StringUtils.isNotEmpty(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode())) {
+                document.setLetterOfCreditFundGroupCode(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+            }
+        }
+
+        // To set Account Receivable object code when the parameter is 3.
+
+        String receivableOffsetOption = getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        map.put(KFSPropertyConstants.ACTIVE, true);
+        awardInvoiceAccounts = kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
+        if (isUsingReceivableFAU) {
+            if (!CollectionUtils.isEmpty(awardInvoiceAccounts)) {
+                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
+                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                        if (awardInvoiceAccount.isActive()) {// consider the active invoice account only.
+                            document.setPaymentChartOfAccountsCode(awardInvoiceAccount.getChartOfAccountsCode());
+                            document.setPaymentAccountNumber(awardInvoiceAccount.getAccountNumber());
+                            document.setPaymentSubAccountNumber(awardInvoiceAccount.getSubAccountNumber());
+                            document.setPaymentFinancialObjectCode(awardInvoiceAccount.getObjectCode());
+                            document.setPaymentFinancialSubObjectCode(awardInvoiceAccount.getSubObjectCode());
+                        }
+                    }
+                }
+            }
+        }
+
+        // set totalBilled by Account Number in Account Details
+        Map<String, KualiDecimal> totalBilledByAccountNumberMap = new HashMap<String, KualiDecimal>();
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
+            String accountNumber = invoiceDetailAccountObjectCode.getAccountNumber();
+            KualiDecimal totalBilled = cleanAmount(totalBilledByAccountNumberMap.get(accountNumber));
+            totalBilled = totalBilled.add(invoiceDetailAccountObjectCode.getTotalBilled());
+            totalBilledByAccountNumberMap.put(accountNumber, totalBilled);
+        }
+
+        KualiDecimal totalExpendituredAmount = KualiDecimal.ZERO;
+        for (InvoiceAccountDetail invAcctD : document.getAccountDetails()) {
+            KualiDecimal currentExpenditureAmount = KualiDecimal.ZERO;
+            if (!ObjectUtils.isNull(totalBilledByAccountNumberMap.get(invAcctD.getAccountNumber()))) {
+                invAcctD.setBilledAmount(totalBilledByAccountNumberMap.get(invAcctD.getAccountNumber()));
+            }
+
+            currentExpenditureAmount = invAcctD.getCumulativeAmount().subtract(invAcctD.getBilledAmount());
+            invAcctD.setExpenditureAmount(currentExpenditureAmount);
+            // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                    currentExpenditureAmount = awardAccount.getAmountToDraw();
+                    invAcctD.setExpenditureAmount(currentExpenditureAmount);
+                }
+            }
+            totalExpendituredAmount = totalExpendituredAmount.add(currentExpenditureAmount);
+        }
+        totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+
+
+        KualiDecimal totalMilestoneAmount = KualiDecimal.ZERO;
+        // To calculate the total milestone amount.
+        if (document.getInvoiceMilestones().size() > 0) {
+            for (InvoiceMilestone milestone : document.getInvoiceMilestones()) {
+                if (milestone.getMilestoneAmount() != null) {
+                    totalMilestoneAmount = totalMilestoneAmount.add(milestone.getMilestoneAmount());
+                }
+            }
+        }
+        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+
+        KualiDecimal totalBillAmount = KualiDecimal.ZERO;
+        // To calculate the total bill amount.
+        if (document.getInvoiceBills().size() > 0) {
+            for (InvoiceBill bill : document.getInvoiceBills()) {
+                if (bill.getEstimatedAmount() != null) {
+                    totalBillAmount = totalBillAmount.add(bill.getEstimatedAmount());
+                }
+            }
+        }
+        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+
+
+        // To set the New Total Billed Amount.
+        if (document.getInvoiceMilestones().size() > 0) {
+            document.getInvoiceGeneralDetail().setNewTotalBilled(totalMilestoneAmount);
+        }
+        else if (document.getInvoiceBills().size() > 0) {
+            document.getInvoiceGeneralDetail().setNewTotalBilled(totalBillAmount);
+        }
+        else {
+            document.getInvoiceGeneralDetail().setNewTotalBilled(totalExpendituredAmount);
+        }
+    }
+
+    /**
+     * Given a List of AwardAccountObjectCodeTotalBilled objects and InvoiceDetailAccountObjectCode objects, looks for those objects within the list of object codes for category and sums the
+     * relevant billed and expenditure amounts
+     * @param invoiceDetail the detail to update
+     * @param awardAccountObjectCodeTotalBilleds the award account object code billed totals
+     * @param invoiceDetailAccountObjectCodes the invoice detail account object codes
+     * @param objectCodesForCategory the object codes for the given category
+     */
+    protected void performBilledAndExpenditureCalculationForDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
+        invoiceDetail.setCumulative(KualiDecimal.ZERO);
+        invoiceDetail.setExpenditures(KualiDecimal.ZERO);
+        invoiceDetail.setBilled(KualiDecimal.ZERO);
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            if (objectCodesForCategory.contains(invoiceDetailAccountObjectCode.getFinancialObjectCode())) {
+                invoiceDetail.setCumulative(invoiceDetail.getCumulative().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
+                invoiceDetail.setExpenditures(invoiceDetail.getExpenditures().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
+            }
+        }
+        for (AwardAccountObjectCodeTotalBilled accountObjectCodeTotalBilled : awardAccountObjectCodeTotalBilleds) {
+            if (objectCodesForCategory.contains(accountObjectCodeTotalBilled.getFinancialObjectCode())) {
+                invoiceDetail.setBilled(invoiceDetail.getBilled().add(accountObjectCodeTotalBilled.getTotalBilled())); // this adds up all the total billed based on object code into categories; sum for this category.
+            }
+        }
+    }
+
+    /**
+     * The budget calculations for individual Invoice Detail object are calculated here. Values are retrieved from GL Balance table
+     * and manipulated.
+     *
+     * @param awardAccounts accounts for a particular award.
+     * @param objectCodes set of object codes pertaining to a single category
+     * @param awardBeginningDate the beginning date for the award
+     */
+    protected void performBudgetCalculationsOnInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
+        KualiDecimal budAmt = KualiDecimal.ZERO;
+        KualiDecimal balAmt = KualiDecimal.ZERO;
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
+            // To retrieve the complete set of object codes and then categorize them based on object codes and BalanceType
+            List<Balance> glBalances = new ArrayList<Balance>();
+            Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
+            List<Integer> fiscalYears = new ArrayList<Integer>();
+            Calendar c = Calendar.getInstance();
+
+
+            Integer fiscalYear = getUniversityDateService().getFiscalYear(awardBeginningDate);
+
+            for (Integer i = fiscalYear; i <= currentYear; i++) {
+                fiscalYears.add(i);
+            }
+
+            List<String> objectList = new ArrayList<String>(completeObjectCodeArrayForSingleCategory);
+            for (Integer eachFiscalYr : fiscalYears) {
+                Map<String, Object> balanceKeys = new HashMap<String, Object>();
+                balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+                balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+                balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+                balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.BUDGET_BALANCE_TYPE);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_CODE, objectList);
+                glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
+            }
+            for (Balance glBalance : glBalances) {
+                if (ObjectUtils.isNull(glBalance.getSubAccount()) || ObjectUtils.isNull(glBalance.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(glBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                    balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
+                    budAmt = budAmt.add(balAmt);
+                }
+            }
+        }
+
+        invoiceDetail.setBudget(budAmt);// Setting current budget value here
+    }
+
+    /**
+     * This method would make sure the amounts of the currrent period are not included. So it calculates the cumulative and
+     * subtracts the current period values. This would be done for Billing Frequencies - Monthly, Quarterly, Semi-Annual and Annual.
+     *
+     * @param glBalance
+     * @return balanceAmount
+     */
+    protected KualiDecimal calculateBalanceAmountWithoutLastBilledPeriod(java.sql.Date lastBilledDate, Balance glBalance) {
+        // 1. calculate invoice period
+        AccountingPeriod invoicePeriod = accountingPeriodService.getByDate(lastBilledDate);
+        String invoicePeriodCode = invoicePeriod.getUniversityFiscalPeriodCode();
+
+        // 2. Get the current Period Code
+        Timestamp ts = new Timestamp(new java.util.Date().getTime());
+        java.sql.Date today = new java.sql.Date(ts.getTime());
+        AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
+        String currentPeriodCode = currPeriod.getUniversityFiscalPeriodCode();
+
+        KualiDecimal currentBalanceAmount =
+                cleanAmount(glBalance.getMonth1Amount())
+                .add(cleanAmount(glBalance.getMonth2Amount()))
+                .add(cleanAmount(glBalance.getMonth3Amount()))
+                .add(cleanAmount(glBalance.getMonth4Amount()))
+                .add(cleanAmount(glBalance.getMonth5Amount()))
+                .add(cleanAmount(glBalance.getMonth6Amount()))
+                .add(cleanAmount(glBalance.getMonth7Amount()))
+                .add(cleanAmount(glBalance.getMonth8Amount()))
+                .add(cleanAmount(glBalance.getMonth9Amount()))
+                .add(cleanAmount(glBalance.getMonth10Amount()))
+                .add(cleanAmount(glBalance.getMonth11Amount()))
+                .add(cleanAmount(glBalance.getMonth12Amount()))
+                .add(cleanAmount(glBalance.getMonth13Amount()));
+
+        KualiDecimal balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
+        KualiDecimal accurateBalanceAmount = balAmt.subtract(currentBalanceAmount);
+
+        return accurateBalanceAmount;
+    }
+
+    /**
+     * Null protects the addition in retrieveAccurateBalanceAmount
+     * @param amount the amount to return
+     * @return zero if the amount was null, the given amount otherwise
+     */
+    protected KualiDecimal cleanAmount(KualiDecimal amount) {
+        return amount == null ? KualiDecimal.ZERO : amount;
     }
 
     /**
@@ -429,17 +1247,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             List<String> errorList = new ArrayList<String>();
 
             if (award.getAwardBeginningDate() != null) {
-                if (award.getPreferredBillingFrequency() != null && contractsGrantsInvoiceDocumentService.isValueOfPreferredBillingFrequencyValid(award)) {
+                if (award.getPreferredBillingFrequency() != null && getContractsGrantsBillingAwardVerificationService().isValueOfPreferredBillingFrequencyValid(award)) {
                     if (verifyBillingFrequencyService.validatBillingFrequency(award)) {
                         validateAward(errorList, award);
                     } else {
-                        errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD));
+                        errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD));
                     }
                 } else {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR));
+                    errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR));
                 }
             } else {
-                errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR));
+                errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR));
             }
 
             if (errorList.size() > 0) {
@@ -460,35 +1278,35 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     protected void validateAward(List<String> errorList, ContractsAndGrantsBillingAward award) {
         // 1. Award Invoicing suspended by user.
-        if (contractsGrantsInvoiceDocumentService.isAwardInvoicingSuspendedByUser(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
+        if (award.isSuspendInvoicingIndicator()) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
         }
 
         // 2. Award is Inactive
         if (!award.isActive()) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR));
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR));
         }
 
         // 4. Award invoicing option is missing
         if (StringUtils.isEmpty(award.getInvoicingOptions())) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
         }
 
         // 5. Award preferred billing frequency is not set correctly
-        if (!contractsGrantsInvoiceDocumentService.isPreferredBillingFrequencySetCorrectly(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
+        if (!getContractsGrantsBillingAwardVerificationService().isPreferredBillingFrequencySetCorrectly(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
         }
 
         // 6. Award has no accounts assigned
-        if (contractsGrantsInvoiceDocumentService.hasNoActiveAccountsAssigned(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR));
+        if (CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_NO_ACTIVE_ACCOUNTS_ASSIGNED_ERROR));
         }
 
         // 7. Award contains expired account or accounts
-        Collection<Account> expAccounts = contractsGrantsInvoiceDocumentService.getExpiredAccountsOfAward(award);
+        Collection<Account> expAccounts = getContractsGrantsInvoiceDocumentService().getExpiredAccountsOfAward(award);
         if (ObjectUtils.isNotNull(expAccounts) && !expAccounts.isEmpty()) {
             StringBuilder line = new StringBuilder();
-            line.append(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR));
+            line.append(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR));
 
             for (Account expAccount : expAccounts) {
                 line.append(" (expired account: " + expAccount.getAccountNumber() + " expiration date " + expAccount.getAccountExpirationDate() + ") ");
@@ -496,28 +1314,28 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             errorList.add(line.toString());
         }
         // 8. Award has final invoice Billed already
-        if (contractsGrantsInvoiceDocumentService.isAwardFinalInvoiceAlreadyBuilt(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR));
+        if (getContractsGrantsBillingAwardVerificationService().isAwardFinalInvoiceAlreadyBuilt(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR));
         }
 
         // 9. Award has no valid milestones to invoice
-        if (contractsGrantsInvoiceDocumentService.hasNoMilestonesToInvoice(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
+        if (!getContractsGrantsBillingAwardVerificationService().hasMilestonesToInvoice(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
         }
 
         // 10. All has no valid bills to invoice
-        if (contractsGrantsInvoiceDocumentService.hasNoBillsToInvoice(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
+        if (!getContractsGrantsBillingAwardVerificationService().hasBillsToInvoice(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
         }
 
         // 11. Agency has no matching Customer record
-        if (contractsGrantsInvoiceDocumentService.owningAgencyHasNoCustomerRecord(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
+        if (!getContractsGrantsBillingAwardVerificationService().owningAgencyHasCustomerRecord(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
         }
 
         // 12. All accounts of an Award have zero$ to invoice
         if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts()) && CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award))) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
         }
 
         // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
@@ -527,23 +1345,23 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 14. System Information and ORganization Accounting Default not setup.
-        if (contractsGrantsInvoiceDocumentService.isChartAndOrgNotSetupForInvoicing(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
+        if (!getContractsGrantsBillingAwardVerificationService().isChartAndOrgSetupForInvoicing(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
         }
 
         // 15. if there is no AR Invoice Account present when the GLPE is 3.
-        if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
+        if (!getContractsGrantsBillingAwardVerificationService().hasARInvoiceAccountAssigned(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
         }
 
         // 16. If all accounts of award has invoices in progress.
-        if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && contractsGrantsInvoiceDocumentService.isInvoiceInProgress(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
+        if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
         }
 
         // 17. Offset Definition is not available when the GLPE is 3.
-        if (contractsGrantsInvoiceDocumentService.isOffsetDefNotSetupForInvoicing(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
+        if (!getContractsGrantsBillingAwardVerificationService().isOffsetDefinitionSetupForInvoicing(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
         }
     }
 
@@ -571,35 +1389,27 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     protected void storeValidationErrors(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, String creationProcessTypeCode) {
         for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
-            boolean firstLineFlag = true;
-            String awardBeginningDate;
-            String awardEndingDate;
-            String awardTotalAmount;
-
-            String proposalNumber = award.getProposalNumber().toString();
-            Date beginningDate = award.getAwardBeginningDate();
-            Date endingDate = award.getAwardEndingDate();
-            KualiDecimal totalAmount = award.getAwardTotalAmount();
-
             KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
-            }
             ContractsGrantsInvoiceDocumentErrorLog contractsGrantsInvoiceDocumentErrorLog = new ContractsGrantsInvoiceDocumentErrorLog();
 
             if (ObjectUtils.isNotNull(award)){
-                boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
+                String proposalNumber = award.getProposalNumber().toString();
+                Date beginningDate = award.getAwardBeginningDate();
+                Date endingDate = award.getAwardEndingDate();
+                KualiDecimal totalAmount = award.getAwardTotalAmount();
 
                 contractsGrantsInvoiceDocumentErrorLog.setProposalNumber(award.getProposalNumber());
                 contractsGrantsInvoiceDocumentErrorLog.setAwardBeginningDate(beginningDate);
                 contractsGrantsInvoiceDocumentErrorLog.setAwardEndingDate(endingDate);
                 contractsGrantsInvoiceDocumentErrorLog.setAwardTotalAmount(award.getAwardTotalAmount().bigDecimalValue());
-                contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
                 if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
                     contractsGrantsInvoiceDocumentErrorLog.setPrimaryFundManagerPrincipalId(award.getAwardPrimaryFundManager().getPrincipalId());
                 }
-                if (!isActiveAwardAccountsEmpty) {
+                if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
+                    boolean firstLineFlag = true;
+
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, beginningDate));
                         if (firstLineFlag) {
                             firstLineFlag = false;
                             contractsGrantsInvoiceDocumentErrorLog.setAccounts(awardAccount.getAccountNumber());
@@ -609,6 +1419,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                         }
                     }
                 }
+                contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
             }
 
             for (String vCat : invalidGroup.get(award)) {
@@ -694,47 +1505,45 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     protected void writeErrorEntryByAward(ContractsAndGrantsBillingAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
         // %15s %18s %20s %19s %15s %18s %23s %18s
-        boolean firstLineFlag = true;
-        String awardBeginningDate;
-        String awardEndingDate;
-        String awardTotalAmount;
-
-        String proposalNumber = award.getProposalNumber().toString();
-        Date beginningDate = award.getAwardBeginningDate();
-        Date endingDate = award.getAwardEndingDate();
-        KualiDecimal totalAmount = award.getAwardTotalAmount();
-
-        if (ObjectUtils.isNotNull(beginningDate)) {
-            awardBeginningDate = beginningDate.toString();
-        } else {
-            awardBeginningDate = "null award beginning date";
-        }
-
-        if (ObjectUtils.isNotNull(endingDate)) {
-            awardEndingDate = endingDate.toString();
-        } else {
-            awardEndingDate = "null award ending date";
-        }
-
-        if (ObjectUtils.isNotNull(totalAmount)) {
-            awardTotalAmount = award.getAwardTotalAmount().toString();
-        } else {
-            awardTotalAmount = "null award total amount";
-        }
-
-        KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
-        // calculate cumulativeExpenses
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-            cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
-        }
-
         if (ObjectUtils.isNotNull(award)){
-            boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
+            KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
+            String awardBeginningDate;
+            String awardEndingDate;
+            String awardTotalAmount;
 
-            if (isActiveAwardAccountsEmpty) {
+            String proposalNumber = award.getProposalNumber().toString();
+            Date beginningDate = award.getAwardBeginningDate();
+            Date endingDate = award.getAwardEndingDate();
+            KualiDecimal totalAmount = award.getAwardTotalAmount();
+
+            if (ObjectUtils.isNotNull(beginningDate)) {
+                awardBeginningDate = beginningDate.toString();
+            } else {
+                awardBeginningDate = "null award beginning date";
+            }
+
+            if (ObjectUtils.isNotNull(endingDate)) {
+                awardEndingDate = endingDate.toString();
+            } else {
+                awardEndingDate = "null award ending date";
+            }
+
+            if (ObjectUtils.isNotNull(totalAmount) && ObjectUtils.isNotNull(totalAmount.bigDecimalValue())) {
+                awardTotalAmount = totalAmount.toString();
+            } else {
+                awardTotalAmount = "null award total amount";
+            }
+
+            if (CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
                 writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
             }
             else {
+                // calculate cumulativeExpenses
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+                }
+                boolean firstLineFlag = true;
+
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     if (firstLineFlag) {
                         writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
@@ -860,6 +1669,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
     /**
      * Sets the businessObjectService attribute value.
      *
@@ -907,6 +1720,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -922,7 +1739,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      *
      * @param kualiModuleService The kualiModuleService to set.
      */
-    @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
@@ -937,6 +1753,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         this.configurationService = configurationService;
     }
 
+    public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {
+        return contractsGrantsBillingUtilityService;
+    }
+
+    public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
+        this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
+    }
 
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
@@ -955,5 +1778,45 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public AwardAccountObjectCodeTotalBilledDao getAwardAccountObjectCodeTotalBilledDao() {
+        return awardAccountObjectCodeTotalBilledDao;
+    }
+
+    public void setAwardAccountObjectCodeTotalBilledDao(AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao) {
+        this.awardAccountObjectCodeTotalBilledDao = awardAccountObjectCodeTotalBilledDao;
+    }
+
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public ContractsGrantsBillingAwardVerificationService getContractsGrantsBillingAwardVerificationService() {
+        return contractsGrantsBillingAwardVerificationService;
+    }
+
+    public void setContractsGrantsBillingAwardVerificationService(ContractsGrantsBillingAwardVerificationService contractsGrantsBillingAwardVerificationService) {
+        this.contractsGrantsBillingAwardVerificationService = contractsGrantsBillingAwardVerificationService;
     }
 }

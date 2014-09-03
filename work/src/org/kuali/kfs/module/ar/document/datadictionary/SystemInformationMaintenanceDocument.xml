@@ -203,22 +203,6 @@
 		</property>
 	</bean>
 
-	<bean id="SystemInformationMaintenanceDocument-EditRefundOptions"
-		parent="SystemInformationMaintenanceDocument-EditRefundOptions-parentBean" />
-	<bean
-		id="SystemInformationMaintenanceDocument-EditRefundOptions-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Refund Options" />
-		<property name="title" value="Edit Refund Options" />
-		<property name="maintainableItems">
-			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="refundPaymentReasonCode"
-					p:noLookup="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="refundDocumentationLocationCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="refundFinancialObjectCode" />
-			</list>
-		</property>
-	</bean>
 	<!-- workflow attributes -->
 	<bean id="SystemInformationMaintenanceDocument-workflowAttributes"
 		parent="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" />

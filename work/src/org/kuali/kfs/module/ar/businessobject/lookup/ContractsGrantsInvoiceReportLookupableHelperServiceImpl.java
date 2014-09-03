@@ -185,7 +185,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         final String lowerBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
         final String upperBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
-        final String invoiceDateCriteria = fixDateCriteria(lowerBoundInvoiceDate, upperBoundInvoiceDate, true);
+        final String invoiceDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(lowerBoundInvoiceDate, upperBoundInvoiceDate, true);
         if (!StringUtils.isBlank(invoiceDateCriteria)) {
             lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, invoiceDateCriteria);
         }
@@ -207,14 +207,14 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         final String upperBoundInvoiceDueDate = (String)lookupFormFields.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
         final String lowerBoundInvoiceDueDate = (String)lookupFormFields.remove(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
-        final String invoiceDueDateCriteria = fixDateCriteria(lowerBoundInvoiceDueDate, upperBoundInvoiceDueDate, false);
+        final String invoiceDueDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(lowerBoundInvoiceDueDate, upperBoundInvoiceDueDate, false);
         if (!StringUtils.isBlank(invoiceDueDateCriteria)) {
             lookupFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateCriteria);
         }
 
-        final String proposalNumber = (String)lookupFormFields.remove(ArPropertyConstants.CollectionActivityDocumentFields.PROPOSAL_NUMBER);
+        final String proposalNumber = (String)lookupFormFields.remove(ArPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
-            lookupFields.put(ArPropertyConstants.CollectionActivityDocumentFields.PROPOSAL_NUMBER, proposalNumber);
+            lookupFields.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
 
         final String documentNumber = (String)lookupFormFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);

@@ -142,4 +142,13 @@ public interface CapitalAssetBuilderModuleService {
      * @param campusTagNumber String key used to find pretagDetails to reactivate
      */
     public void reactivatePretagDetails(String campusTagNumber);
+
+    /**
+     * This function removes CapitalAssetInformations that don't have at least one capital asset object
+     * code in their group details.
+     *
+     * @param infos
+     */
+    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos);
+
 }

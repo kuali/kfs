@@ -84,7 +84,7 @@ public class LetterOfCreditFundServiceImpl implements ExternalizableBusinessObje
                 result = this.getWebService().getMatchingMethodOfPaymentsForBasisOfPayment((String) fieldValues.get("letterOfCreditFundGroupCode"));
             } else {
                 criteria.setMethodOfPaymentCode((String) fieldValues.get("letterOfCreditFundCode"));
-                criteria.setDescription((String) fieldValues.get("fundDescription"));
+                criteria.setDescription((String) fieldValues.get("letterOfCreditFundDescription"));
                 result  = this.getWebService().getMatchingMethodOfPayments(criteria);
             }
         } catch (WebServiceException ex) {
@@ -103,7 +103,7 @@ public class LetterOfCreditFundServiceImpl implements ExternalizableBusinessObje
     protected LetterOfCreditFund fundFromDTO(AwardMethodOfPaymentDTO method) {
         LetterOfCreditFund fund = new LetterOfCreditFund();
         fund.setLetterOfCreditFundCode(method.getMethodOfPaymentCode());
-        fund.setFundDescription(method.getDescription());
+        fund.setLetterOfCreditFundDescription(method.getDescription());
         return fund;
     }
  }

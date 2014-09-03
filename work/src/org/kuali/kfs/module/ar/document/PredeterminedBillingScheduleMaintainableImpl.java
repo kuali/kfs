@@ -22,11 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.PredeterminedBillingScheduleMaintenanceService;
 import org.kuali.kfs.module.ar.document.validation.impl.PredeterminedBillingScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,23 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Methods for the Predetermined Billing Schedule maintenance document UI.
  */
 public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSystemMaintainable {
-
-    /**
-     * Constructs an MilestoneScheduleMaintainableImpl.
-     */
-    public PredeterminedBillingScheduleMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a MilestoneScheduleMaintainableImpl.
-     *
-     * @param award
-     */
-    public PredeterminedBillingScheduleMaintainableImpl(PredeterminedBillingSchedule predeterminedBillingSchedule) {
-        super(predeterminedBillingSchedule);
-        this.setBoClass(predeterminedBillingSchedule.getClass());
-    }
+    private static volatile PredeterminedBillingScheduleMaintenanceService predeterminedBillingScheduleMaintenanceService;
 
     /**
      * This method is called to check if the award already has bills set, and to validate on refresh
@@ -68,18 +53,14 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
-
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        if (StringUtils.equals("awardLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
-
-            boolean isMilestonesExist = PredeterminedBillingScheduleRuleUtil.checkIfBillsExist(getPredeterminedBillingSchedule());
-            if (isMilestonesExist) {
+        if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
+            if (PredeterminedBillingScheduleRuleUtil.checkIfBillsExist(getPredeterminedBillingSchedule())) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, ArKeyConstants.ERROR_AWARD_PREDETERMINED_BILLING_SCHEDULE_EXISTS, new String[] { getPredeterminedBillingSchedule().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
-
             }
         }
         else {
@@ -88,7 +69,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
     }
 
    /**
-    * Not to copy over the Bills billedIndicators and billIdentifiers to prevent
+    * Not to copy over the Bills billed and billIdentifier values to prevent
     * bad data and PK issues when saving new Bills.
     */
     @Override
@@ -100,7 +81,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         List<Bill> bills = getPredeterminedBillingSchedule().getBills();
         if (ObjectUtils.isNotNull(bills)) {
             for (Bill bill:bills) {
-                bill.setBilledIndicator(false);
+                bill.setBilled(false);
                 bill.setBillIdentifier(null);
             }
         }
@@ -124,7 +105,6 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
      * @return
      */
     public PredeterminedBillingSchedule getPredeterminedBillingSchedule() {
-
         return (PredeterminedBillingSchedule) getBusinessObject();
     }
 
@@ -153,9 +133,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
      * @param section Bill section to review and possibly set readonly
      * @param proposalNumber used to look for CG Invoice docs
      */
-    private void prepareBillsTab(Section section, Long proposalNumber) {
-        ContractsGrantsInvoiceDocumentService cgInvDocService  = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
+    protected void prepareBillsTab(Section section, Long proposalNumber) {
         for (Row row : section.getRows()) {
             for (Field field : row.getFields()) {
                 if (field.getCONTAINER().equalsIgnoreCase(field.getFieldType())) {
@@ -165,7 +143,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
                             if (ObjectUtils.getNestedAttributePrimitive(containerRowfield.getPropertyName()).matches(ArPropertyConstants.BillFields.BILL_IDENTIFIER)) {
                                 String billId = containerRowfield.getPropertyValue();
                                 if (StringUtils.isNotEmpty(billId)) {
-                                    if (cgInvDocService.hasBillBeenCopiedToInvoice(proposalNumber, billId)) {
+                                    if (getPredeterminedBillingScheduleMaintenanceService().hasBillBeenCopiedToInvoice(proposalNumber, billId)) {
                                         for (Field rowfield : row.getFields()) {
                                             if (rowfield.getCONTAINER().equalsIgnoreCase(rowfield.getFieldType())) {
                                                 for (Row fieldContainerRow : rowfield.getContainerRows()) {
@@ -185,5 +163,10 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         }
     }
 
-
+    public static PredeterminedBillingScheduleMaintenanceService getPredeterminedBillingScheduleMaintenanceService() {
+        if (predeterminedBillingScheduleMaintenanceService == null) {
+            predeterminedBillingScheduleMaintenanceService = SpringContext.getBean(PredeterminedBillingScheduleMaintenanceService.class);
+        }
+        return predeterminedBillingScheduleMaintenanceService;
+    }
 }

@@ -21,14 +21,14 @@
 	docTitle="Contracts Grants Invoice Summary">
 
 	<div id="globalbuttons" class="globalbuttons">
-		<c:if test="${KualiForm.awardInvoicedInd}">
+		<c:if test="${KualiForm.awardInvoiced}">
 			<html:image
 				src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif"
 				styleClass="globalbuttons" property="methodToCall.cancel"
 				title="return" alt="return" />
 		</c:if>
 
-		<c:if test="${!KualiForm.awardInvoicedInd}">
+		<c:if test="${!KualiForm.awardInvoiced}">
 
 			<ar:documentSummaryResults lookupResultsProperty="contractsGrantsInvoiceLookupResults" lookupResultTitleProperties="agencyNumber;agencyFullName">
 				<ar:contractsGrantsInvoiceSummaryResultContent/>

@@ -271,6 +271,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                         // not sure why we have to do this, but without it, the FinancialSystemDocumentHeader documentNumber is null
                         // on the invoice doc, and an exception is thrown when we try to save the invoice
                         invoice.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
+                        // not sure why we have to do this, but without it, invoice.invoiceDetails is empty and then the save tries to delete
+                        // records it shouldn't a FK is violated and the doc goes to EXCEPTION status
+                        invoice.refresh();
                         boService.save(invoice);
 
                         Map<String, String> fieldValues = new HashMap<String, String>();

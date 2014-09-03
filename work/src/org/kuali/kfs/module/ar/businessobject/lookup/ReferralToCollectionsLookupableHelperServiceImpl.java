@@ -20,6 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +35,12 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
+import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.module.ar.businessobject.inquiry.ReferralToCollectionsLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.web.format.Formatter;
@@ -176,7 +179,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
             // Create main customer header row
             Collection<Column> columns = getColumns(element, businessObjectRestrictions);
             HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-            ReferralToCollectionsResultRow row = new ReferralToCollectionsResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+            ContractsGrantsLookupResultRow row = new ContractsGrantsLookupResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 
@@ -287,8 +290,83 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         Collection searchResultsCollection;
         // Get the list and Convert to suitable list
-        searchResultsCollection = contractsGrantsInvoiceDocumentService.getInvoiceDocumentsForReferralToCollectionsLookup(fieldValues);
+        searchResultsCollection = getInvoiceDocumentsForReferralToCollectionsLookup(fieldValues);
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));
+    }
+
+    /**
+     * Gets the invoice documents based on field values.
+     *
+     * @param fieldValues The fields which needs to be put in criteria.
+     * @return Returns the list of ReferralToCollectionsLookupResult.
+     */
+    protected Collection<ReferralToCollectionsLookupResult> getInvoiceDocumentsForReferralToCollectionsLookup(Map<String, String> fieldValues) {
+
+        String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
+        String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+        String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
+        String awardDocumentNumber = fieldValues.get(ArPropertyConstants.ReferralToCollectionsFields.AWARD_DOCUMENT_NUMBER);
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
+        String collectorPrincipalName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+
+        Collection<ContractsGrantsInvoiceDocument> invoices;
+        Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
+        if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
+            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        }
+        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())) {
+            fieldValuesForInvoice.put(ArPropertyConstants.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
+        }
+        if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
+        }
+        if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
+        }
+        if (ObjectUtils.isNotNull(customerName) && StringUtils.isNotBlank(customerName) && StringUtils.isNotEmpty(customerName)) {
+            fieldValuesForInvoice.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNTS_RECEIVABLE_CUSTOMER_NAME, customerName);
+        }
+
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
+        fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+
+
+        Map<String, String> refFieldValues = new HashMap<String, String>();
+        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, KFSConstants.Booleans.TRUE);
+        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, KFSConstants.Booleans.TRUE);
+        List<ReferralType> refTypes = (List<ReferralType>) businessObjectService.findMatching(ReferralType.class, refFieldValues);
+        String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;
+
+        invoices = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(fieldValuesForInvoice, outsideColAgencyCode);
+
+        // there's no ORM relationship between awards and the CINV - since awards are EBOs; so we just need to filter them after the query
+        if ((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) || ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
+            filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
+        }
+
+        return ReferralToCollectionsDocumentUtil.getPopulatedReferralToCollectionsLookupResults(invoices);
+    }
+
+    /**
+     * removes the invoices from list which does not match the given award document number.
+     *
+     * @param invoices list of invoices.
+     * @param awardDocumentNumber award document number to filter invoices.
+     */
+    protected void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
+        boolean checkAwardNumber = ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber);
+        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
+        if (!CollectionUtils.isEmpty(invoices)) {
+            Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
+            while (itr.hasNext()) {
+                ContractsGrantsInvoiceDocument invoice = itr.next();
+                if (invoice.getAward() == null || (checkAwardNumber && (invoice.getAward().getAwardDocumentNumber() == null || !invoice.getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                    itr.remove();
+                }
+            }
+        }
     }
 
     /**

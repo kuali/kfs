@@ -27,11 +27,11 @@ public class ContractsGrantsMilestoneReportDetailDataHolder {
     private Long milestoneNumber;
     private BigDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
-    private String billedIndicator;
+    private String billed;
     private String active;
     private String sortedFieldValue;
     private BigDecimal subTotal;
-    public boolean displaySubtotalInd;
+    public boolean displaySubtotal;
 
     /**
      * Gets the proposalNumber attribute.
@@ -131,22 +131,12 @@ public class ContractsGrantsMilestoneReportDetailDataHolder {
         this.milestoneExpectedCompletionDate = milestoneExpectedCompletionDate;
     }
 
-    /**
-     * Gets the billedIndicator attribute.
-     *
-     * @return Returns the billedIndicator.
-     */
-    public String getBilledIndicator() {
-        return billedIndicator;
+    public String getBilled() {
+        return billed;
     }
 
-    /**
-     * Sets the billedIndicator attribute value.
-     *
-     * @param billedIndicator The billedIndicator to set.
-     */
-    public void setBilledIndicator(String isItBilled) {
-        this.billedIndicator = isItBilled;
+    public void setBilled(String billed) {
+        this.billed = billed;
     }
 
     public String getActive() {
@@ -194,21 +184,21 @@ public class ContractsGrantsMilestoneReportDetailDataHolder {
     }
 
     /**
-     * Gets the displaySubtotalInd attribute.
+     * Gets the displaySubtotal attribute.
      *
-     * @return Returns the displaySubtotalInd.
+     * @return Returns the displaySubtotal.
      */
-    public boolean isDisplaySubtotalInd() {
-        return displaySubtotalInd;
+    public boolean isDisplaySubtotal() {
+        return displaySubtotal;
     }
 
     /**
-     * Sets the displaySubtotalInd attribute value.
+     * Sets the displaySubtotal attribute value.
      *
-     * @param displaySubtotalInd The displaySubtotalInd to set.
+     * @param displaySubtotal The displaySubtotal to set.
      */
-    public void setDisplaySubtotalInd(boolean displaySubtotalInd) {
-        this.displaySubtotalInd = displaySubtotalInd;
+    public void setDisplaySubtotal(boolean displaySubtotal) {
+        this.displaySubtotal = displaySubtotal;
     }
 
 

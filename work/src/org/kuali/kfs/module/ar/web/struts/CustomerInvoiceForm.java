@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  * This class is the action form for Customer Aging Reports.
  */
 public class CustomerInvoiceForm extends KualiForm {
-    private static final long serialVersionUID = 1L;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CustomerInvoiceForm.class);
 
@@ -41,7 +40,7 @@ public class CustomerInvoiceForm extends KualiForm {
     private String userId;
 
     /**
-     * Gets the userId attribute. 
+     * Gets the userId attribute.
      * @return Returns the userId.
      */
     public String getUserId() {
@@ -63,7 +62,7 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
     /**
-     * Gets the message attribute. 
+     * Gets the message attribute.
      * @return Returns the message.
      */
     public String getMessage() {
@@ -115,9 +114,9 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
 
-    
+
     /**
-     * Gets the runDate attribute. 
+     * Gets the runDate attribute.
      * @return Returns the runDate.
      */
     public Date getRunDate() {
@@ -136,7 +135,7 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
     /**
-     * Gets the orgType attribute. 
+     * Gets the orgType attribute.
      * @return Returns the orgType.
      */
     public String getOrgType() {
@@ -163,7 +162,7 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
     /**
-     * Gets the chartCode attribute. 
+     * Gets the chartCode attribute.
      * @return Returns the chartCode.
      */
     public String getChartCode() {
@@ -183,7 +182,7 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
     /**
-     * Gets the orgCode attribute. 
+     * Gets the orgCode attribute.
      * @return Returns the orgCode.
      */
     public String getOrgCode() {

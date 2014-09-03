@@ -22,6 +22,8 @@ import org.kuali.kfs.sys.KFSConstants;
  */
 public class ArPropertyConstants{
 
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
+
     // CustomerInvoiceDocument
     public static class CustomerInvoiceDocumentFields {
 
@@ -142,6 +144,13 @@ public class ArPropertyConstants{
         public static final String CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER = "financialDocumentReferenceInvoiceNumber";
     }
 
+    public static class CustomerStatementFields {
+        public static final String CHART_CODE = "chartCode";
+        public static final String ORG_CODE = "orgCode";
+        public static final String STATEMENT_FORMAT = "statementFormat";
+        public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "includeZeroBalanceCustomers";
+    }
+
     // CashControlDocument
     public static class CashControlDocumentFields {
         public static final String FINANCIAL_DOCUMENT_LINE_AMOUNT = "financialDocumentLineAmount";
@@ -190,7 +199,6 @@ public class ArPropertyConstants{
         public static final String COLLECTOR = "principalId";
         public static final String FOLLOWUP_DATE = "followupDate";
         public static final String ACTIVITY_CODE = "activityCode";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String COMPLETED = "completed";
@@ -204,10 +212,10 @@ public class ArPropertyConstants{
         public static final String EVENT_CODE = "eventCode";
         public static final String EVENT_IDENTIFIER = "eventIdentifier";
         public static final String INVOICE_NUMBER = "invoiceNumber";
-        public static final String FOLLOW_UP_IND = "followupInd";
+        public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
-        public static final String COMPLETED = "completedInd";
+        public static final String COMPLETED = "completed";
         public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
@@ -216,7 +224,6 @@ public class ArPropertyConstants{
     public static class CollectionActivityDocumentFields {
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
     }
 
     // OrganizationOptions
@@ -269,9 +276,6 @@ public class ArPropertyConstants{
         public static final String DELETE_NON_INVOICED_LINE_PREFIX = "methodToCall.deleteNonArLine.line";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER = "selectedCustomerNumber";
         public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
-        /* Start TEM REFUND Merge */
-        public static final String REFUND_DOCUMENT_NUMBER = "refundDocumentNumber";
-        /* End TEM REFUND Merge */
     }
 
     // Suspension Category
@@ -291,9 +295,9 @@ public class ArPropertyConstants{
     public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String INV_AWARD = "Invoice by Award";
-    public static final String INV_ACCOUNT = "Invoice by Account";
-    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
+    public static final String INV_AWARD = "1";
+    public static final String INV_ACCOUNT = "2";
+    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
     public static final String AWARD_FUND_TYPE = "fundsType";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
@@ -308,10 +312,6 @@ public class ArPropertyConstants{
     public static final String DOCUMENT_STATUS_CODE = "documentHeader.financialDocumentStatusCode";
     public static final String DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "documentHeader.financialDocumentInErrorNumber";
     public static final String CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
-    public static final String CONTRACTS_GRANTS_INV_DOC_TYPE = "CINV";
-
-    public static final String REFERRAL_TO_COLL_DOC_TYPE = "RTCL";
-    public static final String COLLECTION_ACTIVTY_DOC_TYPE = "COLA";
 
     public static final String COLLECTOR_HEAD = "principalId";
     public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
@@ -327,7 +327,25 @@ public class ArPropertyConstants{
 
     public static class ContractsGrantsInvoiceDocumentErrorLogLookupFields {
         public static final String ACCOUNTS = "accounts";
-        public static final String ERROR_DATE = "errorDate";
+        public static final String AWARD_BEGINNING_DATE_FROM = "rangeLowerBoundKeyPrefix_awardBeginningDate";
+        public static final String AWARD_BEGINNING_DATE_FROM_LABEL = "Award Start Date From";
+        public static final String AWARD_BEGINNING_DATE_TO = "awardBeginningDate";
+        public static final String AWARD_BEGINNING_DATE_TO_LABEL = "Award Start Date To";
+        public static final String AWARD_ENDING_DATE_FROM = "rangeLowerBoundKeyPrefix_awardEndingDate";
+        public static final String AWARD_ENDING_DATE_FROM_LABEL = "Award Stop Date From";
+        public static final String AWARD_ENDING_DATE_TO = "awardEndingDate";
+        public static final String AWARD_ENDING_DATE_TO_LABEL = "Award Stop Date To";
+        public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";
+        public static final String AWARD_TOTAL_AMOUNT_LABEL = "Award Total Amount";
+        public static final String CUMULATIVE_EXPENSES_AMOUNT = "cumulativeExpensesAmount";
+        public static final String CUMULATIVE_EXPENSES_AMOUNT_LABEL = "Cumulative Expenses Amount";
+        public static final String ERROR_DATE_FROM = "rangeLowerBoundKeyPrefix_errorDate";
+        public static final String ERROR_DATE_FROM_LABEL = "Error Date From";
+        public static final String ERROR_DATE_TO = "errorDate";
+        public static final String ERROR_DATE_TO_LABEL = "Error Date To";
+        public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME = "primaryFundManagerPrincipalName";
+        public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME_LABEL = "Primary Fund Manager Principal Name";
+        public static final String PROPOSAL_NUMBER_LABEL = "Proposal Number";
     }
 
     public static class TransmitContractsAndGrantsInvoicesLookupFields {
@@ -375,7 +393,7 @@ public class ArPropertyConstants{
     }
 
     public static class DunningLetterTemplateFields {
-        public static final String LETTER_TEMPLATE_CODE = "letterTemplateCode";
+        public static final String DUNNING_LETTER_TEMPLATE_CODE = "dunningLetterTemplateCode";
     }
 
     public static class InvoiceTemplateFields {
@@ -421,7 +439,6 @@ public class ArPropertyConstants{
     public static class CollectionActivityReportFields {
         public static final String COLLECTOR = "principalId";
         public static final String ACTIVITY_TYPE = "activityType";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String ACCOUNT_NUMBER = "accountNumber";
@@ -430,7 +447,6 @@ public class ArPropertyConstants{
     // Referral To Collections Report fields
     public static class ReferralToCollectionsReportFields {
         public static final String COLLECTOR = "principalId";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String ACCOUNT_NUMBER = "accountNumber";
@@ -452,7 +468,7 @@ public class ArPropertyConstants{
     public static class ReferralTypeFields {
         public static final String REFERRAL_TYPE_CODE = "referralTypeCode";
         public static final String OUTSIDE_COLLECTION_AGENCY = "outsideCollectionAgency";
-        public static final String OUTSIDE_COLLECTION_AGENCY_IND = "outsideCollectionAgencyInd";
+        public static final String OUTSIDE_COLLECTION_AGENCY_IND = "outsideCollectionAgency";
         public static final String ACTIVE = "active";
     }
 
@@ -498,29 +514,86 @@ public class ArPropertyConstants{
         public static final String MILESTONE_NUMBER = "milestoneNumber";
     }
 
+    public static class FederalFormReportFields {
+        public static final String INDIRECT_EXPENSE_TYPE = "Indirect Expense Type";
+        public static final String INDIRECT_EXPENSE_RATE = "Indirect Expense Rate";
+        public static final String INDIRECT_EXPENSE_PERIOD_FROM = "Indirect Expense Period From";
+        public static final String INDIRECT_EXPENSE_PERIOD_TO = "Indirect Expense Period To";
+        public static final String INDIRECT_EXPENSE_BASE = "Indirect Expense Base";
+        public static final String INDIRECT_EXPENSE_AMOUNT = "Indirect Expense Amount";
+        public static final String INDIRECT_EXPENSE_FEDERAL = "Indirect Expense Federal";
+        public static final String INDIRECT_EXPENSE_BASE_SUM = "Indirect Expense Base Sum";
+        public static final String INDIRECT_EXPENSE_AMOUNT_SUM = "Indirect Expense Amount Sum";
+        public static final String INDIRECT_EXPENSE_FEDERAL_SUM = "Indirect Expense Federal Sum";
+        public static final String RECIPIENT_ORGANIZATION = "Recipient Organization";
+        public static final String ZWEI = "EIN";
+        public static final String FEDERAL_AGENCY = "Federal Agency";
+        public static final String FEDERAL_GRANT_NUMBER = "Federal Grant Number";
+        public static final String RECIPIENT_ACCOUNT_NUMBER = "Recipient Account Number";
+        public static final String GRANT_PERIOD_FROM = "Grant Period From";
+        public static final String GRANT_PERIOD_TO = "Grant Period To";
+        public static final String CASH_RECEIPTS = "Cash Receipts";
+        public static final String TOTAL_FEDERAL_FUNDS_AUTHORIZED = "Total Federal Funds Authorized";
+        public static final String REPORTING_PERIOD_END_DATE = "Reporting Period End Date";
+        public static final String CASH_DISBURSEMENTS = "Cash Disbursements";
+        public static final String CASH_ON_HAND = "Cash on Hand";
+        public static final String FEDERAL_SHARE_OF_EXPENDITURES = "Federal Share of Expenditures";
+        public static final String TOTAL_FEDERAL_SHARE = "Total Federal Share";
+        public static final String UNOBLIGATED_BALANCE_OF_FEDERAL_FUNDS = "Unobligated Balance of Federal Funds";
+        public static final String FEDERAL_SHARE_OF_UNLIQUIDATED_OBLIGATION = "Federal Share of Unliquidated Obligations";
+        public static final String TOTAL_FEDERAL_INCOME_EARNED = "Total Federal Income Earned";
+        public static final String INCOME_EXPENDED_DEDUCATION_ALTERNATIVE = "Income Expended in Accordance to Deduction Alternative";
+        public static final String INCOME_EXPENDED_ADDITION_ALTERNATIVE = "Income Expended in Accordance to Addition Alternative";
+        public static final String UNEXPECTED_PROGRAM_INCOME = "Unexpended Program Income";
+        public static final String NAME = "Name";
+        public static final String TELEPHONE = "Telephone";
+        public static final String EMAIL_ADDRESS = "Email Address";
+        public static final String DATE_REPORT_SUBMITTED = "Date Report Submitted";
+        public static final String QUARTERLY = "Quaterly";
+        public static final String SEMI_ANNUAL = "Semi Annual";
+        public static final String ANNUAL = "Annual";
+        public static final String FINAL = "Final";
+        public static final String CASH = "Cash";
+        public static final String ACCRUAL = "Accrual";
+        public static final String FEDERAL_CASH_DISBURSEMENT = "Federal Cash Disbursement";
+        public static final String TOTAL_PAGES = "totalPages";
+        public static final String PAGE_NUMBER = "pageNumber";
+        public static final String TOTAL = "Total";
+    };
+
     public static final String INVOICE_NUMBER="invoiceItemNumber";
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
-    public static final String  INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
-    public static final String  SEQUENCE_NUMBER= "sequenceNumber";
-    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
-    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+    public static final String INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
+    public static final String SEQUENCE_NUMBER= "sequenceNumber";
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
     public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
+    public static final String AGING_BUCKET = "agingBucket";
+    public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
+    public static final String CATEGORY_CODE = "categoryCode";
     public static final String INVOICE_TYPE = "invoiceType";
     public static final String AGE_IN_DAYS = "ageInDays";
-    public static final String AWARD = "award";
     public static final String REMAINING_AMOUNT = "remainingAmount";
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
-    public static final String BILLED_INDICATOR = "billedIndicator";
+    public static final String BILLED = "billed";
+    public static final String FULL_ADDRESS = "fullAddress";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
+    public static final String INVOICE_GENERAL_DETAIL = "invoiceGeneralDetail";
+    public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
+    public static final String PRINT_PDF_URL = "printPDFUrl";
+    public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
+    public static final String PRINT_LABEL = "printLabel";
+
+    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
 }

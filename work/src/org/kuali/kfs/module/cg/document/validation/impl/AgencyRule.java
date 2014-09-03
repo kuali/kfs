@@ -22,15 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.AgencyType;
-import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -49,7 +46,6 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
     protected Agency newAgency;
     protected Agency oldAgency;
-    protected boolean contractsGrantsBillingEnhancementsInd;
 
     BusinessObjectService businessObjectService;
 
@@ -59,7 +55,6 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public AgencyRule() {
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**
@@ -87,16 +82,9 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         success &= checkAgencyReportsTo(document);
 
         // Only do further custom Contracts and Grants Billing validations for route document, if the enhancements are active
-        if (contractsGrantsBillingEnhancementsInd) {
+        if (contractsGrantsBillingEnhancementActive) {
             // There must be at least one primary Agency Address in Agency
             success &= checkPrimary(newAgency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class);
-
-
-            // Guide the user further
-            if (!success) {
-                GlobalVariables.getMessageMap().putInfo(MAINTAINABLE_ERROR_PREFIX + KFSPropertyConstants.AGENCY_ADDRESSES, CGKeyConstants.AgencyConstants.MESSAGE_SELECT_PRIMARY_AGENCY_ADDRESS_TYPE);
-            }
-
             success &= validateAddresses(newAgency);
 
             // Make sure new agency customers have a Customer Type
@@ -229,8 +217,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
 
         // Only do if the CG Billing enhancements are turned on
-        if (contractsGrantsBillingEnhancementsInd) {
-
+        if (contractsGrantsBillingEnhancementActive) {
             if (line instanceof AgencyAddress) {
                 AgencyAddress newAgencyAddress = (AgencyAddress) line;
                 if (collectionName.equals(KFSPropertyConstants.AGENCY_ADDRESSES)) {
@@ -239,11 +226,9 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                     String tmpCode = newAgencyAddress.getCustomerAddressTypeCode();
 
                     // Check if there is an Agency Primary Address in the collection lines or not.
-                    int count = 0;
                     for (AgencyAddress agencyAddress : agencyAddresses) {
                         String customerAddressTypeCode = agencyAddress.getCustomerAddressTypeCode();
                         if (customerAddressTypeCode != null && customerAddressTypeCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
-                            count++;
                             if (ObjectUtils.isNotNull(tmpCode) && !tmpCode.isEmpty() && tmpCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
                                 String elementLabel = SpringContext.getBean(DataDictionaryService.class).getCollectionElementLabel(Agency.class.getName(), collectionName, AgencyAddress.class);
                                 putFieldError(collectionName, KFSKeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
@@ -255,18 +240,6 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                                     return isValid;
                                 }
                             }
-                        }
-                    }
-
-                    if (count > 1) {
-                        String elementLabel = SpringContext.getBean(DataDictionaryService.class).getCollectionElementLabel(Award.class.getName(), collectionName, AwardFundManager.class);
-                        putFieldError(collectionName, KFSKeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
-                        return false;
-                    }
-                    else {
-                        boolean isValid = checkAddressIsValid(newAgencyAddress);
-                        if (!isValid) {
-                            return isValid;
                         }
                     }
                 }
@@ -286,25 +259,23 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public boolean checkAddressIsValid(AgencyAddress agencyAddress) {
         boolean isValid = true;
         // To validate only if the Agency agency exists field says "Create New Customer".
-        String customerExistsValue = newAgency.getCustomerCreated();
-        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(customerExistsValue)) {
+        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreated())) {
             if (CGKeyConstants.AgencyConstants.AGENCY_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(agencyAddress.getAgencyCountryCode())) {
-
-                if (agencyAddress.getAgencyZipCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyZipCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyZipCode())) {
                     isValid = false;
                     GlobalVariables.getMessageMap().putError(CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_ZIP_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
                 }
-                if (agencyAddress.getAgencyStateCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyStateCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyStateCode())) {
                     isValid = false;
                     GlobalVariables.getMessageMap().putError(CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_STATE_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US);
                 }
             }
             else {
-                if (agencyAddress.getAgencyInternationalMailCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyInternationalMailCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyInternationalMailCode())) {
                     isValid = false;
                     GlobalVariables.getMessageMap().putError(CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
                 }
-                if (agencyAddress.getAgencyAddressInternationalProvinceName() == null || "".equalsIgnoreCase(agencyAddress.getAgencyAddressInternationalProvinceName())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyAddressInternationalProvinceName())) {
                     isValid = false;
                     GlobalVariables.getMessageMap().putError(CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
                 }
@@ -324,25 +295,23 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         boolean isValid = true;
         String propertyName = CGPropertyConstants.AgencyFields.AGENCY_TAB_ADDRESSES + "[" + ind + "].";
         // To validate only if the Agency agencyexists field says "Create New Customer".
-        String customerExistsValue = newAgency.getCustomerCreated();
-        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(customerExistsValue)) {
+        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreated())) {
             if (CGKeyConstants.AgencyConstants.AGENCY_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(agencyAddress.getAgencyCountryCode())) {
-
-                if (agencyAddress.getAgencyZipCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyZipCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyZipCode())) {
                     isValid = false;
                     putFieldError(propertyName + CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_ZIP_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
                 }
-                if (agencyAddress.getAgencyStateCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyStateCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyStateCode())) {
                     isValid = false;
                     putFieldError(propertyName + CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_STATE_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US);
                 }
             }
             else {
-                if (agencyAddress.getAgencyInternationalMailCode() == null || "".equalsIgnoreCase(agencyAddress.getAgencyInternationalMailCode())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyInternationalMailCode())) {
                     isValid = false;
                     putFieldError(propertyName + CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
                 }
-                if (agencyAddress.getAgencyAddressInternationalProvinceName() == null || "".equalsIgnoreCase(agencyAddress.getAgencyAddressInternationalProvinceName())) {
+                if (StringUtils.isBlank(agencyAddress.getAgencyAddressInternationalProvinceName())) {
                     isValid = false;
                     putFieldError(propertyName + CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
                 }
@@ -362,7 +331,6 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         boolean isValid = true;
         int i = 0;
 
-        i = 0;
         for (AgencyAddress agencyAddress : agency.getAgencyAddresses()) {
             isValid &= checkAddressIsValid(agencyAddress, i);
             i++;

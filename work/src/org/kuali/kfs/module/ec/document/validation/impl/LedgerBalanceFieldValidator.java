@@ -97,7 +97,7 @@ public class LedgerBalanceFieldValidator {
      *         message
      */
     public static Message isNonZeroAmountBalanceWithinReportPeriod(LaborLedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, false);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
 
         if (totalAmount.isZero()) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, Message.TYPE_FATAL);
@@ -114,7 +114,7 @@ public class LedgerBalanceFieldValidator {
      *         message
      */
     public static Message isTotalAmountPositive(Collection<LaborLedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods, false);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
 
         if (!totalAmount.isPositive()) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, totalAmount.toString());

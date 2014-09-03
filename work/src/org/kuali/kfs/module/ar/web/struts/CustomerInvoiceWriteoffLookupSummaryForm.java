@@ -37,11 +37,11 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults;
-    private boolean sentToBatchInd;
+    private boolean sentToBatch;
 
     public CustomerInvoiceWriteoffLookupSummaryForm(){
         customerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
-        sentToBatchInd = false;
+        sentToBatch = false;
     }
 
     public String getLookupResultsSequenceNumber() {
@@ -65,12 +65,12 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
         return customerInvoiceWriteoffLookupResult;
     }
 
-    public boolean isSentToBatchInd() {
-        return sentToBatchInd;
+    public boolean isSentToBatch() {
+        return sentToBatch;
     }
 
-    public void setSentToBatchInd(boolean sentToBatchInd) {
-        this.sentToBatchInd = sentToBatchInd;
+    public void setSentToBatch(boolean sentToBatch) {
+        this.sentToBatch = sentToBatch;
     }
     @Override
     public void populate(HttpServletRequest request) {

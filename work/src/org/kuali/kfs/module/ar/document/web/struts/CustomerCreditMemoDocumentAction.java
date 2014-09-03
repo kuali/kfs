@@ -17,16 +17,18 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.Properties;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
@@ -35,21 +37,19 @@ import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditM
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocumentActionBase {
 
@@ -251,23 +251,20 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = getApplicationBaseUrl();
         String docId = ((CustomerCreditMemoDocumentForm) form).getDocument().getDocumentNumber();
-        String methodToCallPrintCreditMemoPDF = "printCreditMemoPDF";
-        String methodToCallDocHandler = "docHandler";
-        String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallPrintCreditMemoPDF);
-        String displayInvoiceTabbedPageUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallDocHandler);
+        String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, ArConstants.PRINT_CREDIT_MEMO_PDF_METHOD);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintCreditMemo(basePath, docId, KFSConstants.DOC_HANDLER_METHOD);
 
-        request.setAttribute("printPDFUrl", printCreditMemoPDFUrl);
-        request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
-        request.setAttribute("docId", docId);
+        request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printCreditMemoPDFUrl);
+        request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayInvoiceTabbedPageUrl);
+        request.setAttribute(KFSConstants.PARAMETER_DOC_ID, docId);
         String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_CREDIT_MEMO);
-        request.setAttribute("printLabel", label);
-        return mapping.findForward("arPrintPDF");
-
+        request.setAttribute(ArPropertyConstants.PRINT_LABEL, label);
+        return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
     }
 
     /**
+     * This method generates the Customer Credit Memo PDF
      *
-     * This method...
      * @param mapping
      * @param form
      * @param request
@@ -282,80 +279,20 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         File report = reportService.generateCreditMemo(customerCreditMemoDocument);
 
-        StringBuilder fileName = new StringBuilder();
-        fileName.append(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
-        fileName.append("-");
-        fileName.append(customerCreditMemoDocument.getDocumentNumber());
-        fileName.append(".pdf");
-
         if (report.length() == 0) {
-            //csForm.setMessage("No Report Generated");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String contentDisposition = "";
-        ArrayList master = new ArrayList();
-        PdfCopy  writer = null;
+        byte[] content = Files.readAllBytes(report.toPath());
+        ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(content);
 
-        // create a reader for the document
-        String reportName = report.getAbsolutePath();
-        PdfReader reader = new PdfReader(reportName);
-        reader.consolidateNamedDestinations();
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
+        fileName.append(KFSConstants.DASH);
+        fileName.append(customerCreditMemoDocument.getDocumentNumber());
+        fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
 
-        // retrieve the total number of pages
-        int n = reader.getNumberOfPages();
-        List bookmarks = SimpleBookmark.getBookmark(reader);
-        if (bookmarks != null) {
-            master.addAll(bookmarks);
-        }
-
-        // step 1: create a document-object
-        Document document = new Document(reader.getPageSizeWithRotation(1));
-        // step 2: create a writer that listens to the document
-        writer = new PdfCopy(document, baos);
-        // step 3: open the document
-        document.open();
-        // step 4: add content
-        PdfImportedPage page;
-        for (int i = 0; i < n; ) {
-            ++i;
-            page = writer.getImportedPage(reader, i);
-            writer.addPage(page);
-        }
-        writer.freeReader(reader);
-        if (!master.isEmpty()) {
-            writer.setOutlines(master);
-        }
-        // step 5: we close the document
-        document.close();
-
-        StringBuffer sbContentDispValue = new StringBuffer();
-        String useJavascript = request.getParameter("useJavascript");
-        if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-            sbContentDispValue.append("attachment");
-        }
-        else {
-            sbContentDispValue.append("inline");
-        }
-        sbContentDispValue.append("; filename=");
-        sbContentDispValue.append(fileName);
-
-        contentDisposition = sbContentDispValue.toString();
-
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", contentDisposition);
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
-        response.setContentLength(baos.size());
-
-        // write to output
-        ServletOutputStream sos;
-        sos = response.getOutputStream();
-        baos.writeTo(sos);
-        sos.flush();
-        sos.close();
+        KfsWebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, fileName.toString(), Boolean.parseBoolean(request.getParameter(KFSConstants.ReportGeneration.USE_JAVASCRIPT)));
 
         return null;
     }
@@ -369,15 +306,13 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      * @return The URL
      */
     protected String getUrlForPrintCreditMemo(String basePath, String docId, String methodToCall) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arCustomerCreditMemoDocument.do?methodToCall=");
-        result.append(methodToCall);
-        result.append("&docId=");
-        result.append(docId);
-        result.append("&command=displayDocSearchView");
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.CUSTOMER_CREDIT_MEMO_DOCUMENT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KFSConstants.PARAMETER_DOC_ID, docId);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.ACTIONLIST_COMMAND);
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
-
 
 }

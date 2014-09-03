@@ -28,7 +28,7 @@ public class ReferralType extends PersistableBusinessObjectBase implements Mutab
     private String referralTypeCode;
     private String description;
     private boolean active;
-    private boolean outsideCollectionAgencyInd;
+    private boolean outsideCollectionAgency;
 
     /**
      * Gets the active attribute.
@@ -88,21 +88,21 @@ public class ReferralType extends PersistableBusinessObjectBase implements Mutab
     }
 
     /**
-     * Gets the outsideCollectionAgencyInd attribute.
+     * Gets the outsideCollectionAgency attribute.
      *
-     * @return Returns the outsideCollectionAgencyInd.
+     * @return Returns the outsideCollectionAgency.
      */
-    public boolean isOutsideCollectionAgencyInd() {
-        return outsideCollectionAgencyInd;
+    public boolean isOutsideCollectionAgency() {
+        return outsideCollectionAgency;
     }
 
     /**
-     * Sets the outsideCollectionAgencyInd attribute.
+     * Sets the outsideCollectionAgency attribute.
      *
-     * @param outsideCollectionAgencyInd The outsideCollectionAgencyInd to set.
+     * @param outsideCollectionAgency The outsideCollectionAgency to set.
      */
-    public void setOutsideCollectionAgencyInd(boolean outsideCollectionAgencyInd) {
-        this.outsideCollectionAgencyInd = outsideCollectionAgencyInd;
+    public void setOutsideCollectionAgency(boolean outsideCollectionAgency) {
+        this.outsideCollectionAgency = outsideCollectionAgency;
     }
 
     /**

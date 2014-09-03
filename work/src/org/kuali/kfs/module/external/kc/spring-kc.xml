@@ -265,7 +265,17 @@
     <bean id="cfdaLookupableHelperService" parent="cfdaLookupableHelperService-parentBean"/>
     <bean id="cfdaLookupableHelperService-parentBean" abstract="true" parent="externalLookupableHelperService">
     	<property name="eboLookupableService" ref="cfdaNumberService"/>
-    </bean>   
+    </bean>
+
+    <bean id="sponsorLookupable" parent="sponsorLookupable-parentBean"/>
+    <bean id="sponsorLookupable-parentBean" abstract="true" scope="prototype" parent="kualiLookupable">
+    	<property name="lookupableHelperService" ref="sponsorLookupableHelperService"/>
+    </bean>
+    
+    <bean id="sponsorLookupableHelperService" parent="sponsorLookupableHelperService-parentBean"/>
+    <bean id="sponsorLookupableHelperService-parentBean" abstract="true" parent="externalLookupableHelperService">
+    	<property name="eboLookupableService" ref="sponsorWebService"/>
+    </bean>      
     
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

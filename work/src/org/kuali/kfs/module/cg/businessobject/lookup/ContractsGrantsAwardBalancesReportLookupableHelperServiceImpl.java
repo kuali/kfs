@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.cg.businessobject.lookup;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport;
-import org.kuali.kfs.module.cg.report.ContractsGrantsReportUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -48,6 +52,25 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
     private static final Log LOG = LogFactory.getLog(ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl.class);
 
     protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
+    protected DateTimeService dateTimeService;
+
+    /**
+     * Validating date fields
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map<String, String> fieldValues) {
+        super.validateSearchParameters(fieldValues);
+        final String awardBeginningDateFrom = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        validateDateField(awardBeginningDateFrom, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        final String awardBeginningDateTo = fieldValues.get(KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        validateDateField(awardBeginningDateTo, KFSPropertyConstants.AWARD_BEGINNING_DATE);
+
+        final String awardEndingDateFrom = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        validateDateField(awardEndingDateFrom, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        final String awardEndingDateTo = fieldValues.get(KFSPropertyConstants.AWARD_ENDING_DATE);
+        validateDateField(awardEndingDateTo, KFSPropertyConstants.AWARD_ENDING_DATE);
+    }
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -58,7 +81,7 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
      * @param bounded
      * @return
      */
-    @SuppressWarnings({ "deprecation", "rawtypes" })
+    @SuppressWarnings("rawtypes")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean unbounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
@@ -66,10 +89,11 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
+        Map<String, String> lookupCriteria = buildCriteriaForLookup(lookupFormFields);
+
         Collection<ContractsGrantsAwardBalancesReport> displayList = new ArrayList<ContractsGrantsAwardBalancesReport>();
 
-
-        Collection<Award> awards = businessObjectService.findAll(Award.class);
+        Collection<Award> awards = getLookupService().findCollectionBySearchHelper(Award.class, lookupCriteria, true);
 
         // build search result fields
 
@@ -99,14 +123,44 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
             awardBalancesReportEntry.setTotalPaymentsToDate(totalPayments);
             awardBalancesReportEntry.setAmountCurrentlyDue(awardBilledToDateAmount.subtract(totalPayments));
 
-            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), awardBalancesReportEntry, "ContractsGrantsAwardBalancesReport")) {
-                displayList.add(awardBalancesReportEntry);
-            }
+            displayList.add(awardBalancesReportEntry);
         }
         buildResultTable(lookupForm, displayList, resultTable);
         return displayList;
     }
 
+    /**
+     * Translates the given lookup fields into a Map of criteria to send to the lookup service
+     * @param lookupFormFields the Map of lookup fields straight from the form
+     * @return a Map of criteria actually useful for the lookup
+     */
+    protected Map<String, String> buildCriteriaForLookup(Map lookupFormFields) {
+        Map<String, String> criteria = new HashMap<>();
+
+        final String proposalNumber = (String)lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+        criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        final String agencyNumber = (String)lookupFormFields.get(KFSPropertyConstants.AGENCY_NUMBER);
+        criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
+
+        final String awardProjectTitle = (String)lookupFormFields.get(KFSPropertyConstants.AWARD_PROJECT_TITLE);
+        criteria.put(KFSPropertyConstants.AWARD_PROJECT_TITLE, awardProjectTitle);
+
+        final String awardBeginningDateFrom = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        final String awardBeginningDateTo = (String)lookupFormFields.get(KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        final String awardBeginningDate = fixDateCriteria(awardBeginningDateFrom, awardBeginningDateTo);
+        criteria.put(KFSPropertyConstants.AWARD_BEGINNING_DATE, awardBeginningDate);
+
+        final String awardEndingDateFrom = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.AWARD_BEGINNING_DATE);
+        final String awardEndingDateTo = (String)lookupFormFields.get(KFSPropertyConstants.AWARD_ENDING_DATE);
+        final String awardEndingDate = fixDateCriteria(awardEndingDateFrom, awardEndingDateTo);
+        criteria.put(KFSPropertyConstants.AWARD_ENDING_DATE, awardEndingDate);
+
+        final String awardStatusCode = (String)lookupFormFields.get(KFSPropertyConstants.AWARD_STATUS_CODE);
+        criteria.put(KFSPropertyConstants.AWARD_STATUS_CODE, awardStatusCode);
+
+        return criteria;
+    }
 
     /**
      * This methods builds result table for the lookup results.
@@ -177,6 +231,56 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
         return titleText;
     }
 
+    /**
+     * Translates the date criteria to a form which the LookupService will comprehend
+     * @param dateLowerBound the lower bound of the date
+     * @param dateUpperBound the upper bound of the date
+     * @return the date criteria, or null if nothing could be constructed
+     */
+    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound) {
+        if (!StringUtils.isBlank(dateLowerBound)) {
+            if (!StringUtils.isBlank(dateUpperBound)) {
+                return dateLowerBound+".."+dateUpperBound;
+            } else {
+                return ">="+dateLowerBound;
+            }
+        } else {
+            if (!StringUtils.isBlank(dateUpperBound)) {
+                return "<="+dateUpperBound;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Convenience method to validate a date from the lookup criteria
+     * @param dateFieldValue the value of the field from the lookup criteria
+     * @param dateFieldClass the class being looked up
+     * @param dateFieldPropertyName the property name representing the date
+     */
+    protected void validateDateField(String dateFieldValue, String dateFieldPropertyName) {
+        if (!StringUtils.isBlank(dateFieldValue)) {
+            try {
+                getDateTimeService().convertToDate(dateFieldValue);
+            }
+            catch (ParseException pe) {
+                addDateTimeError(dateFieldPropertyName);
+            }
+        }
+    }
+
+    /**
+     * Adds an appropriate error about the date or date time field, with the property name given by dateFieldPropertyName, being unparsable
+     * @param dateFieldPropertyName the property name which has the error
+     */
+    protected void addDateTimeError(String dateFieldPropertyName) {
+        final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
+                dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
+                dateFieldPropertyName;
+        final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
+        GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
+    }
+
     public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
         return accountsReceivableModuleBillingService;
     }
@@ -186,4 +290,11 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
         this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }

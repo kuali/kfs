@@ -35,7 +35,7 @@
 	<field name="reversedIndicator" class="java.lang.String"/>
 	<field name="appliedIndicator" class="java.lang.String"/>
 	<field name="sortedFieldValue" class="java.lang.String"/>
-	<field name="displaySubtotalInd" class="java.lang.Boolean"/>
+	<field name="displaySubtotal" class="java.lang.Boolean"/>
 	<field name="paymentSubTotal" class="java.math.BigDecimal"/>
 	<field name="invoiceSubTotal" class="java.math.BigDecimal"/>
 
@@ -55,7 +55,7 @@
 						width="80"
 						height="11"
 						key="textField-18">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement textAlignment="Right">
@@ -70,7 +70,7 @@
 						width="40"
 						height="11"
 						key="textField-19">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement>
@@ -85,7 +85,7 @@
 						width="246"
 						height="0"
 						key="line-1">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -96,7 +96,7 @@
 						width="80"
 						height="11"
 						key="textField-22">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement textAlignment="Right">

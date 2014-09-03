@@ -16,7 +16,10 @@
 package org.kuali.kfs.module.ar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import com.lowagie.text.Font;
 
 
 public class ArConstants{
@@ -61,7 +64,12 @@ public class ArConstants{
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";
     public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
-    public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
+    public static final String DUNNING_LETTER_TEMPLATE_UPLOAD = "template.dunningLetterTemplateUpload";
+    public static final String DUNNING_LETTER_TEMPLATE_TYPE = "Dunning Letter";
+    public static final String DUNNING_LETTER_TEMPLATE_NEW_FILE_NAME_PREFIX = "Dunning_Letter_Template_";
+    public static final String INVOICE_TEMPLATE_UPLOAD = "document.invoiceTemplateUpload";
+    public static final String INVOICE_TEMPLATE_TYPE = "Invoice";
+    public static final String INVOICE_TEMPLATE_NEW_FILE_NAME_PREFIX = "Invoice_Template_";
 
     public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
     public static final String AWARD_STATUS_CODES = "AWARD_STATUS_CODES";
@@ -93,6 +101,7 @@ public class ArConstants{
     // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
     public static int ITEM_QUANTITY_SCALE = 10;
 
+    public static final String AWARD_LOOKUP_IMPL = "awardLookupable";
     public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL = "arCustomerOpenItemReportLookupable";
 
     public static class PermissionNames {
@@ -119,23 +128,36 @@ public class ArConstants{
 
     public static final String CUSTOMER_COMPONENT = "Customer";
 
+    public static final String CLEAR_INIT_TAB_METHOD = "clearInitTab";
+    public static final String CONTINUE_LOC_REVIEW_METHOD = "continueLOCReview";
     public static final String DOWNLOAD_METHOD = "download";
+    public static final String EXPORT_METHOD = "export";
     public static final String PRINT_METHOD = "print";
+    public static final String PRINT_CREDIT_MEMO_PDF_METHOD = "printCreditMemoPDF";
+    public static final String PRINT_INVOICE_PDF_METHOD = "printInvoicePDF";
+    public static final String PRINT_STATEMENT_PDF_METHOD = "printStatementPDF";
     public static final String UPLOAD_METHOD = "upload";
+    public static final String CLEAR_BUTTON_FILE_NAME = "buttonsmall_clear.gif";
+    public static final String CLEAR_BUTTON_ALT_TEXT = "Clear";
+    public static final String CONTINUE_BUTTON_FILE_NAME = "buttonsmall_continue.gif";
+    public static final String CONTINUE_BUTTON_ALT_TEXT = "Continue";
+    public static final String EXPORT_BUTTON_FILE_NAME = "buttonsmall_export.gif";
+    public static final String EXPORT_BUTTON_ALT_TEXT = "Export";
+    public static final String EXPORT_BUTTON_ONCLICK_TEXT = "excludeSubmitRestriction=true";
+    public static final String PRINT_BUTTON_FILE_NAME = "buttonsmall_genprintfile.gif";
+    public static final String PRINT_BUTTON_ALT_TEXT = "Print";
+    public static final String PRORATE_BUTTON_METHOD = "methodToCall.prorateBill";
+    public static final String PRORATE_BUTTON_FILE_NAME = "buttonsmall_prorate.gif";
+    public static final String PRORATE_BUTTON_ALT_TEXT = "Prorate Bill";
     public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
     public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
+    public static final String MAPPING_PRINT_PDF = "arPrintPDF";
+
+    public static final String CUSTOMER_STATEMENT_LABEL = "Customer Statement";
 
     // Agency Address
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
-
-    /* Start TEM REFUND Merge */
-    public static class ArRefunding {
-        public static final String DV_ROUTE_PARAMETER_NAME = "DV_DOCUMENT_ROUTE_ACTION";
-        public static final String DV_ROUTE_SAVE = "SAVE";
-        public static final String DV_ROUTE_ROUTE = "ROUTE";
-        public static final String DV_ROUTE_BLANKETAPPROVE = "BLANKETAPPROVE";
-    }
 
     public static class SuspensionCategories {
         public static final String BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE = "1";
@@ -299,7 +321,6 @@ public class ArConstants{
 
     public static class BatchFileSystem {
 
-
         static final public String EXTENSION = ".log";
 
         static final public String CGINVOICE_BATCH_VALIDATION_ERROR_OUTPUT_FILE = "cgin_batch_validation_err";
@@ -318,27 +339,6 @@ public class ArConstants{
         static final public String REFRL_TO_CLCTNS_ERROR_OUTPUT_FILE = "refrl_to_clctns_doc_err";
 
         static final public String CGINVOICE_DOCUMENT_DESCRIPTION_OF_BATCH_PROCESS = "Auto-generated Invoice Document";
-
-        static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "error.cginvoice.award.startDate.missing";
-        static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "error.cginvoice.user.suspended";
-        static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "error.cginvoice.award.inactive";
-        static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "error.cginvoice.award.missing";
-        static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "error.cginvoice.billing.missing.frequency";
-        static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "error.cginvoice.no.account.assigned";
-        static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "error.cginvoice.already.billed";
-        static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
-        static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";
-        static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "error.loc.not.final";
-        static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "error.loc.csh.ctrl.in.progress";
-        static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "error.cginvoice.award.not.eligible.invoice";
-        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES = "error.cginvoice.award.not.valid.milestones";
-        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "error.cginvoice.award.not.valid.bills";
-        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS = "error.cgivoice.award.not.valid.accounts";
-        static final public String CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD = "error.cginvoice.award.not.valid.customer";
-        static final public String CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP = "error.cginvoice.sys.info.not.setup";
-        static final public String CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT = "error.cginvoice.award.not.ar.account";
-        static final public String CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS = "error.cginvoice.award.invoice.progress";
-        static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "error.cginvoice.award.offset.not.setup";
     }
 
     public static class ReportsConstants {
@@ -449,17 +449,19 @@ public class ArConstants{
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
     public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
     public static final String PROJECT_DIRECTOR = "projectDirector";
-    public static final String QUATER1 = "q1";
-    public static final String QUATER2 = "q2";
-    public static final String QUATER3 = "q3";
-    public static final String QUATER4 = "q4";
+    public static final String QUARTER1 = "q1";
+    public static final String QUARTER2 = "q2";
+    public static final String QUARTER3 = "q3";
+    public static final String QUARTER4 = "q4";
     public static final String SEMI_ANNUAL = "Sa";
     public static final String ANNUAL = "An";
     public static final String FINAL = "F";
-    public static final String ZERO = "0";
 
     public static class ArDocumentTypeCodes {
+        public static final String COLLECTION_ACTIVTY = "COLA";
         public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
+        public static final String LETTER_OF_CREDIT_REVIEW = "LCR";
+        public static final String REFERRAL_TO_COLLECTIONS = "RTCL";
     }
 
     // CG Invoice Document
@@ -501,10 +503,16 @@ public class ArConstants{
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
 
-    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
+    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String INVOICES_FILE_PREFIX = "Invoices-";
     public static final String INVOICE_ENVELOPES_FILE_PREFIX = "InvoiceEnvelopes-";
     public static final String INVOICE_ZIP_FILE_PREFIX = "Invoice-report";
+
+    // federal financial report
+    public static final String FF_425_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425";
+    public static final String FF_425A_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425A";
+    public static final String FEDERAL_FORM_425 = "425";
+    public static final String FEDERAL_FORM_425A = "425A";
 
     public static class ReportBuilderDataServiceBeanNames {
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
@@ -520,6 +528,8 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
     }
     public static class Actions {
+        public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload";
+        public static final String ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableDunningLetterTemplateUpload";
         public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
         public static final String CONTRACTS_GRANTS_LOC_REPORT = "contractsGrantsLOCReport";
     }
@@ -532,10 +542,15 @@ public class ArConstants{
     }
 
     public static class UrlActions {
-        public static final String ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableLetterTemplateUpload.do";
+        public static final String ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableDunningLetterTemplateUpload.do";
         public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload.do";
         public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUP = "arCustomerOpenItemReportLookup.do";
         public static final String CASH_CONTROL_DOCUMENT = "arCashControlDocument.do";
+        public static final String CUSTOMER_CREDIT_MEMO_DOCUMENT = "arCustomerCreditMemoDocument.do";
+        public static final String CUSTOMER_INVOICE_DOCUMENT = "arCustomerInvoiceDocument.do";
+        public static final String CONTRACTS_GRANTS_LETTER_OF_CREDIT_REVIEW_DOCUMENT = "arContractsGrantsLetterOfCreditReviewDocument.do";
+        public static final String CUSTOMER_STATEMENT = "arCustomerStatement.do";
+        public static final String FEDERAL_FINANCIAL_REPORT = "arFederalFinancialReport.do";
     }
 
     public static class ContractsAndGrantsCategorySections {
@@ -571,5 +586,72 @@ public class ArConstants{
         }
     }
 
-    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
+    /**
+     * Convenience class to hold a month and day without a year
+     */
+    public static class MonthDay {
+        private int month;
+        private int day;
+
+        public MonthDay(int month, int day) {
+            this.month = month;
+            this.day = day;
+        }
+
+        public int getMonth() {
+            return month;
+        }
+
+        public int getDay() {
+            return day;
+        }
+
+        public java.util.Date getDateForYear(int year) {
+            Calendar c = Calendar.getInstance();
+            c.clear();
+            c.set(Calendar.MONTH, getMonth());
+            c.set(Calendar.DAY_OF_MONTH, getDay());
+            c.set(Calendar.YEAR, year);
+            return c.getTime();
+        }
+    }
+
+    public static class BillingQuarterLastDays {
+        public static MonthDay FIRST_QUARTER = new MonthDay(Calendar.MARCH, 31);
+        public static MonthDay SECOND_QUARTER = new MonthDay(Calendar.JUNE, 30);
+        public static MonthDay THIRD_QUARTER = new MonthDay(Calendar.SEPTEMBER, 30);
+        public static MonthDay FOURTH_QUARTER = new MonthDay(Calendar.DECEMBER, 31);
+    }
+
+    public static class PdfReportFonts {
+        public static final Font LOC_REVIEW_TITLE_FONT = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
+        public static final Font LOC_REVIEW_HEADER_FONT = new Font(Font.TIMES_ROMAN, 16, Font.BOLD);
+        public static final Font LOC_REVIEW_SMALL_BOLD = new Font(Font.TIMES_ROMAN, 14, Font.BOLD);
+        public static final Font ENVELOPE_TITLE_FONT = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
+        public static final Font ENVELOPE_SMALL_FONT = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
+    }
+
+    public static class LOCReviewPdf {
+        public static final float LENGTH = 1350f;
+        public static final float WIDTH = 595f;
+        public static final float RESULTS_TABLE_WIDTH = 1300f;
+        public static final float RESULTS_TABLE_CELL_PADDING = 20f;
+        public static final int RESULTS_TABLE_COLSPAN = 11;
+        public static final int INNER_TABLE_COLUMNS = 8;
+        public static final float INNER_TABLE_WIDTH = 1000f;
+    }
+
+    public static class InvoiceEnvelopePdf {
+        public static final float LENGTH = 650f;
+        public static final float WIDTH = 320f;
+        public static final float INDENTATION_LEFT = 20f;
+    }
+
+    public static class Federal425APdf {
+        public static final int NUMBER_OF_SUMMARIES_PER_PAGE = 30;
+    }
+
+    public static final String FEDERAL_FUND_425_REPORT_ABBREVIATION = "FF425";
+    public static final String FEDERAL_FUND_425A_REPORT_ABBREVIATION = "FF425A";
+
 }

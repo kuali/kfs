@@ -96,7 +96,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        event.setFollowupInd(Boolean.TRUE);
+        event.setFollowup(Boolean.TRUE);
 
         boolean result = collectionActivityDocumentRule.validateEvent(event);
         assertFalse(result);
@@ -148,7 +148,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        event.setCompletedInd(Boolean.TRUE);
+        event.setCompleted(Boolean.TRUE);
 
         collectionActivityDocument.getEvents().add(event);
         boolean result = collectionActivityDocumentRule.processAddCollectionActivityDocumentEventBusinessRules(collectionActivityDocument, event);

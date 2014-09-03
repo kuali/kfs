@@ -78,11 +78,12 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceDetailReport>();
 
-        final String suspensionCategoryCode = (String)lookupFormFields.remove(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
+        final String suspensionCategoryCode = (String)lookupFormFields.get(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
         final Set<String> suspensionCategoryCodes = retrieveMatchingSuspensionCategories(suspensionCategoryCode);
 
         final List<? extends ContractsAndGrantsAward> matchingAwards = lookupMatchingAwards(lookupFormFields);
 
+        Map<String, String> invoiceDocumentCriteria = new HashMap<>();
         if (matchingAwards != null) { // null means that no award-based criteria were used in the search and therefore, these values should not be used for document selection
             if (matchingAwards.isEmpty()) { //we searched on awards, but didn't find any.  So we can't find any matching documents
                 return displayList;
@@ -90,13 +91,13 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
             final String proposalNumbers = harvestIdsFromAwards(matchingAwards);
             if (!StringUtils.isBlank(proposalNumbers)) {
-                lookupFormFields.put(ArConstants.PROPOSAL_NUMBER, proposalNumbers);
+                invoiceDocumentCriteria.put(ArConstants.PROPOSAL_NUMBER, proposalNumbers);
             }
         }
 
         final String processingDocumentStatuses = buildProcessingDocumentStatusesForLookup();
-        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
-        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFormFields, true);
+        invoiceDocumentCriteria.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, invoiceDocumentCriteria, true);
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
             if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated
@@ -142,28 +143,28 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
     protected List<? extends ContractsAndGrantsAward> lookupMatchingAwards(@SuppressWarnings("rawtypes") Map lookupFields) {
         Map<String, String> awardLookupFields = new HashMap<String, String>();
         // letterOfCreditFundGroupCode should be award.letterOfCreditFund.letterOfCreditFundGroupCode
-        final String letterOfCreditFundGroupCode = (String)lookupFields.remove(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
+        final String letterOfCreditFundGroupCode = (String)lookupFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
         if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
             awardLookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND+"."+ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
         }
 
         // awardTotal should be award.awardTotalAmount
-        final String awardTotal = (String)lookupFields.remove(ArConstants.AWARD_TOTAL);
+        final String awardTotal = (String)lookupFields.get(ArConstants.AWARD_TOTAL);
         if (!StringUtils.isBlank(awardTotal)) {
             awardLookupFields.put(ArConstants.AWARD_TOTAL, awardTotal);
         }
 
         // awardFundManager.principalName should be award.awardPrimaryFundManager.fundManager.principalId
-        final String fundManagerPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
-        final Set<String> fundManagerPrincipalIds = lookupPrincipalIds(fundManagerPrincipalName);
+        final String fundManagerPrincipalName = (String)lookupFields.get(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
+        final Set<String> fundManagerPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(fundManagerPrincipalName);
         if (!fundManagerPrincipalIds.isEmpty()) {
             final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
         }
 
         // awardProjectDirector.principalName should be award.awardPrimaryProjectDirector.projectDirector.principalId
-        final String projectDirectorPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
-        final Set<String> projectDirectorPrincipalIds = lookupPrincipalIds(projectDirectorPrincipalName);
+        final String projectDirectorPrincipalName = (String)lookupFields.get(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
+        final Set<String> projectDirectorPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(projectDirectorPrincipalName);
         if (!projectDirectorPrincipalIds.isEmpty()) {
             final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
@@ -218,32 +219,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         }
         final String proposalIdsForLookup = StringUtils.join(proposalIdsSet, SearchOperator.OR.op());
         return proposalIdsForLookup;
-    }
-
-    /**
-     * Does a lookup on the given principal name and joins the principal ids of any matches together as an or'd String, ready for another lookup
-     * @param principalName principalName to find matches for
-     * @return a Set of matching principalIds
-     */
-    protected Set<String> lookupPrincipalIds(String principalName) {
-        if (StringUtils.isBlank(principalName)) {
-            return new HashSet<String>();
-        }
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, principalName);
-        final Collection<Person> peoples = getPersonService().findPeople(fieldValues);
-
-        if (peoples == null || peoples.isEmpty()) {
-            return new HashSet<String>();
-        }
-
-        Set<String> principalIdsSet = new HashSet<String>();
-        for (Person person : peoples) {
-            principalIdsSet.add(person.getPrincipalId());
-        }
-
-        return principalIdsSet;
     }
 
     @Override

@@ -168,7 +168,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
             detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
-            detail.setFinalInvoice(invoice.getInvoiceGeneralDetail().isFinalBillIndicator() ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO);
+            detail.setFinalInvoice(!ObjectUtils.isNull(invoice.getInvoiceGeneralDetail()) && invoice.getInvoiceGeneralDetail().isFinalBillIndicator() ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO);
             // set agency number, proposal number, account number
             detail.setProposalNumber(invoice.getProposalNumber().toString());
 

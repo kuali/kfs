@@ -4,7 +4,7 @@
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 	
-	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+	<!-- Copyright 2007-2014 The Kuali Foundation Licensed under the Educational 
 		Community License, Version 2.0 (the "License"); you may not use this file 
 		except in compliance with the License. You may obtain a copy of the License 
 		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
@@ -13,13 +13,9 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-
-
-	<!-- Added fields for Invoice Template Upload Document by Sudeep -->
 	<bean id="InvoiceTemplate" parent="InvoiceTemplate-parentBean" />
 
-	<bean id="InvoiceTemplate-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+	<bean id="InvoiceTemplate-parentBean" abstract="true" parent="TemplateBase-parentBean">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 		<property name="inquiryDefinition">
@@ -34,18 +30,17 @@
 			<list>
 				<ref bean="InvoiceTemplate-invoiceTemplateCode" />
 				<ref bean="InvoiceTemplate-invoiceTemplateDescription" />
-				<ref bean="InvoiceTemplate-filename" />
-				<ref bean="InvoiceTemplate-active" />
-				<ref bean="InvoiceTemplate-accessRestrictedIndicator" />
-				<ref bean="InvoiceTemplate-billByChartOfAccountCode" />
-				<ref bean="InvoiceTemplate-billedByOrganizationCode" />
-				<ref bean="InvoiceTemplate-date" />
+				<ref bean="TemplateBase-filename" />
+				<ref bean="TemplateBase-active" />
+				<ref bean="TemplateBase-accessRestricted" />
+				<ref bean="TemplateBase-billByChartOfAccountCode" />
+				<ref bean="TemplateBase-billedByOrganizationCode" />
+				<ref bean="TemplateBase-date" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="InvoiceTemplate-invoiceTemplateCode" parent="InvoiceTemplate-invoiceTemplateCode-parentBean" />
 
@@ -83,81 +78,7 @@
 		</property>
 	</bean>
 
-	<bean id="InvoiceTemplate-active" parent="InvoiceTemplate-active-parentBean" />
-
-	<bean id="InvoiceTemplate-active-parentBean" abstract="true"
-		parent="GenericAttributes-activeIndicator">
-		<property name="name" value="active" />
-	</bean>
-
-	<bean id="InvoiceTemplate-filename" parent="InvoiceTemplate-filename-parentBean" />
-
-	<bean id="InvoiceTemplate-filename-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="filename" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="File Name" />
-		<property name="shortLabel" value="File Name" />
-		<property name="maxLength" value="45" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="47" />
-		</property>
-	</bean>
-
-	<bean id="InvoiceTemplate-date" parent="InvoiceTemplate-date-parentBean" />
-
-	<bean id="InvoiceTemplate-date-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="date" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Template Upload Date" />
-		<property name="shortLabel" value="Template Upload Date" />
-		<property name="maxLength" value="25" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="25" p:datePicker="true"/>
-		</property>
-	</bean>
-
-	<bean id="InvoiceTemplate-accessRestrictedIndicator" parent="InvoiceTemplate-accessRestrictedIndicator-parentBean" />
-
-	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
-		<property name="name" value="accessRestrictedIndicator" />
-		<property name="label" value="Restrict Use by Chart/Org" />
-		<property name="shortLabel" value="Restrict Use by Chart/Org" />
-	</bean>
-
-	<bean id="InvoiceTemplate-billByChartOfAccountCode" parent="InvoiceTemplate-billByChartOfAccountCode-parentBean" />
-
-	<bean id="InvoiceTemplate-billByChartOfAccountCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode">
-		<property name="name" value="billByChartOfAccountCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Billing Chart Code" />
-		<property name="shortLabel" value="Billing Chart" />
-		<property name="control">
-			<ref bean="ChartSelectControl" />
-		</property>
-	</bean>
-
-	<bean id="InvoiceTemplate-billedByOrganizationCode" parent="InvoiceTemplate-billedByOrganizationCode-parentBean" />
-
-	<bean id="InvoiceTemplate-billedByOrganizationCode-parentBean"
-		abstract="true" parent="Organization-organizationCode">
-		<property name="name" value="billedByOrganizationCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Billing Organization Code" />
-		<property name="shortLabel" value="Billing Org Code" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="6"/>
-    	</property>
-	</bean>
-
 	<!-- Business Object Inquiry Definition -->
-
 
 	<bean id="InvoiceTemplate-inquiryDefinition" parent="InvoiceTemplate-inquiryDefinition-parentBean" />
 
@@ -167,6 +88,16 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Organization" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
+							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Invoice Template" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -174,16 +105,7 @@
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
-							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
 						</list>
 					</property>
 				</bean>
@@ -202,7 +124,6 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="InvoiceTemplate-lookupDefinition" parent="InvoiceTemplate-lookupDefinition-parentBean" />
 

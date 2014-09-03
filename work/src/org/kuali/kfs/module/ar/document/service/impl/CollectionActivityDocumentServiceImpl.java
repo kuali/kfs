@@ -26,12 +26,16 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
@@ -50,12 +54,14 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementation class for Collection Activity Document.
  */
 public class CollectionActivityDocumentServiceImpl implements CollectionActivityDocumentService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentServiceImpl.class);
 
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentTypeService documentTypeService;
     protected EventDao eventDao;
+    protected InvoicePaidAppliedService invoicePaidAppliedService;
     protected KualiModuleService kualiModuleService;
 
     /**
@@ -188,7 +194,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
             List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
             if (CollectionUtils.isNotEmpty(invoices)) {
@@ -223,7 +229,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         ContractsAndGrantsBillingAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
@@ -236,15 +242,51 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     @Transactional
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
-        boolean resultInd = true;
+        boolean result = true;
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
 
         List<Event> events = (List<Event>) this.retrieveEvents(fieldValues, true, documentNumber);
         if (CollectionUtils.isNotEmpty(events)) {
-            resultInd = false;
+            result = false;
         }
-        return resultInd;
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber) {
+        List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) getInvoicePaidAppliedService().getInvoicePaidAppliedsForInvoice(documentNumber);
+        java.sql.Date paymentDate = null;
+        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
+            InvoicePaidApplied invPaidApp = invoicePaidApplieds.get(invoicePaidApplieds.size() - 1);
+            PaymentApplicationDocument referenceFinancialDocument;
+            try {
+                referenceFinancialDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(invPaidApp.getDocumentNumber());
+                paymentDate = referenceFinancialDocument.getFinancialSystemDocumentHeader().getDocumentFinalDate();
+            }
+            catch (WorkflowException ex) {
+                LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
+                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
+            }
+        }
+        return paymentDate;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrievePaymentAmountByDocumentNumber(java.lang.String)
+     */
+    @Override
+    @Transactional
+    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber) {
+        KualiDecimal paymentAmount = KualiDecimal.ZERO;
+        Collection<InvoicePaidApplied> invoicePaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
+        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
+            for (InvoicePaidApplied invPaidApp : invoicePaidApplieds) {
+                paymentAmount = paymentAmount.add(invPaidApp.getInvoiceItemAppliedAmount());
+            }
+        }
+        return paymentAmount;
     }
 
     @NonTransactional
@@ -255,5 +297,15 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @NonTransactional
     public void setEventDao(EventDao eventDao) {
         this.eventDao = eventDao;
+    }
+
+    @NonTransactional
+    public InvoicePaidAppliedService getInvoicePaidAppliedService() {
+        return invoicePaidAppliedService;
+    }
+
+    @NonTransactional
+    public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
+        this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
 }

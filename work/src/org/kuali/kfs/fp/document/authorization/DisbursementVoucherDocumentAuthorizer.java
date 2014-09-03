@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -36,18 +35,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Adds extra role qualifiers for funky travel edit mode permission
  */
 public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
-    /**
-     * Overridden to check if extract now action is allowed on the DV for the give user, based on permission checking.
-     *
-     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
-     *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
-    @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
-        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
-        return documentActionsToReturn;
-    }
 
     /**
      * Adds chart codes and account numbers for accounting lines if we're at Account level, so that the fiscal officer gets travel edit mode

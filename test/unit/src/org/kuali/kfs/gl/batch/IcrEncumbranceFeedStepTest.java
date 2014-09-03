@@ -25,8 +25,11 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UniversityDateServiceFixture;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -50,6 +53,8 @@ public class IcrEncumbranceFeedStepTest extends IcrEncumbranceStepTestBase {
      */
     @Override
     public void testExecute() {
+        TestUtils.setSystemParameter(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, "Y");
+
         File icrEncumbranceFeedFile = icrEncumbranceService.buildIcrEncumbranceFeed();
         assertTrue("The ICR Encumbrance file was found to be null.", ObjectUtils.isNotNull(icrEncumbranceFeedFile));
         assertTrue("The ICR Encumbrance file does not exist, should be at: " + icrEncumbranceFeedFile.getAbsolutePath(), icrEncumbranceFeedFile.exists());

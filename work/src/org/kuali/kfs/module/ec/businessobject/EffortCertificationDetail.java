@@ -82,8 +82,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Account sourceAccount;
     private SubAccount subAccount;
     private SystemOptions options;
+    private Boolean federalOrFederalPassThroughIndicator = null;
 
     protected String effectiveDate;
+    
     /**
      * Default constructor.
      */
@@ -584,10 +586,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the federalOrFederalPassThroughIndicator.
      */
     public boolean isFederalOrFederalPassThroughIndicator() {
+        if(this.federalOrFederalPassThroughIndicator != null){
+            return this.federalOrFederalPassThroughIndicator;
+        }
         if (this.getAccount() != null) {
             Collection<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-            return SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(getAccount().getChartOfAccountsCode(), getAccount().getAccountNumber(), federalAgencyTypeCodes);
-        }
+            this.federalOrFederalPassThroughIndicator =  SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(
+                    getAccount().getChartOfAccountsCode(), getAccount().getAccountNumber(), federalAgencyTypeCodes);
+            return this.federalOrFederalPassThroughIndicator;        }
 
         return false;
     }

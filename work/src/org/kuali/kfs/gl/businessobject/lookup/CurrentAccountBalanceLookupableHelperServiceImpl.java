@@ -63,6 +63,8 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
     private final static String ACCOUNT_NUMBER_FIELD_KEY = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_NUMBER;
     private final static String SUPERVISOR_PRINCIPAL_NAME_KEY = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_SUPERVISORY_USER + "." + KFSPropertyConstants.PERSON_USER_ID;
     private final static String SUPERVISOR_PRINCIPAL_ID_KEY = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNTS_SUPERVISORY_SYSTEMS_IDENTIFIER;
+    private final static String MANAGER_PRINCIPAL_NAME_KEY = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_MANAGER_USER + "." + KFSPropertyConstants.PERSON_USER_ID;
+    private final static String MANAGER_PRINCIPAL_ID_KEY = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_MANAGER_SYSTEM_IDENTIFIER;
 
     private BalanceCalculator postBalance;
     private BalanceService balanceService;
@@ -162,6 +164,18 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
             }
             else {
                 localFieldValues.put(SUPERVISOR_PRINCIPAL_ID_KEY, supervisorPrincipalName);
+            }
+        }
+
+        String managerPrincipalName = fieldValues.get(MANAGER_PRINCIPAL_NAME_KEY);
+        if (StringUtils.isNotBlank(managerPrincipalName)) {
+            localFieldValues.remove(MANAGER_PRINCIPAL_NAME_KEY);
+            Person person = personService.getPersonByPrincipalName(managerPrincipalName);
+            if (ObjectUtils.isNotNull(person)) {
+                localFieldValues.put(MANAGER_PRINCIPAL_ID_KEY, person.getPrincipalId());
+            }
+            else {
+                localFieldValues.put(MANAGER_PRINCIPAL_ID_KEY, managerPrincipalName);
             }
         }
 
@@ -380,8 +394,13 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         String organizationCode = (String) fieldValues.get(ORGANIZATION_FIELD_KEY);
         String fiscalOfficerPrincipalName = (String) fieldValues.get(PRINCIPAL_NAME_KEY);
         String supervisorPrincipalName = (String) fieldValues.get(SUPERVISOR_PRINCIPAL_NAME_KEY);
+        String managerPrincipalName = (String) fieldValues.get(MANAGER_PRINCIPAL_NAME_KEY);
 
-        if (StringUtils.isBlank(accountNumber) && StringUtils.isBlank(organizationCode) && StringUtils.isBlank(fiscalOfficerPrincipalName) && StringUtils.isBlank(supervisorPrincipalName)) {
+        if (StringUtils.isBlank(accountNumber)
+                && StringUtils.isBlank(organizationCode)
+                && StringUtils.isBlank(fiscalOfficerPrincipalName)
+                && StringUtils.isBlank(supervisorPrincipalName)
+                && StringUtils.isBlank(managerPrincipalName)) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_CURRBALANCE_LOOKUP_CRITERIA_REQD);
             throw new ValidationException("errors in search criteria");
         }
@@ -624,5 +643,4 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
-
 }

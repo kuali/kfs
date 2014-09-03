@@ -311,5 +311,6 @@ public class LaborConstants {
     public static class ErrorCertification {
         public static final String GENERATE_ERROR_CERTIFICATION_STMT_ID = "GenerateErrorCertStmt";
         public static final int NUM_ERROR_CERT_FIELDS = 4;
+        public static final Integer FISCAL_PERIODS_PER_YEAR = 12;
     }
 }

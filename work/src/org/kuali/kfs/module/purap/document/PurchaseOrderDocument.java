@@ -1663,10 +1663,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 glpe.getChartOfAccountsCode();
             }
             SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
+
             // get list of sufficientfundItems
             List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
+
             SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
-            SpringContext.getBean(BusinessObjectService.class).save( getGeneralLedgerPendingEntries() );
+            if(!(StringUtils.equals(getApplicationDocumentStatus(),PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED) ||
+                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING) ||
+                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL))){
+                SpringContext.getBean(BusinessObjectService.class).save( getGeneralLedgerPendingEntries() );
+            }
 
             //kfsmi-7289
             if (fundsItems != null && fundsItems.size() > 0) {

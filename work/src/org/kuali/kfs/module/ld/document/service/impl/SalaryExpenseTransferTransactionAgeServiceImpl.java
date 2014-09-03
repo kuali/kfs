@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.module.ld.document.service.SalaryExpenseTransferTransactionAgeService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -74,12 +75,12 @@ public class SalaryExpenseTransferTransactionAgeServiceImpl implements SalaryExp
         for (LaborLedgerExpenseTransferAccountingLine currentLine : accountingLines) {
             currPayrollEndDateFiscalYear = currentLine.getPayrollEndDateFiscalYear();
             if (LOG.isDebugEnabled()) {
-                LOG.debug("target line fiscal year: " + currPayrollEndDateFiscalYear);
+                LOG.debug("current line fiscal year: " + currPayrollEndDateFiscalYear);
             }
 
             currPayrollEndDateFiscalPeriodCode = currentLine.getPayrollEndDateFiscalPeriodCode();
             if (LOG.isDebugEnabled()) {
-                LOG.debug("target line fiscal period: " + currPayrollEndDateFiscalPeriodCode);
+                LOG.debug("current line fiscal period: " + currPayrollEndDateFiscalPeriodCode);
             }
 
             // check sub fund associated with the target accounting line
@@ -91,12 +92,8 @@ public class SalaryExpenseTransferTransactionAgeServiceImpl implements SalaryExp
             }
 
             if (ObjectUtils.isNotNull(periodsFromParameter)) {
-                if (currPayrollEndDateFiscalYear < currFiscalYear) { // if in different FY, return false immediately
-                    return false;
-                }
-
-                // if fiscal period is more than periodsFromParameter older than the transaction being moved, return false
-                if (Integer.valueOf(currFiscalPeriod) - (Integer.valueOf(currPayrollEndDateFiscalPeriodCode)) >= periodsFromParameter) {
+                Integer fiscalPeriodsDifference = Integer.valueOf(currFiscalPeriod) - (Integer.valueOf(currPayrollEndDateFiscalPeriodCode) - (currFiscalYear - currPayrollEndDateFiscalYear) * LaborConstants.ErrorCertification.FISCAL_PERIODS_PER_YEAR);
+                if (fiscalPeriodsDifference >= periodsFromParameter) {
                     return false;
                 }
             }

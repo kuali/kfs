@@ -57,6 +57,8 @@
                 <ref bean="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption" />
                 <ref bean="CurrentAccountBalance-account.accountSupervisoryUser.principalName" />
                 <ref bean="CurrentAccountBalance-account.accountSupervisoryUser.name" />
+                <ref bean="CurrentAccountBalance-account.accountManagerUser.principalName" />
+                <ref bean="CurrentAccountBalance-account.accountManagerUser.name" />
                 <ref bean="CurrentAccountBalance-objectCode" />
                 <ref bean="CurrentAccountBalance-subObjectCode" />
                 <ref bean="CurrentAccountBalance-objectTypeCode" />
@@ -209,6 +211,11 @@
         <property name="shortLabel" value="Fund Balance" />
     </bean>
 
+    <bean id="CurrentAccountBalance-account.accountManagerUser.principalName" parent="CurrentAccountBalance-account.accountManagerUser.principalName-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountManagerUser.principalName-parentBean" abstract="true" parent="Account-accountManagerUser.principalName">
+        <property name="name" value="account.accountManagerUser.principalName" />
+    </bean>
+
     <bean id="CurrentAccountBalance-account.accountSupervisoryUser.principalName" parent="CurrentAccountBalance-account.accountSupervisoryUser.principalName-parentBean" />
     <bean id="CurrentAccountBalance-account.accountSupervisoryUser.principalName-parentBean" abstract="true" parent="Account-accountSupervisoryUser.principalName">
         <property name="name" value="account.accountSupervisoryUser.principalName" />
@@ -217,6 +224,11 @@
     <bean id="CurrentAccountBalance-account.accountSupervisoryUser.name" parent="CurrentAccountBalance-account.accountSupervisoryUser.name-parentBean" />
     <bean id="CurrentAccountBalance-account.accountSupervisoryUser.name-parentBean" abstract="true" parent="Account-accountSupervisoryUser.name">
         <property name="name" value="account.accountSupervisoryUser.name" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountManagerUser.name" parent="CurrentAccountBalance-account.accountManagerUser.name-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountManagerUser.name-parentBean" abstract="true" parent="Account-accountManagerUser.name">
+        <property name="name" value="account.accountManagerUser.name" />
     </bean>
 
     <bean id="CurrentAccountBalance-objectCode" parent="CurrentAccountBalance-objectCode-parentBean" />
@@ -269,7 +281,7 @@
 
     <bean id="CurrentAccountBalance-lookupDefinition" parent="CurrentAccountBalance-lookupDefinition-parentBean" />
     <bean id="CurrentAccountBalance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Current Account Balance" />
+        <property name="title" value="Current Account Balances Lookup" />
         <property name="lookupableID" value="glCurrentAccountBalanceLookupable" />
         <property name="defaultSort">
             <bean parent="SortDefinition">
@@ -293,6 +305,7 @@
                 <bean parent="FieldDefinition" p:attributeName="account.organizationCode" />
                 <bean parent="FieldDefinition" p:attributeName="account.accountFiscalOfficerUser.principalName" />
                 <bean parent="FieldDefinition" p:attributeName="account.accountSupervisoryUser.principalName" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountManagerUser.principalName" />
                 <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
                 <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
             </list>

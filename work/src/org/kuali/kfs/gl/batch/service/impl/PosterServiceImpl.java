@@ -1104,12 +1104,12 @@ public class PosterServiceImpl implements PosterService {
             offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             offsetEntry.setFinancialSubObject(null);
             offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+            offsetEntry.setFinancialObjectTypeCode(offsetEntry.getFinancialObject().getFinancialObjectTypeCode());
         }
         else {
             errors.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), Message.TYPE_WARNING));
         }
 
-        offsetEntry.setFinancialObjectTypeCode(offsetEntry.getFinancialObject().getFinancialObjectTypeCode());
         if (KFSConstants.GL_DEBIT_CODE.equals(offsetEntry.getTransactionDebitCreditCode())) {
             offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }

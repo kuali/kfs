@@ -38,14 +38,15 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
      * @see org.kuali.kfs.gl.dataaccess.IcrEncumbranceDao#buildIcrEncumbranceFeed()
      */
     @Override
-    public void buildIcrEncumbranceFeed(Integer fiscalYear, final String fiscalPeriod, final String icrEncumbOriginCode, final Collection<String> icrEncumbBalanceTypes, final String[] expenseObjectTypes, final String costShareSubAccountType, final Writer fw) throws IOException {
+    public void buildIcrEncumbranceFeed(Integer fiscalYear, final String fiscalPeriod, final String icrEncumbOriginCode, final Collection<String> icrEncumbBalanceTypes, final Collection<String> icrCostTypes, final String[] expenseObjectTypes, final String costShareSubAccountType, final Writer fw) throws IOException {
         final String rateSql = "select distinct t1.univ_fiscal_yr, t1.fin_coa_cd, t1.account_nbr, t1.sub_acct_nbr, "
         +   getDbPlatform().getIsNullFunction("t3.fin_series_id", "t2.fin_series_id") + " fin_series_id, " + getDbPlatform().getIsNullFunction("t3.icr_typ_cd", "t2.acct_icr_typ_cd") + " acct_icr_typ_cd "
         +  "from gl_encumbrance_t t1 join ca_account_t t2 on (t1.fin_coa_cd = t2.fin_coa_cd and t1.account_nbr = t2.account_nbr) "
         +  "left join ca_a21_sub_acct_t t3 on (t1.fin_coa_cd = t3.fin_coa_cd and t1.account_nbr = t3.account_nbr and t1.sub_acct_nbr = t3.sub_acct_nbr) "
         +  "where t1.fin_balance_typ_cd in ("+ inString(icrEncumbBalanceTypes.size()) +") and t1.fs_origin_cd <> ? "
         +  "and t1.univ_fiscal_yr >= ? "
-        +  "and (t3.sub_acct_typ_cd is null or t3.sub_acct_typ_cd <> ?) ";
+        +  "and (t3.sub_acct_typ_cd is null or t3.sub_acct_typ_cd <> ?) "
+        +  "and acct_icr_typ_cd not in ("+ inString(icrCostTypes.size()) +")";
 
         List<Object> queryArguments = new ArrayList<Object>();
         for (String balanceType : icrEncumbBalanceTypes) {
@@ -54,6 +55,13 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
         queryArguments.add(icrEncumbOriginCode);
         queryArguments.add(fiscalYear);
         queryArguments.add(costShareSubAccountType);
+        for (String icrCostType : icrCostTypes) {
+            queryArguments.add(icrCostType);
+        }
+        //prevent SQL errors in the event that the INDIRECT_COST_TYPES parameter contains no value
+        if (icrCostTypes.size() < 1) {
+            queryArguments.add("1");
+        }
 
 
         getJdbcTemplate().query(rateSql, queryArguments.toArray(), new ResultSetExtractor() {
@@ -297,7 +305,14 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
      * @return the resulting String
      */
     protected String inString(int arraySize) {
-        final String inClause = StringUtils.repeat("?",",",arraySize);
+        final String inClause;
+        //prevent SQL errors in the event of an empty array
+        if (arraySize < 1) {
+            inClause = "?";
+        }
+        else {
+            inClause = StringUtils.repeat("?",",",arraySize);
+        }
         return inClause;
     }
 }

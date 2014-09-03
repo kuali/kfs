@@ -95,6 +95,18 @@ public interface EncumbranceDao {
     public Integer getOpenEncumbranceRecordCount(Map fieldValues, boolean includeZeroEncumbrances);
 
     /**
+     * Builds query of open encumbrances that have the keys given in the map summarized by balance type codes
+     * where the sum(ACCOUNT_LINE_ENCUMBRANCE_AMOUNT  - sum(ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT ) != 0
+     * and returns true if there are any results.
+     *
+     * @param fieldValues the input fields and values
+     * @param includeZeroEncumbrances
+     * @return true if there any open encumbrances when summarized by balance type
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#hasSummarizedOpenEncumbranceRecords(java.util.Map)
+     */
+    public boolean hasSummarizedOpenEncumbranceRecords(Map fieldValues, boolean includeZeroEncumbrances);
+
+    /**
      * @param year the given university fiscal year
      * @return count of rows for the given fiscal year
      */

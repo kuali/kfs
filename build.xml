@@ -560,12 +560,13 @@
 		</delete>
 	</target>
 
-	<target name="clean-lib">
+	<target name="clean-lib" depends="init-properties">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${build.kfs.lib.directory}"/>
 			<fileset dir="${build.rice.lib.directory}"/>
 			<fileset dir="${build.rice.sources.directory}"/>
-		</delete>	
+		</delete>
+		<delete file="${build.project.directory}/kfs-help.jar"/>	
 	</target>
 	
 	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-properties">

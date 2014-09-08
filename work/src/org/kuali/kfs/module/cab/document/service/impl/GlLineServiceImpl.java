@@ -226,12 +226,18 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     /**
-     * Compares the gl line to the group accounting lines in each capital asset and
-     * when finds a match, adds the capital asset to the list of matching assets
-     * @param matchingAssets
-     * @param capitalAsset
-     * @param entry
-     * @param capitalAssetLineType
+     * If the provided capital asset information matches the general ledger entry,
+     * it (the capital asset information) is added to the list.
+     *
+     * The way it is decided whether the capital asset information matches the
+     * general ledger entry is by comparing all the capital asset accounts group
+     * detailses. If any of them match the general ledger entry, the capital asset
+     * information is declared to be matching.
+     * @param matchingAssets The list to which the capital asset information shall
+     *     be added if it matches the general ledger entry.
+     * @param capitalAsset The capital asset information under investigation
+     * @param entry The general ledger entry unto which the capital asset information
+     *     is being compared.
      */
     protected void addToCapitalAssets(List<CapitalAssetInformation> matchingAssets, CapitalAssetInformation capitalAsset, GeneralLedgerEntry entry) {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();

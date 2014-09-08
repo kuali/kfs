@@ -64,53 +64,24 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
 
     /**
-     * Gets the businessObjectService attribute.
-     *
-     * @return Returns the businessObjectService.
-     */
-    @NonTransactional
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     *
-     * @param businessObjectService The businessObjectService to set.
-     */
-    @NonTransactional
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the contractsGrantsInvoiceDocumentService attribute.
-     *
-     * @return Returns the contractsGrantsInvoiceDocumentService.
-     */
-    @NonTransactional
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Sets the collectorHierarchyDao attribute value.
-     *
-     * @param collectorHierarchyDao The collectorHierarchyDao to set.
-     */
-    @NonTransactional
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#filterContractsGrantsAgingReport(java.util.Map)
      */
     @Override
     @Transactional
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date begin, java.sql.Date end) throws ParseException {
-        Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = null;
+        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = retrieveMatchingContractsGrantsInvoiceDocuments(fieldValues, begin, end);
+        Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = generateMapFromContractsGrantsInvoiceDocuments(contractsGrantsInvoiceDocs);
+        return cgMapByCustomer;
+    }
 
+    /**
+     * Utility method to lookup matching contracts & grants invoice documents for the given field values
+     * @param fieldValues the field values with criteria to lookup report on
+     * @param begin the begin da
+     * @param end
+     * @return
+     */
+    protected List<ContractsGrantsInvoiceDocument> retrieveMatchingContractsGrantsInvoiceDocuments(Map fieldValues, java.sql.Date begin, java.sql.Date end) {
         String reportOption = (String) fieldValues.get(ArPropertyConstants.REPORT_OPTION);
         String orgCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_ORGANIZATION_CODE);
         String chartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE);
@@ -214,8 +185,21 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         final Set<Long> awardIds = lookupBillingAwards(awardDocumentNumber, awardEndFromDate, awardEndToDate, fundManager);
 
         // here put all criterias and find the docs
-        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = getLookupService().findCollectionBySearch(ContractsGrantsInvoiceDocument.class, fieldValuesForInvoice);
+        List<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = new ArrayList<>();
+        contractsGrantsInvoiceDocs.addAll(getLookupService().findCollectionBySearch(ContractsGrantsInvoiceDocument.class, fieldValuesForInvoice));
 
+        filterContractsGrantsInvoiceDocumentsByAwardAndCollector(contractsGrantsInvoiceDocs, collectorPrincName, awardIds);
+
+        return contractsGrantsInvoiceDocs;
+    }
+
+    /**
+     * Removes contracts & grants invoice documents from the given collection if they do not match the given award ids or if the collector permissions do not allow viewing of the document
+     * @param contractsGrantsInvoiceDocs a Collection of ContractsGrantsInvoiceDocuments
+     * @param collectorPrincName the principal name of the collector
+     * @param awardIds a Set of proposal numbers of awards which match given criteria
+     */
+    protected void filterContractsGrantsInvoiceDocumentsByAwardAndCollector(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String collectorPrincName, Set<Long> awardIds) {
         // filter by collector and user performing the search
         String collectorPrincipalId = null;
         if (!StringUtils.isBlank(collectorPrincName)) {
@@ -240,12 +224,19 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
                 }
             }
         }
+    }
 
-        // prepare map of cgDocs by customer.
-        List<ContractsGrantsInvoiceDocument> cgInvoiceDocs = null;
+    /**
+     * Generates a Map keyed by customer number and name from a Collection of ContractsGrantsInvoiceDocuments
+     * @param contractsGrantsInvoiceDocs a Collection of ContractsGrantsInvoiceDocuments to convert into a Map
+     * @return a Map of CINV docs, keyed by customer number and name
+     */
+    protected Map<String, List<ContractsGrantsInvoiceDocument>> generateMapFromContractsGrantsInvoiceDocuments(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs) {
+        Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = null;
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             cgMapByCustomer = new HashMap<String, List<ContractsGrantsInvoiceDocument>>();
             for (ContractsGrantsInvoiceDocument cgDoc : contractsGrantsInvoiceDocs) {
+                List<ContractsGrantsInvoiceDocument> cgInvoiceDocs;
                 String customerNbr = cgDoc.getCustomer().getCustomerNumber();
                 String customerNm = cgDoc.getCustomer().getCustomerName();
                 String key = customerNbr + "-" + customerNm;
@@ -259,7 +250,6 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
                 cgMapByCustomer.put(key, cgInvoiceDocs);
             }
         }
-
         return cgMapByCustomer;
     }
 
@@ -332,10 +322,10 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     @SuppressWarnings("unchecked")
     protected Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
         Map<String, Object> args = new HashMap<>();
-        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
+        if (!StringUtils.isBlank(accountNumber)) {
             args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         }
-        if (ObjectUtils.isNotNull(accountChartCode) && StringUtils.isNotEmpty(accountChartCode)) {
+        if (!StringUtils.isBlank(accountChartCode)) {
             args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
         }
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
@@ -346,7 +336,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#lookupContractsGrantsInvoiceDocumentsForAging(java.util.Map)
      */
     @Override
-    public Map<String, List<ContractsGrantsInvoiceDocument>> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues) {
+    public List<ContractsGrantsInvoiceDocument> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues) {
         try {
             java.util.Date today = getDateTimeService().getCurrentDate();
             String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
@@ -356,29 +346,13 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
                                                 getDateTimeService().convertToDate(reportRunDateStr);
 
             // retrieve filtered data according to the lookup
-            Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
-            return cgMapByCustomer;
+            List<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments = retrieveMatchingContractsGrantsInvoiceDocuments(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
+            return contractsGrantsInvoiceDocuments;
 
         }
         catch (ParseException ex) {
             throw new RuntimeException("Could not parse report run date for lookup",ex);
         }
-    }
-
-    /**
-     * Copies all of the given documents from the Map into a single List
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#flattenContrantsGrantsInvoiceDocumentMap(java.util.Map)
-     */
-    @Override
-    public List<ContractsGrantsInvoiceDocument> flattenContrantsGrantsInvoiceDocumentMap(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer) {
-        List<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        // prepare list for pdf
-        if (ObjectUtils.isNotNull(cgMapByCustomer) && !cgMapByCustomer.isEmpty()) {
-            for (String customer : cgMapByCustomer.keySet()) {
-                invoices.addAll(cgMapByCustomer.get(customer));
-            }
-        }
-        return invoices;
     }
 
     @NonTransactional
@@ -421,5 +395,45 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
     public void setLookupService(LookupService lookupService) {
         this.lookupService = lookupService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     *
+     * @return Returns the businessObjectService.
+     */
+    @NonTransactional
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     *
+     * @param businessObjectService The businessObjectService to set.
+     */
+    @NonTransactional
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the contractsGrantsInvoiceDocumentService attribute.
+     *
+     * @return Returns the contractsGrantsInvoiceDocumentService.
+     */
+    @NonTransactional
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    /**
+     * Sets the collectorHierarchyDao attribute value.
+     *
+     * @param collectorHierarchyDao The collectorHierarchyDao to set.
+     */
+    @NonTransactional
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

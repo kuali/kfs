@@ -213,7 +213,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             kualiLookupable.validateSearchParameters(form.getFields());
         }
 
-        final List<ContractsGrantsInvoiceDocument> displayList = getContractsGrantsAgingReportService().flattenContrantsGrantsInvoiceDocumentMap(getContractsGrantsAgingReportService().lookupContractsGrantsInvoiceDocumentsForAging(form.getFieldsForLookup()));
+        final List<ContractsGrantsInvoiceDocument> displayList = getContractsGrantsAgingReportService().lookupContractsGrantsInvoiceDocumentsForAging(form.getFieldsForLookup());
         return displayList;
     }
 

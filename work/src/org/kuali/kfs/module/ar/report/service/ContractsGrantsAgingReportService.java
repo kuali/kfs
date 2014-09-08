@@ -32,12 +32,11 @@ public interface ContractsGrantsAgingReportService {
 
     /**
      * This method is used to filter the contracts and grants invoice docs according to criteria
-     *
      * @param fieldValues
-     * @param orgCode
      * @param startDate
      * @param endDate
      * @return Returns the Map of Customer and customer related invoice CGDocs.
+     * @throws ParseException if dates cannot be properly parsed
      */
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date startDate, java.sql.Date endDate) throws ParseException;
 
@@ -46,12 +45,5 @@ public interface ContractsGrantsAgingReportService {
      * @param fieldValues the criteria to find matching ContractsGrantsInvoiceDocument's
      * @return a Map of ContractsGrantsInvoiceDocument which match the given Criteria, keyed by customer number
      */
-    public Map<String, List<ContractsGrantsInvoiceDocument>> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues);
-
-    /**
-     * Given a Map of CustomerGrantsInvoiceDocuments keyed by customer number, comes up with a flat List of just the ContractsGrantsInvoiceDocuments
-     * @param cgMapByCustomer the Map to flatten
-     * @return the List, severely flatten'd
-     */
-    public List<ContractsGrantsInvoiceDocument> flattenContrantsGrantsInvoiceDocumentMap(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer);
+    public List<ContractsGrantsInvoiceDocument> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues);
 }

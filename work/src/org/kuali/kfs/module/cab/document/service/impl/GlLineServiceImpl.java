@@ -35,8 +35,8 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -243,11 +243,25 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            /*Unfortunately, when no organization reference id is input, the General Ledger Entry's organizationReferenceId is
+             * set to "" while the groupAccountLine's organizationReferenceId is set to null. These are equivalent for the
+             * present concerns.
+             */
+            boolean isOrganizationReferenceIdEqual;
+            if (StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else if (StringUtils.isEmpty(groupAccountLine.getOrganizationReferenceId()) &&
+                    StringUtils.isEmpty(entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else {
+                isOrganizationReferenceIdEqual = false;
+            }
+
             if (StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
                     StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
                     StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
                     StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) &&
-                    StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+                    isOrganizationReferenceIdEqual){
                 matchingAssets.add(capitalAsset);
                 break;
             }

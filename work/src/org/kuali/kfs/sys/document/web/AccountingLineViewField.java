@@ -59,12 +59,22 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private int arbitrarilyHighIndex;
     private List<AccountingLineViewOverrideField> overrideFields;
     private PersistenceStructureService persistenceStructureService;
+    protected boolean explodable;
 
     /*These are the properties that shall not be refreshed because they commonly
      * are not in the database by the time they need to be rendered (perhaps they're
      * only attached to the form).*/
 
     protected List<String> nonRefreshedPropertyList = Collections.unmodifiableList(Arrays.asList(KFSPropertyConstants.SALES_TAX));
+
+
+    public boolean isExplodable() {
+        return this.explodable;
+    }
+
+    public void setExplodable(boolean explodable) {
+        this.explodable = explodable;
+    }
 
 
     /**
@@ -247,6 +257,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
             renderer.render(pageContext, parentTag);
             if (!isHidden()) {
+                if (this.isExplodable()) {
+                    renderer.renderExplodableLink(pageContext);
+                }
                 renderer.closeNoWrapSpan(pageContext, parentTag);
             }
             renderer.clear();

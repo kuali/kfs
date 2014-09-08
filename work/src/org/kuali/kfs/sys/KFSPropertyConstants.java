@@ -763,6 +763,7 @@ public class KFSPropertyConstants {
     public static final String ICR_ACCOUNT_LINE_PERCENT = "accountLinePercent";
 
     public static final String INITIATOR_NETWORK_ID = KRADPropertyConstants.INITIATOR_NETWORK_ID;
+    public static final String INITIATOR_PRINCIPAL_ID = "initiatorPrincipalId";
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";
     public static final String INTRNL_FIN_ENCUM_SUFFICNT_FND_INDICATOR = "intrnlFinEncumSufficntFndIndicator";
@@ -1005,6 +1006,7 @@ public class KFSPropertyConstants {
     public static final String POSTING_YEAR = "postingYear";
     public static final String PREPAID_EXPENSE = "prepaidExpense";
     public static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
+    public static final String PRIOR_YEAR_ACCOUNT = "priorYearAccount";
     public static final String PROCESS = "process";
     public static final String PROCESS_BATCH_SEQUENCE_NUMBER = "processBatchSequenceNumber";
     public static final String PROCESS_TOTAL_AMOUNT = "processTotalAmount";
@@ -1114,7 +1116,6 @@ public class KFSPropertyConstants {
     public static final String SUBFUNDGRP_ACTIVITY_INDICATOR = "subfundgrpActivityIndicator";
     public static final String SUFFICIENT_FUNDS_CODE = "sufficientFundsCode";
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
-    public static final String SUM_TOTAL_AMOUNT = "sumTotalAmount";
     public static final String SUPERVISOR_USER = "supervisorUser";
     public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
@@ -1136,9 +1137,12 @@ public class KFSPropertyConstants {
     public static final String TOTAL = "total";
     public static final String TOTAL_ACTUAL_DIRECT_COST_AMOUNT = "totalActualDirectCostAmount";
     public static final String TOTAL_AMOUNT = "totalAmount";
-    public static final String TOTAL_CASH_AMOUNT = "totalCashAmount";
-    public static final String TOTAL_CHECK_AMOUNT = "totalCheckAmount";
-    public static final String TOTAL_COIN_AMOUNT = "totalCoinAmount";
+    public static final String CONFIRMED = "confirmed";
+    public static final String CURRENCY = "currency";
+    public static final String COIN = "coin";
+    public static final String CHANGE_CURRENCY = "changeCurrency";
+    public static final String CHANGE_COIN = "changeCoin";
+    public static final String DETAIL_PREFIX = "Detail.";
     public static final String TOTAL_DIRECT_COST_AMOUNT = "totalDirectCostAmount";
     public static final String TOTAL_DOLLAR_AMOUNT = "totalDollarAmount";
     public static final String TOTAL_EXPENSE_AMOUNT = "totalExpenseAmount";
@@ -1227,7 +1231,10 @@ public class KFSPropertyConstants {
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ZIP_CODE = "vendorZipCode";
     public static final String VERSION_NUMBER = KRADPropertyConstants.VERSION_NUMBER;
+    public static final String WORKFLOW_CREATE_DATE = "workflowCreateDate";
     public static final String WORKFLOW_DOCUMENT = KRADPropertyConstants.WORKFLOW_DOCUMENT;
+    public static final String WORKFLOW_DOCUMENT_STATUS_CODE = "workflowDocumentStatusCode";
+    public static final String WORKFLOW_DOCUMENT_TYPE_NAME = "workflowDocumentTypeName";
     public static final String XML_DOCUMENT_CONTENTS = KRADPropertyConstants.XML_DOCUMENT_CONTENTS;
     public static final String ZIP_CODE = "zipCode";
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";

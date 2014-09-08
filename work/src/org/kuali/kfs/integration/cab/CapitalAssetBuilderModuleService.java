@@ -149,6 +149,6 @@ public interface CapitalAssetBuilderModuleService {
      *
      * @param infos
      */
-    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos);
+    public List<CapitalAssetInformation> filterNonCapitalAssets(List<CapitalAssetInformation> capitalAssetInformations);
 
 }

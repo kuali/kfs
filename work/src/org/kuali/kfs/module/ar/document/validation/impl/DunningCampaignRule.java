@@ -32,21 +32,23 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
 
     @Override
     public boolean processSaveDocument(Document document) {
-        super.processSaveDocument(document);
+        boolean isValid = super.processSaveDocument(document);
+        isValid &= validateDuplicatePastDue((MaintenanceDocument) document);
 
-        return validateDuplicatePastDue((MaintenanceDocument) document);
+        return isValid;
     }
 
     @Override
     public boolean processRouteDocument(Document document) {
-        super.processRouteDocument(document);
+        boolean isValid = super.processRouteDocument(document);
+        isValid &= validateDuplicatePastDue((MaintenanceDocument) document);
 
-        return validateDuplicatePastDue((MaintenanceDocument) document);
+        return isValid;
     }
 
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
-        super.processAddCollectionLineBusinessRules(document, collectionName, bo);
+        boolean isValid = super.processAddCollectionLineBusinessRules(document, collectionName, bo);
 
         if ( collectionName.equalsIgnoreCase(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS) ) {
 
@@ -55,10 +57,10 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
             Set<String> daysPastDueSet = new HashSet<String>();
             daysPastDueSet.add(newLine.getDaysPastDue());
 
-            return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions(), true);
+            isValid &= isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions(), true);
         }
 
-        return true;
+        return isValid;
     }
 
     /**
@@ -82,7 +84,7 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
                 if (isAddLine) {
                     putFieldError("add." + ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS + "." + ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
                 } else {
-                    putFieldError(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS + "[" +lineNumber + "].daysPastDue", ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                    putFieldError(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS + "[" +lineNumber + "]." + ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
                 }
                 return false;
             }

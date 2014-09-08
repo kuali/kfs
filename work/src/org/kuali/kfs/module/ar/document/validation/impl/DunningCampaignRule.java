@@ -32,11 +32,15 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
 
     @Override
     public boolean processSaveDocument(Document document) {
+        super.processSaveDocument(document);
+
         return validateDuplicatePastDue((MaintenanceDocument) document);
     }
 
     @Override
     public boolean processRouteDocument(Document document) {
+        super.processRouteDocument(document);
+
         return validateDuplicatePastDue((MaintenanceDocument) document);
     }
 
@@ -51,27 +55,38 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
             Set<String> daysPastDueSet = new HashSet<String>();
             daysPastDueSet.add(newLine.getDaysPastDue());
 
-            return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions());
+            return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions(), true);
         }
 
         return true;
     }
 
+    /**
+     * checks if the existing set of past due days contains duplicates
+     *
+     * @param document
+     * @return
+     */
     private boolean validateDuplicatePastDue(MaintenanceDocument document) {
         MaintenanceDocument maintDoc = document;
         DunningCampaign dunningCampaign = (DunningCampaign) maintDoc.getNewMaintainableObject().getDataObject();
         Set<String> daysPastDueSet = new HashSet<String>();
 
-        return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions());
+        return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions(), false);
     }
 
-    private boolean isDuplicatePastDue(Set<String> daysPastDueSet, List<DunningLetterDistribution> dunningLetterDistributions ) {
-
+    private boolean isDuplicatePastDue(Set<String> daysPastDueSet, List<DunningLetterDistribution> dunningLetterDistributions, boolean isAddLine ) {
+        int lineNumber = 0;
         for (DunningLetterDistribution dld : dunningLetterDistributions ) {
             if (!daysPastDueSet.add(dld.getDaysPastDue())) {
-                putFieldError(ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                if (isAddLine) {
+                    putFieldError("add." + ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS + "." + ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                } else {
+                    putFieldError(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS + "[" +lineNumber + "].daysPastDue", ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                }
                 return false;
             }
+            lineNumber++;
         }
 
         return true;

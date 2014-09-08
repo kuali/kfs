@@ -3023,7 +3023,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
     }
-    
+
     /**
      * This function removes CapitalAssetInformations that don't have at least one capital asset object
      * code in their group details.
@@ -3031,12 +3031,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param infos
      */
     @Override
-    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos){
+    public List<CapitalAssetInformation> filterNonCapitalAssets(List<CapitalAssetInformation> informations){
+        List<CapitalAssetInformation> ret = new ArrayList<CapitalAssetInformation>(informations);
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         List<String> capitalAssetObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
-        for (int i = 0; i < infos.size(); ++i) {
+        for (int i = 0; i < ret.size(); ++i) {
             boolean remove = true;
-            CapitalAssetInformation info = infos.get(i);
+            CapitalAssetInformation info = ret.get(i);
             for (CapitalAssetAccountsGroupDetails det : info.getCapitalAssetAccountsGroupDetails()) {
                 ObjectCode obj = objectCodeService.getByPrimaryIdForCurrentYear(det.getChartOfAccountsCode(), det.getFinancialObjectCode());
                 boolean isCapitalObjectCode = capitalAssetObjectSubTypes.contains(obj.getFinancialObjectSubTypeCode());
@@ -3047,10 +3048,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             if (remove) {
                 /* We don't want facade CapitalAssetInformations. */
-                infos.remove(i--);
+                ret.remove(i--);
             }
         }
+        return ret;
     }
-    
+
 
 }

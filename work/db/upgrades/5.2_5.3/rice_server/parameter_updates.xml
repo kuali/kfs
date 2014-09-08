@@ -311,7 +311,7 @@
     <changeSet author="KFS53" id="KFSCNTRB-1702">
         <comment>Adds parameter for KFSCNTRB-1702 to add new type</comment>
         <update tableName="KRCR_PARM_T">
-            <column name="VAL" value="A=V;B=V,E,VSV,VRV;C=S,V,E,VSP;D=V;E=V;F=V,E,VRV;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;V=V;W=V;X=V;Z=E"/>
+            <column name="VAL" value="A=V;B=V,E,VSV,VRV;C=V,E,VSP;D=V;E=V;F=V,E,VRV;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;V=V;W=V;X=V;Z=E"/>
             <where>nmspc_cd = 'KFS-FP' and cmpnt_cd = 'DisbursementVoucher' and parm_nm = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' and appl_id = 'KFS'</where>
         </update>
     </changeSet>

@@ -35,8 +35,8 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -226,22 +226,42 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     /**
-     * Compares the gl line to the group accounting lines in each capital asset and
-     * when finds a match, adds the capital asset to the list of matching assets
-     * @param matchingAssets
-     * @param capitalAsset
-     * @param entry
-     * @param capitalAssetLineType
+     * If the provided capital asset information matches the general ledger entry,
+     * it (the capital asset information) is added to the list.
+     *
+     * The way it is decided whether the capital asset information matches the
+     * general ledger entry is by comparing all the capital asset accounts group
+     * detailses. If any of them match the general ledger entry, the capital asset
+     * information is declared to be matching.
+     * @param matchingAssets The list to which the capital asset information shall
+     *     be added if it matches the general ledger entry.
+     * @param capitalAsset The capital asset information under investigation
+     * @param entry The general ledger entry unto which the capital asset information
+     *     is being compared.
      */
     protected void addToCapitalAssets(List<CapitalAssetInformation> matchingAssets, CapitalAssetInformation capitalAsset, GeneralLedgerEntry entry) {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            /*Unfortunately, when no organization reference id is input, the General Ledger Entry's organizationReferenceId is
+             * set to "" while the groupAccountLine's organizationReferenceId is set to null. These are equivalent for the
+             * present concerns.
+             */
+            boolean isOrganizationReferenceIdEqual;
+            if (StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else if (StringUtils.isEmpty(groupAccountLine.getOrganizationReferenceId()) &&
+                    StringUtils.isEmpty(entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else {
+                isOrganizationReferenceIdEqual = false;
+            }
+
             if (StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
                     StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
                     StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
                     StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) &&
-                    StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+                    isOrganizationReferenceIdEqual){
                 matchingAssets.add(capitalAsset);
                 break;
             }

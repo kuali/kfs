@@ -31,8 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -52,7 +50,6 @@ import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -1311,6 +1308,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
+     * Finds a Capital Asset Information that matches the given capitalAccountingLine.
+     *
      * @param capitalAccountingLine
      * @param capitalAssetInformation
      * @return return existingCapitalAsset
@@ -1429,7 +1428,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
-     *
+     * Checks to see if all the capital assets' distributed amount is the same as
+     * the capital accounting lines (there is only one lines, of course).
      * @param kadfb
      * @param capitalAssetsInformation
      * @return true if accounting line amount equals to capital asset amount, else false.
@@ -1446,7 +1446,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
-     *
+     * Returns the amount of the group accounting line from the capital asset information that
+     * matches the capital accounting lines (only one lines, of course). If none exists, zero is returned.
      *
      * @param capitalAsset
      * @param capitalAccountingLine
@@ -1566,7 +1567,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
 
         //We don't want facade objects in our CapitalAssetInformations!
-        SpringContext.getBean(CapitalAssetBuilderModuleService.class).filterNonCapitalAssets(currentCapitalAssetInformation);
+        currentCapitalAssetInformation = SpringContext.getBean(CapitalAssetBuilderModuleService.class).filterNonCapitalAssets(currentCapitalAssetInformation);
         calfb.setCreatedAssetsControlAmount(KualiDecimal.ZERO);
         calfb.setSystemControlAmount(KualiDecimal.ZERO);
 
@@ -1582,6 +1583,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             } else {
                    CapitalAssetInformation existingCapitalAsset = getCapitalAssetCreated(capitalAccountingLine, currentCapitalAssetInformation);
                    if (ObjectUtils.isNotNull(existingCapitalAsset)) {
+                       /*There is a CapitalAssetInformation matching the current accounting line.*/
                        capitalAccountingLine.setSelectLine(true);
                    } else {
                        capitalAccountingLine.setAccountLinePercent(null);
@@ -1590,6 +1592,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
 
             if (capitalAccountingLineAmountDistributed(capitalAccountingLine, currentCapitalAssetInformation)) {
+                /*all the money from this accounting line is distributed among the assets*/
                 capitalAccountingLine.setAmountDistributed(true);
             } else {
                 capitalAccountingLine.setAmountDistributed(false);

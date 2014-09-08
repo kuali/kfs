@@ -210,219 +210,40 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
     }
 
     protected Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments) {
-        // TODO JAMES CONTINUE BREAKING UP
-
         Integer agingBucketStartValue = null;
         Integer agingBucketEndValue = null;
-        Integer cutoffdate0 = 0;
-        Integer cutoffdate30 = 30;
-        Integer cutoffdate60 = 60;
-        Integer cutoffdate90 = 90;
-        Integer cutoffdate120 = 120;
 
         // To get value for FINAL days past due.
-        String stateAgencyFinalCutOffDate = null;
-        String finalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM);
-        if (ObjectUtils.isNull(finalCutOffDate)) {
-            finalCutOffDate = "0";
-        }
+        String stateAgencyFinalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM, "0");
+        String finalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM, "0");
         Integer cutoffdateFinal = new Integer(finalCutOffDate);
+
         String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
         String campaignID = fieldValues.get(ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID);
         String collector = fieldValues.get(KFSPropertyConstants.PRINCIPAL_ID);
         String agingBucket = fieldValues.get(ArPropertyConstants.AGING_BUCKET);
         String collectorPrincName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 
-        if (StringUtils.isNotBlank(agingBucket)) {
-            if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
-                agingBucketStartValue = 0;
-                agingBucketEndValue = 30;
-            }
-            // Including State agency final here just to get some default value in place. The value will be overridden later after
-            // checking with the agency.
-            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
-                agingBucketStartValue = cutoffdateFinal + 1;
-                agingBucketEndValue = 0;
-            }
-            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
-                agingBucketStartValue = 121;
-                agingBucketEndValue = cutoffdateFinal;
-            }
-            else if (StringUtils.isNotBlank(agingBucket)) {
-                agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
-                agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
-            }
+        final Integer[] agingBucketStartAndEnd = getAgingBucketStartAndEnd(agingBucket, cutoffdateFinal);
+        if (!ObjectUtils.isNull(agingBucketStartAndEnd)) {
+            agingBucketStartValue = agingBucketStartAndEnd[0];
+            agingBucketEndValue = agingBucketStartAndEnd[1];
         }
-
-        // check other categories
-        boolean checkCollector = StringUtils.isNotBlank(collector);
-        boolean isCollector = true;
-
-        if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
-            checkCollector = true;
-            Person collectorObj = personService.getPersonByPrincipalName(collectorPrincName);
-            if (collectorObj != null) {
-                collector = collectorObj.getPrincipalId();
-            }
-            else {
-                isCollector = false;
-            }
-        }
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         // walk through what we have, and do any extra filtering based on age and dunning campaign, if necessary
         Collection<ContractsGrantsInvoiceDocument> eligibleInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         for (ContractsGrantsInvoiceDocument invoice : cgInvoiceDocuments) {
-            boolean eligibleInvoiceFlag = false;
-            if (ObjectUtils.isNotNull(invoice.getAge())) {
+            if (isInvoiceGenerallyEligibleForDunningLetter(invoice)
+                    && doesInvoiceMatchCollectorCriteria(invoice, collector, collectorPrincName)
+                    && contractsGrantsInvoiceDocumentService.canViewInvoice(invoice, user.getPrincipalId())
+                    && doesInvoiceMatchAwardCriteria(invoice, agencyNumber, campaignID)
+                    && doesInvoiceFitWithinAgingBucket(invoice, agingBucket, agingBucketStartValue, agingBucketEndValue, stateAgencyFinalCutOffDate)) {
 
-                if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
-                    continue;
-                }
-                String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+                final String foundDunningLetterTemplate = findMatchingDunningLetterTemplate(invoice, cutoffdateFinal, stateAgencyFinalCutOffDate);
 
-                DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
-                if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
-                    continue;
-                }
-
-                if (checkCollector) {
-                    if (isCollector) {
-                        if (!contractsGrantsInvoiceDocumentService.canViewInvoice(invoice, collector)) {
-                            continue;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-
-                Person user = GlobalVariables.getUserSession().getPerson();
-
-                if (!contractsGrantsInvoiceDocumentService.canViewInvoice(invoice, user.getPrincipalId())) {
-                    continue;
-                }
-
-                if (StringUtils.isNotBlank(agencyNumber) && (!StringUtils.equals(invoice.getAward().getAgencyNumber(), agencyNumber))) {
-                    continue;
-                }
-                if (StringUtils.isNotBlank(campaignID) && (!StringUtils.equals(invoice.getAward().getDunningCampaign(), campaignID))) {
-                    continue;
-                }
-
-                // To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
-
-                ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
-                if (agency.isStateAgencyIndicator()) {
-                    stateAgencyFinalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
-                }
-                if (ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
-
-                    agingBucketStartValue = new Integer(stateAgencyFinalCutOffDate) + 1;
-                    agingBucketEndValue = 0;
-                }
-                else if (ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
-
-                    agingBucketStartValue = 121;
-                    agingBucketEndValue = new Integer(stateAgencyFinalCutOffDate);
-                }
-                // Now to validate based on agingbucket and make sure the agency = stateagency is applied.
-                if (ObjectUtils.isNotNull(agingBucketStartValue)) {
-                    if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
-                        if (agency.isStateAgencyIndicator() || invoice.getAge().compareTo(agingBucketStartValue) < 0) {
-                            continue;
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
-                        if (!agency.isStateAgencyIndicator() || invoice.getAge().compareTo(agingBucketStartValue) < 0) {
-                            continue;
-                        }
-                    }
-                    else if (invoice.getAge().compareTo(agingBucketStartValue) < 0 || invoice.getAge().compareTo(agingBucketEndValue) > 0) {
-                        continue;
-                    }
-                }
-
-                List<DunningLetterDistribution> dunningLetterDistributions = dunningCampaign.getDunningLetterDistributions();
-                if (CollectionUtils.isEmpty(dunningLetterDistributions)) {
-                    continue;
-                }
-
-                for (DunningLetterDistribution dunningLetterDistribution : dunningLetterDistributions) {
-                    DunningLetterTemplate dunningLetterTemplate = getBusinessObjectService().findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
-
-                    if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
-                        if ((invoice.getAge().compareTo(cutoffdate0) >= 0) && (invoice.getAge().compareTo(cutoffdate30) <= 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_31_60)) {
-                        if ((invoice.getAge().compareTo(cutoffdate30) > 0) && (invoice.getAge().compareTo(cutoffdate60) <= 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_61_90)) {
-                        if ((invoice.getAge().compareTo(cutoffdate60) > 0) && (invoice.getAge().compareTo(cutoffdate90) <= 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_91_120)) {
-                        if ((invoice.getAge().compareTo(cutoffdate90) > 0) && (invoice.getAge().compareTo(cutoffdate120) <= 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_121)) {
-                        if (agency.isStateAgencyIndicator()) {// To replace final with state agency final value
-                            cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
-                        }
-                        if ((invoice.getAge().compareTo(cutoffdate120) > 0) && (invoice.getAge().compareTo(cutoffdateFinal) <= 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
-                        if (agency.isStateAgencyIndicator()) {// to proceed only if agency is not state agency
-                            continue;
-                        }
-                        else {
-                            if ((invoice.getAge().compareTo(cutoffdateFinal) > 0)) {
-                                if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                    eligibleInvoiceFlag = true;
-                                    invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                                }
-                            }
-                        }
-                    }
-                    else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
-                        if (agency.isStateAgencyIndicator()) {// to replace final with state agency final value
-                            cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
-                        }
-                        else {// If the agency is not state agency - nothing to calculate.
-                            continue;
-                        }
-                        if ((invoice.getAge().compareTo(cutoffdateFinal) > 0)) {
-                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
-                                eligibleInvoiceFlag = true;
-                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                            }
-                        }
-                    }
-                }
-
-                if (eligibleInvoiceFlag) {
+                if (!StringUtils.isBlank(foundDunningLetterTemplate)) {
+                    invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(foundDunningLetterTemplate);
                     businessObjectService.save(invoice.getInvoiceGeneralDetail());
                     eligibleInvoices.add(invoice);
                 }
@@ -430,6 +251,239 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
             }
         }
         return eligibleInvoices;
+    }
+
+    /**
+     * Parses the agingBucket to determine the start value and end value for the bucket
+     * @param agingBucket the aging bucket value to parse
+     * @param cutoffDateFinal the final cutoff date, from a parameter
+     * @return an array with the start value of the bucket in the first entry and the end value in the second, or null if the aging bucket value could not be parsed
+     */
+    protected Integer[] getAgingBucketStartAndEnd(String agingBucket, Integer cutoffDateFinal) {
+        if (StringUtils.isNotBlank(agingBucket)) {
+            Integer agingBucketStartValue = null;
+            Integer agingBucketEndValue = null;
+            if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
+                agingBucketStartValue = 0;
+                agingBucketEndValue = 30;
+            }
+            // Including State agency final here just to get some default value in place. The value will be overridden later after
+            // checking with the agency.
+            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                agingBucketStartValue = cutoffDateFinal + 1;
+                agingBucketEndValue = 0;
+            }
+            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+                agingBucketStartValue = 121;
+                agingBucketEndValue = cutoffDateFinal;
+            }
+            else {
+                agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
+                agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
+            }
+            if (agingBucketStartValue != null && agingBucketEndValue != null) {
+                Integer[] returnContainer = new Integer[2];
+                returnContainer[0] = agingBucketStartValue;
+                returnContainer[1] = agingBucketEndValue;
+                return returnContainer;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks if the given contracts & grants invoice passes general rules about whether it is eligible for dunning letter matching
+     * @param invoice the contracts & grants invoice to check
+     * @return true if the invoice is eligigle based on general rules, false otherwise
+     */
+    protected boolean isInvoiceGenerallyEligibleForDunningLetter(ContractsGrantsInvoiceDocument invoice) {
+        if (ObjectUtils.isNull(invoice.getAge())) {
+            return false;
+        }
+
+        if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
+            return false;
+        }
+
+        String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+        DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
+        if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if the given contracts & grants invoice matches given collector criteria
+     * @param invoice the contracts & grants invoice to check
+     * @param collectorPrincipalIdParameter the collector principal id from the lookuop
+     * @param collectorPrincipalNameParameter the collector principal name from the lookup
+     * @return true if the invoice matches, false otherwise
+     */
+    protected boolean doesInvoiceMatchCollectorCriteria(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalIdParameter, String collectorPrincipalNameParameter) {
+        String collectorPrincipalId = collectorPrincipalIdParameter;
+        boolean checkCollector = StringUtils.isNotBlank(collectorPrincipalId);
+        boolean isCollector = true;
+
+        if (!StringUtils.isBlank(collectorPrincipalNameParameter)) {
+            checkCollector = true;
+            Person collectorObj = personService.getPersonByPrincipalName(collectorPrincipalNameParameter);
+            if (collectorObj != null) {
+                collectorPrincipalId = collectorObj.getPrincipalId();
+            }
+            else {
+                isCollector = false;
+            }
+        }
+
+        if (checkCollector && (!isCollector || !contractsGrantsInvoiceDocumentService.canViewInvoice(invoice, collectorPrincipalId))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Determines if the given contracts & grants invoice matches criteria associated with the invoice's award
+     * @param invoice the contracts & grants invoice to check
+     * @param agencyNumberParameter the agency number from the lookup
+     * @param campaignIdParameter the campaign id from the lookup
+     * @return true if the invoice matches the criteria, false otherwise
+     */
+    protected boolean doesInvoiceMatchAwardCriteria(ContractsGrantsInvoiceDocument invoice, String agencyNumberParameter, String campaignIdParameter) {
+        if (StringUtils.isNotBlank(agencyNumberParameter) && (!StringUtils.equals(invoice.getAward().getAgencyNumber(), agencyNumberParameter))) {
+            return false;
+        }
+        if (StringUtils.isNotBlank(campaignIdParameter) && (!StringUtils.equals(invoice.getAward().getDunningCampaign(), campaignIdParameter))) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if the given invoice matches the criteria given associated with the aging bucket specified in the lookup
+     * @param invoice the contracts & grants invoice to check
+     * @param agingBucket the type of the specified aging bucket
+     * @param agingBucketStartValue the start age in days of the given aging bucket
+     * @param agingBucketEndValue the end age in days of the given aging bucket
+     * @param stateAgencyFinalCutOffDate value, from a parameter, for a different cutoff date which applies only to state agencies
+     * @return true if the invoice matches, false otherwise
+     */
+    protected boolean doesInvoiceFitWithinAgingBucket(ContractsGrantsInvoiceDocument invoice, String agingBucket, Integer agingBucketStartValue, Integer agingBucketEndValue, String stateAgencyFinalCutOffDate) {
+        if (agingBucketStartValue == null || agingBucketEndValue == null) {
+            return true; // just skip
+        }
+        int agingBucketStart = agingBucketStartValue.intValue();
+        int agingBucketEnd = agingBucketEndValue.intValue();
+        if (invoice.getAward().getAgency().isStateAgencyIndicator()) {
+            if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                agingBucketStart = new Integer(stateAgencyFinalCutOffDate) + 1;
+                agingBucketEnd = 0;
+            }
+            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+                agingBucketStart = 121;
+                agingBucketEnd = new Integer(stateAgencyFinalCutOffDate);
+            }
+        }
+
+        if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
+            if (invoice.getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
+                return false;
+            }
+        }
+        else if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+            if (!invoice.getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
+                return false;
+            }
+        }
+        else if (invoice.getAge().intValue() < agingBucketStart || invoice.getAge().intValue() > agingBucketEnd) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Finds a matching dunning letter template from the distributions in the given campaign for the given invoice, or null if a matching dunning letter distribution could not be found
+     * @param invoice invoice to find dunning letter template for
+     * @param cutoffDateFinal the final cut-off age for contracts & grants invoices
+     * @param stateAgencyFinalCutOffDate the state final cut-off age for contracts & grants invoices, which may be different from cutoffDateFinal
+     * @return the name of the matching dunning letter template or null if no suitable template could be found
+     */
+    protected String findMatchingDunningLetterTemplate(ContractsGrantsInvoiceDocument invoice, Integer cutoffDateFinal, String stateAgencyFinalCutOffDate) {
+        ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
+
+        String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+        DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
+
+        List<DunningLetterDistribution> dunningLetterDistributions = dunningCampaign.getDunningLetterDistributions();
+        if (CollectionUtils.isEmpty(dunningLetterDistributions)) {
+            return null;
+        }
+
+        for (DunningLetterDistribution dunningLetterDistribution : dunningLetterDistributions) {
+            DunningLetterTemplate dunningLetterTemplate = getBusinessObjectService().findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
+
+            String foundDunningLetterTemplate = null;
+            if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
+                if ((invoice.getAge().intValue() >= 0) && (invoice.getAge().intValue() <= 30)) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_31_60)) {
+                if ((invoice.getAge().intValue() > 30) && (invoice.getAge().intValue() <= 60)) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_61_90)) {
+                if ((invoice.getAge().intValue() > 60) && (invoice.getAge().intValue() <= 90)) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_91_120)) {
+                if ((invoice.getAge().intValue() > 90) && (invoice.getAge().intValue() <= 120)) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+                int cutoffDate = cutoffDateFinal.intValue();
+                if (agency.isStateAgencyIndicator()) {// To replace final with state agency final value
+                    cutoffDate = Integer.parseInt(stateAgencyFinalCutOffDate);
+                }
+                if ((invoice.getAge().intValue() > 120) && (invoice.getAge().intValue() <= cutoffDate)) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
+                if (!agency.isStateAgencyIndicator() && invoice.getAge().intValue() > cutoffDateFinal.intValue()) {
+                    if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                        return dunningLetterDistribution.getDunningLetterTemplate();
+                    }
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase(dunningLetterDistribution.getDaysPastDue(), ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                int cutoffDate = cutoffDateFinal.intValue();
+                if (agency.isStateAgencyIndicator()) {// to replace final with state agency final value
+                    cutoffDate = Integer.parseInt(stateAgencyFinalCutOffDate);
+                    if ((invoice.getAge().intValue() > cutoffDate)) {
+                        if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
+                            return dunningLetterDistribution.getDunningLetterTemplate();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**

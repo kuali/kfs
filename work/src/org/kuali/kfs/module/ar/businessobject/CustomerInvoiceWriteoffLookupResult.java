@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObjectBase{
-    
+
     private String customerName;
     private String customerNumber;
     private String customerTypeCode;
@@ -34,12 +34,14 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private String customerNote;
     private Integer age;
     private KualiDecimal customerTotal;
-    private List<CustomerInvoiceDocument> customerInvoiceDocuments;    
-    
+    private List<CustomerInvoiceDocument> customerInvoiceDocuments;
+
+    private Customer customer;
+
     public CustomerInvoiceWriteoffLookupResult(){
         customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
     }
-    
+
     public String getCollectionStatus() {
         return collectionStatus;
     }
@@ -88,15 +90,15 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     public void setCustomerInvoiceNumber(String customerInvoiceNumber) {
         this.customerInvoiceNumber = customerInvoiceNumber;
     }
-    
+
     public Integer getAge() {
         return age;
     }
     public void setAge(Integer age) {
         this.age = age;
     }
-    
-    
+
+
     public String getCustomerNote() {
         return customerNote;
     }
@@ -110,17 +112,25 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
         customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
         customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.SOURCE_TOTAL);
         customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
-        
+
         return customerInvoiceDocumentAttributesForDisplay;
     }
-    
-    
+
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     public CustomerInvoiceDocument getCustomerInvoiceDocument(int index){
         return getCustomerInvoiceDocuments().get(index);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

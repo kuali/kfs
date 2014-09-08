@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -46,8 +47,9 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
     private String awardBillingFrequency;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private Collection<ContractsAndGrantsBillingAward> awards;
+    private ContractsAndGrantsBillingAgency agency;
     private ContractsAndGrantsBillingFrequency billingFrequency;
-
+    private Customer customer;
 
     /**
      * Gets the proposalNumber attribute.
@@ -287,6 +289,26 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
         this.agencyFullName = agencyFullName;
     }
 
+
+
+    public ContractsAndGrantsBillingAgency getAgency() {
+        return agency;
+    }
+
+
+    public void setAgency(ContractsAndGrantsBillingAgency agency) {
+        this.agency = agency;
+    }
+
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {

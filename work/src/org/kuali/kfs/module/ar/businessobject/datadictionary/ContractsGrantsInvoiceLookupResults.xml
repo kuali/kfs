@@ -33,6 +33,24 @@
 				<ref bean="ContractsGrantsInvoiceLookupResult-awardBillingFrequency" />
 			</list>
 		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>			
+		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->

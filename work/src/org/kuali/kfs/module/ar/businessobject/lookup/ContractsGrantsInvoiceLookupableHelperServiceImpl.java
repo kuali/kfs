@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
-import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
@@ -36,7 +35,6 @@ import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -51,7 +49,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a lookupable helper service class for Contracts and Grants Invoices.
  */
-public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
+
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
@@ -229,17 +228,6 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
             columns.add(setupResultsColumn(bo, attributeName, businessObjectRestrictions));
         }
         return columns;
-    }
-
-    /**
-     * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
-     *      java.lang.String)
-     */
-    @Override
-    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new ContractsGrantsInvoiceLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {

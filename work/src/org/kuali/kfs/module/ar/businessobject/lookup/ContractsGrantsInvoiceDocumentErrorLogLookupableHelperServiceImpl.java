@@ -32,15 +32,12 @@ import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
 
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     protected DateTimeService dateTimeService;
@@ -66,18 +63,6 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         return getSearchResultsHelper(
                 org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(getBusinessObjectClass(), updateFieldValuesForSearchCriteria(fieldValues)), true);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
-     */
-    @Override
-    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlData hRef = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
-        if (StringUtils.isNotBlank(hRef.getHref())) {
-            hRef.setHref(KFSConstants.RICE_PATH_PREFIX + hRef.getHref());
-        }
-        return hRef;
     }
 
     /**

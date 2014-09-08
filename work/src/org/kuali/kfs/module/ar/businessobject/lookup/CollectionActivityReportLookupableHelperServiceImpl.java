@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.coa.businessobject.Account;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
@@ -34,7 +35,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -50,7 +50,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 /**
  * LookupableHelperService class for Collection Activity Report.
  */
-public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class CollectionActivityReportLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
     protected CollectionActivityReportService collectionActivityReportService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
@@ -130,28 +130,17 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
                         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
-                    }
-                    else if (col.getPropertyName().equals(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER)) {
-                        CollectionActivityReport bo = (CollectionActivityReport) element;
-                        String url = this.getAccountInquiryUrl(bo);
-                        Map<String, String> fieldList = new HashMap<String, String>();
-                        fieldList.put(KFSPropertyConstants.ACCOUNT_NUMBER, propValue);
-                        fieldList.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bo.getChartOfAccountsCode());
-                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-                        col.setColumnAnchor(a);
-                    }
-                    else if (org.apache.commons.lang.StringUtils.equals("Actions", col.getColumnTitle())) {
-
-                        String url = this.getCollectionActivityDocumentUrl(element, col.getColumnTitle());
+                    } else if (org.apache.commons.lang.StringUtils.equals(ArConstants.ACTIONS_LABEL, col.getColumnTitle())) {
+                        String url = getCollectionActivityDocumentUrl(element, col.getColumnTitle());
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
                         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
+                    } else if (StringUtils.isNotBlank(propValue)) {
+                        col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                     }
-
                 }
 
                 ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
@@ -175,24 +164,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
     }
 
     /**
-     * Gets the account lookup url on given account number.
-     *
-     * @param accountNumber Account Number for inquiry on Account
-     * @return Returns the url string.
-     */
-    protected String getAccountInquiryUrl(CollectionActivityReport bo) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Account.class.getName());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.INQUIRY_ACTION);
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER, bo.getAccountNumber());
-        params.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bo.getChartOfAccountsCode());
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
      * This method returns the Collection Activity create url
      *
      * @param bo business object
@@ -200,14 +171,14 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      * @return Returns the url for the Collection Activity creation
      */
     protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
-        String lookupUrl = "";
+        String lookupUrl = StringUtils.EMPTY;
         CollectionActivityReport detail = (CollectionActivityReport) bo;
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
         parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, detail.getProposalNumber().toString());
         parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, detail.getInvoiceNumber());
-        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "COLA");
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.COLLECTION_ACTIVTY);
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
 
         return lookupUrl;

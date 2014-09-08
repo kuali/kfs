@@ -456,6 +456,7 @@ public class KFSConstants {
     public static final String START_METHOD = "start";
     public static final String SEARCH_METHOD = "search";
     public static final String COPY_METHOD = "copy";
+    public static final String INITIATE_METHOD = "initiate";
     public static final String ERRORCORRECT_METHOD = "correct";
     public static final String SOURCE = "Source";
     public static final String SQUARE_BRACKET_LEFT = "[";

@@ -152,6 +152,7 @@ public class ArConstants{
     public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
     public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
     public static final String MAPPING_PRINT_PDF = "arPrintPDF";
+    public static final String ACTIONS_LABEL = "Actions";
 
     public static final String CUSTOMER_STATEMENT_LABEL = "Customer Statement";
 

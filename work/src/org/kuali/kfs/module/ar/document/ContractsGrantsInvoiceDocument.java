@@ -181,7 +181,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
         if ( getDocumentHeader().getWorkflowDocument().isProcessed() ) {
-         // update award accounts to final billed
+            // update award accounts to final billed
             contractsGrantsInvoiceDocumentService.updateLastBilledDate(this);
             if (isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
                 try {
@@ -214,12 +214,12 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             else {
                 // update Milestones and Bills when invoice goes to final state
                 contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(true, invoiceMilestones, invoiceBills);
+
+                // generate the invoices from templates
+                contractsGrantsInvoiceDocumentService.generateInvoicesForInvoiceAddresses(this);
             }
 
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);
-
-            // generate the invoices from templates
-            contractsGrantsInvoiceDocumentService.generateInvoicesForInvoiceAddresses(this);
         } else {
             // To set the status of the document to award account.
             setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());

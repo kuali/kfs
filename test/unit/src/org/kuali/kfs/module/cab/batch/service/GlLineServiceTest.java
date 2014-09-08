@@ -260,3 +260,4 @@ public class GlLineServiceTest extends KualiTestBase {
         assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(1));
     }
 }
+

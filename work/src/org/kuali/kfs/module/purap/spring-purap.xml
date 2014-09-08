@@ -122,28 +122,16 @@
 	<!--  override accounting service -->
 	<bean id="purapAccountingLineRuleHelperService" parent="purapAccountingLineRuleHelperService-parentBean"/>
 	
-    <bean id="purapAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl" abstract="true">
-    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
-    </bean>
+    <bean id="purapAccountingLineRuleHelperService-parentBean" parent="accountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl" abstract="true"/>
 	<bean id="purchasingAccountingLineRuleHelperService" parent="purchasingAccountingLineRuleHelperService-parentBean"/>
     
-    <bean id="purchasingAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PurchasingAccountingLineRuleHelperServiceImpl" abstract="true">
-    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
-    </bean>
+    <bean id="purchasingAccountingLineRuleHelperService-parentBean" parent="purapAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PurchasingAccountingLineRuleHelperServiceImpl" abstract="true"/>
     <bean id="vendorCreditMemoAccountingLineRuleHelperService" parent="vendorCreditMemoAccountingLineRuleHelperService-parentBean"/>
             
-    <bean id="vendorCreditMemoAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.VendorCreditMemoAccountingLineRuleHelperServiceImpl" abstract="true">
-    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
-    </bean>  
+    <bean id="vendorCreditMemoAccountingLineRuleHelperService-parentBean" parent="purapAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.VendorCreditMemoAccountingLineRuleHelperServiceImpl" abstract="true"/>
     <bean id="paymentRequestAccountingLineRuleHelperService" parent="paymentRequestAccountingLineRuleHelperService-parentBean"/>
           
-    <bean id="paymentRequestAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PaymentRequestAccountingLineRuleHelperServiceImpl" abstract="true">
-    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
-    </bean>                
+    <bean id="paymentRequestAccountingLineRuleHelperService-parentBean" parent="purapAccountingLineRuleHelperService-parentBean" class="org.kuali.kfs.module.purap.service.impl.PaymentRequestAccountingLineRuleHelperServiceImpl" abstract="true"/>
 	<!--  end override -->
 
     <bean id="pdpExtractService" parent="pdpExtractService-parentBean"/>

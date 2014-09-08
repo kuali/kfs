@@ -109,7 +109,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     * Note: This method is not called by validateSearchParameters anymore.
     * This method checks if the minimum required fields are filled
     */
-   @Deprecated
    public boolean checkMinimumFieldsFilled(Map fieldValues) {
        if(StringUtils.isBlank((String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) && StringUtils.isBlank((String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID)) && StringUtils.isBlank((String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME)) &&
                StringUtils.isBlank((String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME)) && StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.VENDOR_NAME))) {
@@ -129,7 +128,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     * Note: This method is not called by validateSearchParameters anymore.
     * This method validates the vendor name usage in lookup
     */
-   @Deprecated
    public void validateVendorNameUse(Map fieldValues) {
        final String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
        final String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
@@ -154,7 +152,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     * Note: This method is not called by validateSearchParameters anymore.
     * This method validates the tax criteria
     */
-   @Deprecated
    public void validateTaxNumberCriteria(Map fieldValues) {
        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
@@ -185,7 +182,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     * Note: This method is not called by validateSearchParameters anymore.
     * This method validates the employee name usage in lookup
     */
-   @Deprecated
    public void validateEmployeeNameUse(Map fieldValues) {
        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
        final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);

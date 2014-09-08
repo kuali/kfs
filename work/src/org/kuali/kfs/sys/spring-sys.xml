@@ -685,6 +685,7 @@
     <bean id="accountingLineRuleHelperService-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl" abstract="true">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
+        <property name="accountService" ref="accountService" />
     </bean>
 	<bean id="financialSystemDocumentTypeService" parent="financialSystemDocumentTypeService-parentBean"/>
     

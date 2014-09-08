@@ -1268,6 +1268,7 @@ public class KFSPropertyConstants {
     public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
     public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
     public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
+    public static final String SALES_TAX = "salesTax";
 
     public static class SubAccountImport {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

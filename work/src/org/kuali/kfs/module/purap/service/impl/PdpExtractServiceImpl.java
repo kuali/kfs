@@ -60,7 +60,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
-import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -840,7 +839,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentGroup.setProcessImmediate(paymentRequestDocument.getImmediatePaymentIndicator());
         paymentGroup.setPymtSpecialHandling(StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine1Text()) || StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine2Text()) || StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine3Text()));
         paymentGroup.setTaxablePayment(Boolean.FALSE);
-        paymentGroup.setNraPayment(VendorConstants.OwnerTypes.NR.equals(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
+        paymentGroup.setNraPayment(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorForeignIndicator());
         paymentGroup.setCombineGroups(Boolean.TRUE);
 
         return paymentGroup;
@@ -902,7 +901,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentGroup.setProcessImmediate(Boolean.FALSE);
         paymentGroup.setPymtSpecialHandling(Boolean.FALSE);
         paymentGroup.setTaxablePayment(Boolean.FALSE);
-        paymentGroup.setNraPayment(VendorConstants.OwnerTypes.NR.equals(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
+        paymentGroup.setNraPayment(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorForeignIndicator());
         paymentGroup.setCombineGroups(Boolean.TRUE);
 
         return paymentGroup;

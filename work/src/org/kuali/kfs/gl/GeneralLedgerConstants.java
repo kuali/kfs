@@ -147,6 +147,7 @@ public class GeneralLedgerConstants {
     public static final String ANNUAL_CLOSING_DOCUMENT_TYPE = "ANNUAL_CLOSING_DOCUMENT_TYPE";
     public static final String ANNUAL_CLOSING_CHARTS_PARAM = "ANNUAL_CLOSING_CHARTS";
     public static final String USE_ICR_ENCUMBRANCE_PARAM = "USE_ICR_ENCUMBRANCE_IND";
+    public static final String INDIRECT_COST_TYPES_PARAMETER = "INDIRECT_COST_TYPES";
 
     public static class GlAccountBalanceGroupParameters {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";

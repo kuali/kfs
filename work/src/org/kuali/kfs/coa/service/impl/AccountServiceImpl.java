@@ -33,8 +33,8 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -364,6 +364,31 @@ public class AccountServiceImpl implements AccountService {
                 line.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
+    }
+
+    /**
+     * @param account
+     * @return an unexpired continuation account for the given account, or, if one cannot be found, null
+     */
+    @Override
+    public Account getUnexpiredContinuationAccountOrNull(Account account) {
+        int count = 0;
+        while (count++ < 10) { // prevents infinite loops
+            String continuationChartCode = account.getContinuationFinChrtOfAcctCd();
+            String continuationAccountNumber = account.getContinuationAccountNumber();
+
+            if (StringUtils.isBlank(continuationChartCode) || StringUtils.isBlank(continuationAccountNumber)) {
+                return null;
+            }
+            account = getByPrimaryId(continuationChartCode, continuationAccountNumber);
+            if (ObjectUtils.isNull(account)) {
+                return null;
+            }
+            if (account.isActive() && !account.isExpired()) {
+                return account;
+            }
+        }
+        return null;
     }
 
     public void setAccountDao(AccountDao accountDao) {

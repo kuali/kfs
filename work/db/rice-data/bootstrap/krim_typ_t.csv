@@ -47,5 +47,5 @@ KFSSEC4,KFSSEC4,1,"Constraint, Operator, & Value",{http://kfs.kuali.org/kfs/v5_0
 "KFS10252","KFS-TEM-TYP-005","1","Derived Role: TEM Profile Arranger","{http://kfs.kuali.org/kfs/v5_0}arrangerDerivedRoleTypeService","Y","KFS-TEM"
 "KFS10254","KFS-TEM-TYP-007","1","Job Classification","{http://kfs.kuali.org/kfs/v5_0}temExecutiveManagerRoleTypeService","Y","KFS-TEM"
 "KFS10681","KFS-TEM-TYP-008","1","Chart, Organization, and Reimburesment Overage Percentage","{http://kfs.kuali.org/kfs/v5_0}reimbursementOverageOrganizationHierarchyRoleTypeService","Y","KFS-TEM"
-KFSCG20111101,KFSCG20111101,1,Derived Role: Funds Manager,{http://kfs.kuali.org/kfs/v5_0}fundsManagerDerivedRoleTypeService,Y,KFS-AR
-KFSMI10824-TYP1,KFSMI10824-TYP1,1,Collector,{http://kfs.kuali.org/kfs/v5_0}collectorRoleTypeService,Y,KFS-AR
+KFSMI10824-TYP1,KFS-CGB-TYP-001,1,Collector,{http://kfs.kuali.org/kfs/v5_0}collectorRoleTypeService,Y,KFS-AR
+KFSCG20111101,KFS-CGB-TYP-002,1,Derived Role: Funds Manager,{http://kfs.kuali.org/kfs/v5_0}fundsManagerDerivedRoleTypeService,Y,KFS-AR

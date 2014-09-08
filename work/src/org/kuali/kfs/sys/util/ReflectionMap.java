@@ -20,17 +20,19 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReflectionMap implements Map<String, Object> {
     protected Object bean;
+    protected PropertyUtilsBean propertyUtilsBean;
 
     public ReflectionMap(Object bean) {
         if (ObjectUtils.isNull(bean)) {
             throw new IllegalArgumentException("This cannot wrap a null object");
         }
         this.bean = bean;
+        this.propertyUtilsBean = new PropertyUtilsBean(); // create our own beanUtilsBean to avoid struts injection of KNS classes
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ReflectionMap implements Map<String, Object> {
         final String keyAsString = (String)key;
         Object value;
         try {
-            value = PropertyUtils.getProperty(this.bean, keyAsString);
+            value = propertyUtilsBean.getProperty(this.bean, keyAsString);
         }
         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IndexOutOfBoundsException ex) {
             // yep - we know we're swallowing the exception here.  However, we know that bean can't be null, so

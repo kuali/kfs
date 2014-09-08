@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -55,6 +57,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.util.StringUtils;
@@ -253,6 +256,30 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         return principalIdsSet;
     }
 
+    @Override
+    public String getDocSearchUrl(String docId) {
+        String baseUrl = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE;
+        Properties parameters = new Properties();
+        parameters.put(KewApiConstants.COMMAND_PARAMETER, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KewApiConstants.DOCUMENT_ID_PARAMETER, docId);
+        String docSearchUrl = UrlFactory.parameterizeUrl(baseUrl, parameters);
+        return docSearchUrl;
+    }
+
+    @Override
+    public String getInitiateCollectionActivityDocumentUrl(String proposalNumber, String invoiceNumber) {
+        String initiateUrl = KRADConstants.EMPTY_STRING;
+        Properties parameters = new Properties();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
+        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, invoiceNumber);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.COLLECTION_ACTIVTY);
+        initiateUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
+
+        return initiateUrl;
+    }
+
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -298,16 +325,6 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }
-
-    @Override
-    public String getDocSearchUrl(String docId) {
-        String baseUrl = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE;
-        Properties parameters = new Properties();
-        parameters.put(KewApiConstants.COMMAND_PARAMETER, KewApiConstants.DOCSEARCH_COMMAND);
-        parameters.put(KewApiConstants.DOCUMENT_ID_PARAMETER, docId);
-        String docSearchUrl = UrlFactory.parameterizeUrl(baseUrl, parameters);
-        return docSearchUrl;
     }
 
 }

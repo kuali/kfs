@@ -21,11 +21,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
@@ -33,7 +32,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -48,7 +46,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Helper class for Tickler Reports.
@@ -223,25 +220,17 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
-                }
-                else if (col.getPropertyName().equals(ArPropertyConstants.PROPOSAL_NUMBER)) {
-                    String url = this.getAwardLookupUrl(propValue);
+                } else if (org.apache.commons.lang.StringUtils.equals(ArConstants.ACTIONS_LABEL, col.getColumnTitle())) {
+                    TicklersReport ticklersReport = (TicklersReport) element;
+                    String url = contractsGrantsReportHelperService.getInitiateCollectionActivityDocumentUrl(ticklersReport.getProposalNumber().toString(), ticklersReport.getInvoiceNumber());
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
                     a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
-                }
-                else if (org.apache.commons.lang.StringUtils.equals("Actions", col.getColumnTitle())) {
-
-                    String url = this.getCollectionActivityDocumentUrl(element, col.getColumnTitle());
-                    Map<String, String> fieldList = new HashMap<String, String>();
-                    fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
-                    AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                    col.setColumnAnchor(a);
+                } else if (StringUtils.isNotBlank(propValue)) {
+                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                 }
             }
 
@@ -259,44 +248,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         }
 
         lookupForm.setHasReturnableRow(hasReturnableRow);
-    }
-
-    /**
-     * Gets the award lookup url on given proposal number.
-     *
-     * @param proposalNumber Proposal number for lookup on award.
-     * @return Returns the url string.
-     */
-    protected String getAwardLookupUrl(String proposalNumber) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAward.class.getName());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
-     * This method returns the Collection Activity create url
-     *
-     * @param bo business object
-     * @param columnTitle
-     * @return Returns the url for the Collection Activity creation
-     */
-    protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
-        String lookupUrl = "";
-        TicklersReport detail = (TicklersReport) bo;
-        Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, detail.getProposalNumber().toString());
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, detail.getInvoiceNumber());
-        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "COLA");
-        lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
-
-        return lookupUrl;
     }
 
     public PersonService getPersonService() {

@@ -94,6 +94,15 @@ public interface ContractsGrantsReportHelperService {
     public String getDocSearchUrl(String docId);
 
     /**
+     * Builds and returns a URL to initiate a Collection Activity Document for the given proposal number and invoice number.
+     *
+     * @param proposalNumber
+     * @param invoiceNumber
+     * @return URL
+     */
+    public String getInitiateCollectionActivityDocumentUrl(String proposalNumber, String invoiceNumber);
+
+    /**
      * Translates the date criteria to a form which the LookupService will comprehend
      * @param dateLowerBound the lower bound of the date
      * @param dateUpperBound the upper bound of the date

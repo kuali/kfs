@@ -35,7 +35,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -49,7 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Customized Lookupable Helper class for Contracts and Grants Reports.
  */
-public abstract class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiLookupableHelperServiceImpl {
+public abstract class ContractsGrantsReportLookupableHelperServiceImplBase extends AccountsReceivableLookupableHelperServiceImplBase {
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     protected Pattern numericPattern = Pattern.compile("[-+]?\\d+\\.?\\d*");
 

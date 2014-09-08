@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -45,7 +44,6 @@ import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * LookupableHelperService class for Collection Activity Report.
@@ -131,7 +129,8 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
 
                         col.setColumnAnchor(a);
                     } else if (org.apache.commons.lang.StringUtils.equals(ArConstants.ACTIONS_LABEL, col.getColumnTitle())) {
-                        String url = getCollectionActivityDocumentUrl(element, col.getColumnTitle());
+                        CollectionActivityReport collectionActivityReport = (CollectionActivityReport) element;
+                        String url = contractsGrantsReportHelperService.getInitiateCollectionActivityDocumentUrl(collectionActivityReport.getProposalNumber().toString(), collectionActivityReport.getInvoiceNumber());
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
@@ -161,27 +160,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
         }
 
         return displayList;
-    }
-
-    /**
-     * This method returns the Collection Activity create url
-     *
-     * @param bo business object
-     * @param columnTitle
-     * @return Returns the url for the Collection Activity creation
-     */
-    protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
-        String lookupUrl = StringUtils.EMPTY;
-        CollectionActivityReport detail = (CollectionActivityReport) bo;
-        Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, detail.getProposalNumber().toString());
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, detail.getInvoiceNumber());
-        parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.COLLECTION_ACTIVTY);
-        lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
-
-        return lookupUrl;
     }
 
     public CollectionActivityReportService getCollectionActivityReportService() {

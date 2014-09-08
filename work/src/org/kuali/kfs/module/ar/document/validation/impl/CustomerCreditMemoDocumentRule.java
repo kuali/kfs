@@ -35,12 +35,10 @@ import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemo
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -327,14 +325,10 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
 
-        DocumentHeader documentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(invoiceDocumentNumber);
-
         // invoice has been corrected
-        if (ObjectUtils.isNotNull(documentHeader)) {
-            if (StringUtils.isNotBlank(documentHeader.getDocumentNumber())) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE);
-                return false;
-            }
+        if (customerInvoiceDocument.hasInvoiceBeenCorrected()) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE);
+            return false;
         }
         // this is a correcting invoice
         if (customerInvoiceDocument.isInvoiceReversal()) {

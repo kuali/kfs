@@ -62,6 +62,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -72,6 +73,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -927,6 +929,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+    /**
+     * This method returns true if this document has been corrected
+     *
+     * @return
+     */
+    public boolean hasInvoiceBeenCorrected() {
+        DocumentHeader documentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(documentNumber);
+
+        if (ObjectUtils.isNotNull(documentHeader) && StringUtils.isNotBlank(documentHeader.getDocumentNumber())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

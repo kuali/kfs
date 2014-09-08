@@ -118,7 +118,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         for (ContractsGrantsInvoiceDocument item : list) {
             ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
 
-            if (!invoice.isInvoiceReversal()) {
+            if (!invoice.isInvoiceReversal() && !invoice.hasInvoiceBeenCorrected()) {
                 if (isInvoiceBetween(invoice, fromDate, toDate)) {
                     if ((StringUtils.equals(ArConstants.InvoiceTransmissionMethod.EMAIL, invoiceTransmissionMethodCode) && isInvoiceValidToEmail(invoice)) ||
                         (StringUtils.equals(ArConstants.InvoiceTransmissionMethod.MAIL, invoiceTransmissionMethodCode) && isInvoiceValidToMail(invoice))) {

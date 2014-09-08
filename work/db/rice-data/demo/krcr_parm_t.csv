@@ -429,7 +429,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-GL","CurrentAccountBalance","CURRENT_LIABILITY_OBJECT_CODE","KFS-PARM-183",1,"VALID","9041","Current liability object codes.","A","KFS"
 "KFS-GL","CurrentAccountBalance","ENCUMBRANCE_BALANCE_TYPE","KFS-PARM-181",1,"VALID","EX;IE;PE;CE","Encumbrance balance types.","A","KFS"
 "KFS-GL","CurrentAccountBalance","EXPENSE_OBJECT_TYPE","KFS-PARM-180",1,"VALID","EE;ES;EX;TE","Expense object type codes.","A","KFS"
-"KFS-GL","CurrentAccountBalance","FUND_BALANCE_OBJECT_CODE","KFS-PARM-184",1,"VALID","9899","Current Fund Balance Object codes.","A","KFS"
+"KFS-GL","CurrentAccountBalance","FUND_BALANCE_OBJECT_CODE","KFS-PARM-184","1","VALID","9899","Fund Balance Object codes.","A","KFS"
 "KFS-GL","CurrentAccountBalance","INCOME_OBJECT_TYPE","KFS-PARM-179",1,"VALID","CH;IC;IN;TI","Income object type codes.","A","KFS"3
 "KFS-GL","EncumbranceForwardStep","BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION","KFS313","1","CONFG","BEGINNING FUND BALANCE OFFSET","Default Transaction Ledger Entry Description to use for generated beginning fund balance offsets created by the encumbrance closing process.","A","KFS"
 "KFS-GL","EncumbranceForwardStep","FORWARDING_ENCUMBRANCE_BALANCE_TYPES","KFS314","1","CONFG","CE","Used to narrow down the set of encumbrance balance types (obtained from the balance type table) that will be used to identify the encumbrances that should be carried forward to the next fiscal year.","D","KFS"

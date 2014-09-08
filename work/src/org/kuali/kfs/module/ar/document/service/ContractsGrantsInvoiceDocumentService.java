@@ -38,7 +38,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 /**
  * This class defines all the service methods for Contracts and Grants invoice Document.
  */
-public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDocumentService {
+public interface ContractsGrantsInvoiceDocumentService {
 
     /**
      * This method creates Source Accounting lines enabling the creation of GLPEs in the document.

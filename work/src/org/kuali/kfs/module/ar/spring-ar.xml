@@ -382,7 +382,7 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
-	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true" parent="customerInvoiceDocumentService">
+	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -396,7 +396,7 @@
 			<ref bean="billDao" />
 		</property>
 		<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
+			<ref bean="configurationService" />
 		</property>
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService" />
@@ -407,11 +407,17 @@
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
 		</property>
+		<property name="customerInvoiceDetailService">
+			<ref bean="customerInvoiceDetailService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="documentService">
+			<ref bean="documentService"/>
+		</property>
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService"/>
-		</property>
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService"/>
 		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
@@ -424,6 +430,12 @@
 		</property>
 		<property name="objectLevelService">
 			<ref bean="objectLevelService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService"/>
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService"/>

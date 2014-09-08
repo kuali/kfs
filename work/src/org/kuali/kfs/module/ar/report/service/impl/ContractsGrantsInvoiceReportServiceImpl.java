@@ -76,6 +76,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.AcroFields;
@@ -708,10 +709,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
             for (InvoiceAddressDetail invoiceAddressDetail : invoiceAddressDetails) {
                 if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
-                    CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
-
                     Note note = noteService.getNoteByNoteId(invoiceAddressDetail.getNoteId());
-                    Integer numberOfCopiesToPrint = address.getCustomerCopiesToPrint();
+                    Integer numberOfCopiesToPrint = invoiceAddressDetail.getCustomerAddress().getCustomerCopiesToPrint();
                     if (ObjectUtils.isNull(numberOfCopiesToPrint)) {
                         numberOfCopiesToPrint = 1;
                     }
@@ -750,11 +749,9 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
         for (ContractsGrantsInvoiceDocument invoice : list) {
             // add a document
-            List<InvoiceAddressDetail> agencyAddresses = invoice.getInvoiceAddressDetails();
-
-            for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
-                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getInvoiceTransmissionMethodCode())) {
-                    CustomerAddress address = agencyAddress.getCustomerAddress();
+            for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
+                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
+                    CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
 
                     Integer numberOfEnvelopesToPrint = address.getCustomerPrintEnvelopesNumber();
                     if (ObjectUtils.isNull(numberOfEnvelopesToPrint)) {
@@ -767,56 +764,17 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                         }
                         pageAdded = true;
                         document.newPage();
-                        Paragraph sendTo = new Paragraph();
-                        Paragraph sentBy = new Paragraph();
-                        sentBy.setIndentationLeft(ArConstants.InvoiceEnvelopePdf.INDENTATION_LEFT);
-                        // adding the send To address
-                        sendTo.add(new Paragraph(address.getCustomerAddressName(), ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT));
-                        if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
-                            sendTo.add(new Paragraph(address.getCustomerLine1StreetAddress(), ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT));
-                        }
-                        if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
-                            sendTo.add(new Paragraph(address.getCustomerLine2StreetAddress(), ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT));
-                        }
-                        String string = "";
-                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
-                            string += address.getCustomerCityName();
-                        }
-                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
-                            string += ", " + address.getCustomerStateCode();
-                        }
-                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
-                            string += "-" + address.getCustomerZipCode();
-                        }
-                        if (StringUtils.isNotEmpty(string)) {
-                            sendTo.add(new Paragraph(string, ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT));
-                        }
-                        sendTo.setAlignment(Element.ALIGN_CENTER);
-                        sendTo.add(new Paragraph(KFSConstants.BLANK_SPACE));
-
                         // adding the sent From address
                         Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
-                        sentBy.add(new Paragraph(org.getOrganizationName(), ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT));
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
-                            sentBy.add(new Paragraph(org.getOrganizationLine1Address(), ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT));
-                        }
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
-                            sentBy.add(new Paragraph(org.getOrganizationLine2Address(), ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT));
-                        }
-                        string = "";
-                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
-                            string += org.getOrganizationCityName();
-                        }
-                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
-                            string += ", " + org.getOrganizationStateCode();
-                        }
-                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
-                            string += "-" + org.getOrganizationZipCode();
-                        }
-                        if (StringUtils.isNotEmpty(string)) {
-                            sentBy.add(new Paragraph(string, ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT));
-                        }
+                        Paragraph sentBy = generateAddressParagraph(org.getOrganizationName(), org.getOrganizationLine1Address(), org.getOrganizationLine2Address(), org.getOrganizationCityName(), org.getOrganizationStateCode(), org.getOrganizationZipCode(), ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT);
+                        sentBy.setIndentationLeft(ArConstants.InvoiceEnvelopePdf.INDENTATION_LEFT);
                         sentBy.setAlignment(Element.ALIGN_LEFT);
+
+                        // adding the send To address
+                        String string;
+                        Paragraph sendTo = generateAddressParagraph(address.getCustomerAddressName(), address.getCustomerLine1StreetAddress(), address.getCustomerLine2StreetAddress(), address.getCustomerCityName(), address.getCustomerStateCode(), address.getCustomerZipCode(), ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT);
+                        sendTo.setAlignment(Element.ALIGN_CENTER);
+                        sendTo.add(new Paragraph(KFSConstants.BLANK_SPACE));
 
                         document.add(sentBy);
                         document.add(sendTo);
@@ -827,6 +785,42 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         if (pageAdded) {
             document.close();
         }
+    }
+
+    /**
+     * Generates a PDF paragraph for a given Address
+     * @param name the name that this envelope is being sent to
+     * @param line1Address the first line of the address
+     * @param line2Address the second line of the address
+     * @param cityName the name of the city to send this to
+     * @param stateCode the code of the state or presumably province to send this to
+     * @param postalCode the postal code/zip code to send the enveleope to
+     * @param font the font to write in
+     * @return a PDF Paragraph for the address
+     */
+    protected Paragraph generateAddressParagraph(String name, String line1Address, String line2Address, String cityName, String stateCode, String postalCode, Font font) {
+        Paragraph addressParagraph = new Paragraph();
+        addressParagraph.add(new Paragraph(name, font));
+        if (!StringUtils.isBlank(line1Address)) {
+            addressParagraph.add(new Paragraph(line1Address, font));
+        }
+        if (!StringUtils.isBlank(line2Address)) {
+            addressParagraph.add(new Paragraph(line2Address, font));
+        }
+        String string = "";
+        if (!StringUtils.isBlank(cityName)) {
+            string += cityName;
+        }
+        if (!StringUtils.isBlank(stateCode)) {
+            string += ", " + stateCode;
+        }
+        if (!StringUtils.isBlank(postalCode)) {
+            string += "-" + postalCode;
+        }
+        if (!StringUtils.isBlank(string)) {
+            addressParagraph.add(new Paragraph(string, font));
+        }
+        return addressParagraph;
     }
 
     /**

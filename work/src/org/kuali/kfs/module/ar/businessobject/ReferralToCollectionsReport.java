@@ -63,6 +63,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
     private ContractsAndGrantsAgency agency;
     private Account account;
     private Chart chart;
+    private Customer customer;
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -511,6 +512,14 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
      */
     public void setChart(Chart chart) {
         this.chart = chart;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 

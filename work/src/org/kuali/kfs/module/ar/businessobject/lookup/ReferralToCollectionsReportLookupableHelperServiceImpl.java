@@ -20,11 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
@@ -35,7 +32,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -46,12 +42,11 @@ import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Defines a lookupable helper service class for Referral To Collections Report.
  */
-public class ReferralToCollectionsReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class ReferralToCollectionsReportLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
     protected ReferralToCollectionsReportService referralToCollectionsReportService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
@@ -134,26 +129,9 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
                         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
+                    } else if (StringUtils.isNotBlank(propValue)) {
+                        col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                     }
-                    else if (col.getPropertyName().equals(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER)) {
-                        String url = this.getAgencyInquiryUrl(bo);
-                        Map<String, String> fieldList = new HashMap<String, String>();
-                        fieldList.put(KFSPropertyConstants.AGENCY_NUMBER, propValue);
-                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                        col.setColumnAnchor(a);
-                    }
-                    else if (col.getPropertyName().equals(KFSPropertyConstants.CUSTOMER_NUMBER)) {
-                        String url = this.getCustomerInquiryUrl(bo);
-                        Map<String, String> fieldList = new HashMap<String, String>();
-                        fieldList.put(KFSPropertyConstants.CUSTOMER_NUMBER, propValue);
-                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                        col.setColumnAnchor(a);
-                    }
-
                 }
 
                 ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
@@ -173,40 +151,6 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
             lookupForm.setHasReturnableRow(hasReturnableRow);
         }
         return displayList;
-    }
-
-    /**
-     * Gets the customer inquiry url on given customerNumber
-     *
-     * @param customerNumber Customer Number for inquiry on Account
-     * @return Returns the url string.
-     */
-    protected String getCustomerInquiryUrl(ReferralToCollectionsReport bo) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.INQUIRY_ACTION);
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSPropertyConstants.CUSTOMER_NUMBER, bo.getCustomerNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
-     * This method returns the Agency inquiry url
-     *
-     * @param bo business object
-     * @param columnTitle
-     * @return Returns the url for the Agency Inquiry
-     */
-    protected String getAgencyInquiryUrl(ReferralToCollectionsReport bo) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "continueWithInquiry");
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSPropertyConstants.AGENCY_NUMBER, bo.getAgencyNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
     }
 
     public ReferralToCollectionsReportService getReferralToCollectionsReportService() {

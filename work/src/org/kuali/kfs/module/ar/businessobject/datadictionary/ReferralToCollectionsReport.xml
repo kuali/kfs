@@ -39,50 +39,49 @@
  				<ref bean="ReferralToCollectionsReport-customerType" />
  				<ref bean="ReferralToCollectionsReport-referralType" />
  				<ref bean="ReferralToCollectionsReport-collectionStatus" />
- 				
 			</list>
 		</property>
-		    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="collector"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName" p:targetName="principalName"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="collector.name" p:targetName="name"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode" p:targetName="lookupRoleNamespaceCode"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName" p:targetName="lookupRoleName"/>                    
-            </list>
-          </property>
-        </bean>
-     	<bean parent="RelationshipDefinition" p:objectAttributeName="award">
-		<property name="primitiveAttributes">
+	    <property name="relationships">
 			<list>
-				<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
-			</list>
-		</property>
-		</bean>
-		<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
-			<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
-				</list>
-			</property>
-		</bean>
-		<bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="chart"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
-            </list>
-          </property>
-        </bean>
-		<bean parent="RelationshipDefinition">
+        		<bean parent="RelationshipDefinition">
+          			<property name="objectAttributeName" value="collector"/>
+          			<property name="primitiveAttributes">
+            			<list>
+              				<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+            			</list>
+          			</property>
+          			<property name="supportAttributes">
+            			<list>
+              				<bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName" p:targetName="principalName"/>
+              				<bean parent="SupportAttributeDefinition" p:sourceName="collector.name" p:targetName="name"/>
+              				<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode" p:targetName="lookupRoleNamespaceCode"/>
+              				<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName" p:targetName="lookupRoleName"/>                    
+            			</list>
+          			</property>
+		        </bean>
+     			<bean parent="RelationshipDefinition" p:objectAttributeName="award">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="chart"/>
+		          	<property name="primitiveAttributes">
+		            	<list>
+		              		<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+		            	</list>
+		          	</property>
+		        </bean>
+				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="account" />
 					<property name="primitiveAttributes">
 						<list>
@@ -90,7 +89,6 @@
 								p:targetName="accountNumber" />
 								<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
 						</list>
-						
 					</property>
 					<property name="supportAttributes">
 						<list>
@@ -98,10 +96,16 @@
 								p:targetName="accountNumber" />						
 						</list>
 					</property>
-		</bean>
-      </list>
-    </property>
-		
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+      		</list>
+    	</property>
 	</bean>
 
 	<!-- Attribute Definitions -->

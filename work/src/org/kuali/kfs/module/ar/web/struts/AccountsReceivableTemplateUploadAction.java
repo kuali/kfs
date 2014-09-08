@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,6 +28,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -169,19 +169,11 @@ public class AccountsReceivableTemplateUploadAction extends KualiAction {
      */
     protected void writeInputStreamToFileStorage(InputStream fileContents, File destinationFile) throws IOException {
         FileOutputStream streamOut = null;
-        BufferedOutputStream bufferedStreamOut = null;
         try {
             streamOut = new FileOutputStream(destinationFile);
-            bufferedStreamOut = new BufferedOutputStream(streamOut);
-            int c;
-            while ((c = fileContents.read()) != -1) {
-                bufferedStreamOut.write(c);
-            }
+            IOUtils.copy(fileContents, streamOut);
         }
         finally {
-            if (bufferedStreamOut != null) {
-                bufferedStreamOut.close();
-            }
             if (streamOut != null) {
                 streamOut.close();
             }

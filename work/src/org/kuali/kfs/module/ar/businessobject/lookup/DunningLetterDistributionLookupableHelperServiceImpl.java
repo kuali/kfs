@@ -39,7 +39,6 @@ import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupRes
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
-import org.kuali.kfs.module.ar.businessobject.inquiry.DunningLetterDistributionLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
@@ -51,7 +50,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -67,7 +65,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a lookupable helper service class for Dunning Letter Distribution.
  */
-public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class DunningLetterDistributionLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
@@ -588,17 +586,6 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
             columns.add(setupResultsColumn(bo, attributeName, businessObjectRestrictions));
         }
         return columns;
-    }
-
-    /**
-     * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
-     *      java.lang.String)
-     */
-    @Override
-    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new DunningLetterDistributionLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
     /**

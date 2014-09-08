@@ -58,6 +58,8 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
 
+    private DunningCampaign dunningCampaign;
+
     /**
      * Gets the principalId attribute.
      *
@@ -389,6 +391,13 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
         this.reportOption = reportOption;
     }
 
+    public DunningCampaign getDunningCampaign() {
+        return dunningCampaign;
+    }
+
+    public void setDunningCampaign(DunningCampaign dunningCampaign) {
+        this.dunningCampaign = dunningCampaign;
+    }
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
@@ -411,6 +420,5 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
         return invoiceAttributesForDisplay;
     }
-
 
 }

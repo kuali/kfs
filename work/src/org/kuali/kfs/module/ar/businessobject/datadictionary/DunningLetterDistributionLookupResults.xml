@@ -36,7 +36,7 @@
 				<ref bean="DunningLetterDistributionLookupResult-invoiceDocumentNumber" />
 			</list>
 		</property>
-				<property name="relationships">
+		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
 		          <property name="objectAttributeName" value="collector"/>
@@ -71,6 +71,13 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="dunningCampaign">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campaignID" p:targetName="campaignID" />
 						</list>
 					</property>
 				</bean>

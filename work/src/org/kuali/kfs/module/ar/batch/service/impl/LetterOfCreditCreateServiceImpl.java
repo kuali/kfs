@@ -18,19 +18,18 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.rmi.RemoteException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -53,11 +52,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -85,21 +80,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
 
-    public ConfigurationService getConfigService() {
-        return configService;
-    }
-
-    public void setConfigService(ConfigurationService configService) {
-        this.configService = configService;
-    }
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
     /**
      * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
      *
@@ -107,11 +87,11 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param locCreationType
      * @param locValue
      * @param totalAmount
-     * @param outputFileStream
+     * @param errorFile
      * @return
      */
     @Override
-    public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream) {
+    public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintWriter errorFile) throws IOException {
         String documentNumber = null;
 
         try {
@@ -158,16 +138,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         }
         catch (WorkflowException ex) {
             String error = "Error Creating Cash Control/Payment Application Documents for Customer Number#" + customerNumber;
-
-            try {
-
-                writeErrorEntry(error, outputFileStream);
-            }
-            catch (IOException ioe) {
-                LOG.error("LetterOfCreditCreateServiceImpl.createCashControlDocuments Stopped: " + ioe.getMessage());
-                throw new RuntimeException("LetterOfCreditCreateServiceImpl.createCashControlDocuments Stopped: " + ioe.getMessage(), ioe);
-            }
-
+            errorFile.println(error);
         }
 
         return documentNumber;
@@ -184,7 +155,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     @Override
-    public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
+    public boolean validateCashControlDocument(String customerNumber, String locCreationType, String locValue, PrintWriter errorFile) throws IOException {
         boolean isExists = false;
 
         Map<String,String> fieldValues = new HashMap<String,String>();
@@ -201,28 +172,21 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         }
 
         CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocument(fieldValues);
-        if (ObjectUtils.isNotNull(cashControlDocument)) {
+        if (!ObjectUtils.isNull(cashControlDocument)) {
             // Now to check if there is a cash control detail with the same customer number. - just double checking.
             List<CashControlDetail> cashControlDetails = new ArrayList<CashControlDetail>();
             List<CashControlDetail> cashCtrlDetails = cashControlDocument.getCashControlDetails();
 
             for (CashControlDetail cashControlDetail : cashCtrlDetails) {
-                if (ObjectUtils.isNotNull(cashControlDetail.getCustomerNumber()) && cashControlDetail.getCustomerNumber().equals(customerNumber)) {
+                if (!ObjectUtils.isNull(cashControlDetail.getCustomerNumber()) && cashControlDetail.getCustomerNumber().equals(customerNumber)) {
                     cashControlDetails.add(cashControlDetail);
                 }
             }
 
-            if (CollectionUtils.isNotEmpty(cashControlDetails)) {
+            if (!CollectionUtils.isEmpty(cashControlDetails)) {
                 isExists = true;
                 String error = ArKeyConstants.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
-                try {
-
-                    writeErrorEntry(error, outputFileStream);
-                }
-                catch (IOException ioe) {
-                    LOG.error("LetterOfCreditCreateServiceImpl.validatecashControlDocument Stopped: " + ioe.getMessage());
-                    throw new RuntimeException("LetterOfCreditCreateServiceImpl.validatecashControlDocument Stopped: " + ioe.getMessage(), ioe);
-                }
+                errorFile.println(error);
             }
 
         }
@@ -240,65 +204,58 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      */
     @Override
     public boolean routeLOCDocuments() {
-        List<String> cashControlDocumentIdList = null;
-        List<String> payAppDocumentIdList = null;
+        Collection<CashControlDocument> cashControlDocuments = null;
+        Collection<PaymentApplicationDocument> payAppDocuments = null;
         try {
-            cashControlDocumentIdList = retrieveCashControlDocumentsToRoute(DocumentStatus.SAVED);
-            payAppDocumentIdList = retrievePayAppDocumentsToRoute(DocumentStatus.SAVED);
+            cashControlDocuments = retrieveCashControlDocumentsToRoute(DocumentStatus.SAVED);
+            payAppDocuments = retrievePayAppDocumentsToRoute(DocumentStatus.SAVED);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving LOC documents for routing: " + e1.getMessage(), e1);
             throw new RuntimeException(e1.getMessage(), e1);
         }
-        catch (RemoteException re) {
-            LOG.error("Error retrieving LOC documents for routing: " + re.getMessage(), re);
-            throw new RuntimeException(re.getMessage(), re);
-        }
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Cash control Documents to Route: " + cashControlDocumentIdList);
-            LOG.info("Payment Application Documents to Route: " + payAppDocumentIdList);
+            LOG.info("Cash control Documents to Route: " + cashControlDocuments.size());
+            LOG.info("Payment Application Documents to Route: " + payAppDocuments.size());
         }
         //1. Cash control documents
-        for (String cashControlDocId : cashControlDocumentIdList) {
+        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        for (CashControlDocument cashControlDoc : cashControlDocuments) {
             try {
-                CashControlDocument cashControlDoc = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocId);
                 //To route documents only if the user in the session is same as the initiator.
-                if(cashControlDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())){
+                if(StringUtils.equals(cashControlDoc.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), currentUserPrincipalId)) {
+                    if (LOG.isInfoEnabled()) {
+                        LOG.info("Routing Cash control document # " + cashControlDoc.getDocumentNumber() + ".");
+                    }
+                    documentService.prepareWorkflowDocument(cashControlDoc);
 
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("Routing Cash control document # " + cashControlDocId + ".");
+                    // calling workflow service to bypass business rule checks
+                    workflowDocumentService.route(cashControlDoc.getDocumentHeader().getWorkflowDocument(), "", null);
                 }
-                documentService.prepareWorkflowDocument(cashControlDoc);
-
-                // calling workflow service to bypass business rule checks
-                workflowDocumentService.route(cashControlDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
             }
             catch (WorkflowException e) {
-                LOG.error("Error routing document # " + cashControlDocId + " " + e.getMessage());
+                LOG.error("Error routing document # " + cashControlDoc.getDocumentNumber() + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage(), e);
             }
         }
 
-        //1. PAyment Applciation documents
-        for (String payAppDocId : payAppDocumentIdList) {
+        //1. Payment Application documents
+        for (PaymentApplicationDocument payAppDoc : payAppDocuments) {
             try {
-                PaymentApplicationDocument payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocId);
                 //To route documents only if the user in the session is same as the initiator.
-                if(payAppDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())){
+                if(StringUtils.equals(payAppDoc.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), currentUserPrincipalId)) {
+                    if (LOG.isInfoEnabled()) {
+                        LOG.info("Routing PAyment Application document # " + payAppDoc.getDocumentNumber() + ".");
+                    }
+                    documentService.prepareWorkflowDocument(payAppDoc);
 
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("Routing PAyment Application document # " + payAppDocId + ".");
+                    // calling workflow service to bypass business rule checks
+                    workflowDocumentService.route(payAppDoc.getDocumentHeader().getWorkflowDocument(), "", null);
                 }
-                documentService.prepareWorkflowDocument(payAppDoc);
-
-                // calling workflow service to bypass business rule checks
-                workflowDocumentService.route(payAppDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
             }
             catch (WorkflowException e) {
-                LOG.error("Error routing document # " + payAppDocId + " " + e.getMessage());
+                LOG.error("Error routing document # " + payAppDoc.getDocumentNumber() + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage(), e);
             }
         }
@@ -308,75 +265,24 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
 
     /**
-     * Returns a list of all initiated but not yet routed documents, using the KualiWorkflowInfo service.
+     * Returns a list of all initiated but not yet routed documents, using the FinancialSystemDocumentService service.
      *
      * @return a list of documents to route
      */
-    protected List<String> retrieveCashControlDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException, RemoteException {
-        List<String> documentIds = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL);
-        criteria.setDocumentStatuses(Collections.singletonList(statusCode));
-
-        DocumentSearchCriteria crit = criteria.build();
-
-        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
-        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            LOG.debug("Fetch Iteration: "+ i);
-            criteria.setStartAtIndex(maxResults * i);
-            crit = criteria.build();
-            LOG.debug("Max Results: "+criteria.getStartAtIndex());
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-        for (DocumentSearchResult resultRow: results.getSearchResults()) {
-            documentIds.add(resultRow.getDocument().getDocumentId());
-                LOG.debug(resultRow.getDocument().getDocumentId());
-        }
-        }
-        return documentIds;
+    protected Collection<CashControlDocument> retrieveCashControlDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException {
+        final Collection<CashControlDocument> cashControlDocuments = getFinancialSystemDocumentService().findByWorkflowStatusCode(CashControlDocument.class, statusCode);
+        return cashControlDocuments;
     }
 
 
     /**
-     * Returns a list of all initiated but not yet routed documents, using the KualiWorkflowInfo service.
+     * Returns a list of all initiated but not yet routed documents, using the FinancialSystemDocumentService service.
      *
      * @return a list of documents to route
      */
-    protected List<String> retrievePayAppDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException, RemoteException {
-        List<String> documentIds = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
-        criteria.setDocumentStatuses(Collections.singletonList(statusCode));
-
-        DocumentSearchCriteria crit = criteria.build();
-
-        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
-        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            LOG.debug("Fetch Iteration: "+ i);
-            criteria.setStartAtIndex(maxResults * i);
-            crit = criteria.build();
-            LOG.debug("Max Results: "+criteria.getStartAtIndex());
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-        for (DocumentSearchResult resultRow: results.getSearchResults()) {
-            documentIds.add(resultRow.getDocument().getDocumentId());
-                LOG.debug(resultRow.getDocument().getDocumentId());
-        }
-        }
-
-        return documentIds;
+    protected Collection<PaymentApplicationDocument> retrievePayAppDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException {
+        final Collection<PaymentApplicationDocument> paymentApplicationDocuments = getFinancialSystemDocumentService().findByWorkflowStatusCode(PaymentApplicationDocument.class, statusCode);
+        return paymentApplicationDocuments;
     }
 
     /**
@@ -392,76 +298,62 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     }
 
     /**
-     * This method writes issues to the error file.
-     *
-     * @param line
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeErrorEntry(String line, PrintStream printStream) throws IOException {
-        printStream.printf("%s\n", line);
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#processLettersOfCreditByFund(java.lang.String)
      */
     @Override
     public void processLettersOfCreditByFund(String batchFileDirectoryName) {
+        String customerNumber = null;
+        String locValue = null;
+        String locCreationType = null;
+        boolean cashControlDocumentExists = false;
+        String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+
+        String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCF_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+        // To create error file and store all the errors in it.
+        File errOutPutFile = new File(errOutputFile);
+        PrintWriter errorFile = null;
         try {
-            String customerNumber = null;
-            String locValue = null;
-            String locCreationType = null;
-            boolean cashControlDocumentExists = false;
-            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+            errorFile = new PrintWriter(errOutPutFile);
 
-            String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCF_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-            // To create error file and store all the errors in it.
-            File errOutPutFile = new File(errOutputFile);
-            PrintStream outputFileStream = null;
-            try {
-                outputFileStream = new PrintStream(errOutPutFile);
+            // Case 2. set locCreationType = By Letter of Credit Fund
+            locCreationType = ArConstants.LOC_BY_LOC_FUND;
+            // Get the list of LOC Funds from the Maintenance document.
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.ACTIVE, true);
+            Collection<ContractsAndGrantsLetterOfCreditFund> letterOfCreditFunds = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFund.class, map);
+            for (ContractsAndGrantsLetterOfCreditFund letterOfCreditFund : letterOfCreditFunds) {
+                // Retrieve invoices per loc fund and loc creation type specification.
+                Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errorFile);
+                // When all the invoices are final.
+                if (!CollectionUtils.isEmpty(cgInvoices)) {
+                    KualiDecimal totalAmount = KualiDecimal.ZERO;
+                    // Get the total amount for the cash control document.
+                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                    }
+                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                    // If this is LOC by fund, then the way to retrieve invoices in payment application form is locfundCode
+                    locValue = letterOfCreditFund.getLetterOfCreditFundCode();
+                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                    // number combination.
 
-                // Case 2. set locCreationType = By Letter of Credit Fund
-                locCreationType = ArConstants.LOC_BY_LOC_FUND;
-                // Get the list of LOC Funds from the Maintenance document.
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put(KFSPropertyConstants.ACTIVE, true);
-                Collection<ContractsAndGrantsLetterOfCreditFund> letterOfCreditFunds = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFund.class, map);
-                Iterator<ContractsAndGrantsLetterOfCreditFund> it = letterOfCreditFunds.iterator();
-                while (it.hasNext()) {
-                    ContractsAndGrantsLetterOfCreditFund letterOfCreditFund = it.next();
-                    // Retrieve invoices per loc fund and loc creation type specification.
-                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
-                    // When all the invoices are final.
-                    if (!CollectionUtils.isEmpty(cgInvoices)) {
-                        KualiDecimal totalAmount = KualiDecimal.ZERO;
-                        // Get the total amount for the cash control document.
-                        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                            totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
-                        }
-                        customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
-                        // If this is LOC by fund, then the way to retrieve invoices in payment application form is locfundCode
-                        locValue = letterOfCreditFund.getLetterOfCreditFundCode();
-                        // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
-                        // number combination.
+                    cashControlDocumentExists = validateCashControlDocument(customerNumber, locCreationType, locValue, errorFile);
 
-                        cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
-
-                        if (!cashControlDocumentExists) {
-                            // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                            createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
-                        }
+                    if (!cashControlDocumentExists) {
+                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, errorFile);
                     }
                 }
-            } finally {
-                // Close the error file.
-                if (outputFileStream != null) {
-                    outputFileStream.close();
-                }
             }
-        }
-        catch (FileNotFoundException fnfe) {
+        } catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
+        } catch (IOException ioe) {
+            throw new RuntimeException("");
+        } finally {
+            // Close the error file.
+            if (errorFile != null) {
+                errorFile.close();
+            }
         }
     }
 
@@ -470,61 +362,60 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      */
     @Override
     public void processLettersOfCreditByFundGroup(String batchFileDirectoryName) {
+        String customerNumber = null;
+        String locValue = null;
+        String locCreationType = null;
+        boolean cashControlDocumentExists = false;
+        String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+
+        String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCFG_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+        // To create error file and store all the errors in it.
+        File errOutPutFile = new File(errOutputFile);
+        PrintWriter errorFile = null;
         try {
-            String customerNumber = null;
-            String locValue = null;
-            String locCreationType = null;
-            boolean cashControlDocumentExists = false;
-            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+            errorFile = new PrintWriter(errOutPutFile);
+            // Case 2. set locCreationType = By Letter of Credit Fund
+            locCreationType = ArConstants.LOC_BY_LOC_FUND_GRP;
+            // Retrieve list of letter of credit Fund groups from the Maintenance document.
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.ACTIVE, true);
+            Collection<ContractsAndGrantsLetterOfCreditFundGroup> letterOfCreditFundGroups = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFundGroup.class, map);
 
-            String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCFG_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-            // To create error file and store all the errors in it.
-            File errOutPutFile = new File(errOutputFile);
-            PrintStream outputFileStream = null;
-            try {
-                outputFileStream = new PrintStream(errOutPutFile);
-                // Case 2. set locCreationType = By Letter of Credit Fund
-                locCreationType = ArConstants.LOC_BY_LOC_FUND_GRP;
-                // Retrieve list of letter of credit Fund groups from the Maintenance document.
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put(KFSPropertyConstants.ACTIVE, true);
-                Collection<ContractsAndGrantsLetterOfCreditFundGroup> letterOfCreditFundGroups = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFundGroup.class, map);
+            Iterator<ContractsAndGrantsLetterOfCreditFundGroup> it = letterOfCreditFundGroups.iterator();
+            while (it.hasNext()) {
+                ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
 
-                Iterator<ContractsAndGrantsLetterOfCreditFundGroup> it = letterOfCreditFundGroups.iterator();
-                while (it.hasNext()) {
-                    ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
+                // Retrieve invoices per loc fund group and loc creation type specification.
+                Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errorFile);
+                if (!CollectionUtils.isEmpty(cgInvoices)) {
+                    KualiDecimal totalAmount = KualiDecimal.ZERO;
+                    // Get the total amount for the cash control document.
+                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                    }
+                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                    // If this is LOC by fund group, then the way to retrieve invoices in payment application form is locfundGroupCode
+                    locValue = letterOfCreditFundGroup.getLetterOfCreditFundGroupCode();
+                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                    // number combination.
 
-                    // Retrieve invoices per loc fund group and loc creation type specification.
-                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
-                    if (!CollectionUtils.isEmpty(cgInvoices)) {
-                        KualiDecimal totalAmount = KualiDecimal.ZERO;
-                        // Get the total amount for the cash control document.
-                        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                            totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
-                        }
-                        customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
-                        // If this is LOC by fund group, then the way to retrieve invoices in payment application form is locfundGroupCode
-                        locValue = letterOfCreditFundGroup.getLetterOfCreditFundGroupCode();
-                        // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
-                        // number combination.
+                    cashControlDocumentExists = validateCashControlDocument(customerNumber, locCreationType, locValue, errorFile);
 
-                        cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
-
-                        if (!cashControlDocumentExists) {
-                            // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                            createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
-                        }
+                    if (!cashControlDocumentExists) {
+                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, errorFile);
                     }
                 }
-            } finally {
-                // Close the error file.
-                if (outputFileStream != null) {
-                    outputFileStream.close();
-                }
             }
-        }
-        catch (FileNotFoundException fnfe) {
+        }catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
+        } catch (IOException ioe) {
+            throw new RuntimeException("Could not write to error file", ioe);
+        } finally {
+            // Close the error file.
+            if (errorFile != null) {
+                errorFile.close();
+            }
         }
     }
 
@@ -532,10 +423,10 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
      *
      * @param locFund
-     * @param errorFileName
+     * @param errorFile
      * @return
      */
-    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, PrintWriter errorFile) throws IOException {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
         fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
@@ -544,7 +435,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND, locFund);
         cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
-        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
+        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFile);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
 
@@ -559,16 +450,16 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param errorFileName
      * @return
      */
-    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, PrintWriter errorFile) throws IOException {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
         fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND_GRP, locFundGroup);
         cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
-        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
+        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFile);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
 
@@ -583,47 +474,31 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param outputFileStream
      * @return
      */
-    protected List<String> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices, String detail, String errorFileName) {
+    protected List<String> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices, String detail, PrintWriter errorFile) throws IOException {
         boolean isInvalid = false;
         String line = null;
         List<String> invalidGroup = new ArrayList<String>();
-        try {
-            if (CollectionUtils.isEmpty(cgInvoices)) {
-                line = "There were no invoices retrieved to process for " + detail;
-                invalidGroup.add(line);
+        if (CollectionUtils.isEmpty(cgInvoices)) {
+            line = "There were no invoices retrieved to process for " + detail;
+            invalidGroup.add(line);
+            errorFile.println(line);
 
-                File errOutPutFile = new File(errorFileName);
-                PrintStream outputFileStream = null;
-
-                outputFileStream = new PrintStream(errOutPutFile);
-                outputFileStream.println(line);
-
-                return invalidGroup;
-            }
-            for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                isInvalid = false;
-                // if the invoices are not final yet - then the LOC cannot be created
-                if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
-                    invalidGroup.add(line);
-                    isInvalid = true;
-                }
-
-                // if invalid is true, the award is unqualified.
-                // records the unqualified award with failed reasons.
-                if (isInvalid) {
-                    File errOutPutFile = new File(errorFileName);
-                    PrintStream outputFileStream = null;
-
-                    outputFileStream = new PrintStream(errOutPutFile);
-                    outputFileStream.println(line);
-                    outputFileStream.println();
-                }
-            }
+            return invalidGroup;
         }
-        catch (IOException ioe) {
-            LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
-            throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
+        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+            isInvalid = false;
+            // if the invoices are not final yet - then the LOC cannot be created
+            if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                invalidGroup.add(line);
+                isInvalid = true;
+            }
+
+            // if invalid is true, the award is unqualified. Records with the reasons for failure
+            if (isInvalid) {
+                errorFile.println(line);
+                errorFile.println();
+            }
         }
 
         return invalidGroup;
@@ -746,5 +621,20 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+    public ConfigurationService getConfigService() {
+        return configService;
+    }
+
+    public void setConfigService(ConfigurationService configService) {
+        this.configService = configService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

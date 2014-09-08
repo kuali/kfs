@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
-import java.io.PrintStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 
 
 /**
@@ -32,10 +34,11 @@ public interface LetterOfCreditCreateService {
      * @param locCreationType LOC creation type (Award, Fund or Fund Group) used to determine how to process the LOC value
      * @param locValue LOC value, either Fund or Fund Group based on locCreationType
      * @param totalAmount amount to set on the new cash control doc
-     * @param outputFileStream used to write out error messages
+     * @param errorFile used to write out error messages
      * @return documentNumber for the newly created cash control document
+     * @throws IOException if writing to the given error file has problems
      */
-    public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream);
+    public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintWriter errorFile) throws IOException;
 
     /**
      * The method validates if there are any existing cash control documents for the same locValue and customer number combination.
@@ -43,10 +46,11 @@ public interface LetterOfCreditCreateService {
      * @param customerNumber customer number used to search for existing documents
      * @param locCreationType LOC creation type (Award, Fund or Fund Group) used to determine how to process the LOC value
      * @param locValue LOC value, based on locCreationType, used to search for existing docs
-     * @param outputFileStream used to write out error messages
+     * @param errorFile used to write out error messages
      * @return true if there is an existing cash control document, false otherwise
+     * @throws IOException if writing to the given error file has problems
      */
-    public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream);
+    public boolean validateCashControlDocument(String customerNumber, String locCreationType, String locValue, PrintWriter errorFile) throws IOException;
 
     /**
      * This method retrieves all the cash control and payment application docs with a status of 'I' and routes them to the next step in the

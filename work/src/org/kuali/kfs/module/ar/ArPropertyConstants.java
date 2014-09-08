@@ -430,10 +430,7 @@ public class ArPropertyConstants{
         public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
         public static final String REFERRAL_TYPE = "referralType";
         public static final String ACCOUNTS_RECEIVABLE_CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
-        public static final String PROPOSAL_NUMBER = "referralToCollectionsDetails.proposalNumber";
-        public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String INVOICE_NUMBER = "referralToCollectionsDetails.invoiceNumber";
-        public static final String ACCOUNT_NUMBER = "referralToCollectionsDetails.accountNumber";
+        public static final String REFERRAL_TO_COLLECTIONS_DETAILS = "referralToCollectionsDetails";
     }
 
     // Collection Activity Report fields

@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
@@ -45,6 +46,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -59,6 +61,7 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferralToCollectionsLookupableHelperServiceImplTest.class);
 
     private ReferralToCollectionsLookupableHelperServiceImpl referralToCollectionsLookupableHelperServiceImpl;
+    private ReferralToCollectionsReportLookupableHelperServiceImpl referralToCollectionsReportLookupableHelperServiceImpl;
     private ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
     private MultipleValueLookupForm referralToCollectionsLookupForm;
     private Map fieldValues;
@@ -86,6 +89,9 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectClass(ReferralToCollectionsLookupResult.class);
         referralToCollectionsLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
+
+        referralToCollectionsReportLookupableHelperServiceImpl = new ReferralToCollectionsReportLookupableHelperServiceImpl();
+        referralToCollectionsReportLookupableHelperServiceImpl.setPersonService(SpringContext.getBean(PersonService.class));
 
         referralToCollectionsLookupForm = new MultipleValueLookupForm();
         fieldValues = new LinkedHashMap();
@@ -182,5 +188,31 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         documentService.saveDocument(cgInvoice);
 
         assertTrue(referralToCollectionsLookupableHelperServiceImpl.getInvoiceDocumentsForReferralToCollectionsLookup(fieldValues).size() > 0);
+    }
+
+    public void testFilterRecordsForCollectorCanViewDoc() throws WorkflowException {
+        String collector = "3421900658"; // no name qualification
+
+        Collection<ReferralToCollectionsDocument> sourceCollectionDocuments = new ArrayList<>();
+        ReferralToCollectionsDocument document = new ReferralToCollectionsDocument();
+        document.setCustomerName("MILESTONE KUALI TESTING");
+        sourceCollectionDocuments.add(document);
+
+        referralToCollectionsReportLookupableHelperServiceImpl.filterRecordsForCollector(collector, sourceCollectionDocuments);
+        assertTrue("collection should still contain doc", sourceCollectionDocuments.size() == 1);
+
+    }
+
+    public void testFilterRecordsForCollectorCannotViewDoc() throws WorkflowException {
+        String collector = "5740007891"; // L name qualification
+
+        Collection<ReferralToCollectionsDocument> sourceCollectionDocuments = new ArrayList<>();
+        ReferralToCollectionsDocument document = new ReferralToCollectionsDocument();
+        document.setCustomerName("MILESTONE KUALI TESTING");
+        sourceCollectionDocuments.add(document);
+
+        referralToCollectionsReportLookupableHelperServiceImpl.filterRecordsForCollector(collector, sourceCollectionDocuments);
+        assertTrue("collection should NOT still contain doc", sourceCollectionDocuments.size() == 0);
+
     }
 }

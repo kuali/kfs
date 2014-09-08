@@ -245,6 +245,7 @@ public class ArPropertyConstants{
 
     // SystemInformation (aka ProcessingOrg)
     public static class SystemInformationFields {
+        public static final String FEIN_NUMBER = "feinNumber";
         public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
@@ -299,9 +300,9 @@ public class ArPropertyConstants{
     public static final String INV_ACCOUNT = "2";
     public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
-    public static final String AWARD_FUND_TYPE = "fundsType";
-    public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
-    public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
+    public static final String FUNDS_TYPE = "fundsType";
+    public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
+    public static final String INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String INCOME_OBJECT_TYPE = "IN";
     public static final String EXPENSE_OBJECT_TYPE = "EX";
@@ -561,6 +562,43 @@ public class ArPropertyConstants{
         public static final String TOTAL = "Total";
     };
 
+    public static class ContractsAndGrantsBillingAwardFields {
+        public static final String AWARD_ADDENDUM_NUMBER = "awardAddendumNumber";
+        public static final String AWARD_ALLOCATED_UNIVERSITY_COMPUTING_SERVICES_AMOUNT = "awardAllocatedUniversityComputingServicesAmount";
+        public static final String AGENCY_FUTURE_1_AMOUNT = "agencyFuture1Amount";
+        public static final String AGENCY_FUTURE_2_AMOUNT = "agencyFuture2Amount";
+        public static final String AGENCY_FUTURE_3_AMOUNT = "agencyFuture3Amount";
+        public static final String AWARD_LAST_UPDATE_DATE = "awardLastUpdateDate";
+        public static final String OLD_PROPOSAL_NUMBER = "oldProposalNumber";
+        public static final String AWARD_DIRECT_COST_AMOUNT = "awardDirectCostAmount";
+        public static final String AWARD_INDIRECT_COST_AMOUNT = "awardIndirectCostAmount";
+        public static final String FEDERAL_FUNDED_AMOUNT = "federalFundedAmount";
+        public static final String AWARD_CREATE_TIMESTAMP = "awardCreateTimestamp";
+        public static final String AWARD_CLOSING_DATE = "awardClosingDate";
+        public static final String PROPOSAL_AWARD_TYPE_CODE = "proposalAwardTypeCode";
+        public static final String GRANT_NUMBER = "grantNumber";
+        public static final String AGENCY_ANALYST_NAME = "agencyAnalystName";
+        public static final String ANALYST_TELEPHONE_NUMBER = "analystTelephoneNumber";
+        public static final String AWARD_PURPOSE_CODE = "awardPurposeCode";
+        public static final String KIM_GROUP_NAMES = "kimGroupNames";
+        public static final String ROUTING_ORG = "routingOrg";
+        public static final String ROUTING_CHART = "routingChart";
+        public static final String SUSPEND_INVOICING = "suspendInvoicing";
+        public static final String ADDITIONAL_FORMS_REQUIRED = "additionalFormsRequired";
+        public static final String ADDITIONAL_FORMS_DESCRIPTION = "additionalFormsDescription";
+        public static final String MIN_INVOICE_AMOUNT = "minInvoiceAmount";
+        public static final String AUTO_APPROVE = "autoApprove";
+        public static final String LOOKUP_PERSON_UNIVERSAL_IDENTIFIER = "lookupPersonUniversalIdentifier";
+        public static final String LOOKUP_PERSON = "lookupPerson";
+        public static final String USER_LOOKUP_ROLE_NAMESPACE_CODE = "userLookupRoleNamespaceCode";
+        public static final String USER_LOOKUP_ROLE_NAME = "userLookupRoleName";
+        public static final String FUNDING_EXPIRATION_DATE = "fundingExpirationDate";
+        public static final String STOP_WORK_INDICATOR = "stopWorkIndicator";
+        public static final String PRIMARY_FUND_MANAGER = "primaryFundManager";
+        public static final String EMAIL = "email";
+        public static final String PHONE = "phone";
+    }
+
     public static final String INVOICE_NUMBER="invoiceItemNumber";
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
@@ -570,30 +608,51 @@ public class ArPropertyConstants{
     public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
     public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 
+    public static final String ACCOUNT_DETAILS = "accountDetails";
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
     public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
-    public static final String AGING_BUCKET = "agingBucket";
-    public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
-    public static final String CATEGORY_CODE = "categoryCode";
-    public static final String INVOICE_TYPE = "invoiceType";
+    public static final String ADJUSTED_BALANCE = "adjustedBalance";
+    public static final String ADJUSTED_CUMULATIVE_EXPENDITURES = "adjustedCumulativeExpenditures";
+    public static final String ADVANCE_FLAG = "advanceFlag";
     public static final String AGE_IN_DAYS = "ageInDays";
-    public static final String REMAINING_AMOUNT = "remainingAmount";
+    public static final String AGING_BUCKET = "agingBucket";
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
-    public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
+    public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
+    public static final String BALANCE = "balance";
     public static final String BILLED = "billed";
+    public static final String BILLINGS = "billings"; // er, a town in Montana?
+    public static final String CATEGORIES = "categories";
+    public static final String CATEGORY = "CATEGORY";
+    public static final String CATEGORY_CODE = "categoryCode";
+    public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
+    public static final String CUMULATIVE = "cumulative";
+    public static final String DIRECT_COST_INVOICE_DETAIL = "directCostInvoiceDetail";
+    public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
+    public static final String ESTIMATED_COST = "estimatedCost";
+    public static final String EXPENDITURE = "expenditure";
+    public static final String FINAL_STATUS_DATE = "finalStatusDate";
     public static final String FULL_ADDRESS = "fullAddress";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
+    public static final String IN_DIRECT_COST_INVOICE_DETAIL = "inDirectCostInvoiceDetail";
+    public static final String INVOICE_DETAIL = "invoiceDetail";
+    public static final String INVOICE_DETAIL_IDENTIFIER = "invoiceDetailIdentifier";
+    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
     public static final String INVOICE_GENERAL_DETAIL = "invoiceGeneralDetail";
+    public static final String INVOICE_TYPE = "invoiceType";
     public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
-    public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
+    public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
+    public static final String PAYMENTS = "payments";
     public static final String PRINT_PDF_URL = "printPDFUrl";
-    public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
     public static final String PRINT_LABEL = "printLabel";
-
-    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
+    public static final String RECEIVABLES = "receivables";
+    public static final String REIMBURSEMENT_FLAG = "reimbursementFlag";
+    public static final String REMAINING_AMOUNT = "remainingAmount";
+    public static final String SYSTEM_INFORMATION = "systemInformation";
+    public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
+    public static final String TOTAL_INVOICE_DETAIL = "totalInvoiceDetail";
 }

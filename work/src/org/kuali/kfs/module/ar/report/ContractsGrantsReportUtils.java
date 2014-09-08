@@ -52,12 +52,7 @@ public class ContractsGrantsReportUtils {
             // Only set Date from
             if (dateToFieldValues.trim().equals("") && !dateFromFieldValues.trim().equals("")) {
                 dateFrom = new Date(format.parse(dateFromFieldValues).getTime());
-                if (propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return propertyValue.after(dateFrom) || propertyValue.equals(dateFrom);
             }
 
             // Only set Date to
@@ -73,12 +68,7 @@ public class ContractsGrantsReportUtils {
 
             dateTo = new Date(format.parse(dateToFieldValues).getTime());
             dateFrom = new Date(format.parse(dateFromFieldValues).getTime());
-            if ((propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) && (propertyValue.before(dateTo) || propertyValue.equals(dateTo))) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return (propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) && (propertyValue.before(dateTo) || propertyValue.equals(dateTo));
         }
         catch (ParseException ex) {
             throw new RuntimeException(ex);

@@ -103,6 +103,7 @@ public class KFSPropertyConstants {
     public static final String ADMINISTRATOR_USER = "administratorUser";
     public static final String ADVANCE_DEPOSIT_AMOUNT = "financialDocumentAdvanceDepositAmount";
     public static final String ADVANCE_DEPOSIT_DETAIL = "advanceDepositDetail";
+    public static final String AGENCY = "agency";
     public static final String AGENCY_COPY_INDICATOR = "agencyCopyIndicator";
     public static final String AGENCY_EXTENSION = "agencyExtension";
     public static final String AGENCY_FRINGE_BENEFIT_TOTAL_AMOUNT = "agencyFringeBenefitTotalAmount";
@@ -379,6 +380,7 @@ public class KFSPropertyConstants {
     public static final String CURRENT_BUDGET_ADJUSTMENT_AMOUNT = "currentBudgetAdjustmentAmount";
     public static final String CURRENT_BUDGET_LINE_BALANCE_AMOUNT = "currentBudgetLineBalanceAmount";
     public static final String CURRENT_TASK_NUMBER = "currentTaskNumber";
+    public static final String DATE = "date";
     public static final String DEBIT = "debit";
     public static final String DEBIT_CREDIT_CODE = "debitCreditCode";
     public static final String DEBIT_OR_CREDIT_CODE = "debitOrCreditCode";
@@ -1255,6 +1257,7 @@ public class KFSPropertyConstants {
     public static final String WORKFLOW_DOCUMENT_TYPE_NAME = "workflowDocumentTypeName";
     public static final String XML_DOCUMENT_CONTENTS = KRADPropertyConstants.XML_DOCUMENT_CONTENTS;
     public static final String ZIP_CODE = "zipCode";
+    public static final String ZIPCODE = "zipcode"; // yeah, this is sadly for reals...
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";
     public static final String CASH_CONTROL_DETAILS = "cashControlDetails";
     public static final String BANK_CODE = "bankCode";

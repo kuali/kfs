@@ -33,6 +33,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -56,6 +57,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.ReflectionMap;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -507,4 +509,22 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         }
     }
 
+    public void testBeanMapVersionOfDocument() {
+        ContractsGrantsInvoiceDocument cinvDoc = new ContractsGrantsInvoiceDocument();
+        cinvDoc.setProposalNumber(new Long(80075L));
+        InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        cinvDoc.setInvoiceGeneralDetail(invoiceGeneralDetail);
+        InvoiceAccountDetail invoiceAccountDetail = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
+        List<InvoiceAccountDetail> accountDetails = new ArrayList<>();
+        accountDetails.add(invoiceAccountDetail);
+        cinvDoc.setAccountDetails(accountDetails);
+
+        Map<String, Object> map = new ReflectionMap(cinvDoc);
+        assertEquals(new Long(80075L), map.get(KFSPropertyConstants.PROPOSAL_NUMBER));
+        assertEquals("MILE", map.get(ArPropertyConstants.INVOICE_GENERAL_DETAIL+".billingFrequency"));
+        assertEquals("9000000", map.get("accountDetails[0]."+KFSPropertyConstants.ACCOUNT_NUMBER));
+        assertNull(map.get("zebra"));
+        assertNull(map.get(ArPropertyConstants.INVOICE_GENERAL_DETAIL+".zebra"));
+        assertNull(map.get("accountDetails[2]."+KFSPropertyConstants.ACCOUNT_NUMBER));
+    }
 }

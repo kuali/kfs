@@ -131,19 +131,24 @@
 
 	<target name="copy-changed-files">
 		<!-- copy files which are present in each directory and have changed -->
-		<copy todir="${checkout.dir}" overwrite="true" verbose="true" failonerror="true">
-			<fileset dir="${temp.dir}">
-				<include name="data/*.txt" />
-				<include name="formats/*.xml" />
-				<include name="graphs/*.xml" />
-				<include name="schema.xml" />
-				<exclude name=".#*" />
-				<and>
-					<present present="both" targetdir="${checkout.dir}" />
-					<different targetdir="${checkout.dir}" ignorefiletimes="true" ignoreContents="false" />
-				</and>
-			</fileset>
-		</copy>
+		<!--<copy todir="${checkout.dir}" overwrite="true" verbose="true" failonerror="true">-->
+			<!--<fileset dir="${temp.dir}">-->
+				<!--<include name="data/*.txt" />-->
+				<!--<include name="formats/*.xml" />-->
+				<!--<include name="graphs/*.xml" />-->
+				<!--<include name="schema.xml" />-->
+				<!--<exclude name=".#*" />-->
+				<!--<and>-->
+					<!--<present present="both" targetdir="${checkout.dir}" />-->
+					<!--<different targetdir="${checkout.dir}" ignorefiletimes="true" ignoreContents="false" />-->
+				<!--</and>-->
+			<!--</fileset>-->
+		<!--</copy>-->
+
+        <exec executable="cp">
+            <arg line="-p -R ${temp.dir} ${checkout.dir}"/>
+        </exec>
+
 	</target>
 	
 	<target name="merge-export-to-svn" depends="remove-svn-files,add-svn-files,copy-changed-files">

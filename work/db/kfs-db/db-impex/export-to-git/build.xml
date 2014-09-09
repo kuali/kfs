@@ -146,22 +146,22 @@
 		<!--</copy>-->
 
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/data/*.txt ${checkout.dir}"/>
+            <arg line="-p -R ${temp.dir}/data/ ${checkout.dir}/data"/>
         </exec>
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/formats/*.xml ${checkout.dir}"/>
+            <arg line="-p -R ${temp.dir}/formats/ ${checkout.dir}/formats"/>
         </exec>
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/graphs/*.xml ${checkout.dir}"/>
+            <arg line="-p -R ${temp.dir}/graphs/ ${checkout.dir}graphs"/>
         </exec>
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/schema.xml ${checkout.dir}"/>
+            <arg line="-p ${temp.dir}/schema.xml ${checkout.dir}"/>
         </exec>
 
 	</target>
 	
 	<target name="merge-export-to-svn" depends="remove-svn-files,add-svn-files,copy-changed-files">
-		<echo file="${temp.dir}/merge.complete" message="" />
+		<echo file="merge.complete" message="" />
 	</target>
 
 	<!--<target name="commit-changes" depends="check-merge-complete">-->

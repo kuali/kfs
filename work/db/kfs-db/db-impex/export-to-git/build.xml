@@ -62,7 +62,7 @@
     <target name="export-db">
         <!-- create impex-build.properties file -->
         <pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
-            <path location="${temp.dir}/new_export" />
+            <path location="${temp.dir}" />
         </pathconvert>
         <mkdir dir="${daily.export.dir}"/>
         <loadfile property="impex.properties" srcfile="db-impex-build.properties">
@@ -96,7 +96,7 @@
     				<include name="graphs/*.xml" />
     				<exclude name="schema.xml" />
     				<exclude name=".#*" />
-    				<present present="srconly" targetdir="${temp.dir}/new_export" />
+    				<present present="srconly" targetdir="${temp.dir}" />
     			</fileset>
 			</delete>
 		<!--</svn>-->
@@ -106,7 +106,7 @@
 		<!-- find, copy and cvs add new files -->
         <!-- first, create 0-byte files with the correct names in the sandbox -->
 		<for param="f">
-            <fileset dir="${temp.dir}/new_export">
+            <fileset dir="${temp.dir}">
                 <include name="data/*.txt" />
                 <include name="formats/*.xml" />
                 <include name="graphs/*.xml" />
@@ -117,7 +117,7 @@
 			<sequential>
 			 <propertyregex property="file"
 			 	input="@{f}"
-			 	regexp="${temp.dir}/new_export"
+			 	regexp="${temp.dir}"
 			 	replace="${checkout.dir}"
 			 	override="true" />
 				<echo>${file}</echo>
@@ -132,7 +132,7 @@
 	<target name="copy-changed-files">
 		<!-- copy files which are present in each directory and have changed -->
 		<copy todir="${checkout.dir}" overwrite="true" verbose="true" failonerror="true">
-			<fileset dir="${temp.dir}/new_checkout">
+			<fileset dir="${temp.dir}">
 				<include name="data/*.txt" />
 				<include name="formats/*.xml" />
 				<include name="graphs/*.xml" />

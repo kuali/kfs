@@ -146,13 +146,13 @@
 		<!--</copy>-->
 
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/data/ ${checkout.dir}/data"/>
+            <arg line="-p -R ${temp.dir}/data ${checkout.dir}"/>
         </exec>
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/formats/ ${checkout.dir}/formats"/>
+            <arg line="-p -R ${temp.dir}/formats ${checkout.dir}"/>
         </exec>
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/graphs/ ${checkout.dir}graphs"/>
+            <arg line="-p -R ${temp.dir}/graphs ${checkout.dir}"/>
         </exec>
         <exec executable="cp">
             <arg line="-p ${temp.dir}/schema.xml ${checkout.dir}"/>

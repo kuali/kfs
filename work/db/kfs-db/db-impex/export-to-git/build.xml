@@ -146,7 +146,7 @@
 		<!--</copy>-->
 
         <exec executable="cp">
-            <arg line="-p -R ${temp.dir} ${checkout.dir}"/>
+            <arg line="-p -R ${temp.dir}/* ${checkout.dir}"/>
         </exec>
 
 	</target>

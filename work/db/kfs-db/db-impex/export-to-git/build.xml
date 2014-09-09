@@ -23,10 +23,10 @@
 	</taskdef>
     <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
         <classpath>
-			<fileset dir="lib" includes="antlr*.jar" />
-			<fileset dir="lib" includes="sequence*.jar" />
-			<fileset dir="lib" includes="sqljet*.jar" />
-            <fileset dir="lib" includes="svn*.jar" />
+			<!--<fileset dir="../export-to-svn/lib" includes="antlr*.jar" />-->
+			<fileset dir="../export-to-svn/lib" includes="sequence*.jar" />
+			<!--<fileset dir="../export-to-svn/lib" includes="sqljet*.jar" />-->
+            <!--<fileset dir="../export-to-svn/lib" includes="svn*.jar" />-->
         </classpath>
     </typedef>
 

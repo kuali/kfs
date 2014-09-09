@@ -63,7 +63,7 @@
 		<!-- create impex-build.properties file -->
 	   	<pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
 	        <path location="${basedir}/../../development" />
-	    </pathconvert>-->
+	    </pathconvert>
 		<!--<mkdir dir="${daily.export.dir}"/>-->
 		<loadfile property="impex.properties" srcfile="db-impex-build.properties">
 			<filterchain>

@@ -59,33 +59,6 @@
         <!--</svn>-->
 	<!--</target>-->
 
-	<!--<target name="export-db">-->
-		<!--<!-- create impex-build.properties file -->-->
-	   	<!--<pathconvert property="daily.export.dir" dirsep="/" pathsep=";">-->
-	        <!--<path location="${basedir}/../../development" />-->
-	    <!--</pathconvert>-->
-		<!--<!--<mkdir dir="${daily.export.dir}"/>-->-->
-		<!--<loadfile property="impex.properties" srcfile="db-impex-build.properties">-->
-			<!--<filterchain>-->
-				<!--<expandproperties />-->
-			<!--</filterchain>-->
-		<!--</loadfile>-->
-		<!--<echo message="impex-build.properties" />-->
-		<!--<echo file="impex-build.properties" message="${impex.properties}" />-->
-		<!--<!-- run export command -->-->
-		<!--<!-- need to run in a separate JVM due to the way that Clover finds its configuration files. -->-->
-		<!--<java classname="org.apache.tools.ant.Main"-->
-		      <!--fork="true"-->
-		      <!--dir="../impex"-->
-		      <!--failonerror="true">		    -->
-		    <!--<classpath path="${java.class.path}" />-->
-		    <!--<jvmarg value="-Xmx1g" />-->
-		    <!--<arg value="-Duser.home=${basedir}" />-->
-		    <!--<arg value="-Dimpex.properties.file=${basedir}/impex-build.properties" />-->
-		    <!--<arg value="export" />-->
-		<!--</java>		-->
-	<!--</target>-->
-
     <target name="export-db">
         <!-- create impex-build.properties file -->
         <pathconvert property="daily.export.dir" dirsep="/" pathsep=";">

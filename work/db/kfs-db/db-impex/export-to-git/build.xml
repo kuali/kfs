@@ -132,7 +132,7 @@
 	<target name="copy-changed-files">
 		<!-- copy files which are present in each directory and have changed -->
 		<copy todir="${checkout.dir}" overwrite="true" verbose="true" failonerror="true">
-			<fileset dir="${checkout.dir}/new_export">
+			<fileset dir="${temp.dir}/new_checkout">
 				<include name="data/*.txt" />
 				<include name="formats/*.xml" />
 				<include name="graphs/*.xml" />

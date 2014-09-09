@@ -62,7 +62,7 @@
 	<target name="export-db">
 		<!-- create impex-build.properties file -->
 	   	<pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
-	        <path location="${basedir}/../../development" />-->
+	        <path location="${basedir}/../../development" />
 	    </pathconvert>-->
 		<!--<mkdir dir="${daily.export.dir}"/>-->
 		<loadfile property="impex.properties" srcfile="db-impex-build.properties">

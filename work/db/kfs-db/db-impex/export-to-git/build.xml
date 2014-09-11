@@ -151,11 +151,43 @@
     <!--</target>-->
 
     <!--<target name="commit-changes" depends="check-merge-complete">-->
-    <!--<tstamp />-->
-    <!--<svn username="${svn.username}" password="${svn.password}" failonerror="true">-->
-    <!--<commit dir="${checkout.dir}/${data.svn.module}" message="Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}"/>-->
-    <!--</svn>-->
+        <!--<tstamp />-->
+        <!--<svn username="${svn.username}" password="${svn.password}" failonerror="true">-->
+            <!--<commit dir="${checkout.dir}/${data.svn.module}" message="Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}"/>-->
+        <!--</svn>-->
     <!--</target>-->
+
+    <macrodef name="git">
+        <attribute name="command" />
+        <attribute name="dir" default="" />
+        <element name="args" optional="true" />
+        <sequential>
+            <echo message="git @{command}" />
+            <exec executable="git" dir="@{dir}">
+                <arg value="@{command}" />
+                <args/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="commit-changes" depends="check-merge-complete" description="Commits all changes to git">
+        <input message="Commit message" addproperty="commit-message" />
+        <tstamp />
+        <echo message="Commiting all changes with message: Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
+        <git command="add">
+            <args>
+                <arg value="." />
+            </args>
+        </git>
+        <git command="commit">
+            <args>
+                <arg value="-am Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
+            </args>
+        </git>
+        <git command="push" />
+    </target>
+
+
 
     <target name="export" depends="export-phase1,export-phase2" />
 
@@ -163,7 +195,7 @@
         <echo file="phase1.complete" message="" />
     </target>
 
-    <target name="export-phase2" depends="check-phase-1" />
+    <target name="export-phase2" depends="check-phase-1, commit-changes" />
 
     <target name="check-phase-1">
         <available file="phase1.complete" property="phase1.complete" />

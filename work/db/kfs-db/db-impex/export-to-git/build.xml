@@ -170,13 +170,13 @@
         </sequential>
     </macrodef>
 
-    <target name="commit-changes" depends="check-merge-complete" description="Commits all changes to git">
+    <target name="commit-changes" description="Commits all changes to git">
         <input message="Commit message" addproperty="commit-message" />
         <tstamp />
         <echo message="Commiting all changes with message: Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
         <git command="add">
             <args>
-                <arg value="." />
+                <arg value="work/db/kfs-db/development" />
             </args>
         </git>
         <git command="commit">
@@ -195,17 +195,17 @@
         <echo file="phase1.complete" message="" />
     </target>
 
-    <target name="export-phase2" depends="check-phase-1, commit-changes" />
+    <target name="export-phase2" depends="check-phase-1,commit-changes" />
 
     <target name="check-phase-1">
         <available file="phase1.complete" property="phase1.complete" />
         <fail unless="phase1.complete" message="Phase 1 did not complete - aborting."/>
     </target>
 
-    <target name="check-merge-complete">
-        <available file="merge.complete" property="merge.complete" />
-        <fail unless="merge.complete" message="Merge step did not complete - aborting."/>
-    </target>
+    <!--<target name="check-merge-complete">-->
+        <!--<available file="merge.complete" property="merge.complete" />-->
+        <!--<fail unless="merge.complete" message="Merge step did not complete - aborting."/>-->
+    <!--</target>-->
 
     <target name="help">
         <echo>

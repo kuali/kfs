@@ -195,7 +195,7 @@
         <echo file="phase1.complete" message="" />
     </target>
 
-    <target name="export-phase2" depends="check-phase-1,commit-changes" />
+    <target name="export-phase2" depends="check-phase-1" />
 
     <target name="check-phase-1">
         <available file="phase1.complete" property="phase1.complete" />

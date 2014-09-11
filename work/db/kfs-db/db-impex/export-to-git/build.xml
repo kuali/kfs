@@ -15,56 +15,56 @@
     limitations under the License.
 -->
 <project name="export-to-git" default="help">
-
-	<taskdef resource="net/sf/antcontrib/antlib.xml">
-		<classpath>
-			<pathelement location="../lib/ant-contrib-1.0b3.jar" />
-		</classpath>
-	</taskdef>
-    <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
-        <classpath>
-			<!--<fileset dir="../export-to-svn/lib" includes="antlr*.jar" />-->
-			<fileset dir="../export-to-svn/lib" includes="sequence*.jar" />
-			<!--<fileset dir="../export-to-svn/lib" includes="sqljet*.jar" />-->
-            <!--<fileset dir="../export-to-svn/lib" includes="svn*.jar" />-->
-        </classpath>
-    </typedef>
-
-	<!--<property file="ant-local.properties" />-->
-	<property file="ant.properties" />
+    <!--
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="../lib/ant-contrib-1.0b3.jar" />
+            </classpath>
+        </taskdef>
+        <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+            <classpath>
+                <fileset dir="lib" includes="antlr*.jar" />
+                <fileset dir="lib" includes="sequence*.jar" />
+                <fileset dir="lib" includes="sqljet*.jar" />
+                <fileset dir="lib" includes="svn*.jar" />
+            </classpath>
+        </typedef>
+    -->
+    <!--<property file="ant-local.properties" />-->
+    <property file="ant.properties" />
     <!--<property name="drivers.dir" location="../drivers" />-->
-	
-	<pathconvert property="checkout.dir" dirsep="/" pathsep=";">
-		<path location="${basedir}/../../development" />
-	</pathconvert>
 
-   	<pathconvert property="temp.dir" dirsep="/" pathsep=";">
-        <path location="temp" />
-    </pathconvert>
+    <!--<pathconvert property="checkout.dir" dirsep="/" pathsep=";">-->
+    <!--<path location="checkout" />-->
+    <!--</pathconvert>-->
 
-	<target name="clean">
-		<delete dir="${temp.dir}" />
-		<!--<delete dir="${checkout.dir}" />-->
-	</target>
+    <!--<pathconvert property="temp.dir" dirsep="/" pathsep=";">-->
+    <!--<path location="temp" />-->
+    <!--</pathconvert>-->
+    <!---->
+    <!--<target name="clean">-->
+    <!--<delete dir="${temp.dir}" />-->
+    <!--<delete dir="${checkout.dir}" />-->
+    <!--</target>-->
+    <!---->
+    <!--<target name="init">-->
+    <!--<mkdir dir="${temp.dir}" />-->
+    <!--<mkdir dir="${checkout.dir}" />-->
+    <!--</target>-->
 
-	<target name="init">
-		<mkdir dir="${temp.dir}" />
-		<!--<mkdir dir="${checkout.dir}" />-->
-	</target>
-
-	<!--<target name="checkout-data" depends="init">-->
-        <!--<svn failonerror="true">-->
-        	<!--<checkout url="${svn.base}/${data.svn.module}/${data.svn.path}"-->
-        		      <!--destpath="${checkout.dir}/${data.svn.module}" />-->
-        <!--</svn>-->
-	<!--</target>-->
+    <!--<target name="checkout-data" depends="init">-->
+    <!--<svn failonerror="true">-->
+    <!--<checkout url="${svn.base}/${data.svn.module}/${data.svn.path}"-->
+    <!--destpath="${checkout.dir}/${data.svn.module}" />-->
+    <!--</svn>-->
+    <!--</target>-->
 
     <target name="export-db">
         <!-- create impex-build.properties file -->
         <pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
-            <path location="${temp.dir}" />
+            <path location="${basedir}/../../development" />
         </pathconvert>
-        <mkdir dir="${daily.export.dir}"/>
+        <!--<mkdir dir="${daily.export.dir}"/>-->
         <loadfile property="impex.properties" srcfile="db-impex-build.properties">
             <filterchain>
                 <expandproperties />
@@ -85,137 +85,109 @@
             <arg value="export" />
         </java>
     </target>
-	
-	<target name="remove-svn-files">
-		<!-- find, and cvs remove deleted files -->
-		<!--<svn failonerror="true">-->
-			<delete>
-    			<fileset dir="${checkout.dir}">
-    				<include name="data/*.txt" />
-    				<include name="formats/*.xml" />
-    				<include name="graphs/*.xml" />
-    				<exclude name="schema.xml" />
-    				<exclude name=".#*" />
-    				<present present="srconly" targetdir="${temp.dir}" />
-    			</fileset>
-			</delete>
-		<!--</svn>-->
-	</target>
 
-	<target name="add-svn-files">
-		<!-- find, copy and cvs add new files -->
-        <!-- first, create 0-byte files with the correct names in the sandbox -->
-		<for param="f">
-            <fileset dir="${temp.dir}">
-                <include name="data/*.txt" />
-                <include name="formats/*.xml" />
-                <include name="graphs/*.xml" />
-                <exclude name="schema.xml" />
-                <exclude name=".#*" />
-                <present present="srconly" targetdir="${checkout.dir}" />
-            </fileset>
-			<sequential>
-			 <propertyregex property="file"
-			 	input="@{f}"
-			 	regexp="${temp.dir}"
-			 	replace="${checkout.dir}"
-			 	override="true" />
-				<echo>${file}</echo>
-	             <copy file="@{f}" tofile="${file}" />
-			 <!--<svn>-->
-			 	<!--<add file="${file}"/>-->
-			 <!--</svn>-->
-			</sequential>
-		</for>
-	</target>
+    <!--<target name="remove-svn-files">-->
+    <!--&lt;!&ndash; find, and cvs remove deleted files &ndash;&gt;-->
+    <!--<svn failonerror="true">-->
+    <!--<delete force="true">-->
+    <!--<fileset dir="${checkout.dir}/${data.svn.module}">-->
+    <!--<include name="data/*.txt" />-->
+    <!--<include name="formats/*.xml" />-->
+    <!--<include name="graphs/*.xml" />-->
+    <!--<exclude name="schema.xml" />-->
+    <!--<exclude name=".#*" />-->
+    <!--<present present="srconly" targetdir="${checkout.dir}/new_export" />-->
+    <!--</fileset>-->
+    <!--</delete>-->
+    <!--</svn>-->
+    <!--</target>-->
 
-	<target name="copy-changed-files">
-		<!-- copy files which are present in each directory and have changed -->
-		<!--<copy todir="${checkout.dir}" overwrite="true" verbose="true" failonerror="true">-->
-			<!--<fileset dir="${temp.dir}">-->
-				<!--<include name="data/*.txt" />-->
-				<!--<include name="formats/*.xml" />-->
-				<!--<include name="graphs/*.xml" />-->
-				<!--<include name="schema.xml" />-->
-				<!--<exclude name=".#*" />-->
-				<!--<and>-->
-					<!--<present present="both" targetdir="${checkout.dir}" />-->
-					<!--<different targetdir="${checkout.dir}" ignorefiletimes="true" ignoreContents="false" />-->
-				<!--</and>-->
-			<!--</fileset>-->
-		<!--</copy>-->
+    <!--<target name="add-svn-files">-->
+    <!--&lt;!&ndash; find, copy and cvs add new files &ndash;&gt;-->
+    <!--&lt;!&ndash; first, create 0-byte files with the correct names in the sandbox &ndash;&gt;-->
+    <!--<for param="f">-->
+    <!--<fileset dir="${checkout.dir}/new_export">-->
+    <!--<include name="data/*.txt" />-->
+    <!--<include name="formats/*.xml" />-->
+    <!--<include name="graphs/*.xml" />-->
+    <!--<exclude name="schema.xml" />-->
+    <!--<exclude name=".#*" />-->
+    <!--<present present="srconly" targetdir="${checkout.dir}/${data.svn.module}" />-->
+    <!--</fileset>-->
+    <!--<sequential>-->
+    <!--<propertyregex property="file" -->
+    <!--input="@{f}" -->
+    <!--regexp="${checkout.dir}/new_export" -->
+    <!--replace="${checkout.dir}/${data.svn.module}" -->
+    <!--override="true" />-->
+    <!--<echo>${file}</echo>-->
+    <!--<copy file="@{f}" tofile="${file}" />-->
+    <!--<svn>-->
+    <!--<add file="${file}"/>-->
+    <!--</svn>-->
+    <!--</sequential>-->
+    <!--</for>-->
+    <!--</target>-->
 
-        <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/data ${checkout.dir}"/>
-        </exec>
-        <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/formats ${checkout.dir}"/>
-        </exec>
-        <exec executable="cp">
-            <arg line="-p -R ${temp.dir}/graphs ${checkout.dir}"/>
-        </exec>
-        <exec executable="cp">
-            <arg line="-p ${temp.dir}/schema.xml ${checkout.dir}"/>
-        </exec>
+    <!--<target name="copy-changed-files">-->
+    <!--&lt;!&ndash; copy files which are present in each directory and have changed &ndash;&gt;-->
+    <!--<copy todir="${checkout.dir}/${data.svn.module}" overwrite="true" verbose="true" failonerror="true">-->
+    <!--<fileset dir="${checkout.dir}/new_export">-->
+    <!--<include name="data/*.txt" />-->
+    <!--<include name="formats/*.xml" />-->
+    <!--<include name="graphs/*.xml" />-->
+    <!--<include name="schema.xml" />-->
+    <!--<exclude name=".#*" />-->
+    <!--<and>-->
+    <!--<present present="both" targetdir="${checkout.dir}/${data.svn.module}" />-->
+    <!--<different targetdir="${checkout.dir}/${data.svn.module}" ignorefiletimes="true" ignoreContents="false" />-->
+    <!--</and>-->
+    <!--</fileset>-->
+    <!--</copy>-->
+    <!--</target>-->
 
-	</target>
-	
-	<target name="merge-export-to-svn" depends="remove-svn-files,add-svn-files,copy-changed-files">
-		<echo file="merge.complete" message="" />
-	</target>
+    <!--<target name="merge-export-to-svn" depends="remove-svn-files,add-svn-files,copy-changed-files">-->
+    <!--<echo file="${checkout.dir}/merge.complete" message="" />-->
+    <!--</target>-->
 
-	<!--<target name="commit-changes" depends="check-merge-complete">-->
-		<!--<tstamp />-->
-        <!--<svn username="${svn.username}" password="${svn.password}" failonerror="true">-->
-    	   <!--<commit dir="${checkout.dir}/${data.svn.module}" message="Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}"/>-->
-    	<!--</svn>-->
-	<!--</target>-->
+    <!--<target name="commit-changes" depends="check-merge-complete">-->
+    <!--<tstamp />-->
+    <!--<svn username="${svn.username}" password="${svn.password}" failonerror="true">-->
+    <!--<commit dir="${checkout.dir}/${data.svn.module}" message="Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}"/>-->
+    <!--</svn>-->
+    <!--</target>-->
 
-	<target name="export" depends="export-phase1,export-phase2" />
+    <target name="export" depends="export-phase1,export-phase2" />
 
-	<target name="export-phase1" depends="export-db">
-		<echo file="phase1.complete" message="" />
-	</target>
+    <target name="export-phase1" depends="export-db">
+        <echo file="phase1.complete" message="" />
+    </target>
 
-    <target name="export-phase2" depends="check-phase-1,merge-export-to-svn" />
-	
-	<target name="check-phase-1">
-		<available file="phase1.complete" property="phase1.complete" />
-		<fail unless="phase1.complete" message="Phase 1 did not complete - aborting."/>
-	</target>
+    <target name="export-phase2" depends="check-phase-1" />
 
-	<target name="check-merge-complete">
-		<available file="merge.complete" property="merge.complete" />
-		<fail unless="merge.complete" message="Merge step did not complete - aborting."/>
-	</target>
-	
-	<target name="help">
-		<echo>
--- USAGE --
-This script will check out the KFS project from github, export the named
-schema from the database, copy the file from the server, and commit the file to github.
+    <target name="check-phase-1">
+        <available file="phase1.complete" property="phase1.complete" />
+        <fail unless="phase1.complete" message="Phase 1 did not complete - aborting."/>
+    </target>
 
-You will need to modify the values in ant.properties (preferrably override in ant-local.properties) 
-to match your local environment.  The main ones which you will NEED to change are the github password
-and the database administration password.
+    <target name="check-merge-complete">
+        <available file="merge.complete" property="merge.complete" />
+        <fail unless="merge.complete" message="Merge step did not complete - aborting."/>
+    </target>
 
--- TARGETS --
-export - main target, will perform all operations
-		</echo>
-	</target>
+    <target name="help">
+        <echo>
+            -- USAGE --
+            This script will check out the KFS project from github, export the named
+            schema from the database, copy the file from the server, and commit the file to github.
 
+            You will need to modify the values in ant.properties (preferrably override in ant-local.properties)
+            to match your local environment.  The main ones which you will NEED to change are the github password
+            and the database administration password.
 
-    <macrodef name="git">
-        <attribute name="command" />
-        <attribute name="dir" default="" />
-        <element name="args" optional="true" />
-        <sequential>
-            <echo message="git @{command}" />
-            <exec executable="git" dir="@{dir}">
-                <arg value="@{command}" />
-                <args/>
-            </exec>
-        </sequential>
-    </macrodef>
-	
+            -- TARGETS --
+            export - main target, will perform all operations
+        </echo>
+    </target>
+
 </project>

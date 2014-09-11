@@ -176,7 +176,7 @@
         <echo message="Commiting all changes with message: Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
         <git command="add">
             <args>
-                <arg value="work/db/kfs-db/development" />
+                <arg value="../../development" />
             </args>
         </git>
         <git command="commit">
@@ -184,7 +184,6 @@
                 <arg value="-am Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
             </args>
         </git>
-        <git command="push" />
     </target>
 
 
@@ -195,7 +194,7 @@
         <echo file="phase1.complete" message="" />
     </target>
 
-    <target name="export-phase2" depends="check-phase-1" />
+    <target name="export-phase2" depends="check-phase-1,commit-changes" />
 
     <target name="check-phase-1">
         <available file="phase1.complete" property="phase1.complete" />

@@ -777,19 +777,19 @@ ${where-clauses}
 
 	<target name="create-clover-format-graph-files" depends="create-clover-config-file">
 		<!-- clean out existing format files -->
-		<mkdir dir="${torque.schema.dir}/formats" />
-		<delete>
-			<fileset dir="${torque.schema.dir}/formats">
-				<include name="*.xml"/>
-			</fileset>
-		</delete>
-		<!-- clean out existing graph files -->
-		<mkdir dir="${torque.schema.dir}/graphs" />
-		<delete>
-			<fileset dir="${torque.schema.dir}/graphs">
-				<include name="*.xml"/>
-			</fileset>
-		</delete>
+		<!--<mkdir dir="${torque.schema.dir}/formats" />-->
+		<!--<delete>-->
+			<!--<fileset dir="${torque.schema.dir}/formats">-->
+				<!--<include name="*.xml"/>-->
+			<!--</fileset>-->
+		<!--</delete>-->
+		<!--&lt;!&ndash; clean out existing graph files &ndash;&gt;-->
+		<!--<mkdir dir="${torque.schema.dir}/graphs" />-->
+		<!--<delete>-->
+			<!--<fileset dir="${torque.schema.dir}/graphs">-->
+				<!--<include name="*.xml"/>-->
+			<!--</fileset>-->
+		<!--</delete>-->
 		<create-table-formats-and-graphs
     		driver="${export.torque.database.driver}"
     		url="${export.torque.database.url}"

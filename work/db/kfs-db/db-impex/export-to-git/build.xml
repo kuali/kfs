@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project name="export-to-git" default="help">
+
+    <property file="ant.properties" />
+
+    <target name="export-db">
+        <!-- create impex-build.properties file -->
+        <pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
+            <path location="${basedir}/../../development" />
+        </pathconvert>
+        <loadfile property="impex.properties" srcfile="db-impex-build.properties">
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </loadfile>
+        <echo message="impex-build.properties" />
+        <echo file="impex-build.properties" message="${impex.properties}" />
+        <!-- run export command -->
+        <!-- need to run in a separate JVM due to the way that Clover finds its configuration files. -->
+        <java classname="org.apache.tools.ant.Main"
+              fork="true"
+              dir="../impex"
+              failonerror="true">
+            <classpath path="${java.class.path}" />
+            <jvmarg value="-Xmx1g" />
+            <arg value="-Duser.home=${basedir}" />
+            <arg value="-Dimpex.properties.file=${basedir}/impex-build.properties" />
+            <arg value="export" />
+        </java>
+    </target>
+
+    <macrodef name="git">
+        <attribute name="command" />
+        <attribute name="dir" default="" />
+        <element name="args" optional="true" />
+        <sequential>
+            <echo message="git @{command}" />
+            <exec executable="git" dir="@{dir}">
+                <arg value="@{command}" />
+                <args/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="commit-changes" description="Commits all changes to git">
+        <input message="Commit message" addproperty="commit-message" />
+        <tstamp />
+        <echo message="Commiting all changes with message: Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
+        <git command="add">
+            <args>
+                <arg value="../../development" />
+            </args>
+        </git>
+        <git command="commit">
+            <args>
+                <arg value="-am Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
+            </args>
+        </git>
+    </target>
+
+
+
+    <target name="export" depends="export-phase1,export-phase2" />
+
+    <target name="export-phase1" depends="export-db">
+        <echo file="phase1.complete" message="" />
+    </target>
+
+    <target name="export-phase2" depends="check-phase-1,commit-changes" />
+
+    <target name="check-phase-1">
+        <available file="phase1.complete" property="phase1.complete" />
+        <fail unless="phase1.complete" message="Phase 1 did not complete - aborting."/>
+    </target>
+
+    <target name="help">
+        <echo>
+            -- USAGE --
+            This script will check out the KFS project from github, export the named
+            schema from the database, copy the file from the server, and commit the file to github.
+
+            You will need to modify the values in ant.properties (preferrably override in ant-local.properties)
+            to match your local environment.  The main ones which you will NEED to change are the github password
+            and the database administration password.
+
+            -- TARGETS --
+            export - main target, will perform all operations
+        </echo>
+    </target>
+
+</project>

@@ -80,8 +80,6 @@
     	<property name="moduleConfiguration" ref="fpModuleConfiguration" />
     </bean>
 
-    <bean id="capitalAssetInformationDao" parent="platformAwareDao" class="org.kuali.kfs.fp.document.dataaccess.impl.CapitalAssetInformationDaoOjb"/>
- 
 	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.kfs.fp.document.dataaccess.impl.TravelMileageRateDaoOjb" />
 	
 	<bean id="checkService"  parent="checkService-parentBean"/>
@@ -229,7 +227,6 @@
 		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 		<property name="procurementCardCreateEmailService" ref="procurementCardCreateEmailService" />
-		<property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
 	</bean>
 
 	<bean id="procurementCardCreateEmailService"  parent="procurementCardCreateEmailService-parentBean"/>

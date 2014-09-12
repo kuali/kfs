@@ -50,7 +50,6 @@ public class GlLineServiceTest extends KualiTestBase {
     private AssetGlobalService assetGlobalService;
     private GeneralLedgerEntry primary;
     private List<GeneralLedgerEntry> entries;
-    public static final String capitalAssetInformation1DocumentNumber = "docnum?";
 
     @Override
     @ConfigureContext(session = UserNameFixture.bomiddle, shouldCommitTransactions = false)
@@ -69,7 +68,6 @@ public class GlLineServiceTest extends KualiTestBase {
         this.entries = new ArrayList<GeneralLedgerEntry>();
         entries.add(entry);
         entries.add(entry2);
-        businessObjectService.save(getCapitalAssetInformation1(capitalAssetInformation1DocumentNumber));
     }
 
     private CapitalAssetInformationDetail createNewCapitalAssetInformationDetail() {
@@ -261,70 +259,4 @@ public class GlLineServiceTest extends KualiTestBase {
 
         assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(1));
     }
-
-    protected CapitalAssetInformation getCapitalAssetInformation1(String documentNumber) {
-        CapitalAssetInformation capitalAssetInformation = new CapitalAssetInformation();
-        capitalAssetInformation.setDocumentNumber(documentNumber);
-        capitalAssetInformation.setCapitalAssetLineNumber(15);
-        CapitalAssetAccountsGroupDetails capitalAssetAccountsGroupDetails = new CapitalAssetAccountsGroupDetails();
-        /*primary keys*/
-        capitalAssetAccountsGroupDetails.setCapitalAssetLineNumber(1);
-        capitalAssetAccountsGroupDetails.setCapitalAssetAccountLineNumber(1);
-        capitalAssetAccountsGroupDetails.setSequenceNumber(1);
-        capitalAssetAccountsGroupDetails.setDocumentNumber(documentNumber);
-
-        capitalAssetAccountsGroupDetails.setChartOfAccountsCode("BL");
-        capitalAssetAccountsGroupDetails.setAccountNumber("1031400");
-        capitalAssetAccountsGroupDetails.setFinancialObjectCode("7300");
-        capitalAssetAccountsGroupDetails.setOrganizationReferenceId("");
-        capitalAssetInformation.getCapitalAssetAccountsGroupDetails().add(capitalAssetAccountsGroupDetails);
-        return capitalAssetInformation;
-    }
-
-    protected GeneralLedgerEntry getGeneralLedgerEntry1(String documentNumber) {
-        GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry();
-        generalLedgerEntry.setDocumentNumber(documentNumber);
-        generalLedgerEntry.setChartOfAccountsCode("BL");
-        generalLedgerEntry.setAccountNumber("1031400");
-        generalLedgerEntry.setFinancialObjectCode("7300");
-        generalLedgerEntry.setOrganizationReferenceId("");
-        return generalLedgerEntry;
-    }
-
-    protected GeneralLedgerEntry getGeneralLedgerEntry2(String documentNumber) {
-        GeneralLedgerEntry generalLedgerEntry = getGeneralLedgerEntry1(documentNumber);
-        generalLedgerEntry.setOrganizationReferenceId(null);
-        return generalLedgerEntry;
-    }
-
-    protected GeneralLedgerEntry getGeneralLedgerEntry3(String documentNumber) {
-        GeneralLedgerEntry generalLedgerEntry = getGeneralLedgerEntry1(documentNumber);
-        generalLedgerEntry.setOrganizationReferenceId("nope");
-        return generalLedgerEntry;
-    }
-
-    protected void runTestShouldNotMatch(GeneralLedgerEntry generalLedgerEntry){
-        List<CapitalAssetInformation> capitalAssetInformations = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
-        assertTrue("The entry should have matched the capital asset information.",capitalAssetInformations.size() == 0);
-    }
-
-    protected void runTestShouldMatch(GeneralLedgerEntry generalLedgerEntry){
-        List<CapitalAssetInformation> capitalAssetInformations = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
-        assertTrue("The entry should have matched the capital asset information.",capitalAssetInformations.size() == 1);
-    }
-
-    /**
-     * We need to ensure that organization reference id being null and empty string
-     * is the same because it can wind up either way after the general ledger entries
-     * are reconstructed
-     */
-    public void testAddToCapitalAssets() throws Exception {
-        /*Any combination of null and empty string on organization reference id should match.*/
-        runTestShouldMatch(getGeneralLedgerEntry1(capitalAssetInformation1DocumentNumber));
-        runTestShouldMatch(getGeneralLedgerEntry2(capitalAssetInformation1DocumentNumber));
-
-        /*OrganizationReferenceId should be used to form the match!*/
-        runTestShouldNotMatch(getGeneralLedgerEntry3(capitalAssetInformation1DocumentNumber));
-    }
 }
-

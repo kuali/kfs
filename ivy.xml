@@ -431,8 +431,7 @@
 			transitive="false" conf="kfs-lib->default" />
 
 
-		<!-- KFS Help; put these in external -->
-		<dependency org="org.kuali.kfs" name="kfs-help" rev="5.2.0" transitive="false"
+		<dependency org="org.kuali.kfs" name="kfs-help" rev="5.2.0-SNAPSHOT" transitive="false"
 			conf="kfs-help->default"/>
 		
 

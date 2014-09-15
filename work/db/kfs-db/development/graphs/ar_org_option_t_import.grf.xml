@@ -40,6 +40,7 @@
         $0.org_chck_pay_to_nm := replace(nvl($org_chck_pay_to_nm, ""), "~!~", "|" );
         $0.org_postal_zip_cd := replace(nvl($org_postal_zip_cd, ""), "~!~", "|" );
         $0.org_postal_cntry_cd := replace(nvl($org_postal_cntry_cd, ""), "~!~", "|" );
+        $0.ar_cg_biller_ind := replace(nvl($ar_cg_biller_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

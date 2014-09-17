@@ -799,7 +799,7 @@
         </unique>
     </table>
     <table name="AR_BILL_T">
-        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -815,6 +815,9 @@
         <unique name="AR_BILL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="AR_BILL_TI1">
+            <index-column name="PRPSL_NBR"/>
+        </index>
     </table>
     <table name="AR_CGB_CTGRY_T">
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
@@ -1258,7 +1261,6 @@
     </table>
     <table name="AR_INV_BILL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -1266,7 +1268,6 @@
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
         <column name="BILL_DT" type="DATE"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
-        <column name="BILLED_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1577,7 +1578,6 @@
     </table>
     <table name="AR_INV_MLSTN_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -1585,7 +1585,6 @@
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_COMPLTN_DT" type="DATE"/>
         <column name="MLSTN_AMT" size="7" type="DECIMAL"/>
-        <column name="BILLED_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1745,7 +1744,7 @@
         </unique>
     </table>
     <table name="AR_MLSTN_T">
-        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -1762,6 +1761,9 @@
         <unique name="AR_MLSTN_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="AR_MLSTN_TI1">
+            <index-column name="PRPSL_NBR"/>
+        </index>
     </table>
     <table name="AR_NON_APLD_DIST_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>

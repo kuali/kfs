@@ -18,12 +18,10 @@ package org.kuali.kfs.module.ar.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -71,7 +69,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private InvoiceGeneralDetail invoiceGeneralDetail;
     private List<InvoiceMilestone> invoiceMilestones;
     private List<InvoiceBill> invoiceBills;
-    private Set<InvoiceSuspensionCategory> invoiceSuspensionCategories;
+    private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
     private ContractsAndGrantsBillingAward award;
 
     protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
@@ -102,7 +100,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         invoiceMilestones = new ArrayList<InvoiceMilestone>();
         invoiceBills = new ArrayList<InvoiceBill>();
         invoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
-        invoiceSuspensionCategories = new HashSet<InvoiceSuspensionCategory>();
+        invoiceSuspensionCategories = new ArrayList<InvoiceSuspensionCategory>();
     }
 
     /**
@@ -629,14 +627,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @return
      */
-    public Set<InvoiceSuspensionCategory> getInvoiceSuspensionCategories() {
+    public List<InvoiceSuspensionCategory> getInvoiceSuspensionCategories() {
         return invoiceSuspensionCategories;
     }
 
     /**
      * @param invoiceSuspensionCategories
      */
-    public void setInvoiceSuspensionCategories(Set<InvoiceSuspensionCategory> invoiceSuspensionCategories) {
+    public void setInvoiceSuspensionCategories(List<InvoiceSuspensionCategory> invoiceSuspensionCategories) {
         this.invoiceSuspensionCategories = invoiceSuspensionCategories;
     }
 

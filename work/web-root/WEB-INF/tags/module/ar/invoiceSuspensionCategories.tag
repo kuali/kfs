@@ -28,12 +28,15 @@
 					<kul:htmlAttributeHeaderCell attributeEntry="${suspensionCategoriesAttributes.suspensionCategoryDescription}" useShortLabel="false" />
 				</tr>
 				<c:if test="${!empty KualiForm.document.invoiceSuspensionCategories}">
-					<c:forEach var="invoiceSuspensionCategory" items="${KualiForm.document.invoiceSuspensionCategories}">
+					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceSuspensionCategories" id="SuspensionCategory">
 						<tr>
-							<td class="datacell">${invoiceSuspensionCategory.suspensionCategoryCode}</td>
-							<td class="datacell" width="75%">${invoiceSuspensionCategory.suspensionCategoryDescription}</td>
+							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceSuspensionCategoriesAttributes.suspensionCategoryCode}"
+									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategoryCode" readOnly="true" /></td>
+							<td class="datacell" width="75%"><kul:htmlControlAttribute
+									attributeEntry="${invoiceSuspensionCategoriesAttributes['suspensionCategoryDescription']}"
+									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategoryDescription" readOnly="true" /></td>
 						</tr>
-					</c:forEach>
+					</logic:iterate>
 				</c:if>
 			</table>
 		</div>

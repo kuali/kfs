@@ -19,10 +19,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -296,7 +294,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR1.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR2.createInvoiceSuspensionCategory();
-        Set<InvoiceSuspensionCategory> invoiceSuspensionCategories = new HashSet<>();
+        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<>();
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_1);
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_2);
         contractsGrantsInvoiceDocument.setInvoiceSuspensionCategories(invoiceSuspensionCategories);
@@ -329,7 +327,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR3.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR4.createInvoiceSuspensionCategory();
-        Set<InvoiceSuspensionCategory> invoiceSuspensionCategories = new HashSet<>();
+        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<>();
         invoiceSuspensionCategory_1.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
         invoiceSuspensionCategory_2.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_1);

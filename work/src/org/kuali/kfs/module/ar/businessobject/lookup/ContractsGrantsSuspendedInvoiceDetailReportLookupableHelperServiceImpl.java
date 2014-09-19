@@ -157,6 +157,8 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
      */
     protected List<? extends ContractsAndGrantsAward> lookupMatchingAwards(@SuppressWarnings("rawtypes") Map lookupFields) {
         Map<String, String> awardLookupFields = new HashMap<String, String>();
+        List<ContractsAndGrantsAward> filteredAwards = new ArrayList<ContractsAndGrantsAward>();
+
         // letterOfCreditFundGroupCode should be award.letterOfCreditFund.letterOfCreditFundGroupCode
         final String letterOfCreditFundGroupCode = (String)lookupFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
         if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
@@ -172,17 +174,27 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         // awardFundManager.principalName should be award.awardPrimaryFundManager.fundManager.principalId
         final String fundManagerPrincipalName = (String)lookupFields.get(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
         final Set<String> fundManagerPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(fundManagerPrincipalName);
-        if (!fundManagerPrincipalIds.isEmpty()) {
-            final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
-            awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
+        if (StringUtils.isNotBlank(fundManagerPrincipalName)) {
+            if (fundManagerPrincipalIds.isEmpty()) {
+                // no fund manager found, invalid name, return empty list to get no records found message
+                return filteredAwards;
+            } else {
+                final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
+                awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
+            }
         }
 
         // awardProjectDirector.principalName should be award.awardPrimaryProjectDirector.projectDirector.principalId
         final String projectDirectorPrincipalName = (String)lookupFields.get(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
         final Set<String> projectDirectorPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(projectDirectorPrincipalName);
-        if (!projectDirectorPrincipalIds.isEmpty()) {
-            final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
-            awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
+        if (StringUtils.isNotBlank(projectDirectorPrincipalName)) {
+            if (projectDirectorPrincipalIds.isEmpty()) {
+                // no fund manager found, invalid name, return empty list to get no records found message
+                return filteredAwards;
+            } else {
+                final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
+                awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
+            }
         }
 
         if (awardLookupFields.isEmpty()) {
@@ -196,7 +208,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         // filter awards - we can't get back only the primary project director or fund manager, but we can filter down in the query
         // here, let's make sure the primary project director or fund manager for each award matches
-        List<ContractsAndGrantsAward> filteredAwards = new ArrayList<ContractsAndGrantsAward>();
         if (fundManagerPrincipalIds.isEmpty() && projectDirectorPrincipalIds.isEmpty()) {
             filteredAwards.addAll(awards); // nothing to filter out
         }

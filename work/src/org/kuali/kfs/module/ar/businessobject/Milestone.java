@@ -21,134 +21,28 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Milestone to be used for Milestone Schedule under Contracts and Grants
  */
-public class Milestone extends PersistableBusinessObjectBase implements AccountsReceivableMilestone, MutableInactivatable {
+public class Milestone extends MilestoneBase implements AccountsReceivableMilestone, MutableInactivatable {
 
     private Long proposalNumber;
-    private Long milestoneNumber;
-    private Long milestoneIdentifier;
-    private String milestoneDescription;
-
-    private KualiDecimal milestoneAmount = KualiDecimal.ZERO;
-
-    private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
     private boolean billed = false;
     private boolean active;
 
     private ContractsAndGrantsBillingAward award;
 
-    /**
-     * Gets the proposalNumber attribute.
-     *
-     * @return Returns the proposalNumber.
-     */
     @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
-    /**
-     * Sets the proposalNumber attribute value.
-     *
-     * @param proposalNumber The proposalNumber to set.
-     */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-    /**
-     * Gets the milestoneNumber attribute.
-     *
-     * @return Returns the milestoneNumber.
-     */
-    @Override
-    public Long getMilestoneNumber() {
-        return milestoneNumber;
-    }
-
-    /**
-     * Sets the milestoneNumber attribute value.
-     *
-     * @param milestoneNumber The milestoneNumber to set.
-     */
-    public void setMilestoneNumber(Long milestoneNumber) {
-        this.milestoneNumber = milestoneNumber;
-    }
-
-    /**
-     * Gets the milestoneDescription attribute.
-     *
-     * @return Returns the milestoneDescription.
-     */
-    @Override
-    public String getMilestoneDescription() {
-        return milestoneDescription;
-    }
-
-    /**
-     * Sets the milestoneDescription attribute value.
-     *
-     * @param milestoneDescription The milestoneDescription to set.
-     */
-    public void setMilestoneDescription(String milestoneDescription) {
-        this.milestoneDescription = milestoneDescription;
-    }
-
-    /**
-     * Gets the milestoneAmount attribute.
-     *
-     * @return Returns the milestoneAmount.
-     */
-    @Override
-    public KualiDecimal getMilestoneAmount() {
-        return milestoneAmount;
-    }
-
-    /**
-     * Sets the milestoneAmount attribute value.
-     *
-     * @param milestoneAmount The milestoneAmount to set.
-     */
-    public void setMilestoneAmount(KualiDecimal milestoneAmount) {
-        this.milestoneAmount = milestoneAmount;
-    }
-
-
-    @Override
-    public boolean isBilled() {
-        return billed;
-    }
-
-    public void setBilled(boolean billed) {
-        this.billed = billed;
-    }
-
-    /**
-     * Gets the milestoneActualCompletionDate attribute.
-     *
-     * @return Returns the milestoneActualCompletionDate.
-     */
-    @Override
-    public Date getMilestoneActualCompletionDate() {
-        return milestoneActualCompletionDate;
-    }
-
-    /**
-     * Sets the milestoneActualCompletionDate attribute value.
-     *
-     * @param milestoneActualCompletionDate The milestoneActualCompletionDate to set.
-     */
-    public void setMilestoneActualCompletionDate(Date milestoneActualCompletionDate) {
-        this.milestoneActualCompletionDate = milestoneActualCompletionDate;
     }
 
     /**
@@ -170,23 +64,23 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
         this.milestoneExpectedCompletionDate = milestoneExpectedCompletionDate;
     }
 
-    /**
-     * Gets the milestoneIdentifier attribute.
-     *
-     * @return Returns the milestoneIdentifier.
-     */
     @Override
-    public Long getMilestoneIdentifier() {
-        return milestoneIdentifier;
+    public boolean isBilled() {
+        return billed;
     }
 
-    /**
-     * Sets the milestoneIdentifier attribute value.
-     *
-     * @param milestoneIdentifier The milestoneIdentifier to set.
-     */
-    public void setMilestoneIdentifier(Long milestoneIdentifier) {
-        this.milestoneIdentifier = milestoneIdentifier;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -212,25 +106,12 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber);
-        m.put("milestoneNumber", milestoneNumber);
-        m.put("milestoneIdentifier", milestoneIdentifier);
-        m.put("milestoneDescription", milestoneDescription);
-        m.put("milestoneAmount", milestoneAmount);
+        LinkedHashMap m = super.toStringMapper_RICE20_REFACTORME();
+        m.put("proposalNumber", proposalNumber);
         m.put("billed", billed);
         return m;
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
 }

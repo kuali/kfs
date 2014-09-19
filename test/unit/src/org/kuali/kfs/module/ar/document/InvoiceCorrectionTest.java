@@ -98,7 +98,6 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
         List<InvoiceMilestone> milestones = new ArrayList<InvoiceMilestone>();
         InvoiceMilestone invMilestone_2 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
-        invMilestone_2.setBilled(true);
         milestones.add(invMilestone_2);
         Iterator<InvoiceMilestone> iterator = milestones.iterator();
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
@@ -108,10 +107,9 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             InvoiceMilestone id = iterator.next();
             InvoiceMilestone cid = correctedIterator.next();
             assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
-            assertTrue(cid.isBilled());
         }
 
-        contractsGrantsInvoiceDocumentService.updateMilestonesBilledIndicator(false,document.getInvoiceMilestones());
+        contractsGrantsInvoiceDocumentService.updateMilestonesBilledIndicator(false, document.getInvoiceMilestones());
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
@@ -147,7 +145,6 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             InvoiceBill id = (InvoiceBill) iterator.next();
             InvoiceBill cid = (InvoiceBill) correctedIterator.next();
             assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
-            assertTrue(cid.isBilled());
         }
 
         contractsGrantsInvoiceDocumentService.updateBillsBilledIndicator(false,document.getInvoiceBills());

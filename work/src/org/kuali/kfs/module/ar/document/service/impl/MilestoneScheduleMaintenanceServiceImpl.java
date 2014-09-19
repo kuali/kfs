@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,12 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.MilestoneScheduleMaintenanceService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -40,14 +39,11 @@ public class MilestoneScheduleMaintenanceServiceImpl implements MilestoneSchedul
 
     @Override
     public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId) {
-        List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
+        Collection<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        if (StringUtils.isNotBlank(milestoneId)) {
-            map.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneId);
-        }
-        invoiceMilestones.addAll(getBusinessObjectService().findMatching(InvoiceMilestone.class, map));
+        map.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneId);
+        invoiceMilestones = getBusinessObjectService().findMatching(InvoiceMilestone.class, map);
         // skip ineffective milestones, based on invoice
         Set<String> effectiveDocumentNumbers = new HashSet<String>();
         List<InvoiceMilestone> effectiveInvoiceMilestones = new ArrayList<InvoiceMilestone>();

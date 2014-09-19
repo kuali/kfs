@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
@@ -24,21 +23,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
  */
-public class Bill extends PersistableBusinessObjectBase implements AccountsReceivableBill, MutableInactivatable {
+public class Bill extends BillBase implements AccountsReceivableBill, MutableInactivatable {
 
     private Long proposalNumber;
-    private Long billIdentifier;
-    private Long billNumber;
-    private String billDescription;
-    private Date billDate;
-
-    private KualiDecimal estimatedAmount = KualiDecimal.ZERO;
     private boolean billed = false;
     private boolean active;
 
@@ -63,17 +54,6 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         this.proposalNumber = proposalNumber;
     }
 
-
-    /**
-     * Gets the billNumber attribute.
-     *
-     * @return Returns the billNumber.
-     */
-    @Override
-    public Long getBillNumber() {
-        return billNumber;
-    }
-
     @Override
     public boolean isBilled() {
         return billed;
@@ -81,91 +61,6 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
 
     public void setBilled(boolean billed) {
         this.billed = billed;
-    }
-
-    /**
-     * Sets the billNumber attribute value.
-     *
-     * @param billNumber The billNumber to set.
-     */
-    public void setBillNumber(Long billNumber) {
-        this.billNumber = billNumber;
-    }
-
-    /**
-     * Gets the billDescription attribute.
-     *
-     * @return Returns the billDescription.
-     */
-    @Override
-    public String getBillDescription() {
-        return billDescription;
-    }
-
-    /**
-     * Sets the billDescription attribute value.
-     *
-     * @param billDescription The billDescription to set.
-     */
-    public void setBillDescription(String billDescription) {
-        this.billDescription = billDescription;
-    }
-
-    /**
-     * Gets the billIdentifier attribute.
-     *
-     * @return Returns the billIdentifier.
-     */
-    @Override
-    public Long getBillIdentifier() {
-        return billIdentifier;
-    }
-
-    /**
-     * Sets the billIdentifier attribute value.
-     *
-     * @param billIdentifier The billIdentifier to set.
-     */
-    public void setBillIdentifier(Long billIdentifier) {
-        this.billIdentifier = billIdentifier;
-    }
-
-    /**
-     * Gets the billDate attribute.
-     *
-     * @return Returns the billDate.
-     */
-    @Override
-    public Date getBillDate() {
-        return billDate;
-    }
-
-    /**
-     * Sets the billDate attribute value.
-     *
-     * @param billDate The billDate to set.
-     */
-    public void setBillDate(Date billDate) {
-        this.billDate = billDate;
-    }
-
-    /**
-     * Gets the estimatedAmount attribute.
-     *
-     * @return Returns the estimatedAmount.
-     */
-    @Override
-    public KualiDecimal getEstimatedAmount() {
-        return estimatedAmount;
-    }
-
-    /**
-     * Sets the estimatedAmount attribute value.
-     *
-     * @param estimatedAmount The estimatedAmount to set.
-     */
-    public void setEstimatedAmount(KualiDecimal estimatedAmount) {
-        this.estimatedAmount = estimatedAmount;
     }
 
     /**
@@ -190,14 +85,10 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap m = super.toStringMapper_RICE20_REFACTORME();
         m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber);
-        m.put("billNumber", this.billNumber);
-        m.put("billDescription", this.billDescription);
-        m.put("billIdentifier", this.billIdentifier);
-        m.put("billDate", this.billDate.toString());
-        m.put("estimatedAmount", this.estimatedAmount.toString());
         m.put("billed", this.billed);
         return m;
     }

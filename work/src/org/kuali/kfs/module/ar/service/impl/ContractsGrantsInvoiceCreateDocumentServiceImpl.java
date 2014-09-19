@@ -520,11 +520,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // To consider the completed milestones only.
             if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilled() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 InvoiceBill invBill = new InvoiceBill();
-                invBill.setProposalNumber(awdBill.getProposalNumber());
                 invBill.setBillNumber(awdBill.getBillNumber());
                 invBill.setBillIdentifier(awdBill.getBillIdentifier());
                 invBill.setBillDescription(awdBill.getBillDescription());
-                invBill.setBilled(awdBill.isBilled());
                 invBill.setBillDate(awdBill.getBillDate());
                 invBill.setEstimatedAmount(awdBill.getEstimatedAmount());
                 invoiceBills.add(invBill);
@@ -548,11 +546,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilled() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
 
                 InvoiceMilestone invMilestone = new InvoiceMilestone();
-                invMilestone.setProposalNumber(awdMilestone.getProposalNumber());
                 invMilestone.setMilestoneNumber(awdMilestone.getMilestoneNumber());
                 invMilestone.setMilestoneIdentifier(awdMilestone.getMilestoneIdentifier());
                 invMilestone.setMilestoneDescription(awdMilestone.getMilestoneDescription());
-                invMilestone.setBilled(awdMilestone.isBilled());
                 invMilestone.setMilestoneActualCompletionDate(awdMilestone.getMilestoneActualCompletionDate());
                 invMilestone.setMilestoneAmount(awdMilestone.getMilestoneAmount());
                 invoiceMilestones.add(invMilestone);

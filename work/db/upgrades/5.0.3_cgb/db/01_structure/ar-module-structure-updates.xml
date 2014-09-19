@@ -28,9 +28,6 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_BILL_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
-			</column>
 			<column name="BILL_ID" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
 			</column>
@@ -40,6 +37,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 			<column name="BILL_NBR" type="DECIMAL(12,0)" />
 			<column name="BILL_DT" type="DATETIME" />
 			<column name="EST_AMT" type="DECIMAL(7,0)" />
@@ -303,9 +301,6 @@
 			<column name="FDOC_NBR" type="VARCHAR(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_BILL_TP1"/>
 			</column>
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_INV_BILL_TP1"/>
-			</column>
 			<column name="BILL_ID" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_BILL_TP1"/>
 			</column>
@@ -319,7 +314,6 @@
 			<column name="BILL_DESC" type="VARCHAR(45)" />
 			<column name="BILL_DT" type="DATETIME" />
 			<column name="EST_AMT" type="DECIMAL(7,0)" />
-			<column name="BILLED_IND" type="VARCHAR(1)" />
 		</createTable>
 		<createTable tableName="AR_INV_DOC_ERROR_LOG_T">
 			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
@@ -419,9 +413,6 @@
 			<column name="FDOC_NBR" type="VARCHAR(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_MLSTN_TP1"/>
 			</column>
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_INV_MLSTN_TP1"/>
-			</column>
 			<column name="MLSTN_ID" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_MLSTN_TP1"/>
 			</column>
@@ -435,7 +426,6 @@
 			<column name="MLSTN_DESC" type="VARCHAR(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="DATETIME" />
 			<column name="MLSTN_AMT" type="DECIMAL(7,0)" />
-			<column name="BILLED_IND" type="VARCHAR(1)" />
 		</createTable>
 		<createTable tableName="AR_INV_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="VARCHAR(4)">
@@ -544,9 +534,6 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_MLSTN_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >
-				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
-			</column>
 			<column name="MLSTN_ID" type="DECIMAL(12,0)" >
 				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
 			</column>
@@ -556,6 +543,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 			<column name="MLSTN_NBR" type="DECIMAL(12,0)" />
 			<column name="MLSTN_DESC" type="VARCHAR(45)" />
 			<column name="MLSTN_AMT" type="DECIMAL(19,2)" />

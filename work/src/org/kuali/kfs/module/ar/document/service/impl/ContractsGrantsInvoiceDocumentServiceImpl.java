@@ -819,115 +819,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * This method get the milestones with the criteria defined and set value to billed.
-     *
-     * @param invoiceMilestones
-     * @param billed
-     */
-    protected void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, boolean billed) {
-        if (invoiceMilestones == null) {
-            throw new IllegalArgumentException("(List<InvoiceMilestone> invoiceMilestones cannot be null");
-        }
-        List<Long> milestoneIds = new ArrayList<Long>();
-        for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
-            milestoneIds.add(invoiceMilestone.getMilestoneIdentifier());
-        }
-        // This method get the milestones with the criteria defined and set value to isItBilled.
-
-        if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            setMilestonesBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, billed);
-        }
-    }
-
-    /**
-     * This method updates value of billed in Milestone BO to the value of the billed parameter
-     *
-     * @param proposalNumber
-     * @param milestoneIds
-     * @param billed
-     */
-    protected void setMilestonesBilled(Long proposalNumber, List<Long> milestoneIds, boolean billed) {
-        Collection<Milestone> milestones = null;
-        milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
-
-        if (!ObjectUtils.isNull(milestones)) {
-            for (Milestone milestone : milestones) {
-                milestone.setBilled(billed);
-                getBusinessObjectService().save(milestone);
-            }
-        }
-    }
-
-    /**
-     * Returns milestones identified by one of the given milestone ids and associated with the given proposal number
-     * @param proposalNumber the proposal number to check for milestones in
-     * @param milestoneIds a List of milestone identifiers to search for
-     * @return a Collection of Milestones
-     */
-    protected Collection<Milestone> getMatchingMilestoneByProposalIdAndInListOfMilestoneId(Long proposalNumber, List<Long> milestoneIds) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        fieldValues.put("milestoneIdentifier", milestoneIds);
-
-        Collection<Milestone> milestones = getBusinessObjectService().findMatching(Milestone.class, fieldValues);
-        return milestones;
-    }
-
-
-    /**
-     * This method get the bills with the criteria defined and set value to billed.
-     *
-     * @param invoiceBills
-     * @param billed
-     */
-    protected void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, boolean billed) {
-        if (invoiceBills == null) {
-            throw new IllegalArgumentException("(List<InvoiceBill> invoiceBills cannot be null");
-        }
-
-        List<Map<String, String>> fieldValuesList = new ArrayList<Map<String, String>>();
-        Map<String, String> tempFieldValues;
-
-        for (InvoiceBill invoiceBill : invoiceBills) {
-            tempFieldValues = new HashMap<String, String>();
-
-            if (ObjectUtils.isNotNull(invoiceBill.getBillNumber())) {
-                tempFieldValues.put(ArPropertyConstants.BillFields.BILL_NUMBER, invoiceBill.getBillNumber().toString());
-            }
-
-            if (ObjectUtils.isNotNull(invoiceBill.getBillIdentifier())) {
-                tempFieldValues.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, invoiceBill.getBillIdentifier().toString());
-            }
-
-            if (ObjectUtils.isNotNull(invoiceBill.getProposalNumber())) {
-                tempFieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, invoiceBill.getProposalNumber().toString());
-            }
-
-            fieldValuesList.add(tempFieldValues);
-        }
-
-        // To get the bills with the criteria defined and set value to billed.
-        setBillsBilled(fieldValuesList, billed);
-    }
-
-    /**
-     * This method updates value of billed in Bill BO to billed
-     *
-     * @param fieldValuesList
-     * @param billed
-     */
-    protected void setBillsBilled(List<Map<String, String>> fieldValuesList, boolean billed) {
-        Collection<Bill> bills = billDao.getBillsByMatchingCriteria(fieldValuesList);
-        for (Bill bill : bills) {
-            bill.setBilled(billed);
-            }
-        List<Bill> billsToSave = new ArrayList<Bill>();
-        billsToSave.addAll(bills);
-        getBusinessObjectService().save(billsToSave);
-    }
-
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#calculateTotalPaymentsToDateByAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
@@ -1555,16 +1446,36 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones) {
-        // Get a list of invoiceMilestones from the Contracts Grants Invoice document. Then search for the actual Milestone object in this list through dao
-        // Finally, set these milestones to billed
-        if (invoiceMilestones != null && !invoiceMilestones.isEmpty()) {
-
+        if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
             List<Long> milestoneIds = new ArrayList<Long>();
             for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
                 milestoneIds.add(invoiceMilestone.getMilestoneIdentifier());
             }
 
-            retrieveAndUpdateMilestones(invoiceMilestones, billed);
+            if (CollectionUtils.isNotEmpty(milestoneIds)) {
+                setMilestonesBilled(milestoneIds, billed);
+            }
+        }
+    }
+
+    /**
+     * This method updates value of billed in Milestone BO to the value of the billed parameter
+     *
+     * @param proposalNumber
+     * @param milestoneIds
+     * @param billed
+     */
+    protected void setMilestonesBilled(List<Long> milestoneIds, boolean billed) {
+        List<Milestone> milestones = null;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneIds);
+        milestones = (List<Milestone>)getBusinessObjectService().findMatching(Milestone.class, fieldValues);
+
+        if (ObjectUtils.isNotNull(milestones)) {
+            for (Milestone milestone : milestones) {
+                milestone.setBilled(billed);
+            }
+            getBusinessObjectService().save(milestones);
         }
     }
 
@@ -1575,10 +1486,38 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills) {
-        if (!CollectionUtils.isEmpty(invoiceBills)) {
-            retrieveAndUpdateBills(invoiceBills, billed);
+        if (CollectionUtils.isNotEmpty(invoiceBills)) {
+            List<Long> billIds = new ArrayList<Long>();
+            for (InvoiceBill invoiceBill : invoiceBills) {
+                billIds.add(invoiceBill.getBillIdentifier());
+            }
+
+            if (CollectionUtils.isNotEmpty(invoiceBills)) {
+                setBillsBilled(billIds, billed);
+            }
         }
     }
+
+    /**
+     * This method updates value of billed in Bill BO to billed
+     *
+     * @param fieldValuesList
+     * @param billed
+     */
+    protected void setBillsBilled(List<Long> billIds, boolean billed) {
+        List<Bill> bills = null;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billIds);
+        bills = (List<Bill>)getBusinessObjectService().findMatching(Bill.class, fieldValues);
+
+        if (ObjectUtils.isNotNull(bills)) {
+            for (Bill bill : bills) {
+                bill.setBilled(billed);
+            }
+            getBusinessObjectService().save(bills);
+        }
+    }
+
 
     /**
      * This method updates the ContractsAndGrantsBillingAwardAccount object's FinalBilled Variable with the value provided

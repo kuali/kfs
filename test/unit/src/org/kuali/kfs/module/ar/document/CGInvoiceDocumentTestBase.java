@@ -165,20 +165,18 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
         InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
         invBill_1.setDocumentNumber(documentNumber);
-        invBill_1.setProposalNumber(proposalNumber);
-        invBill_1.setBilled(billed);
         boService.save(invBill_1);
         invoiceBills.add(invBill_1);
         document.setInvoiceBills(invoiceBills);
 
         Bill bill = new Bill();
-        bill.setProposalNumber(invBill_1.getProposalNumber());
+        bill.setProposalNumber(proposalNumber);
         bill.setBillNumber(invBill_1.getBillNumber());
         bill.setBillDescription(invBill_1.getBillDescription());
         bill.setBillIdentifier(invBill_1.getBillIdentifier());
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
-        bill.setBilled(invBill_1.isBilled());
+        bill.setBilled(billed);
         bill.setAward(document.getAward());
 
         PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
@@ -194,21 +192,19 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
         InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
         invMilestone_1.setDocumentNumber(documentNumber);
-        invMilestone_1.setProposalNumber(proposalNumber);
-        invMilestone_1.setBilled(billed);
         boService.save(invMilestone_1);
         invoiceMilestones.add(invMilestone_1);
         document.setInvoiceMilestones(invoiceMilestones);
 
         Milestone milestone = new Milestone();
-        milestone.setProposalNumber(invMilestone_1.getProposalNumber());
+        milestone.setProposalNumber(proposalNumber);
         milestone.setMilestoneNumber(invMilestone_1.getMilestoneNumber());
         milestone.setMilestoneIdentifier(invMilestone_1.getMilestoneIdentifier());
         milestone.setMilestoneDescription(invMilestone_1.getMilestoneDescription());
         milestone.setMilestoneAmount(invMilestone_1.getMilestoneAmount());
         milestone.setMilestoneActualCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
-        milestone.setMilestoneExpectedCompletionDate(invMilestone_1.getMilestoneExpectedCompletionDate());
-        milestone.setBilled(invMilestone_1.isBilled());
+        milestone.setMilestoneExpectedCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
+        milestone.setBilled(billed);
         milestone.setAward(document.getAward());
 
         MilestoneSchedule milestoneSchedule = new MilestoneSchedule();

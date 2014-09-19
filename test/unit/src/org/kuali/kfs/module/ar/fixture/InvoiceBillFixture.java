@@ -25,38 +25,32 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceBillFixture {
 
-    INV_BILL_1("5030", new Long(111), new Long(111), "Bill 1", new Long(1), null, false, new KualiDecimal(1)),
-    INV_BILL_2("5030", new Long(111), new Long(111), "Bill 1", new Long(1), new Date(System.currentTimeMillis()), false, new KualiDecimal(1));
+    INV_BILL_1("5030", new Long(1), "Bill 1", new Long(1), null, new KualiDecimal(1)),
+    INV_BILL_2("5030", new Long(2), "Bill 2", new Long(2), new Date(System.currentTimeMillis()), new KualiDecimal(1));
 
     private String documentNumber;
-    private Long proposalNumber;
     private Long billNumber;
     private String billDescription;
     private Long billIdentifier;
     private Date billDate;
-    private boolean billed;
     private KualiDecimal estimatedAmount;
 
-    private InvoiceBillFixture(String documentNumber, Long proposalNumber, Long billNumber, String billDescription, Long billIdentifier, Date billDate, boolean billed, KualiDecimal estimatedAmount) {
+    private InvoiceBillFixture(String documentNumber, Long billNumber, String billDescription, Long billIdentifier, Date billDate, KualiDecimal estimatedAmount) {
         this.documentNumber = documentNumber;
-        this.proposalNumber = proposalNumber;
         this.billNumber = billNumber;
         this.billDescription = billDescription;
         this.billIdentifier = billIdentifier;
         this.billDate = billDate;
-        this.billed = billed;
         this.estimatedAmount = estimatedAmount;
     }
 
     public InvoiceBill createInvoiceBill() {
         InvoiceBill bill = new InvoiceBill();
         bill.setDocumentNumber(this.documentNumber);
-        bill.setProposalNumber(this.proposalNumber);
         bill.setBillNumber(this.billNumber);
         bill.setBillIdentifier(this.billIdentifier);
         bill.setBillDescription(this.billDescription);
         bill.setBillDate(this.billDate);
-        bill.setBilled(this.billed);
         bill.setEstimatedAmount(this.estimatedAmount);
         return bill;
     }

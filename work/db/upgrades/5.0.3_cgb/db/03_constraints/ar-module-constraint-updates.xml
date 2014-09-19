@@ -36,6 +36,12 @@
 		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_TR1"
 			referencedTableName="AR_LTRCR_RVW_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_LTRCR_RVW_DTL_T" referencedColumnNames="FDOC_NBR" />
+		<createIndex indexName="AR_BILL_TI1" tableName="AR_BILL_T">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)"/>
+		</createIndex> 
+		<createIndex indexName="AR_MLSTN_TI1" tableName="AR_MLSTN_T">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)"/>
+		</createIndex> 
 	</changeSet>
 
 </databaseChangeLog>

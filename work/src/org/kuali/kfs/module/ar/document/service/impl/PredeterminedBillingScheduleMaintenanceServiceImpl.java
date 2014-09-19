@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,12 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PredeterminedBillingScheduleMaintenanceService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -44,14 +43,11 @@ public class PredeterminedBillingScheduleMaintenanceServiceImpl implements Prede
      */
     @Override
     public boolean hasBillBeenCopiedToInvoice(Long proposalNumber, String billId) {
-        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
+        Collection<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        if (StringUtils.isNotBlank(billId)) {
-            map.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billId);
-        }
-        invoiceBills.addAll(getBusinessObjectService().findMatching(InvoiceBill.class, map));
+        map.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billId);
+        invoiceBills = getBusinessObjectService().findMatching(InvoiceBill.class, map);
         // but skip documents which have been canceled, disapproved, or where the document was error corrected
         Set<String> effectiveDocumentNumbers = new HashSet<String>();
         List<InvoiceBill> effectiveInvoiceBills = new ArrayList<InvoiceBill>();

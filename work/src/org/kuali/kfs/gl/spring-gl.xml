@@ -2736,9 +2736,6 @@
 	    </property>
 	    <property name="columnCount" value="5" />
 	</bean>
-
-	<bean id="batchFileService" parent="batchFileService-parentBean" />
-	<bean id="batchFileService-parentBean" abstract="true"  class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" scope="prototype" />
 	
 	<bean id="scrubberListingReportWriterService" parent="scrubberListingReportWriterService-parentBean"/>
 	<bean id="scrubberListingReportWriterService-parentBean" abstract="true"  parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl">

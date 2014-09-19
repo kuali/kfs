@@ -40,7 +40,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String instrumentTypeCode;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
-    private KualiDecimal amountRemainingToBill = KualiDecimal.ZERO;
     private KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
@@ -223,7 +222,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         this.newTotalBilled = newTotalBilled;
     }
 
-
     /**
      * Gets the amountRemainingToBill attribute.
      *
@@ -234,17 +232,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         total = getAwardTotal().subtract(getNewTotalBilled());
         return total;
     }
-
-
-    /**
-     * Sets the amountRemainingToBill attribute value.
-     *
-     * @param amountRemainingToBill The amountRemainingToBill to set.
-     */
-    public void setAmountRemainingToBill(KualiDecimal amountRemainingToBill) {
-        this.amountRemainingToBill = amountRemainingToBill;
-    }
-
 
     /**
      * Gets the documentNumber attribute.
@@ -264,7 +251,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         this.documentNumber = documentNumber;
     }
 
-
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
@@ -282,9 +268,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         }
         if (ObjectUtils.isNotNull(this.newTotalBilled)) {
             m.put("newTotalBilled", this.newTotalBilled.toString());
-        }
-        if (ObjectUtils.isNotNull(this.amountRemainingToBill)) {
-            m.put("amountRemainingToBill", this.amountRemainingToBill.toString());
         }
         if (ObjectUtils.isNotNull(this.billedToDateAmount)) {
             m.put("billedToDateAmount", this.billedToDateAmount.toString());
@@ -369,40 +352,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public void setLastBilledDate(Date lastBilledDate) {
         this.lastBilledDate = lastBilledDate;
-    }
-
-
-    /**
-     * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.prePersist();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override protected void prePersist() {
-        super.prePersist();
-        newTotalBilled = getNewTotalBilled();
-        amountRemainingToBill = getAmountRemainingToBill();
-        billedToDateAmount = getBilledToDateAmount();
-
-
-    }
-
-    /**
-     * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override protected void preUpdate() {
-        super.preUpdate();
-        newTotalBilled = getNewTotalBilled();
-        amountRemainingToBill = getAmountRemainingToBill();
-        billedToDateAmount = getBilledToDateAmount();
-
     }
 
     /**

@@ -1470,8 +1470,6 @@
 		<field-descriptor name="instrumentTypeCode" column="INSTRMNT_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardTotal" column="AWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="newTotalBilled" column="NEW_TOT_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="amountRemainingToBill" column="AMT_RMNG_TO_BILL" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="billedToDateAmount" column="BILLED_TO_DT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="costShareAmount" column="COST_SHR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="lastBilledDate" column="LST_BILLED_DT" jdbc-type="DATE" />

@@ -69,7 +69,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(ArPropertyConstants.OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectLevel.class, crit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
     }
 
     /**
@@ -83,7 +83,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectCode.class, crit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
     }
 
     /**
@@ -108,7 +108,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevel.getFinancialObjectLevelCode());
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectLevel.class, crit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
     }
 
     /**
@@ -122,7 +122,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         consolidationCrit.addEqualTo(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, buildLevelConsolidationCodeSubQuery(level));
         consolidationCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query consolidationQuery = new QueryByCriteria(CostCategoryObjectConsolidation.class, consolidationCrit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(consolidationQuery));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(consolidationQuery));
     }
 
     /**
@@ -151,7 +151,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, level.getFinancialObjectLevelCode());
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectCode.class, crit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
     }
 
     /**
@@ -165,7 +165,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query uniqueQuery = new QueryByCriteria(CostCategoryObjectCode.class, crit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(uniqueQuery));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(uniqueQuery));
     }
 
     /**
@@ -179,7 +179,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         objectLevelCrit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, buildObjectCodeLevelCodeSubQuery(objectCode));
         objectLevelCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query objectLevelQuery = new QueryByCriteria(CostCategoryObjectLevel.class, objectLevelCrit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(objectLevelQuery));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(objectLevelQuery));
     }
 
     /**
@@ -207,7 +207,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         objectConsolidationCrit.addEqualTo(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, buildObjectCodeConsolidationCodeSubQuery(objectCode));
         objectConsolidationCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query objectConsolidationQuery = new QueryByCriteria(CostCategoryObjectConsolidation.class, objectConsolidationCrit);
-        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator((getPersistenceBrokerTemplate().getIteratorByQuery(objectConsolidationQuery)));
+        return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator((getPersistenceBrokerTemplate().getIteratorByQuery(objectConsolidationQuery)));
     }
 
     /**

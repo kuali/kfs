@@ -17,6 +17,7 @@
 package org.kuali.kfs.module.ar.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -187,6 +188,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertTrue(resultSet.containsAll(expectedResult));
     }
 
+    @ConfigureContext(session = wklykins)
     public void testUpdateLastBilledDate() {
 
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);

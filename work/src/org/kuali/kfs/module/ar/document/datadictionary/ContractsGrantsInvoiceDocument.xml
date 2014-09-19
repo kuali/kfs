@@ -23,7 +23,7 @@
 		<property name="businessRulesClass"
 			value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
+			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentAuthorizer" />
 		<property name="documentPresentationControllerClass"
 			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController" />
 		<property name="allowsCopy" value="true" />

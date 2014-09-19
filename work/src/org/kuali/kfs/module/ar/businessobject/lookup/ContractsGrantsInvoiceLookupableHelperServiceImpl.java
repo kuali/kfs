@@ -20,6 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +29,17 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
@@ -44,6 +51,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -121,9 +129,9 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsR
         searchResultsCollection = getSearchResultsHelper(org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), true);
         // Convert to suitable list
         searchResultsCollection = ContractsGrantsInvoiceLookupUtil.getPopulatedContractsGrantsInvoiceLookupResults(searchResultsCollection);
+        filterSearchResults(searchResultsCollection);
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));
     }
-
 
     /**
      * build the search result list from the given collection and the number of all qualified search results
@@ -150,6 +158,32 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsR
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         return contractsAndGrantsModuleBillingService.lookupAwards(fieldValues, unbounded);
+    }
+
+    /**
+     * Filter out awards the user is not authorized to initiate CINV docs for (not a fund manager for the award) from the search results.
+     *
+     * @param searchResultsCollection
+     */
+    protected void filterSearchResults(Collection<ContractsGrantsInvoiceLookupResult> searchResultsCollection) {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        Map<String, String> qualificationDetails = new HashMap<String, String>();
+
+        for (Iterator<ContractsGrantsInvoiceLookupResult> searchResultsIterator = searchResultsCollection.iterator(); searchResultsIterator.hasNext();) {
+            ContractsGrantsInvoiceLookupResult contractsGrantsInvoiceLookupResult = searchResultsIterator.next();
+            for (Iterator<ContractsAndGrantsBillingAward> awardIterator = contractsGrantsInvoiceLookupResult.getAwards().iterator(); awardIterator.hasNext();) {
+                ContractsAndGrantsBillingAward award = awardIterator.next();
+                qualificationDetails.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
+
+                if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails)) {
+                    awardIterator.remove();
+                }
+            }
+            if (contractsGrantsInvoiceLookupResult.getAwards().size() == 0) {
+                searchResultsIterator.remove();
+            }
+        }
     }
 
     /**

@@ -18,7 +18,7 @@
 <%@ attribute name="resultsList" required="true" type="java.util.List" description="The rows of fields that we'll iterate to display."%>
 
 <c:if test="${empty resultsList && KualiForm.methodToCall != 'start' && KualiForm.methodToCall != 'refresh'}">
-	There were no eligible awards retrieved. Please check if search criteria is valid and appropriate Billing Frequency has been set. 
+	<bean-el:message key="error.cginvoice.no.eligible.awards.retrieved" />
 </c:if>
 
 <c:if test="${!empty resultsList}">

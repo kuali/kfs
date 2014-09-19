@@ -985,6 +985,7 @@
 			<routingVersion>
 				2
 			</routingVersion>
+	      	<authorizer>org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceWorkflowDocumentAuthorizer</authorizer>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="RequiresApprovalSplit" />

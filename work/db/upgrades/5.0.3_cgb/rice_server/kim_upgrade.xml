@@ -171,7 +171,7 @@
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-001" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="1110" />
-			<column name="ROLE_ID" value="38" />
+			<column name="ROLE_ID" value="101" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">

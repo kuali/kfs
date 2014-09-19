@@ -17,9 +17,7 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,13 +38,10 @@ import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -57,21 +52,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Action class for Contracts Grants Invoice Summary.
  */
 public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
-
-    /**
-     * Uses the initiate permission for the CINV doc to check if authorized
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        Map<String, String> permissionDetails = new HashMap<String, String>();
-        Map<String, String> qualificationDetails = new HashMap<String, String>();
-        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-
-        if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-        }
-    }
 
     /**
      * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice

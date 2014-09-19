@@ -19,16 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.struts.action.ActionForm;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action class for Contracts Grants Invoice Lookup.
@@ -36,21 +29,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class ContractsGrantsInvoiceLookupAction extends ContractsGrantsMultipleValueLookupAction {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceLookupAction.class);
-
-    /**
-     * Uses the initiate permission for the CINV doc to check if authorized
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        Map<String, String> permissionDetails = new HashMap<String, String>();
-        Map<String, String> qualificationDetails = new HashMap<String, String>();
-        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-
-        if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-        }
-    }
 
     /**
      * Collects from the given resultTable - collecting ids from children rows for ContractsGrantsInvoiceResultRows

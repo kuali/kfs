@@ -89,22 +89,26 @@
     <property name="title" value="Final Disposition Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Final Disposition"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="dispositionCode"/>
-              <bean parent="FieldDefinition" p:attributeName="dispositionDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+  		<ref bean="FinalDisposition-inquirySectionDefinition" />
       </list>
     </property>
   </bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="FinalDisposition-inquirySectionDefinition" parent="FinalDisposition-inquirySectionDefinition-parentBean" />
+  <bean id="FinalDisposition-inquirySectionDefinition-parentBean"
+	parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Final Disposition"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="dispositionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="dispositionDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
 
   <bean id="FinalDisposition-lookupDefinition" parent="FinalDisposition-lookupDefinition-parentBean"/>
 

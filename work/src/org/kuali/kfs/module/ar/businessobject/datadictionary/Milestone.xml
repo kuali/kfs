@@ -59,7 +59,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="Milestone-milestoneNumber" parent="Milestone-milestoneNumber-parentBean" />
 
 	<bean id="Milestone-milestoneNumber-parentBean" abstract="true"
@@ -154,7 +153,6 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="Milestone-inquiryDefinition" parent="Milestone-inquiryDefinition-parentBean" />
 
 	<bean id="Milestone-inquiryDefinition-parentBean" abstract="true"
@@ -162,28 +160,32 @@
 		<property name="title" value="Milestones Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
-							<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
-							<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
-							<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
-							<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
-							<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-							<bean parent="FieldDefinition" p:attributeName="billed" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="Milestone-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Milestone-inquirySectionDefinition" parent="Milestone-inquirySectionDefinition-parentBean" />
+	
+	<bean id="Milestone-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
+		abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="Milestone-lookupDefinition" parent="Milestone-lookupDefinition-parentBean" />
 

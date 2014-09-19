@@ -43,7 +43,6 @@
 
 	<!-- Attribute Definitions -->
 
-
 	<bean id="LetterOfCreditFund-letterOfCreditFundCode" parent="LetterOfCreditFund-letterOfCreditFundCode-parentBean" />
 
 	<bean id="LetterOfCreditFund-letterOfCreditFundCode-parentBean"
@@ -151,7 +150,6 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="LetterOfCreditFund-inquiryDefinition" parent="LetterOfCreditFund-inquiryDefinition-parentBean" />
 
 	<bean id="LetterOfCreditFund-inquiryDefinition-parentBean"
@@ -159,26 +157,29 @@
 		<property name="title" value="Letter Of Credit Fund Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Letter of Credit Fund Details" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundDescription" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundAmount" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundStartDate" />
-							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundExpirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="LetterOfCreditFund-inquirySectionDefinition" />
 			</list>
 		</property>
 	</bean>
 
+	<bean id="LetterOfCreditFund-inquirySectionDefinition" parent="LetterOfCreditFund-inquirySectionDefinition-parentBean" />
+	<bean id="LetterOfCreditFund-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Letter of Credit Fund Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundDescription" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundAmount" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundStartDate" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundExpirationDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="LetterOfCreditFund-lookupDefinition" parent="LetterOfCreditFund-lookupDefinition-parentBean" />
 

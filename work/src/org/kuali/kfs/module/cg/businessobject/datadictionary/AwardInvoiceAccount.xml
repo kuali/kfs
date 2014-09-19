@@ -114,9 +114,7 @@
 		<property name="name" value="active" />
 	</bean>
 
-
 	<!-- Business Object Inquiry Definition -->
-
 
 	<bean id="AwardInvoiceAccount-inquiryDefinition" parent="AwardInvoiceAccount-inquiryDefinition-parentBean" />
 
@@ -125,26 +123,29 @@
 		<property name="title" value="Award Account Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Award Invoice Account Details" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-							<bean parent="FieldDefinition" p:attributeName="objectCode" />
-							<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-							<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="accountType" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="AwardInvoiceAccount-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AwardInvoiceAccount-inquirySectionDefinition" parent="AwardInvoiceAccount-inquirySectionDefinition-parentBean" />
+	<bean id="AwardInvoiceAccount-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Award Invoice Account Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="objectCode" />
+				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="accountType" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="AwardInvoiceAccount-lookupDefinition" parent="AwardInvoiceAccount-lookupDefinition-parentBean" />
 

@@ -97,7 +97,6 @@
 
 	<!-- Attribute Definitions -->
 
-
 	<bean id="Agency-agencyNumber" parent="Agency-agencyNumber-parentBean" />
 
 	<bean id="Agency-agencyNumber-parentBean" abstract="true"
@@ -433,7 +432,6 @@
  
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="Agency-inquiryDefinition" parent="Agency-inquiryDefinition-parentBean" />
 
 	<bean id="Agency-inquiryDefinition-parentBean" abstract="true"
@@ -442,128 +440,146 @@
 		<property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.AgencyInquirableImpl" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="id" value="agencyDetailsSection" />
-					<property name="title" value="Agency Details" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
-							<bean parent="FieldDefinition" p:attributeName="reportingName" />
-							<bean parent="FieldDefinition" p:attributeName="fullName" />
-							<bean parent="FieldDefinition" p:attributeName="agencyType.name" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
-							<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="id" value="customerSection" />
-					<property name="title" value="Customer" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="customerCreated" />
-							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
-							<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="id" value="contractsAndGrantsSection" />
-					<property name="title" value="Contracts and Grants" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="cageNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="id" value="addressSection" />
-					<property name="title" value="Address" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="agencyAddresses" />
-								<property name="businessObjectClass"
-									value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
-								<property name="numberOfColumns" value="1" />
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
-										<bean parent="FieldDefinition" p:attributeName="agencyAddressName" />
-										<bean parent="FieldDefinition" p:attributeName="agencyContactName" />
-										<bean parent="FieldDefinition" p:attributeName="agencyLine1StreetAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyLine2StreetAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyLine3StreetAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyLine4StreetAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyCityName" />
-										<bean parent="FieldDefinition" p:attributeName="agencyStateCode" />
-										<bean parent="FieldDefinition" p:attributeName="agencyZipCode" />
-										<bean parent="FieldDefinition" p:attributeName="agencyAddressInternationalProvinceName" />
-										<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
-										<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
-										<bean parent="FieldDefinition" p:attributeName="agencyPhoneNumber" />
-										<bean parent="FieldDefinition" p:attributeName="agencyFaxNumber" />
-										<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
-									</list>
-								</property>
-								<property name="summaryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="id" value="collectionsMaintenanceSection" />
-					<property name="title" value="Collections Maintenance" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="stateAgencyIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="dunningCampaign" />
-						</list>
-					</property>
-				</bean>	
-				<bean parent="InquirySectionDefinition" abstract="true">
-					<property name="id" value="notesSection" />
-					<property name="title" value="Notes" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="boNotes" />
-								<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note"/>
-								<property name="numberOfColumns" value="1" />
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="noteText" />
-										<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
-										<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
-									    <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>			
+				<ref bean="Agency-inquirySectionDefinition-details" />
+				<ref bean="Agency-inquirySectionDefinition-customer" />
+				<ref bean="Agency-inquirySectionDefinition-contractsAndGrants" />
+				<ref bean="Agency-inquirySectionDefinition-address" />
+				<ref bean="Agency-inquirySectionDefinition-collectionsMaintenance" />
+				<ref bean="Agency-inquirySectionDefinition-notes" />
 			</list>
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
 
+	<bean id="Agency-inquirySectionDefinition-details" parent="Agency-inquirySectionDefinition-details-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-details-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="agencyDetailsSection" />
+		<property name="title" value="Agency Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+				<bean parent="FieldDefinition" p:attributeName="reportingName" />
+				<bean parent="FieldDefinition" p:attributeName="fullName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyType.name" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
+				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Agency-inquirySectionDefinition-customer" parent="Agency-inquirySectionDefinition-customer-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-customer-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="customerSection" />
+		<property name="title" value="Customer" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="customerCreated" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Agency-inquirySectionDefinition-contractsAndGrants" parent="Agency-inquirySectionDefinition-contractsAndGrants-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-contractsAndGrants-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="contractsAndGrantsSection" />
+		<property name="title" value="Contracts and Grants" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Agency-inquirySectionDefinition-address" parent="Agency-inquirySectionDefinition-address-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-address-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="addressSection" />
+		<property name="title" value="Address" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="InquiryCollectionDefinition">
+					<property name="attributeName" value="agencyAddresses" />
+					<property name="businessObjectClass"
+						value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyAddressName" />
+							<bean parent="FieldDefinition" p:attributeName="agencyContactName" />
+							<bean parent="FieldDefinition" p:attributeName="agencyLine1StreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="agencyLine2StreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="agencyLine3StreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="agencyLine4StreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="agencyCityName" />
+							<bean parent="FieldDefinition" p:attributeName="agencyStateCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyZipCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyAddressInternationalProvinceName" />
+							<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyPhoneNumber" />
+							<bean parent="FieldDefinition" p:attributeName="agencyFaxNumber" />
+							<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
+							<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
+						</list>
+					</property>
+					<property name="summaryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Agency-inquirySectionDefinition-collectionsMaintenance" parent="Agency-inquirySectionDefinition-collectionsMaintenance-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-collectionsMaintenance-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="collectionsMaintenanceSection" />
+		<property name="title" value="Collections Maintenance" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="stateAgencyIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="dunningCampaign" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="Agency-inquirySectionDefinition-notes" parent="Agency-inquirySectionDefinition-notes-parentBean" />
+	<bean id="Agency-inquirySectionDefinition-notes-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="id" value="notesSection" />
+		<property name="title" value="Notes" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="InquiryCollectionDefinition">
+					<property name="attributeName" value="boNotes" />
+					<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note"/>
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="noteText" />
+							<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
+							<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
+						    <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>			
+
+	<!-- Business Object Lookup Definition -->
 
 	<bean id="Agency-lookupDefinition" parent="Agency-lookupDefinition-parentBean" />
 

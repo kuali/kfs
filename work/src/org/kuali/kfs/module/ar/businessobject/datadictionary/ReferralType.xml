@@ -96,23 +96,27 @@
     <property name="title" value="Referral Type Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Referral Type"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="referralTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="description"/>
-              <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgency"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ReferralType-inquirySectionDefinition" />
       </list>
     </property>
   </bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="ReferralType-inquirySectionDefinition" parent="ReferralType-inquirySectionDefinition-parentBean" />
+  <bean id="ReferralType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
+	abstract="true">
+    <property name="title" value="Referral Type"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="referralTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgency"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
 
   <bean id="ReferralType-lookupDefinition" parent="ReferralType-lookupDefinition-parentBean"/>
 

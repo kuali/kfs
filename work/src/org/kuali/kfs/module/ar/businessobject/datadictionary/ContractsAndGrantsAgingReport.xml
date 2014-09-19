@@ -493,91 +493,57 @@
 	    <property name="control">
 	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder" p:includeKeyInLabel="false"/>
 	    </property>
-	    
-	    
-	  </bean>
-	<!-- Business Object Inquiry Definition -->
-
-	<bean id="ContractsAndGrantsAgingReport-inquiryDefinition"
-		parent="ContractsAndGrantsAgingReport-inquiryDefinition-parentBean" />
-
-	<bean id="ContractsAndGrantsAgingReport-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Contracts and Grants Aging Report Inquiry" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="customerName" />
-							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
-							<bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30" />
-							<bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60" />
-							<bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90" />
-							<bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR" />
-							<bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
+    </bean>
+    
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="ContractsAndGrantsAgingReport-lookupDefinition"
 		parent="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" />
 
-
-  <bean id="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Contracts And Grants Aging Report"/>
-    <property name="lookupableID" value="arContractsAndGrantsAgingReportLookupable"/>
-    
-    <property name="lookupFields">
-      <list>
-  		<bean parent="FieldDefinition" p:noLookup="true"
-		p:attributeName="reportOption"
-		p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder" />
-      	<bean parent="FieldDefinition" p:attributeName="processingOrBillingChartCode"/> 
-      	<bean parent="FieldDefinition" p:attributeName="organizationCode"/>       	
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>  
-        <bean parent="FieldDefinition" p:attributeName="accountChartOfAccountsCode" />
-        <bean parent="FieldDefinition" p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition" p:attributeName="fundManager"/>
-        <bean parent="FieldDefinition" p:attributeName="lookupFundMgrPerson.principalName"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="collector.principalName" />
-		<bean parent="FieldDefinition" p:attributeName="principalId" />
-        <bean parent="FieldDefinition" p:attributeName="awardDocumentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="markedAsFinal" />
-        <bean parent="FieldDefinition" p:attributeName="awardEndDate" />
-        <bean parent="FieldDefinition" p:attributeName="invoiceDate" />
-        <bean parent="FieldDefinition" p:attributeName="invoiceAmountFrom"/> 
-        <bean parent="FieldDefinition" p:attributeName="invoiceAmountTo"/> 
-        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId" />     
-        <bean parent="FieldDefinition" p:attributeName="reportRunDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-	    <bean parent="FieldDefinition" p:attributeName="customerName"/>
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="reportingName"/>
-        <bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30"/>
-        <bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60"/>
-        <bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90"/>
-        <bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR"/>
-        <bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore"/>
-        <bean parent="FieldDefinition" p:attributeName="totalOpenInvoices"/>
-        <bean parent="FieldDefinition" p:attributeName="totalCredits"/>
-        <bean parent="FieldDefinition" p:attributeName="totalWriteOff"/>
-
-      </list>
-    </property>
-  </bean>
+  	<bean id="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	    <property name="title" value="Contracts And Grants Aging Report"/>
+	    <property name="lookupableID" value="arContractsAndGrantsAgingReportLookupable"/>
+	    <property name="lookupFields">
+		    <list>
+		  		<bean parent="FieldDefinition" p:noLookup="true"
+				p:attributeName="reportOption"
+				p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder" />
+		      	<bean parent="FieldDefinition" p:attributeName="processingOrBillingChartCode"/> 
+		      	<bean parent="FieldDefinition" p:attributeName="organizationCode"/>       	
+		        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>  
+		        <bean parent="FieldDefinition" p:attributeName="accountChartOfAccountsCode" />
+		        <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="fundManager"/>
+		        <bean parent="FieldDefinition" p:attributeName="lookupFundMgrPerson.principalName"/>
+		        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+		        <bean parent="FieldDefinition" p:attributeName="collector.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+		        <bean parent="FieldDefinition" p:attributeName="awardDocumentNumber"/>
+		        <bean parent="FieldDefinition" p:attributeName="markedAsFinal" />
+		        <bean parent="FieldDefinition" p:attributeName="awardEndDate" />
+		        <bean parent="FieldDefinition" p:attributeName="invoiceDate" />
+		        <bean parent="FieldDefinition" p:attributeName="invoiceAmountFrom"/> 
+		        <bean parent="FieldDefinition" p:attributeName="invoiceAmountTo"/> 
+		        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+		        <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId" />     
+		        <bean parent="FieldDefinition" p:attributeName="reportRunDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+      		</list>
+	    </property>
+	    <property name="resultFields">
+			<list>
+			    <bean parent="FieldDefinition" p:attributeName="customerName"/>
+		        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+		        <bean parent="FieldDefinition" p:attributeName="reportingName"/>
+		        <bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30"/>
+		        <bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60"/>
+		        <bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90"/>
+		        <bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR"/>
+		        <bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore"/>
+		        <bean parent="FieldDefinition" p:attributeName="totalOpenInvoices"/>
+		        <bean parent="FieldDefinition" p:attributeName="totalCredits"/>
+		        <bean parent="FieldDefinition" p:attributeName="totalWriteOff"/>
+		    </list>
+	    </property>
+  	</bean>
 
 </beans>

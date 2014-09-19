@@ -70,7 +70,6 @@
 
 	<!-- Attribute Definitions -->
 
-
 	<bean id="MilestoneSchedule-proposalNumber" parent="MilestoneSchedule-proposalNumber-parentBean" />
 
 	<bean id="MilestoneSchedule-proposalNumber-parentBean" abstract="true"
@@ -78,8 +77,6 @@
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
-		
-
 	</bean>
 
 	<bean id="MilestoneSchedule-award.agency.fullName" parent="MilestoneSchedule-award.agency.fullName-parentBean" />
@@ -104,7 +101,6 @@
 		<property name="shortLabel" value="Total" />
 	</bean>
 
-
 	<bean id="MilestoneSchedule-totalAmountScheduled" parent="MilestoneSchedule-totalAmountScheduled-parentBean" />
 
 	<bean id="MilestoneSchedule-totalAmountScheduled-parentBean"
@@ -121,7 +117,6 @@
 		<property name="formatterClass"
 			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
-
 
 	<bean id="MilestoneSchedule-totalAmountRemaining" parent="MilestoneSchedule-totalAmountRemaining-parentBean" />
 
@@ -162,7 +157,6 @@
 		abstract="true" parent="Milestone-milestoneNumber">
 		<property name="name" value="milestones.milestoneNumber" />
 	</bean>
-
 
 	<bean id="MilestoneSchedule-milestones.milestoneIdentifier"
 		parent="MilestoneSchedule-milestones.milestoneIdentifier-parentBean" />
@@ -221,7 +215,6 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="MilestoneSchedule-inquiryDefinition" parent="MilestoneSchedule-inquiryDefinition-parentBean" />
 
 	<bean id="MilestoneSchedule-inquiryDefinition-parentBean"
@@ -229,44 +222,52 @@
 		<property name="title" value="Milestone Schedule Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Milestone Schedule" />
+				<ref bean="MilestoneSchedule-inquiryDefinition-milestoneSchedule" />
+				<ref bean="MilestoneSchedule-inquiryDefinition-milestones" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="MilestoneSchedule-inquiryDefinition-milestoneSchedule" parent="MilestoneSchedule-inquiryDefinition-milestoneSchedule-parentBean" />
+	<bean id="MilestoneSchedule-inquiryDefinition-milestoneSchedule-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Milestone Schedule" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="award.agency.fullName" />
+				<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount"/>
+				<bean parent="FieldDefinition" p:attributeName="totalAmountScheduled" />
+				<bean parent="FieldDefinition" p:attributeName="totalAmountRemaining" />
+				<bean parent="FieldDefinition" p:attributeName="award.awardEndingDate" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="MilestoneSchedule-inquiryDefinition-milestones" parent="MilestoneSchedule-inquiryDefinition-milestones-parentBean" />
+	<bean id="MilestoneSchedule-inquiryDefinition-milestones-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Milestones" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="InquiryCollectionDefinition">
+					<property name="attributeName" value="milestones" />
+					<property name="businessObjectClass"
+						value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-							<bean parent="FieldDefinition" p:attributeName="award.agency.fullName" />
-							<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount"/>
-							<bean parent="FieldDefinition" p:attributeName="totalAmountScheduled" />
-							<bean parent="FieldDefinition" p:attributeName="totalAmountRemaining" />
-							<bean parent="FieldDefinition" p:attributeName="award.awardEndingDate" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Milestones" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="milestones" />
-								<property name="businessObjectClass"
-									value="org.kuali.kfs.module.ar.businessobject.Milestone" />
-								<property name="numberOfColumns" value="1" />
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<bean parent="FieldDefinition" p:attributeName="billed" />
-										<bean parent="FieldDefinition" p:attributeName="active" />
-									</list>
-								</property>
-							</bean>
+							<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
+							<bean parent="FieldDefinition" p:attributeName="billed" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 				</bean>
@@ -275,7 +276,6 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="MilestoneSchedule-lookupDefinition" parent="MilestoneSchedule-lookupDefinition-parentBean" />
 

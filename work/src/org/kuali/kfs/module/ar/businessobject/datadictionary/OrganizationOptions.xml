@@ -396,64 +396,96 @@
 		<property name="title" value="Organization Options Inquiry"/>
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization Options"/>
-					<property name="numberOfColumns" value="1"/>
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-							<bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"/>
-							<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode"/>
-							<bean parent="FieldDefinition" p:attributeName="processingOrganization.codeAndDescription"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization Invoice Information"/>
-					<property name="numberOfColumns" value="1"/>
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="organizationPostalZipCode"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationPostalCountryCode"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationCheckPayableToName"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationPaymentTermsText"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationMessageText"/>
-							<bean parent="FieldDefinition" p:attributeName="printInvoiceIndicator"/>
-							<bean parent="FieldDefinition" p:attributeName="cgBillerIndicator"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization Remit To Address"/>
-					<property name="numberOfColumns" value="1"/>
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToAddressName"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToLine1StreetAddress"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToLine2StreetAddress"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToCityName"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToStateCode"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationRemitToZipCode"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization Phone"/>
-					<property name="numberOfColumns" value="1"/>
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="organizationPhoneNumber"/>
-							<bean parent="FieldDefinition" p:attributeName="organizationFaxNumber"/>
-							<bean parent="FieldDefinition" p:attributeName="organization800PhoneNumber"/>
-						</list>
-					</property>
-				</bean>
+				<ref
+					bean="OrganizationOptions-inquirySectionDefinition-organizationOptions" />
+				<ref
+					bean="OrganizationOptions-inquirySectionDefinition-organizationInvoiceInformation" />
+				<ref
+					bean="OrganizationOptions-inquirySectionDefinition-organizationRemitToAddress" />
+				<ref
+					bean="OrganizationOptions-inquirySectionDefinition-organizationPhone" />
+			
 			</list>
 		</property>
 	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationOptions"
+		parent="OrganizationOptions-inquirySectionDefinition-organizationOptions-parentBean" />
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationOptions-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Organization Options"/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+				<bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"/>
+				<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode"/>
+				<bean parent="FieldDefinition" p:attributeName="processingOrganization.codeAndDescription"/>
+			</list>
+		</property>
+	</bean>
 
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationInvoiceInformation"
+		parent="OrganizationOptions-inquirySectionDefinition-organizationInvoiceInformation-parentBean" />
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationInvoiceInformation-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Organization Invoice Information"/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="organizationPostalZipCode"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationPostalCountryCode"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationCheckPayableToName"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationPaymentTermsText"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationMessageText"/>
+				<bean parent="FieldDefinition" p:attributeName="printInvoiceIndicator"/>
+				<bean parent="FieldDefinition" p:attributeName="cgBillerIndicator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationRemitToAddress"
+		parent="OrganizationOptions-inquirySectionDefinition-organizationRemitToAddress-parentBean" />
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationRemitToAddress-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Organization Remit To Address"/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToAddressName"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToLine1StreetAddress"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToLine2StreetAddress"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToCityName"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToStateCode"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationRemitToZipCode"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationPhone"
+		parent="OrganizationOptions-inquirySectionDefinition-organizationPhone-parentBean" />
+	<bean
+		id="OrganizationOptions-inquirySectionDefinition-organizationPhone-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Organization Phone"/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="organizationPhoneNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="organizationFaxNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="organization800PhoneNumber"/>
+			</list>
+		</property>
+	</bean>
+
+  <!-- Business Object Lookup Definition -->
 
   <bean id="OrganizationOptions-lookupDefinition" parent="OrganizationOptions-lookupDefinition-parentBean"/>
 

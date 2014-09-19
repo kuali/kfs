@@ -13,9 +13,6 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-
-
-	<!-- Added fields for Dunning Letter Template Upload Document by Mital -->
 	<bean id="DunningCampaign" parent="DunningCampaign-parentBean" />
 
 	<bean id="DunningCampaign-parentBean" abstract="true"
@@ -52,7 +49,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="DunningCampaign-campaignID" parent="DunningCampaign-campaignID-parentBean" />
 
@@ -137,7 +133,6 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="DunningCampaign-inquiryDefinition" parent="DunningCampaign-inquiryDefinition-parentBean" />
 
 	<bean id="DunningCampaign-inquiryDefinition-parentBean" abstract="true"
@@ -145,37 +140,45 @@
 		<property name="title" value="Dunning Campaign Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Dunning Campaign" />
+				<ref bean="DunningCampaign-inquirySectionDefinition-dunningCampaign" />
+				<ref bean="DunningCampaign-inquirySectionDefinition-dunningLetterDistribution" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DunningCampaign-inquirySectionDefinition-dunningCampaign" parent="DunningCampaign-inquirySectionDefinition-dunningCampaign-parentBean" />
+	<bean id="DunningCampaign-inquirySectionDefinition-dunningCampaign-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Dunning Campaign" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="campaignID" />
+				<bean parent="FieldDefinition" p:attributeName="campaignDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DunningCampaign-inquirySectionDefinition-dunningLetterDistribution" parent="DunningCampaign-inquirySectionDefinition-dunningLetterDistribution-parentBean" />
+	<bean id="DunningCampaign-inquirySectionDefinition-dunningLetterDistribution-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Dunning Letter Distribution" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="InquiryCollectionDefinition">
+					<property name="attributeName" value="dunningLetterDistributions" />
+					<property name="businessObjectClass"
+						value="org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="campaignID" />
-							<bean parent="FieldDefinition" p:attributeName="campaignDescription" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Dunning Letter Distribution" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="dunningLetterDistributions" />
-								<property name="businessObjectClass"
-									value="org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution" />
-								<property name="numberOfColumns" value="1" />
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="dunningLetterDistributionID" />
-										<bean parent="FieldDefinition" p:attributeName="daysPastDue" />
-										<bean parent="FieldDefinition" p:attributeName="sendDunningLetterIndicator" />
-										<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplate" />
-										<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
-									</list>
-								</property>
-							</bean>
+							<bean parent="FieldDefinition" p:attributeName="dunningLetterDistributionID" />
+							<bean parent="FieldDefinition" p:attributeName="daysPastDue" />
+							<bean parent="FieldDefinition" p:attributeName="sendDunningLetterIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplate" />
+							<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 						</list>
 					</property>
 				</bean>
@@ -184,7 +187,6 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="DunningCampaign-lookupDefinition" parent="DunningCampaign-lookupDefinition-parentBean" />
 

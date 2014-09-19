@@ -79,30 +79,33 @@
   
   <!-- Business Object Inquiry Definition -->
 
-
   <bean id="CollectionStatus-inquiryDefinition" parent="CollectionStatus-inquiryDefinition-parentBean"/>
 
   <bean id="CollectionStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Collection Status Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Collection Status"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+        <ref bean="CollectionStatus-inquirySectionDefinition" />
       </list>
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CollectionStatus-inquirySectionDefinition" parent="CollectionStatus-inquirySectionDefinition-parentBean" />
 
+  <bean id="CollectionStatus-inquirySectionDefinition-parentBean"
+	parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Collection Status"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
 
   <bean id="CollectionStatus-lookupDefinition" parent="CollectionStatus-lookupDefinition-parentBean"/>
 

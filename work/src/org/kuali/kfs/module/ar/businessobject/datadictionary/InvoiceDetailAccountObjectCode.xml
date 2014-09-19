@@ -18,9 +18,6 @@
 
 	<bean id="InvoiceDetailAccountObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" />
-		<property name="inquiryDefinition">
-			<ref bean="InvoiceDetailAccountObjectCode-inquiryDefinition" />
-		</property>
 		<property name="objectLabel" value="Invoice Detail Account Object Code" />
 		<property name="attributes">
 			<list>
@@ -91,34 +88,5 @@
 		<property name="required" value="false" />
 		<property name="label" value="Cumulative Expenditures" />
 		<property name="shortLabel" value="Cumulative Expenditures" />
-	</bean>
-
-
-	<!-- Business Object Inquiry Definition -->
-
-
-	<bean id="InvoiceDetailAccountObjectCode-inquiryDefinition" parent="InvoiceDetailAccountObjectCode-inquiryDefinition-parentBean" />
-
-	<bean id="InvoiceDetailAccountObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Invoice Detail Account Object Code Inquiry" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="currentExpenditures" />
-							<bean parent="FieldDefinition" p:attributeName="cumulativeExpenditures" />
-							<bean parent="FieldDefinition" p:attributeName="totalBilled" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 </beans>

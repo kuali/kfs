@@ -97,32 +97,35 @@
   
   <!-- Business Object Inquiry Definition -->
 
-
   <bean id="CollectionActivityType-inquiryDefinition" parent="CollectionActivityType-inquiryDefinition-parentBean"/>
 
   <bean id="CollectionActivityType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Collection Activity Type Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Collection Activity Type"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="activityCode"/>
-              <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="CollectionActivityType-inquirySectionDefinition" />
       </list>
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CollectionActivityType-inquirySectionDefinition" parent="CollectionActivityType-inquirySectionDefinition-parentBean" />
 
+  <bean id="CollectionActivityType-inquirySectionDefinition-parentBean"
+	parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Collection Activity Type"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="activityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
 
   <bean id="CollectionActivityType-lookupDefinition" parent="CollectionActivityType-lookupDefinition-parentBean"/>
 

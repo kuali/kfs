@@ -140,9 +140,7 @@
 		<property name="name" value="active" />
 	</bean>
 
-
 	<!-- Business Object Inquiry Definition -->
-
 
 	<bean id="AwardFundManager-inquiryDefinition" parent="AwardFundManager-inquiryDefinition-parentBean" />
 
@@ -151,25 +149,28 @@
 		<property name="title" value="Award Fund Manager Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Award Fund Manager Details" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="principalId" />
-							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-							<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="AwardFundManager-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AwardFundManager-inquirySectionDefinition" parent="AwardFundManager-inquirySectionDefinition-parentBean" />
+	<bean id="AwardFundManager-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Award Fund Manager Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="AwardFundManager-lookupDefinition" parent="AwardFundManager-lookupDefinition-parentBean" />
 

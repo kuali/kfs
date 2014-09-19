@@ -42,7 +42,6 @@
 
 	<!-- Attribute Definitions -->
 
-
 	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodCode" parent="InvoiceTransmissionMethod-invoiceTransmissionMethodCode-parentBean" />
 
 	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodCode-parentBean" abstract="true"
@@ -88,7 +87,6 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="InvoiceTransmissionMethod-inquiryDefinition" parent="InvoiceTransmissionMethod-inquiryDefinition-parentBean" />
 
 	<bean id="InvoiceTransmissionMethod-inquiryDefinition-parentBean"
@@ -96,23 +94,26 @@
 		<property name="title" value="Method of Invoice Transmission Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
-							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodDescription" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
+  				<ref bean="InvoiceTransmissionMethod-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+  	<bean id="InvoiceTransmissionMethod-inquirySectionDefinition" parent="InvoiceTransmissionMethod-inquirySectionDefinition-parentBean" />
+  	<bean id="InvoiceTransmissionMethod-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
 
 	<bean id="InvoiceTransmissionMethod-lookupDefinition" parent="InvoiceTransmissionMethod-lookupDefinition-parentBean" />
 

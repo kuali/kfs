@@ -14,17 +14,12 @@
 	<bean id="ContractsGrantsPaymentHistoryReport" parent="ContractsGrantsPaymentHistoryReport-parentBean" />
 
 	<bean id="ContractsGrantsPaymentHistoryReport-parentBean" abstract="true" parent="BusinessObjectEntry">
-
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport" />
-
-		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsPaymentHistoryReport-inquiryDefinition"/> </property> -->
-
 		<property name="lookupDefinition">
 			<ref bean="ContractsGrantsPaymentHistoryReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="ContractsGrantsPaymentHistoryReportInquiryTitle" />
 		<property name="objectLabel" value="Payment History Report" />
-
 		<property name="attributes">
 			<list>
 				<ref bean="ContractsGrantsPaymentHistoryReport-paymentNumber" />
@@ -50,12 +45,12 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award">
-		<property name="primitiveAttributes">
-			<list>
-				<bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber" p:targetName="proposalNumber" />
-			</list>
-		</property>
-		</bean>
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber" p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -98,9 +93,7 @@
 	</bean>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-customerName" parent="ContractsGrantsPaymentHistoryReport-customerName-parentBean" />
-	<bean id="ContractsGrantsPaymentHistoryReport-customerName-parentBean" abstract="true" parent="Customer-customerName">
-		
-	</bean>
+	<bean id="ContractsGrantsPaymentHistoryReport-customerName-parentBean" abstract="true" parent="Customer-customerName"/>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentAmount" parent="ContractsGrantsPaymentHistoryReport-paymentAmount-parentBean" />
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
@@ -161,7 +154,6 @@
 		<property name="required" value="false" />
 	</bean>
 
-
 	<!-- Business Object Lookup Definition -->
 
 	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition" parent="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" />
@@ -169,8 +161,6 @@
 	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Payment History Report" />
 		<property name="lookupableID" value="contractsGrantsPaymentHistoryReportLookupResultLookupable" />
-
-
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 			</bean>
@@ -203,6 +193,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>
-

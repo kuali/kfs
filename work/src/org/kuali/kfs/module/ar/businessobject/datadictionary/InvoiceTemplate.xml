@@ -87,38 +87,50 @@
 		<property name="title" value="Invoice Template Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
-							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Template" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
-							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Template File" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="filename" />
-							<bean parent="FieldDefinition" p:attributeName="date" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="InvoiceTemplate-inquiryDefinition-invoiceTemplate" />
+				<ref bean="InvoiceTemplate-inquiryDefinition-organization" />
+				<ref bean="InvoiceTemplate-inquiryDefinition-invoiceTemplateFile" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-inquiryDefinition-invoiceTemplate" parent="InvoiceTemplate-inquiryDefinition-invoiceTemplate-parentBean" />
+	<bean id="InvoiceTemplate-inquiryDefinition-invoiceTemplate-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Invoice Template" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-inquiryDefinition-organization" parent="InvoiceTemplate-inquiryDefinition-organization-parentBean" />
+	<bean id="InvoiceTemplate-inquiryDefinition-organization-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Organization" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-inquiryDefinition-invoiceTemplateFile" parent="InvoiceTemplate-inquiryDefinition-invoiceTemplateFile-parentBean" />
+	<bean id="InvoiceTemplate-inquiryDefinition-invoiceTemplateFile-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Invoice Template File" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="filename" />
+				<bean parent="FieldDefinition" p:attributeName="date" />
 			</list>
 		</property>
 	</bean>

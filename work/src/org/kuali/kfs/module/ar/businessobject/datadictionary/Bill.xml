@@ -39,16 +39,16 @@
 			</list>
 		</property>
 		<property name="relationships">
-	<list>
+			<list>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward">
-			<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
-						p:targetName="proposalNumber" />
-				</list>
-			</property>
-		</bean>
-		</list>
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
+								p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 
@@ -155,30 +155,32 @@
 
 	<!-- Business Object Inquiry Definition -->
 
-
 	<bean id="Bill-inquiryDefinition" parent="Bill-inquiryDefinition-parentBean" />
-
 	<bean id="Bill-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="title" value="Bill Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-							<bean parent="FieldDefinition" p:attributeName="billNumber" />
-							<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
-							<bean parent="FieldDefinition" p:attributeName="billDescription" />
-							<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
-							<bean parent="FieldDefinition" p:attributeName="billDate" />
-							<bean parent="FieldDefinition" p:attributeName="billed" />
-					        <bean parent="FieldDefinition" p:attributeName="active"/>
-						</list>
-					</property>
-				</bean>
+				<ref bean="Bill-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Bill-inquirySectionDefinition" parent="Bill-inquirySectionDefinition-parentBean" />
+	<bean id="Bill-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="billNumber" />
+				<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="billDescription" />
+				<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
+				<bean parent="FieldDefinition" p:attributeName="billDate" />
+				<bean parent="FieldDefinition" p:attributeName="billed" />
+		        <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 	</bean>

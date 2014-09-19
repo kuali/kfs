@@ -16,12 +16,6 @@
 	<bean id="ReferralToCollectionsDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail" />
 		<property name="objectLabel" value="Referral To Collections" />
-	    <property name="inquiryDefinition">
-    	  <ref bean="ReferralToCollectionsDetail-inquiryDefinition"/>
-    	</property>
-		<property name="lookupDefinition">
-			<ref bean="ReferralToCollectionsDetail-lookupDefinition" />
-		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="ReferralToCollectionsDetail-proposalNumber" />
@@ -123,71 +117,6 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
-	</bean>
-
-<!-- Business Object Inquiry Definition -->
-
-
-  <bean id="ReferralToCollectionsDetail-inquiryDefinition" parent="ReferralToCollectionsDetail-inquiryDefinition-parentBean"/>
-
-  <bean id="ReferralToCollectionsDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Referral To Collections Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="billingDate"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceTotal"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceBalance"/>
-              <bean parent="FieldDefinition" p:attributeName="age"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-	<!-- Business Object Lookup Definition -->
-
-	<bean id="ReferralToCollectionsDetail-lookupDefinition" parent="ReferralToCollectionsDetail-lookupDefinition-parentBean" />
-
-	<bean id="ReferralToCollectionsDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Referral To Collections Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>agencyNumber</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="accountNumber" />
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceNumber" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
-				<bean parent="FieldDefinition" p:attributeName="billingDate" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceTotal" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceBalance" />
-				<bean parent="FieldDefinition" p:attributeName="age" />
-			</list>
 		</property>
 	</bean>
 </beans>

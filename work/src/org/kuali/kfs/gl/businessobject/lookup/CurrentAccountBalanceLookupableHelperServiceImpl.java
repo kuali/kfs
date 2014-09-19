@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BalanceCalculator;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.CurrentAccountBalance;
@@ -118,8 +119,16 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         // search results
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
 
+        // need to get this before getting isConsolidated because this value will be removed.
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         // test if the consolidation option is selected or not
         boolean isConsolidated = isConsolidationSelected(fieldValues);
+
+        // added one more node for consolidationOption
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
+            fieldValues.put(Constant.SUB_ACCOUNT_OPTION, KFSConstants.getDashSubAccountNumber());
+            isConsolidated = false;
+        }
 
         Map<String, String> localFieldValues = this.getLocalFieldValues(fieldValues);
 

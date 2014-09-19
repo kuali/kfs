@@ -1517,7 +1517,6 @@
         <column name="FINAL_BILL_IND" size="1" type="VARCHAR"/>
         <column name="AWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="NEW_TOT_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="AMT_RMNG_TO_BILL" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLNG_PRD" size="50" type="VARCHAR"/>
         <column name="BILLED_TO_DT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="COST_SHR_AMT" scale="2" size="19" type="DECIMAL"/>

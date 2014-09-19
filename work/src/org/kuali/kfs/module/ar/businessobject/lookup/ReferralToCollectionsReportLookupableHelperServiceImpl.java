@@ -283,30 +283,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
      * @return Returns the Object of ReferralToCollectionsReport.
      */
     protected ReferralToCollectionsReport convertReferralToCollectionsDocumentToReport(ReferralToCollectionsDocument referralToCollectionsDocument) {
-        ReferralToCollectionsReport referralToCollectionsReport = populateReport(referralToCollectionsDocument);
-
-        String customerType = referralToCollectionsDocument.getCustomerTypeCode();
-
-        // set CustomerType.
-        if (!ObjectUtils.isNull(customerType)) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put(ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_CODE, customerType);
-            CustomerType customerTypeObj = businessObjectService.findByPrimaryKey(CustomerType.class, map);
-            if (ObjectUtils.isNotNull(customerTypeObj)) {
-                referralToCollectionsReport.setCustomerType(customerTypeObj.getCustomerTypeDescription());
-            }
-        }
-        String statusCode = referralToCollectionsDocument.getCollectionStatusCode();
-
-        // Set collection status
-        if (!ObjectUtils.isNull(statusCode)) {
-            Map<String, String> map = new HashMap<>();
-            map.put(ArPropertyConstants.CollectionStatusFields.COLLECTION_STATUS_CODE, statusCode);
-            CollectionStatus collectionStatus = businessObjectService.findByPrimaryKey(CollectionStatus.class, map);
-            if (ObjectUtils.isNotNull(collectionStatus)) {
-                referralToCollectionsReport.setCollectionStatus(collectionStatus.getStatusDescription());
-            }
-        }
+        final ReferralToCollectionsReport referralToCollectionsReport = populateReport(referralToCollectionsDocument);
         return referralToCollectionsReport;
     }
 
@@ -321,11 +298,9 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
         Collection<ReferralToCollectionsDetail> reCollectionsDocumentDetails = lookupReferralToCollectionsDetails(referralToCollectionsDocument.getDocumentNumber(), proposalNumber, invoiceNumber, accountNumber);
         if (!CollectionUtils.isEmpty(reCollectionsDocumentDetails)) {
             for (ReferralToCollectionsDetail refDetail : reCollectionsDocumentDetails) {
-
                 // check if reftoColldetail fulfill the all search criterias.
                 ReferralToCollectionsReport referralToCollectionsReport = populateReport(referralToCollectionsDocument);
 
-                referralToCollectionsReport.setCollectionStatus(referralToCollectionsDocument.getCollectionStatusCode());
                 referralToCollectionsReport.setProposalNumber(refDetail.getProposalNumber());
                 referralToCollectionsReport.setAccountNumber(refDetail.getAccountNumber());
                 referralToCollectionsReport.setInvoiceNumber(refDetail.getInvoiceNumber());
@@ -333,15 +308,8 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
                 referralToCollectionsReport.setInvoiceAmount(refDetail.getInvoiceTotal().bigDecimalValue());
                 referralToCollectionsReport.setOpenAmount(refDetail.getInvoiceBalance().bigDecimalValue());
 
-                String finalDisposition = refDetail.getFinalDispositionCode();
-                String finalDispositionString = "";
-
-                // set final disposition
-                if (!ObjectUtils.isNull(finalDisposition)) {
-                    FinalDisposition finalDispositionObj = businessObjectService.findBySinglePrimaryKey(FinalDisposition.class, finalDisposition);
-                    if (ObjectUtils.isNotNull(finalDispositionObj)) {
-                        referralToCollectionsReport.setFinalDisposition(finalDispositionObj.getDispositionDescription());
-                    }
+                if (!StringUtils.isBlank(refDetail.getFinalDispositionCode())) {
+                    referralToCollectionsReport.setFinalDisposition(retrieveFinalDispositionDescription(refDetail.getFinalDispositionCode()));
                 }
                 reportList.add(referralToCollectionsReport);
             }
@@ -386,15 +354,20 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
         referralToCollectionsReport.setAgencyName(referralToCollectionsDocument.getAgencyFullName());
         referralToCollectionsReport.setCustomerNumber(referralToCollectionsDocument.getCustomerNumber());
 
-        String referredType = referralToCollectionsDocument.getReferralTypeCode();
-        String referredTypeString = "";
-
         // Set Referral Type
-        if (!ObjectUtils.isNull(referredType)) {
-            referredTypeString = retrieveReferralType(referredType);
+        if (!StringUtils.isBlank(referralToCollectionsDocument.getReferralTypeCode())) {
+            final String referredTypeDescription = retrieveReferralTypeDescription(referralToCollectionsDocument.getReferralTypeCode());
+            referralToCollectionsReport.setReferralType(referredTypeDescription);
+            referralToCollectionsReport.setReferredTo(referredTypeDescription);
         }
-        referralToCollectionsReport.setReferralType(referredTypeString);
-        referralToCollectionsReport.setReferredTo(referredTypeString);
+
+        if (!StringUtils.isBlank(referralToCollectionsDocument.getCustomerTypeCode())) {
+            referralToCollectionsReport.setCustomerType(retrieveCustomerTypeDescription(referralToCollectionsDocument.getCustomerTypeCode()));
+        }
+
+        if (!StringUtils.isBlank(referralToCollectionsDocument.getCollectionStatusCode())) {
+            referralToCollectionsReport.setCollectionStatus(retrieveCollectionStatusDescription(referralToCollectionsDocument.getCollectionStatusCode()));
+        }
 
         return referralToCollectionsReport;
     }
@@ -405,12 +378,51 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
      * @param refTypeCode Primary key for the ReferralType Business Object.
      * @return Returns the description for the referraltypecode.
      */
-    protected String retrieveReferralType(String refTypeCode) {
+    protected String retrieveReferralTypeDescription(String refTypeCode) {
         ReferralType refTtpe = businessObjectService.findBySinglePrimaryKey(ReferralType.class, refTypeCode);
         if (!ObjectUtils.isNull(refTtpe)) {
             return refTtpe.getDescription();
         }
-        return null;
+        return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Returns the description of a given customer type code
+     * @param customerTypeCode the code to find a description for
+     * @return the description, or an empty string if the customer type could not be found
+     */
+    protected String retrieveCustomerTypeDescription(String customerTypeCode) {
+        CustomerType customerType = businessObjectService.findBySinglePrimaryKey(CustomerType.class, customerTypeCode);
+        if (!ObjectUtils.isNull(customerType)) {
+            return customerType.getCustomerTypeDescription();
+        }
+        return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Returns the description of a given collection status code
+     * @param statusCode the code of a collection status
+     * @return the description of the collection status, or an empty string if the collection status could not be found
+     */
+    protected String retrieveCollectionStatusDescription(String statusCode) {
+        CollectionStatus collectionStatus = businessObjectService.findBySinglePrimaryKey(CollectionStatus.class, statusCode);
+        if (!ObjectUtils.isNull(collectionStatus)) {
+            return collectionStatus.getStatusDescription();
+        }
+        return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Returns the description of a given final disposition code
+     * @param finalDispositionCode the code of the final disposition to find a description for
+     * @return the description of the final disposition, or an empty string if the final disposition could not be found
+     */
+    protected String retrieveFinalDispositionDescription(String finalDispositionCode) {
+        FinalDisposition finalDisposition = businessObjectService.findBySinglePrimaryKey(FinalDisposition.class, finalDispositionCode);
+        if (!ObjectUtils.isNull(finalDisposition)) {
+            return finalDisposition.getDispositionDescription();
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

@@ -343,8 +343,8 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
      * @param awardDocumentNumber award document number to filter invoices.
      */
     protected void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
-        boolean checkAwardNumber = ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber);
-        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
+        boolean checkAwardNumber = !StringUtils.isBlank(awardDocumentNumber);
+        boolean checkAgencyNumber = !StringUtils.isBlank(agencyNumber);
         if (!CollectionUtils.isEmpty(invoices)) {
             Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
             while (itr.hasNext()) {

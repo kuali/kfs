@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
  * This class tests the invoice correction process.
  */
 
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;

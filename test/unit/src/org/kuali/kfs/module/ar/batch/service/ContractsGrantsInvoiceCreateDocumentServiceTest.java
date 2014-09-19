@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.batch.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -257,6 +258,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         assertTrue("errorOutputFile should not be empty", errors.length() > 0);
     }
 
+    @ConfigureContext(session = wklykins)
     public void testCreateCGInvoiceDocumentByAwardInfo() {
         String coaCode = "BL";
         String orgCode = "UGCS";
@@ -305,6 +307,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         assertEquals(contractsGrantsInvoiceDocument_1.getBilledByOrganizationCode(), contractsGrantsInvoiceDocument_2.getBilledByOrganizationCode());
     }
 
+    @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByAwardsOneValid() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
 
@@ -377,6 +380,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         }
     }
 
+    @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByAccountNonBillable() throws WorkflowException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));
@@ -407,6 +411,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         }
     }
 
+    @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByCCAContractAccountNotBillable() throws WorkflowException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));
@@ -437,6 +442,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         }
     }
 
+    @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByAwardNotAllBillableAccounts() throws WorkflowException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));

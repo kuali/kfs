@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -60,7 +60,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * This class tests the Ticklers lookup.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase {
 
     private static final String CHART_OF_ACCOUNTS_CODE = "BL";

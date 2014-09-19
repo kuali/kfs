@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Test file for ContractsGrantsAgingReport service.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsAgingReportServiceTest extends KualiTestBase {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceTest.class);

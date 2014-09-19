@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +43,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 /**
  * This class tests the CollectionActivityDocument class.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class CollectionActivityDocumentTest extends KualiTestBase {
 
     private CollectionActivityDocument collectionActivityDocument;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.service.DocumentService;
 /**
  * This class tests the ContractsGrantsInvoiceDocumentService
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsInvoiceDocumentServiceViewInvoiceTest extends KualiTestBase {
 
     protected static final String PRINCIPAL_ID1 = "6164904958"; //orton

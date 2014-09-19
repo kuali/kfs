@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,7 +40,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 /**
  * This class tests the Final Invoicing Process
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
 
     WorkflowDocumentService workflowDocumentService;

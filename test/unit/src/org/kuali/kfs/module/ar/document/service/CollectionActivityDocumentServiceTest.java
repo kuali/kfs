@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -50,7 +50,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 /**
  * Test file for Collection Activity Document Service.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class CollectionActivityDocumentServiceTest extends KualiTestBase {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentServiceTest.class);

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -27,12 +27,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsInvoiceDocumentValidationTest extends KualiTestBase {
 
     private ContractsGrantsInvoiceDocumentValidation validation;
-
-    ;
 
     @Override
     protected void setUp() throws Exception {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,7 +52,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 /**
  * This class tests the ContractsGrantsAgingOpenInvoicesReport lookup.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTest extends KualiTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTest.class);

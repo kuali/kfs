@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +45,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 /**
  * Test file for ContractsGrantsAgingOpenInvoicesReport service.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsAgingOpenInvoicesReportServiceTest extends KualiTestBase {
 
     private final static String CUSTOMER_NUMBER = "ABB2";

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +78,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class tests the ContractsGrantsInvoiceDocumentService
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = wklykins)
 public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
     ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;

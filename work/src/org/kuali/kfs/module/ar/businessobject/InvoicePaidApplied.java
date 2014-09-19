@@ -123,11 +123,11 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, parameterName);
 
         ObjectCode objectCode = null;
-        if ("1".equals(parameterValue) || "2".equals(parameterValue)) {
+        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(parameterValue) || ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(parameterValue)) {
             getInvoiceDetail().refreshReferenceObject("objectCode");
             objectCode = getInvoiceDetail().getObjectCode();
         }
-        else if ("3".equals(parameterValue)) {
+        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(parameterValue)) {
             CustomerInvoiceDocument customerInvoiceDocument = getInvoiceDetail().getCustomerInvoiceDocument();
             customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
             objectCode = getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();

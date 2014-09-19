@@ -115,7 +115,6 @@
 		<property name="name" value="milestoneAmount" />
 		<property name="label" value="Milestone Amount" />
 		<property name="shortLabel" value="MileStnAmt" />
-		<property name="exclusiveMin" value="-.001"/>
 	</bean>
 
 	<bean id="Milestone-milestoneExpectedCompletionDate" parent="Milestone-milestoneExpectedCompletionDate-parentBean" />

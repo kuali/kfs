@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -51,6 +52,7 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         isValid &= checkForDuplicateBillNumber(collectionName, line);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
         LOG.info("Leaving PredeterminedBillingScheduleRule.processCustomAddCollectionLineBusinessRules");
         return isValid;
     }

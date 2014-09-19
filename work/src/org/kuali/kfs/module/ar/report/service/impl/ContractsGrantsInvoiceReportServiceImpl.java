@@ -201,7 +201,11 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                             newTable.addCell(newItem.getAccountDescription());
                             newTable.addCell(newItem.getChartOfAccountsCode());
                             newTable.addCell(newItem.getAccountNumber());
-                            newTable.addCell(getDateTimeService().toDateString(newItem.getAccountExpirationDate()));
+                            String accountExpirationDate = KFSConstants.EMPTY_STRING;
+                            if (!ObjectUtils.isNull(newItem.getAccountExpirationDate())) {
+                                accountExpirationDate = getDateTimeService().toDateString(newItem.getAccountExpirationDate());
+                            }
+                            newTable.addCell(accountExpirationDate);
                             newTable.addCell(contractsGrantsBillingUtilityService.formatForCurrency(newItem.getAwardBudgetAmount()));
                             newTable.addCell(contractsGrantsBillingUtilityService.formatForCurrency(newItem.getClaimOnCashBalance()));
                             newTable.addCell(contractsGrantsBillingUtilityService.formatForCurrency(newItem.getAmountToDraw()));
@@ -829,8 +833,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     @Override
     public byte[] convertLetterOfCreditReviewToCSV(ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        OutputStreamWriter writer = new OutputStreamWriter(baos);
-        CSVWriter csvWriter = new CSVWriter(writer);
+        CSVWriter csvWriter = new CSVWriter(new OutputStreamWriter(baos));
         try {
             csvWriter.writeNext(new String[] {getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.PROPOSAL_NUMBER),
                     getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, ArPropertyConstants.ReferralToCollectionsFields.AWARD_DOCUMENT_NUMBER),
@@ -849,13 +852,16 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     String awardDocumentNumber = org.apache.commons.lang.ObjectUtils.toString(item.getAwardDocumentNumber());
 
                     for (ContractsGrantsLetterOfCreditReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
+                        final String accountExpirationDate = ObjectUtils.isNull(newItem.getAccountExpirationDate()) ?
+                                KFSConstants.EMPTY_STRING :
+                                getDateTimeService().toDateString(newItem.getAccountExpirationDate());
                         if (org.apache.commons.lang.ObjectUtils.equals(item.getProposalNumber(), newItem.getProposalNumber())) {
                             csvWriter.writeNext(new String[] { proposalNumber,
                                 awardDocumentNumber,
                                 newItem.getAccountDescription(),
                                 newItem.getChartOfAccountsCode(),
                                 newItem.getAccountNumber(),
-                                getDateTimeService().toDateString(newItem.getAccountExpirationDate()),
+                                accountExpirationDate,
                                 contractsGrantsBillingUtilityService.formatForCurrency(newItem.getAwardBudgetAmount()),
                                 contractsGrantsBillingUtilityService.formatForCurrency(newItem.getClaimOnCashBalance()),
                                 contractsGrantsBillingUtilityService.formatForCurrency(newItem.getAmountToDraw()),
@@ -872,16 +878,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 }
                 catch (IOException ex) {
                     csvWriter = null;
-                    throw new RuntimeException("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", ex);
-                }
-            }
-            if (writer != null) {
-                try {
-                    writer.flush();
-                    writer.close();
-                }
-                catch (IOException ex) {
-                    writer = null;
                     throw new RuntimeException("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", ex);
                 }
             }

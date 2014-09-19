@@ -72,7 +72,7 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
 
         ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
         String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
-        errorOutputFile = destinationFolderPath + "JUNIT TEST.log";
+        errorOutputFile = destinationFolderPath + File.separator + "JUNIT TEST.log";
     }
 
     @Override

@@ -1141,42 +1141,48 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * This method would make sure the amounts of the currrent period are not included. So it calculates the cumulative and
+     * This method would make sure the amounts of the current period are not included. So it calculates the cumulative and
      * subtracts the current period values. This would be done for Billing Frequencies - Monthly, Quarterly, Semi-Annual and Annual.
      *
      * @param glBalance
      * @return balanceAmount
      */
     protected KualiDecimal calculateBalanceAmountWithoutLastBilledPeriod(java.sql.Date lastBilledDate, Balance glBalance) {
-        // 1. calculate invoice period
-        AccountingPeriod invoicePeriod = accountingPeriodService.getByDate(lastBilledDate);
-        String invoicePeriodCode = invoicePeriod.getUniversityFiscalPeriodCode();
-
-        // 2. Get the current Period Code
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
         String currentPeriodCode = currPeriod.getUniversityFiscalPeriodCode();
 
-        KualiDecimal currentBalanceAmount =
-                cleanAmount(glBalance.getMonth1Amount())
-                .add(cleanAmount(glBalance.getMonth2Amount()))
-                .add(cleanAmount(glBalance.getMonth3Amount()))
-                .add(cleanAmount(glBalance.getMonth4Amount()))
-                .add(cleanAmount(glBalance.getMonth5Amount()))
-                .add(cleanAmount(glBalance.getMonth6Amount()))
-                .add(cleanAmount(glBalance.getMonth7Amount()))
-                .add(cleanAmount(glBalance.getMonth8Amount()))
-                .add(cleanAmount(glBalance.getMonth9Amount()))
-                .add(cleanAmount(glBalance.getMonth10Amount()))
-                .add(cleanAmount(glBalance.getMonth11Amount()))
-                .add(cleanAmount(glBalance.getMonth12Amount()))
-                .add(cleanAmount(glBalance.getMonth13Amount()));
+        KualiDecimal currentBalanceAmount = KualiDecimal.ZERO;
+        switch (currentPeriodCode) {
+        case "13":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth12Amount()));
+            // notice - no break!!!! we want to fall through to pick up all the prior months amounts
+        case "12":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth11Amount()));
+        case "11":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth10Amount()));
+        case "10":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth9Amount()));
+        case "09":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth8Amount()));
+        case "08":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth7Amount()));
+        case "07":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth6Amount()));
+        case "06":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth5Amount()));
+        case "05":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth4Amount()));
+        case "04":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth3Amount()));
+        case "03":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth2Amount()));
+        case "02":
+            currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth1Amount()));
+        }
 
-        KualiDecimal balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
-        KualiDecimal accurateBalanceAmount = balAmt.subtract(currentBalanceAmount);
-
-        return accurateBalanceAmount;
+        return glBalance.getContractsGrantsBeginningBalanceAmount().add(currentBalanceAmount);
     }
 
     /**

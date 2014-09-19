@@ -86,6 +86,8 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
             invoiceDocumentCriteria.put(ArPropertyConstants.SuspensionCategoryReportFields.CONTRACTS_GRANTS_INVOICE_DOCUMENT_SUSPENSION_CATEGORY_CODE, suspensionCategoryCode);
         }
 
+        final String documentNumber = (String)lookupFormFields.get(KFSPropertyConstants.DOCUMENT_NUMBER);
+
         final List<? extends ContractsAndGrantsAward> matchingAwards = lookupMatchingAwards(lookupFormFields);
         if (matchingAwards != null) { // null means that no award-based criteria were used in the search and therefore, these values should not be used for document selection
             if (matchingAwards.isEmpty()) { //we searched on awards, but didn't find any.  So we can't find any matching documents
@@ -104,38 +106,42 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
             if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated
-                for (InvoiceSuspensionCategory invoiceSuspensionCategory : cgInvoiceDoc.getInvoiceSuspensionCategories()) {
-                    Pattern suspensionCategoryCodePattern = null;
-                    if (!StringUtils.isBlank(suspensionCategoryCode)) {
-                        suspensionCategoryCodePattern = Pattern.compile(suspensionCategoryCode.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
-                    }
+                if (StringUtils.isBlank(documentNumber) || StringUtils.equals(documentNumber, cgInvoiceDoc.getDocumentNumber())) {
+                    for (InvoiceSuspensionCategory invoiceSuspensionCategory : cgInvoiceDoc.getInvoiceSuspensionCategories()) {
+                        Pattern suspensionCategoryCodePattern = null;
+                        if (!StringUtils.isBlank(suspensionCategoryCode)) {
+                            suspensionCategoryCodePattern = Pattern.compile(suspensionCategoryCode.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                        }
 
-                    if (StringUtils.isBlank(suspensionCategoryCode) ||
-                            (suspensionCategoryCodePattern != null && suspensionCategoryCodePattern.matcher(invoiceSuspensionCategory.getSuspensionCategoryCode()).matches())) {
-                        ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
-                        cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
-                        cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
-                        cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
-                        if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
-                            if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
-                                cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                        if (StringUtils.isBlank(suspensionCategoryCode) ||
+                                (suspensionCategoryCodePattern != null && suspensionCategoryCodePattern.matcher(invoiceSuspensionCategory.getSuspensionCategoryCode()).matches())) {
+                            ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
+                            cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
+                            cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
+                            cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
+                            if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
+                                if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
+                                    cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                                }
+                            }
+                            ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
+                            Person fundManager = award.getAwardPrimaryFundManager().getFundManager();
+                            String fundManagerPrincipalName = fundManager.getPrincipalName();
+
+                            Person projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
+                            String projectDirectorPrincipalName = projectDirector.getPrincipalName();
+
+                            cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
+                            cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
+                            cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
+                            cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
+
+                            cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
+
+                            if (!displayList.contains(cgSuspendedInvoiceDetailReport)) {
+                                displayList.add(cgSuspendedInvoiceDetailReport);
                             }
                         }
-                        ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
-                        Person fundManager = award.getAwardPrimaryFundManager().getFundManager();
-                        String fundManagerPrincipalName = fundManager.getPrincipalName();
-
-                        Person projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
-                        String projectDirectorPrincipalName = projectDirector.getPrincipalName();
-
-                        cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
-                        cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
-                        cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
-                        cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
-
-                        cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
-
-                        displayList.add(cgSuspendedInvoiceDetailReport);
                     }
                 }
             }

@@ -51,11 +51,17 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded) {
         // Alter the map, convert the key's as per Award's lookup screen, might need to add more in the future
         String value = fieldValues.remove("accountNumber");
-        fieldValues.put("awardAccounts.account.accountNumber", value);
+        if (StringUtils.isNotBlank(value)) {
+            fieldValues.put("awardAccounts.account.accountNumber", value);
+        }
         value = fieldValues.remove("awardBillingFrequency");
-        fieldValues.put("preferredBillingFrequency", value);
+        if (StringUtils.isNotBlank(value)) {
+            fieldValues.put("preferredBillingFrequency", value);
+        }
         value = fieldValues.remove("awardTotal");
-        fieldValues.put("awardTotalAmount", value);
+        if (StringUtils.isNotBlank(value)) {
+            fieldValues.put("awardTotalAmount", value);
+        }
 
         if(StringUtils.isNotEmpty(fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate")) && StringUtils.isNotEmpty(fieldValues.get("awardBeginningDate"))){
             String date = fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate") + ".." + fieldValues.remove("awardBeginningDate");

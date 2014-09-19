@@ -15,16 +15,21 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusinessObjectBase {
 
@@ -222,6 +227,28 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
         this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (ObjectUtils.isNotNull(obj)) {
+            if (this.getClass().equals(obj.getClass())) {
+                ContractsGrantsSuspendedInvoiceDetailReport other = (ContractsGrantsSuspendedInvoiceDetailReport) obj;
+                return (StringUtils.equalsIgnoreCase(this.suspensionCategoryCode, other.suspensionCategoryCode) &&
+                        StringUtils.equalsIgnoreCase(this.documentNumber, other.documentNumber));
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return ObjectUtil.generateHashCode(this, Arrays.asList(ArPropertyConstants.SuspensionCategoryReportFields.SUSPENSION_CATEGORY_CODE, KFSPropertyConstants.DOCUMENT_NUMBER));
+    }
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();

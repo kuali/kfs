@@ -32,7 +32,7 @@ public interface VerifyBillingFrequencyService {
      * @param award ContractsAndGrantsBillingAward to validate billing frequency for
      * @return true if valid else false.
      */
-    public boolean validatBillingFrequency(ContractsAndGrantsBillingAward award);
+    public boolean validateBillingFrequency(ContractsAndGrantsBillingAward award);
 
     /**
      * This method returns the start and end date of previous billing period.

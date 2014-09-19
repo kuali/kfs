@@ -24,6 +24,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -130,6 +131,32 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
         List<ObjectCode> results = new ArrayList<ObjectCode>();
         results.addAll(businessObjectService.findMatching(ObjectCode.class, fieldValues));
         return results;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#doesObjectConsolidationContainObjectCode(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean doesObjectConsolidationContainObjectCode(String chartOfAccountsCode, String consolidationCode, String objectChartOfAccountsCode, String objectCode) {
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectChartOfAccountsCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidationCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        return getBusinessObjectService().countMatching(ObjectCodeCurrent.class, fieldValues) > 0;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#doesObjectLevelContainObjectCode(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean doesObjectLevelContainObjectCode(String chartOfAccountsCode, String levelCode, String objectChartOfAccountsCode, String objectCode) {
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectChartOfAccountsCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, levelCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        return getBusinessObjectService().countMatching(ObjectCodeCurrent.class, fieldValues) > 0;
     }
 
     public BusinessObjectService getBusinessObjectService() {

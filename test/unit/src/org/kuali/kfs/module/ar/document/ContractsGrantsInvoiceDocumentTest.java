@@ -22,21 +22,19 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CostCategory;
+import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
@@ -49,6 +47,7 @@ import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
+import org.kuali.kfs.module.ar.service.CostCategoryService;
 import org.kuali.kfs.module.ar.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
@@ -72,7 +71,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
 
-    public ContractsAndGrantsCategory category;
+    public CostCategory category;
     public ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument;
     public ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
     ContractsGrantsInvoiceCreateDocumentServiceImpl contractsGrantsInvoiceCreateDocumentServiceImpl;
@@ -83,7 +82,6 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(businessObjectService);
-        contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
 
@@ -92,100 +90,20 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceCreateDocumentServiceImpl.setBusinessObjectService(businessObjectService);
         contractsGrantsInvoiceCreateDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
         contractsGrantsInvoiceCreateDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(contractsGrantsInvoiceDocumentServiceImpl);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.setCostCategoryService(SpringContext.getBean(CostCategoryService.class));
 
-        category = new ContractsAndGrantsCategory();
+        category = new CostCategory();
         category.setCategoryCode("testCode");
-        category.setCategoryDescription("testDescription");
         category.setCategoryName("testName");
-        category.setCategoryObjectCodes("5000, 6000-6011, 700*");
+
+        CostCategoryObjectCode costCategoryObjectCode = new CostCategoryObjectCode();
+        costCategoryObjectCode.setCategoryCode("testCode");
+        costCategoryObjectCode.setChartOfAccountsCode("BL");
+        costCategoryObjectCode.setFinancialObjectCode("5000");
+        category.setObjectCodes(new ArrayList<CostCategoryObjectCode>());
+        category.getObjectCodes().add(costCategoryObjectCode);
         contractsGrantsInvoiceDocument = new ContractsGrantsInvoiceDocument();
 
-    }
-
-    public void testGetObjectCodeArrayFromSingleCategory() {
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        Set<String> resultSet =  contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory (category,contractsGrantsInvoiceDocument);
-        Set<String> expectedResult = new HashSet<String>();
-        expectedResult.add("5000");
-
-        expectedResult.add("6000");
-        expectedResult.add("6001");
-        expectedResult.add("6002");
-        expectedResult.add("6003");
-        expectedResult.add("6004");
-        expectedResult.add("6005");
-        expectedResult.add("6006");
-        expectedResult.add("6007");
-        expectedResult.add("6008");
-        expectedResult.add("6009");
-        expectedResult.add("600a");
-        expectedResult.add("600b");
-        expectedResult.add("600c");
-        expectedResult.add("600d");
-        expectedResult.add("600e");
-        expectedResult.add("600f");
-        expectedResult.add("600g");
-        expectedResult.add("600h");
-        expectedResult.add("600i");
-        expectedResult.add("600j");
-        expectedResult.add("600k");
-        expectedResult.add("600l");
-        expectedResult.add("600m");
-        expectedResult.add("600n");
-        expectedResult.add("600o");
-        expectedResult.add("600p");
-        expectedResult.add("600q");
-        expectedResult.add("600r");
-        expectedResult.add("600s");
-        expectedResult.add("600t");
-        expectedResult.add("600u");
-        expectedResult.add("600v");
-        expectedResult.add("600w");
-        expectedResult.add("600x");
-        expectedResult.add("600y");
-        expectedResult.add("600z");
-        expectedResult.add("6010");
-        expectedResult.add("6011");
-
-        expectedResult.add("7000");
-        expectedResult.add("7001");
-        expectedResult.add("7002");
-        expectedResult.add("7003");
-        expectedResult.add("7004");
-        expectedResult.add("7005");
-        expectedResult.add("7006");
-        expectedResult.add("7007");
-        expectedResult.add("7008");
-        expectedResult.add("7009");
-        expectedResult.add("700a");
-        expectedResult.add("700b");
-        expectedResult.add("700c");
-        expectedResult.add("700d");
-        expectedResult.add("700e");
-        expectedResult.add("700f");
-        expectedResult.add("700g");
-        expectedResult.add("700h");
-        expectedResult.add("700i");
-        expectedResult.add("700j");
-        expectedResult.add("700k");
-        expectedResult.add("700l");
-        expectedResult.add("700m");
-        expectedResult.add("700n");
-        expectedResult.add("700o");
-        expectedResult.add("700p");
-        expectedResult.add("700q");
-        expectedResult.add("700r");
-        expectedResult.add("700s");
-        expectedResult.add("700t");
-        expectedResult.add("700u");
-        expectedResult.add("700v");
-        expectedResult.add("700w");
-        expectedResult.add("700x");
-        expectedResult.add("700y");
-        expectedResult.add("700z");
-
-        assertTrue(expectedResult.containsAll(resultSet));
-        assertTrue(resultSet.containsAll(expectedResult));
     }
 
     @ConfigureContext(session = wklykins)

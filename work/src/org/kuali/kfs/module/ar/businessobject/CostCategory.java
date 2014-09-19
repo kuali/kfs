@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -23,17 +24,16 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Defines a Category on Contracts and Grants Invoices.
  */
-public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class CostCategory extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String categoryCode;
     private String categoryName;
-    private String categoryDescription;
-    private String categoryObjectCodes;
-    private String categoryConsolidations;
-    private String categoryLevels;
     private boolean indirectCostIndicator;
     private boolean active;
 
+    private List<CostCategoryObjectCode> objectCodes;
+    private List<CostCategoryObjectLevel> objectLevels;
+    private List<CostCategoryObjectConsolidation> objectConsolidations;
 
     /**
      * Gets the categoryCode attribute.
@@ -44,7 +44,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
         return categoryCode;
     }
 
-
     /**
      * Sets the categoryCode attribute value.
      *
@@ -53,7 +52,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
     public void setCategoryCode(String categoryCode) {
         this.categoryCode = categoryCode;
     }
-
 
     /**
      * Gets the categoryNumber attribute.
@@ -64,7 +62,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
         return categoryName;
     }
 
-
     /**
      * Sets the categoryNumber attribute value.
      *
@@ -73,47 +70,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
-
-    /**
-     * Gets the categoryDescription attribute.
-     *
-     * @return Returns the categoryDescription.
-     */
-    public String getCategoryDescription() {
-        return categoryDescription;
-    }
-
-
-    /**
-     * Sets the categoryDescription attribute value.
-     *
-     * @param categoryDescription The categoryDescription to set.
-     */
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
-    }
-
-
-    /**
-     * Gets the objectCodes attribute.
-     *
-     * @return Returns the objectCodes.
-     */
-    public String getCategoryObjectCodes() {
-        return categoryObjectCodes;
-    }
-
-
-    /**
-     * Sets the objectCodes attribute value.
-     *
-     * @param objectCodes The objectCodes to set.
-     */
-    public void setCategoryObjectCodes(String objectCodes) {
-        this.categoryObjectCodes = objectCodes;
-    }
-
 
     /**
      * Gets the active attribute.
@@ -125,7 +81,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
         return active;
     }
 
-
     /**
      * Sets the active attribute value.
      *
@@ -136,7 +91,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
         this.active = active;
     }
 
-
     /**
      * Gets the indirectCostIndicator attribute.
      *
@@ -145,7 +99,6 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
     public boolean isIndirectCostIndicator() {
         return indirectCostIndicator;
     }
-
 
     /**
      * Sets the indirectCostIndicator attribute value.
@@ -156,36 +109,33 @@ public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase im
         this.indirectCostIndicator = indirectCostIndicator;
     }
 
-
-    public String getCategoryConsolidations() {
-        return categoryConsolidations;
+    public List<CostCategoryObjectCode> getObjectCodes() {
+        return objectCodes;
     }
 
-
-    public void setCategoryConsolidations(String categoryConsolidations) {
-        this.categoryConsolidations = categoryConsolidations;
+    public void setObjectCodes(List<CostCategoryObjectCode> objectCodes) {
+        this.objectCodes = objectCodes;
     }
 
-
-    public String getCategoryLevels() {
-        return categoryLevels;
+    public List<CostCategoryObjectLevel> getObjectLevels() {
+        return objectLevels;
     }
 
-
-    public void setCategoryLevels(String categoryLevels) {
-        this.categoryLevels = categoryLevels;
+    public void setObjectLevels(List<CostCategoryObjectLevel> objectLevels) {
+        this.objectLevels = objectLevels;
     }
 
+    public List<CostCategoryObjectConsolidation> getObjectConsolidations() {
+        return objectConsolidations;
+    }
+
+    public void setObjectConsolidations(List<CostCategoryObjectConsolidation> objectConsolidations) {
+        this.objectConsolidations = objectConsolidations;
+    }
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("categoryCode", this.categoryCode);
-        m.put("categoryDescription", this.categoryDescription);
-        m.put("categoryName", this.categoryName);
-        m.put("categoryObjectCodes", this.categoryObjectCodes);
-        m.put("categoryConsolidations", this.categoryConsolidations);
-        m.put("categoryLevels", this.categoryLevels);
         return m;
     }
-
 }

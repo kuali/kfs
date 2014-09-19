@@ -535,8 +535,11 @@ public class ArConstants{
         public static final String FEDERAL_FINANCIAL_REPORT = "arFederalFinancialReport.do";
     }
 
-    public static class ContractsAndGrantsCategorySections {
+    public static class CostCategoryMaintenanceSections {
         public static final String EDIT_CATEGORY = "EditCategory";
+        public static final String EDIT_OBJECT_CODES = "EditObjectCodes";
+        public static final String EDIT_OBJECT_LEVELS = "EditObjectLevels";
+        public static final String EDIT_OBJECT_CONSOLIDATIONS = "EditObjectConsolidations";
     }
 
     public static enum ContractsAndGrantsInvoiceDocumentCreationProcessType {

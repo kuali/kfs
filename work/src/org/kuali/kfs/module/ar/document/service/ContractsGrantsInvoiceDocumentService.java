@@ -20,12 +20,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
+import org.kuali.kfs.module.ar.businessobject.CostCategory;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
@@ -222,15 +221,13 @@ public interface ContractsGrantsInvoiceDocumentService {
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException;
 
     /**
-     * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
-     * string, and returns all the possible object codes specified by this range.
-     *
-     * @param category
-     * @param document
-     * @return Set<String> objectCodes
-     * @throws IllegalArgumentException
+     * Determines if a Contracts and Grants cost category contains a given object code
+     * @param category the cost category which may contain an object code
+     * @param chartOfAccountsCode the chart of the object code to check
+     * @param objectCode the object code to check
+     * @return true if the cost category contains the given object code, false otherwise
      */
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategory category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException;
+    public boolean doesCostCategoryContainObjectCode(CostCategory category, String chartOfAccountsCode, String objectCode);
 
     /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts
@@ -266,13 +263,6 @@ public interface ContractsGrantsInvoiceDocumentService {
      * @return Returns the invoices which matches the given field values.
      */
     public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues);
-
-    /**
-     * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
-     *
-     * @return Set<String> objectCodes
-     */
-    public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories(ContractsGrantsInvoiceDocument document);
 
     /**
      * Determines whether the given ContractsGrantsInvoiceDocument is "effective" or not: if it is disapproved, cancelled, or error corrected then it is NOT effective,

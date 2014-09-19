@@ -421,4 +421,9 @@ public class ArKeyConstants {
      // Suspension Category Description Prefix
      public static final String INVOICE_DOCUMENT_SUSPENSION_CATEGORY = "invoice.document.suspension.category.";
 
+     public static final String ERROR_DOCUMENT_COST_CATEGORY_NO_DETAILS = "error.document.cost.category.no.details";
+     public static final String ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE = "error.document.cost.category.object.code.not.unique";
+     public static final String ERROR_DOCUMENT_COST_CATEGORY_OBJECT_LEVEL_NOT_UNIQUE = "error.document.cost.category.object.level.not.unique";
+     public static final String ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CONSOLIDATION_NOT_UNIQUE= "error.document.cost.category.object.consolidation.not.unique";
+
 }

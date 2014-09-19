@@ -22,25 +22,19 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -51,8 +45,11 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CostCategory;
+import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode;
+import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation;
+import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -134,7 +131,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
-    protected ObjectLevelService objectLevelService;
     protected ParameterService parameterService;
     protected PersonService personService;
     protected UniversityDateService universityDateService;
@@ -150,7 +146,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
         final List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = retrieveInvoiceAccountsForAward(contractsGrantsInvoiceDocument.getAward());
         boolean awardBillByInvoicingAccount = false;
-        List<String> invoiceAccountDetails = new ArrayList<String>();
+        List<String> invoiceAccountDetails = new ArrayList<>();
 
         // To check if the Source accounting lines are existing. If they are do nothing
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
@@ -185,7 +181,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 if (awardBillByInvoicingAccount) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single source accounting line with award invoice account specified by the user.
                     if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2) {
-                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
                         contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                 }
@@ -204,7 +200,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
                         String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
                         contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                     else {
@@ -522,7 +518,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
         // put the invoiceDetailAccountObjectCode into a map based on category
         List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes();
-        Map<String, List<InvoiceDetailAccountObjectCode>> invoiceDetailAccountObjectCodeMap = new HashMap<String, List<InvoiceDetailAccountObjectCode>>();
+        Map<String, List<InvoiceDetailAccountObjectCode>> invoiceDetailAccountObjectCodeMap = new HashMap<>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
             String categoryCode = invoiceDetailAccountObjectCode.getCategoryCode();
             List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodeList = invoiceDetailAccountObjectCodeMap.get(categoryCode);
@@ -635,7 +631,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             throw new IllegalArgumentException("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
         // get the category that matches this category code.
-        final ContractsAndGrantsCategory category = businessObjectService.findBySinglePrimaryKey(ContractsAndGrantsCategory.class, categoryCode);
+        final CostCategory category = businessObjectService.findBySinglePrimaryKey(CostCategory.class, categoryCode);
 
         // got the category now.
         if (!ObjectUtils.isNull(category)) {
@@ -647,7 +643,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
             for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
                 // get the first object code from this category
-                String objectCode = (String) getObjectCodeArrayFromSingleCategory(category, contractsGrantsInvoiceDocument).toArray()[0];
+                //String objectCode = (String) getObjectCodeArrayFromSingleCategory(category, contractsGrantsInvoiceDocument).toArray()[0];
+                String objectCode = "5000";
                 InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
                 invoiceDetailAccountObjectCode.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
                 invoiceDetailAccountObjectCode.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
@@ -684,8 +681,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         else {
             LOG.error("Category Code cannot be found from the category list during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
-
-        getObjectCodeArrayFromContractsAndGrantsCategories(contractsGrantsInvoiceDocument);
     }
 
     /**
@@ -706,7 +701,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
 
         for (InvoiceAccountDetail invoiceAccountDetail : invoiceAccountDetails) {
-            invoiceAccountDetail.setExpenditureAmount(currentExpenditureByAccountNumberMap.get(invoiceAccountDetail.getAccountNumber()));
+            final KualiDecimal expenditureAmount = ObjectUtils.isNull(currentExpenditureByAccountNumberMap.get(invoiceAccountDetail.getAccountNumber()))
+                    ? KualiDecimal.ZERO
+                    : currentExpenditureByAccountNumberMap.get(invoiceAccountDetail.getAccountNumber());
+            invoiceAccountDetail.setExpenditureAmount(expenditureAmount);
         }
     }
 
@@ -1133,8 +1131,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
-     *
-     * @return
+     * The evident goal of this method was to return practically any possible property from the given document into a Map which could be stamped on any invoice PDF.  Given that, we've done some strange
+     * tricks with Map implementations.  First, we wrap the document in a ReflectionMap, which means that all nested properties from the document can be read via Map notation.  We still have a number of properties
+     * we want to add, though, for instance for the payee and the award.  So we wrap ReflectionMap in a FallbackMap, which will treat a regular HashMap and the ReflectionMap as if they were one Map for the sake of
+     * getting at least.  Finally, we wrap the map of all properties into a PdfFormattingMap, which formats any values to be returned through get() into properly formatted Strings.
+     * @param document the ContractsGrantsInvoiceDocument to convert into a Map form
+     * @return a Map.  With everything.
      */
     protected Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
         ContractsAndGrantsBillingAward award = document.getAward();
@@ -1692,132 +1694,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
-     * string, and returns all the possible object codes specified by this range.
-     *
-     * @param category
-     * @return Set<String> objectCodes
-     */
-    @Override
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategory category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
-        Set<String> objectCodeArray = new HashSet<String>();
-        Set<String> levels = new HashSet<String>();
-        if (ObjectUtils.isNotNull(category.getCategoryObjectCodes()) && StringUtils.isNotEmpty(category.getCategoryObjectCodes())) {
-            List<String> objectCodes = Arrays.asList(category.getCategoryObjectCodes().split(","));
-
-            // get a list of qualifying object codes listed in the categories
-            for (int j = 0; j < objectCodes.size(); j++) {
-
-                // This is to check if the object codes are in a range of values like 1001-1009 or 100* or 10* or 1*. The wildcard
-                // should be included in the suffix only.
-                if (objectCodes.get(j).contains("-")) {// To check ranges like A000 - ZZZZ (includes A001, A002 .. A009 , A00A to A00Z and so on to ZZZZ)
-                    String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "-").trim();
-                    String obCodeLast = StringUtils.substringAfter(objectCodes.get(j), "-").trim();
-                    // To validate if the object Code formed is in proper format of [0-9a-zA-Z]{4}
-
-                    if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
-                        // To Check for the first value as it is not being included in the array
-                        objectCodeArray.add(obCodeFirst);
-
-                        for (int i = 0; i < objectCodeValues.size(); i++) {
-                            objectCodeArray.add(objectCodeValues.get(i));
-                        }
-                    }
-                    else {
-                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
-                    }
-                }
-                else if (objectCodes.get(j).contains("*")) {// To check for wildcard suffix
-                    String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "*").trim();
-                    String obCodeLast = StringUtils.substringBefore(objectCodes.get(j), "*").trim(); // substringBefore is correct
-                                                                                                     // here
-                    // To make the code work for wildcards like 1* 10* 100* etc
-                    // 10* will give you from 100 - 10Z.
-
-                    for (int x = obCodeFirst.length(); x < 4; x++) {
-                        obCodeFirst = obCodeFirst.concat("0");
-                    }
-
-                    for (int x = obCodeLast.length(); x < 4; x++) {
-                        obCodeLast = obCodeLast.concat("Z");
-                    }
-                    if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
-
-                        // To Check for the first value as it is not being included in the array
-                        objectCodeArray.add(obCodeFirst);
-                        for (int i = 0; i < obCodeValues.size(); i++) {
-                            objectCodeArray.add(obCodeValues.get(i));
-                        }
-                    }
-                    else {
-                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
-                    }
-                }
-                else {// If the object code is directly provided.
-                    if (objectCodes.get(j).trim().matches("[0-9a-zA-Z]{4}")) {
-
-                        objectCodeArray.add(objectCodes.get(j).trim());
-                    }
-                    else {
-                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
-                    }
-                }
-
-            }
-        }
-        if (ObjectUtils.isNotNull(category.getCategoryConsolidations()) && StringUtils.isNotEmpty(category.getCategoryConsolidations())) {
-            List<String> consolidationCodes = Arrays.asList(category.getCategoryConsolidations().split(","));
-            List<ObjectLevel> objectLevels = objectLevelService.getObjectLevelsByConsolidationsIds(consolidationCodes);
-            if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
-                for (ObjectLevel level : objectLevels) {
-                    levels.add(level.getFinancialObjectLevelCode());
-                }
-            }
-        }
-        if (ObjectUtils.isNotNull(category.getCategoryLevels()) && StringUtils.isNotEmpty(category.getCategoryLevels())) {
-            List<String> levelCodes = Arrays.asList(category.getCategoryLevels().split(","));
-            List<ObjectLevel> objectLevels = objectLevelService.getObjectLevelsByLevelIds(levelCodes);
-            if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
-                for (ObjectLevel level : objectLevels) {
-                    levels.add(level.getFinancialObjectLevelCode());
-                }
-            }
-        }
-        if (ObjectUtils.isNotNull(levels) && !levels.isEmpty()) {
-            List<ObjectCode> objectCodes = objectCodeService.getObjectCodesByLevelIds(new ArrayList<String>(levels));
-            if (ObjectUtils.isNotNull(objectCodes) && !objectCodes.isEmpty()) {
-                for (ObjectCode objectCode : objectCodes) {
-                    objectCodeArray.add(objectCode.getFinancialObjectCode());
-                }
-            }
-        }
-        return objectCodeArray;
-    }
-
-    /**
-     * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
-     *
-     * @return Set<String> objectCodes
-     */
-    @Override
-    public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories(ContractsGrantsInvoiceDocument document) {
-        Set<String> objectCodeArray = new HashSet<String>();
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
-        Iterator<ContractsAndGrantsCategory> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
-
-        while (contractsAndGrantsCategoriesIterator.hasNext()) {
-            ContractsAndGrantsCategory category = contractsAndGrantsCategoriesIterator.next();
-            objectCodeArray.addAll(getObjectCodeArrayFromSingleCategory(category, document));
-        }
-
-        return objectCodeArray;
-    }
-
-    /**
      * This method returns a list of character strings that represent base 36 integers from start(non-inclusive) to limit
      * (inclusive).
      *
@@ -1962,6 +1838,38 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#doesCostCategoryContainObjectCode(org.kuali.kfs.module.ar.businessobject.CostCategory, java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean doesCostCategoryContainObjectCode(CostCategory category, String chartOfAccountsCode, String objectCode) {
+        if (!CollectionUtils.isEmpty(category.getObjectCodes())) {
+            for (CostCategoryObjectCode categoryObjectCode : category.getObjectCodes()) {
+                if (StringUtils.equals(categoryObjectCode.getChartOfAccountsCode(), chartOfAccountsCode) && StringUtils.equals(categoryObjectCode.getFinancialObjectCode(), objectCode)) {
+                    return true;
+                }
+            }
+        }
+
+        if (!CollectionUtils.isEmpty(category.getObjectLevels())) {
+            for (CostCategoryObjectLevel categoryObjectLevel : category.getObjectLevels()) {
+                if (getObjectCodeService().doesObjectLevelContainObjectCode(categoryObjectLevel.getChartOfAccountsCode(), categoryObjectLevel.getFinancialObjectLevelCode(), chartOfAccountsCode, objectCode)) {
+                    return true;
+                }
+            }
+        }
+
+        if (!CollectionUtils.isEmpty(category.getObjectConsolidations())) {
+            for (CostCategoryObjectConsolidation categoryObjectConsolidation : category.getObjectConsolidations()) {
+                if (getObjectCodeService().doesObjectConsolidationContainObjectCode(categoryObjectConsolidation.getChartOfAccountsCode(), categoryObjectConsolidation.getFinConsolidationObjectCode(), chartOfAccountsCode, objectCode)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
     }
@@ -1997,14 +1905,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
-    }
-
-    public ObjectLevelService getObjectLevelService() {
-        return objectLevelService;
-    }
-
-    public void setObjectLevelService(ObjectLevelService objectLevelService) {
-        this.objectLevelService = objectLevelService;
     }
 
     /**

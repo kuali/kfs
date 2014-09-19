@@ -31,7 +31,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Decorator which always makes sure that values returned from get are useful values to substitute into a PDF
+ * Decorator for a Map which guarantees that values returned from get are never null and usefully formatted to substitute into a template PDF
  */
 public class PdfFormattingMap implements Map<String, String> {
     protected Map wrappedMap;

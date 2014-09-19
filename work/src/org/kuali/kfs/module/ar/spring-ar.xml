@@ -279,6 +279,9 @@
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
+		<property name="costCategoryService">
+			<ref bean="costCategoryService"/>
+		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>
@@ -425,9 +428,6 @@
 		</property>
 		<property name="objectCodeService">
 			<ref bean="objectCodeService" />
-		</property>
-		<property name="objectLevelService">
-			<ref bean="objectLevelService" />
 		</property>
 		<property name="personService">
 			<ref bean="personService"/>
@@ -2322,15 +2322,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 
 		<property name="agingReportTemplate" value="org/kuali/kfs/module/ar/report/email/agingReportTemplate.vm" />		
-	</bean>		
-		
-	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
-	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
-	<import resource="document/validation/configuration/CustomerCreditMemoValidation.xml" />
-	<import resource="document/validation/configuration/CustomerInvoiceWriteoffValidation.xml" />
-	<import resource="document/validation/configuration/CashControlValidation.xml" />
-	<import resource="document/validation/configuration/PaymentApplicationValidation.xml" />
-	<import resource="spring-ar-bus-exports.xml"/>
+	</bean>
 	
 	<!-- Funds Manager Derived Role -->
 	<bean id="fundsManagerDerivedRoleTypeService" parent="fundsManagerDerivedRoleTypeService-parentBean" />
@@ -2617,4 +2609,20 @@
 	    <property name="verifyBillingFrequencyService" ref="verifyBillingFrequencyService"/>
 	    <property name="universityDateService" ref="universityDateService"/>
 	</bean>
+	
+	<bean id="costCategoryDao" parent="costCategoryDao-parentBean"/>
+	<bean id="costCategoryDao-parentBean" abstract="true" class="org.kuali.kfs.module.ar.dataaccess.impl.CostCategoryDaoOjb" parent="platformAwareDao"/>
+	
+	<bean id="costCategoryService" parent="costCategoryService-parentBean"/>
+	<bean id="costCategoryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.CostCategoryServiceImpl">
+		<property name="costCategoryDao" ref="costCategoryDao"/>
+	</bean>
+	
+	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
+	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
+	<import resource="document/validation/configuration/CustomerCreditMemoValidation.xml" />
+	<import resource="document/validation/configuration/CustomerInvoiceWriteoffValidation.xml" />
+	<import resource="document/validation/configuration/CashControlValidation.xml" />
+	<import resource="document/validation/configuration/PaymentApplicationValidation.xml" />
+	<import resource="spring-ar-bus-exports.xml"/>
 </beans>

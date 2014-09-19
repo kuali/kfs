@@ -427,19 +427,31 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, PrintWriter errorFile) throws IOException {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
-        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFund, ArConstants.LOC_BY_LOC_FUND);
+
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND, locFund);
-        cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFile);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
 
         }
+        return cgInvoices;
+    }
+
+
+    /**
+     * Retrieves ContractsAndGrantsInvoiceDocument documents which are open and which have the given letter of credit fund and letter of credit creation type (either fund or fund group)
+     * @param locFund the code of the fund or fund group
+     * @param creationType whether to search by fund or fund group
+     * @return a Collection of matching letter of credit created contracts and grants invoices
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveLetterOfCreditInvoices(String locFund, final String creationType) {
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, creationType);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         return cgInvoices;
     }
 
@@ -451,14 +463,10 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, PrintWriter errorFile) throws IOException {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
-        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFundGroup, ArConstants.LOC_BY_LOC_FUND_GRP);
+
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND_GRP, locFundGroup);
-        cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFile);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;

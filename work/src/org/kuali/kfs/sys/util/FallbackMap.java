@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A Map which wraps another Map, presumably one which is read-only (such as org.kuali.kfs.sys.util.ReflectionMap).  This Map holds a secondary Map which can be written to and read from; but if, in get, the key
+ * is not present in the internally maintained Map, then the get falls back to the wrapped read-only Map to find the value
+ */
 public class FallbackMap<K, V> implements Map<K, V> {
     protected Map<K, V> frontMap;
     protected Map<K, V> backMap;

@@ -23,6 +23,11 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+/**
+ * A Map implementation which wraps a Java bean and can return values from that based on property Strings.  Unlike Apache Common's BeanMap, this Map can handle nested properties - though for the sake of that power,
+ * the Map makes no effort to know its Set of keys at all - since to figure all of that out, it would need to recurse down and avoid property cycles, etc.  It does not know how many Entries it has.  Furthermore,
+ * one cannot put any values into the Map and expect the underlying bean to have their own values changed.  It's really a read-only way to read nested properties from the underlying object via Map semantics.
+ */
 public class ReflectionMap implements Map<String, Object> {
     protected Object bean;
     protected PropertyUtilsBean propertyUtilsBean;

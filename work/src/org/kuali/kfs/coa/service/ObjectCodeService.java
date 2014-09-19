@@ -75,4 +75,24 @@ public interface ObjectCodeService {
      * @return List of Object Codes
      */
     public List<ObjectCode> getObjectCodesByLevelIds(List<String> levelCodes);
+
+    /**
+     * Determines if the given object consolidation contains any object codes with the financial object code matching the given object code
+     * @param chartOfAccountsCode the chartOfAccountsCode of the object consolidation to check
+     * @param consolidationCode the object consolidation to check
+     * @param objectChartOfAccountsCode the chart of accounts code of the object code to look for
+     * @param objectCode the object code to look for
+     * @return true if the object consolidation contains the given object code, false if not
+     */
+    public boolean doesObjectConsolidationContainObjectCode(String chartOfAccountsCode, String consolidationCode, String objectChartOfAccountsCode, String objectCode);
+
+    /**
+     * Determines if the given level contains any object codes with the financial object code matching the given object code
+     * @param chartOfAccountsCode the chartOfAccountsCode of the object level to check
+     * @param levelCode the object level to check
+     * @param objectChartOfAccountsCode the chart of accounts code of the object code to look for
+     * @param objectCode the object code to look for
+     * @return true if the object level contains the given object code, false if not
+     */
+    public boolean doesObjectLevelContainObjectCode(String chartOfAccountsCode, String levelCode, String objectChartOfAccountsCode, String objectCode);
 }

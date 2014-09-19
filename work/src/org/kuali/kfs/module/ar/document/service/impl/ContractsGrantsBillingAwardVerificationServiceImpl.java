@@ -269,11 +269,11 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
         String coaCode = null, orgCode = null;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
+        boolean isUsingReceivableFAU = receivableOffsetOption.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
         // This condition is validated only if GLPE is 3 and CG enhancements is ON
         if (isUsingReceivableFAU) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            Map<String, Object> sysCriteria = new HashMap<String, Object>();
+            Map<String, Object> criteria = new HashMap<>();
+            Map<String, Object> sysCriteria = new HashMap<>();
             criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
             criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
             criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);

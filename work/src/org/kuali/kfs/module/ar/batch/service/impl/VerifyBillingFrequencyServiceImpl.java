@@ -55,7 +55,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
 
 
     @Override
-    public boolean validatBillingFrequency(ContractsAndGrantsBillingAward award) {
+    public boolean validateBillingFrequency(ContractsAndGrantsBillingAward award) {
 
         // first we need to get the period itself to check these things
         boolean isValid = true;

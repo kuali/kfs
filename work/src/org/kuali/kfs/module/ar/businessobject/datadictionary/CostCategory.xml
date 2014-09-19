@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License. 
+-->
+
+	<bean id="CostCategory" parent="CostCategory-parentBean" />
+	<bean id="CostCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CostCategory" />
+		<property name="objectLabel" value="Contracts And Grants Category" />
+		<property name="titleAttribute" value="categoryCode"/>
+		<property name="attributes">
+			<list>
+				<ref bean="CostCategory-categoryCode" />
+				<ref bean="CostCategory-categoryName" />
+				<ref bean="CostCategory-indirectCostIndicator" />
+				<ref bean="CostCategory-active" />
+			</list>
+		</property>
+		<property name="inquiryDefinition">
+      		<ref bean="CostCategory-inquiryDefinition"/>
+    	</property>
+		<property name="lookupDefinition">
+			<ref bean="CostCategory-lookupDefinition" />
+		</property>	
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="CostCategory-categoryCode" parent="CostCategory-categoryCode-parentBean" />
+	<bean id="CostCategory-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="categoryCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Cost Category Code" />
+		<property name="shortLabel" value="Cost Category Code" />
+		<property name="maxLength" value="4" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<bean id="CostCategory-categoryName" parent="CostCategory-categoryName-parentBean" />
+	<bean id="CostCategory-categoryName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="categoryName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Cost Category Name" />
+		<property name="shortLabel" value="Cost Category Name" />
+		<property name="maxLength" value="128" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
+	<bean id="CostCategory-indirectCostIndicator" parent="CostCategory-indirectCostIndicator-parentBean" />
+	<bean id="CostCategory-indirectCostIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="indirectCostIndicator" />
+		<property name="label" value="Indirect Cost Indicator" />
+		<property name="shortLabel" value="Indirect Cost Indicator" />
+	</bean>
+
+
+	<bean id="CostCategory-active" parent="CostCategory-active-parentBean" />
+	<bean id="CostCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<bean id="CostCategory-lookupDefinition" parent="CostCategory-lookupDefinition-parentBean" />
+	<bean id="CostCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Cost Category Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="categoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="categoryName" />
+				<bean parent="FieldDefinition" p:attributeName="indirectCostIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="categoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="categoryName" />
+				<bean parent="FieldDefinition" p:attributeName="indirectCostIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Business Object Inquiry Definition -->
+	
+	<bean id="CostCategory-inquiryDefinition" parent="CostCategory-inquiryDefinition-parentBean"/>
+	<bean id="CostCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	  <property name="title" value="Cost Category Inquiry"/>
+	  <property name="inquirySections">
+	    <list>
+	      <ref bean="CostCategory-inquirySectionDefinition-CostCategory"/>
+	      <ref bean="CostCategory-inquirySectionDefinition-objectCodes"/>
+	      <ref bean="CostCategory-inquirySectionDefinition-objectLevels"/>
+	      <ref bean="CostCategory-inquirySectionDefinition-objectConsolidations"/>
+	    </list>
+	  </property>
+	</bean>
+	
+	<bean id="CostCategory-inquirySectionDefinition-CostCategory" parent="CostCategory-inquirySectionDefinition-CostCategory-parentBean"/>
+	<bean id="CostCategory-inquirySectionDefinition-CostCategory-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Cost Category"/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="categoryCode"/>
+				<bean parent="FieldDefinition" p:attributeName="categoryName"/>
+				<bean parent="FieldDefinition" p:attributeName="indirectCostIndicator"/>
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CostCategory-inquirySectionDefinition-objectCodes" parent="CostCategory-inquirySectionDefinition-objectCodes-parentBean" />
+	<bean id="CostCategory-inquirySectionDefinition-objectCodes-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Object Codes" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<ref bean="CostCategory-inquiryCollectionDefinition-objectCodes" />
+			</list>
+		</property>
+	</bean>
+	<bean id="CostCategory-inquiryCollectionDefinition-objectCodes" parent="CostCategory-inquiryCollectionDefinition-objectCodes-parentBean" />
+	<bean id="CostCategory-inquiryCollectionDefinition-objectCodes-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="objectCodes" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CostCategory-inquirySectionDefinition-objectLevels" parent="CostCategory-inquirySectionDefinition-objectLevels-parentBean" />
+	<bean id="CostCategory-inquirySectionDefinition-objectLevels-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Object Levels" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<ref bean="CostCategory-inquiryCollectionDefinition-objectLevels" />
+			</list>
+		</property>
+	</bean>
+	<bean id="CostCategory-inquiryCollectionDefinition-objectLevels" parent="CostCategory-inquiryCollectionDefinition-objectLevels-parentBean" />
+	<bean id="CostCategory-inquiryCollectionDefinition-objectLevels-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="objectLevels" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CostCategory-inquirySectionDefinition-objectConsolidations" parent="CostCategory-inquirySectionDefinition-objectConsolidations-parentBean" />
+	<bean id="CostCategory-inquirySectionDefinition-objectConsolidations-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Object Consolidations" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<ref bean="CostCategory-inquiryCollectionDefinition-objectConsolidations" />
+			</list>
+		</property>
+	</bean>
+	<bean id="CostCategory-inquiryCollectionDefinition-objectConsolidations" parent="CostCategory-inquiryCollectionDefinition-objectConsolidations-parentBean" />
+	<bean id="CostCategory-inquiryCollectionDefinition-objectConsolidations-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="objectConsolidations" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="finConsolidationObjectCode" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="finConsolidationObjectCode" />
+			</list>
+		</property>
+	</bean>
+  
+</beans>

@@ -1544,17 +1544,74 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory" table="AR_CGB_CTGRY_T">
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CostCategory" table="AR_CST_CTGRY_T">
 		<field-descriptor name="categoryCode" column="CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="categoryName" column="CTGRY_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="categoryDescription" column="CTGRY_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="categoryObjectCodes" column="OBJ_CDS" jdbc-type="VARCHAR" />
-		<field-descriptor name="categoryConsolidations" column="CONS_CDS" jdbc-type="VARCHAR" />
-		<field-descriptor name="categoryLevels" column="LEVEL_CDS" jdbc-type="VARCHAR" />
+		<field-descriptor name="categoryName" column="CTGRY_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="indirectCostIndicator" column="IND_CST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		
+		<collection-descriptor name="objectCodes" element-class-ref="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<orderby name="financialObjectCode" sort="ASC" />
+			<inverse-foreignkey field-ref="categoryCode" />
+		</collection-descriptor>
+		<collection-descriptor name="objectLevels" element-class-ref="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<orderby name="financialObjectLevelCode" sort="ASC" />
+			<inverse-foreignkey field-ref="categoryCode" />
+		</collection-descriptor>
+		<collection-descriptor name="objectConsolidations" element-class-ref="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<orderby name="finConsolidationObjectCode" sort="ASC" />
+			<inverse-foreignkey field-ref="categoryCode" />
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode" table="AR_CST_CTGRY_FIN_OBJ_CD_T">
+		<field-descriptor name="categoryCode" column="CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="financialObjectCode" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel" table="AR_CST_CTGRY_FIN_OBJ_LEVEL_T">
+		<field-descriptor name="categoryCode" column="CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+		<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="objectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="financialObjectLevelCode" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation" table="AR_CST_CTGRY_FIN_CONSOLDTN_T">
+		<field-descriptor name="categoryCode" column="CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+		<field-descriptor name="finConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="objectConsolidation" class-ref="org.kuali.kfs.coa.businessobject.ObjectConsolidation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="finConsolidationObjectCode" />
+		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" table="AR_INV_DOC_T">

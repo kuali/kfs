@@ -82,7 +82,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-categoryName" parent="ContractsGrantsInvoiceDetail-categoryName-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-categoryName-parentBean" abstract="true" parent="ContractsAndGrantsCategory-categoryName">
+	<bean id="ContractsGrantsInvoiceDetail-categoryName-parentBean" abstract="true" parent="CostCategory-categoryName">
 		<property name="label" value="Cost Category" />
 		<property name="shortLabel" value="Cost Category" />
 		<property name="required" value="false" />

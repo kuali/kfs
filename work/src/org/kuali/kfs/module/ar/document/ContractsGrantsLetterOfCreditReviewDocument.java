@@ -54,10 +54,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Contracts Grants LOC Review Document.
  */
 public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystemTransactionalDocumentBase {
-
     private static final Logger LOG = Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocument.class);
 
-    protected String statusCode;
     private String letterOfCreditFundCode;
     private ContractsAndGrantsLetterOfCreditFund letterOfCreditFund;
     private String letterOfCreditFundGroupCode;
@@ -70,24 +68,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     public ContractsGrantsLetterOfCreditReviewDocument() {
         headerReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
         accountReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
-    }
-
-    /**
-     * Gets the statusCode attribute.
-     *
-     * @return Returns the statusCode.
-     */
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Sets the statusCode attribute value.
-     *
-     * @param statusCode The statusCode to set.
-     */
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
     }
 
     /**
@@ -226,7 +206,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put("statusCode", statusCode);
         m.put("letterOfCreditFundCode", letterOfCreditFundCode);
         m.put("letterOfCreditFund", letterOfCreditFund);
         m.put("letterOfCreditFundGroupCode", letterOfCreditFundGroupCode);
@@ -234,14 +213,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         m.put("headerReviewDetails", headerReviewDetails);
         m.put("accountReviewDetails", accountReviewDetails);
         return m;
-    }
-
-    /**
-     * Initializes the values for a new document.
-     */
-    public void initiateDocument() {
-        LOG.debug("initiateDocument() started");
-        setStatusCode(ArConstants.CustomerCreditMemoStatuses.INITIATE);
     }
 
     /**
@@ -294,7 +265,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 valid = false;
             }
             else {
-                setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
                 for (ContractsAndGrantsBillingAward award : validAwards) {
 
                     // To set the amount to draw for the award accounts as a whole.

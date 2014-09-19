@@ -47,7 +47,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -62,18 +61,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocumentAction.class);
 
     /**
-     * Do initialization for a new Contracts Grants LetterOfCredit Review Document
-     *
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-        ((ContractsGrantsLetterOfCreditReviewDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
-    }
-
-
-    /**
      * Clears out init tab.
      *
      * @param mapping An ActionMapping
@@ -84,7 +71,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
      * @return An ActionForward
      */
     public ActionForward clearInitTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
         contractsGrantsLetterOfCreditReviewDocument.clearInitFields();
@@ -104,7 +90,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
      * @return An ActionForward
      */
     public ActionForward continueLOCReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 
@@ -136,7 +121,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
      * @return An ActionForward
      */
     public ActionForward recalculateAmountToDraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.SetUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -46,7 +46,7 @@ public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
         super.setUp();
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         documentService.saveDocument(document);
-        document.setInvoiceSuspensionCategories(ListUtils.EMPTY_LIST);
+        document.setInvoiceSuspensionCategories(SetUtils.EMPTY_SET);
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateLastBilledDate(document);
     }
 

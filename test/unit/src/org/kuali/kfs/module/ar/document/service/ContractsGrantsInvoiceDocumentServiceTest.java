@@ -19,8 +19,10 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -294,7 +296,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR1.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR2.createInvoiceSuspensionCategory();
-        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<InvoiceSuspensionCategory>();
+        Set<InvoiceSuspensionCategory> invoiceSuspensionCategories = new HashSet<>();
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_1);
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_2);
         contractsGrantsInvoiceDocument.setInvoiceSuspensionCategories(invoiceSuspensionCategories);
@@ -327,7 +329,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR3.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR4.createInvoiceSuspensionCategory();
-        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<InvoiceSuspensionCategory>();
+        Set<InvoiceSuspensionCategory> invoiceSuspensionCategories = new HashSet<>();
+        invoiceSuspensionCategory_1.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
+        invoiceSuspensionCategory_2.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_1);
         invoiceSuspensionCategories.add(invoiceSuspensionCategory_2);
         contractsGrantsInvoiceDocument.setInvoiceSuspensionCategories(invoiceSuspensionCategories);
@@ -396,7 +400,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("1", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("1", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory2Invalid() {
@@ -434,7 +438,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("2", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("2", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory3Invalid() {
@@ -472,7 +476,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("3", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("3", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory4Invalid() {
@@ -510,7 +514,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("4", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("4", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory5Invalid() {
@@ -539,7 +543,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("5", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("5", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory6Invalid() {
@@ -582,7 +586,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("6", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("6", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory7Invalid() {
@@ -662,7 +666,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("8", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("8", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory9Invalid() {
@@ -700,7 +704,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("9", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("9", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory10Invalid() {
@@ -745,7 +749,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("10", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("10", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory11Invalid() {
@@ -784,7 +788,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("11", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("11", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory12Invalid() {
@@ -822,7 +826,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("12", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("12", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory13Invalid() {
@@ -873,7 +877,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("13", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("13", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory14Invalid() {
@@ -911,7 +915,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("14", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().get(0).getSuspensionCategoryCode());
+        assertEquals("14", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     /**

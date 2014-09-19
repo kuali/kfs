@@ -806,55 +806,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
         String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
 
-        List<String> suspensionCategoryCodes = new ArrayList<String>(); // list of existing codes
-
-        // the first time this is checked, the list will be empty. On subsequent checks, if the list is not empty, it will add the
-        // suspension codes to the
-        // List<String> suspensionCategoryCodes. This list is where we keep track of the codes, and base off this list, we will
-        // create actual suspension category objects.
-        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories();
-        for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
-            suspensionCategoryCodes.add(invoiceSuspensionCategory.getSuspensionCategoryCode());
-        }
-
         if (ObjectUtils.isNotNull(suspensionCategories)) {
             for (SuspensionCategory suspensionCategory : suspensionCategories) {
+                InvoiceSuspensionCategory invoiceSuspensionCategory = new InvoiceSuspensionCategory(documentNumber, suspensionCategory.getCode());
                 if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument)) {
-                    addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, suspensionCategory.getCode());
+                    contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().add(invoiceSuspensionCategory);
                 } else {
-                    removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, suspensionCategory.getCode());
-                }
-            }
-        }
-    }
-
-    /**
-     * @param suspensionCategoryCodes
-     * @param invoiceSuspensionCategories
-     * @param documentNumber
-     * @param suspensionCategoryCode
-     */
-    // this method adds a new InvoiceSuspensionCategory to the List<InvoiceSuspensionCategory> if it does not already exist.
-    protected void addSuspensionCategoryToDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String documentNumber, String suspensionCategoryCode) {
-        if (!suspensionCategoryCodes.contains(suspensionCategoryCode)) { // check prevents duplicate
-            invoiceSuspensionCategories.add(new InvoiceSuspensionCategory(documentNumber, suspensionCategoryCode));
-        }
-    }
-
-    /**
-     * @param suspensionCategoryCodes
-     * @param invoiceSuspensionCategories
-     * @param suspensionCategoryCode
-     */
-    // this method removes a suspensionCategoryCode from the List<String> and removes the object InvoiceSuspensionCategory from the
-    // List<InvoiceSuspensionCategory>
-    protected void removeSuspensionCategoryFromDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String suspensionCategoryCode) {
-        if (suspensionCategoryCodes.contains(suspensionCategoryCode)) {
-            suspensionCategoryCodes.remove(suspensionCategoryCode);
-            for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
-                if (suspensionCategoryCode.equals(invoiceSuspensionCategory.getSuspensionCategoryCode())) {
-                    invoiceSuspensionCategories.remove(invoiceSuspensionCategory);
-                    break;
+                    contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().remove(invoiceSuspensionCategory);
                 }
             }
         }

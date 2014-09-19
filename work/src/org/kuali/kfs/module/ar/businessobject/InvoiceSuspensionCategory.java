@@ -15,13 +15,18 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
@@ -85,6 +90,29 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
      */
     public String getSuspensionCategoryDescription() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_DOCUMENT_SUSPENSION_CATEGORY + suspensionCategoryCode);
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (ObjectUtils.isNotNull(obj)) {
+            if (this.getClass().equals(obj.getClass())) {
+                InvoiceSuspensionCategory other = (InvoiceSuspensionCategory) obj;
+                return (StringUtils.equalsIgnoreCase(this.documentNumber, other.documentNumber) &&
+                        StringUtils.equalsIgnoreCase(this.suspensionCategoryCode, other.suspensionCategoryCode));
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return ObjectUtil.generateHashCode(this, Arrays.asList(KFSPropertyConstants.DOCUMENT_NUMBER, ArPropertyConstants.SuspensionCategoryReportFields.SUSPENSION_CATEGORY_CODE));
     }
 
     /**

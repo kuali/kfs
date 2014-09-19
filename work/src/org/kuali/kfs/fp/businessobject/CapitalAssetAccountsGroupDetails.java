@@ -44,91 +44,100 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
 
     protected CapitalAssetInformation capitalAssetInformation;
 
-    public CapitalAssetAccountsGroupDetails() {
-        super();
-        setAmount(KualiDecimal.ZERO);
-    }
 
-    public CapitalAssetAccountsGroupDetails(CapitalAssetAccountsGroupDetails other){
-        this();
-        this.documentNumber = other.documentNumber;
-        this.capitalAssetLineNumber = other.capitalAssetLineNumber;
-        this.capitalAssetAccountLineNumber = other.capitalAssetAccountLineNumber;
-        this.sequenceNumber = other.sequenceNumber;
-        this.financialDocumentLineTypeCode= other.financialDocumentLineTypeCode;
-        this.chartOfAccountsCode= other.chartOfAccountsCode;
-        this.accountNumber = other.accountNumber;
-        this.financialObjectCode = other.financialObjectCode;
-        this.subAccountNumber = other.subAccountNumber;
-        this.financialSubObjectCode = other.financialSubObjectCode;
-        this.projectCode = other.projectCode;
-        this.organizationReferenceId = other.organizationReferenceId;
-        this.amount = other.amount;
-    }
 
     public String getDocumentNumber() {
         return documentNumber;
     }
 
+
+
     public Integer getCapitalAssetAccountLineNumber() {
         return capitalAssetAccountLineNumber;
     }
+
+
 
     public String getFinancialDocumentLineTypeCode() {
         return financialDocumentLineTypeCode;
     }
 
+
+
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
+
+
 
     public String getAccountNumber() {
         return accountNumber;
     }
 
+
+
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
+
 
     public CapitalAssetInformation getCapitalAssetInformation() {
         return capitalAssetInformation;
     }
 
+
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
+
+
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
+
     public void setCapitalAssetAccountLineNumber(Integer capitalAssetAccountLineNumber) {
         this.capitalAssetAccountLineNumber = capitalAssetAccountLineNumber;
     }
+
 
     public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode) {
         this.financialDocumentLineTypeCode = financialDocumentLineTypeCode;
     }
 
+
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
+
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
+
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
+
+
+    public CapitalAssetAccountsGroupDetails() {
+        super();
+        setAmount(KualiDecimal.ZERO);
+    }
+
+
 
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+
 
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
@@ -220,4 +229,3 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
     }
 
 }
-

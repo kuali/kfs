@@ -17,15 +17,5 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-       
-    <changeSet author="KFS522" id="KFSCNTRB_2039_KRCR_PARM_T">
-        <comment>
-            KFTSCNTRB-2039: update the description of KFS-CAB: FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES to be clearer
-        </comment>
-        <update tableName="KRCR_PARM_T">
-            <column name="PARM_DESC_TXT" value="Object Sub-Types that allow Capital Asset information to be entered on the Financial Processing documents." />
-            <where>NMSPC_CD='KFS-CAB' AND PARM_NM='FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES' AND APPL_ID = 'KFS'</where>
-        </update>
-    </changeSet>    
-        
+    
 </databaseChangeLog>

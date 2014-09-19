@@ -271,7 +271,6 @@
 		<property name="documentHeaderService" ref="documentHeaderService"/>
 		<property name="parameterService" ref="parameterService"/>
 		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
-		<property name="capitalAssetInformationDao" ref="capitalAssetInformationDao"/>
 	</bean> 
 <!-- End GL Line Processing beans -->
 

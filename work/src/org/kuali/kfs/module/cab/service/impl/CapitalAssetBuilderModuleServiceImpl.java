@@ -31,7 +31,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -2200,7 +2199,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
                 String assetNumber;
                 for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
-                    assetNumber = capitalAssetInformation.getCapitalAssetNumber() == null ? null : String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
+                    assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
                     getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
                 }
             }
@@ -2530,7 +2529,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Helper method to retrieve the capital assets on the document and check if they have all been
-     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount on each gl entry line to the
+     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount to on each gl entry line to the
      * entry amount and mark activity indicator flag to "P" (processed).
      *
      * @param glEntry
@@ -2546,19 +2545,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
-        String capitalAssetObjectSubType = this.parameterService.getParameterValueAsString(CabConstants.Parameters.NAMESPACE, "Document", CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
 
         for (GeneralLedgerEntry glLine: glLines) {
-            boolean isCapitalObjectCode = StringUtils.containsIgnoreCase(capitalAssetObjectSubType,glLine.getFinancialObject().getFinancialObjectSubTypeCode());
-            /*We only want to approve "capital" lines so that users have a chance
-             * to work with non-capital lines.
-             */
-            if (isCapitalObjectCode) {
-                glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
-                glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                businessObjectService.save(glLine);
-            }
+            glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
+            glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
         }
+
+        businessObjectService.save(glLines);
 
         return true;
 
@@ -3023,36 +3016,4 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
     }
-
-    /**
-     * This function removes CapitalAssetInformations that don't have at least one capital asset object
-     * code in their group details.
-     *
-     * @param infos
-     */
-    @Override
-    public List<CapitalAssetInformation> filterNonCapitalAssets(List<CapitalAssetInformation> informations){
-        List<CapitalAssetInformation> ret = new ArrayList<CapitalAssetInformation>(informations);
-        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        List<String> capitalAssetObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
-        for (int i = 0; i < ret.size(); ++i) {
-            boolean remove = true;
-            CapitalAssetInformation info = ret.get(i);
-            for (CapitalAssetAccountsGroupDetails det : info.getCapitalAssetAccountsGroupDetails()) {
-                ObjectCode obj = objectCodeService.getByPrimaryIdForCurrentYear(det.getChartOfAccountsCode(), det.getFinancialObjectCode());
-                boolean isCapitalObjectCode = capitalAssetObjectSubTypes.contains(obj.getFinancialObjectSubTypeCode());
-                if (isCapitalObjectCode) {
-                    remove = false;
-                    break;
-                }
-            }
-            if (remove) {
-                /* We don't want facade CapitalAssetInformations. */
-                ret.remove(i--);
-            }
-        }
-        return ret;
-    }
-
-
 }

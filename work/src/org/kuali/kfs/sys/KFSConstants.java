@@ -1503,7 +1503,6 @@ public class KFSConstants {
             return String.format("%s - %s", this.code, this.name);
         }
     }
-
     public static class Booleans {
         public static final String TRUE = "true";
         public static final String FALSE = "false";

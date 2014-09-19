@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -406,18 +404,17 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List<CustomerInvoiceDocument> selectedInvoices = new ArrayList();
 
         String columnTitle = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.COLUMN_TITLE))[0];
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         java.util.Date reportRunDate = null;
         java.util.Date beginDate = null;
         java.util.Date endDate = null;
         try {
-            reportRunDate = dateFormat.parse(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_RUN_DATE))[0]);
+            reportRunDate = dateTimeService.convertToDate(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_RUN_DATE))[0]);
             if (!StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
-                endDate = dateFormat.parse(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE))[0]);
+                endDate = dateTimeService.convertToDate(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE))[0]);
                 String strBeginDate = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE))[0];
                 if (StringUtils.isNotEmpty(strBeginDate)) {
-                    beginDate = dateFormat.parse(strBeginDate);
+                    beginDate = dateTimeService.convertToDate(strBeginDate);
                 }
             }
         }

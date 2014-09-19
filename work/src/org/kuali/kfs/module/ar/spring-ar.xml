@@ -2415,6 +2415,9 @@
 		<property name="contractsGrantsAgingReportService">
 			<ref bean="contractsGrantsAgingReportService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>	
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>		

@@ -623,9 +623,11 @@ public class ArPropertyConstants{
     public static final String CATEGORY = "CATEGORY";
     public static final String CATEGORY_CODE = "categoryCode";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
+    public static final String COLUMN_TITLE = "columnTitle";
     public static final String CUMULATIVE = "cumulative";
     public static final String DIRECT_COST_INVOICE_DETAIL = "directCostInvoiceDetail";
     public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
+    public static final String END_DATE = "endDate";
     public static final String ESTIMATED_COST = "estimatedCost";
     public static final String EXPENDITURE = "expenditure";
     public static final String FINAL_STATUS_DATE = "finalStatusDate";
@@ -649,6 +651,7 @@ public class ArPropertyConstants{
     public static final String RECEIVABLES = "receivables";
     public static final String REIMBURSEMENT_FLAG = "reimbursementFlag";
     public static final String REMAINING_AMOUNT = "remainingAmount";
+    public static final String START_DATE = "startDate";
     public static final String SYSTEM_INFORMATION = "systemInformation";
     public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
     public static final String TOTAL_INVOICE_DETAIL = "totalInvoiceDetail";

@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +25,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
@@ -46,6 +46,7 @@ import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -146,16 +147,13 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         Map<String, ContractsAndGrantsAgingReport> knownCustomers = new HashMap<String, ContractsAndGrantsAgingReport>();
         ContractsAndGrantsAgingReport custDetail;
 
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateFormat.setLenient(false);
-
         try {
             java.util.Date today = getDateTimeService().getCurrentDate();
             String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
 
             reportRunDate = (ObjectUtils.isNull(reportRunDateStr) || reportRunDateStr.isEmpty()) ?
                                                 today :
-                                                dateFormat.parse(reportRunDateStr);
+                                                getDateTimeService().convertToDate(reportRunDateStr);
 
             // retrieve filtered data according to the lookup
             Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = getContractsGrantsAgingReportService().filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
@@ -170,7 +168,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
             Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
 
-            if (ObjectUtils.isNotNull(cgMapByCustomer) && !cgMapByCustomer.isEmpty()) {
+            if (!MapUtils.isEmpty(cgMapByCustomer)) {
                 // 30 days
                 computeFor0To30DaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
                 // 60 days
@@ -421,42 +419,41 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             parameters.put(ArPropertyConstants.REPORT_OPTION, reportOption);
         }
         // Report Run Date
-        DateFormatter dateFormatter = new DateFormatter();
-        parameters.put(ArPropertyConstants.ContractsGrantsAgingReportFields.REPORT_RUN_DATE, dateFormatter.format(reportRunDate).toString());
+        parameters.put(ArPropertyConstants.ContractsGrantsAgingReportFields.REPORT_RUN_DATE, getDateTimeService().toDateString(reportRunDate));
 
         // put bucket dates
         if (StringUtils.equals(columnTitle, customerNumberLabel)) {
-            parameters.put("columnTitle", KFSConstants.CustomerOpenItemReport.ALL_DAYS);
-            parameters.put("startDate", "");
-            parameters.put("endDate", dateFormatter.format(reportRunDate).toString());
+            parameters.put(ArPropertyConstants.COLUMN_TITLE, KFSConstants.CustomerOpenItemReport.ALL_DAYS);
+            parameters.put(ArPropertyConstants.START_DATE, KFSConstants.EMPTY_STRING);
+            parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(reportRunDate));
         }
         else {
             if (StringUtils.equals(columnTitle, cutoffdate30Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString());
-                parameters.put("endDate", dateFormatter.format(reportRunDate).toString());
+                parameters.put(ArPropertyConstants.START_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -30)));
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(reportRunDate));
             }
             else if (StringUtils.equals(columnTitle, cutoffdate60Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString());
+                parameters.put(ArPropertyConstants.START_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -60)));
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -31)));
             }
             else if (StringUtils.equals(columnTitle, cutoffdate90Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -61)));
+                parameters.put(ArPropertyConstants.START_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -90)));
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -61)));
             }
             else if (StringUtils.equals(columnTitle, cutoffdate91toSYSPRlabel)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString());
+                parameters.put(ArPropertyConstants.START_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -120)));
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -91)));
             }
             else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
-                parameters.put("startDate", "");
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString());
+                parameters.put(ArPropertyConstants.START_DATE, KFSConstants.EMPTY_STRING);
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(DateUtils.addDays(reportRunDate, -121)));
                 columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + " days and older";
             }
             else {
-                parameters.put("startDate", "");
-                parameters.put("endDate", dateFormatter.format(reportRunDate).toString());
+                parameters.put(ArPropertyConstants.START_DATE, KFSConstants.EMPTY_STRING);
+                parameters.put(ArPropertyConstants.END_DATE, getDateTimeService().toDateString(reportRunDate));
             }
-            parameters.put("columnTitle", columnTitle);
+            parameters.put(ArPropertyConstants.COLUMN_TITLE, columnTitle);
         }
         return UrlFactory.parameterizeUrl("arContractsGrantsAgingOpenInvoicesReportLookup.do", parameters);
     }
@@ -475,7 +472,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, KFSConstants.Booleans.TRUE);
         params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "CRM");
         params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
         return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
@@ -495,7 +492,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, KFSConstants.Booleans.TRUE);
         params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "INVW");
         params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
         return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
@@ -777,16 +774,16 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      */
     protected KualiDecimal calculateInvoiceAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
         KualiDecimal invoiceAmt = KualiDecimal.ZERO;
-        if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
+        if (!CollectionUtils.isEmpty(cgDocs)) {
             for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
                 if (ObjectUtils.isNotNull(cgDoc.getBillingDate())) {
                     if (ObjectUtils.isNotNull(begin)) {
-                        if (cgDoc.getBillingDate().compareTo(begin) >= 0 && cgDoc.getBillingDate().compareTo(end) <= 0) {
+                        if (KfsDateUtils.isSameDayOrLater(cgDoc.getBillingDate(), begin) && KfsDateUtils.isSameDayOrEarlier(cgDoc.getBillingDate(), end)) {
                             invoiceAmt = invoiceAmt.add(cgDoc.getTotalDollarAmount());
                         }
                     }
                     else {
-                        if (cgDoc.getBillingDate().compareTo(end) <= 0) {
+                        if (KfsDateUtils.isSameDayOrEarlier(cgDoc.getBillingDate(), end)) {
                             invoiceAmt = invoiceAmt.add(cgDoc.getTotalDollarAmount());
                         }
                     }
@@ -806,16 +803,16 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      */
     protected KualiDecimal calculatePaymentAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
         KualiDecimal invoiceAmt = KualiDecimal.ZERO;
-        if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
+        if (!CollectionUtils.isEmpty(cgDocs)) {
             for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
                 if (ObjectUtils.isNotNull(cgDoc.getBillingDate())) {
                     if (ObjectUtils.isNotNull(begin)) {
-                        if (cgDoc.getBillingDate().compareTo(begin) >= 0 && cgDoc.getBillingDate().compareTo(end) <= 0) {
+                        if (KfsDateUtils.isSameDayOrLater(cgDoc.getBillingDate(), begin) && KfsDateUtils.isSameDayOrEarlier(cgDoc.getBillingDate(), end)) {
                             invoiceAmt = invoiceAmt.add(cgDoc.getPaymentAmount());
                         }
                     }
                     else {
-                        if (cgDoc.getBillingDate().compareTo(end) <= 0) {
+                        if (KfsDateUtils.isSameDayOrEarlier(cgDoc.getBillingDate(), end)) {
                             invoiceAmt = invoiceAmt.add(cgDoc.getPaymentAmount());
                         }
                     }
@@ -849,7 +846,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
             List<ContractsGrantsInvoiceDocument> cgDocs = cgMapByCustomer.get(customer);
-            if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
+            if (!CollectionUtils.isEmpty(cgDocs)) {
                 credits = KualiDecimal.ZERO;
                 for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
                     Collection<CustomerCreditMemoDocument> creditDocs = customerCreditMemoDocumentService.getCustomerCreditMemoDocumentByInvoiceDocument(cgDoc.getDocumentNumber());

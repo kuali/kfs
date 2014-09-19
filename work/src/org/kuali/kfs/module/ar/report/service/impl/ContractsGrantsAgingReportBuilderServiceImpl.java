@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -142,6 +143,9 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
 
                 @Override
                 public int compare(Event o1, Event o2) {
+                    if (KfsDateUtils.isSameDay(o1.getActivityDate(), o2.getActivityDate())) {
+                        return 0;
+                    }
                     return o2.getActivityDate().compareTo(o1.getActivityDate());
                 }
             });

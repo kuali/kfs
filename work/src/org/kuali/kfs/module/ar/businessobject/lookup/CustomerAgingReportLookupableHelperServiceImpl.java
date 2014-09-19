@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -123,11 +121,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         totalOpenInvoices = KualiDecimal.ZERO;
         totalWriteOffs = KualiDecimal.ZERO;
         totalCredits = KualiDecimal.ZERO;
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         Date today = getDateTimeService().getCurrentDate();
         try {
-            reportRunDate = dateFormat.parse(fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+            reportRunDate = getDateTimeService().convertToDate(fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate = today;

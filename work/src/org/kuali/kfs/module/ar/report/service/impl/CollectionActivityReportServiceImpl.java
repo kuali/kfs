@@ -41,6 +41,7 @@ import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -56,49 +57,10 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected BusinessObjectService businessObjectService;
+    protected DateTimeService dateTimeService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
     protected PersonService personService;
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
-
-    /**
-     * Gets the businessObjectService attribute.
-     *
-     * @return Returns the businessObjectService.
-     */
-    @NonTransactional
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     *
-     * @param businessObjectService The businessObjectService to set.
-     */
-    @NonTransactional
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the contractsGrantsInvoiceDocumentService attribute.
-     *
-     * @return Returns the contractsGrantsInvoiceDocumentService.
-     */
-    @NonTransactional
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     *
-     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
-     */
-    @NonTransactional
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#filterContractsGrantsAgingReport(java.util.Map)
@@ -309,4 +271,43 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
+    /**
+     * Gets the businessObjectService attribute.
+     *
+     * @return Returns the businessObjectService.
+     */
+    @NonTransactional
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     *
+     * @param businessObjectService The businessObjectService to set.
+     */
+    @NonTransactional
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the contractsGrantsInvoiceDocumentService attribute.
+     *
+     * @return Returns the contractsGrantsInvoiceDocumentService.
+     */
+    @NonTransactional
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    /**
+     * Sets the contractsGrantsInvoiceDocumentService attribute value.
+     *
+     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
+     */
+    @NonTransactional
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
 }

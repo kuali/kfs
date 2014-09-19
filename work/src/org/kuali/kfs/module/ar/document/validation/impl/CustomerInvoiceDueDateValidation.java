@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,13 +31,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceDueDateValidation extends GenericValidation {
-    
+
     private CustomerInvoiceDocument customerInvoiceDocument;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
-    
+
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
-        
+
         Timestamp dueDateTimestamp = new Timestamp(customerInvoiceDocument.getInvoiceDueDate().getTime());
         Timestamp billingDateTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
         // test only for initial state and not for correction
@@ -55,23 +56,23 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
             }
 
         }
-        
+
         return true;
     }
 
     /**
-     * 
+     *
      * This method calculates the difference in days between the two timestamps provided.
-     * 
-     * This method is used instead of KfsDateUtils.getDifferenceInDays() because there is a rounding issue within the timestamp that exists which must be dealt with to 
+     *
+     * This method is used instead of KfsDateUtils.getDifferenceInDays() because there is a rounding issue within the timestamp that exists which must be dealt with to
      * prevent improper calculations.  This issue is similar to the problems that exist with adding and subtracting doubles and the inherently bad way that Java handles
-     * numbers.  
-     * 
+     * numbers.
+     *
      * The approach used within KfsDateUtils does not offer enough accuracy to calculate the difference consistently and accurately.
-     * 
+     *
      * @param t1
      * @param t2
-     * @return The difference in days between the two given timestamps.  
+     * @return The difference in days between the two given timestamps.
      */
     public static long getDifferenceInDays (Timestamp t1, Timestamp t2) {
         // Make sure the result is always > 0
@@ -103,7 +104,7 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
         result.setNanos (diffNanos);
         return result.getDate();
     }
-    
+
     public CustomerInvoiceDocument getCustomerInvoiceDocument() {
         return customerInvoiceDocument;
     }
@@ -119,7 +120,7 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     public ParameterService getParameterService() {
         return parameterService;
     }

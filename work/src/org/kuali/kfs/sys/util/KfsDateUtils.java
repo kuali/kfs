@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Utility methods for comparing dates
@@ -259,5 +260,37 @@ public class KfsDateUtils {
         calendar.clear(Calendar.MILLISECOND);
 
         return new java.sql.Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * Determines if the given date d1 is on the same day or an earlier day than the given date d2.
+     * @param d1 a date
+     * @param d2 another date, to compare the first date to
+     * @return true if d1 is earlier or the same day as d2, false otherwise or if either value is null
+     */
+    public static boolean isSameDayOrEarlier(Date d1, Date d2) {
+        if (ObjectUtils.isNull(d1) || ObjectUtils.isNull(d2)) {
+            return false;
+        }
+        if (isSameDay(d1, d2)) {
+            return true;
+        }
+        return d1.compareTo(d2) < 0;
+    }
+
+    /**
+     * Determines if the given date d1 is on the same day or a later day than the given date d2.
+     * @param d1 a date
+     * @param d2 another date, to compare the first date to
+     * @return true if d1 is later or the same day as d2, false otherwise or if either value is null
+     */
+    public static boolean isSameDayOrLater(Date d1, Date d2) {
+        if (ObjectUtils.isNull(d1) || ObjectUtils.isNull(d2)) {
+            return false; // we can't compare against nulls
+        }
+        if (isSameDay(d1, d2)) {
+            return true;
+        }
+        return d1.compareTo(d2) > 0;
     }
 }

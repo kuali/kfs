@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class CustomerAgingReportServiceImpl implements CustomerAgingReportService {
-    private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;

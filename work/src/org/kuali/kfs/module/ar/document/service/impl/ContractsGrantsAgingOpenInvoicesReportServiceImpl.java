@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +34,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -43,9 +42,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class is used to get the services for PDF generation and other services for Contracts Grants Aging open Invoices report
  */
 public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements ContractsGrantsAgingOpenInvoicesReportService {
-
     protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected DateTimeService dateTimeService;
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportServiceImpl.class);
     protected KualiModuleService kualiModuleService;
 
@@ -100,18 +99,17 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
         String chartCode = ObjectUtils.isNotNull(urlParameters.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE)) ? ((String[]) urlParameters.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE))[0] : null;
         String strBeginDate = ObjectUtils.isNotNull(urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE)) ? ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE))[0] : null;
         String strEndDate = ObjectUtils.isNotNull(urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE)) ? ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE))[0] : null;
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         java.sql.Date startDate = null;
         java.sql.Date endDate = null;
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         try {
 
             if (ObjectUtils.isNotNull(strBeginDate) && StringUtils.isNotEmpty(strBeginDate)) {
-                startDate = new java.sql.Date(dateFormat.parse(strBeginDate).getTime());
+                startDate = getDateTimeService().convertToSqlDate(strBeginDate);
             }
 
             if (ObjectUtils.isNotNull(strEndDate) && StringUtils.isNotEmpty(strEndDate)) {
-                endDate = new java.sql.Date(dateFormat.parse(strEndDate).getTime());
+                endDate = getDateTimeService().convertToSqlDate(strEndDate);
             }
 
             Map<String, String> fieldValueMap = new HashMap<String, String>();
@@ -185,6 +183,14 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
             results.add(detail);
 
         }
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
     /**

@@ -126,7 +126,7 @@
 		<property name="name" value="estimatedAmount" />
 		<property name="label" value="Bill Amount" />
 		<property name="shortLabel" value="BillAmt" />
-		<property name="exclusiveMin" value="0"/>
+		<property name="exclusiveMin" value=".009"/>
 	</bean>
 
 	<bean id="Bill-billDate" parent="Bill-billDate-parentBean" />

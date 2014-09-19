@@ -53,6 +53,8 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         isValid &= checkForDuplicateBillNumber(collectionName, line);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
+        //for some reason a duplicate message is added to the error map
+        GlobalVariables.getMessageMap().removeAllErrorMessagesForProperty("document.newMaintainableObject." + ArPropertyConstants.PredeterminedBillingScheduleFields.ESTIMATED_AMOUNT);
         LOG.info("Leaving PredeterminedBillingScheduleRule.processCustomAddCollectionLineBusinessRules");
         return isValid;
     }

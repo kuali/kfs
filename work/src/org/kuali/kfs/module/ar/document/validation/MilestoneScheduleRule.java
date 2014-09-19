@@ -53,6 +53,7 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         isValid &= checkForDuplicateBillNumber(collectionName, line);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
+        GlobalVariables.getMessageMap().removeAllErrorMessagesForProperty("document.newMaintainableObject." + ArPropertyConstants.MilestoneFields.MILESTONE_AMOUNT);
         LOG.info("Leaving PredeterminedBillingScheduleRule.processCustomAddCollectionLineBusinessRules");
         return isValid;
     }

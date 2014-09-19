@@ -496,6 +496,7 @@ public class ArPropertyConstants{
 
     public static class PredeterminedBillingScheduleFields {
         public static final String BILLS = "bills";
+        public static final String ESTIMATED_AMOUNT = "estimatedAmount";
     }
 
     public static class BillFields {
@@ -510,6 +511,7 @@ public class ArPropertyConstants{
     public static class MilestoneFields {
         public static final String MILESTONE_IDENTIFIER = "milestoneIdentifier";
         public static final String MILESTONE_NUMBER = "milestoneNumber";
+        public static final String MILESTONE_AMOUNT = "milestoneAmount";
     }
 
     public static class FederalFormReportFields {

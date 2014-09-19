@@ -55,6 +55,9 @@ public enum ContractsGrantsInvoiceDocumentFixture {
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument)) {
             setValues(contractsGrantsInvoiceDocument);
         }
+
+        contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
+
         return contractsGrantsInvoiceDocument;
     }
 

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 
@@ -31,28 +32,10 @@ public class BillDateExceedsAwardStopDateSuspensionCategory extends SuspensionCa
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        Date documentDate = new Date(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        Date documentDate = new Date(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getWorkflowCreateDate().getTime());
         Date awardEndingDate = contractsGrantsInvoiceDocument.getAward().getAwardEndingDate();
 
-        // remove time
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(documentDate.getTime());
-        cal.set(cal.HOUR_OF_DAY, 0);
-        cal.set(cal.MINUTE, 0);
-        cal.set(cal.SECOND, 0);
-        cal.set(cal.MILLISECOND, 0);
-        documentDate.setTime(cal.getTimeInMillis());
-
-        // remove time
-        cal = Calendar.getInstance();
-        cal.setTimeInMillis(awardEndingDate.getTime());
-        cal.set(cal.HOUR_OF_DAY, 0);
-        cal.set(cal.MINUTE, 0);
-        cal.set(cal.SECOND, 0);
-        cal.set(cal.MILLISECOND, 0);
-        awardEndingDate.setTime(cal.getTimeInMillis());
-
-        return documentDate.after(awardEndingDate);
+        return DateUtils.truncatedCompareTo(documentDate, awardEndingDate, Calendar.DATE) > 0;
     }
 
 }

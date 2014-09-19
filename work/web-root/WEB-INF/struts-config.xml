@@ -903,12 +903,12 @@
 		</action>
 		
 		<action path="/contractsGrantsAwardBalancesReport" name="ContractsGrantsAwardBalancesReportLookupForm"
-			input="/jsp/module/cg/ContractsGrantsReportLookup.jsp"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
 			type="org.kuali.kfs.module.cg.web.struts.ContractsGrantsAwardBalancesReportLookupAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/cg/ContractsGrantsReportLookup.jsp" />
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
 		<action path="/contractsGrantsInvoiceDocumentErrorLogReport" name="ContractsGrantsInvoiceDocumentErrorLogReportLookupForm"

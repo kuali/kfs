@@ -20,8 +20,6 @@
 
 <c:set var="customerAttributes"
 	value="${DataDictionary['Customer'].attributes}" />
-<c:set var="customerInvoiceDetailAttributes"
-	value="${DataDictionary['CustomerInvoiceDetail'].attributes}" />
 <c:set var="cgInvoiceAttributes"
 	value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
 <c:set var="invoiceAccountDetailAttributes"
@@ -227,16 +225,16 @@
 												<table width='100%' cellpadding='0' cellspacing='0'
 													class='datatable'>
 													<tr>
-														<th>Invoice Number</th>
-														<th>Account Number</th>
-														<th>Invoice Date</th>
-														<th>Billing Period</th>
-														<th>Invoice Amount</th>
-														<th>Billing Frequency</th>
-														<th>Payment Amount</th>
-														<th>Last Payment Date</th>
-														<th>Balance Due</th>
-														<th>Age</th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.organizationInvoiceNumber}" labelFor="document.organizationInvoiceNumber" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${invoiceAccountDetailAttributes.accountNumber}" labelFor="document.invoiceAccountDetailAttributes.accountNumber" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.billingDate}" labelFor="document.billingDate" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" labelFor="document.invoiceGeneralDetail.billingPeriod" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.sourceTotal}" labelFor="document.sourceTotal" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}" labelFor="invoiceGeneralDetail.billingFrequency" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentAmount}" labelFor="document.paymentAmount" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentDate}" labelFor="document.paymentDate" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.balanceDue}" labelFor="document.balanceDue" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.age}" labelFor="document.age" /></th>
 													</tr>
 													<tr>
 														<td><a
@@ -353,8 +351,4 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<SCRIPT type="text/javascript">
-		var kualiForm = document.forms['KualiForm'];
-		var kualiElements = kualiForm.elements;
-	</SCRIPT>
 </kul:tab>

@@ -20,7 +20,6 @@
 <c:set var="cgInvoiceAttributes" value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<!-- If there are no bills, this section should not be displayed -->
 <kul:tab tabTitle="Refer to Collections" defaultOpen="true" tabErrorKey="document.referralToCollectionsDocument*">
 	<c:set var="referralToCollectionsLookupResultAttributes" value="${DataDictionary.ReferralToCollectionsLookupResult.attributes}" />
 	<%@ attribute name="invPropertyName" required="true" description="Name of form property containing the customer invoice source accounting line."%>

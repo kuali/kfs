@@ -17,7 +17,6 @@
 
 
 <c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDocument.attributes}" />
-<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 
 <kul:tab tabTitle="General" defaultOpen="true">
 	<div class="tab-container" align=center>

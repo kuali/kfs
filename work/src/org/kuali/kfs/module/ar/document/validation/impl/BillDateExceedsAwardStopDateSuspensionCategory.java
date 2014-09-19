@@ -32,7 +32,7 @@ public class BillDateExceedsAwardStopDateSuspensionCategory extends SuspensionCa
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        Date documentDate = new Date(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getWorkflowCreateDate().getTime());
+        Date documentDate = new Date(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
         Date awardEndingDate = contractsGrantsInvoiceDocument.getAward().getAwardEndingDate();
 
         return DateUtils.truncatedCompareTo(documentDate, awardEndingDate, Calendar.DATE) > 0;

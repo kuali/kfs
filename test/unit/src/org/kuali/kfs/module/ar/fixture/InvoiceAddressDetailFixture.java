@@ -21,7 +21,8 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
  * Fixture class for InvoiceAddressDetail
  */
 public enum InvoiceAddressDetailFixture {
-    INV_ADDRESS_DETAIL1("documentNumber", "customerNumber",111, "customerAddressTypeCode", "customerAddressName", "customerInvoiceTemplateCode", "invoiceTransmissionMethodCode");
+    INV_ADDRESS_DETAIL1("documentNumber", "customerNumber",111, "P", "customerAddressName", "customerInvoiceTemplateCode", "invoiceTransmissionMethodCode"),
+    INV_ADDRESS_DETAIL2("documentNumber", "customerNumber",111, "A", "customerAddressName", "customerInvoiceTemplateCode", "invoiceTransmissionMethodCode");
 
     private String documentNumber;
     private String customerNumber;

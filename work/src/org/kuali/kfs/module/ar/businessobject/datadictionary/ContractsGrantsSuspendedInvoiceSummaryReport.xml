@@ -26,23 +26,10 @@
 			<list>
 				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager" />
 				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode" />
-				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription" />
+				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryDescription" />
 				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended" />
 			</list>
 		</property>
-
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="suspensionCategory">
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="suspensionCategoryCode" p:targetName="suspensionCategoryCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager" parent="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager-parentBean" />
@@ -57,20 +44,10 @@
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode" parent="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode-parentBean" />
-	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
-		<property name="name" value="suspensionCategoryCode" />
-	</bean>
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode-parentBean" abstract="true" parent="InvoiceSuspensionCategory-suspensionCategoryCode"/>
 
-	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription" parent="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription-parentBean" />
-	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="categoryDescription" />
-		<property name="label" value="Suspense Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="100" />
-		</property>
-	</bean>
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryDescription" parent="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryDescription-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryDescription-parentBean" abstract="true" parent="InvoiceSuspensionCategory-suspensionCategoryDescription"/>
 
 	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended" parent="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended-parentBean" />
 	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended-parentBean" abstract="true" parent="AttributeDefinition">
@@ -107,7 +84,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
-				<bean parent="FieldDefinition" p:attributeName="categoryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryDescription" />
 				<bean parent="FieldDefinition" p:attributeName="totalInvoicesSuspended" />
 			</list>
 		</property>

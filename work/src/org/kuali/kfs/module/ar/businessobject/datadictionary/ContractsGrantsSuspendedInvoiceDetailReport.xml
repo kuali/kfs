@@ -77,22 +77,13 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="suspensionCategory">
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="suspensionCategoryCode" p:targetName="suspensionCategoryCode" />
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-suspensionCategoryCode" parent="ContractsGrantsSuspendedInvoiceDetailReport-suspensionCategoryCode-parentBean" />
-	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
-		<property name="name" value="suspensionCategoryCode" />
-	</bean>
+	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-suspensionCategoryCode-parentBean" abstract="true" parent="InvoiceSuspensionCategory-suspensionCategoryCode"/>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-documentNumber" parent="ContractsGrantsSuspendedInvoiceDetailReport-documentNumber-parentBean" />
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />

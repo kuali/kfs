@@ -54,7 +54,6 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -68,7 +67,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -76,6 +74,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.validation.SuspensionCategory;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.PdfFormattingMap;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
@@ -140,6 +139,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected ParameterService parameterService;
     protected PersonService personService;
     protected UniversityDateService universityDateService;
+
+    private List<SuspensionCategory> suspensionCategories;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
@@ -818,118 +819,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             suspensionCategoryCodes.add(invoiceSuspensionCategory.getSuspensionCategoryCode());
         }
 
-        // validation suspension code - Check if invoice is created after award expiration date
-        if (isInvoiceCreateDateAfterAwardEndingDate(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE);
-        }
-
-        // validation suspension code - Check if amount to bill with amount already billed is greater than the award total amount
-        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getAward().getAwardTotalAmount())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL);
-        }
-
-        // validation suspension code - Check if invoice amount is less than the minimum allowed specified by the award
-        if (isInvoiceAmountLessThanInvoiceMinimumRequirements(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT);
-        }
-
-        // validation suspension code - Check to see that an attachment is made if it is required by the award
-        if (contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator()) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.REPORTS_ARE_REQUIRED_TO_BE_ATTACHED);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.REPORTS_ARE_REQUIRED_TO_BE_ATTACHED);
-        }
-
-        // validation suspension code - Make sure the Primary Address is completed
-        if (!isCustomerPrimaryAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
-        }
-
-        // validation suspension code - Check to see if the Alternate address is completed if it was entered to begin with
-        if (!isCustomerAlternateAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
-        }
-
-        // validation suspension code - Make sure invoice is final if the award is already expired
-        if (isAwardExpired(contractsGrantsInvoiceDocument.getAward()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED);
-        }
-
-        // validation suspension code - Check to see if cost category codes are setup correctly. An object code might not
-        // be assigned or could be assigned to more than one Cost Category. Check by comparing total current expenditure
-        // to the sum of account current expenditure
-        if (!isAwardIBillingFrequencyIsPredetermined(award) && !isAwardBillingFrequencyIsMilestone(award) && !isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CGB_CATEGORY_CODE_SETUP_INCORRECTLY);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CGB_CATEGORY_CODE_SETUP_INCORRECTLY);
-        }
-
-        // validation suspension code - Check to see if Loc Amount is sufficient
-        if (!isLocAmountSufficent(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT);
-        }
-
-        // validation suspension code - Check to see if award has any active but expired account
-        if (doesAwardHaveAnyActiveExpiredAccounts(award)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT);
-        }
-
-        // validation suspension code - Check to see if award has 'Suspend Invoicing' enabled
-        if (award.isSuspendInvoicingIndicator()) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_SUSPENDED_BY_USER);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AWARD_SUSPENDED_BY_USER);
-        }
-
-        // validation suspension code - Check to see if invoice type is missing from award
-        if (StringUtils.isEmpty(award.getInvoicingOptions())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.INVOICE_TYPE_IS_MISSING);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.INVOICE_TYPE_IS_MISSING);
-        }
-
-        // validation suspension code - Check to see if award has closed account which still has current expenditure
-        if (doesAwardHaveClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_CLOSED_ACCOUNT_WITH_CURRENT_EXPENDITURES);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AWARD_HAS_CLOSED_ACCOUNT_WITH_CURRENT_EXPENDITURES);
-        }
-
-        // validation suspension code - Check to see if invoice type is missing from award
-        if (award.isStopWorkIndicator()) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_STOP_WORK_MARKED);
-        }
-        else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AWARD_HAS_STOP_WORK_MARKED);
+        if (ObjectUtils.isNotNull(suspensionCategories)) {
+            for (SuspensionCategory suspensionCategory : suspensionCategories) {
+                if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument)) {
+                    addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, suspensionCategory.getCode());
+                } else {
+                    removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, suspensionCategory.getCode());
+                }
+            }
         }
     }
 
@@ -942,11 +839,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     // this method adds a new InvoiceSuspensionCategory to the List<InvoiceSuspensionCategory> if it does not already exist.
     protected void addSuspensionCategoryToDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String documentNumber, String suspensionCategoryCode) {
         if (!suspensionCategoryCodes.contains(suspensionCategoryCode)) { // check prevents duplicate
-            // To check if the suspension category is active.
-            SuspensionCategory suspensionCategory = businessObjectService.findBySinglePrimaryKey(SuspensionCategory.class, suspensionCategoryCode);
-            if (ObjectUtils.isNotNull(suspensionCategory) && suspensionCategory.isActive()) {
-                invoiceSuspensionCategories.add(new InvoiceSuspensionCategory(documentNumber, suspensionCategoryCode));
-            }
+            invoiceSuspensionCategories.add(new InvoiceSuspensionCategory(documentNumber, suspensionCategoryCode));
         }
     }
 
@@ -967,206 +860,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 }
             }
         }
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    public boolean isInvoiceCreateDateAfterAwardEndingDate(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        Date documentDate = new Date(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
-        Date awardEndingDate = contractsGrantsInvoiceDocument.getAward().getAwardEndingDate();
-
-        // remove time
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(documentDate.getTime());
-        cal.set(cal.HOUR_OF_DAY, 0);
-        cal.set(cal.MINUTE, 0);
-        cal.set(cal.SECOND, 0);
-        cal.set(cal.MILLISECOND, 0);
-        documentDate.setTime(cal.getTimeInMillis());
-
-        // remove time
-        cal = Calendar.getInstance();
-        cal.setTimeInMillis(awardEndingDate.getTime());
-        cal.set(cal.HOUR_OF_DAY, 0);
-        cal.set(cal.MINUTE, 0);
-        cal.set(cal.SECOND, 0);
-        cal.set(cal.MILLISECOND, 0);
-        awardEndingDate.setTime(cal.getTimeInMillis());
-
-        return documentDate.after(awardEndingDate);
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    protected boolean isInvoiceAmountLessThanInvoiceMinimumRequirements(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        KualiDecimal invoiceMinimumAmount = contractsGrantsInvoiceDocument.getAward().getMinInvoiceAmount();
-        if (invoiceMinimumAmount == null) {
-            return false; // if no minimum specified, then no limit
-        }
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isLessThan(invoiceMinimumAmount);
-    }
-
-    /**
-     * @param agency
-     * @return
-     */
-    protected boolean isCustomerPrimaryAddressComplete(List<InvoiceAddressDetail> addressDetails) {
-        for (InvoiceAddressDetail addressDetail : addressDetails) {
-            if (StringUtils.equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
-                if (ObjectUtils.isNull(addressDetail.getCustomerAddress())) {
-                    addressDetail.refreshReferenceObject(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS);
-                }
-                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param agency
-     * @return
-     */
-    protected boolean isCustomerAlternateAddressComplete(List<InvoiceAddressDetail> addressDetails) {
-        for (InvoiceAddressDetail addressDetail : addressDetails) {
-            if (StringUtils.equals(ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
-                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
-            }
-        }
-        return true; // if no alternate address entered at all, then that is ok
-    }
-
-    /**
-     * @param agencyAddress
-     * @return
-     */
-    protected boolean isCustomerAddressComplete(CustomerAddress customerAddress) {
-        return !ObjectUtils.isNull(customerAddress)
-                && !StringUtils.isBlank(customerAddress.getCustomerLine1StreetAddress())
-                && !StringUtils.isBlank(customerAddress.getCustomerCityName())
-                && !StringUtils.isBlank(customerAddress.getCustomerStateCode())
-                && !StringUtils.isBlank(customerAddress.getCustomerZipCode())
-                && !StringUtils.isBlank(customerAddress.getCustomerCountryCode());
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    protected boolean isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
-        if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
-            KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
-            KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
-
-            for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
-                accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
-            }
-
-            return categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure);
-        }
-        return false;
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    protected boolean isLocAmountSufficent(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ArConstants.LOC_BILLING_SCHEDULE_CODE.equals(contractsGrantsInvoiceDocument.getAward().getBillingFrequency().getFrequency())) {
-            if (contractsGrantsInvoiceDocument.getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param award
-     * @return
-     */
-    protected boolean doesAwardHaveAnyActiveExpiredAccounts(ContractsAndGrantsBillingAward award) {
-        Date now = getDateTimeService().getCurrentDate();
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            if (ObjectUtils.isNotNull(awardAccount.getAccount())) {
-                Date accountExpirationDate = awardAccount.getAccount().getAccountExpirationDate();
-                if (accountExpirationDate != null && now.after(accountExpirationDate) && awardAccount.getAccount().isActive()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param award
-     * @return
-     */
-    protected boolean isAwardExpired(ContractsAndGrantsBillingAward award) {
-        Date now = getDateTimeService().getCurrentDate();
-        return now.after(award.getAwardEndingDate());
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    public boolean doesAwardHaveClosedAccountWithCurrentExpenditures(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        // for each InvoiceDetailAccountObjectCode, extract the chart code and account number, and store it in a map
-        // where the key is chart code and value is a set of account numbers (no duplicates).
-        Map<String, Set<String>> map = new HashMap<String, Set<String>>();
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes()) {
-            String chartOfAccountsCode = invoiceDetailAccountObjectCode.getChartOfAccountsCode();
-            String accountNumber = invoiceDetailAccountObjectCode.getAccountNumber();
-            if (map.containsKey(chartOfAccountsCode)) {
-                Set<String> set = map.get(chartOfAccountsCode);
-                set.add(accountNumber);
-            }
-            else {
-                Set<String> set = new HashSet<String>();
-                set.add(accountNumber);
-                map.put(chartOfAccountsCode, set);
-            }
-        }
-
-        // Then go through the map and check to see if any of them have closed accounts
-        Set<String> keys = map.keySet();
-        for (String chartOfAccountsCode : keys) {
-            Set<String> values = map.get(chartOfAccountsCode);
-            for (String accountNumber : values) {
-                if (accountService.getByPrimaryId(chartOfAccountsCode, accountNumber).isClosed()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param award
-     * @return
-     */
-    protected boolean isAwardBillingFrequencyIsMilestone(ContractsAndGrantsBillingAward award) {
-        if (ObjectUtils.isNull(award.getPreferredBillingFrequency())) {
-            return false;
-        }
-
-        return ArConstants.MILESTONE_BILLING_SCHEDULE_CODE.equals(award.getPreferredBillingFrequency());
-    }
-
-    /**
-     * @param award
-     * @return
-     */
-    protected boolean isAwardIBillingFrequencyIsPredetermined(ContractsAndGrantsBillingAward award) {
-        if (ObjectUtils.isNull(award.getPreferredBillingFrequency())) {
-            return false;
-        }
-        return ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(award.getPreferredBillingFrequency());
     }
 
     /**
@@ -2494,6 +2187,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+    public List<SuspensionCategory> getSuspensionCategories() {
+        return suspensionCategories;
+    }
+
+    public void setSuspensionCategories(List<SuspensionCategory> suspensionCategories) {
+        this.suspensionCategories = suspensionCategories;
     }
 
     public BusinessObjectService getBusinessObjectService() {

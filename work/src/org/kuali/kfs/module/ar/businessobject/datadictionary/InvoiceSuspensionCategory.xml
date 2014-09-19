@@ -18,18 +18,12 @@
 
 	<bean id="InvoiceSuspensionCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory" />
-		<property name="inquiryDefinition">
-			<ref bean="InvoiceSuspensionCategory-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="InvoiceSuspensionCategory-lookupDefinition" />
-		</property>
 		<property name="titleAttribute" value="invoiceSuspensionCategory" />
 		<property name="objectLabel" value="Invoice Suspension Category" />
 		<property name="attributes">
 			<list>
 				<ref bean="InvoiceSuspensionCategory-suspensionCategoryCode" />
-				<ref bean="InvoiceSuspensionCategory-suspensionCategory.suspensionCategoryDescription" />
+				<ref bean="InvoiceSuspensionCategory-suspensionCategoryDescription" />
 			</list>
 		</property>
 	</bean>
@@ -39,61 +33,36 @@
 
 	<bean id="InvoiceSuspensionCategory-suspensionCategoryCode" parent="InvoiceSuspensionCategory-suspensionCategoryCode-parentBean" />
 
-	<bean id="InvoiceSuspensionCategory-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
+	<bean id="InvoiceSuspensionCategory-suspensionCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="suspensionCategoryCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Suspension Category Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" />
+		</property>
 	</bean>
 
+	<bean id="InvoiceSuspensionCategory-suspensionCategoryDescription" parent="InvoiceSuspensionCategory-suspensionCategoryDescription-parentBean" />
 
-	<bean id="InvoiceSuspensionCategory-suspensionCategory.suspensionCategoryDescription" parent="InvoiceSuspensionCategory-suspensionCategory.suspensionCategoryDescription-parentBean" />
-
-	<bean id="InvoiceSuspensionCategory-suspensionCategory.suspensionCategoryDescription-parentBean" abstract="true"
-		parent="SuspensionCategory-suspensionCategoryDescription">
-		<property name="name" value="suspensionCategory.suspensionCategoryDescription" />
+	<bean id="InvoiceSuspensionCategory-suspensionCategoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="suspensionCategoryDescription" />
+		<property name="forceUppercase" value="false" />
 		<property name="label" value="Suspension Category Description" />
-	</bean>
-
-	<!-- Business Object Inquiry Definition -->
-
-	<bean id="InvoiceSuspensionCategory-inquiryDefinition" parent="InvoiceSuspensionCategory-inquiryDefinition-parentBean" />
-
-	<bean id="InvoiceSuspensionCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Invoice Suspension Category Inquiry" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Suspension Category Inquiry" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="2" p:cols="100"/>
 		</property>
 	</bean>
-
-	<!-- Business Object Lookup Definition -->
-
-
-	<bean id="InvoiceSuspensionCategory-lookupDefinition" parent="InvoiceSuspensionCategory-lookupDefinition-parentBean" />
-
-	<bean id="InvoiceSuspensionCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Invoice Suspension Category Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
-			</list>
-		</property>
-	</bean>
+	
 </beans>

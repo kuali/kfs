@@ -279,9 +279,9 @@ public class ArPropertyConstants{
         public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
     }
 
-    // Suspension Category
-    public static class SuspensionCategory {
+    public static class SuspensionCategoryReportFields {
         public static final String SUSPENSION_CATEGORY_CODE = "suspensionCategoryCode";
+        public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_SUSPENSION_CATEGORY_CODE = "invoiceSuspensionCategories." + SUSPENSION_CATEGORY_CODE;
     }
 
     // Contracts and Grants Invoicing

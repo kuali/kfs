@@ -91,10 +91,6 @@
 			<li><portal:portalLink displayTitle="true" title="Referral Type"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Suspension Category"
-					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.SuspensionCategory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
 		</c:if>
 		<li><portal:portalLink displayTitle="true"
 				title="System Information"

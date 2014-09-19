@@ -635,19 +635,6 @@
 			<column name="OUTSD_CLCTN_AGENCY_IND" type="VARCHAR(1)"
 				defaultValue="N" />
 		</createTable>
-		<createTable tableName="AR_SUSP_CTGRY_T">
-			<column name="SUSP_CTGRY_CD" type="VARCHAR(4)">
-				<constraints primaryKey="true" primaryKeyName="AR_SUSP_CTGRY_TP1"/>
-			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_SUSP_CTGRY_TC0"/>
-			</column>
-			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="SUSP_CTGRY_DESC" type="VARCHAR(200)" />
-			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-		</createTable>
 		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>
 		</modifySql>

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
@@ -78,12 +79,14 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceDetailReport>();
 
-        final String suspensionCategoryCode = (String)lookupFormFields.get(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
-        final Set<String> suspensionCategoryCodes = retrieveMatchingSuspensionCategories(suspensionCategoryCode);
+        Map<String, String> invoiceDocumentCriteria = new HashMap<>();
+
+        final String suspensionCategoryCode = (String)lookupFormFields.get(ArPropertyConstants.SuspensionCategoryReportFields.SUSPENSION_CATEGORY_CODE);
+        if (StringUtils.isNotBlank(suspensionCategoryCode)) {
+            invoiceDocumentCriteria.put(ArPropertyConstants.SuspensionCategoryReportFields.CONTRACTS_GRANTS_INVOICE_DOCUMENT_SUSPENSION_CATEGORY_CODE, suspensionCategoryCode);
+        }
 
         final List<? extends ContractsAndGrantsAward> matchingAwards = lookupMatchingAwards(lookupFormFields);
-
-        Map<String, String> invoiceDocumentCriteria = new HashMap<>();
         if (matchingAwards != null) { // null means that no award-based criteria were used in the search and therefore, these values should not be used for document selection
             if (matchingAwards.isEmpty()) { //we searched on awards, but didn't find any.  So we can't find any matching documents
                 return displayList;
@@ -102,7 +105,13 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
             if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated
                 for (InvoiceSuspensionCategory invoiceSuspensionCategory : cgInvoiceDoc.getInvoiceSuspensionCategories()) {
-                    if (suspensionCategoryCodes.isEmpty() || suspensionCategoryCodes.contains(invoiceSuspensionCategory.getSuspensionCategoryCode())) {
+                    Pattern suspensionCategoryCodePattern = null;
+                    if (!StringUtils.isBlank(suspensionCategoryCode)) {
+                        suspensionCategoryCodePattern = Pattern.compile(suspensionCategoryCode.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    }
+
+                    if (StringUtils.isBlank(suspensionCategoryCode) ||
+                            (suspensionCategoryCodePattern != null && suspensionCategoryCodePattern.matcher(invoiceSuspensionCategory.getSuspensionCategoryCode()).matches())) {
                         ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
                         cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
                         cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());

@@ -33,8 +33,8 @@
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceSuspensionCategoriesAttributes.suspensionCategoryCode}"
 									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategoryCode" readOnly="true" /></td>
 							<td class="datacell" width="75%"><kul:htmlControlAttribute
-									attributeEntry="${invoiceSuspensionCategoriesAttributes['suspensionCategory.suspensionCategoryDescription']}"
-									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategory.suspensionCategoryDescription" readOnly="true" /></td>
+									attributeEntry="${invoiceSuspensionCategoriesAttributes['suspensionCategoryDescription']}"
+									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategoryDescription" readOnly="true" /></td>
 						</tr>
 					</logic:iterate>
 				</c:if>

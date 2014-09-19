@@ -67,7 +67,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportBuilderServiceImpl impl
      */
     protected void setReportDate(ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry, ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail) {
         reportDetail.setSuspenseCategory(cgSuspendedInvoiceSummaryReportEntry.getSuspensionCategoryCode());
-        reportDetail.setCategoryDescription(cgSuspendedInvoiceSummaryReportEntry.getCategoryDescription());
+        reportDetail.setCategoryDescription(cgSuspendedInvoiceSummaryReportEntry.getSuspensionCategoryDescription());
         reportDetail.setTotalInvoicesSuspended(cgSuspendedInvoiceSummaryReportEntry.getTotalInvoicesSuspended());
     }
 

@@ -26,11 +26,8 @@ public class ContractsGrantsSuspendedInvoiceSummaryReport extends TransientBusin
 
     private String fundManager;
     private String suspensionCategoryCode;
-    private String categoryDescription;
+    private String suspensionCategoryDescription;
     private Long totalInvoicesSuspended;
-
-    private SuspensionCategory suspensionCategory;
-
 
     /**
      * Gets the fundManager attribute.
@@ -69,21 +66,21 @@ public class ContractsGrantsSuspendedInvoiceSummaryReport extends TransientBusin
     }
 
     /**
-     * Gets the categoryDescription attribute.
+     * Gets the suspensionCategoryDescription attribute.
      *
-     * @return Returns the categoryDescription
+     * @return Returns the suspensionCategoryDescription
      */
-    public String getCategoryDescription() {
-        return categoryDescription;
+    public String getSuspensionCategoryDescription() {
+        return suspensionCategoryDescription;
     }
 
     /**
-     * Sets the categoryDescription attribute value.
+     * Sets the suspensionCategoryDescription attribute value.
      *
-     * @param categoryDescription The categoryDescription to set.
+     * @param suspensionCategoryDescription The suspensionCategoryDescription to set.
      */
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
+    public void setSuspensionCategoryDescription(String suspensionCategoryDescription) {
+        this.suspensionCategoryDescription = suspensionCategoryDescription;
     }
 
     /**
@@ -104,29 +101,11 @@ public class ContractsGrantsSuspendedInvoiceSummaryReport extends TransientBusin
         this.totalInvoicesSuspended = totalInvoicesSuspended;
     }
 
-    /**
-     * Gets the suspensionCategory attribute.
-     *
-     * @return Returns the suspensionCategory
-     */
-    public SuspensionCategory getSuspensionCategory() {
-        return suspensionCategory;
-    }
-
-    /**
-     * Sets the suspensionCategory attribute value.
-     *
-     * @param suspensionCategory The suspensionCategory to set.
-     */
-    public void setSuspensionCategory(SuspensionCategory suspensionCategory) {
-        this.suspensionCategory = suspensionCategory;
-    }
-
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
         toStringMap.put("fundManager", fundManager);
         toStringMap.put("suspensionCategoryCode", suspensionCategoryCode);
-        toStringMap.put("categoryDescription", categoryDescription);
+        toStringMap.put("categoryDescription", suspensionCategoryDescription);
 
         if (this.totalInvoicesSuspended != null) {
             toStringMap.put("totalInvoicesSuspended", this.totalInvoicesSuspended.toString());

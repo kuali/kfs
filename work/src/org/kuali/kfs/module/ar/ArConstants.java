@@ -160,25 +160,6 @@ public class ArConstants{
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
 
-    public static class SuspensionCategories {
-        public static final String BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE = "1";
-        public static final String NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL = "2";
-        public static final String INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT = "3";
-        public static final String REPORTS_ARE_REQUIRED_TO_BE_ATTACHED = "4";
-
-        public static final String CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
-        public static final String CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
-        public static final String INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED = "7";
-        public static final String CGB_CATEGORY_CODE_SETUP_INCORRECTLY = "8";
-        public static final String LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT = "9";
-
-        public static final String AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT = "10";
-        public static final String AWARD_SUSPENDED_BY_USER = "11";
-        public static final String INVOICE_TYPE_IS_MISSING = "12";
-        public static final String AWARD_HAS_CLOSED_ACCOUNT_WITH_CURRENT_EXPENDITURES = "13";
-        public static final String AWARD_HAS_STOP_WORK_MARKED = "14";
-    }
-
     public static class TemplateUploadSystem {
         static final public String EXTENSION = ".pdf";
         static final public String TEMPLATE_MIME_TYPE = "application/pdf";

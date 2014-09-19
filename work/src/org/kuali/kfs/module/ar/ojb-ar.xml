@@ -1762,23 +1762,11 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.SuspensionCategory" table="AR_SUSP_CTGRY_T">
-		<field-descriptor name="suspensionCategoryCode" column="SUSP_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="suspensionCategoryDescription" column="SUSP_CTGRY_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
-
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory" table="AR_INV_SUSP_CTGRY_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="suspensionCategoryCode" column="SUSP_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="suspensionCategory" class-ref="org.kuali.kfs.module.ar.businessobject.SuspensionCategory"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="suspensionCategoryCode" />
-		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail" table="AR_LTRCR_RVW_DTL_T">

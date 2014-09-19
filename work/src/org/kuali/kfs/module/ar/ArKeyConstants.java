@@ -418,4 +418,7 @@ public class ArKeyConstants {
      public static final String CONTRACTS_GRANTS_INVOICE_FINAL_STATUS_MESSAGE = "contracts.grants.invoice.final.status.message";
      public static final String CONTRACTS_GRANTS_INVOICE_CORRECTED_STATUS_MESSAGE = "contracts.grants.invoice.corrected.status.message";
 
+     // Suspension Category Description Prefix
+     public static final String INVOICE_DOCUMENT_SUSPENSION_CATEGORY = "invoice.document.suspension.category.";
+
 }

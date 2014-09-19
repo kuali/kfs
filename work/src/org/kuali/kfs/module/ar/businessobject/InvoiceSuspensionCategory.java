@@ -17,19 +17,16 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-
-/**
- * SuspensionCategory under Contracts and Grants section. Created byFeb 21 2011 Task -666
- */
 
 public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String suspensionCategoryCode;
-
-    private SuspensionCategory suspensionCategory;
 
     public InvoiceSuspensionCategory() {
         super();
@@ -43,7 +40,6 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
     public InvoiceSuspensionCategory(String documentNumber, String suspensionCategoryCode) {
         this.documentNumber = documentNumber;
         this.suspensionCategoryCode = suspensionCategoryCode;
-        refreshReferenceObject("suspensionCategory");
     }
 
     /**
@@ -83,21 +79,12 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the suspensionCategory attribute.
+     * Gets the suspensionCategoryDescription attribute.
      *
-     * @return Returns the suspensionCategory
+     * @return Returns the suspensionCategoryDescription
      */
-    public SuspensionCategory getSuspensionCategory() {
-        return suspensionCategory;
-    }
-
-    /**
-     * Sets the suspensionCategory attribute value.
-     *
-     * @param suspensionCategory The suspensionCategory to set.
-     */
-    public void setSuspensionCategory(SuspensionCategory suspensionCategory) {
-        this.suspensionCategory = suspensionCategory;
+    public String getSuspensionCategoryDescription() {
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_DOCUMENT_SUSPENSION_CATEGORY + suspensionCategoryCode);
     }
 
     /**

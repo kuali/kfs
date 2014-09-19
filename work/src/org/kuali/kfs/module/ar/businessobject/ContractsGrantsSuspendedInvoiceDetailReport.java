@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,13 +19,12 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusinessObjectBase {
 
@@ -40,15 +39,13 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     private Person awardFundManager;
     private Person awardProjectDirector;
-    private SuspensionCategory suspensionCategory;
     private ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup;
-
 
     /**
      * @return the letterOfCreditFundGroup
      */
     public ContractsAndGrantsLetterOfCreditFundGroup getLetterOfCreditFundGroup() {
-        return letterOfCreditFundGroup = (ContractsAndGrantsLetterOfCreditFundGroup) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, "letterOfCreditFundGroup");
+        return letterOfCreditFundGroup = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, "letterOfCreditFundGroup");
     }
 
     /**
@@ -56,20 +53,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
      */
     public void setLetterOfCreditFundGroup(ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup) {
         this.letterOfCreditFundGroup = letterOfCreditFundGroup;
-    }
-
-    /**
-     * @return the suspensionCategory
-     */
-    public SuspensionCategory getSuspensionCategory() {
-        return suspensionCategory;
-    }
-
-    /**
-     * @param suspensionCategory the suspensionCategory to set
-     */
-    public void setSuspensionCategory(SuspensionCategory suspensionCategory) {
-        this.suspensionCategory = suspensionCategory;
     }
 
     /**
@@ -128,7 +111,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -137,7 +120,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -199,7 +182,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     /**
      * Sets the awardFundManager attribute value.
-     * 
+     *
      * @param awardFundManager The awardFundManager to set.
      */
     public void setAwardFundManager(Person awardFundManager) {
@@ -218,7 +201,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     /**
      * Sets the awardProjectDirector attribute value.
-     * 
+     *
      * @param awardProjectDirector The awardProjectDirector to set.
      */
     public void setAwardProjectDirector(Person awardProjectDirector) {
@@ -239,7 +222,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
         this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);

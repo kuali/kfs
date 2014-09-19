@@ -27,7 +27,8 @@ public enum ContractsGrantsInvoiceDetailFixture {
     INV_DTL3(new Long(2350), "6322", "EMPB", "Employee Benefits", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false),
     INV_DTL4(new Long(2355), "6324", "SAL", "Salaries and Wages", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, false),
     INV_DTL5(new Long(2356), "6325", "EMPB", "Employee Benefits", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, false),
-    INV_DTL6(new Long(2357), "6326", "OIC", "Other Indirect Cost", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, true);
+    INV_DTL6(new Long(2357), "6326", "OIC", "Other Indirect Cost", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, true),
+    INV_DTL7(new Long(2357), "6326", "TC", "Total Cost", new KualiDecimal(300.00), KualiDecimal.ZERO, new KualiDecimal(300.00), new KualiDecimal(0.00), KualiDecimal.ZERO, true);
 
     private Long invoiceDetailIdentifier;
     private String documentNumber;

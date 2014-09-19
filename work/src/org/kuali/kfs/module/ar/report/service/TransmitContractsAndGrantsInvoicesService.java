@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.report.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Map;
 
@@ -79,13 +78,6 @@ public interface TransmitContractsAndGrantsInvoicesService {
      * @throws IOException if there is some other IO problem
      */
     public boolean printInvoicesAndEnvelopesZip(Collection<ContractsGrantsInvoiceDocument> list, ByteArrayOutputStream baos) throws DocumentException, IOException;
-
-    /**
-     * This method returns the date format for a timestamp to include in the report file name.
-     *
-     * @return the format for formatting a timestamp to match the right file name
-     */
-    public SimpleDateFormat getFileNameTimestampFormat();
 
     /**
      * Validate search parameters for the Transmit Contracts & Grants Invoices lookup.

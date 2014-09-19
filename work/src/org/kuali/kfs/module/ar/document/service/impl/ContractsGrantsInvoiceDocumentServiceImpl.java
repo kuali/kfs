@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -143,7 +142,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     private List<SuspensionCategory> suspensionCategories;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
-    protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLines(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
@@ -1230,7 +1228,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 String outputFileName;
                 try {
                     // generating original invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
+                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + ArConstants.TemplateUploadSystem.EXTENSION;
                     Map<String, String> replacementList = getTemplateParameterList(document);
                     replacementList.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER+"."+ArPropertyConstants.FULL_ADDRESS, contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
@@ -1254,7 +1252,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                     document.addNote(note);
 
                     // generating Copy invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX) + ArConstants.TemplateUploadSystem.EXTENSION;
+                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX) + ArConstants.TemplateUploadSystem.EXTENSION;
                     copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_COPY));
                     // creating and saving the copy note with an attachment
                     Note copyNote = new Note();
@@ -1302,10 +1300,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
         parameterMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
-            parameterMap.put(KFSPropertyConstants.DATE, FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()));
+            parameterMap.put(KFSPropertyConstants.DATE, getDateTimeService().toDateString(document.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()));
         }
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateFinalized())) {
-            parameterMap.put(ArPropertyConstants.FINAL_STATUS_DATE, FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis())));
+            parameterMap.put(ArPropertyConstants.FINAL_STATUS_DATE, getDateTimeService().toDateString(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().toDate()));
         }
         parameterMap.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.NAME, document.getBillingAddressName());
@@ -1392,24 +1390,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.RECEIVABLES, receivable);
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
             if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
-                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_BEGINNING_DATE, FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate()));
+                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_BEGINNING_DATE, getDateTimeService().toDateString(award.getAwardBeginningDate()));
             }
             if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
-                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_ENDING_DATE, FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate()));
+                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_ENDING_DATE, getDateTimeService().toDateString(award.getAwardEndingDate()));
             }
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_TOTAL_AMOUNT, award.getAwardTotalAmount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_ADDENDUM_NUMBER, award.getAwardAddendumNumber());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_ALLOCATED_UNIVERSITY_COMPUTING_SERVICES_AMOUNT, award.getAwardAllocatedUniversityComputingServicesAmount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, award.getFederalPassThroughFundedAmount());
             if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
-                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_ENTRY_DATE, FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate()));
+                parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_ENTRY_DATE, getDateTimeService().toDateString(award.getAwardEntryDate()));
             }
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AGENCY_FUTURE_1_AMOUNT, award.getAgencyFuture1Amount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AGENCY_FUTURE_2_AMOUNT, award.getAgencyFuture2Amount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AGENCY_FUTURE_3_AMOUNT, award.getAgencyFuture3Amount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_DOCUMENT_NUMBER, award.getAwardDocumentNumber());
             if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
-                parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_LAST_UPDATE_DATE, FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate()));
+                parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_LAST_UPDATE_DATE, getDateTimeService().toDateString(award.getAwardLastUpdateDate()));
             }
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR, award.getFederalPassThroughIndicator());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.OLD_PROPOSAL_NUMBER, award.getOldProposalNumber());
@@ -1418,7 +1416,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.FEDERAL_FUNDED_AMOUNT, award.getFederalFundedAmount());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_CREATE_TIMESTAMP, award.getAwardCreateTimestamp());
             if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
-                parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_CLOSING_DATE, FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate()));
+                parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_CLOSING_DATE, getDateTimeService().toDateString(award.getAwardClosingDate()));
             }
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.PROPOSAL_AWARD_TYPE_CODE, award.getProposalAwardTypeCode());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_STATUS_CODE, award.getAwardStatusCode());

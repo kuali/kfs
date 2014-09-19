@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +37,7 @@ import org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoices
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -49,6 +49,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class TransmitContractsAndGrantsInvoicesLookupAction extends ContractsGrantsReportLookupAction {
 
     protected static volatile TransmitContractsAndGrantsInvoicesService invoiceReportDeliveryService;
+    protected static volatile DateTimeService dateTimeService;
 
     /**
      * This method forwards the print request according to the selections.
@@ -110,7 +111,7 @@ public class TransmitContractsAndGrantsInvoicesLookupAction extends ContractsGra
                 if (CollectionUtils.isNotEmpty(mailSet)) {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     if (getTransmitContractsAndGrantsInvoicesService().printInvoicesAndEnvelopesZip(mailSet, baos)) {
-                        String fileName = ArConstants.INVOICE_ZIP_FILE_PREFIX + getTransmitContractsAndGrantsInvoicesService().getFileNameTimestampFormat().format(new Date()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION;
+                        String fileName = ArConstants.INVOICE_ZIP_FILE_PREFIX + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION;
                         WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.ZIP_MIME_TYPE, baos, fileName);
                         GlobalVariables.getMessageMap().putInfoForSectionId(ArPropertyConstants.LOOKUP_SECTION_ID, ArKeyConstants.INVOICES_PRINT_SUCCESSFULL);
                         request.setAttribute(KFSPropertyConstants.REQUEST_SEARCH_RESULTS_ACTUAL_SIZE, mailSet.size());
@@ -161,5 +162,12 @@ public class TransmitContractsAndGrantsInvoicesLookupAction extends ContractsGra
     @Override
     public String generateReportTitle(LookupForm lookupForm) {
         return null;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 }

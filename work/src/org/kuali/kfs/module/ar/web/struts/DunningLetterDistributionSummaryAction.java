@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +44,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class DunningLetterDistributionSummaryAction extends KualiAction {
     private static volatile DunningLetterDistributionService dunningLetterDistributionService;
+    private static volatile DateTimeService dateTimeService;
 
     /**
      * 1. This method passes the control from Dunning Letter Distribution lookup to the Dunning Letter Distribution
@@ -85,7 +84,6 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
     public ActionForward sendDunningLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         DunningLetterDistributionSummaryForm dunningLetterDistributionSummaryForm = (DunningLetterDistributionSummaryForm) form;
-        SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy-hh-mm-ss");
 
         Person person = GlobalVariables.getUserSession().getPerson();
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -99,7 +97,7 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         byte[] finalReport = getDunningLetterDistributionService().createDunningLettersForAllResults(lookupResults);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (finalReport.length > 0 && getDunningLetterDistributionService().createZipOfPDFs(finalReport, baos)) {
-            WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.ZIP_MIME_TYPE, baos, "Dunning_Letters_" + FILE_NAME_TIMESTAMP.format(new Date()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION);
+            WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.ZIP_MIME_TYPE, baos, "Dunning_Letters_" + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION);
             return null;
         }
         else {
@@ -128,5 +126,12 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
             dunningLetterDistributionService = SpringContext.getBean(DunningLetterDistributionService.class);
         }
         return dunningLetterDistributionService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 }

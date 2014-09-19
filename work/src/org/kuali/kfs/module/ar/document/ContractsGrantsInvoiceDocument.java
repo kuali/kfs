@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,7 +71,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private List<InvoiceBill> invoiceBills;
     private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
     private ContractsAndGrantsBillingAward award;
-    private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected String letterOfCreditFundGroupCode;

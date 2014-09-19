@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -76,7 +75,6 @@ import com.lowagie.text.pdf.PdfReader;
 @Transactional
 public class DunningLetterDistributionServiceImpl implements DunningLetterDistributionService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionServiceImpl.class);
-    private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
@@ -154,7 +152,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             String outputFileName;
             try {
                 // Step2. add parameters to the dunning letter
-                outputFileName = dunningLetterDistributionLookupResult.getProposalNumber() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
+                outputFileName = dunningLetterDistributionLookupResult.getProposalNumber() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + ArConstants.TemplateUploadSystem.EXTENSION;
                 Map<String, String> replacementList = getTemplateParameterList(selectedInvoices);
                 CustomerAddress address;
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -247,7 +245,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
             Map primaryKeys = new HashMap<String, Object>();
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.proposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getProposalNumber()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "currentDate", FILE_NAME_TIMESTAMP.format(new Date()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "currentDate", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
             if (CollectionUtils.isNotEmpty(invoices)) {
                 for (int i = 0; i < invoices.size(); i++) {
                     contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].documentNumber", invoices.get(i).getDocumentNumber());
@@ -289,7 +287,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             bis.close();
             // Reset to beginning of input stream
             bis = new BufferedInputStream(new ByteArrayInputStream(report));
-            ZipEntry entry = new ZipEntry("DunningLetters&Invoices-" + FILE_NAME_TIMESTAMP.format(new Date()) + ".pdf");
+            ZipEntry entry = new ZipEntry("DunningLetters&Invoices-" + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + ".pdf");
             entry.setMethod(ZipEntry.STORED);
             entry.setCompressedSize(report.length);
             entry.setSize(report.length);

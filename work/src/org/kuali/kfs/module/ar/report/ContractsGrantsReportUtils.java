@@ -17,9 +17,10 @@ package org.kuali.kfs.module.ar.report;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * Defines a utility class used by Contracts and Grants Invoice Reports. *
@@ -35,8 +36,7 @@ public class ContractsGrantsReportUtils {
      * @return true if date field is within range, false otherwise.
      */
     public static boolean isDateFieldInRange(String dateFromFieldValues, String dateToFieldValues, Date propertyValue, String fieldName) {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-
+        final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         Date dateFrom;
         Date dateTo;
 
@@ -51,13 +51,13 @@ public class ContractsGrantsReportUtils {
 
             // Only set Date from
             if (dateToFieldValues.trim().equals("") && !dateFromFieldValues.trim().equals("")) {
-                dateFrom = new Date(format.parse(dateFromFieldValues).getTime());
+                dateFrom = dateTimeService.convertToSqlDate(dateFromFieldValues);
                 return propertyValue.after(dateFrom) || propertyValue.equals(dateFrom);
             }
 
             // Only set Date to
             if (!dateToFieldValues.trim().equals("") && dateFromFieldValues.trim().equals("")) {
-                dateTo = new Date(format.parse(dateToFieldValues).getTime());
+                dateTo = dateTimeService.convertToSqlDate(dateToFieldValues);
                 if (propertyValue.before(dateTo) || propertyValue.equals(dateTo)) {
                     return true;
                 }
@@ -66,8 +66,8 @@ public class ContractsGrantsReportUtils {
                 }
             }
 
-            dateTo = new Date(format.parse(dateToFieldValues).getTime());
-            dateFrom = new Date(format.parse(dateFromFieldValues).getTime());
+            dateTo = dateTimeService.convertToSqlDate(dateToFieldValues);
+            dateFrom = dateTimeService.convertToSqlDate(dateFromFieldValues);
             return (propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) && (propertyValue.before(dateTo) || propertyValue.equals(dateTo));
         }
         catch (ParseException ex) {

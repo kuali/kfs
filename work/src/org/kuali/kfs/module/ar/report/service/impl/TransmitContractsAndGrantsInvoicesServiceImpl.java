@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -73,8 +72,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected AREmailService arEmailService;
-
-    protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#getInvoicesByParametersFromRequest(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -191,10 +188,10 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
                 byte[] buffer = new byte[1024];
                 CRC32 crc = new CRC32();
 
-                String invoiceFileName = ArConstants.INVOICES_FILE_PREFIX + FILE_NAME_TIMESTAMP.format(new Date()) + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
+                String invoiceFileName = ArConstants.INVOICES_FILE_PREFIX + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
                 invoiceFileWritten = writeFile(report, zos, invoiceFileName);
 
-                String envelopeFileName = ArConstants.INVOICE_ENVELOPES_FILE_PREFIX + FILE_NAME_TIMESTAMP.format(new Date()) + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
+                String envelopeFileName = ArConstants.INVOICE_ENVELOPES_FILE_PREFIX + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
                 envelopeFileWritten = writeFile(envelopes, zos, envelopeFileName);
             } finally {
                 zos.close();
@@ -295,15 +292,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
     @Override
     public boolean sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException {
         return arEmailService.sendInvoicesViaEmail(list);
-    }
-
-    /**
-     * Returns FILE_NAME_TIMESTAMP
-     * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#getFileNameTimestampFormat()
-     */
-    @Override
-    public SimpleDateFormat getFileNameTimestampFormat() {
-        return FILE_NAME_TIMESTAMP;
     }
 
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {

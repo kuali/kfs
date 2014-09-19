@@ -32,10 +32,10 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
 
     @Override
     public boolean processSaveDocument(Document document) {
-        boolean isValid = super.processSaveDocument(document);
-        isValid &= validateDuplicatePastDue((MaintenanceDocument) document);
-
-        return isValid;
+        super.processSaveDocument(document);
+        validateDuplicatePastDue((MaintenanceDocument) document);
+        super.processRouteDocument(document);
+        return true;
     }
 
     @Override

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,7 +26,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 /**
  * Milestone to be used for Milestone Schedule under Contracts and Grants
  */
-public class Milestone extends MilestoneBase implements AccountsReceivableMilestone, MutableInactivatable {
+public class Milestone extends MilestoneBase implements MutableInactivatable {
 
     private Long proposalNumber;
     private Date milestoneExpectedCompletionDate;
@@ -36,7 +35,6 @@ public class Milestone extends MilestoneBase implements AccountsReceivableMilest
 
     private ContractsAndGrantsBillingAward award;
 
-    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -50,7 +48,6 @@ public class Milestone extends MilestoneBase implements AccountsReceivableMilest
      *
      * @return Returns the milestoneExpectedCompletionDate.
      */
-    @Override
     public Date getMilestoneExpectedCompletionDate() {
         return milestoneExpectedCompletionDate;
     }
@@ -64,7 +61,6 @@ public class Milestone extends MilestoneBase implements AccountsReceivableMilest
         this.milestoneExpectedCompletionDate = milestoneExpectedCompletionDate;
     }
 
-    @Override
     public boolean isBilled() {
         return billed;
     }
@@ -88,7 +84,6 @@ public class Milestone extends MilestoneBase implements AccountsReceivableMilest
      *
      * @return Returns the award.
      */
-    @Override
     public ContractsAndGrantsBillingAward getAward() {
         award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
         return award;

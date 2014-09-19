@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -27,7 +26,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
  */
-public class Bill extends BillBase implements AccountsReceivableBill, MutableInactivatable {
+public class Bill extends BillBase implements MutableInactivatable {
 
     private Long proposalNumber;
     private boolean billed = false;
@@ -40,7 +39,6 @@ public class Bill extends BillBase implements AccountsReceivableBill, MutableIna
      *
      * @return Returns the proposalNumber.
      */
-    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -54,7 +52,6 @@ public class Bill extends BillBase implements AccountsReceivableBill, MutableIna
         this.proposalNumber = proposalNumber;
     }
 
-    @Override
     public boolean isBilled() {
         return billed;
     }

@@ -819,21 +819,6 @@
             <index-column name="PRPSL_NBR"/>
         </index>
     </table>
-    <table name="AR_CGB_CTGRY_T">
-        <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CTGRY_NM" size="255" type="VARCHAR"/>
-        <column name="CTGRY_DESC" size="45" type="VARCHAR"/>
-        <column name="OBJ_CDS" size="255" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
-        <column name="IND_CST_IND" size="1" type="VARCHAR"/>
-        <column name="CONS_CDS" size="255" type="VARCHAR"/>
-        <column name="LEVEL_CDS" size="255" type="VARCHAR"/>
-        <unique name="AR_CGB_CTGRY_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_CGB_INV_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="INV_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
@@ -965,6 +950,73 @@
             <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>
         <unique name="AR_CSH_CTRL_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_CST_CTGRY_FIN_CONSOLDTN_T">
+        <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="FIN_CONS_OBJ_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_CONSOLDTN_TR1">
+            <reference foreign="CTGRY_CD" local="CTGRY_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_CHART_T" name="AR_CST_CTGRY_FIN_CONSOLDTN_TR2">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_OBJ_CONSOLDTN_T" name="AR_CST_CTGRY_FIN_CONSOLDTN_TR3">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="FIN_CONS_OBJ_CD" local="FIN_CONS_OBJ_CD"/>
+        </foreign-key>
+        <unique name="AR_CST_CTGRY_FIN_CONSOLDTN_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_CST_CTGRY_FIN_OBJ_CD_T">
+        <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_OBJ_CD_TR1">
+            <reference foreign="CTGRY_CD" local="CTGRY_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_CHART_T" name="AR_CST_CTGRY_FIN_OBJ_CD_TR2">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+        </foreign-key>
+        <unique name="AR_CST_CTGRY_FIN_OBJ_CD_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_CST_CTGRY_FIN_OBJ_LEVEL_T">
+        <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="FIN_OBJ_LEVEL_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_OBJ_LEVEL_TR1">
+            <reference foreign="CTGRY_CD" local="CTGRY_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_CHART_T" name="AR_CST_CTGRY_FIN_OBJ_LEVEL_TR2">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_OBJ_LEVEL_T" name="AR_CST_CTGRY_FIN_OBJ_LEVEL_TR3">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="FIN_OBJ_LEVEL_CD" local="FIN_OBJ_LEVEL_CD"/>
+        </foreign-key>
+        <unique name="AR_CST_CTGRY_FIN_OBJ_LEVEL_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_CST_CTGRY_T">
+        <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CTGRY_NM" size="255" type="VARCHAR"/>
+        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column name="IND_CST_IND" size="1" type="VARCHAR"/>
+        <unique name="AR_CST_CTGRY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

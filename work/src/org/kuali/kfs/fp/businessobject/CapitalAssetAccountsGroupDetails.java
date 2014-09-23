@@ -44,7 +44,27 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
 
     protected CapitalAssetInformation capitalAssetInformation;
 
+    public CapitalAssetAccountsGroupDetails() {
+                super();
+                setAmount(KualiDecimal.ZERO);
+    }
 
+    public CapitalAssetAccountsGroupDetails(CapitalAssetAccountsGroupDetails other){
+        this();
+                this.documentNumber = other.documentNumber;
+                this.capitalAssetLineNumber = other.capitalAssetLineNumber;
+                this.capitalAssetAccountLineNumber = other.capitalAssetAccountLineNumber;
+                this.sequenceNumber = other.sequenceNumber;
+                this.financialDocumentLineTypeCode= other.financialDocumentLineTypeCode;
+                this.chartOfAccountsCode= other.chartOfAccountsCode;
+                this.accountNumber = other.accountNumber;
+                this.financialObjectCode = other.financialObjectCode;
+                this.subAccountNumber = other.subAccountNumber;
+                this.financialSubObjectCode = other.financialSubObjectCode;
+                this.projectCode = other.projectCode;
+                this.organizationReferenceId = other.organizationReferenceId;
+                this.amount = other.amount;
+    }
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -120,13 +140,6 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
-
-
-    public CapitalAssetAccountsGroupDetails() {
-        super();
-        setAmount(KualiDecimal.ZERO);
-    }
-
 
 
     public Integer getSequenceNumber() {

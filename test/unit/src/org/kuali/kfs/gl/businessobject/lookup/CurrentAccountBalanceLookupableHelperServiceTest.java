@@ -127,6 +127,7 @@ public class CurrentAccountBalanceLookupableHelperServiceTest extends AbstractGe
         requiredFieldToValueMap = new HashMap<String, String>();
         requiredFieldToValueMap.put(UNIVERSITY_FISCAL_YEAR_KEY, UNIVERSITY_FISCAL_YEAR.toString());
         requiredFieldToValueMap.put(UNIVERSITY_FISCAL_PERIOD_CODE_KEY, pendingEntry.getUniversityFiscalPeriodCode());
+        requiredFieldToValueMap.put(Constant.CONSOLIDATION_OPTION, Constant.CONSOLIDATION);
     }
 
 

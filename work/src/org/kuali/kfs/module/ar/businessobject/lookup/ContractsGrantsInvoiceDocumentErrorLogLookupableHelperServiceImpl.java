@@ -26,6 +26,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
@@ -125,7 +126,7 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
     @Override
     public void validateSearchParameters(Map<String,String> fieldValues) {
         super.validateSearchParameters(fieldValues);
-        String proposalNumber = fieldValues.get(ArPropertyConstants.PROPOSAL_NUMBER);
+        String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
 
         String awardBeginningDateFromString = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM);
         String awardBeginningDateToString = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_TO);
@@ -138,7 +139,7 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
         String primaryFundManagerPrincipalId = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PRIMARY_FUND_MANAGER_PRINCIPAL_NAME);
 
         if (!StringUtils.isNumeric(proposalNumber)) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER_LABEL);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER_LABEL);
         }
 
         validateDate(awardBeginningDateFromString, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM_LABEL);

@@ -111,7 +111,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
         for (Section section : sections) {
             String sectionId = section.getSectionId();
-            if (sectionId.equalsIgnoreCase(ArPropertyConstants.MILESTONES_SECTION)) {
+            if (sectionId.equalsIgnoreCase(ArConstants.MILESTONES_SECTION)) {
                 prepareMilestonesTab(section, proposalNumber);
             }
         }

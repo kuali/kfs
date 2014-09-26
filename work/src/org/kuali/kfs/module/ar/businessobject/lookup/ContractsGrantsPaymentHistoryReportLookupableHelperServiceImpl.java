@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -93,7 +94,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         cgPaymentHistoryReport.setInvoiceAmount(appliedPayment.getCustomerInvoiceDocument().getTotalDollarAmount());
 
                         Map<String, String> criteria = new HashMap<String, String>();
-                        criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, cgPaymentHistoryReport.getInvoiceNumber());
+                        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, cgPaymentHistoryReport.getInvoiceNumber());
                         ContractsGrantsInvoiceDocument cgInvoiceDocument = businessObjectService.findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
 
                         cgPaymentHistoryReport.setAwardNumber(cgInvoiceDocument.getProposalNumber());

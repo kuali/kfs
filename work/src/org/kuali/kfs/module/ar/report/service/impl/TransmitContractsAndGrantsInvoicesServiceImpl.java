@@ -260,7 +260,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
                 dateTimeService.convertToDate(invoicePrintDateFromString);
             }
             catch (ParseException e) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_FROM_LABEL);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM, KFSKeyConstants.ERROR_DATE_TIME, ArConstants.PRINT_INVOICES_FROM_LABEL);
             }
         }
         if (StringUtils.isNotBlank(invoicePrintDateToString)) {
@@ -268,11 +268,11 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
                 dateTimeService.convertToDate(invoicePrintDateToString);
             }
             catch (ParseException e) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_TO_LABEL);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArConstants.PRINT_INVOICES_TO_LABEL);
             }
         }
         if (StringUtils.isNotBlank(invoiceAmount) && !KualiDecimal.isNumeric(invoiceAmount)) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.INVOICE_AMOUNT_LABEL);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArConstants.INVOICE_AMOUNT_LABEL);
         }
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {
             Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(invoiceInitiatorPrincipalName);

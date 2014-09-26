@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceRule.class);
     protected InvoiceRecurrence oldInvoiceRecurrence;
     protected InvoiceRecurrence newInvoiceRecurrence;
-    
+
     protected DateTimeService dateTimeService;
 
     @Override
@@ -55,7 +55,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         oldInvoiceRecurrence = (InvoiceRecurrence) super.getOldBo();
         newInvoiceRecurrence = (InvoiceRecurrence) super.getNewBo();
     }
-    
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -63,20 +63,20 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         java.sql.Date today = getDateTimeService().getCurrentSqlDateMidnight();
         Date currentDate = getDateTimeService().getCurrentSqlDate();
 
-       
+
         success = checkIfInvoiceIsApproved(newInvoiceRecurrence.getInvoiceNumber());
 /*
         success &= checkIfRecurrenceMaintenanceAlreadyExists(newInvoiceRecurrence);
         success &= validateDocumentRecurrenceBeginDate(newInvoiceRecurrence);
 */
-        success &= validateDocumentRecurrenceEndDate(newInvoiceRecurrence.getDocumentRecurrenceBeginDate(), 
+        success &= validateDocumentRecurrenceEndDate(newInvoiceRecurrence.getDocumentRecurrenceBeginDate(),
                                                      newInvoiceRecurrence.getDocumentRecurrenceEndDate());
-        success &= validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(newInvoiceRecurrence.getDocumentRecurrenceBeginDate(), 
+        success &= validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(newInvoiceRecurrence.getDocumentRecurrenceBeginDate(),
                                                                            newInvoiceRecurrence.getDocumentRecurrenceEndDate(),
                                                                            newInvoiceRecurrence.getDocumentTotalRecurrenceNumber(),
                                                                            newInvoiceRecurrence.getDocumentRecurrenceIntervalCode());
         success &= validateEndDateOrTotalNumberofRecurrences(newInvoiceRecurrence.getDocumentRecurrenceEndDate(),
-                                                             newInvoiceRecurrence.getDocumentTotalRecurrenceNumber());   
+                                                             newInvoiceRecurrence.getDocumentTotalRecurrenceNumber());
         success &= validateMaximumNumberOfRecurrences(newInvoiceRecurrence.getDocumentTotalRecurrenceNumber(),
                                                       newInvoiceRecurrence.getDocumentRecurrenceIntervalCode());
         return success;
@@ -96,9 +96,9 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("invoiceNumber", newInvoiceRecurrence.getInvoiceNumber());
-        InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceRecurrence.class, criteria);
+        InvoiceRecurrence invoiceRecurrence = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceRecurrence.class, criteria);
         if (ObjectUtils.isNotNull(invoiceRecurrence) && !(oldInvoiceRecurrence.equals(invoiceRecurrence))) {
-            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
+            putFieldError(ArPropertyConstants.INVOICE_NUMBER, ArKeyConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
             success = false;
         }
         return success;
@@ -108,14 +108,14 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkIfInvoiceIsApproved(String recurrenceInvoiceNumber) {
         boolean success = true;
-        
+
         if (ObjectUtils.isNull(recurrenceInvoiceNumber)) {
             return success;
         }
-        
+
         CustomerInvoiceDocument customerInvoiceDocument = null;
         if (!SpringContext.getBean(DocumentService.class).documentExists(recurrenceInvoiceNumber)) {
-            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_INVOICE_DOES_NOT_EXIST);
+            putFieldError(ArPropertyConstants.INVOICE_NUMBER, ArKeyConstants.ERROR_INVOICE_DOES_NOT_EXIST);
             success = false;
         }
         else {
@@ -126,7 +126,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
             if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
                 WorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
                 if (!(workflowDocument.isApproved())) {
-                    putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED);
+                    putFieldError(ArPropertyConstants.INVOICE_NUMBER, ArKeyConstants.ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED);
                     success = false;
                 }
             }
@@ -162,13 +162,13 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     }
     /**
      * This method checks that End Date and Total Recurrence Number are valid when both are entered.
-     * 
+     *
      * @param document the maintenance document
      * @return
      */
     protected boolean validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(Date recurrenceBeginDate, Date recurrenceEndDate, Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
 
-        if (ObjectUtils.isNull(recurrenceBeginDate) || 
+        if (ObjectUtils.isNull(recurrenceBeginDate) ||
             ObjectUtils.isNull(recurrenceIntervalCode) ||
             ObjectUtils.isNull(recurrenceEndDate) ||
             ObjectUtils.isNull(totalRecurrenceNumber)) {
@@ -183,7 +183,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         Date endDate = recurrenceEndDate;
         Calendar nextCalendar = Calendar.getInstance();
         Date nextDate = beginDate;
-                
+
         int totalRecurrences = 0;
         int addCounter = 0;
         String intervalCode = recurrenceIntervalCode;
@@ -213,7 +213,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
             putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArKeyConstants.ERROR_END_DATE_AND_TOTAL_NUMBER_OF_RECURRENCES_NOT_VALID);
             return false;
         }
-        
+
         return true;
     }
     /**
@@ -230,7 +230,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Total number of recurrences may not be greater than the number defined in system parameter MAXIMUM_RECURRENCES_BY_INTERVAL.
-     */ 
+     */
     protected boolean validateMaximumNumberOfRecurrences(Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
 
         if (ObjectUtils.isNull(recurrenceIntervalCode) ||

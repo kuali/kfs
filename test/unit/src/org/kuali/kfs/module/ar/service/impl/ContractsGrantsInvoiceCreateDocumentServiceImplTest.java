@@ -34,7 +34,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -518,7 +517,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationNoContractControlAccountsByCCA() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
 
         List<AwardAccount> awardAccounts = ((Award)awards.get(0)).getAwardAccounts();
         for (AwardAccount awardAccount: awardAccounts) {
@@ -537,7 +536,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationNoContractControlAccountsByAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArPropertyConstants.INV_AWARD);
+        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_AWARD);
 
         List<AwardAccount> awardAccounts = ((Award)awards.get(0)).getAwardAccounts();
         for (AwardAccount awardAccount: awardAccounts) {
@@ -556,7 +555,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationMultipleContractControlAccountsByAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArPropertyConstants.INV_AWARD);
+        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_AWARD);
 
         AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_3.createAwardAccount();
         awardAccount_2.refreshReferenceObject("account");

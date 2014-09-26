@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -46,7 +45,7 @@ public class AwardAccountObjectCodeTotalBilledDaoOjb extends PlatformAwareDaoBas
             Criteria accountNumber = new Criteria();
             Criteria proposalNumber = new Criteria();
 
-            chartOfAccount.addEqualTo(ArPropertyConstants.CustomerInvoiceItemCodes.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+            chartOfAccount.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             accountNumber.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             proposalNumber.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
             accounts.addAndCriteria(chartOfAccount);

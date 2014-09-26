@@ -21,13 +21,9 @@ import org.kuali.kfs.sys.KFSConstants;
  * Business Object Property Constants for KFS-AR.
  */
 public class ArPropertyConstants{
-
-    public static final String PROPOSAL_NUMBER = "proposalNumber";
-
     // CustomerInvoiceDocument
     public static class CustomerInvoiceDocumentFields {
 
-        public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "paymentChartOfAccountsCode";
         public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "paymentFinancialObjectCode";
         public static final String PAYMENT_FINANCIAL_SUB_OBJECT_CODE = "paymentFinancialSubObjectCode";
@@ -91,7 +87,6 @@ public class ArPropertyConstants{
 
     // InvoiceRecurrence
     public static final class InvoiceRecurrenceFields {
-        public static final String RECURRING_INVOICE_NUMBER = "invoiceNumber";
         public static final String INVOICE_RECURRENCE_BEGIN_DATE = "documentRecurrenceBeginDate";
         public static final String INVOICE_RECURRENCE_END_DATE = "documentRecurrenceEndDate";
         public static final String INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER = "documentTotalRecurrenceNumber";
@@ -200,7 +195,6 @@ public class ArPropertyConstants{
         public static final String FOLLOWUP_DATE = "followupDate";
         public static final String ACTIVITY_CODE = "activityCode";
         public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String COMPLETED = "completed";
     }
 
@@ -211,13 +205,11 @@ public class ArPropertyConstants{
         public static final String INVOICE_DOCUMENT_OPEN_INV_IND = "invoiceDocument." + ArPropertyConstants.OPEN_INVOICE_IND;
         public static final String EVENT_CODE = "eventCode";
         public static final String EVENT_IDENTIFIER = "eventIdentifier";
-        public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
         public static final String COMPLETED = "completed";
         public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
-        public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
     }
 
@@ -225,42 +217,17 @@ public class ArPropertyConstants{
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
     }
-
-    // OrganizationOptions
+ // OrganizationOptions
     public static class OrganizationOptionsFields {
-        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String ORGANIZATION_CODE = "organizationCode";
-        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
-        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String ORGANIZATION_CHECK_PAYABLE_TO_NAME = "organizationCheckPayableToName";
-        public static final String ORGANIZATION_REMIT_TO_ADDRESS_SECTION_ID = "Edit Organization Options";
-        public static final String ORGANIZATION_REMIT_TO_ADDRESS_NAME = "organizationRemitToAddressName";
-        public static final String ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS = "organizationRemitToLine1StreetAddress";
-        public static final String ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS = "organizationRemitToLine2StreetAddress";
-        public static final String ORGANIZATION_REMIT_TO_CITY_NAME = "organizationRemitToCityName";
-        public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
-        public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
 
-    // SystemInformation (aka ProcessingOrg)
+ // SystemInformation (aka ProcessingOrg)
     public static class SystemInformationFields {
-        public static final String FEIN_NUMBER = "feinNumber";
-        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
-        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
-        public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
-        public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
-        public static final String ACTIVE = "active";
-        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+        public static final String FEIN_NUMBER = "feinNumber";
     }
-
-    // CustomerInvoiceItemCodes
-    public static class CustomerInvoiceItemCodes {
-        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String ORGANIZATION_CODE = "organizationCode";
-    }
-
     // PaymentApplicationDocument
     public static class PaymentApplicationDocumentFields {
         public static final String AMOUNT_TO_BE_APPLIED = "customerInvoiceDetail[0].amountToBeApplied";
@@ -289,37 +256,18 @@ public class ArPropertyConstants{
     public static final String INVOICE_DOCUMENT_NUMBER = "invoiceDocumentNumber";
     public static final String REPORT_OPTION = "reportOption";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
-    public static final String BILLING_SCHEDULE_SECTION = "Predetermined Billing Schedule";
-    public static final String BILL_SECTION = "Bills";
-    public static final String MILESTONE_SCHEDULE_SECTION = "Milestone Schedule";
-    public static final String MILESTONES_SECTION = "Milestones";
-    public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
-    public static final String INCOME_ACCOUNT = "Income";
-    public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String INV_AWARD = "1";
-    public static final String INV_ACCOUNT = "2";
-    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
+    public static final String BILLS = "bills";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
-    public static final String FUNDS_TYPE = "fundsType";
     public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
     public static final String INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
-    public static final String INCOME_OBJECT_TYPE = "IN";
-    public static final String EXPENSE_OBJECT_TYPE = "EX";
-    public static final String BUDGET_BALANCE_TYPE = "CB";
-    public static final String ACTUAL_BALANCE_TYPE = "AC";
     public static final String FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceEntries";
     public static final String OPEN_INVOICE_IND = "openInvoiceIndicator";
     public static final String DOCUMENT_STATUS_CODE = "documentHeader.financialDocumentStatusCode";
     public static final String DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "documentHeader.financialDocumentInErrorNumber";
     public static final String CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
 
-    public static final String COLLECTOR_HEAD = "principalId";
     public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
-
-    public static final String INVOICE_AMOUNT_LABEL = "Invoice Amount";
-    public static final String PRINT_INVOICES_FROM_LABEL = "Print Invoices From";
-    public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
 
     // CG Invoice Reports
     public static final String RANGE_LOWER_BOUND_KEY_PREFIX = "rangeLowerBoundKeyPrefix_";
@@ -366,16 +314,7 @@ public class ArPropertyConstants{
         public static final String ACTIVITY_DESC = "activityDescription";
         public static final String ACTIVITY_CODE = "activityCode";
         public static final String REFERRAL_INDICATOR = "referralIndicator";
-        public static final String ACTIVE = "active";
     }
-
-    // Referral Types
-    public static final String REFER_TO_CENTRAL_COLLECTIONS = "Refer To Central Collections";
-    public static final String REFER_TO_CENTRAL_COLLECTIONS_CODE = "RCC";
-    public static final String REFER_TO_OUTSIDE_COLLECTIONS_AGENCY = "Refer To Outside Collections Agency";
-    public static final String REFER_TO_OUTSIDE_COLLECTIONS_AGENCY_CODE = "ROCA";
-    public static final String ROUTE_TO_RESEARCH_ADMIN = "Route To Research Admin";
-    public static final String ROUTE_TO_RESEARCH_ADMIN_CODE = "RRA";
 
     // Dunning Campaign & Templates
     public static class DunningCampaignFields {
@@ -390,7 +329,6 @@ public class ArPropertyConstants{
         public static final String BILLING_CHART_CODE = "billingChartCode";
         public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
         public static final String PROCESSING_CHART_CODE = "processingChartCode";
-        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     }
 
     public static class DunningLetterTemplateFields {
@@ -403,11 +341,8 @@ public class ArPropertyConstants{
 
     // Contracts And Grants Aging Report
     public static class ContractsGrantsAgingReportFields {
-        public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "processingChartOfAccountCode";
-        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String REPORT_RUN_DATE = "reportRunDate";
         public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
-        public static final String FORM_ORGANIZATION_CODE = "organizationCode";
         public static final String FORM_CHART_CODE = "billingChartCode";
         public static final String PDF_SORT_PROPERTY = "award.agency.agencyNumber";
         public static final String LIST_SORT_PROPERTY = "award.agency.reportingName";
@@ -418,7 +353,6 @@ public class ArPropertyConstants{
         public static final String MARKED_AS_FINAL = "markedAsFinal";
         public static final String INVOICE_AMT_FROM = "invoiceAmountFrom";
         public static final String INVOICE_AMT_TO = "invoiceAmountTo";
-        public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String INVOICE_DATE_FROM = "rangeLowerBoundKeyPrefix_invoiceDate";
         public static final String INVOICE_DATE_TO = "invoiceDate";
         public static final String AWARD_END_DATE_FROM = "rangeLowerBoundKeyPrefix_awardEndDate";
@@ -438,15 +372,12 @@ public class ArPropertyConstants{
         public static final String COLLECTOR = "principalId";
         public static final String ACTIVITY_TYPE = "activityType";
         public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String INVOICE_NUMBER = "invoiceNumber";
-        public static final String ACCOUNT_NUMBER = "accountNumber";
     }
 
     // Referral To Collections Report fields
     public static class ReferralToCollectionsReportFields {
         public static final String COLLECTOR = "principalId";
         public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String PDF_SORT_PROPERTY = "agencyNumber";
         public static final String LIST_SORT_PROPERTY = "agencyNumber";
@@ -467,7 +398,6 @@ public class ArPropertyConstants{
         public static final String REFERRAL_TYPE_CODE = "referralTypeCode";
         public static final String OUTSIDE_COLLECTION_AGENCY = "outsideCollectionAgency";
         public static final String OUTSIDE_COLLECTION_AGENCY_IND = "outsideCollectionAgency";
-        public static final String ACTIVE = "active";
     }
 
     // CustomerInvoiceDetail Fields
@@ -598,7 +528,7 @@ public class ArPropertyConstants{
         public static final String PHONE = "phone";
     }
 
-    public static final String INVOICE_NUMBER="invoiceItemNumber";
+    public static final String INVOICE_NUMBER = "invoiceNumber";
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";

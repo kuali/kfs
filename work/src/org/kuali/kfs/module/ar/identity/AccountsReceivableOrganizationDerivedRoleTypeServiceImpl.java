@@ -24,9 +24,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -51,8 +51,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         if ( qualification != null && !qualification.isEmpty() ) {
             chartOrg = new ChartOrgHolderImpl();
             // if the processing org is specified from the qualifications, use that
-            chartOrg.setChartOfAccountsCode( qualification.get(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE) );
-            chartOrg.setOrganizationCode( qualification.get(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE) );
+            chartOrg.setChartOfAccountsCode( qualification.get(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD) );
+            chartOrg.setOrganizationCode( qualification.get(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE) );
             // otherwise default to the normal chart/org values and derive the processing chart/org
             if (StringUtils.isBlank(chartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(chartOrg.getOrganizationCode())) {
                 chartOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
@@ -61,8 +61,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                     return null;
                 }
                 Map<String, Object> arOrgOptPk = new HashMap<String, Object>( 2 );
-                arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
-                arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, chartOrg.getOrganizationCode());
+                arOrgOptPk.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
+                arOrgOptPk.put(KFSPropertyConstants.ORGANIZATION_CODE, chartOrg.getOrganizationCode());
                 OrganizationOptions oo = getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, arOrgOptPk);
                 if (oo != null) {
                     chartOrg.setChartOfAccountsCode( oo.getProcessingChartOfAccountCode() );
@@ -82,10 +82,10 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         if ( processingOrg == null ) {
             // check the org options for this org
             Map<String, Object> arProcessOrgCriteria = new HashMap<String, Object>( 2 );
-            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
-            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, userOrg.getOrganizationCode());
-            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.ACTIVE, "Y");
-            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
+            arProcessOrgCriteria.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, userOrg.getChartOfAccountsCode());
+            arProcessOrgCriteria.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, userOrg.getOrganizationCode());
+            arProcessOrgCriteria.put(KFSPropertyConstants.ACTIVE, "Y");
+            arProcessOrgCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
             // return true if any matching org options records
             return getBusinessObjectService().countMatching(SystemInformation.class, arProcessOrgCriteria) > 0;
         } else { // org was passed, user's org must match
@@ -101,8 +101,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         }
         if (StringUtils.isBlank(billingOrg.getChartOfAccountsCode()) || StringUtils.isBlank(billingOrg.getOrganizationCode())) {
             Map<String, Object> arOrgOptPk = new HashMap<String, Object>( 2 );
-            arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
-            arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, userOrg.getOrganizationCode());
+            arOrgOptPk.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
+            arOrgOptPk.put(KFSPropertyConstants.ORGANIZATION_CODE, userOrg.getOrganizationCode());
             return getBusinessObjectService().countMatching(OrganizationOptions.class, arOrgOptPk) > 0;
         } else {
             return billingOrg.equals(userOrg);

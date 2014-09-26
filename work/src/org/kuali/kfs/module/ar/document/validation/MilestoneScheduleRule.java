@@ -68,7 +68,7 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
     private boolean checkForDuplicateBillNumber(String collectionName, PersistableBusinessObject line) {
         boolean isValid = true;
 
-        if (StringUtils.equalsIgnoreCase(collectionName, ArPropertyConstants.MILESTONES_SECTION)) {
+        if (StringUtils.equalsIgnoreCase(collectionName, ArConstants.MILESTONES_SECTION)) {
             Milestone milestone = (Milestone) line;
             Long newMilestoneNumber = milestone.getMilestoneNumber();
 

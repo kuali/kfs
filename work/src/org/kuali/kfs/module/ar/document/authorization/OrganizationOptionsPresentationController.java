@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -65,8 +66,8 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      */
     protected void setBillingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
         if (document.isEdit()) {
-            readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE);
-            readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE);
+            readOnlyPropertyNames.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            readOnlyPropertyNames.add(KFSPropertyConstants.ORGANIZATION_CODE);
         }
     }
 
@@ -89,8 +90,8 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
 
             // editable only for the AR Manager role
             if (!rms.principalHasRole(principalId, roleIds, null)) {
-                readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
-                readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
+                readOnlyPropertyNames.add(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD);
+                readOnlyPropertyNames.add(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE);
             }
         }
     }

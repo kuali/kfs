@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -194,7 +195,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
+            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
             List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
             if (CollectionUtils.isNotEmpty(invoices)) {
@@ -229,7 +230,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         ContractsAndGrantsBillingAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
@@ -244,7 +245,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
         boolean result = true;
         Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
+        fieldValues.put(ArPropertyConstants.INVOICE_NUMBER, invoiceNumber);
 
         List<Event> events = (List<Event>) this.retrieveEvents(fieldValues, true, documentNumber);
         if (CollectionUtils.isNotEmpty(events)) {

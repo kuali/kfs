@@ -157,7 +157,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             if (isUsingReceivableFAU) {
                 if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
                     for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                        if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
+                        if (awardInvoiceAccount.getAccountType().equals(ArConstants.INCOME_ACCOUNT)) {
                             if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
                                 awardBillByInvoicingAccount = true;
                                 invoiceAccountDetails.add(awardInvoiceAccount.getChartOfAccountsCode());
@@ -170,7 +170,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
 
             // To check if award is set to bill by Contract Control Account.
-            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && contractsGrantsInvoiceDocument.getAward().getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && contractsGrantsInvoiceDocument.getAward().getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
 
             final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
             final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
@@ -281,7 +281,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         Integer currentYear = universityDateService.getCurrentFiscalYear();
         criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, billByChartOfAccountsCode);
-        criteria.put(ArPropertyConstants.CustomerInvoiceItemCodes.ORGANIZATION_CODE, billByOrganizationCode);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, billByOrganizationCode);
         // Need to avoid hitting database in the loop. option would be to set the financial object code when the form loads and save it somewhere.
         OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         return organizationAccountingDefault;
@@ -777,7 +777,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                     balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                     balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
-                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
                     glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
                 }
                 for (Balance bal : glBalances) {
@@ -866,8 +866,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArConstants.ACTUAL_BALANCE_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
@@ -1146,8 +1146,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
         Map<String, Object> primaryKeys = new HashMap<>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getAccountingPeriod().getUniversityFiscalYear());
-        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
-        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
+        primaryKeys.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
+        primaryKeys.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
         parameterMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
@@ -1754,7 +1754,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
             // if the Invoicing option is "By Contract Control Account" and there are no contract control accounts for one / all
             // award accounts, then throw error.
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+            if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(award.getInvoicingOptionDescription());
@@ -1763,7 +1763,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
             // if the Invoicing option is "By Award" and there are no contract control accounts for one / all award accounts, then
             // throw error.
-            else if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
+            else if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_AWARD)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(award.getInvoicingOptionDescription());

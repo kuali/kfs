@@ -451,6 +451,21 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts and Grants Invoice";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
+    public static final String BILL_SECTION = "Bills";
+    public static final String MILESTONES_SECTION = "Milestones";
+
+    public static final String INCOME_ACCOUNT = "Income";
+    public static final String AR_ACCOUNT = "Accounts Receivable";
+    public static final String INV_AWARD = "1";
+    public static final String INV_ACCOUNT = "2";
+    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
+    public static final String INCOME_OBJECT_TYPE = "IN";
+    public static final String EXPENSE_OBJECT_TYPE = "EX";
+    public static final String BUDGET_BALANCE_TYPE = "CB";
+    public static final String ACTUAL_BALANCE_TYPE = "AC";
+    public static final String INVOICE_AMOUNT_LABEL = "Invoice Amount";
+    public static final String PRINT_INVOICES_FROM_LABEL = "Print Invoices From";
+    public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
 
     public static final String LETTER_OF_CREDIT_FUND_GROUP = "Letter of Credit Fund Group";
     public static final String LETTER_OF_CREDIT_REVIEW_DOCUMENT = "Letter Of Credit Review Document.";

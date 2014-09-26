@@ -26,6 +26,7 @@ import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.KewApiConstants;
 
@@ -51,7 +52,7 @@ public class EventDaoOjb extends PlatformAwareDaoBaseOjb implements EventDao {
 
         // Factor in document number to exclude
         if (StringUtils.isNotEmpty(documentNumberToExclude)){
-            criteria.addNotEqualTo(ArPropertyConstants.EventFields.DOCUMENT_NUMBER, documentNumberToExclude);
+            criteria.addNotEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumberToExclude);
         }
 
         QueryByCriteria qbc = QueryFactory.newQuery(Event.class, criteria);

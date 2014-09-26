@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
@@ -328,7 +327,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 
@@ -736,7 +735,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     protected void deleteCashControlDetailsFromDB() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, String> pkMap = new HashMap<String, String>();
-        pkMap.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, getDocumentNumber());
+        pkMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         boService.deleteMatching(CashControlDetail.class, pkMap);
     }
 
@@ -747,7 +746,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      */
     public Integer getGeneralLedgerEntriesPostedCount() {
         Map<String, Object> pkMap = new HashMap<String, Object>();
-        pkMap.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.getDocumentNumber());
+        pkMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getPostingYear().toString());
         pkMap.put("universityFiscalPeriodCode", this.getPostingPeriodCode());
         pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());

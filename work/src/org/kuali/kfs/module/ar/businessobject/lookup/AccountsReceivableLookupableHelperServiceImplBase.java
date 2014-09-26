@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -42,7 +42,7 @@ public abstract class AccountsReceivableLookupableHelperServiceImplBase extends 
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         AnchorHtmlData inquiryHref = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
 
-        if (ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(propertyName) ){
+        if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName) ){
             String baseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KFSConstants.DOC_HANDLER_ACTION;
             Properties parameters = new Properties();
             parameters.put(KFSConstants.PARAMETER_DOC_ID, ObjectUtils.getPropertyValue(bo, propertyName).toString());

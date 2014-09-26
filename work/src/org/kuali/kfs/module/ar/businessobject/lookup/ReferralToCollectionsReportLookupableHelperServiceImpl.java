@@ -185,7 +185,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
         String collector = (String)lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.COLLECTOR);
         String proposalNumber = (String)lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER);
-        String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.INVOICE_NUMBER);
+        String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.INVOICE_NUMBER);
         String accountNumber = (String)lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.ACCOUNT_NUMBER);
 
         if (!StringUtils.isBlank(agencyNumber)) {
@@ -200,7 +200,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
         }
 
         if (!StringUtils.isBlank(invoiceNumber)) {
-            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TO_COLLECTIONS_DETAILS+"."+ArPropertyConstants.ReferralToCollectionsReportFields.INVOICE_NUMBER, invoiceNumber);
+            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TO_COLLECTIONS_DETAILS+"."+ArPropertyConstants.INVOICE_NUMBER, invoiceNumber);
         }
 
         if (!StringUtils.isBlank(accountNumber)) {
@@ -332,7 +332,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
             fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
         if (!StringUtils.isBlank(invoiceNumber)) {
-            fieldValues.put(ArPropertyConstants.ReferralToCollectionsReportFields.INVOICE_NUMBER, invoiceNumber);
+            fieldValues.put(ArPropertyConstants.INVOICE_NUMBER, invoiceNumber);
         }
         if (!StringUtils.isBlank(accountNumber)) {
             fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);

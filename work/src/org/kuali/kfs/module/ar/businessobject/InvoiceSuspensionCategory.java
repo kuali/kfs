@@ -120,7 +120,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("suspensionCategoryCode", getSuspensionCategoryCode());
         return m;
     }

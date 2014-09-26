@@ -275,11 +275,11 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             Map<String, Object> criteria = new HashMap<>();
             Map<String, Object> sysCriteria = new HashMap<>();
             criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArConstants.ACTUAL_BALANCE_TYPE);
             criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
             // 1. To get the chart code and org code for invoicing depending on the invoicing options.
             if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_ACCOUNT)) {
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         coaCode = awardAccount.getAccount().getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
@@ -289,7 +289,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         }
                     }
                 }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                     List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
@@ -301,7 +301,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         }
                     }
                 }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_AWARD)) {
                     List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
@@ -335,7 +335,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             }
             else {
                 for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                    if (awardInvoiceAccount.getAccountType().equals(ArConstants.AR_ACCOUNT)) {
                         return true;
                     }
                 }

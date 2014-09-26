@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
@@ -182,7 +182,7 @@ public class ContractsGrantsLOCReport extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
 
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("letterOfCreditFundCode", this.letterOfCreditFundCode);
         m.put("letterOfCreditFundGroupCode", this.letterOfCreditFundGroupCode);
 

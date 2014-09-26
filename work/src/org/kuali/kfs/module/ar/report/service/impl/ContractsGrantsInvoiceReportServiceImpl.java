@@ -332,7 +332,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             int index = 0;
             KualiDecimal baseSum = KualiDecimal.ZERO;
             KualiDecimal amountSum = KualiDecimal.ZERO;
-            cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+            cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
             if (ObjectUtils.isNotNull(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()) && ObjectUtils.isNotNull(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd())) {
                 index++;
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.INDIRECT_EXPENSE_TYPE + " " + index, awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd());
@@ -459,8 +459,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected SystemInformation retrieveSystemInformationForAward(ContractsAndGrantsBillingAward award, String year) {
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, award.getPrimaryAwardOrganization().getChartOfAccountsCode());
-        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, award.getPrimaryAwardOrganization().getOrganizationCode());
+        primaryKeys.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, award.getPrimaryAwardOrganization().getChartOfAccountsCode());
+        primaryKeys.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, award.getPrimaryAwardOrganization().getOrganizationCode());
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
         return sysInfo;
     }
@@ -483,8 +483,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         if (CollectionUtils.isNotEmpty(awards)){
-            primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
-            primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
+            primaryKeys.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
+            primaryKeys.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
         }
 
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
@@ -526,7 +526,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
 
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
-                    totalCashDisbursement = totalCashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
+                    totalCashDisbursement = totalCashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
                 }
             }
         }

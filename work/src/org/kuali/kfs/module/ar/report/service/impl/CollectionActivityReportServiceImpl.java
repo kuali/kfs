@@ -75,10 +75,10 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
 
         String collectorPrincName = (String)lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
         String collector = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.COLLECTOR);
-        String proposalNumber = (String)lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER);
+        String proposalNumber = (String)lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER);
-        String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.INVOICE_NUMBER);
-        String accountNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER);
+        String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.INVOICE_NUMBER);
+        String accountNumber = (String)lookupFormFields.get(KFSPropertyConstants.ACCOUNT_NUMBER);
 
         // Getting final docs
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), "|"));
@@ -89,7 +89,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         }
 
         if (!StringUtils.isBlank(invoiceNumber)) {
-            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceNumber);
         }
 
         if (!StringUtils.isBlank(accountNumber)) {

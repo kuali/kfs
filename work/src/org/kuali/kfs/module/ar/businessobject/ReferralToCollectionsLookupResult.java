@@ -362,7 +362,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
      */
     public List<String> getInvoiceAttributesForDisplay() {
         List<String> invoiceAttributesForDisplay = new ArrayList<String>();
-        invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);
+        invoiceAttributesForDisplay.add(KFSPropertyConstants.DOCUMENT_NUMBER);
         invoiceAttributesForDisplay.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.AGE);

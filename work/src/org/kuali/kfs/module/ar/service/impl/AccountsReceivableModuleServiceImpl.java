@@ -38,7 +38,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
-import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -447,8 +446,8 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        criteria.put(OrganizationOptionsFields.ORGANIZATION_CODE, organizationCode);
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
         return getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 

@@ -69,7 +69,7 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
     private boolean checkForDuplicateBillNumber(String collectionName, PersistableBusinessObject line) {
         boolean isValid = true;
 
-        if (StringUtils.equalsIgnoreCase(collectionName, ArPropertyConstants.BILL_SECTION)) {
+        if (StringUtils.equalsIgnoreCase(collectionName, ArConstants.BILL_SECTION)) {
             Bill bill = (Bill) line;
             Long newBillNumber = bill.getBillNumber();
 

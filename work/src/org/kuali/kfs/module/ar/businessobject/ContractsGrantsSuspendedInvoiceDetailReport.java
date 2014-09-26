@@ -252,7 +252,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusine
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("suspensionCategoryCode", this.suspensionCategoryCode);
         m.put("fundManagerPrincipalId", this.fundManagerPrincipalId);
         m.put("projectDirectorPrincipalId", this.projectDirectorPrincipalId);

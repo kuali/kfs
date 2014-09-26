@@ -212,9 +212,9 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             lookupFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateCriteria);
         }
 
-        final String proposalNumber = (String)lookupFormFields.remove(ArPropertyConstants.PROPOSAL_NUMBER);
+        final String proposalNumber = (String)lookupFormFields.remove(KFSPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
-            lookupFields.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            lookupFields.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
 
         final String documentNumber = (String)lookupFormFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);

@@ -83,7 +83,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
      */
     protected List<ContractsGrantsInvoiceDocument> retrieveMatchingContractsGrantsInvoiceDocuments(Map fieldValues, java.sql.Date begin, java.sql.Date end) {
         String reportOption = (String) fieldValues.get(ArPropertyConstants.REPORT_OPTION);
-        String orgCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_ORGANIZATION_CODE);
+        String orgCode = (String) fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
         String chartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE);
         String customerNumber = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER);
         String customerName = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME);
@@ -104,7 +104,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
         String invoiceAmountFrom = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_AMT_FROM);
         String invoiceAmountTo = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_AMT_TO);
-        String invoiceNumber = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_NUMBER);
+        String invoiceNumber = (String) fieldValues.get(ArPropertyConstants.INVOICE_NUMBER);
 
         String invoiceDateFromString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
         String invoiceDateToString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
@@ -147,7 +147,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
             }
         }
         if (!StringUtils.isBlank(invoiceNumber)) {
-            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceNumber);
         }
         if (!StringUtils.isBlank(responsibilityId)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CG_ACCT_RESP_ID, responsibilityId);

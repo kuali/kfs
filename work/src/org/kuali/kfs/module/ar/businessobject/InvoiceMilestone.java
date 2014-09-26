@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 
 /**
@@ -51,7 +51,7 @@ public class InvoiceMilestone extends MilestoneBase  {
     @Override
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = super.toStringMapper_RICE20_REFACTORME();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 }

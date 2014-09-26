@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -349,7 +348,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("invoiceType", this.invoiceType);
         m.put("openInvoiceIndicator", this.openInvoiceIndicator);
         m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber);

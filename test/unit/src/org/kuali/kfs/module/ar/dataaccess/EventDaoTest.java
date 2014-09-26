@@ -52,7 +52,7 @@ public class EventDaoTest extends KualiTestBase {
      */
     public void testGetMatchingEventsByCollection() {
         Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, INVOICE_NUMBER);
+        fieldValues.put(ArPropertyConstants.INVOICE_NUMBER, INVOICE_NUMBER);
         List<Event> events = new ArrayList<Event>(eventDao.getMatchingEventsByCollection(fieldValues, true, null));
         assertNotNull(events);
 

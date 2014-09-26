@@ -46,7 +46,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
@@ -158,14 +157,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD, awd.getProposalNumber().toString());
                     errorMessages.add(errorMessage);
                 } else {
-                    if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) { // case 1: create Contracts Grants Invoice by accounts
+                    if (invOpt.equals(ArConstants.INV_ACCOUNT)) { // case 1: create Contracts Grants Invoice by accounts
                         createInvoicesByAccounts(awd, errorMessages);
                     }
-                    else if (invOpt.equals(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts Grants Invoices by contractControlAccounts
+                    else if (invOpt.equals(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts Grants Invoices by contractControlAccounts
                         createInvoicesByContractControlAccounts(awd, errorMessages);
                     }
                     // case 3: create Contracts Grants Invoice by award
-                    else if (invOpt.equals(ArPropertyConstants.INV_AWARD)) {
+                    else if (invOpt.equals(ArConstants.INV_AWARD)) {
                         createInvoicesByAward(awd, errorMessages);
                     }
                 }
@@ -876,14 +875,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             fiscalYears.add(i);
         }
         List<String> balanceTypeCodeList = new ArrayList<String>();
-        balanceTypeCodeList.add(ArPropertyConstants.BUDGET_BALANCE_TYPE);
-        balanceTypeCodeList.add(ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+        balanceTypeCodeList.add(ArConstants.BUDGET_BALANCE_TYPE);
+        balanceTypeCodeList.add(ArConstants.ACTUAL_BALANCE_TYPE);
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, invoiceAccountDetail.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceAccountDetail.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
             balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
             glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
         }
@@ -893,11 +892,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.BUDGET_BALANCE_TYPE)) {
+                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArConstants.BUDGET_BALANCE_TYPE)) {
                     balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
                     budAmt = budAmt.add(balAmt);
                 }
-                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
+                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArConstants.ACTUAL_BALANCE_TYPE)) {
                     if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
 
                         cumAmt = cumAmt.add(calculateBalanceAmountWithoutLastBilledPeriod(lastBilledDate, bal));
@@ -957,7 +956,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         if (isUsingReceivableFAU) {
             if (!CollectionUtils.isEmpty(awardInvoiceAccounts)) {
                 for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                    if (awardInvoiceAccount.getAccountType().equals(ArConstants.AR_ACCOUNT)) {
                         if (awardInvoiceAccount.isActive()) {// consider the active invoice account only.
                             document.setPaymentChartOfAccountsCode(awardInvoiceAccount.getChartOfAccountsCode());
                             document.setPaymentAccountNumber(awardInvoiceAccount.getAccountNumber());
@@ -1384,7 +1383,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     boolean firstLineFlag = true;
 
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, beginningDate));
+                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, beginningDate));
                         if (firstLineFlag) {
                             firstLineFlag = false;
                             contractsGrantsInvoiceDocumentErrorLog.setAccounts(awardAccount.getAccountNumber());
@@ -1515,7 +1514,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             else {
                 // calculate cumulativeExpenses
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
                 }
                 boolean firstLineFlag = true;
 

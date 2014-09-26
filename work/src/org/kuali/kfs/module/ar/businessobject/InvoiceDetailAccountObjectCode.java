@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -259,7 +258,7 @@ public class InvoiceDetailAccountObjectCode extends PersistableBusinessObjectBas
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());

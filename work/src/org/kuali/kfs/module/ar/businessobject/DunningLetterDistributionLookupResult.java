@@ -403,7 +403,7 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber);
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.invoiceDocumentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.invoiceDocumentNumber);
 
 
         return m;
@@ -411,7 +411,7 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
 
     public List<String> getInvoiceAttributesForDisplay() {
         List<String> invoiceAttributesForDisplay = new ArrayList<String>();
-        invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);
+        invoiceAttributesForDisplay.add(KFSPropertyConstants.DOCUMENT_NUMBER);
         invoiceAttributesForDisplay.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.AGE);

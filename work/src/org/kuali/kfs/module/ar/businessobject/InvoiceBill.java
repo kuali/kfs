@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class represents a point in time snapshot of a Bill associated with a Contracts Grants Invoice Document.
@@ -52,7 +52,7 @@ public class InvoiceBill extends BillBase {
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = super.toStringMapper_RICE20_REFACTORME();
 
-        m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 
         return m;
     }

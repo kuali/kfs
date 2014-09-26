@@ -166,7 +166,7 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
                         String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                         Map<String, String> fieldList = new HashMap<String, String>();
-                        fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);
+                        fieldList.put(ArPropertyConstants.INVOICE_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
                         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 

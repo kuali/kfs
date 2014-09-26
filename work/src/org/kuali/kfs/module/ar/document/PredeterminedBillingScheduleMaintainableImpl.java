@@ -119,7 +119,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
 
         for (Section section : sections) {
             String sectionId = section.getSectionId();
-            if (sectionId.equalsIgnoreCase(ArPropertyConstants.BILL_SECTION)) {
+            if (sectionId.equalsIgnoreCase(ArPropertyConstants.BILLS)) {
                 prepareBillsTab(section, proposalNumber);
             }
         }

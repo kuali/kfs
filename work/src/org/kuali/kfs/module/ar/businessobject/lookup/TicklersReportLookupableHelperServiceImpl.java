@@ -83,7 +83,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             fieldValues.put(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, activityCode);
         }
 
-        final String proposalNumber = (String) lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER);
+        final String proposalNumber = (String) lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
             fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
         }
@@ -211,11 +211,11 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                 col.setPropertyValue(propValue);
 
                 // Add url when property is invoiceNumber or proposalNumber
-                if (col.getPropertyName().equals(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER)) {
+                if (col.getPropertyName().equals(ArPropertyConstants.INVOICE_NUMBER)) {
                     String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                     Map<String, String> fieldList = new HashMap<String, String>();
-                    fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);
+                    fieldList.put(ArPropertyConstants.INVOICE_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
                     a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 

@@ -115,7 +115,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         fieldValues.put("backLocation", null);
         fieldValues.put("reportRunDate", dateFormat.format(new Date()));
-        fieldValues.put(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_ORGANIZATION_CODE, orgCode);
+        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
         fieldValues.put(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE, chartCode);
         fieldValues.put("docFormKey", null);
         fieldValues.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);

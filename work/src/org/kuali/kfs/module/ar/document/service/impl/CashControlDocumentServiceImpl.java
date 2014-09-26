@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -32,6 +31,7 @@ import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
@@ -39,7 +39,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -72,7 +71,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private BankService bankService;
     private AccountingDocumentRuleHelperService accountingDocumentRuleHelperService;
     private DocumentTypeService documentTypeService;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
@@ -188,9 +187,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of accounts and organization
         Map criteria = new HashMap();
-        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, processingChartOfAccountCode);
+        criteria.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information for this processing chart of accounts and organization return false; glpes cannot be
@@ -265,9 +264,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of acccounts and organization
         Map criteria = new HashMap();
-        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, processingChartOfAccountCode);
+        criteria.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information set up for this processing chart of accounts and organization return false, glpes
@@ -302,7 +301,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // for each Advance Deposit accounting line, create a reverse GLPE in CashControl document.
         for (ElectronicPaymentClaim electronicPaymentClaim : electronicPaymentClaims ) {
             Map criteria3= new HashMap();
-            criteria3.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, electronicPaymentClaim.getDocumentNumber());
+            criteria3.put(KFSPropertyConstants.DOCUMENT_NUMBER, electronicPaymentClaim.getDocumentNumber());
             criteria3.put(ArPropertyConstants.SEQUENCE_NUMBER, electronicPaymentClaim.getFinancialDocumentLineNumber());
             criteria3.put(ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F);
             SourceAccountingLine advanceDepositAccountingLine = businessObjectService.findByPrimaryKey(SourceAccountingLine.class, criteria3);
@@ -335,9 +334,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of accounts and organization code
         Map criteria = new HashMap();
-        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, processingChartOfAccountCode);
+        criteria.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if no system information is set up for this processing chart of accounts and organization code return false, the glpes
@@ -377,9 +376,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         Map criteria = new HashMap();
-        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, chartOfAccountsCode);
+        criteria.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
@@ -612,12 +611,12 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
+
     @NonTransactional
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
     }
-    
+
     /**
      * @return the implementation of the AccountingDocumentRuleHelperService to use
      */
@@ -632,7 +631,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setAccountingDocumentRuleHelperService(AccountingDocumentRuleHelperService accountingDocumentRuleService) {
         this.accountingDocumentRuleHelperService = accountingDocumentRuleService;
     }
-    
+
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }

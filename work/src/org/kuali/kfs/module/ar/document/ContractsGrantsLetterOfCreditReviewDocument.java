@@ -302,7 +302,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                         locReviewDtl.setAccountExpirationDate(awardAccount.getAccount().getAccountExpirationDate());
                         locReviewDtl.setClaimOnCashBalance(getContractsGrantsLetterOfCreditReviewDocumentService().getClaimOnCashforAwardAccount(awardAccount, award.getAwardBeginningDate()));
                         totalClaimOnCashBalance = totalClaimOnCashBalance.add(locReviewDtl.getClaimOnCashBalance());
-                        locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.BUDGET_BALANCE_TYPE, award.getAwardBeginningDate()));
+                        locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.BUDGET_BALANCE_TYPE, award.getAwardBeginningDate()));
                         totalAwardBudgetAmount = totalAwardBudgetAmount.add(locReviewDtl.getAwardBudgetAmount());
                         if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccountNumber()) && awardAccount.getAccountNumber().equalsIgnoreCase(awardAccount.getAccount().getContractControlAccountNumber())) {
                             locReviewDtl.setAccountDescription(ArConstants.CONTRACT_CONTROL_ACCOUNT);

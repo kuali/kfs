@@ -64,8 +64,8 @@ public class SystemInformationServiceImpl implements SystemInformationService {
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        fieldValues.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, chartCode);
-        fieldValues.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, orgCode);
+        fieldValues.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, chartCode);
+        fieldValues.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, orgCode);
         fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
 
         final Collection<SystemInformation> systemInformations = getBusinessObjectService().findMatching(SystemInformation.class, fieldValues);

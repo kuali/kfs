@@ -322,7 +322,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
 
         Map<String, String> refFieldValues = new HashMap<String, String>();
         refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, KFSConstants.Booleans.TRUE);
-        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, KFSConstants.Booleans.TRUE);
+        refFieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.Booleans.TRUE);
         List<ReferralType> refTypes = (List<ReferralType>) businessObjectService.findMatching(ReferralType.class, refFieldValues);
         String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;
 

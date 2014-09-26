@@ -28,7 +28,6 @@ import org.apache.commons.io.FileUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceBatchCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -142,7 +141,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_ACCOUNT);
+        award2.setInvoicingOptions(ArConstants.INV_ACCOUNT);
 
         contractsGrantsInvoiceBatchCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
 
@@ -174,7 +173,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+        award2.setInvoicingOptions(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
 
         contractsGrantsInvoiceBatchCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
 
@@ -206,7 +205,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_AWARD);
+        award2.setInvoicingOptions(ArConstants.INV_AWARD);
 
         contractsGrantsInvoiceBatchCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
 

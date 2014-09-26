@@ -826,7 +826,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // if this is not a bypassed origination code then insert appropriate object type code for incoming transaction based
         // on the object code - want to do this before validation checks
         if (!objectTypeBypassOriginationCodes.contains(originEntry.getFinancialSystemOriginationCode())) {
-            ObjectCode workingEntryFinancialObject = accountingCycleCachingService.getObjectCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
+            ObjectCode workingEntryFinancialObject = accountingCycleCachingService.getObjectCode(workingEntry.getUniversityFiscalYear(), workingEntry.getChartOfAccountsCode(), workingEntry.getFinancialObjectCode());
             workingEntry.setFinancialObjectTypeCode(workingEntryFinancialObject.getFinancialObjectTypeCode());
         } else {
             workingEntry.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());

@@ -1122,30 +1122,30 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         KualiDecimal currentBalanceAmount = KualiDecimal.ZERO;
         switch (currentPeriodCode) {
-        case "13":
+        case KFSConstants.MONTH13:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth12Amount()));
             // notice - no break!!!! we want to fall through to pick up all the prior months amounts
-        case "12":
+        case KFSConstants.MONTH12:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth11Amount()));
-        case "11":
+        case KFSConstants.MONTH11:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth10Amount()));
-        case "10":
+        case KFSConstants.MONTH10:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth9Amount()));
-        case "09":
+        case KFSConstants.MONTH9:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth8Amount()));
-        case "08":
+        case KFSConstants.MONTH8:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth7Amount()));
-        case "07":
+        case KFSConstants.MONTH7:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth6Amount()));
-        case "06":
+        case KFSConstants.MONTH6:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth5Amount()));
-        case "05":
+        case KFSConstants.MONTH5:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth4Amount()));
-        case "04":
+        case KFSConstants.MONTH4:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth3Amount()));
-        case "03":
+        case KFSConstants.MONTH3:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth2Amount()));
-        case "02":
+        case KFSConstants.MONTH2:
             currentBalanceAmount = currentBalanceAmount.add(cleanAmount(glBalance.getMonth1Amount()));
         }
 

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -113,7 +112,7 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
-        if (!CollectionUtils.isEmpty(rawValues)) {
+        /*if (!CollectionUtils.isEmpty(rawValues)) {
             CostCategory costCategory = (CostCategory)bo;
             if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_CODES)) {
                 Iterator<CostCategoryObjectCode> objectCodeIter = costCategory.getObjectCodes().iterator();
@@ -140,7 +139,7 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
                     }
                 }
             }
-        }
+        }*/
     }
 
 }

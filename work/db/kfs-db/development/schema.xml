@@ -799,12 +799,12 @@
         </unique>
     </table>
     <table name="AR_BILL_T">
-        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="BILL_NBR" size="12" type="DECIMAL"/>
-        <column name="BILL_DT" type="DATE"/>
+        <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
@@ -1799,16 +1799,16 @@
         </unique>
     </table>
     <table name="AR_MLSTN_T">
-        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <column name="MLSTN_COMPLTN_DT" type="DATE"/>
-        <column name="MLSTN_EXPCTD_COMPLTN_DT" type="DATE"/>
+        <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
+        <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_MLSTN_SCHDL_T" name="AR_MLSTN_TR1">
             <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>

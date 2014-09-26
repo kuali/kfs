@@ -18,10 +18,10 @@
       <attr name="transform"><![CDATA[
 //#TL
     function transform() {
-        $0.prpsl_nbr := $prpsl_nbr;
         $0.bill_id := $bill_id;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
+        $0.prpsl_nbr := $prpsl_nbr;
         $0.bill_nbr := $bill_nbr;
         $0.bill_dt := $bill_dt;
         $0.est_amt := $est_amt;

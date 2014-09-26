@@ -838,7 +838,7 @@
 		<property name="label" value="Invoicing Letter Of Credit Fund" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.LetterOfCreditFundValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.LetterOfCreditFundValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -899,7 +899,7 @@
 		<property name="shortLabel" value="Billing Frequency" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyBillingFrequencyValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.AgencyBillingFrequencyValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

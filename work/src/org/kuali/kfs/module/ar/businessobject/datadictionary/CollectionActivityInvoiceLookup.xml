@@ -115,7 +115,7 @@
 		<property name="shortLabel" value="BillingFrequency" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AgencyBillingFrequencyValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.AgencyBillingFrequencyValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

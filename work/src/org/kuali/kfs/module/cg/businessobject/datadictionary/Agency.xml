@@ -278,7 +278,7 @@
 		<property name="shortLabel" value="Customer Type" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerTypeValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.CustomerTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

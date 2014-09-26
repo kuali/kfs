@@ -52,7 +52,7 @@
 	<bean id="ContractsGrantsLOCReport-letterOfCreditFundCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.LetterOfCreditFundValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

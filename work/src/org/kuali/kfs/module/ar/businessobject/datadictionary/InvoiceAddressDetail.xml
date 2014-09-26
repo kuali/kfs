@@ -87,7 +87,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAddressTypeValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.CustomerAddressTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

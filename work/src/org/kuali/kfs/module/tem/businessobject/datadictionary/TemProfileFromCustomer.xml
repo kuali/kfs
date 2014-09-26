@@ -65,7 +65,7 @@
 		<property name="summary" value="Customer Type Code" />
 		<property name="description" value="Customer Type Code" />
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerTypeValuesFinder" p:includeKeyInLabel="false"/>
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.CustomerTypeValuesFinder" p:includeKeyInLabel="false"/>
         </property>
 	</bean>
 	<bean id="TemProfileFromCustomer-customerName" parent="TemProfileFromCustomer-customerName-parentBean" />

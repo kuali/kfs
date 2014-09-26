@@ -15,7 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -28,6 +34,7 @@ import org.kuali.kfs.module.ar.service.CostCategoryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -92,11 +99,18 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
         } else {
             if (!CollectionUtils.isEmpty(newCategories.getObjectCodes())) {
                 int count = 0;
+
                 for (CostCategoryObjectCode objectCode : newCategories.getObjectCodes()) {
-                    final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectCodeUnique(objectCode);
-                    if (!ObjectUtils.isNull(conflictingDetail)) {
-                        final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                        putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    final boolean objectCodeExists = checkObjectCodeExists(objectCode);
+
+                    if (objectCodeExists) {
+                        final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectCodeUnique(objectCode);
+                        if (!ObjectUtils.isNull(conflictingDetail)) {
+                            final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                            putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                            success = false;
+                        }
+                    } else {
                         success = false;
                     }
                     count += 1;
@@ -105,10 +119,16 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
             if (!CollectionUtils.isEmpty(newCategories.getObjectLevels())) {
                 int count = 0;
                 for (CostCategoryObjectLevel objectLevel : newCategories.getObjectLevels()) {
-                    final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectLevelUnique(objectLevel);
-                    if (!ObjectUtils.isNull(conflictingDetail)) {
-                        final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                        putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectLevel.getChartOfAccountsCode(), objectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    final boolean objectLevelExists = checkObjectLevelExists(objectLevel);
+
+                    if (objectLevelExists) {
+                        final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectLevelUnique(objectLevel);
+                        if (!ObjectUtils.isNull(conflictingDetail)) {
+                            final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                            putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectLevel.getChartOfAccountsCode(), objectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                            success = false;
+                        }
+                    } else {
                         success = false;
                     }
                     count += 1;
@@ -117,10 +137,16 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
             if (!CollectionUtils.isEmpty(newCategories.getObjectConsolidations())) {
                 int count = 0;
                 for (CostCategoryObjectConsolidation objectConsolidation : newCategories.getObjectConsolidations()) {
-                    final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectConsolidationUnique(objectConsolidation);
-                    if (!ObjectUtils.isNull(conflictingDetail)) {
-                        final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                        putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectConsolidation.getChartOfAccountsCode(), objectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    final boolean objectConsolidationExists = checkObjectConsolidationExists(objectConsolidation);
+
+                    if (objectConsolidationExists) {
+                        final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectConsolidationUnique(objectConsolidation);
+                        if (!ObjectUtils.isNull(conflictingDetail)) {
+                            final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                            putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectConsolidation.getChartOfAccountsCode(), objectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                            success = false;
+                        }
+                    } else {
                         success = false;
                     }
                     count += 1;
@@ -137,28 +163,103 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
 
         if (line instanceof CostCategoryObjectCode) {
             CostCategoryObjectCode newObjectCode = (CostCategoryObjectCode)line;
-            final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectCodeUnique(newObjectCode);
-            if (!ObjectUtils.isNull(conflictingDetail)) {
-                final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_CODES, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectCode.getChartOfAccountsCode(), newObjectCode.getFinancialObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
-                success = false;
+            success &= checkObjectCodeExists(newObjectCode);
+
+            if (success) {
+                final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectCodeUnique(newObjectCode);
+                if (!ObjectUtils.isNull(conflictingDetail)) {
+                    final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                    GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_CODES, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectCode.getChartOfAccountsCode(), newObjectCode.getFinancialObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    success = false;
+                }
             }
         } else if (line instanceof CostCategoryObjectLevel) {
             CostCategoryObjectLevel newObjectLevel = (CostCategoryObjectLevel)line;
-            final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectLevelUnique(newObjectLevel);
-            if (!ObjectUtils.isNull(conflictingDetail)) {
-                final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_LEVELS, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectLevel.getChartOfAccountsCode(), newObjectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
-                success = false;
+            success &= checkObjectLevelExists(newObjectLevel);
+
+            if (success) {
+                final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectLevelUnique(newObjectLevel);
+                if (!ObjectUtils.isNull(conflictingDetail)) {
+                    final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                    GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_LEVELS, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectLevel.getChartOfAccountsCode(), newObjectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    success = false;
+                }
             }
         } else if (line instanceof CostCategoryObjectConsolidation) {
             CostCategoryObjectConsolidation newObjectConsolidation = (CostCategoryObjectConsolidation)line;
-            final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectConsolidationUnique(newObjectConsolidation);
-            if (!ObjectUtils.isNull(conflictingDetail)) {
-                final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_CONSOLIDATIONS, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectConsolidation.getChartOfAccountsCode(), newObjectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
-                success = false;
+            success &= checkObjectConsolidationExists(newObjectConsolidation);
+
+            if (success) {
+                final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectConsolidationUnique(newObjectConsolidation);
+                if (!ObjectUtils.isNull(conflictingDetail)) {
+                    final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
+                    GlobalVariables.getMessageMap().putErrorForSectionId(ArConstants.CostCategoryMaintenanceSections.EDIT_OBJECT_CONSOLIDATIONS, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {newObjectConsolidation.getChartOfAccountsCode(), newObjectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                    success = false;
+                }
             }
+        }
+
+        return success;
+    }
+
+    /**
+     * Determines if the object code on a cost category object code actually exists
+     * @param objectCode the cost category object code to check
+     * @return true if the object code exists, false (and an error message) otherwise
+     */
+    protected boolean checkObjectCodeExists(CostCategoryObjectCode objectCode) {
+        boolean success = true;
+
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
+        final int count = getBoService().countMatching(ObjectCodeCurrent.class, fieldValues);
+        if (count == 0) {
+            final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+            success = false;
+        }
+
+        return success;
+    }
+
+    /**
+     * Determines if the object level on a cost category object level actually exists
+     * @param objectLevel the cost category object level to check
+     * @return true if the object level exists, false (and an error message) otherwise
+     */
+    protected boolean checkObjectLevelExists(CostCategoryObjectLevel objectLevel) {
+        boolean success = true;
+
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectLevel.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevel.getFinancialObjectLevelCode());
+        final int count = getBoService().countMatching(ObjectLevel.class, fieldValues);
+        if (count == 0) {
+            final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectLevel.class, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+            success = false;
+        }
+
+        return success;
+    }
+
+    /**
+     * Determines if the object code on a cost category object code actually exists
+     * @param objectCode the cost category object code to check
+     * @return true if the object code exists, false (and an error message) otherwise
+     */
+    protected boolean checkObjectConsolidationExists(CostCategoryObjectConsolidation objectConsolidation) {
+        boolean success = true;
+
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectConsolidation.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, objectConsolidation.getFinConsolidationObjectCode());
+        final int count = getBoService().countMatching(ObjectConsolidation.class, fieldValues);
+        if (count == 0) {
+            final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectConsolidation.class, KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+            success = false;
         }
 
         return success;
@@ -170,4 +271,5 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
         }
         return costCategoryService;
     }
+
 }

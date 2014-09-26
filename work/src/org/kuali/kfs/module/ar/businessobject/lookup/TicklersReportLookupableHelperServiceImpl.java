@@ -88,9 +88,9 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
         }
 
-        final String completed = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COMPLETED);
+        final String completed = (String) lookupFormFields.get(ArPropertyConstants.COMPLETED);
         if (!StringUtils.isBlank(completed)) {
-            fieldValues.put(ArPropertyConstants.EventFields.COMPLETED, completed);
+            fieldValues.put(ArPropertyConstants.COMPLETED, completed);
         }
 
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");

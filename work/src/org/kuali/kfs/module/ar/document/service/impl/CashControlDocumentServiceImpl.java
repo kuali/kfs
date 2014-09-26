@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -303,7 +304,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             Map criteria3= new HashMap();
             criteria3.put(KFSPropertyConstants.DOCUMENT_NUMBER, electronicPaymentClaim.getDocumentNumber());
             criteria3.put(ArPropertyConstants.SEQUENCE_NUMBER, electronicPaymentClaim.getFinancialDocumentLineNumber());
-            criteria3.put(ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F);
+            criteria3.put(ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, ArConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F);
             SourceAccountingLine advanceDepositAccountingLine = businessObjectService.findByPrimaryKey(SourceAccountingLine.class, criteria3);
 
             // build dummy accounting line for gl creation

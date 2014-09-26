@@ -146,7 +146,7 @@ public class ReportingLoadTest extends KualiTestBase {
         fieldValues.put(ArPropertyConstants.REPORT_OPTION, AGING_RPT_OPTION);
         fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.ACCOUNT_CHART_CODE, AGING_RPT_ACCOUNT_CHART);
         fieldValues.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, AGING_RPT_ACCOUNT);
-        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE, AGING_RPT_PROCESSING_OR_BILLING_CHART);
+        fieldValues.put(ArPropertyConstants.PROCESSING_OR_BILLING_CHART_CODE, AGING_RPT_PROCESSING_OR_BILLING_CHART);
         fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, AGING_RPT_ORG);
         java.util.Date today = dateTimeService.getCurrentDate();
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");

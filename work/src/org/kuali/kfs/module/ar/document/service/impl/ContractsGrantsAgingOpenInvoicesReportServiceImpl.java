@@ -96,7 +96,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
         String customerName = ((String[]) urlParameters.get(KFSPropertyConstants.CUSTOMER_NAME))[0];
 
         String orgCode = ObjectUtils.isNotNull(urlParameters.get(KFSPropertyConstants.ORGANIZATION_CODE)) ? ((String[]) urlParameters.get(KFSPropertyConstants.ORGANIZATION_CODE))[0] : null;
-        String chartCode = ObjectUtils.isNotNull(urlParameters.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE)) ? ((String[]) urlParameters.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE))[0] : null;
+        String chartCode = ObjectUtils.isNotNull(urlParameters.get(ArPropertyConstants.BILLING_CHART_CODE)) ? ((String[]) urlParameters.get(ArPropertyConstants.BILLING_CHART_CODE))[0] : null;
         String strBeginDate = ObjectUtils.isNotNull(urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE)) ? ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE))[0] : null;
         String strEndDate = ObjectUtils.isNotNull(urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE)) ? ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE))[0] : null;
         java.sql.Date startDate = null;

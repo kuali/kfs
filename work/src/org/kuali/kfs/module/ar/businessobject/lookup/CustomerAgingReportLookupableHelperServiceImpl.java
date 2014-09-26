@@ -388,7 +388,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             parameters.put(ArPropertyConstants.CustomerAgingReportFields.ACCOUNT_CHART_CODE, accountChartCode);
             parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         } else {
-            parameters.put(ArPropertyConstants.CustomerAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE, processingOrBillingChartCode);
+            parameters.put(ArPropertyConstants.PROCESSING_OR_BILLING_CHART_CODE, processingOrBillingChartCode);
             parameters.put(KFSConstants.CustomerOpenItemReport.ORGANIZATION_CODE, orgCode);
         }
 

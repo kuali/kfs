@@ -116,7 +116,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         fieldValues.put("backLocation", null);
         fieldValues.put("reportRunDate", dateFormat.format(new Date()));
         fieldValues.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        fieldValues.put(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE, chartCode);
+        fieldValues.put(ArPropertyConstants.BILLING_CHART_CODE, chartCode);
         fieldValues.put("docFormKey", null);
         fieldValues.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
         fieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, customerName);

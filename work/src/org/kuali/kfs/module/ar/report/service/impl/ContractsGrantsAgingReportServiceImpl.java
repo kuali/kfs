@@ -84,7 +84,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     protected List<ContractsGrantsInvoiceDocument> retrieveMatchingContractsGrantsInvoiceDocuments(Map fieldValues, java.sql.Date begin, java.sql.Date end) {
         String reportOption = (String) fieldValues.get(ArPropertyConstants.REPORT_OPTION);
         String orgCode = (String) fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
-        String chartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE);
+        String chartCode = (String) fieldValues.get(ArPropertyConstants.PROCESSING_OR_BILLING_CHART_CODE);
         String customerNumber = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER);
         String customerName = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME);
         String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);

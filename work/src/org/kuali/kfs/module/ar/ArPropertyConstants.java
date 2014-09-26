@@ -185,7 +185,6 @@ public class ArPropertyConstants{
     public static class CustomerAgingReportFields {
         public static final String REPORT_RUN_DATE = "reportRunDate";
         public static final String PROCESSING_OR_BILLING_CHART_ACCOUNT_CODE = "processingOrBillingChartOfAccountsCode";
-        public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
         public static final String ACCOUNT_CHART_CODE = "accountChartCode";
     }
 
@@ -195,7 +194,6 @@ public class ArPropertyConstants{
         public static final String FOLLOWUP_DATE = "followupDate";
         public static final String ACTIVITY_CODE = "activityCode";
         public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String COMPLETED = "completed";
     }
 
     // Event bo fields
@@ -208,7 +206,6 @@ public class ArPropertyConstants{
         public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
-        public static final String COMPLETED = "completed";
         public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
         public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
     }
@@ -326,7 +323,6 @@ public class ArPropertyConstants{
     public static class DunningLetterDistributionFields {
         public static final String DAYS_PAST_DUE = "daysPastDue";
         public static final String DUNNING_LETTER_TAMPLATE_SENT_DATE = "dunningLetterTemplateSentDate";
-        public static final String BILLING_CHART_CODE = "billingChartCode";
         public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
         public static final String PROCESSING_CHART_CODE = "processingChartCode";
     }
@@ -342,8 +338,6 @@ public class ArPropertyConstants{
     // Contracts And Grants Aging Report
     public static class ContractsGrantsAgingReportFields {
         public static final String REPORT_RUN_DATE = "reportRunDate";
-        public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
-        public static final String FORM_CHART_CODE = "billingChartCode";
         public static final String PDF_SORT_PROPERTY = "award.agency.agencyNumber";
         public static final String LIST_SORT_PROPERTY = "award.agency.reportingName";
         public static final String ACCOUNT_CHART_CODE = "accountChartOfAccountsCode";
@@ -535,7 +529,9 @@ public class ArPropertyConstants{
     public static final String INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
     public static final String SEQUENCE_NUMBER= "sequenceNumber";
     public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
-    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+    public static final String BILLING_CHART_CODE = "billingChartCode";
+    public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
+    public static final String COMPLETED = "completed";
 
     public static final String ACCOUNT_DETAILS = "accountDetails";
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";

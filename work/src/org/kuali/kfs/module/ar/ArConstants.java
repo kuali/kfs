@@ -474,6 +474,8 @@ public class ArConstants{
 
     static final public String REMINDER_EMAIL_SUBJECT = "REMINDER_EMAIL_SUBJECT";
 
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+
     // Agency Collections Maintenance
     public static final String CHAPTER7_CODE = "C7";
     public static final String CHAPTER11_CODE = "C11";

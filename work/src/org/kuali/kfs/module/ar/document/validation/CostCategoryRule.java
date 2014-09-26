@@ -90,7 +90,7 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if validations passed, false otherwise
      */
     protected boolean checkSimpleRules() {
-        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
+        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
         boolean success = true;
 
         // check that there is something - at least one object code or level or consolidation

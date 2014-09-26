@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
@@ -108,6 +109,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.balanceType = new BalanceType();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
+        this.financialDocumentApprovedCode = KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.NOT_PROCESSED;
     }
 
     /**

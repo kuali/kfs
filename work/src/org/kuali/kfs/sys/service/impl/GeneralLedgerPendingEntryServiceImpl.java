@@ -320,7 +320,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }
 
-        explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.NOT_PROCESSED);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
         explicitEntry.setChartOfAccountsCode(glpeSourceDetail.getChartOfAccountsCode());
@@ -390,7 +390,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         }
         // FIXME! - inject the sufficient funds service
         explicitEntry.setAcctSufficientFundsFinObjCd(getSufficientFundsService().getSufficientFundsObjectCode(objectCode, account.getAccountSufficientFundsCode()));
-        explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.NOT_PROCESSED);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
         explicitEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());

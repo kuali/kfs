@@ -732,7 +732,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, generalBalanceForwardBalanceTypes);
-        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, generalBalanceForwardBalanceTypes);
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, generalForwardBalanceObjectTypes);
 
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

@@ -278,7 +278,7 @@
 			<column name="ACTN_PLCY_CD" value="F" />
 			<column name="ROLE_MBR_ID" value="*" />
 			<column name="ROLE_RSP_ID" value="KFS1127" />
-			<column name="FRC_ACTN" value="Y" />
+			<column name="FRC_ACTN" value="N" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCG08" />

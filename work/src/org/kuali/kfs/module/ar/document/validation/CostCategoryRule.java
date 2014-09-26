@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -45,12 +44,6 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected CostCategory newCategories;
 
     private volatile static CostCategoryService costCategoryService;
-
-    @Override
-    public boolean processSaveDocument(Document document) {
-        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
-        return super.processSaveDocument(document);
-    }
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -90,7 +83,6 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if validations passed, false otherwise
      */
     protected boolean checkSimpleRules() {
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
         boolean success = true;
 
         // check that there is something - at least one object code or level or consolidation

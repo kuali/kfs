@@ -341,7 +341,6 @@ public class ArKeyConstants {
 
      public static class ContractsGrantsCategoryConstants {
          public static final String ERROR_ANY_ONE_REQUIRED = "error.any.one.required";
-         public static final String CATEGORY_INFO = "error.cgcategory.info";
      }
 
      public static final String MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_1 = "message.cg.upcoming.milestones.email.line1";

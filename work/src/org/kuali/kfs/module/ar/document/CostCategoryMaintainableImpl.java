@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CostCategory;
 import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode;
@@ -31,7 +31,6 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overridden to add informative help message
@@ -54,36 +53,6 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
         inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_CODES, Boolean.FALSE);
         inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_LEVELS, Boolean.FALSE);
         inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_CONSOLIDATIONS, Boolean.FALSE);
-    }
-
-    @Override
-    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterPost(document, parameters);
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
-    }
-
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterCopy(document, parameters);
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
-    }
-
-    @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        super.processAfterEdit(document, requestParameters);
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
-    }
-
-    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        super.processAfterNew(document, requestParameters);
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
-    }
-
-    @Override
-    public void processAfterAddLine(String colName, Class colClass) {
-        super.processAfterAddLine(colName, colClass);
-        GlobalVariables.getMessageMap().putInfo(ArConstants.CostCategoryMaintenanceSections.EDIT_CATEGORY, ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
     }
 
     /**
@@ -134,6 +103,43 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
             ((CostCategoryObjectLevel)bo).setCategoryCode(((CostCategory)getBusinessObject()).getCategoryCode());
         } else if (bo instanceof CostCategoryObjectConsolidation) {
             ((CostCategoryObjectConsolidation)bo).setCategoryCode(((CostCategory)getBusinessObject()).getCategoryCode());
+        }
+    }
+
+    /**
+     * Overridden because the maintenance list is having fields added that don't really make any sense
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, java.util.Collection, boolean, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     */
+    @Override
+    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
+        super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
+        if (!CollectionUtils.isEmpty(rawValues)) {
+            CostCategory costCategory = (CostCategory)bo;
+            if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_CODES)) {
+                Iterator<CostCategoryObjectCode> objectCodeIter = costCategory.getObjectCodes().iterator();
+                while (objectCodeIter.hasNext()) {
+                    CostCategoryObjectCode objectCode = objectCodeIter.next();
+                    if (StringUtils.isBlank(objectCode.getChartOfAccountsCode()) && StringUtils.isBlank(objectCode.getFinancialObjectCode())) {
+                        objectCodeIter.remove();
+                    }
+                }
+            } else if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_LEVELS)) {
+                Iterator<CostCategoryObjectLevel> objectLevelIter = costCategory.getObjectLevels().iterator();
+                while (objectLevelIter.hasNext()) {
+                    CostCategoryObjectLevel objectLevel = objectLevelIter.next();
+                    if (StringUtils.isBlank(objectLevel.getChartOfAccountsCode()) && StringUtils.isBlank(objectLevel.getFinancialObjectLevelCode())) {
+                        objectLevelIter.remove();
+                    }
+                }
+            } else if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_CONSOLIDATIONS)) {
+                Iterator<CostCategoryObjectConsolidation> objectConsolidationIter = costCategory.getObjectConsolidations().iterator();
+                while (objectConsolidationIter.hasNext()) {
+                    CostCategoryObjectConsolidation consolidation = objectConsolidationIter.next();
+                    if (StringUtils.isBlank(consolidation.getChartOfAccountsCode()) && StringUtils.isBlank(consolidation.getFinConsolidationObjectCode())) {
+                        objectConsolidationIter.remove();
+                    }
+                }
+            }
         }
     }
 

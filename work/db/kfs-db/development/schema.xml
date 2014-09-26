@@ -16879,7 +16879,7 @@
     <sequence name="CB_ACTN_ID_SEQ" nextval="2000"/>
     <sequence name="CB_GL_ACCT_ID_SEQ" nextval="2000"/>
     <sequence name="CGPRPSL_NBR_SEQ" nextval="80088"/>
-    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55124"/>
+    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55129"/>
     <sequence name="CG_PRPSL_CLOSE_NBR_SEQ" nextval="2040"/>
     <sequence name="CG_SUBCNR_NBR_SEQ" nextval="2080"/>
     <sequence name="CM_AST_PMT_DOC_TYP_SEQ" nextval="20"/>

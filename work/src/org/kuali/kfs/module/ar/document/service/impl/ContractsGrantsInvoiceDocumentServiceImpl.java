@@ -807,8 +807,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (ObjectUtils.isNotNull(suspensionCategories)) {
             for (SuspensionCategory suspensionCategory : suspensionCategories) {
                 InvoiceSuspensionCategory invoiceSuspensionCategory = new InvoiceSuspensionCategory(documentNumber, suspensionCategory.getCode());
-                if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument) && !contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
-                    contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().add(invoiceSuspensionCategory);
+                if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument)) {
+                    if (!contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
+                        contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().add(invoiceSuspensionCategory);
+                    }
                 } else if (contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
                     contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().remove(invoiceSuspensionCategory);
                 }

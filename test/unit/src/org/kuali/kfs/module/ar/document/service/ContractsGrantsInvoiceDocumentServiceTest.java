@@ -311,6 +311,11 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(6, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+
+        // update them again, should be the same results
+        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
+
+        assertEquals(6, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
     }
 
     /**

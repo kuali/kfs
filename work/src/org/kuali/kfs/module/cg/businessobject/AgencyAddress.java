@@ -16,20 +16,18 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
 public class AgencyAddress extends PersistableBusinessObjectBase implements Primaryable, ContractsAndGrantsAgencyAddress {
@@ -405,12 +403,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Prim
      * @return Returns the agencyCountry.
      */
     public CountryEbo getAgencyCountry() {
-//        agencyCountry = SpringContext.getBean(CountryService.class).getCountryIfNecessary(agencyCountryCode, agencyCountry);
-        ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
-        Map<String,Object> keys = new HashMap<String, Object>(1);
-        keys.put(LocationConstants.PrimaryKeyConstants.CODE, agencyCountryCode);
-        agencyCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
-        return agencyCountry;
+        return agencyCountry = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, agencyCountry, CGPropertyConstants.AgencyAddressFields.AGENCY_COUNTRY);
     }
 
     /**

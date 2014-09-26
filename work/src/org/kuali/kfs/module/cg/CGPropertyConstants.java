@@ -71,6 +71,10 @@ public class CGPropertyConstants{
         public static final String AGENCY_CUSTOMER_TYPE_CODE= "customerTypeCode";
     }
 
+    public static class AgencyAddressFields {
+        public static final String AGENCY_COUNTRY = "agencyCountry";
+    }
+
     public static class AwardFields {
         public static final String MILESTONE_SCHEDULE_INQUIRY_TITLE = "milestoneSchedule.milestoneScheduleInquiryTitle";
         public static final String PREDETERMINED_BILLING_SCHEDULE_INQUIRY_TITLE = "predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle";

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -30,7 +29,6 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Overridden to add informative help message
@@ -87,39 +85,6 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
                     }
                 }
             }
-        }
-        // is the old collection size bigger than the new?  let's fix that
-        if (!ObjectUtils.isNull(document.getOldMaintainableObject()) && !ObjectUtils.isNull(document.getOldMaintainableObject().getBusinessObject())) {
-            CostCategory oldCostCategory = (CostCategory)document.getOldMaintainableObject().getBusinessObject();
-            CostCategory newCostCategory = (CostCategory)document.getNewMaintainableObject().getBusinessObject();
-
-            procrustesList(newCostCategory.getObjectCodes(), oldCostCategory.getObjectCodes());
-            procrustesList(newCostCategory.getObjectLevels(), oldCostCategory.getObjectLevels());
-            procrustesList(newCostCategory.getObjectConsolidations(), oldCostCategory.getObjectConsolidations());
-        }
-    }
-
-    /**
-     * This method isn't quite procrustesing a list - it chops but it fails to stretch.  It's violent enough for our needs here, though: if the given visitor List is bigger than the given bed List, all
-     * elements will be removed from visitor until it's no bigger than bed
-     * @param bed the List that the visitor has to fit to
-     * @param visitor maybe the visitor is a lucky List which is exactly the same size (or smaller) than the bed.  Wouldn't that be nice?
-     */
-    protected void procrustesList(List<?> bed, List<?> visitor) {
-        if (visitor.size() > bed.size()) {
-            removeAfter(visitor, bed.size());
-        }
-    }
-
-    /**
-     * This pulls an old "three blind mice" on the given List, removing any elements on or after the removalStartPoint
-     * @param list the list to remove the tail of
-     * @param removalStartPoint the point at which to start chopping
-     */
-    protected void removeAfter(List<?> list, int removalStartPoint) {
-        final int listSize = list.size(); // list.size changes as we remove stuff, do remember
-        for (int i = listSize - 1; i >= removalStartPoint; i--) {
-            list.remove(i);
         }
     }
 

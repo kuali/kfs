@@ -133,8 +133,8 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
     protected ReportQueryByCriteria buildLevelConsolidationCodeSubQuery(CostCategoryObjectLevel level) {
         Criteria crit = new Criteria();
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, level.getChartOfAccountsCode());
-        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, level);
-        //crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, level.getFinancialObjectLevelCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(ObjectLevel.class, crit);
         subQuery.setAttributes(new String[] { KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE });
         return subQuery;

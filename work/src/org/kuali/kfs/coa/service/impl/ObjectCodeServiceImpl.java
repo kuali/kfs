@@ -141,7 +141,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
         Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectChartOfAccountsCode);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidationCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, consolidationCode);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         return getBusinessObjectService().countMatching(ObjectCodeCurrent.class, fieldValues) > 0;
     }

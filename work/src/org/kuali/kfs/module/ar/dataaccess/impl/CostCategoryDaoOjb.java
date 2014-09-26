@@ -246,6 +246,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.OBJECT_TYPE_CODE, objectType);
 
         // TODO Use subqueries?
+        boolean addedCategoryCriteria = false;
         Criteria objectCodesCollectiveCriteria = new Criteria();
         if (!CollectionUtils.isEmpty(costCategory.getObjectCodes())) {
             List<String> financialObjectCodes = new ArrayList<>();
@@ -254,9 +255,12 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
                     financialObjectCodes.add(objectCode.getFinancialObjectCode());
                 }
             }
-            Criteria objectCodeCriteria = new Criteria();
-            objectCodeCriteria.addIn(KFSPropertyConstants.OBJECT_CODE, financialObjectCodes);
-            objectCodesCollectiveCriteria.addOrCriteria(objectCodeCriteria);
+            if (!CollectionUtils.isEmpty(financialObjectCodes)) {
+                Criteria objectCodeCriteria = new Criteria();
+                objectCodeCriteria.addIn(KFSPropertyConstants.OBJECT_CODE, financialObjectCodes);
+                objectCodesCollectiveCriteria.addOrCriteria(objectCodeCriteria);
+                addedCategoryCriteria = true;
+            }
         }
 
         if (!CollectionUtils.isEmpty(costCategory.getObjectLevels())) {
@@ -266,9 +270,12 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
                     financialObjectLevelCodes.add(objectLevel.getFinancialObjectLevelCode());
                 }
             }
-            Criteria objectLevelCriteria = new Criteria();
-            objectLevelCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,financialObjectLevelCodes);
-            objectCodesCollectiveCriteria.addOrCriteria(objectLevelCriteria);
+            if (!CollectionUtils.isEmpty(financialObjectLevelCodes)) {
+                Criteria objectLevelCriteria = new Criteria();
+                objectLevelCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,financialObjectLevelCodes);
+                objectCodesCollectiveCriteria.addOrCriteria(objectLevelCriteria);
+                addedCategoryCriteria = true;
+            }
         }
 
         if (!CollectionUtils.isEmpty(costCategory.getObjectConsolidations())) {
@@ -278,11 +285,18 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
                     consolidationCodes.add(consolidation.getFinConsolidationObjectCode());
                 }
             }
-            Criteria consolidationCriteria = new Criteria();
-            consolidationCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidationCodes);
-            objectCodesCollectiveCriteria.addOrCriteria(consolidationCriteria);
+            if (!CollectionUtils.isEmpty(consolidationCodes)) {
+                Criteria consolidationCriteria = new Criteria();
+                consolidationCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, consolidationCodes);
+                objectCodesCollectiveCriteria.addOrCriteria(consolidationCriteria);
+                addedCategoryCriteria = true;
+            }
         }
 
+        if (!addedCategoryCriteria) {
+            // we found no matching criteria for this cost category - so we should not return any balances
+            return new ArrayList<>();
+        }
         crit.addAndCriteria(objectCodesCollectiveCriteria);
         Query q = new QueryByCriteria(Balance.class, crit);
         return (List<Balance>)getPersistenceBrokerTemplate().getCollectionByQuery(q);

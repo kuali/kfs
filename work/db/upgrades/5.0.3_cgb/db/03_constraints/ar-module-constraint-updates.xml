@@ -58,8 +58,8 @@
 			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
 			baseTableName="AR_CST_CTGRY_FIN_CONSOLDTN_T" referencedColumnNames="FIN_COA_CD" />
 		<addForeignKeyConstraint constraintName="AR_CST_CTGRY_FIN_CONSOLDTN_TR3"
-			referencedTableName="CA_OBJ_CONSOLDTN_T" baseColumnNames="(FIN_COA_CD, FIN_CONS_OBJ_CD"
-			baseTableName="AR_CST_CTGRY_FIN_CONSOLDTN_T" referencedColumnNames="(FIN_COA_CD, FIN_CONS_OBJ_CD" />
+			referencedTableName="CA_OBJ_CONSOLDTN_T" baseColumnNames="FIN_COA_CD, FIN_CONS_OBJ_CD"
+			baseTableName="AR_CST_CTGRY_FIN_CONSOLDTN_T" referencedColumnNames="FIN_COA_CD, FIN_CONS_OBJ_CD" />
 		<createIndex indexName="AR_BILL_TI1" tableName="AR_BILL_T">
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)"/>
 		</createIndex> 

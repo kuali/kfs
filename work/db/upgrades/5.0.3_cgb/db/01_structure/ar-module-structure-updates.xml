@@ -71,11 +71,11 @@
 			<column name="FIN_OBJECT_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_CST_CTGRY_FIN_OBJ_CD_TP1"/>
 			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_CD_TC0"/>
-			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_CD_TC0"/>
 			</column>
 		</createTable>
 		<createTable tableName="AR_CST_CTGRY_FIN_OBJ_LEVEL_T">
@@ -88,11 +88,11 @@
 			<column name="FIN_OBJ_LEVEL_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_CST_CTGRY_FIN_OBJ_LEVEL_TP1"/>
 			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_LEVEL_TC0"/>
-			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_LEVEL_TC0"/>
 			</column>
 		</createTable>
 		<createTable tableName="AR_CST_CTGRY_FIN_CONSOLDTN_T">
@@ -105,11 +105,11 @@
 			<column name="FIN_CONS_OBJ_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_CST_CTGRY_FIN_CONSOLDTN_TP1"/>
 			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_CONSOLDTN_TC0"/>
-			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_CONSOLDTN_TC0"/>
 			</column>
 		</createTable>
 		<createTable tableName="AR_CGB_INV_DTL_T">

@@ -743,8 +743,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     // add this single account object code item to the list in the Map
                     businessObjectService.save(invoiceDetailAccountObjectCode);
-
-                    break; // found a match into which category, we can stop and move on to next balance entry
                 }
             }
         }
@@ -849,7 +847,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             for (int fy = awardBeginningYear; fy <= currentYear; fy++) {
                 final SystemOptions systemOptions = retrieveSystemOptions(fy);
-                final List<Balance> matchingBalances = this.getCostCategoryService().getBalancesForCostCategory(fy, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), category);
+                final List<Balance> matchingBalances = getCostCategoryService().getBalancesForCostCategory(fy, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), category);
                 glBalances.addAll(matchingBalances);
             }
         }

@@ -24,6 +24,7 @@
 				<ref bean="CostCategoryObjectLevel-categoryCode"/>
 				<ref bean="CostCategoryObjectLevel-chartOfAccountsCode"/>
 				<ref bean="CostCategoryObjectLevel-financialObjectLevelCode"/>
+				<ref bean="CostCategoryObjectLevel-active"/>
 			</list>
 		</property>
 	</bean>
@@ -40,4 +41,10 @@
 	
 	<bean id="CostCategoryObjectLevel-financialObjectLevelCode" parent="CostCategoryObjectLevel-financialObjectLevelCode-parentBean"/>
 	<bean id="CostCategoryObjectLevel-financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode"/>
+	
+	<bean id="CostCategoryObjectLevel-active" parent="CostCategoryObjectLevel-active-parentBean"/>
+	<bean id="CostCategoryObjectLevel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active"/>
+		<property name="label" value="Active"/>
+	</bean>
 </beans>

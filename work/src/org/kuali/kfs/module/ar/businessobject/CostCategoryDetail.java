@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 /**
  * An interface for all details which may be children of CostCategories
  */
-public interface CostCategoryDetail {
+public interface CostCategoryDetail extends MutableInactivatable {
     /**
      * @return the category code of the cost category detail
      */

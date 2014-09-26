@@ -23,6 +23,7 @@ public class CostCategoryObjectConsolidation extends PersistableBusinessObjectBa
     private String categoryCode;
     private String chartOfAccountsCode;
     private String finConsolidationObjectCode;
+    private boolean active;
 
     private Chart chart;
     private ObjectConsolidation objectConsolidation;
@@ -58,5 +59,13 @@ public class CostCategoryObjectConsolidation extends PersistableBusinessObjectBa
     }
     public void setObjectConsolidation(ObjectConsolidation objectConsolidation) {
         this.objectConsolidation = objectConsolidation;
+    }
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

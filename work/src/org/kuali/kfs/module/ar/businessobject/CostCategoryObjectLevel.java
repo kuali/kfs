@@ -26,6 +26,7 @@ public class CostCategoryObjectLevel extends PersistableBusinessObjectBase imple
     private String categoryCode;
     private String chartOfAccountsCode;
     private String financialObjectLevelCode;
+    private boolean active;
 
     private Chart chart;
     private ObjectLevel objectLevel;
@@ -70,5 +71,12 @@ public class CostCategoryObjectLevel extends PersistableBusinessObjectBase imple
     public void setObjectLevel(ObjectLevel objectLevel) {
         this.objectLevel = objectLevel;
     }
-
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

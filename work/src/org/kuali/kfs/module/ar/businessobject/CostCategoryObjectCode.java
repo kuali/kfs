@@ -26,6 +26,7 @@ public class CostCategoryObjectCode extends PersistableBusinessObjectBase implem
     private String categoryCode;
     private String chartOfAccountsCode;
     private String financialObjectCode;
+    private boolean active;
 
     private Chart chart;
     private ObjectCodeCurrent objectCodeCurrent;
@@ -61,5 +62,13 @@ public class CostCategoryObjectCode extends PersistableBusinessObjectBase implem
     }
     public void setObjectCodeCurrent(ObjectCodeCurrent objectCodeCurrent) {
         this.objectCodeCurrent = objectCodeCurrent;
+    }
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

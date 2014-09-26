@@ -74,6 +74,7 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:template="chartOfAccountsCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" p:template="financialObjectCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 						</list>
 					</property>
 				</bean>
@@ -102,6 +103,7 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:template="chartOfAccountsCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="financialObjectLevelCode" p:required="true" p:template="financialObjectLevelCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 						</list>
 					</property>
 				</bean>
@@ -130,6 +132,7 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:template="chartOfAccountsCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjectCode" p:required="true" p:template="finConsolidationObjectCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 						</list>
 					</property>
 				</bean>

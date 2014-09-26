@@ -30,12 +30,31 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overridden to add informative help message
  */
 public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
+    public CostCategoryMaintainableImpl() {
+        super();
+        initiateInactiveRecordDisplay();
+    }
+
+    public CostCategoryMaintainableImpl(PersistableBusinessObject businessObject) {
+        super(businessObject);
+        initiateInactiveRecordDisplay();
+    }
+
+    /**
+     * By default, the children record collections will hide inactive records
+     */
+    protected void initiateInactiveRecordDisplay() {
+        inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_CODES, Boolean.FALSE);
+        inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_LEVELS, Boolean.FALSE);
+        inactiveRecordDisplay.put(ArPropertyConstants.OBJECT_CONSOLIDATIONS, Boolean.FALSE);
+    }
 
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -117,4 +136,5 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
             ((CostCategoryObjectConsolidation)bo).setCategoryCode(((CostCategory)getBusinessObject()).getCategoryCode());
         }
     }
+
 }

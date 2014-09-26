@@ -109,6 +109,7 @@
 	<bean id="CostCategory-inquiryDefinition" parent="CostCategory-inquiryDefinition-parentBean"/>
 	<bean id="CostCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 	  <property name="title" value="Cost Category Inquiry"/>
+	  <property name="inquirableClass" value="org.kuali.kfs.module.ar.businessobject.inquiry.CostCategoryInquirable" />
 	  <property name="inquirySections">
 	    <list>
 	      <ref bean="CostCategory-inquirySectionDefinition-CostCategory"/>
@@ -152,6 +153,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="summaryFields">
@@ -181,6 +183,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="summaryFields">
@@ -210,6 +213,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="finConsolidationObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="summaryFields">

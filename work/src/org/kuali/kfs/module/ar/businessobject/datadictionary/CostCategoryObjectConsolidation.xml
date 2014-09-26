@@ -24,6 +24,7 @@
 				<ref bean="CostCategoryObjectConsolidation-categoryCode"/>
 				<ref bean="CostCategoryObjectConsolidation-chartOfAccountsCode"/>
 				<ref bean="CostCategoryObjectConsolidation-finConsolidationObjectCode"/>
+				<ref bean="CostCategoryObjectConsolidation-active"/>
 			</list>
 		</property>
 	</bean>
@@ -40,4 +41,10 @@
 	
 	<bean id="CostCategoryObjectConsolidation-finConsolidationObjectCode" parent="CostCategoryObjectConsolidation-finConsolidationObjectCode-parentBean"/>
 	<bean id="CostCategoryObjectConsolidation-finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode"/>
+	
+	<bean id="CostCategoryObjectConsolidation-active" parent="CostCategoryObjectConsolidation-active-parentBean"/>
+	<bean id="CostCategoryObjectConsolidation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active"/>
+		<property name="label" value="Active"/>
+	</bean>
 </beans>

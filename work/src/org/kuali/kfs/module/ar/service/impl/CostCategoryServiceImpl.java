@@ -35,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CostCategoryServiceImpl implements CostCategoryService {
     protected CostCategoryDao costCategoryDao;
 
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CostCategoryServiceImpl.class);
+
     /**
      * @see org.kuali.kfs.module.ar.service.CostCategoryService#isCostCategoryObjectConsolidationUnique(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation)
      */
@@ -88,6 +90,9 @@ public class CostCategoryServiceImpl implements CostCategoryService {
      */
     @Override
     public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, String objectType, CostCategory costCategory) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Retrieving balances for cost category: "+costCategory.getCategoryCode()+"; fiscal year = "+fiscalYear+"; chart: "+chartOfAccountsCode+"; account number: "+accountNumber+"; balance type: "+balanceType+"; object type: "+objectType);
+        }
         return getCostCategoryDao().getBalancesForCostCategory(fiscalYear, chartOfAccountsCode, accountNumber, balanceType, objectType, costCategory);
     }
 

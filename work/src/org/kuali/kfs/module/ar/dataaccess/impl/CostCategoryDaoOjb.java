@@ -53,6 +53,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectConsolidation.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectConsolidation.getChartOfAccountsCode());
         crit.addEqualTo(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, objectConsolidation.getFinConsolidationObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectConsolidation.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
@@ -67,6 +68,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, consolidation.getChartOfAccountsCode());
         crit.addEqualTo(ArPropertyConstants.OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectLevel.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
@@ -81,6 +83,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, consolidation.getChartOfAccountsCode());
         crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectCode.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
@@ -106,6 +109,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectLevel.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectLevel.getChartOfAccountsCode());
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevel.getFinancialObjectLevelCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectLevel.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
@@ -120,6 +124,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         consolidationCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, level.getCategoryCode());
         consolidationCrit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, level.getChartOfAccountsCode());
         consolidationCrit.addEqualTo(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, buildLevelConsolidationCodeSubQuery(level));
+        consolidationCrit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         consolidationCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query consolidationQuery = new QueryByCriteria(CostCategoryObjectConsolidation.class, consolidationCrit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(consolidationQuery));
@@ -149,6 +154,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, level.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, level.getChartOfAccountsCode());
         crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, level.getFinancialObjectLevelCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectCode.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(q));
@@ -163,6 +169,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query uniqueQuery = new QueryByCriteria(CostCategoryObjectCode.class, crit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(uniqueQuery));
@@ -177,6 +184,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         objectLevelCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
         objectLevelCrit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
         objectLevelCrit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, buildObjectCodeLevelCodeSubQuery(objectCode));
+        objectLevelCrit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         objectLevelCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query objectLevelQuery = new QueryByCriteria(CostCategoryObjectLevel.class, objectLevelCrit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(getPersistenceBrokerTemplate().getIteratorByQuery(objectLevelQuery));
@@ -205,6 +213,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         objectConsolidationCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
         objectConsolidationCrit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
         objectConsolidationCrit.addEqualTo(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, buildObjectCodeConsolidationCodeSubQuery(objectCode));
+        objectConsolidationCrit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         objectConsolidationCrit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query objectConsolidationQuery = new QueryByCriteria(CostCategoryObjectConsolidation.class, objectConsolidationCrit);
         return (CostCategoryDetail)TransactionalServiceUtils.retrieveFirstAndExhaustIterator((getPersistenceBrokerTemplate().getIteratorByQuery(objectConsolidationQuery)));
@@ -241,7 +250,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         if (!CollectionUtils.isEmpty(costCategory.getObjectCodes())) {
             List<String> financialObjectCodes = new ArrayList<>();
             for (CostCategoryObjectCode objectCode : costCategory.getObjectCodes()) {
-                if (StringUtils.equals(objectCode.getChartOfAccountsCode(), chartOfAccountsCode)) {
+                if (objectCode.isActive() && StringUtils.equals(objectCode.getChartOfAccountsCode(), chartOfAccountsCode)) {
                     financialObjectCodes.add(objectCode.getFinancialObjectCode());
                 }
             }
@@ -253,7 +262,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         if (!CollectionUtils.isEmpty(costCategory.getObjectLevels())) {
             List<String> financialObjectLevelCodes = new ArrayList<>();
             for (CostCategoryObjectLevel objectLevel : costCategory.getObjectLevels()) {
-                if (StringUtils.equals(objectLevel.getChartOfAccountsCode(), chartOfAccountsCode)) {
+                if (objectLevel.isActive() && StringUtils.equals(objectLevel.getChartOfAccountsCode(), chartOfAccountsCode)) {
                     financialObjectLevelCodes.add(objectLevel.getFinancialObjectLevelCode());
                 }
             }
@@ -265,7 +274,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         if (!CollectionUtils.isEmpty(costCategory.getObjectConsolidations())) {
             List<String> consolidationCodes = new ArrayList<>();
             for (CostCategoryObjectConsolidation consolidation : costCategory.getObjectConsolidations()) {
-                if (StringUtils.equals(consolidation.getChartOfAccountsCode(), chartOfAccountsCode)) {
+                if (consolidation.isActive() && StringUtils.equals(consolidation.getChartOfAccountsCode(), chartOfAccountsCode)) {
                     consolidationCodes.add(consolidation.getFinConsolidationObjectCode());
                 }
             }

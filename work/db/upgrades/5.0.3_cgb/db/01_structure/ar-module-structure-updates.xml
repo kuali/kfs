@@ -77,6 +77,7 @@
 			<column name="OBJ_ID" type="VARCHAR(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_CD_TC0"/>
 			</column>
+			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="N"/>
 		</createTable>
 		<createTable tableName="AR_CST_CTGRY_FIN_OBJ_LEVEL_T">
 			<column name="CTGRY_CD" type="VARCHAR(4)">
@@ -94,6 +95,7 @@
 			<column name="OBJ_ID" type="VARCHAR(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_OBJ_LEVEL_TC0"/>
 			</column>
+			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="N"/>
 		</createTable>
 		<createTable tableName="AR_CST_CTGRY_FIN_CONSOLDTN_T">
 			<column name="CTGRY_CD" type="VARCHAR(4)">
@@ -111,6 +113,7 @@
 			<column name="OBJ_ID" type="VARCHAR(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CST_CTGRY_FIN_CONSOLDTN_TC0"/>
 			</column>
+			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="N"/>
 		</createTable>
 		<createTable tableName="AR_CGB_INV_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR(10)">

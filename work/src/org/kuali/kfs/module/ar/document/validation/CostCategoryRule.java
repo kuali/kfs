@@ -15,13 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
-import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -210,11 +204,8 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkObjectCodeExists(CostCategoryObjectCode objectCode) {
         boolean success = true;
 
-        Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
-        final int count = getBoService().countMatching(ObjectCodeCurrent.class, fieldValues);
-        if (count == 0) {
+        objectCode.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
+        if (ObjectUtils.isNull(objectCode.getObjectCodeCurrent())) {
             final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
             success = false;
@@ -231,11 +222,8 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkObjectLevelExists(CostCategoryObjectLevel objectLevel) {
         boolean success = true;
 
-        Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectLevel.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevel.getFinancialObjectLevelCode());
-        final int count = getBoService().countMatching(ObjectLevel.class, fieldValues);
-        if (count == 0) {
+        objectLevel.refreshReferenceObject(ArPropertyConstants.OBJECT_LEVEL);
+        if (ObjectUtils.isNull(objectLevel.getObjectLevel())) {
             final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectLevel.class, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE);
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
             success = false;
@@ -252,11 +240,8 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkObjectConsolidationExists(CostCategoryObjectConsolidation objectConsolidation) {
         boolean success = true;
 
-        Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectConsolidation.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, objectConsolidation.getFinConsolidationObjectCode());
-        final int count = getBoService().countMatching(ObjectConsolidation.class, fieldValues);
-        if (count == 0) {
+        objectConsolidation.refreshReferenceObject(ArPropertyConstants.OBJECT_CONSOLIDATION);
+        if (ObjectUtils.isNull(objectConsolidation.getObjectConsolidation())) {
             final String label = getDataDictionaryService().getAttributeLabel(CostCategoryObjectConsolidation.class, KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE);
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
             success = false;

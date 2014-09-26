@@ -574,6 +574,7 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
     public static final String OBJECT_CODES = "objectCodes";
+    public static final String OBJECT_CONSOLIDATION = "objectConsolidation";
     public static final String OBJECT_CONSOLIDATIONS = "objectConsolidations";
     public static final String OBJECT_LEVEL = "objectLevel";
     public static final String OBJECT_LEVELS = "objectLevels";

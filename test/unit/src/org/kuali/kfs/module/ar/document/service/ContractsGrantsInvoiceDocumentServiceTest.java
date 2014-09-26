@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -311,7 +310,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
-        assertEquals(7, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+        assertEquals(6, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
     }
 
     /**
@@ -367,44 +366,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD5.createAward();
-
-        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
-
-        contractsGrantsInvoiceDocument.setAward(award);
-
-        InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
-        List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
-        accountDetails.add(invoiceAccountDetail_1);
-        contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
-
-        InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL6.createInvoiceGeneralDetail();
-        contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
-
-        InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
-        CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
-        CustomerAddress customerAddress = customerAddressService.getPrimaryAddress(agency.getCustomerNumber());
-        invoiceAddressDetail.setCustomerAddress(customerAddress);
-
-        List<InvoiceAddressDetail> invoiceAddressDetails = new ArrayList<>();
-        invoiceAddressDetails.add(invoiceAddressDetail);
-        contractsGrantsInvoiceDocument.setInvoiceAddressDetails(invoiceAddressDetails);
-
-        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL7.createInvoiceDetail();
-        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
-        invoiceDetails.add(invoiceDetail_1);
-        contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
-
-        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
-
-        assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("1", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
-    }
-
-    public void testUpdateSuspensionCategoriesOnDocumentCategory2Invalid() {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
-        assertNotNull(contractsGrantsInvoiceDocument);
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
@@ -436,6 +397,44 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+        assertEquals("1", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+    }
+
+    public void testUpdateSuspensionCategoriesOnDocumentCategory2Invalid() {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
+        assertNotNull(contractsGrantsInvoiceDocument);
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD6.createAward();
+
+        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
+
+        contractsGrantsInvoiceDocument.setAward(award);
+
+        InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
+        List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
+        accountDetails.add(invoiceAccountDetail_1);
+        contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
+
+        InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
+
+        InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
+        CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
+        CustomerAddress customerAddress = customerAddressService.getPrimaryAddress(agency.getCustomerNumber());
+        invoiceAddressDetail.setCustomerAddress(customerAddress);
+
+        List<InvoiceAddressDetail> invoiceAddressDetails = new ArrayList<>();
+        invoiceAddressDetails.add(invoiceAddressDetail);
+        contractsGrantsInvoiceDocument.setInvoiceAddressDetails(invoiceAddressDetails);
+
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL7.createInvoiceDetail();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
+        invoiceDetails.add(invoiceDetail_1);
+        contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
+
+        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
+
+        assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
         assertEquals("2", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
@@ -443,8 +442,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD6.createAward();
-
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
+        ((Award)award).setAdditionalFormsRequiredIndicator(true);
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
         contractsGrantsInvoiceDocument.setAward(award);
@@ -482,7 +481,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
-        ((Award)award).setAdditionalFormsRequiredIndicator(true);
+
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
         contractsGrantsInvoiceDocument.setAward(award);
@@ -494,15 +493,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
-
-        InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
-        CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
-        CustomerAddress customerAddress = customerAddressService.getPrimaryAddress(agency.getCustomerNumber());
-        invoiceAddressDetail.setCustomerAddress(customerAddress);
-
-        List<InvoiceAddressDetail> invoiceAddressDetails = new ArrayList<>();
-        invoiceAddressDetails.add(invoiceAddressDetail);
-        contractsGrantsInvoiceDocument.setInvoiceAddressDetails(invoiceAddressDetails);
 
         ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL7.createInvoiceDetail();
         List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
@@ -516,35 +506,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
     }
 
     public void testUpdateSuspensionCategoriesOnDocumentCategory5Invalid() {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
-        assertNotNull(contractsGrantsInvoiceDocument);
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
-
-        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
-
-        contractsGrantsInvoiceDocument.setAward(award);
-
-        InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
-        List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
-        accountDetails.add(invoiceAccountDetail_1);
-        contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
-
-        InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
-        contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
-
-        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL7.createInvoiceDetail();
-        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
-        invoiceDetails.add(invoiceDetail_1);
-        contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
-
-        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
-
-        assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("5", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
-    }
-
-    public void testUpdateSuspensionCategoriesOnDocumentCategory6Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -584,10 +545,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("6", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("5", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory7Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory6Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -621,13 +582,11 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
-        assertEquals(2, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        for (InvoiceSuspensionCategory suspensionCategory: contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories()) {
-            assertTrue (StringUtils.equals("1",suspensionCategory.getSuspensionCategoryCode()) || StringUtils.equals("7",suspensionCategory.getSuspensionCategoryCode()));
-        }
+        assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+        assertEquals("6", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory8Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory7Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -664,10 +623,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("8", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("7", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory9Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory8Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -702,10 +661,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("9", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("8", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory10Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory9Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -747,10 +706,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("10", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("9", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory11Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory10Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -786,10 +745,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("11", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("10", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory12Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory11Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -824,10 +783,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("12", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("11", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory13Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory12Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -875,10 +834,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("13", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("12", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
-    public void testUpdateSuspensionCategoriesOnDocumentCategory14Invalid() {
+    public void testUpdateSuspensionCategoriesOnDocumentCategory13Invalid() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
@@ -913,7 +872,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         assertEquals(1, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
-        assertEquals("14", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
+        assertEquals("13", contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().iterator().next().getSuspensionCategoryCode());
     }
 
     /**

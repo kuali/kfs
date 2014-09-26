@@ -22,9 +22,9 @@ import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
- * Suspension Category that checks to make sure the invoice is final if the award is already expired.
+ * Suspension Category that checks to if the award stop date is before today.
  */
-public class FinalInvoiceExpirationDateSuspensionCategory extends SuspensionCategoryBase {
+public class AwardStopDateSuspensionCategory extends SuspensionCategoryBase {
 
     protected DateTimeService dateTimeService;
 
@@ -35,7 +35,7 @@ public class FinalInvoiceExpirationDateSuspensionCategory extends SuspensionCate
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         Date now = dateTimeService.getCurrentDate();
 
-        return now.after(contractsGrantsInvoiceDocument.getAward().getAwardEndingDate()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBillIndicator();
+        return now.after(contractsGrantsInvoiceDocument.getAward().getAwardEndingDate());
     }
 
     public DateTimeService getDateTimeService() {

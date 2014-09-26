@@ -440,13 +440,12 @@
 		</property>
 		<property name="suspensionCategories">
       		<list>
-				<ref bean="billDateExceedsAwardStopDateSuspensionCategory" />
 				<ref bean="newTotalBilledAmountExceedsAwardTotalSuspensionCategory" />
 				<ref bean="invoiceAmountLessThanInvoiceMinimumSuspensionCategory" />
 				<ref bean="reportsRequiredSuspensionCategory" />
 				<ref bean="customerPrimaryAddressSuspensionCategory" />
 				<ref bean="customerAlternateAddressSuspensionCategory" />
-				<ref bean="finalInvoiceExpirationDateSuspensionCategory" />
+				<ref bean="awardStopDateSuspensionCategory" />
 				<ref bean="costCategoryCodesSuspensionCategory" />
 				<ref bean="letterOfCreditRemainingAmountSuspensionCategory" />
 				<ref bean="activeExpiredAccountsSuspensionCategory" />
@@ -458,52 +457,45 @@
 		</property>
 	</bean>
 
-	<bean id="billDateExceedsAwardStopDateSuspensionCategory"  parent="billDateExceedsAwardStopDateSuspensionCategory-parentBean"/>
-	<bean id="billDateExceedsAwardStopDateSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.BillDateExceedsAwardStopDateSuspensionCategory" abstract="true">
-		<property name="code">
-			<value>1</value>
-		</property>
-	</bean>
-
 	<bean id="newTotalBilledAmountExceedsAwardTotalSuspensionCategory"  parent="newTotalBilledAmountExceedsAwardTotalSuspensionCategory-parentBean"/>
 	<bean id="newTotalBilledAmountExceedsAwardTotalSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.NewTotalBilledAmountExceedsAwardTotalSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>2</value>
+			<value>1</value>
 		</property>
 	</bean>
 
 	<bean id="invoiceAmountLessThanInvoiceMinimumSuspensionCategory"  parent="invoiceAmountLessThanInvoiceMinimumSuspensionCategory-parentBean"/>
 	<bean id="invoiceAmountLessThanInvoiceMinimumSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.InvoiceAmountLessThanInvoiceMinimumSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>3</value>
+			<value>2</value>
 		</property>
 	</bean>
 
 	<bean id="reportsRequiredSuspensionCategory"  parent="reportsRequiredSuspensionCategory-parentBean"/>
 	<bean id="reportsRequiredSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.ReportsRequiredSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>4</value>
+			<value>3</value>
 		</property>
 	</bean>
 
 	<bean id="customerPrimaryAddressSuspensionCategory"  parent="customerPrimaryAddressSuspensionCategory-parentBean"/>
 	<bean id="customerPrimaryAddressSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerPrimaryAddressSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>5</value>
+			<value>4</value>
 		</property>
 	</bean>
 
 	<bean id="customerAlternateAddressSuspensionCategory"  parent="customerAlternateAddressSuspensionCategory-parentBean"/>
 	<bean id="customerAlternateAddressSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerAlternateAddressSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>6</value>
+			<value>5</value>
 		</property>
 	</bean>
 
-	<bean id="finalInvoiceExpirationDateSuspensionCategory"  parent="finalInvoiceExpirationDateSuspensionCategory-parentBean"/>
-	<bean id="finalInvoiceExpirationDateSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.FinalInvoiceExpirationDateSuspensionCategory" abstract="true">
+	<bean id="awardStopDateSuspensionCategory"  parent="awardStopDateSuspensionCategory-parentBean"/>
+	<bean id="awardStopDateSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.AwardStopDateSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>7</value>
+			<value>6</value>
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
@@ -513,21 +505,21 @@
 	<bean id="costCategoryCodesSuspensionCategory"  parent="costCategoryCodesSuspensionCategory-parentBean"/>
 	<bean id="costCategoryCodesSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.CostCategoryCodesSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>8</value>
+			<value>7</value>
 		</property>
 	</bean>
 
 	<bean id="letterOfCreditRemainingAmountSuspensionCategory"  parent="letterOfCreditRemainingAmountSuspensionCategory-parentBean"/>
 	<bean id="letterOfCreditRemainingAmountSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.LetterOfCreditRemainingAmountSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>9</value>
+			<value>8</value>
 		</property>
 	</bean>
 
 	<bean id="activeExpiredAccountsSuspensionCategory"  parent="activeExpiredAccountsSuspensionCategory-parentBean"/>
 	<bean id="activeExpiredAccountsSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.ActiveExpiredAccountsSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>10</value>
+			<value>9</value>
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
@@ -537,21 +529,21 @@
 	<bean id="awardSuspendedByUserSuspensionCategory"  parent="awardSuspendedByUserSuspensionCategory-parentBean"/>
 	<bean id="awardSuspendedByUserSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.AwardSuspendedByUserSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>11</value>
+			<value>10</value>
 		</property>
 	</bean>
 
 	<bean id="missingInvoiceTypeSuspensionCategory"  parent="missingInvoiceTypeSuspensionCategory-parentBean"/>
 	<bean id="missingInvoiceTypeSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.MissingInvoiceTypeSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>12</value>
+			<value>11</value>
 		</property>
 	</bean>
 
 	<bean id="closedAccountWithCurrentExpendituresSuspensionCategory"  parent="closedAccountWithCurrentExpendituresSuspensionCategory-parentBean"/>
 	<bean id="closedAccountWithCurrentExpendituresSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.ClosedAccountWithCurrentExpendituresSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>13</value>
+			<value>12</value>
 		</property>
 		<property name="accountService">
 			<ref bean="accountService"/>
@@ -561,7 +553,7 @@
 	<bean id="awardStopWorkSuspensionCategory"  parent="awardStopWorkSuspensionCategory-parentBean"/>
 	<bean id="awardStopWorkSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.AwardStopWorkSuspensionCategory" abstract="true">
 		<property name="code">
-			<value>14</value>
+			<value>13</value>
 		</property>
 	</bean>
 

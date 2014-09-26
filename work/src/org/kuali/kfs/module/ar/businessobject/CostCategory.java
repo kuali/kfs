@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class CostCategory extends PersistableBusinessObjectBase implements Mutab
     private boolean indirectCostIndicator;
     private boolean active;
 
-    private List<CostCategoryObjectCode> objectCodes;
-    private List<CostCategoryObjectLevel> objectLevels;
-    private List<CostCategoryObjectConsolidation> objectConsolidations;
+    private List<CostCategoryObjectCode> objectCodes = new ArrayList<>();
+    private List<CostCategoryObjectLevel> objectLevels = new ArrayList<>();
+    private List<CostCategoryObjectConsolidation> objectConsolidations = new ArrayList<>();
 
     /**
      * Gets the categoryCode attribute.

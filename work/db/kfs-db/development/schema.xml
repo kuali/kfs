@@ -957,8 +957,8 @@
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="FIN_CONS_OBJ_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="N" name="ACTV_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_CONSOLDTN_TR1">
             <reference foreign="CTGRY_CD" local="CTGRY_CD"/>
@@ -978,8 +978,8 @@
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="N" name="ACTV_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_OBJ_CD_TR1">
             <reference foreign="CTGRY_CD" local="CTGRY_CD"/>
@@ -995,8 +995,8 @@
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="FIN_OBJ_LEVEL_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="N" name="ACTV_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CST_CTGRY_T" name="AR_CST_CTGRY_FIN_OBJ_LEVEL_TR1">
             <reference foreign="CTGRY_CD" local="CTGRY_CD"/>

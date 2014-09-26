@@ -53,7 +53,9 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
         setupConvenienceObjects(document);
 
         // check simple rules
-        boolean success = checkSimpleRules();
+        if (!isInactivation()) {
+            checkSimpleRules();
+        }
 
         return true;
     }
@@ -65,7 +67,11 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
         setupConvenienceObjects(document);
 
         // check simple rules
-        boolean success = checkSimpleRules();
+        boolean success = true;
+
+        if (!isInactivation()) {
+            success &= checkSimpleRules();
+        }
 
         return success;
     }
@@ -76,6 +82,17 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newCategories = (CostCategory) super.getNewBo();
+    }
+
+    /**
+     * Test if we're inactivating the cost category
+     * @return true if we're inactivating an entire cost category, false otherwise
+     */
+    protected boolean isInactivation() {
+        if (!ObjectUtils.isNull(oldCategories)) {
+            return oldCategories.isActive() && !newCategories.isActive();
+        }
+        return false;
     }
 
     /**

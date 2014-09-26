@@ -47,10 +47,10 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
 
     protected static final Set<String> invalidPeriodCodes = new TreeSet<String>();
     static {
-        invalidPeriodCodes.add("13");
-        invalidPeriodCodes.add("AB");
-        invalidPeriodCodes.add("BB");
-        invalidPeriodCodes.add("CB");
+        invalidPeriodCodes.add(KFSConstants.MONTH13);
+        invalidPeriodCodes.add(KFSConstants.PERIOD_CODE_ANNUAL_BALANCE);
+        invalidPeriodCodes.add(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
+        invalidPeriodCodes.add(KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE);
     }
 
 

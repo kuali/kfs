@@ -115,7 +115,3 @@
 </c:choose>
 
 	</tr>
-	<SCRIPT type="text/javascript">
-    var kualiForm = document.forms['KualiForm'];
-    var kualiElements = kualiForm.elements;
-  </SCRIPT>

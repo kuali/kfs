@@ -22,11 +22,6 @@
 	headerTitle="Lookup" docTitle="" transactionalDocument="false"
 	htmlFormAction="arCustomerInvoiceWriteoffLookup">
 
-  <SCRIPT type="text/javascript">
-    var kualiForm = document.forms['KualiForm'];
-    var kualiElements = kualiForm.elements;
-  </SCRIPT>
-
 	<div class="headerarea-small" id="headerarea-small">
 	<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
 		resourceKey="lookupHelpText" altText="lookup help" /></h1>

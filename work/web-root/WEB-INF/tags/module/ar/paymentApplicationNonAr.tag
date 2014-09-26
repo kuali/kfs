@@ -33,10 +33,6 @@
         tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB}">
 
         <div class="tab-container" align="center">
-            <SCRIPT type="text/javascript">
-			    var kualiForm = document.forms['KualiForm'];
-			    var kualiElements = kualiForm.elements;
-			</SCRIPT>
 			<h3>Non-AR</h3>
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>

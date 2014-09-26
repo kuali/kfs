@@ -50,9 +50,5 @@
 				
 			</table>
 		</div>
-		<SCRIPT type="text/javascript">
-			var kualiForm = document.forms['KualiForm'];
-			var kualiElements = kualiForm.elements;
-		</SCRIPT>
 	</kul:tab>
 </c:if>

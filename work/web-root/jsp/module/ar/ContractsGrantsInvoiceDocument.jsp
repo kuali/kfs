@@ -31,11 +31,11 @@
 
 	<ar:invoiceGeneral readOnly="${readOnly}" />
 
-	<ar:cgCustomerInvoiceOrganization
+	<ar:contractsGrantsInvoiceOrganization
 		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
 		readOnly="${readOnly}" />
 
-	<ar:cgCustomerInvoiceGeneral
+	<ar:contractsGrantsInvoiceGeneral
 		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
 		readOnly="${readOnly}" />
 		

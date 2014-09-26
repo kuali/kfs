@@ -22,12 +22,6 @@
           headerMenuBar="${KualiForm.lookupable.htmlMenuBar}"
           headerTitle="Lookup" docTitle="" transactionalDocument="false">
 
-	<SCRIPT type="text/javascript">
-		var kualiForm = document.forms['KualiForm'];
-		var kualiElements = kualiForm.elements;
-		var excludeSubmitRestriction = true;
-	</SCRIPT>
-
     <div class="headerarea-small" id="headerarea-small">
         <h1><c:out value="${KualiForm.lookupable.title}"/> <kul:help
                 resourceKey="lookupHelpText" altText="lookup help"/></h1>

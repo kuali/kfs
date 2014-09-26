@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -104,42 +103,4 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
             ((CostCategoryObjectConsolidation)bo).setCategoryCode(((CostCategory)getBusinessObject()).getCategoryCode());
         }
     }
-
-    /**
-     * Overridden because the maintenance list is having fields added that don't really make any sense
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, java.util.Collection, boolean, org.kuali.rice.krad.bo.PersistableBusinessObject)
-     */
-    @Override
-    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
-        super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
-        /*if (!CollectionUtils.isEmpty(rawValues)) {
-            CostCategory costCategory = (CostCategory)bo;
-            if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_CODES)) {
-                Iterator<CostCategoryObjectCode> objectCodeIter = costCategory.getObjectCodes().iterator();
-                while (objectCodeIter.hasNext()) {
-                    CostCategoryObjectCode objectCode = objectCodeIter.next();
-                    if (StringUtils.isBlank(objectCode.getChartOfAccountsCode()) && StringUtils.isBlank(objectCode.getFinancialObjectCode())) {
-                        objectCodeIter.remove();
-                    }
-                }
-            } else if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_LEVELS)) {
-                Iterator<CostCategoryObjectLevel> objectLevelIter = costCategory.getObjectLevels().iterator();
-                while (objectLevelIter.hasNext()) {
-                    CostCategoryObjectLevel objectLevel = objectLevelIter.next();
-                    if (StringUtils.isBlank(objectLevel.getChartOfAccountsCode()) && StringUtils.isBlank(objectLevel.getFinancialObjectLevelCode())) {
-                        objectLevelIter.remove();
-                    }
-                }
-            } else if (StringUtils.equals(collectionName, ArPropertyConstants.OBJECT_CONSOLIDATIONS)) {
-                Iterator<CostCategoryObjectConsolidation> objectConsolidationIter = costCategory.getObjectConsolidations().iterator();
-                while (objectConsolidationIter.hasNext()) {
-                    CostCategoryObjectConsolidation consolidation = objectConsolidationIter.next();
-                    if (StringUtils.isBlank(consolidation.getChartOfAccountsCode()) && StringUtils.isBlank(consolidation.getFinConsolidationObjectCode())) {
-                        objectConsolidationIter.remove();
-                    }
-                }
-            }
-        }*/
-    }
-
 }

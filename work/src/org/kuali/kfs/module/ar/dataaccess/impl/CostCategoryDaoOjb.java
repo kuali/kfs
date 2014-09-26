@@ -67,7 +67,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         Criteria crit = new Criteria();
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, consolidation.getChartOfAccountsCode());
-        crit.addEqualTo(ArPropertyConstants.OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
+        crit.addEqualTo(ArPropertyConstants.OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
         crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectLevel.class, crit);
@@ -82,7 +82,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         Criteria crit = new Criteria();
         crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, consolidation.getChartOfAccountsCode());
-        crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE_CURRENT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, consolidation.getFinConsolidationObjectCode());
         crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         crit.addIn(ArPropertyConstants.CATEGORY_CODE, buildActiveCostCategorySubQuery());
         Query q = new QueryByCriteria(CostCategoryObjectCode.class, crit);

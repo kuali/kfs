@@ -71,7 +71,6 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
     }
 
     protected void setupConvenienceObjects(MaintenanceDocument document) {
-
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldCategories = (CostCategory) super.getOldBo();
 
@@ -119,7 +118,7 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
                         final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectLevelUnique(objectLevel);
                         if (!ObjectUtils.isNull(conflictingDetail)) {
                             final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                            putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectLevel.getChartOfAccountsCode(), objectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                            putFieldError(ArPropertyConstants.OBJECT_LEVELS+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_LEVEL_NOT_UNIQUE, new String[] {objectLevel.getChartOfAccountsCode(), objectLevel.getFinancialObjectLevelCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
                             success = false;
                         }
                     } else {
@@ -137,7 +136,7 @@ public class CostCategoryRule extends KfsMaintenanceDocumentRuleBase {
                         final CostCategoryDetail conflictingDetail = getCostCategoryService().isCostCategoryObjectConsolidationUnique(objectConsolidation);
                         if (!ObjectUtils.isNull(conflictingDetail)) {
                             final String conflictingDetailObjectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(conflictingDetail.getClass().getName()).getObjectLabel();
-                            putFieldError(ArPropertyConstants.OBJECT_CODES+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CODE_NOT_UNIQUE, new String[] {objectConsolidation.getChartOfAccountsCode(), objectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
+                            putFieldError(ArPropertyConstants.OBJECT_CONSOLIDATIONS+"["+count+"]."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_DOCUMENT_COST_CATEGORY_OBJECT_CONSOLIDATION_NOT_UNIQUE, new String[] {objectConsolidation.getChartOfAccountsCode(), objectConsolidation.getFinConsolidationObjectCode(), conflictingDetailObjectLabel, conflictingDetail.getCategoryCode()});
                             success = false;
                         }
                     } else {

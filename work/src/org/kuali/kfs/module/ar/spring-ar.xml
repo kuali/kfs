@@ -979,6 +979,9 @@
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 		<property name="personService">
 			<ref bean="personService" />
 		</property>

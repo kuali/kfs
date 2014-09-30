@@ -10,5 +10,7 @@
   <Field name="ach_trans_typ"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="bnk_acct_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="payee_id_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="payee_id_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="auto_inactv_ind"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="lst_updt_ts"                     type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
 </Record>

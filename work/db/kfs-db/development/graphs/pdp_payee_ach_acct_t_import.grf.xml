@@ -30,6 +30,8 @@
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
         $0.bnk_acct_typ_cd := replace(nvl($bnk_acct_typ_cd, ""), "~!~", "|" );
         $0.payee_id_nbr := replace(nvl($payee_id_nbr, ""), "~!~", "|" );
+        $0.auto_inactv_ind := replace(nvl($auto_inactv_ind, ""), "~!~", "|" );
+        $0.lst_updt_ts := $lst_updt_ts;
    }
       ]]></attr>
     </Node>

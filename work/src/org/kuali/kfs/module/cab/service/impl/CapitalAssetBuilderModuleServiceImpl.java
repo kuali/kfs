@@ -2181,31 +2181,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
-        if (ObjectUtils.isNull(matchingGlAssets) || matchingGlAssets.isEmpty()) {
-            return;
-        }
-        for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
-            GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
+                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
-            // update gl status as processed
-            if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
-                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                businessObjectService.save(generalLedgerEntry);
-            }
-
-            //if all the capital assets have been processed then update the
-            //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
-            updateTransactionLedgerEntryAmount(generalLedgerEntry);
-
-            // release asset lock
-            List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
-            String assetNumber;
-            for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
-                if (!capitalAssetInformation.isCapitalAssetProcessedIndicator()) {
-                    continue;
+                // update gl status as processed
+                if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
+                    generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+                    businessObjectService.save(generalLedgerEntry);
                 }
-                assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
-                getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
+
+                //if all the capital assets have been processed then update the
+                //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
+                updateTransactionLedgerEntryAmount(generalLedgerEntry);
+
+                // release asset lock
+                if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
+                }
             }
         }
     }
@@ -2274,7 +2267,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global
                 // doc even if Purap Asset numbers existing.
                 if (isAccountsPayableItemLineFullyProcessed(purapDocument, lockingInformation)) {
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(purapDocument.getDocumentNumber(), null, lockingInformation);
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(purapDocument.getDocumentNumber(), lockingInformation);
                 }
 
             }
@@ -3021,4 +3014,3 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     }
 }
-

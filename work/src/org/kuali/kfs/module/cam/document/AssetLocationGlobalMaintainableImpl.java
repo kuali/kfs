@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
 
     /**
      * Populates any empty fields from Asset primary key
-     *
+     * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#addNewLineToCollection(java.lang.String)
      */
 
@@ -65,7 +65,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, addAssetLine.getCapitalAssetNumber());
 
         // retrieve Asset object by PK
-        Asset asset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
 
         if (ObjectUtils.isNotNull(asset) && ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) {
             if (StringUtils.isBlank(addAssetLine.getCampusCode())) {
@@ -97,14 +97,14 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         // release the lock when document status changed as following...
         if (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal()) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null, null);
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     *
+     * 
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
@@ -114,7 +114,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
 
     @Override
     public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
-        String capitalAssetNumber = fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
+        String capitalAssetNumber = (String) fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
 
         if (StringUtils.isNotBlank(capitalAssetNumber)) {
             fieldValues.remove(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
@@ -153,7 +153,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
                     GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.AssetLocationGlobal.SECTION_ID_EDIT_LIST_OF_ASSETS, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), asset.getCapitalAssetNumber().toString() });
                 }
             }
-        }
+        }     
         super.addMultipleValueLookupResults(document, collectionName, allowedAssetsCollection, needsBlank, bo);
     }
 }

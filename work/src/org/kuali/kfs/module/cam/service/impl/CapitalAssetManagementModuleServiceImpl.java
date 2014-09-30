@@ -51,22 +51,20 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
         List<AssetLock> assetLocks = getAssetLockService().buildAssetLockHelper(capitalAssetNumbers, documentNumber, documentType, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
         Integer lockingIndex = 1;
         for (AssetLock assetLock : assetLocks) {
-            if (StringUtils.isBlank(lockingInformation)) {
-                assetLock.setLockingInformation(lockingIndex.toString());
-                lockingIndex++;
-            }
+            assetLock.setLockingInformation(lockingIndex.toString());
+            lockingIndex++;
         }
 
         return getAssetLockService().checkAndSetAssetLocks(assetLocks);
     }
 
     /**
-     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteAssetLocks(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteAssetLocks(java.lang.String, java.lang.String)
      */
     @Override
-    public void deleteAssetLocks(String documentNumber, String assetNumber, String lockingInformation) {
+    public void deleteAssetLocks(String documentNumber, String lockingInformation) {
         //getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
-        getAssetLockService().deleteAssetLocks(documentNumber, assetNumber, lockingInformation);
+        getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation);
     }
 
     protected AssetLockService getAssetLockService() {
@@ -80,8 +78,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     @Override
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         //return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
-        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber,
-                (!StringUtils.isBlank(lockingInformation) && lockingInformation.equals(CamsConstants.defaultLockingInformation)) ? null : lockingInformation);
+        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation);
     }
 
     /**
@@ -202,7 +199,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     public void deleteDocumentAssetLocks(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         // remove all current locks
-        this.deleteAssetLocks(document.getDocumentNumber(), null, null);
+        this.deleteAssetLocks(document.getDocumentNumber(), null);
 
         // if document is not cancelled nor disapproved nor recalled regenerate them all again based on set
         if (!workflowDocument.isCanceled() && !workflowDocument.isDisapproved() && !workflowDocument.isRecalled()) {

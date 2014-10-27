@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,7 +62,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     *
+     * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
@@ -94,7 +94,6 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, java.util.Collection, boolean, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
-    @Override
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
 
         Collection<AssetYearEndDepreciationDetail> maintCollection = (Collection<AssetYearEndDepreciationDetail>) ObjectUtils.getPropertyValue(bo, collectionName);
@@ -192,7 +191,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
         // release the lock when document status changed as following...
         WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         if (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal()) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentHeader.getDocumentNumber(), null, null);
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentHeader.getDocumentNumber(), null);
         }
     }
 
@@ -206,7 +205,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
         // Asset must be valid and capital active 'A','C','S','U'
         Long assetNumber = newDetail.getCapitalAssetNumber();
         pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetNumber);
-        Asset asset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, pKeys);
+        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, pKeys);
         getAssetService().setAssetSummaryFields(asset);
         AssetYearEndDepreciation assetYearEndDepreciation = (AssetYearEndDepreciation) getBusinessObject();
         List<AssetYearEndDepreciationDetail> assetYearEndDepreciationDetails = assetYearEndDepreciation.getAssetYearEndDepreciationDetails();
@@ -223,7 +222,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
      */
     @Override
     public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-        String capitalAssetNumber = fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+        String capitalAssetNumber = (String) fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
         if (StringUtils.isNotBlank(capitalAssetNumber)) {
             fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
             fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
@@ -254,7 +253,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
     private AssetPaymentService getAssetPaymentService() {
         return SpringContext.getBean(AssetPaymentService.class);
     }
-
+    
     /**
      * Convenience method to get {@link CapitalAssetManagementModuleService}
      * @return {@link CapitalAssetManagementModuleService}

@@ -1045,4 +1045,5 @@ public class KFSKeyConstants {
     }
 
     public static final String ERROR_INVALID_INCOME_OBJCODE_SUB_FUND = "error.invalid.income.objCode.subFund";
+    public static final String ERROR_PROCUREMENT_CARD_DEFAULT_CREDIT_CARD_NUMBER_NOT_UNIQUE = "error.procurementCardDefault.creditCardNumber.not.unique";
 }

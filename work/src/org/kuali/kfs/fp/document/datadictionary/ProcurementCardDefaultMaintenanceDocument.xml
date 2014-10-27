@@ -64,6 +64,7 @@
     <property name="title" value="Edit Procurement Card Default Settings" />
     <property name="maintainableItems" >
       <list>
+      	<bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.fp.businessobject.defaultvalue.NextProcurementCardDefaultIdFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="creditCardNumber" p:required="true" />              
         <bean parent="MaintainableFieldDefinition" p:name="cardHolderName" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y" /> 

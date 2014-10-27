@@ -50,8 +50,6 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
     private String vendorName;
     private String vendorNumber;
     private String address;
-    private String customerNumber;
-    private String customerName;
     private boolean active;
 
     private String principalId;
@@ -444,22 +442,6 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
      */
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
-    }
-
-    public String getCustomerNumber() {
-        return customerNumber;
-    }
-
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
     }
 
     // do mapping between vendor type code and payee type code

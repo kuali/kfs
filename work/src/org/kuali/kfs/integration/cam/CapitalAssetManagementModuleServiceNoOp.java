@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,42 +23,35 @@ import org.kuali.rice.krad.document.Document;
 
 public class CapitalAssetManagementModuleServiceNoOp implements CapitalAssetManagementModuleService {
 
-    private Logger LOG = Logger.getLogger(getClass());
-
-    @Override
-    public void deleteAssetLocks(String documentNumber, String assetNumber, String lockingInformation) {
+    private Logger LOG = Logger.getLogger(getClass()); 
+    
+    public void deleteAssetLocks(String documentNumber, String lockingInformation) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }
 
-    @Override
     public void deleteDocumentAssetLocks(Document document) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }
 
-    @Override
     public void generateCapitalAssetLock(Document document, String documentTypeNames) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }
 
-    @Override
     public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }
 
-    @Override
     public boolean isAssetLockedByCurrentDocument(String blockingDocumentNumber, String lockingInformation) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }
 
-    @Override
     public boolean isFpDocumentEligibleForAssetLock(AccountingDocument accountingDocument, String documentType) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }
 
-    @Override
     public boolean storeAssetLocks(List<Long> capitalAssetNumbers, String documentNumber, String documentType, String lockingInformation) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;

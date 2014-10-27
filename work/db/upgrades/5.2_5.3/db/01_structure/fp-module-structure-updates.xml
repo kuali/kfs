@@ -9,6 +9,27 @@
             <column name="AUTO_APPROVED_IND" type="VARCHAR(1)" />
         </addColumn>
     </changeSet>
+    
+    <changeSet author="KFS53" id="KFSTP-1163_FP_PRCRMNT_CARD_DFLT_T_pk_change">
+    	<comment>KFSTP-1163 add a synthetic id to FP_PRCRMNT_CARD_DEFAULT_T so that the pk is not a secure attribute</comment>
+    	<dropPrimaryKey tableName="FP_PRCRMNT_CARD_DFLT_T" constraintName="FP_PRCRMNT_CARD_DFLT_TP1"/>
+    	<addColumn tableName="FP_PRCRMNT_CARD_DFLT_T">
+    		<column name="ID" type="DECIMAL(22)"/>
+    	</addColumn>
+    	<addPrimaryKey tableName="FP_PRCRMNT_CARD_DFLT_T" constraintName="FP_PRCRMNT_CARD_DFLT_TP1" columnNames="id"/>
+    </changeSet>
+    
+    <changeSet author="KFS53" id="KFSTP-1163_FP_PRCRMNT_CARD_DFLT_SEQ_oracle" dbms="oracle">
+    	<createSequence sequenceName="FP_PRCRMNT_CARD_DFLT_SEQ" startValue="1" />
+    </changeSet>
+    
+    <changeSet author="KFS53" id="KFSTP-1163_FP_PRCRMNT_CARD_DFLT_SEQ_mysql" dbms="mysql">
+    	<createTable tableName="FP_PRCRMNT_CARD_DFLT_SEQ">
+	  		<column name="ID" type="BIGINT(22)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+    </changeSet>
 	
 </databaseChangeLog>
 	

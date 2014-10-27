@@ -34,10 +34,8 @@ import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSParameterKeyConstants.FpParameterConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -500,16 +498,6 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DATE, 7);
         return new Date(cal.getTimeInMillis());
-    }
-
-    /**
-     * Force COUNT_PER_ROLL_BY_DENOMINATION parameter to be set up exactly as the tests needed.
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        TestUtils.setSystemParameter(CoinDetail.class, FpParameterConstants.COUNT_PER_ROLL_BY_DENOMINATION, "100c=25;50c=20;25c=40;10c=50;5c=40;1c=50");
-        super.setUp();
     }
 
 }

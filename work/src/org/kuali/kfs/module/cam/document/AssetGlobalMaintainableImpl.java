@@ -720,7 +720,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null, null);
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
 
         // notify CAB of document status change

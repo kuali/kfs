@@ -270,7 +270,6 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-FP","CashReceipt","OBJECT_CONSOLIDATIONS","KFS183","1","VALID","FDBL","Object Consolidation(s) restricted from use on the Cash Receipt document.","D","KFS"
 "KFS-FP","CashReceipt","OBJECT_SUB_TYPES","KFS184","1","VALID","BU;CA;CE;FB;FR;HW;MT;PL;RE;SA;VA","Object Sub-Type(s) restricted from use on the Cash Receipt document.","D","KFS"
 "KFS-FP","CashReceipt","OBJECT_TYPES","KFS185","1","VALID","ES;IC","Object Type(s) restricted from use on the Cash Receipt document.","D","KFS"
-"KFS-FP","CoinDetail","COUNT_PER_ROLL_BY_DENOMINATION","KFS-PARM-170","1","CONFG","100c=25;50c=20;25c=40;10c=50;5c=40;1c=50","Counts of coins per roll for each standard roll. Note: each roll is defined in the format of denomination =countPerRoll; countPerRoll must be a positive integer; all 6 rolls shall be defined, separated by semicolon; the order of them does not matter.","A","KFS"
 "KFS-FP","CreditCardReceipt","OBJECT_CONSOLIDATIONS","KFS670","1","VALID","FDBL","Object Consolidations restricted from use on the Credit Card Receipt document","D","KFS"
 "KFS-FP","CreditCardReceipt","OBJECT_SUB_TYPES","KFS186","1","VALID","BU;CA;CE;FB;FR;HW;MT;PL;RE;SA;VA","Object Sub-Type(s) restricted from use on the Credit Card Receipt document.","D","KFS"
 "KFS-FP","CreditCardReceipt","OBJECT_TYPES","KFS669","1","VALID","IC;ES","Object Types restricted from use on the Credit Card Receipt document","D","KFS"

@@ -13992,6 +13992,9 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="VNDR_CHAP_3_STAT_DESC" size="40" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="PUR_VNDR_CHAP_3_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="PUR_VNDR_CHAP_4_STAT_T">
         <column name="VNDR_CHAP_4_STAT_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -13999,6 +14002,9 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="VNDR_CHAP_4_STAT_DESC" size="40" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="PUR_VNDR_CHAP_4_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="PUR_VNDR_CNTCT_PHN_NBR_T">
         <column name="VNDR_CNTCT_PHN_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
@@ -14433,6 +14439,9 @@
         <column name="VNDR_W8_TYP_CD" size="2" type="VARCHAR"/>
         <column name="VNDR_OWNRSHIP_CD" size="2" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="PUR_VNDR_W8_OWNRSHP_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="PUR_VNDR_W8_TYP_T">
         <column name="VNDR_W8_TYP_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -14440,6 +14449,9 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="VNDR_W8_TYP_DESC" size="40" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="PUR_VNDR_W8_TYP_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="QRTZ_BLOB_TRIGGERS">
         <column name="TRIGGER_NAME" primaryKey="true" size="80" type="VARCHAR"/>
@@ -16208,7 +16220,7 @@
     <sequence name="PUR_SNSTV_DTA_ASGN_ID_SEQ" nextval="2000"/>
     <sequence name="PUR_THRSHLD_ID" nextval="1007"/>
     <sequence name="PUR_VNDR_EXCL_MTCH_T_SEQ" nextval="1"/>
-    <sequence name="PUR_VNDR_W8_OWNERSHIP_ID_SEC" nextval="1"/>
+    <sequence name="PUR_VNDR_W8_OWNRSHP_ID_SEC" nextval="1"/>
     <sequence name="RCVNG_COR_ITM_ID" nextval="1000"/>
     <sequence name="RCVNG_LN_ITM_ID" nextval="1000"/>
     <sequence name="REQS_ACCT_ID" nextval="1003"/>

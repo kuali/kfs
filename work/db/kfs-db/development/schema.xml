@@ -13986,6 +13986,20 @@
             <index-column name="VNDR_HDR_GNRTD_ID"/>
         </index>
     </table>
+    <table name="PUR_VNDR_CHAP_3_STAT_T">
+        <column name="VNDR_CHAP_3_STAT_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VNDR_CHAP_3_STAT_DESC" size="40" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+    </table>
+    <table name="PUR_VNDR_CHAP_4_STAT_T">
+        <column name="VNDR_CHAP_4_STAT_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VNDR_CHAP_4_STAT_DESC" size="40" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+    </table>
     <table name="PUR_VNDR_CNTCT_PHN_NBR_T">
         <column name="VNDR_CNTCT_PHN_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -14259,16 +14273,25 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="VNDR_TYP_CD" required="true" size="4" type="VARCHAR"/>
-        <column name="VNDR_TAX_NBR" size="255" type="VARCHAR"/>
+        <column name="VNDR_US_TAX_NBR" size="255" type="VARCHAR"/>
         <column name="VNDR_TAX_TYP_CD" size="4" type="VARCHAR"/>
         <column name="VNDR_OWNR_CD" size="4" type="VARCHAR"/>
         <column name="VNDR_OWNR_CTGRY_CD" size="4" type="VARCHAR"/>
         <column name="VNDR_FWT_BEG_DT" type="DATE"/>
         <column name="VNDR_FWT_END_DT" type="DATE"/>
         <column name="VNDR_W9_RCVD_IND" size="1" type="VARCHAR"/>
-        <column name="VNDR_W8_BEN_RCVD_IND" size="1" type="VARCHAR"/>
+        <column name="VNDR_W8_RCVD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_DEBRD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_FRGN_IND" size="1" type="VARCHAR"/>
+        <column name="VNDR_W8_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="VNDR_W9_SIGNED_DT" type="DATE"/>
+        <column name="VNDR_W8_SIGNED_DT" type="DATE"/>
+        <column name="VNDR_CORP_CTZN_CNTRY_CD" size="2" type="VARCHAR"/>
+        <column name="VNDR_FOREIGN_TAX_ID" size="255" type="VARCHAR"/>
+        <column name="VNDR_GIIN" size="19" type="VARCHAR"/>
+        <column name="VNDR_DOB_DT" type="DATE"/>
+        <column name="VNDR_CHAP_3_STAT_CD" size="2" type="VARCHAR"/>
+        <column name="VNDR_CHAP_4_STAT_CD" size="2" type="VARCHAR"/>
         <foreign-key foreignTable="PUR_VNDR_TYP_T" name="PUR_VNDR_HDR_TR1">
             <reference foreign="VNDR_TYP_CD" local="VNDR_TYP_CD"/>
         </foreign-key>
@@ -14277,6 +14300,15 @@
         </foreign-key>
         <foreign-key foreignTable="PUR_OWNR_CTGRY_T" name="PUR_VNDR_HDR_TR3">
             <reference foreign="VNDR_OWNR_CTGRY_CD" local="VNDR_OWNR_CTGRY_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="PUR_VNDR_CHAP_3_STAT_T" name="PUR_VNDR_HDR_TR4">
+            <reference foreign="VNDR_CHAP_3_STAT_CD" local="VNDR_CHAP_3_STAT_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="PUR_VNDR_CHAP_4_STAT_T" name="PUR_VNDR_HDR_TR5">
+            <reference foreign="VNDR_CHAP_4_STAT_CD" local="VNDR_CHAP_4_STAT_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="PUR_VNDR_W8_TYP_T" name="PUR_VNDR_HDR_TR6">
+            <reference foreign="VNDR_W8_TYP_CD" local="VNDR_W8_TYP_CD"/>
         </foreign-key>
         <unique name="PUR_VNDR_HDR_TC0">
             <unique-column name="OBJ_ID"/>
@@ -14393,6 +14425,21 @@
         <unique name="PUR_VNDR_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+    </table>
+    <table name="PUR_VNDR_W8_OWNRSHP_T">
+        <column name="ID" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VNDR_W8_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="VNDR_OWNRSHIP_CD" size="2" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+    </table>
+    <table name="PUR_VNDR_W8_TYP_T">
+        <column name="VNDR_W8_TYP_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VNDR_W8_TYP_DESC" size="40" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
     </table>
     <table name="QRTZ_BLOB_TRIGGERS">
         <column name="TRIGGER_NAME" primaryKey="true" size="80" type="VARCHAR"/>
@@ -16161,6 +16208,7 @@
     <sequence name="PUR_SNSTV_DTA_ASGN_ID_SEQ" nextval="2000"/>
     <sequence name="PUR_THRSHLD_ID" nextval="1007"/>
     <sequence name="PUR_VNDR_EXCL_MTCH_T_SEQ" nextval="1"/>
+    <sequence name="PUR_VNDR_W8_OWNERSHIP_ID_SEC" nextval="1"/>
     <sequence name="RCVNG_COR_ITM_ID" nextval="1000"/>
     <sequence name="RCVNG_LN_ITM_ID" nextval="1000"/>
     <sequence name="REQS_ACCT_ID" nextval="1003"/>

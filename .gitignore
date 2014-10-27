@@ -5,6 +5,7 @@
 /build/external/appserver/*.jar
 /build/external/appserver/*.war
 /build/kfs-lib/*.jar
+/build/project/*.jar
 /build/rice-lib/*.jar
 /build/temp
 /build/tomcat

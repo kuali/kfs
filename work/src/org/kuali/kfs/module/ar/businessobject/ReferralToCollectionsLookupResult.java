@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -46,12 +47,15 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
     private Date awardBeginningDate;
     private Date awardEndingDate;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
+    private String chartOfAccountsCode;
 
     private Collection<ContractsGrantsInvoiceDocument> invoices;
     private ContractsAndGrantsBillingAward award;
     private ContractsAndGrantsBillingAgency agency;
     private Customer customer;
     private Account account;
+    private Chart chart;
+
 
     /**
      * Gets the proposalNumber attribute.
@@ -328,6 +332,43 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    /**
+     * gets chartOfAccountsCode
+     *
+     * @return
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * sets chartOfAccountsCode
+     *
+     * @param chartOfAccountsCode
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * gets the chart
+     *
+     * @return
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * sets the chart
+     *
+     * @param chart
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()

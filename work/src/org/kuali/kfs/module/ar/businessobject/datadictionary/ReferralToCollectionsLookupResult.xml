@@ -31,6 +31,7 @@
 				<ref bean="ReferralToCollectionsLookupResult-awardTotal" />
 				<ref bean="ReferralToCollectionsLookupResult-awardBeginningDate" />
 				<ref bean="ReferralToCollectionsLookupResult-awardEndingDate" />
+				<ref bean="ReferralToCollectionsLookupResult-chartOfAccountsCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -63,6 +64,14 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition">
+          			<property name="objectAttributeName" value="chart"/>
+          			<property name="primitiveAttributes">
+            			<list>
+              				<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+            			</list>
+          			</property>
+        		</bean>
 			</list>
 		</property>
 		
@@ -86,7 +95,15 @@
       		<bean parent="TextControlDefinition" p:size="9"/>
     	</property>
 	</bean>
-
+	
+	<bean id="ReferralToCollectionsLookupResult-chartOfAccountsCode" parent="ReferralToCollectionsLookupResult-chartOfAccountsCode-parentBean" />
+  	<bean id="ReferralToCollectionsLookupResult-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+  	</bean>
+	
 	<bean id="ReferralToCollectionsLookupResult-awardDocumentNumber" parent="ReferralToCollectionsLookupResult-awardDocumentNumber-parentBean" />
 	<bean id="ReferralToCollectionsLookupResult-awardDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="awardDocumentNumber"/>
@@ -169,6 +186,7 @@
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="agencyNumber" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceDocumentNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="accountNumber" />				
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="awardDocumentNumber" />				
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="customerNumber" />

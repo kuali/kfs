@@ -19,7 +19,7 @@
 <div class="body">
 	<strong>Capital Asset Management</strong><br />
     <ul class="chan">    
-		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>		
     <strong>Financial Processing</strong><br />
     <ul class="chan">

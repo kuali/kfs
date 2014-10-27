@@ -62,16 +62,16 @@
 	<strong>Batch/Scheduled Jobs</strong><br/>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Batch Semaphore File Upload" url="${ConfigProperties.application.url}/batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=semaphoreInputFileTypeError" /></li>
-    	<li><portal:portalLink displayTitle="true" title="Batch File" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    	<li><portal:portalLink displayTitle="true" title="Batch File" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     	<c:if test="${ConfigProperties.use.quartz.scheduling == 'true'}">
-			<li><portal:portalLink displayTitle="true" title="Schedule" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
+			<li><portal:portalLink displayTitle="true" title="Schedule" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
 		</c:if>
 		<li><portal:portalLink displayTitle="true" title="Special Batch File Upload" url="${ConfigProperties.application.url}/batchFileUpload" /></li>
 	</ul>
 	<c:if test="${ConfigProperties.module.access.security.enabled == 'true'}">
 	<strong>Security</strong><br/>
     <ul class="chan">
-    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>
 	</c:if>
 </div>

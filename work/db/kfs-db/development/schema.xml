@@ -1235,10 +1235,10 @@
         </unique>
     </table>
     <table name="AR_FNL_DISPOS_T">
-        <column name="CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="DISPOS_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="DESC" size="25" type="VARCHAR"/>
+        <column name="DISPOS_DESC" size="25" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="AR_FINAL_DISPOS_TC0">
             <unique-column name="OBJ_ID"/>

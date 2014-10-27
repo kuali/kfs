@@ -900,8 +900,17 @@
 					p:attributeName="Corporate Information" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9ReceivedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9ReceivedDate" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8BenReceivedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8ReceivedDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8TypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorGIIN" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDOB" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter3Code" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter3Code" />
+				
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />

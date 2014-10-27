@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Form Class for Contracts and Grants Invoice Document.
@@ -51,7 +52,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
             extraButtons.add(generateErrorCorrectionButton());
         }
         // add Prorate Button
-        if (presoController.canProrate(cgInvoiceDocument)) {
+        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && presoController.canProrate(cgInvoiceDocument)) {
             addExtraButton(ArConstants.PRORATE_BUTTON_METHOD, buttonUrl + ArConstants.PRORATE_BUTTON_FILE_NAME, ArConstants.PRORATE_BUTTON_ALT_TEXT);
         }
         return extraButtons;

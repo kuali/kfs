@@ -66,7 +66,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private List<InvoiceBill> invoiceBills;
     private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
 
-    public Date paymentDate;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
 
     /**
@@ -497,14 +496,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     public void setBalanceDue(KualiDecimal balanceDue) {
         this.balanceDue = balanceDue;
-    }
-
-    public Date getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
     }
 
     public String getCustomerNumber() {

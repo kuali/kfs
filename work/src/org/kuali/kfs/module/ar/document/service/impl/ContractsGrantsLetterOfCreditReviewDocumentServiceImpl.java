@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditRev
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -48,6 +49,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected KualiModuleService kualiModuleService;
     protected UniversityDateService universityDateService;
+    protected OptionsService optionsService;
 
     /**
      * This method retrieves the amount to draw for the award account based on the criteria passed
@@ -64,8 +66,8 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
 
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
-            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+
+            final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
 
             // 2. Get the Cumulative amount from GL Balances.
 
@@ -111,7 +113,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
         for (Integer currFiscalYear = fiscalYear; currFiscalYear <= currentYear; currFiscalYear++) {
             final List<String> objectTypeCodeList = getIncomeAndExpenseObjectTypesForFiscalYear(currFiscalYear);
             final Collection<Balance> glBalances = retrieveBalancesForAwardAccount(awardAccount, currFiscalYear, objectTypeCodeList);
-            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currFiscalYear);
+            final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
 
             for (Balance bal : glBalances) {
                 if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
@@ -139,7 +141,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
      */
     protected Collection<Balance> retrieveBalancesForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, Integer fiscalYear, List<String> objectTypeCodeList) {
 
-        final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
 
         Map<String, Object> balanceKeys = new HashMap<String, Object>();
         balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
@@ -157,7 +159,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
      * @return a List of the object type codes for the income and expense object types for the given fiscal year
      */
     protected List<String> getIncomeAndExpenseObjectTypesForFiscalYear(Integer fiscalYear) {
-        final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
         List<String> expenseTypes = new ArrayList<>();
         expenseTypes.add(systemOptions.getFinObjectTypeIncomecashCode());
         expenseTypes.add(systemOptions.getFinObjTypeExpenditureexpCd());
@@ -240,4 +242,13 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
 }

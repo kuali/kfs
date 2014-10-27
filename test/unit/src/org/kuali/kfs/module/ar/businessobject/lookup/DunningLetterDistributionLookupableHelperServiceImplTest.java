@@ -38,6 +38,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.DunningCampaignFixture;
@@ -87,6 +88,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         dunningLetterDistributionLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
         dunningLetterDistributionLookupableHelperServiceImpl.setParameterService(SpringContext.getBean(ParameterService.class));
+        dunningLetterDistributionLookupableHelperServiceImpl.setDunningLetterDistributionService(SpringContext.getBean(DunningLetterDistributionService.class));
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         dunningLetterDistributionLookupForm = new DunningLetterDistributionLookupForm();
         // To create a basic invoice with test data

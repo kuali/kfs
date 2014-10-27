@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocum
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -87,6 +88,7 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectClass(ReferralToCollectionsLookupResult.class);
         referralToCollectionsLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
+        referralToCollectionsLookupableHelperServiceImpl.setReferralToCollectionsService(SpringContext.getBean(ReferralToCollectionsService.class));
 
         referralToCollectionsReportLookupableHelperServiceImpl = new ReferralToCollectionsReportLookupableHelperServiceImpl();
         referralToCollectionsReportLookupableHelperServiceImpl.setPersonService(SpringContext.getBean(PersonService.class));

@@ -4,7 +4,7 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
 	<changeSet author="KFS53" id="KFSTP1292_DEPR_PURAP_STAT">
-		<description>Deprecate the PurAP status codes and tables since those are held elsewhere now.</description>
+		<comment>Deprecate the PurAP status codes and tables since those are held elsewhere now.</comment>
 		
 		<!-- vendor Credit Memo -->
 		<dropForeignKeyConstraint baseTableName="AP_CRDT_MEMO_T" constraintName="AP_CRDT_MEMO_TR7"/>

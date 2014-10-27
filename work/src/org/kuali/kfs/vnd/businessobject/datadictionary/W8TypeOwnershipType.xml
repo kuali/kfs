@@ -97,7 +97,7 @@
 		parent="W8TypeOwnershipType-inquirySectionDefinition-parentBean" />
 	<bean id="W8TypeOwnershipType-inquirySectionDefinition-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="" />
+		<property name="title" value="W-8 Ownership Type Inquiry" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>

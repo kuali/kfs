@@ -671,7 +671,7 @@
     <field-descriptor name="vendorW8TypeDescription" column="VNDR_W8_TYP_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <collection-descriptor name="w8TypeOwnershipTypes" element-class-ref="org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <inverse-foreignkey field-ref="id" />
+        <inverse-foreignkey field-ref="w8TypeCode" />
     </collection-descriptor>
 </class-descriptor>
 

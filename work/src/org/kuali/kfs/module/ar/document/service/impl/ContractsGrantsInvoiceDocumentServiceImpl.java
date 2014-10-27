@@ -1829,7 +1829,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        // use a map to sort awards by agency
         Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<>();
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();

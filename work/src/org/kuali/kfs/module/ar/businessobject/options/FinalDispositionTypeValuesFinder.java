@@ -39,7 +39,7 @@ public class FinalDispositionTypeValuesFinder extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue("", ""));
         for (FinalDisposition element : boList) {
             if (element.isActive()) {
-                keyValues.add(new ConcreteKeyValue(element.getCode(), element.getDescription()));
+                keyValues.add(new ConcreteKeyValue(element.getDispositionCode(), element.getDispositionDescription()));
             }
         }
         return keyValues;

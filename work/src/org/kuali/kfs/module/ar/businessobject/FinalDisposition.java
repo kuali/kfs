@@ -26,44 +26,44 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class FinalDisposition extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String code;
-    private String description;
+    private String dispositionCode;
+    private String dispositionDescription;
     private boolean active;
 
     /**
-     * Gets the code attribute.
+     * Gets the dispositionCode attribute.
      *
-     * @return Returns the code.
+     * @return Returns the dispositionCode.
      */
-    public String getCode() {
-        return code;
+    public String getDispositionCode() {
+        return dispositionCode;
     }
 
     /**
-     * Sets the code attribute value.
+     * Sets the dispositionCode attribute value.
      *
-     * @param code The code to set.
+     * @param dispositionCode The code to set.
      */
-    public void setCode(String code) {
-        this.code = code;
+    public void setDispositionCode(String dispositionCode) {
+        this.dispositionCode = dispositionCode;
     }
 
     /**
-     * Gets the description attribute.
+     * Gets the dispositionDescription attribute.
      *
-     * @return Returns the description.
+     * @return Returns the dispositionDescription.
      */
-    public String getDescription() {
-        return description;
+    public String getDispositionDescription() {
+        return dispositionDescription;
     }
 
     /**
-     * Sets the description attribute value.
+     * Sets the dispositionDescription attribute value.
      *
-     * @param description The description to set.
+     * @param dispositionDescription The dispositionDescription to set.
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDispositionDescription(String dispositionDescription) {
+        this.dispositionDescription = dispositionDescription;
     }
 
     /**
@@ -91,8 +91,8 @@ public class FinalDisposition extends PersistableBusinessObjectBase implements M
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("code", this.code);
-        m.put("description", this.description);
+        m.put("dispositionCode", this.dispositionCode);
+        m.put("dispositionDescription", this.dispositionDescription);
         m.put("active", this.active);
         return m;
     }

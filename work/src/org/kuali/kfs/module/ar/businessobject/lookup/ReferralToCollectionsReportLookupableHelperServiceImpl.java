@@ -420,7 +420,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Acco
     protected String retrieveFinalDispositionDescription(String finalDispositionCode) {
         FinalDisposition finalDisposition = businessObjectService.findBySinglePrimaryKey(FinalDisposition.class, finalDispositionCode);
         if (!ObjectUtils.isNull(finalDisposition)) {
-            return finalDisposition.getDescription();
+            return finalDisposition.getDispositionDescription();
         }
         return KFSConstants.EMPTY_STRING;
     }

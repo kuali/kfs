@@ -282,7 +282,7 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_FNL_DISPOS_T">
-			<column name="CD" type="VARCHAR(4)">
+			<column name="DISPOS_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_FNL_DISPOS_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -291,7 +291,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="DESC" type="VARCHAR(25)" />
+			<column name="DISPOS_DESC" type="VARCHAR(25)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 		<createTable tableName="AR_INV_ACCT_DTL_T">

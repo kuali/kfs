@@ -3337,15 +3337,6 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
-
-<!-- 
-	<class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" table="PUR_RCVNG_LN_STAT_T">
-		<field-descriptor name="lineItemReceivingStatusCode" column="RCVNG_LN_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-		<field-descriptor name="lineItemReceivingStatusDescription" column="RCVNG_LN_STAT_DESC" jdbc-type="VARCHAR" />
-	</class-descriptor>
- -->
  
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingView" table="PUR_RCVNG_LN_T">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>

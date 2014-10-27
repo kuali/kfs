@@ -32,7 +32,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 				<ref bean="ContractsGrantsInvoiceDetail-invoiceDetailIdentifier" />
 				<ref bean="ContractsGrantsInvoiceDetail-documentNumber" />
 				<ref bean="ContractsGrantsInvoiceDetail-categoryCode" />
-				<ref bean="ContractsGrantsInvoiceDetail-categoryName" />
 				<ref bean="ContractsGrantsInvoiceDetail-budget" />
 				<ref bean="ContractsGrantsInvoiceDetail-expenditures" />
 				<ref bean="ContractsGrantsInvoiceDetail-cumulative" />
@@ -80,13 +79,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
-	</bean>
-
-	<bean id="ContractsGrantsInvoiceDetail-categoryName" parent="ContractsGrantsInvoiceDetail-categoryName-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-categoryName-parentBean" abstract="true" parent="CostCategory-categoryName">
-		<property name="label" value="Cost Category" />
-		<property name="shortLabel" value="Cost Category" />
-		<property name="required" value="false" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-budget" parent="ContractsGrantsInvoiceDetail-budget-parentBean" />

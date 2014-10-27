@@ -614,7 +614,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             ContractsGrantsInvoiceDetail invDetail = new ContractsGrantsInvoiceDetail();
             invDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
             invDetail.setCategoryCode(category.getCategoryCode());
-            invDetail.setCategoryName(category.getCategoryName());
             invDetail.setCostCategory(category);
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first

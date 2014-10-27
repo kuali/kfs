@@ -1274,6 +1274,14 @@
         <column name="NTE_ID" size="14" type="DECIMAL"/>
         <column name="CUST_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <column name="INIT_TRNS_DT" type="DATE"/>
+        <column name="CUST_LINE_1_ADDR" size="30" type="VARCHAR"/>
+        <column name="CUST_LINE_2_ADDR" size="30" type="VARCHAR"/>
+        <column name="CUST_CITY_NM" size="25" type="VARCHAR"/>
+        <column name="CUST_STATE_CD" size="2" type="VARCHAR"/>
+        <column name="CUST_ZIP_CD" size="20" type="VARCHAR"/>
+        <column name="CUST_CNTRY_CD" size="2" type="VARCHAR"/>
+        <column name="CUST_ADDR_INTL_PROV_NM" size="45" type="VARCHAR"/>
+        <column name="CUST_INTL_MAIL_CD" size="20" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>

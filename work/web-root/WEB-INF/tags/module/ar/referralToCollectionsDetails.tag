@@ -100,7 +100,7 @@
 				hideRequiredAsterisk="true" align="center" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}" useShortLabel="false"
 				hideRequiredAsterisk="true" align="center" />
-			<c:if test="${!KualiForm.workflowDocument.final}" >
+			<c:if test="${!readOnly}" >
 				<kul:htmlAttributeHeaderCell literalLabel="Actions" horizontal="true" align="center" />
 			</c:if>
 		
@@ -124,7 +124,7 @@
 										property="document.referralToCollectionsDetails[${ctr}].age" readOnly="true" /></td>
 								<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}"
 										property="document.referralToCollectionsDetails[${ctr}].finalDispositionCode" readOnly="${readOnly}" /></td>
-								<c:if test="${!KualiForm.workflowDocument.final}" >
+								<c:if test="${!readOnly}" >
 									<td class="datacell">
 										<html:image property="methodToCall.deleteInvoice.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Invoice" title="Delete Invoice" styleClass="tinybutton" />
 									</td>

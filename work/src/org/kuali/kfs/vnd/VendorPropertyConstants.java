@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -64,6 +64,14 @@ public class VendorPropertyConstants {
     public static final String VENDOR_DEBARRED_INDICATOR = "vendorHeader.vendorDebarredIndicator";
     public static final String VENDOR_FOREIGN_INDICATOR = "vendorHeader.vendorForeignIndicator";
     public static final String VENDOR_INACTIVE_REASON = "vendorInactiveReasonCode";
+    public static final String VENDOR_GIIN_CODE = "vendorHeader.vendorGIIN";
+    public static final String VENDOR_W8SIGNED_DATE = "vendorHeader.vendorW8SignedDate";
+    public static final String VENDOR_W9SIGNED_DATE = "vendorHeader.vendorW9SignedDate";
+    public static final String VENDOR_CORP_CITIZEN_CODE = "vendorHeader.vendorCorpCitizenCode";
+    public static final String VENDOR_DOB = "vendorHeader.vendorDOB";
+    public static final String VENDOR_W8_TYPE_CODE = "vendorHeader.vendorW8TypeCode";
+
+
 
     public static final String VENDOR_PAYMENT_TERMS = "vendorPaymentTerms";
     public static final String VENDOR_SHIPPING_TITLE = "vendorShippingTitle";
@@ -77,7 +85,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_ALIAS_NAME_FULL_PATH = "vendorAliases.vendorAliasName";
     public static final String VENDOR_ALIAS_ACTIVE = "vendorAliases.active";
     public static final String VENDOR_SEARCH_ALIASES = "vendorAliases";
-    
+
     public static final String CONTRACT_LANGUAGE_CREATE_DATE = "contractLanguageCreateDate";
 
     // Vendor contracts
@@ -110,7 +118,7 @@ public class VendorPropertyConstants {
      //Purchase order cost source
     public static final String ITEM_UNIT_PRICE_UPPER_VARIANCE_PERCENT = "itemUnitPriceUpperVariancePercent";
     public static final String ITEM_UNIT_PRICE_LOWER_VARIANCE_PERCENT = "itemUnitPriceLowerVariancePercent";
-    
+
     public static final String PURCHASING_DEPARTMENT_STATE = "purchasingDepartmentStateCode";
     public static final String PURCHASING_DEPARTMENT_POSTAL_CODE = "purchasingDepartmentZipCode";
 

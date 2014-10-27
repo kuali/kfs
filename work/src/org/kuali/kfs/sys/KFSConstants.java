@@ -1406,6 +1406,7 @@ public class KFSConstants {
     public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
 
     public static final String PROCUREMENT_CARD_DEFAULT_SEQUENCE_NAME = "FP_PRCRMNT_CARD_DFLT_SEQ";
+    public static final String W8_OWNERSHIP_SEQUENCE_NAME = "PUR_VNDR_W8_OWNRSHP_ID_SEQ";
 
     private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
     public static Integer getMaxLengthOfDocumentDescription() {

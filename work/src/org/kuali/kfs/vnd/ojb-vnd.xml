@@ -692,7 +692,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType" table="PUR_VNDR_W8_OWNRSHP_T">
-	<field-descriptor name="id" primarykey="true" column="VNDR_W8_OWNRSHP_ID" jdbc-type="INTEGER" sequence-name="PUR_VNDR_W8_OWNRSHP_ID_SEQ" auto-increment="true"/>
+	<field-descriptor name="id" primarykey="true" column="ID" jdbc-type="INTEGER" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="w8TypeCode" column="VNDR_W8_TYP_CD" jdbc-type="VARCHAR"/>

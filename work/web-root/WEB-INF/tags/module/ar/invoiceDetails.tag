@@ -24,7 +24,7 @@
 			<h3>Invoice Details</h3>
 			<table cellpadding=0 class="datatable" summary="Invoice Details section">
 				<tr>
-					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes['categoryName']}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes['costCategory.categoryName']}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.expenditures}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.cumulative}" useShortLabel="false" />
@@ -37,7 +37,7 @@
 					<!-- If the categories are not retrieved, then its better not to display the total fields in this section. -->
 					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetails" id="invoiceDetail">
 						<tr>
-							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes['categoryName']}"
+							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes['costCategory.categoryName']}"
 									property="document.invoiceDetails[${ctr}].costCategory.categoryName" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}"
 									property="document.invoiceDetails[${ctr}].budget" readOnly="true" /></td>

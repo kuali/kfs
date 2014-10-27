@@ -97,10 +97,12 @@
 					attributeEntry="${documentAttributes.invoiceDocumentType}"
 					horizontal="true" forceRequired="true"
 					labelFor="document.invoiceDocumentType" useShortLabel="false" />
-				<td class="datacell-nowrap"><kul:htmlControlAttribute
+				<td class="datacell-nowrap">
+					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.invoiceDocumentType}"
 						property="document.invoiceDocumentType" onchange="submitForm()"
-						forceRequired="true" /></td>
+						forceRequired="true" readOnly="${readOnly}"/>
+				</td>
 			</tr>
 			<c:choose>
 				<c:when
@@ -111,10 +113,10 @@
 							attributeEntry="${documentAttributes.letterOfCreditCreationType}"
 							horizontal="true" labelFor="document.letterOfCreditCreationType"
 							useShortLabel="false" />
-						<td class="datacell-nowrap"><kul:htmlControlAttribute
+						<td class="datacell-nowrap">
+							<kul:htmlControlAttribute
 								attributeEntry="${documentAttributes.letterOfCreditCreationType}"
-								property="document.letterOfCreditCreationType" onchange="submitForm()" />
-
+								property="document.letterOfCreditCreationType" onchange="submitForm()" readOnly="${readOnly}"/>
 						</td>
 					</tr>
 
@@ -127,9 +129,11 @@
 									attributeEntry="${documentAttributes.letterOfCreditFundCode}"
 									horizontal="true" labelFor="document.letterOfCreditFundCode"
 									useShortLabel="false" />
-								<td class="datacell-nowrap"><kul:htmlControlAttribute
+								<td class="datacell-nowrap">
+									<kul:htmlControlAttribute
 										attributeEntry="${documentAttributes.letterOfCreditFundCode}"
-										property="document.letterOfCreditFundCode" /></td>
+										property="document.letterOfCreditFundCode" readOnly="${readOnly}"/>
+								</td>
 							</tr>
 						</c:when>
 						<c:when
@@ -142,10 +146,10 @@
 									horizontal="true"
 									labelFor="document.letterOfCreditFundGroupCode"
 									useShortLabel="false" />
-								<td class="datacell-nowrap"><kul:htmlControlAttribute
+								<td class="datacell-nowrap">
+									<kul:htmlControlAttribute
 										attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"
-										property="document.letterOfCreditFundGroupCode" />
-
+										property="document.letterOfCreditFundGroupCode" readOnly="${readOnly}"/>
 								</td>
 							</tr>
 						</c:when>

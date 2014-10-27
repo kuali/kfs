@@ -27,7 +27,7 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeClassCode}"/></div>
     </th>
     <td width="25%">
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName"readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
         <c:if test="${taxEntryMode and empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
           <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" fieldConversions="code:document.dvNonResidentAlienTax.incomeClassCode"/>
         </c:if>

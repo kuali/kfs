@@ -107,6 +107,9 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         if (StringUtils.isNotBlank(invoiceTransmissionMethodCode)) {
             fieldValues.put(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_TRANSMISSION_METHOD_CODE, invoiceTransmissionMethodCode);
         }
+        fieldValues.put(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INITIAL_TRANSMISSION_DATE, SearchOperator.NULL.op());
+
+        fieldValues.put(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_TRANSMISSION_METHOD_CODE, invoiceTransmissionMethodCode);
 
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode() + SearchOperator.OR.op() + DocumentStatus.PROCESSED.getCode());
 
@@ -154,11 +157,9 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public boolean isInvoiceValidToEmail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getDateEmailProcessed())) {
-            for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
-                if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
-                    return true;
-                }
+        for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
+            if (ObjectUtils.isNull(invoiceAddressDetail.getInitialTransmissionDate()) && ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
+                return true;
             }
         }
         return false;
@@ -166,11 +167,9 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public boolean isInvoiceValidToMail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getDateReportProcessed())) {
-            for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
-                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
-                    return true;
-                }
+        for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
+            if (ObjectUtils.isNull(invoiceAddressDetail.getInitialTransmissionDate()) && ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
+                return true;
             }
         }
         return false;

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.List;
 
+import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController;
@@ -75,4 +76,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
         return getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDateAmount());
     }
 
+    public boolean isShowTransmissionDateButton() {
+        return getEditingMode().containsKey(ArAuthorizationConstants.ContractsGrantsInvoiceDocumentEditMode.MODIFY_TRANSMISSION_DATE);
+    }
 }

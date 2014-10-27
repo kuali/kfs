@@ -171,7 +171,7 @@ public class AREmailServiceImpl implements AREmailService {
                         setupMailServiceForNonProductionInstance();
                         mailService.sendMessage(message);
 
-                        invoice.getInvoiceGeneralDetail().setDateEmailProcessed(new Date(new java.util.Date().getTime()));
+                        invoiceAddressDetail.setInitialTransmissionDate(new Date(new java.util.Date().getTime()));
                         documentService.updateDocument(invoice);
                     } else {
                         success = false;

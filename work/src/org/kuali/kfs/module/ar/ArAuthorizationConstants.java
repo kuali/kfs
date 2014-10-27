@@ -22,6 +22,10 @@ public class ArAuthorizationConstants {
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
 
+    public static class ContractsGrantsInvoiceDocumentEditMode {
+        public static final String MODIFY_TRANSMISSION_DATE = "modifyTransmissionDate";
+    }
+
     public static class CashControlDocumentEditMode {
         public static final String EDIT_DETAILS = "editDetails";
         public static final String EDIT_PAYMENT_MEDIUM = "editPaymentMedium";

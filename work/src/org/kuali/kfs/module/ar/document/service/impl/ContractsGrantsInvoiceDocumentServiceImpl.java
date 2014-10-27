@@ -1622,9 +1622,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             document.getInvoiceGeneralDetail().setNewTotalBilled(KualiDecimal.ZERO);
         }
 
-        // to set Date email processed and Date report processed to null.
-        document.getInvoiceGeneralDetail().setDateEmailProcessed(null);
-        document.getInvoiceGeneralDetail().setDateReportProcessed(null);
+        for (InvoiceAddressDetail invoiceAddressDetail: document.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setInitialTransmissionDate(null);
+        }
     }
 
     /**
@@ -2031,7 +2031,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     public void setAccountsReceivablePendingEntryService(AccountsReceivablePendingEntryService accountsReceivablePendingEntryService) {
         this.accountsReceivablePendingEntryService = accountsReceivablePendingEntryService;
     }
-    
+
     public OptionsService getOptionsService() {
         return optionsService;
     }

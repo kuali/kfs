@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -34,8 +35,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private String customerInvoiceTemplateCode;
     private String invoiceTransmissionMethodCode;
     private String customerEmailAddress;
-
     private long noteId;
+    private Date initialTransmissionDate;
 
     private CustomerAddress customerAddress;
 
@@ -188,6 +189,14 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
      */
     public void setCustomerInvoiceTemplateCode(String customerInvoiceTemplateCode) {
         this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
+    }
+
+    public Date getInitialTransmissionDate() {
+        return initialTransmissionDate;
+    }
+
+    public void setInitialTransmissionDate(Date initialTransmissionDate) {
+        this.initialTransmissionDate = initialTransmissionDate;
     }
 
     /**

@@ -29,7 +29,9 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Action class for ContractsGrantsInvoiceDocument
@@ -72,6 +74,50 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = contractsGrantsInvoiceDocumentForm.getContractsGrantsInvoiceDocument();
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         contractsGrantsInvoiceDocumentService.prorateBill(contractsGrantsInvoiceDocument);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Clears the initial transmission date for the corresponding invoice transmission detail
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearInitialTransmissionDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int index = getSelectedLine(request);
+
+        ContractsGrantsInvoiceDocumentForm contractsGrantsInvoiceDocumentForm = (ContractsGrantsInvoiceDocumentForm) form;
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = contractsGrantsInvoiceDocumentForm.getContractsGrantsInvoiceDocument();
+
+        contractsGrantsInvoiceDocument.getInvoiceAddressDetails().get(index).setInitialTransmissionDate(null);
+        SpringContext.getBean(BusinessObjectService.class).save(contractsGrantsInvoiceDocument);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Sets the initial transmission date for the corresponding invoice transmission detail
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward setInitialTransmissionDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int index = getSelectedLine(request);
+
+        ContractsGrantsInvoiceDocumentForm contractsGrantsInvoiceDocumentForm = (ContractsGrantsInvoiceDocumentForm) form;
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = contractsGrantsInvoiceDocumentForm.getContractsGrantsInvoiceDocument();
+
+        contractsGrantsInvoiceDocument.getInvoiceAddressDetails().get(index).setInitialTransmissionDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        SpringContext.getBean(BusinessObjectService.class).save(contractsGrantsInvoiceDocument);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

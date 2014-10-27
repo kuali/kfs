@@ -736,9 +736,9 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                             copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                         }
                     }
+                    invoiceAddressDetail.setInitialTransmissionDate(new Date(new java.util.Date().getTime()));
                 }
             }
-            invoice.getInvoiceGeneralDetail().setDateReportProcessed(new Date(new java.util.Date().getTime()));
             documentService.updateDocument(invoice);
         }
         if (pageAdded) {

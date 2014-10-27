@@ -29,6 +29,7 @@
 				<ref bean="InvoiceAddressDetail-customerInvoiceTemplateCode" />
 				<ref bean="InvoiceAddressDetail-invoiceTransmissionMethodCode" />
 				<ref bean="InvoiceAddressDetail-customerEmailAddress" />
+				<ref bean="InvoiceAddressDetail-initialTransmissionDate" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -155,4 +156,13 @@
 			<bean parent="TextControlDefinition" p:size="62" />
 		</property>
 	</bean>
+	
+	<bean id="InvoiceAddressDetail-initialTransmissionDate" parent="InvoiceAddressDetail-initialTransmissionDate-parentBean"/>
+	
+	<bean id="InvoiceAddressDetail-initialTransmissionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+	    <property name="shortLabel" value="Initial Transmission Date"/>
+	    <property name="name" value="initialTransmissionDate"/>
+	    <property name="label" value="Initial Transmission Date"/>
+	</bean>
+	
 </beans>

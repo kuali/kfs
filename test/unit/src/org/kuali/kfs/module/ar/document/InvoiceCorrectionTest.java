@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -40,6 +41,7 @@ import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -52,7 +54,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-
+    protected DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.CGInvoiceDocumentSetupTest#setUp()
@@ -61,16 +63,19 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        document.getInvoiceGeneralDetail().setDateEmailProcessed(new java.util.Date());
-        document.getInvoiceGeneralDetail().setDateReportProcessed(new java.util.Date());
+        for (InvoiceAddressDetail invoiceAddressDetail: document.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setInitialTransmissionDate(dateTimeService.getCurrentSqlDate());
+        }
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
 
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        assertNull(document.getInvoiceGeneralDetail().getDateEmailProcessed());
-        assertNull(document.getInvoiceGeneralDetail().getDateReportProcessed());
+        for (InvoiceAddressDetail invoiceAddressDetail: document.getInvoiceAddressDetails()) {
+            assertNull(invoiceAddressDetail.getInitialTransmissionDate());
+        }
 
         contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getInvoiceGeneralDetail().getProposalNumber());
         Iterator iterator = document.getAccountDetails().iterator();

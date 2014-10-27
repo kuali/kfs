@@ -52,8 +52,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundCode;
-    private java.util.Date dateReportProcessed;
-    private java.util.Date dateEmailProcessed;
     private String referralTypeCode;
     private String finalDispositionCode;
 
@@ -434,22 +432,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
-    }
-
-    public java.util.Date getDateReportProcessed() {
-        return dateReportProcessed;
-    }
-
-    public void setDateReportProcessed(java.util.Date dateReportProcessed) {
-        this.dateReportProcessed = dateReportProcessed;
-    }
-
-    public java.util.Date getDateEmailProcessed() {
-        return dateEmailProcessed;
-    }
-
-    public void setDateEmailProcessed(java.util.Date dateEmailProcessed) {
-        this.dateEmailProcessed = dateEmailProcessed;
     }
 
     public String getReferralTypeCode() {

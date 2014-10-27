@@ -301,10 +301,12 @@ public class ArPropertyConstants{
         public static final String INVOICE_PRINT_DATE_TO = "invoicePrintDate";
         public static final String INVOICE_PRINT_DATE_FROM = "rangeLowerBoundKeyPrefix_invoicePrintDate";
         public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceAddressDetails." + ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE;
+        public static final String INITIAL_TRANSMISSION_DATE = "invoiceAddressDetails." + ArPropertyConstants.INITIAL_TRANSMISSION_DATE;
         public static final String INVOICE_TRANSMISSION_METHOD_CODE_LABEL = "Method of Invoice Transmission";
     }
 
     public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceTransmissionMethodCode";
+    public static final String INITIAL_TRANSMISSION_DATE = "initialTransmissionDate";
     public static final String LOOKUP_SECTION_ID = "lookup";
 
     // Collection Activity Type

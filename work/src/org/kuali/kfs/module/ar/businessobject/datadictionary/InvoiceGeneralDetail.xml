@@ -41,8 +41,6 @@
 				<ref bean="InvoiceGeneralDetail-letterOfCreditCreationType" />
 				<ref bean="InvoiceGeneralDetail-letterOfCreditFundCode" />
 				<ref bean="InvoiceGeneralDetail-letterOfCreditFundGroupCode" />        
-				<ref bean="InvoiceGeneralDetail-dateEmailProcessed" />
-				<ref bean="InvoiceGeneralDetail-dateReportProcessed" />
 				<ref bean="InvoiceGeneralDetail-referralTypeCode" />
 				<ref bean="InvoiceGeneralDetail-finalDispositionCode" />
 			</list>
@@ -245,24 +243,6 @@
 			<bean parent="TextControlDefinition" p:size="17" />
 		</property>
 	</bean>  
-
-	<bean id="InvoiceGeneralDetail-dateEmailProcessed" parent="InvoiceGeneralDetail-dateEmailProcessed-parentBean" />
-
-	<bean id="InvoiceGeneralDetail-dateEmailProcessed-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-		<property name="name" value="dateEmailProcessed" />
-		<property name="label" value="Email Processed Date" />
-		<property name="shortLabel" value="EmailProcDt" />
-		<property name="required" value="false" />
-	</bean>
-
-	<bean id="InvoiceGeneralDetail-dateReportProcessed" parent="InvoiceGeneralDetail-dateReportProcessed-parentBean" />
-
-	<bean id="InvoiceGeneralDetail-dateReportProcessed-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-		<property name="name" value="dateReportProcessed" />
-		<property name="label" value="Report Processed Date" />
-		<property name="shortLabel" value="RptProcDate" />
-		<property name="required" value="false" />
-	</bean>
 
 	<bean id="InvoiceGeneralDetail-referralTypeCode" parent="InvoiceGeneralDetail-referralTypeCode-parentBean" />
 

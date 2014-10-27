@@ -339,6 +339,7 @@
 			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
 			<column name="NTE_ID" type="DECIMAL(14,0)" />
 			<column name="CUST_EMAIL_ADDR" type="VARCHAR(60)" />
+			<column name="INIT_TRNS_DT" type="DATETIME" />
 		</createTable>
 		<createTable tableName="AR_INV_BILL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -454,8 +455,6 @@
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="EMAIL_PROCESSED_DT" type="DATETIME" />
-			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
 			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
 			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</createTable>

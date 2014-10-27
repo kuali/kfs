@@ -29,11 +29,11 @@
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerEmailAddress}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.initialTransmissionDate}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 				</tr>
 				
-				
 				<c:forEach var="invoiceAddressDetail" items="${KualiForm.document.invoiceAddressDetails}" varStatus="loopCounter" >
-    				
     				<tr>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressTypeCode}"
 								property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressTypeCode" readOnly="true" /></td>
@@ -45,9 +45,37 @@
 								property="document.invoiceAddressDetails[${loopCounter.index}].invoiceTransmissionMethodCode" readOnly="${readOnly}"/></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerEmailAddress}"
 								property="document.invoiceAddressDetails[${loopCounter.index}].customerEmailAddress" readOnly="${readOnly}" forceRequired="true"/></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.initialTransmissionDate}"
+								property="document.invoiceAddressDetails[${loopCounter.index}].initialTransmissionDate" readOnly="true"/></td>
+						<c:choose>
+							<c:when test="${KualiForm.showTransmissionDateButton}">
+								<c:choose>
+									<c:when test="${empty invoiceAddressDetail.initialTransmissionDate}">
+										<td class="datacell-nowrap">
+											<html:image property="methodToCall.setInitialTransmissionDate.line${loopCounter.index}"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-settransmissiondate.gif"
+												alt="Set Transmission Date"
+												title="Set Transmission Date"
+												styleClass="tinybutton" />
+										</td>
+									</c:when>
+									<c:otherwise>
+										<td class="datacell-nowrap">
+											<html:image property="methodToCall.clearInitialTransmissionDate.line${loopCounter.index}"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-cleartransmissiondate.gif"
+												alt="Clear Transmission Date"
+												title="Clear Transmission Date"
+												styleClass="tinybutton" />
+										</td>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<td>&nbsp;</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</c:forEach>
-				
 			</table>
 		</div>
 	</kul:tab>

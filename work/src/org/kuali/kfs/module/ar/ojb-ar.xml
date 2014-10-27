@@ -1464,8 +1464,6 @@
 		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="dateEmailProcessed" column="EMAIL_PROCESSED_DT" jdbc-type="DATE" />
-		<field-descriptor name="dateReportProcessed" column="RPRT_PROCESSED_DT" jdbc-type="DATE" />
 		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />	
 		<reference-descriptor name="finalDisposition" class-ref="org.kuali.kfs.module.ar.businessobject.FinalDisposition"
@@ -1526,14 +1524,15 @@
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="customerAddressIdentifier" column="CUST_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressName" column="CUST_ADDR_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerInvoiceTemplateCode" column="CUST_INV_TMPLT_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="invoiceTransmissionMethodCode" column="INV_TRNS_MTHD_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="noteId" column="NTE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="initialTransmissionDate" column="INIT_TRNS_DT" jdbc-type="DATE" />
 		<reference-descriptor name="customerAddress" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerAddress" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="customerNumber" />
 			<foreignkey field-ref="customerAddressIdentifier" />

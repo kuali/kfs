@@ -84,20 +84,6 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
         List awardAccounts = new ArrayList();
         List<AwardAccountDTO> awardAccountDTOs = null;
 
-            String key = (String) e.getKey();
-            String val = (String) e.getValue();
-
-            if ( KcConstants.AwardAccount.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
-                hashMapList.put(key, val);
-            }
-        }
-
-        String accountNumber = (String)hashMapList.get("accountNumber");
-        String chartOfAccountsCode = (String)hashMapList.get("chartOfAccountsCode");
-
-        List awardAccounts = new ArrayList();
-        List<AwardAccountDTO> awardAccountDTOs = null;
-
         //get award account DTO
         try{
             awardAccountDTOs = getWebService().getAwardAccounts(accountNumber, chartOfAccountsCode);

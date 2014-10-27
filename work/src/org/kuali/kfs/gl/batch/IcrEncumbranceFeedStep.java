@@ -39,7 +39,7 @@ public class IcrEncumbranceFeedStep extends AbstractStep {
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        final boolean shouldRunIcrEncumbranceActivity = this.getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM);
+        final boolean shouldRunIcrEncumbranceActivity = this.getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, Boolean.FALSE);
         if (shouldRunIcrEncumbranceActivity) {
             icrEncumbranceService.buildIcrEncumbranceFeed();
         } else {

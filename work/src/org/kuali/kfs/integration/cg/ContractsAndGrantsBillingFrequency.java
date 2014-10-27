@@ -42,5 +42,5 @@ public interface ContractsAndGrantsBillingFrequency extends ExternalizableBusine
      *
      * @return Returns the frequencyDescription.
      */
-    public String getGracePeriodDays();
+    public Integer getGracePeriodDays();
 }

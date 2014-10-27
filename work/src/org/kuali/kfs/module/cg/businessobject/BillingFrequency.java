@@ -31,7 +31,7 @@ public class BillingFrequency extends PersistableBusinessObjectBase implements C
 
     private String frequency;
     private String frequencyDescription;
-    private String gracePeriodDays;
+    private Integer gracePeriodDays;
     private boolean active;
 
     @Override
@@ -65,7 +65,7 @@ public class BillingFrequency extends PersistableBusinessObjectBase implements C
 
 
     @Override
-    public String getGracePeriodDays() {
+    public Integer getGracePeriodDays() {
         return gracePeriodDays;
     }
 
@@ -75,7 +75,7 @@ public class BillingFrequency extends PersistableBusinessObjectBase implements C
      *
      * @param gracePeriodDays The gracePeriodDays to set.
      */
-    public void setGracePeriodDays(String gracePeriodDays) {
+    public void setGracePeriodDays(Integer gracePeriodDays) {
         this.gracePeriodDays = gracePeriodDays;
     }
 

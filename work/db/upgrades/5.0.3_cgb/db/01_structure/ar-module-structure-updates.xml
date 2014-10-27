@@ -228,7 +228,7 @@
 			<column name="FILE_NM" type="VARCHAR(50)" />
 			<column name="ACCESS_RSTRC_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-			<column name="UPLOAD_DT" type="VARCHAR(25)" />
+			<column name="UPLOAD_DT" type="DATETIME" />
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
 			<column name="BILL_BY_ORG_CD" type="VARCHAR(4)" />
 		</createTable>
@@ -242,16 +242,16 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="EVENT_CD" type="VARCHAR(10)" />
+			<column name="EVENT_CD" type="VARCHAR(20)" />
 			<column name="INV_NBR" type="VARCHAR(14)">
 				<constraints nullable="false" />
 			</column>
 			<column name="ACTVY_CD" type="VARCHAR(4)" />
 			<column name="ACTVY_DT" type="DATETIME" />
 			<column name="ACTVY_TXT" type="VARCHAR(200)" />
-			<column name="FLLW_UP_IND" type="VARCHAR(1)" defaultValue="N" />
+			<column name="FLLW_UP_IND" type="VARCHAR(1)" />
 			<column name="FLLW_UP_DT" type="DATETIME" />
-			<column name="CMPLTD_IND" type="VARCHAR(1)" defaultValue="Y" />
+			<column name="CMPLTD_IND" type="VARCHAR(1)" />
 			<column name="CMPLTD_DT" type="DATETIME" />
 			<column name="POST_DT" type="DATETIME" />
 			<column name="EVENT_ROUTE_STATUS" type="VARCHAR(1)" />
@@ -520,7 +520,7 @@
 			<column name="ACCESS_RSTRC_IND" type="VARCHAR(1)" />
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
 			<column name="BILL_BY_ORG_CD" type="VARCHAR(4)" />
-			<column name="UPLOAD_DT" type="VARCHAR(25)" />
+			<column name="UPLOAD_DT" type="DATETIME" />
 		</createTable>
 		<createTable tableName="AR_LTRCR_RVW_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -560,7 +560,6 @@
 			<column name="CLM_ON_CSH_BAL_AMT" type="DECIMAL(19,2)" />
 			<column name="FND_NOT_DRWN_AMT" type="DECIMAL(19,2)" />
 			<column name="LTRCR_AMT" type="DECIMAL(19,2)" />
-			<column name="HDN_DRW_AMT" type="DECIMAL(19,2)" />
 			<column name="AWD_BEG_DT" type="DATETIME" />
 			<column name="AWD_END_DT" type="DATETIME" />
 			<column name="CG_AGENCY_NBR" type="VARCHAR(6)" />
@@ -704,8 +703,8 @@
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="EMAIL_PROCESSED_DT" type="DATE" />
-			<column name="RPRT_PROCESSED_DT" type="DATE" />
+			<column name="EMAIL_PROCESSED_DT" type="DATETIME" />
+			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
 			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
 			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</addColumn>

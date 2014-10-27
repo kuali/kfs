@@ -137,7 +137,7 @@
 	<field-descriptor name="frequency" column="KFS_FREQ_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="gracePeriodDays" column="GRACE_PERIOD" jdbc-type="VARCHAR" />
+    <field-descriptor name="gracePeriodDays" column="GRACE_PERIOD" jdbc-type="INTEGER" />
     <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 </class-descriptor>
 

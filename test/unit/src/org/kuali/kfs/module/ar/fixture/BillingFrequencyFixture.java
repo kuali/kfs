@@ -19,20 +19,20 @@ import org.kuali.kfs.module.cg.businessobject.BillingFrequency;
 
 public enum BillingFrequencyFixture {
 
-    BILL_FREQ_ANNUALLY("ANNU", "Annually", "0", true),
-    BILL_FREQ_LOCB("LOCB","LOC Billing", "0", true),
-    BILL_FREQ_MON("MNTH","Monthly", "0", true),
-    BILL_FREQ_MS("MILE","Milestone", "0", true),
-    BILL_FREQ_PDBS("PDBS","Predetermined Billing Schedule", "0", true),
-    BILL_FREQ_QUAR("QUAR","Quarterly", "0", true),
-    BILL_FREQ_SEMI_ANN("SEMI","Semi Annually", "0", true);
+    BILL_FREQ_ANNUALLY("ANNU", "Annually", 0, true),
+    BILL_FREQ_LOCB("LOCB","LOC Billing", 0, true),
+    BILL_FREQ_MON("MNTH","Monthly", 0, true),
+    BILL_FREQ_MS("MILE","Milestone", 0, true),
+    BILL_FREQ_PDBS("PDBS","Predetermined Billing Schedule", 0, true),
+    BILL_FREQ_QUAR("QUAR","Quarterly", 0, true),
+    BILL_FREQ_SEMI_ANN("SEMI","Semi Annually", 0, true);
 
     private String frequency;
     private String frequencyDescription;
-    private String gracePeriodDays;
+    private Integer gracePeriodDays;
     private boolean active;
 
-    private BillingFrequencyFixture(String frequency, String frequencyDescription, String gracePeriodDays, boolean active) {
+    private BillingFrequencyFixture(String frequency, String frequencyDescription, Integer gracePeriodDays, boolean active) {
 
         this.frequency = frequency;
         this.frequencyDescription = frequencyDescription;

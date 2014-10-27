@@ -17,7 +17,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="GRACE_PERIOD" type="VARCHAR(3)"/>			
+			<column name="GRACE_PERIOD" type="DECIMAL(5,0)"/>			
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 	</changeSet>	

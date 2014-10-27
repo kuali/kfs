@@ -21,7 +21,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class BillingFrequencyMapping extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String frequency;
-    private String gracePeriodDays;
+    private Integer gracePeriodDays;
     private String kcFrequencyCode;
     private boolean active;
 
@@ -29,11 +29,11 @@ public class BillingFrequencyMapping extends PersistableBusinessObjectBase imple
         return frequency;
     }
 
-    public String getGracePeriodDays() {
+    public Integer getGracePeriodDays() {
         return gracePeriodDays;
     }
 
-    public void setGracePeriodDays(String gracePeriodDays) {
+    public void setGracePeriodDays(Integer gracePeriodDays) {
         this.gracePeriodDays = gracePeriodDays;
     }
 

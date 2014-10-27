@@ -73,7 +73,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
             isValid = false;
         }
         else {
-            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, award.getLastBilledDate(), Integer.parseInt(award.getBillingFrequency().getGracePeriodDays()));
+            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, award.getLastBilledDate(), award.getBillingFrequency().getGracePeriodDays());
         }
 
         return isValid;

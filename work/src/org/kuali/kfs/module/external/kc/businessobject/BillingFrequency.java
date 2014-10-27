@@ -22,7 +22,7 @@ public class BillingFrequency implements ContractsAndGrantsBillingFrequency, Mut
 
     private String frequency;
     private String frequencyDescription;
-    private String gracePeriodDays;
+    private Integer gracePeriodDays;
     private String kcFrequencyCode;
     private boolean active;
 
@@ -40,11 +40,11 @@ public class BillingFrequency implements ContractsAndGrantsBillingFrequency, Mut
     }
 
     @Override
-    public String getGracePeriodDays() {
+    public Integer getGracePeriodDays() {
         return gracePeriodDays;
     }
 
-    public void setGracePeriodDays(String gracePeriodDays) {
+    public void setGracePeriodDays(Integer gracePeriodDays) {
         this.gracePeriodDays = gracePeriodDays;
     }
 

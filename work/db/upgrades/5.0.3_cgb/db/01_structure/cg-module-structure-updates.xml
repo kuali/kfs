@@ -109,7 +109,7 @@
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
-			<column name="GRACE_PERIOD" type="VARCHAR(3)" defaultValue="0" />
+			<column name="GRACE_PERIOD" type="DECIMAL(3,0)" />
 		</createTable>
 		<createTable tableName="CG_INSTRMNT_TYP_T">
 			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)">

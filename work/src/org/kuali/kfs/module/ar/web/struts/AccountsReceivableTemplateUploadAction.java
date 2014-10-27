@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +41,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -59,6 +59,7 @@ public class AccountsReceivableTemplateUploadAction extends KualiAction {
 
     private static volatile BusinessObjectService boService;
     private static volatile ConfigurationService kualiConfigurationService;
+    private static volatile DateTimeService dateTimeService;
     private static volatile FinancialSystemModuleConfiguration financialSystemModuleConfiguration;
 
     /**
@@ -121,7 +122,7 @@ public class AccountsReceivableTemplateUploadAction extends KualiAction {
             }
             SimpleDateFormat sdf = new SimpleDateFormat(ArConstants.YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT);
             writeInputStreamToFileStorage(uploadedFile.getInputStream(), destinationFile);
-            template.setDate(sdf.format(new Date()));
+            template.setUploadDate(getDateTimeService().getCurrentTimestamp());
             boService.save(template);
             KNSGlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
         }
@@ -202,6 +203,13 @@ public class AccountsReceivableTemplateUploadAction extends KualiAction {
             kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return kualiConfigurationService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 
     public FinancialSystemModuleConfiguration getFinancialSystemModuleConfiguration() {

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.sql.Timestamp;
+
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -31,7 +33,7 @@ public abstract class TemplateBase extends PersistableBusinessObjectBase impleme
     protected Organization billedByOrganization;
     protected boolean accessRestricted;
     protected String filename;
-    protected String date;
+    protected Timestamp uploadDate;
 
     protected boolean active;
 
@@ -56,21 +58,21 @@ public abstract class TemplateBase extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * Gets the date attribute.
+     * Gets the uploadDate attribute.
      *
-     * @return Returns the date.
+     * @return Returns the uploadDate.
      */
-    public String getDate() {
-        return date;
+    public Timestamp getUploadDate() {
+        return uploadDate;
     }
 
     /**
-     * Sets the date attribute value.
+     * Sets the uploadDate attribute value.
      *
-     * @param date The date to set.
+     * @param uploadDate The uploadDate to set.
      */
-    public void setDate(String date) {
-        this.date = date;
+    public void setUploadDate(Timestamp uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     /**

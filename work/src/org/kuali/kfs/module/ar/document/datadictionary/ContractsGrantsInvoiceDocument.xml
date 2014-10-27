@@ -26,8 +26,7 @@
 			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentAuthorizer" />
 		<property name="documentPresentationControllerClass"
 			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController" />
-		<property name="allowsCopy" value="true" />
-
+		
 		<property name="accountingLineGroups">
 			<map>
 				<entry>

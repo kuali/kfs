@@ -91,4 +91,11 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         return editModes;
     }
 
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> documentActions = super.getDocumentActions(document);
+        documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
+        return documentActions;
+    }
+
 }

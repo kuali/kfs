@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,20 +59,20 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	protected List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
 	protected Long capitalAssetNumber;
 	protected boolean capitalAssetBuilderOriginIndicator;
-	protected AssetPaymentAllocationType assetPaymentAllocationType;
+	protected AssetPaymentAllocationType assetPaymentAllocationType; 
 	protected String assetPaymentAllocationTypeCode;
 	protected boolean allocationFromFPDocuments;
-
+	
     public AssetPaymentDocument() {
 		super();
 		this.setAllocationFromFPDocuments(false);
 		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
-		this.setAssetPaymentAssetDetail(new ArrayList<AssetPaymentAssetDetail>());
+		this.setAssetPaymentAssetDetail(new ArrayList<AssetPaymentAssetDetail>());		
 	}
 
 	/**
 	 * Remove asset from collection for deletion
-	 *
+	 * 
 	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
 	 */
 	@Override
@@ -86,7 +86,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	 * When document save, AddAccountingLineEvent is added by the framework.
 	 * Also, we need to add AssetPaymentManuallyAddAccountingLineEvent manually
 	 * to run all relating validations.
-	 *
+	 * 
 	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateSaveEvents()
 	 */
 	@Override
@@ -115,7 +115,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	/**
 	 * Lock on purchase order document since post processor will update PO
 	 * document by adding notes.
-	 *
+	 * 
 	 * @see org.kuali.rice.krad.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
 	 */
 	@Override
@@ -134,7 +134,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	/**
 	 * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a
 	 * credit or a debit, in terms of GLPE generation
-	 *
+	 * 
 	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
 	 */
 	@Override
@@ -152,7 +152,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
 	/**
 	 * This method...
-	 *
+	 * 
 	 * @param assetPaymentAssetDetail
 	 */
 	public void addAssetPaymentAssetDetail(AssetPaymentAssetDetail assetPaymentAssetDetail) {
@@ -206,7 +206,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 		// Remove asset lock when doc status change. We don't include
 		// isFinal since document always go to 'processed' first.
 		if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
-			this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null, null);
+			this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
 		}
 
 		if (isCapitalAssetBuilderOriginIndicator()) {
@@ -221,20 +221,20 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public void prepareForSave(KualiDocumentEvent event) {
 		// This method  prevents kuali from generating a
 		// gl pending entry record.
-
+	    
         for (AssetPaymentAssetDetail assetDetail : this.getAssetPaymentAssetDetail()) {
             assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
             if (ObjectUtils.isNotNull(assetDetail.getAsset()) && assetDetail.getAsset().getTotalCostAmount() != null) {
                 assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
             }
-            // CSU 6702 BEGIN Inferred change
+            // CSU 6702 BEGIN Inferred change 
             List<AssetPaymentDetail> apdList = assetDetail.getAssetPaymentDetails();
-            for (AssetPaymentDetail apd : apdList) {
-                String accountingPeriodCompositeString = getAccountingPeriodCompositeString();
+            for (AssetPaymentDetail apd : apdList) {                
+                String accountingPeriodCompositeString = getAccountingPeriodCompositeString();                
                 apd.setPostingYear(new Integer(StringUtils.right(accountingPeriodCompositeString, 4)));
                 apd.setPostingPeriodCode(StringUtils.left(accountingPeriodCompositeString, 2));
             }
-            // CSU 6702 END Inferred change
+            // CSU 6702 END Inferred change            
         }
 	}
 
@@ -258,14 +258,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	/**
 	 * calculates the total previous cost amount of all the assets in the
 	 * document
-	 *
+	 * 
 	 * @return KualiDecimal
 	 */
 	public KualiDecimal getAssetsTotalHistoricalCost() {
 		KualiDecimal total = new KualiDecimal(0);
-		if (this.getAssetPaymentAssetDetail().isEmpty()) {
-            return new KualiDecimal(0);
-        }
+		if (this.getAssetPaymentAssetDetail().isEmpty())
+			return new KualiDecimal(0);
 
 		for (AssetPaymentAssetDetail detail : this.getAssetPaymentAssetDetail()) {
 			KualiDecimal amount = (detail.getPreviousTotalCostAmount() == null ? new KualiDecimal(0) : detail.getPreviousTotalCostAmount());
@@ -277,7 +276,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	/**
 	 * Get the asset payment distributor built by AssetPaymentDetails,
 	 * AssetPaymentAssetDetail and totalHistoricalCost
-	 *
+	 * 
 	 * @return AssetPaymentDistributor
 	 */
 	public AssetDistribution getAssetPaymentDistributor() {
@@ -320,20 +319,20 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public AssetPaymentAllocationType getAssetPaymentAllocationType() {
 		return assetPaymentAllocationType;
 	}
-
+	
     /**
      * Gets the allocationFromFPDocuments attribute.
-     *
+     * 
      * @return Returns the allocationFromFPDocuments
      */
-
+    
     public boolean isAllocationFromFPDocuments() {
         return allocationFromFPDocuments;
     }
 
-    /**
+    /** 
      * Sets the allocationFromFPDocuments attribute.
-     *
+     * 
      * @param allocationFromFPDocuments The allocationFromFPDocuments to set.
      */
     public void setAllocationFromFPDocuments(boolean allocationFromFPDocuments) {

@@ -979,7 +979,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             Set<String> lockingInfoList = removableAssetLocks.get(lockingDocumentNbr);
             for (String lockingInfo : lockingInfoList) {
                 if (this.getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(lockingDocumentNbr, lockingInfo)) {
-                    this.getCapitalAssetManagementModuleService().deleteAssetLocks(lockingDocumentNbr, null, lockingInfo.equals(CamsConstants.defaultLockingInformation) ? null : lockingInfo);
+                    this.getCapitalAssetManagementModuleService().deleteAssetLocks(lockingDocumentNbr, lockingInfo);
                 }
             }
         }

@@ -488,4 +488,46 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public String getCustomerNumber() {
         return accountsReceivableDocumentHeader.getCustomerNumber();
     }
+
+    public KualiDecimal getBudgetAmountTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (InvoiceAccountDetail accountDetail : accountDetails) {
+            total = total.add(accountDetail.getBudgetAmount());
+        }
+
+        return total;
+    }
+
+    public KualiDecimal getExpenditureAmountTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (InvoiceAccountDetail accountDetail : accountDetails) {
+            total = total.add(accountDetail.getExpenditureAmount());
+        }
+        return total;
+    }
+
+    public KualiDecimal getCumulativeAmountTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (InvoiceAccountDetail accountDetail : accountDetails) {
+            total = total.add(accountDetail.getCumulativeAmount());
+        }
+        return total;
+    }
+
+    public KualiDecimal getBalanceAmountTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (InvoiceAccountDetail accountDetail : accountDetails) {
+            total = total.add(accountDetail.getBalanceAmount());
+        }
+        return total;
+    }
+
+    public KualiDecimal getBilledAmountTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (InvoiceAccountDetail accountDetail : accountDetails) {
+            total = total.add(accountDetail.getBilledAmount());
+        }
+        return total;
+    }
 }

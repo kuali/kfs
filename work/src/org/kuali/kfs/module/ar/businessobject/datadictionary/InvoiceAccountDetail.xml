@@ -72,7 +72,7 @@
 
 	<bean id="InvoiceAccountDetail-budgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="budgetAmount" />
-		<property name="label" value="Cumulative Budget" />
+		<property name="label" value="Total Budget" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
@@ -80,7 +80,7 @@
 
 	<bean id="InvoiceAccountDetail-expenditureAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="expenditureAmount" />
-		<property name="label" value="Current Expenditure" />
+		<property name="label" value="Invoice Amount" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
@@ -96,14 +96,14 @@
 
 	<bean id="InvoiceAccountDetail-balanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="balanceAmount" />
-		<property name="label" value="Balance" />
+		<property name="label" value="Budget Remaining" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="InvoiceAccountDetail-billedAmount" parent="InvoiceAccountDetail-billedAmount-parentBean" />
 	<bean id="InvoiceAccountDetail-billedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="billedAmount" />
-		<property name="label" value="Billed" />
+		<property name="label" value="Total Amount Billed To Date" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 </beans>

@@ -53,6 +53,17 @@
 								property="document.accountDetails[${ctr}].billedAmount" readOnly="true" /></td>
 					</tr>
 				</logic:iterate>
+				<c:if test="${fn:length(KualiForm.document.accountDetails) gt 1}">
+					<tr>
+						<td colspan="2"><b>Totals</b></td>
+						
+						<td class="datacell"><c:out value="${KualiForm.document.budgetAmountTotal}" /> </td>
+						<td class="datacell"><c:out value="${KualiForm.document.expenditureAmountTotal}" /> </td>
+						<td class="datacell"><c:out value="${KualiForm.document.cumulativeAmountTotal}" /> </td>
+						<td class="datacell"><c:out value="${KualiForm.document.balanceAmountTotal}" /> </td>
+						<td class="datacell"><c:out value="${KualiForm.document.billedAmountTotal}" /> </td>
+					</tr>
+				</c:if>
 			</table>
 		</div>
 	</kul:tab>

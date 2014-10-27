@@ -713,9 +713,9 @@
 		<createSequence sequenceName="AR_BILL_ID_SEQ" />
 		<createSequence sequenceName="AR_CLCTN_EVNT_ID_SEQ" />
 		<createSequence sequenceName="AR_DUN_LTR_DIST_ID_SEQ" />
+		<createSequence sequenceName="AR_ENTRY_ID_SEQ" />
 		<createSequence sequenceName="AR_ERROR_LOG_ID_SEQ" />
 		<createSequence sequenceName="AR_ERROR_MSG_ID_SEQ" />
-		<createSequence sequenceName="AR_EVENT_ID_SEQ" />
 		<createSequence sequenceName="AR_INV_DTL_ID_SEQ" />
 		<createSequence sequenceName="AR_LTRCR_RVW_DTL_ID_SEQ" />
 		<createSequence sequenceName="AR_MLSTN_ID_SEQ" />
@@ -724,6 +724,11 @@
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_mysql" dbms="mysql">
 		<createTable tableName="AR_BILL_ID_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="AR_CLCTN_EVNT_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true"/>
 			</column>
@@ -744,11 +749,6 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_ERROR_MSG_ID_SEQ">
-			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true"/>
-			</column>
-		</createTable>
-		<createTable tableName="AR_EVENT_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true"/>
 			</column>

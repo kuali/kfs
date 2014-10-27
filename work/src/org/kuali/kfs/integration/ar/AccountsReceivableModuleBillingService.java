@@ -78,6 +78,24 @@ public interface AccountsReceivableModuleBillingService {
     public boolean hasPredeterminedBillingSchedule(Long proposalNumber);
 
     /**
+     * Checks to see if the award corresponding to the passed in proposalNumber has active
+     * Milestones associated with it.
+     *
+     * @param proposalNumber proposalNumber for the Award use as key to look for MilestoneSchedule
+     * @return true if there is at least one active Milestone for this proposalNumber, false otherwise
+     */
+    public boolean hasActiveMilestones(Long proposalNumber);
+
+    /**
+     * Checks to see if the award corresponding to the passed in proposalNumber has active
+     * Bills associated with it.
+     *
+     * @param proposalNumber proposalNumber for the Award use as key to look for PredeterminedBillingSchedule
+     * @return true if there is at least one active Bill for this proposalNumber, false otherwise
+     */
+    public boolean hasActiveBills(Long proposalNumber);
+
+    /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts
      *
      * @param award the Award used to calculate lastBilledDate

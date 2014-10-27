@@ -52,6 +52,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
     protected Award newAwardCopy;
+    protected Award oldAwardCopy;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -92,6 +93,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             success &= checkInvoicingOptions();
             success &= checkAwardInvoiceAccounts();
             success &= checkNumberOfAccountsForBillingFrequency();
+            success &= checkBillingFrequency();
         }
         LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");
         return success;
@@ -183,6 +185,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     @Override
     public void setupConvenienceObjects() {
         newAwardCopy = (Award) super.getNewBo();
+        oldAwardCopy = (Award) super.getOldBo();
     }
 
     /**
@@ -626,6 +629,33 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 putFieldError(KFSPropertyConstants.STOP_WORK_REASON, KFSKeyConstants.ERROR_STOP_WORK_REASON_REQUIRED);
             }
         }
+        return success;
+    }
+
+    /**
+     * Checks if the user tries to change the billing frequency with active Milestones or Bills, and if so
+     * returns an error.
+     *
+     * @return true if the billing frequency can be changed, false otherwise
+     */
+    protected boolean checkBillingFrequency() {
+        boolean success = true;
+
+        String newBillingFrequencyCode = newAwardCopy.getBillingFrequencyCode();
+        String oldBillingFrequencyCode = oldAwardCopy.getBillingFrequencyCode();
+
+        if (!StringUtils.equals(newBillingFrequencyCode, oldBillingFrequencyCode)) {
+            if (StringUtils.equals(oldBillingFrequencyCode, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
+                    SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveMilestones(newAwardCopy.getProposalNumber())) {
+                success = false;
+                putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_MILESTONES_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
+            } else if (StringUtils.equals(oldBillingFrequencyCode, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
+                    SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveBills(newAwardCopy.getProposalNumber())) {
+                success = false;
+                putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_BILLS_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
+            }
+        }
+
         return success;
     }
 

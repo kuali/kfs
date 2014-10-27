@@ -26,6 +26,8 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -112,6 +114,40 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
 
         MilestoneSchedule schedule = getBusinessObjectService().findByPrimaryKey(MilestoneSchedule.class, map);
         return ObjectUtils.isNotNull(schedule);
+    }
+
+    @Override
+    public boolean hasActiveBills(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        PredeterminedBillingSchedule schedule = getBusinessObjectService().findByPrimaryKey(PredeterminedBillingSchedule.class, map);
+        if (ObjectUtils.isNotNull(schedule)) {
+            for (Bill bill: schedule.getBills()) {
+                if (bill.isActive()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean hasActiveMilestones(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        MilestoneSchedule schedule = getBusinessObjectService().findByPrimaryKey(MilestoneSchedule.class, map);
+        if (ObjectUtils.isNotNull(schedule)) {
+            for (Milestone milestone: schedule.getMilestones()) {
+                if (milestone.isActive()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override

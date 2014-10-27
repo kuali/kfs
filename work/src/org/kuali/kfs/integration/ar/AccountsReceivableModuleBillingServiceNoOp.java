@@ -103,4 +103,16 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
+
+    @Override
+    public boolean hasActiveMilestones(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
+
+    @Override
+    public boolean hasActiveBills(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
 }

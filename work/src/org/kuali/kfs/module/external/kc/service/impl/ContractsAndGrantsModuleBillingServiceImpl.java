@@ -75,10 +75,8 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     }
 
     @Override
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
-        updateDto.setInvoiceDocumentStatus(invoiceDocumentStatus);
-        updateDto.setDoInvoiceDocStatusUpdate(true);
         if (invoiceStatus.equalsIgnoreCase("FINAL")) {
             updateDto.setDoLastBillDateUpdate(true);
             updateDto.setLastBillDate(lastBilledDate);
@@ -152,10 +150,8 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
 
 
     @Override
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, Date lastBilledDate) {
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
-        updateDto.setDoInvoiceDocStatusUpdate(true);
-        updateDto.setInvoiceDocumentStatus(invoiceDocumentStatus);
         updateDto.setDoFinalBilledUpdate(true);
         updateDto.setFinalBilledIndicator(finalBilled);
         if (invoiceStatus.equalsIgnoreCase("FINAL")) {

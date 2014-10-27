@@ -52,9 +52,6 @@ public class AwardAccountDTO implements Serializable {
     private Date previousLastBilledDate;
     private KualiDecimal amountToDraw;
     private boolean letterOfCreditReviewIndicator;
-    private String invoiceDocumentStatus;
-
-
 
     public String getPrimeSponsorTypeCode() {
         return primeSponsorTypeCode;
@@ -235,14 +232,5 @@ public class AwardAccountDTO implements Serializable {
 			boolean letterOfCreditReviewIndicator) {
 		this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
 	}
-
-	public String getInvoiceDocumentStatus() {
-		return invoiceDocumentStatus;
-	}
-
-	public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
-		this.invoiceDocumentStatus = invoiceDocumentStatus;
-	}
-
 
 }

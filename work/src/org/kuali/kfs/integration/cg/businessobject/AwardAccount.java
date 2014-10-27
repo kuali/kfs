@@ -42,7 +42,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;
     private boolean letterOfCreditReviewIndicator;
     private boolean active = true;
-    private String invoiceDocumentStatus;
 
     private Account account;
     private Chart chartOfAccounts;

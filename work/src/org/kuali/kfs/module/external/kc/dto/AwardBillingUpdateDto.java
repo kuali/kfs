@@ -12,19 +12,16 @@ public class AwardBillingUpdateDto implements Serializable {
 	private boolean doLastBillDateUpdate;
 	private Date lastBillDate;
 	private boolean restorePreviousBillDate;
-	
-	private boolean doInvoiceDocStatusUpdate;
-	private String invoiceDocumentStatus;
-	
+
 	private boolean doLocCreationTypeUpdate;
 	private String locCreationType;
-	
+
 	private boolean doAmountToDrawUpdate;
 	private KualiDecimal amountToDraw;
-	
+
 	private boolean doLocReviewUpdate;
 	private boolean locReviewIndicator;
-	
+
 	private boolean doFinalBilledUpdate;
 	private boolean finalBilledIndicator;
 
@@ -45,18 +42,6 @@ public class AwardBillingUpdateDto implements Serializable {
 	}
 	public void setRestorePreviousBillDate(boolean restorePreviousBillDate) {
 		this.restorePreviousBillDate = restorePreviousBillDate;
-	}
-	public boolean isDoInvoiceDocStatusUpdate() {
-		return doInvoiceDocStatusUpdate;
-	}
-	public void setDoInvoiceDocStatusUpdate(boolean doInvoiceDocStatusUpdate) {
-		this.doInvoiceDocStatusUpdate = doInvoiceDocStatusUpdate;
-	}
-	public String getInvoiceDocumentStatus() {
-		return invoiceDocumentStatus;
-	}
-	public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
-		this.invoiceDocumentStatus = invoiceDocumentStatus;
 	}
 	public boolean isDoLocCreationTypeUpdate() {
 		return doLocCreationTypeUpdate;

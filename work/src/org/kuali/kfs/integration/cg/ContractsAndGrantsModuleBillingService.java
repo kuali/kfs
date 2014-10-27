@@ -52,9 +52,8 @@ public interface ContractsAndGrantsModuleBillingService {
      * @param criteria
      * @param invoiceStatus
      * @param lastBilledDate
-     * @param invoiceDocumentStatus
      */
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, java.sql.Date lastBilledDate, String invoiceDocumentStatus);
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, java.sql.Date lastBilledDate);
 
     /**
      * This method sets last billed Date to Award
@@ -103,8 +102,7 @@ public interface ContractsAndGrantsModuleBillingService {
      * @param finalBilled
      * @param invoiceStatus
      * @param lastBilledDate
-     * @param invoiceDocumentStatus
      */
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, java.sql.Date lastBilledDate, String invoiceDocumentStatus);
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, java.sql.Date lastBilledDate);
 
 }

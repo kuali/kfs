@@ -49,7 +49,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     private Date previousLastBilledDate;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
     private boolean letterOfCreditReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
-    private String invoiceDocumentStatus; // This would the status of the invoice document associated with the award account.
 
     private Account account;
     private Chart chartOfAccounts;
@@ -122,8 +121,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
         previousLastBilledDate = new Date(awardAccountDTO.getPreviousLastBilledDate().getTime());
         amountToDraw = awardAccountDTO.getAmountToDraw();
         letterOfCreditReviewIndicator = awardAccountDTO.isLetterOfCreditReviewIndicator();
-        invoiceDocumentStatus = awardAccountDTO.getInvoiceDocumentStatus();
-
     }
 
     /**

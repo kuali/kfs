@@ -17,11 +17,8 @@ package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -169,29 +166,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             }
 
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);
-        } else {
-            // To set the status of the document to award account.
-            setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         }
 
-    }
-
-
-    /**
-     * This method updates the ContractsAndGrantsBillingAwardAccount object's invoiceDocumentStatus Variable with the value provided
-     *
-     * @param id
-     * @param value
-     */
-    private void setAwardAccountInvoiceDocumentStatus(String value) {
-        Iterator iterator = accountDetails.iterator();
-        while (iterator.hasNext()) {
-            InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
-            Map<String, Object> mapKey = new HashMap<String, Object>();
-            mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
-            mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, getInvoiceGeneralDetail().getProposalNumber());
-        }
     }
 
     /**

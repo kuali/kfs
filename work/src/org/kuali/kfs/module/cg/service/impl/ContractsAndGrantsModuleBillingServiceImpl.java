@@ -114,7 +114,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
      * @param lastBilledDate
      */
     @Override
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
 
@@ -202,7 +202,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setFinalBilledAndLastBilledDateToAwardAccount(java.util.Map, java.lang.String, java.sql.Date)
      */
     @Override
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean finalBilled, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean finalBilled, String invoiceStatus, Date lastBilledDate) {
 
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.

@@ -1,49 +1,28 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import java.util.Date;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "proposalDTO", propOrder = {
-    "proposalNumber",
-    "requestedStartDateTotal",
-    "requestedEndDateTotal",
-    "proposalTotalAmount",
-    "totalDirectCostTotal",
-    "totalIndirectCostTotal",
-    "proposalLastUpdateDate",
-    "awardTypeCode",
-    "sponsorCode",
-    "statusCode",
-    "cfdaNumber",
-    "title",
-    "sponsorAwardNumber"
-})
 public class ProposalDTO implements Serializable {
 
 	private static final long serialVersionUID = -7622894652760586766L;
-	
+
     private String proposalNumber;
     private Date requestedStartDateTotal;
     private Date requestedEndDateTotal;
     private KualiDecimal proposalTotalAmount;
     private KualiDecimal totalDirectCostTotal;
     private KualiDecimal totalIndirectCostTotal;
-    private Timestamp proposalLastUpdateDate;
+    private Date proposalLastUpdateDate;
     private Integer awardTypeCode;
     private String sponsorCode;
     private Integer statusCode;
     private String cfdaNumber;
     private String title;
     private String sponsorAwardNumber;
-    
+
 	public String getProposalNumber() {
 		return proposalNumber;
 	}
@@ -80,10 +59,10 @@ public class ProposalDTO implements Serializable {
 	public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
 		this.totalIndirectCostTotal = totalIndirectCostTotal;
 	}
-	public Timestamp getProposalLastUpdateDate() {
+	public Date getProposalLastUpdateDate() {
 		return proposalLastUpdateDate;
 	}
-	public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
+	public void setProposalLastUpdateDate(Date proposalLastUpdateDate) {
 		this.proposalLastUpdateDate = proposalLastUpdateDate;
 	}
 	public Integer getAwardTypeCode() {
@@ -122,5 +101,4 @@ public class ProposalDTO implements Serializable {
 	public void setSponsorAwardNumber(String sponsorAwardNumber) {
 		this.sponsorAwardNumber = sponsorAwardNumber;
 	}
-
 }

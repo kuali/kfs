@@ -58,12 +58,12 @@ public class Proposal implements ContractAndGrantsProposal {
 
     public Proposal(ProposalDTO kcProposal) {
         setProposalNumber(kcProposal.getProposalNumber() == null ? null : Long.valueOf(kcProposal.getProposalNumber()));
-        setProposalBeginningDate(kcProposal.getRequestedStartDateTotal());
-        setProposalEndingDate(kcProposal.getRequestedEndDateTotal());
+        setProposalBeginningDate(new Date(kcProposal.getRequestedStartDateTotal().getDate()));
+        setProposalEndingDate(new Date(kcProposal.getRequestedEndDateTotal().getDate()));
         setProposalTotalAmount(kcProposal.getProposalTotalAmount());
         setProposalDirectCostAmount(kcProposal.getTotalDirectCostTotal());
         setProposalIndirectCostAmount(kcProposal.getTotalIndirectCostTotal());
-        setProposalLastUpdateDate(kcProposal.getProposalLastUpdateDate());
+        setProposalLastUpdateDate(new Timestamp(kcProposal.getProposalLastUpdateDate().getDate()));
         setProposalAwardTypeCode(kcProposal.getAwardTypeCode().toString());
         setAgencyNumber(kcProposal.getSponsorCode());
         setProposalStatusCode(kcProposal.getStatusCode().toString());

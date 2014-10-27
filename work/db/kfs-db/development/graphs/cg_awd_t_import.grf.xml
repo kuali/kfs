@@ -52,7 +52,7 @@
         $0.cgawd_proj_ttl := replace(nvl($cgawd_proj_ttl, ""), "~!~", "|" );
         $0.cgawd_purpose_cd := replace(nvl($cgawd_purpose_cd, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
-        $0.pref_bill_freq_cd := replace(nvl($pref_bill_freq_cd, ""), "~!~", "|" );
+        $0.bill_freq_cd := replace(nvl($bill_freq_cd, ""), "~!~", "|" );
         $0.excl_frm_inv_ind := replace(nvl($excl_frm_inv_ind, ""), "~!~", "|" );
         $0.addtnl_frms_rqrd := replace(nvl($addtnl_frms_rqrd, ""), "~!~", "|" );
         $0.addtnl_frm_desc := replace(nvl($addtnl_frm_desc, ""), "~!~", "|" );

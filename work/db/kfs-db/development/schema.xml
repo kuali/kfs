@@ -1567,7 +1567,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="AWD_DT_RNG" size="50" type="VARCHAR"/>
-        <column name="BILL_FREQ" size="50" type="VARCHAR"/>
+        <column name="BILL_FREQ_CD" size="4" type="VARCHAR"/>
         <column name="FND_TYP" size="50" type="VARCHAR"/>
         <column name="INSTRMNT_TYP_CD" size="10" type="VARCHAR"/>
         <column name="FINAL_BILL_IND" size="1" type="VARCHAR"/>
@@ -4334,7 +4334,7 @@
         <column name="CGAWD_PROJ_TTL" size="250" type="VARCHAR"/>
         <column name="CGAWD_PURPOSE_CD" size="1" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="PREF_BILL_FREQ_CD" size="10" type="VARCHAR"/>
+        <column name="BILL_FREQ_CD" size="4" type="VARCHAR"/>
         <column name="EXCL_FRM_INV_IND" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRMS_RQRD" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRM_DESC" size="255" type="VARCHAR"/>
@@ -4404,7 +4404,7 @@
         </index>
     </table>
     <table name="CG_BILL_FREQ_T">
-        <column name="BILL_FREQ_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="BILL_FREQ_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="BILL_FREQ_DESC" size="45" type="VARCHAR"/>
@@ -9841,7 +9841,7 @@
         </unique>
     </table>
     <table name="KC_BILL_FREQ_MAP_T">
-        <column name="KFS_FREQ_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="KFS_FREQ_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="KC_FREQ_CD" primaryKey="true" size="3" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>

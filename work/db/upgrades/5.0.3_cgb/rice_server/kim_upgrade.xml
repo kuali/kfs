@@ -371,7 +371,7 @@
 			<column name="ATTR_VAL" value="CINV" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFS10836-ATTR2" />
+			<column name="ATTR_DATA_ID" value="KFSTP1368-ATTR2" />
 			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-006" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSTP1368-PRM1" />

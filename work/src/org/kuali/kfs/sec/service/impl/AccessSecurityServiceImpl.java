@@ -32,6 +32,7 @@ import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.service.AccessPermissionEvaluator;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
@@ -364,6 +365,9 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         // pi override
         boolean alwaysAllowPIAccess = parameterService.getParameterValueAsBoolean(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ALWAYS_ALLOW_PRINCIPAL_INVESTIGATOR_LINE_ACCESS_IND);
         if (alwaysAllowPIAccess) {
+            if (ObjectUtils.isNull(line.getAccount())) {
+                line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+            }
             Person principalInvestigator = contractsAndGrantsModuleService.getProjectDirectorForAccount(line.getAccount());
             if (principalInvestigator != null && StringUtils.equals(principalInvestigator.getPrincipalId(), person.getPrincipalId())) {
                 return true;

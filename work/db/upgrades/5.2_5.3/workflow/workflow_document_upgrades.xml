@@ -347,6 +347,65 @@
         </role>
       </routeNodes>
     </documentType>
-    
+    <documentType>
+      <name>
+        PVFT
+      </name>
+      <parent>
+        VNSM
+      </parent>
+      <label>
+        W-8 Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendorinactivereason.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        PVCT
+      </name>
+      <parent>
+        VNSM
+      </parent>
+      <label>
+        Chapter 3 Status
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendorinactivereason.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        PVCF
+      </name>
+      <parent>
+        VNSM
+      </parent>
+      <label>
+        Chapter 4 Status
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendorinactivereason.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
 	</documentTypes>	
 </data>

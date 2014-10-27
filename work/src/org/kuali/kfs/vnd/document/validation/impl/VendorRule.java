@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorType;
+import org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.CommodityCodeService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
@@ -261,6 +262,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         valid &= validateOwnershipCategory(vendorDetail);
         valid &= validateVendorWithholdingTaxDates(vendorDetail);
         valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
+        valid &= validateGIINCode(vendorDetail);
+        valid &= validateW8SignedDate(vendorDetail);
+        valid &= validateW9SignedDate(vendorDetail);
+        valid &= validateDOBDate(vendorDetail);
+        valid &= validateW8Received(vendorDetail);
+        valid &= validateW9Received(vendorDetail);
+        valid &= validateCorpCitizen(vendorDetail);
+        valid &= validateW8Type(vendorDetail);
         valid &= validateSearchAliases(vendorDetail);
         valid &= validateContracts(vendorDetail);
         return valid;
@@ -1437,8 +1446,152 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     }
 
+    protected boolean validateGIINCode(VendorDetail vDetail) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorGIIN())) {
+            String giin = vDetail.getVendorHeader().getVendorGIIN();
+
+            if (!giin.matches(SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.GIIN_NUMBER_FORMATS))) {
+                putFieldError(VendorPropertyConstants.VENDOR_GIIN_CODE, VendorKeyConstants.ERROR_VENDOR_GIIN_FORMAT_ERROR);
+                valid &= false;
+            }
+        }
+
+
+        return valid;
+    }
+
+    protected boolean validateW8SignedDate(VendorDetail vDetail) {
+        boolean valid = true;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date today = dateTimeService.getCurrentDate();
+
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_SIGNED_DATE_REQUIRED) && ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator())) {
+
+            if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8SignedDate())) {
+
+                Date signedDate = vDetail.getVendorHeader().getVendorW8SignedDate();
+                if (ObjectUtils.isNotNull(signedDate)) {
+                    if (dateTimeService.dateDiff(signedDate, today, false) <= 0) {
+                        putFieldError(VendorPropertyConstants.VENDOR_W8SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
+                        valid &= false;
+                    }
+                }
+            } else {
+                putFieldError(VendorPropertyConstants.VENDOR_W8SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8SINGED_DATE_REQUIRED);
+                valid &= false;
+            }
+
+        }
+        return valid;
+    }
+
+    protected boolean validateW9SignedDate(VendorDetail vDetail) {
+        boolean valid = true;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date today = dateTimeService.getCurrentDate();
+
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W9_SIGNED_DATE_REQUIRED) && ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW9ReceivedIndicator())) {
+
+
+            if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW9SignedDate())) {
+
+                Date signedDate = vDetail.getVendorHeader().getVendorW9SignedDate();
+                if (ObjectUtils.isNotNull(signedDate)) {
+                    if (dateTimeService.dateDiff(signedDate, today, false) <= 0) {
+                        putFieldError(VendorPropertyConstants.VENDOR_DOB, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
+                        valid &= false;
+                    }
+                }
+            } else {
+                putFieldError(VendorPropertyConstants.VENDOR_W9SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W9SINGED_DATE_REQUIRED);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+    protected boolean validateDOBDate(VendorDetail vDetail) {
+        boolean valid = true;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date today = dateTimeService.getCurrentDate();
+
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorDOB())) {
+
+            Date dobDate = vDetail.getVendorHeader().getVendorDOB();
+            if (ObjectUtils.isNotNull(dobDate)) {
+                if (dateTimeService.dateDiff(dobDate, today, false) <= 0) {
+                    putFieldError(VendorPropertyConstants.VENDOR_W9SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
+                    valid &= false;
+                }
+            }
+        }
+        return valid;
+    }
+
+    protected boolean validateCorpCitizen(VendorDetail vDetail) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) && vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) {
+            if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorCorpCitizenCode())) {
+                putFieldError(VendorPropertyConstants.VENDOR_CORP_CITIZEN_CODE, VendorKeyConstants.ERROR_VENDOR_CORP_CTZN_REQUIRED);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+    protected boolean validateW8Type(VendorDetail vDetail) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorOwnershipCode())) {
+            Map fieldValues = new HashMap();
+            fieldValues.put("vendorOwnershipCode", vDetail.getVendorHeader().getVendorOwnershipCode());
+            List<W8TypeOwnershipType> vendorW8OwnershipTypes = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatching(W8TypeOwnershipType.class, fieldValues));
+            if (!vendorW8OwnershipTypes.contains(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+                putFieldError(VendorPropertyConstants.VENDOR_W8_TYPE_CODE, VendorKeyConstants.ERROR_VENDOR_W8_OWNERSHIP_INVALID);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+    protected boolean validateW8Received(VendorDetail vDetail) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) &&!vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) {
+            if (!StringUtils.isBlank(vDetail.getVendorHeader().getVendorW8TypeCode()) || !ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8SignedDate())) {
+                putFieldError(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR, VendorKeyConstants.ERROR_VENDOR_W8TYPE_AND_SIGNED_DATE_INVALID);
+                valid &= false;
+            }
+        } else {
+            if (!vDetail.getVendorHeader().getVendorForeignIndicator()) {
+                putFieldError(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR, VendorKeyConstants.ERROR_VENDOR_FOREIGN_REQUIRED);
+                valid &= false;
+            }
+            if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+                putFieldError(VendorPropertyConstants.VENDOR_W8_TYPE_CODE, VendorKeyConstants.ERROR_VENDOR_W8TYPE_REQUIRED);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+    protected boolean validateW9Received(VendorDetail vDetail) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW9ReceivedIndicator()) && !vDetail.getVendorHeader().getVendorW9ReceivedIndicator()) {
+            if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW9SignedDate())) {
+                putFieldError(VendorPropertyConstants.VENDOR_W9_RECEIVED_INDICATOR, VendorKeyConstants.ERROR_VENDOR_W9SIGNED_DATE_INVALID);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+
     /**
-     * Validates the rule that both w9 received and w-8ben cannot be set to yes
+     * Validates the rule that both w-9 received and w-8 cannot be set to yes
      *
      * @param vdDocument VendorDetail
      * @return boolean false or true

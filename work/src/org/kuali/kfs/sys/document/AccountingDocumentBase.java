@@ -25,6 +25,7 @@ import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -393,10 +394,27 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
         copyAccountingLines(true);
+        setExpiredAccountOverrides();
         correctSalesTax();
     }
 
-    protected void correctSalesTax(){
+    /**
+     * Checks for accounting lines that may need an account override.
+     */
+    protected void setExpiredAccountOverrides(){
+        List<AccountingLine> accountingLines = new ArrayList<AccountingLine>(getSourceAccountingLines());
+        accountingLines.addAll(getTargetAccountingLines());
+        for (AccountingLine accountingLine : accountingLines){
+            setExpiredAccountOverride(accountingLine);
+        }
+    }
+
+    protected void setExpiredAccountOverride(AccountingLine accountingLine){
+        boolean needsOverride = AccountingLineOverride.needsExpiredAccountOverride(accountingLine, this.isDocumentFinalOrProcessed());
+        accountingLine.setAccountExpiredOverrideNeeded(needsOverride);
+     }
+     
+     protected void correctSalesTax(){
                  List<AccountingLine> lines = new ArrayList<AccountingLine>(getSourceAccountingLines());
                  lines.addAll(getTargetAccountingLines());
                  for (AccountingLine accountingLine : lines) {

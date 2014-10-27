@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!--
+		Copyright 2007-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="W8Type" parent="W8Type-parentBean" />
+
+	<bean id="W8Type-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.vnd.businessobject.W8Type" />
+		<property name="inquiryDefinition">
+			<ref bean="W8Type-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="W8Type-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="W8TypeCode" />
+		<property name="objectLabel" value="W-8 Type" />
+		<property name="attributes">
+			<list>
+				<ref bean="W8Type-W8TypeCode" />
+				<ref bean="W8Type-W8TypeDescription" />
+				<ref bean="W8Type-active" />
+			</list>
+		</property>
+		<property name="collections">
+      		<list>
+        		<bean parent="CollectionDefinition" p:name="w8TypeOwnershipTypes" p:label="Ownership Types" p:shortLabel="Ownership Types"/>
+      		</list>
+    	</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="W8Type-W8TypeCode"
+		parent="W8Type-W8TypeCode-parentBean" />
+
+	<bean id="W8Type-W8TypeCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorW8TypeCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="W-8 Type Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+	<bean id="W8Type-W8TypeDescription"
+		parent="W8Type-W8TypeDescription-parentBean" />
+
+	<bean id="W8Type-W8TypeDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorW8TypeDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="W-8 Type Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+	<bean id="W8Type-active" parent="W8Type-active-parentBean" />
+
+	<bean id="W8Type-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="W8Type-inquiryDefinition" parent="W8Type-inquiryDefinition-parentBean" />
+
+	<bean id="W8Type-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="W-8 Type Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="W8Type-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="W8Type-inquirySectionDefinition"
+		parent="W8Type-inquirySectionDefinition-parentBean" />
+	<bean id="W8Type-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="W8Type-lookupDefinition" parent="W8Type-lookupDefinition-parentBean" />
+
+	<bean id="W8Type-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="W-8 Type Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

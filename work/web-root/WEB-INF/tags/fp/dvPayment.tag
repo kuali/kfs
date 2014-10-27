@@ -38,8 +38,10 @@
               	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/>           	
               </div></th>
               <td colspan="3" class="datacell">              	
-              	<c:choose>             
-	          	  <c:when test="${not empty KualiForm.document.dvPayeeDetail.disbVchrVendorHeaderIdNumber and 
+              	<c:choose>       
+              	  <%-- If payee is vendor (including employee-vendor), display vendor inquiry link using vendor header-detail ID --%>       
+	          	  <c:when test="${KualiForm.document.dvPayeeDetail.vendor &&
+	          	  					not empty KualiForm.document.dvPayeeDetail.disbVchrVendorHeaderIdNumber && 
 	          				  		not empty KualiForm.document.dvPayeeDetail.disbVchrVendorDetailAssignedIdNumber}">
 		        	<kul:inquiry boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
 		               	keyValues="vendorHeaderGeneratedIdentifier=${KualiForm.document.dvPayeeDetail.disbVchrVendorHeaderIdNumber}&vendorDetailAssignedIdentifier=${KualiForm.document.dvPayeeDetail.disbVchrVendorDetailAssignedIdNumber}" 
@@ -50,18 +52,22 @@
 		                    readOnly="true" />
 		            </kul:inquiry>
 	              </c:when> 
-	              <c:when test="${not empty KualiForm.document.dvPayeeDetail.employeePrincipalId}"> 
-		        	<kul:inquiry boClassName="org.kuali.rice.kim.api.identity.Person" 
-		               	keyValues="principalId=${KualiForm.document.dvPayeeDetail.employeePrincipalId}" 
+	              <%-- If payee is non-vendor employee, retrieve principalId using payeeId (which shall hold employeeIdnc in this case), and display Person inquiry link --%>   
+	              <c:when test="${KualiForm.document.dvPayeeDetail.employee && 
+	              					not empty KualiForm.document.dvPayeeDetail.disbVchrPayeeIdNumber}"> 
+					<c:set var="employeePrincipalId" value="${KualiForm.document.dvPayeeDetail.employeePrincipalId}"/>
+	              	<c:if test="${not empty employeePrincipalId}"> 
+		        	  <kul:inquiry boClassName="org.kuali.rice.kim.api.identity.Person" 
+		               	keyValues="principalId=${employeePrincipalId}" 
 		               	render="true">
 		                <kul:htmlControlAttribute 
 		                    attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" 
 		                    property="document.dvPayeeDetail.disbVchrPayeeIdNumber" 
 		                    readOnly="true" />
-		            </kul:inquiry>
+		              </kul:inquiry>
+		            </c:if>
 		 		  </c:when>          
-		 		  <%-- returned payee shall be either Vendor or Employee, otherwise empty --%>
-		 		  <%-- 
+		 		  <%-- Otherwise, payee is neither vendor nor employee, probably customer or empty. 
 		 		  	Note: We currently don't handle the potential case that DV payee might be a Customer.
 		 		  	If in the future we decide otherwise, logic could be added here to handle hyper link for 
 		 		  	Customer inquiry when the returned payee is a Customer.

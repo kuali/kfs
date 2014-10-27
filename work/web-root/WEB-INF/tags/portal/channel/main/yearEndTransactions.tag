@@ -19,14 +19,14 @@
 <div class="body">
 	<strong>Capital Asset Management</strong><br />
     <ul class="chan">    
-		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>		
     <strong>Financial Processing</strong><br />
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YEBA" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End Distribution of Income and Expense" url="financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=YEDI" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End General Error Correction" url="financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=YEGE" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End Transfer of Funds" url="financialYearEndTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=YETF" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="${ConfigProperties.application.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YEBA" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Distribution of Income and Expense" url="${ConfigProperties.application.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=YEDI" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End General Error Correction" url="${ConfigProperties.application.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=YEGE" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Transfer of Funds" url="${ConfigProperties.application.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=YETF" /></li>
     </ul>
     <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
 	    <strong>Labor Distribution</strong><br />
@@ -34,12 +34,12 @@
 		  	<li>
 				<portal:portalLink displayTitle="true"
 					title="Year End Benefit Expense Transfer"
-					url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
+					url="${ConfigProperties.application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
 			</li>
 			<li>
 				<portal:portalLink displayTitle="true"
 					title="Year End Salary Expense Transfer"
-					url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEST" />
+					url="${ConfigProperties.application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEST" />
 			</li>
 	    </ul>
     </c:if>

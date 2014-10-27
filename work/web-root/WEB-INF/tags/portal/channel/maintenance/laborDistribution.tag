@@ -22,30 +22,30 @@
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Benefits Calculation"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsCalculation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsCalculation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Benefits Rate Category"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Labor Benefits Type"
-				url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Labor Object Code"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.LaborObject&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.LaborObject&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Object Code Benefits"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Position Object Group Code"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.PositionObjectGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.PositionObjectGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 	</ul>
 </div>

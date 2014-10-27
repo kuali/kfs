@@ -15,22 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<%
-   String gotoUrl = null;
-   String selectedTab = null;
-   if (request.getQueryString() != null && request.getQueryString().indexOf("channelUrl") >= 0) {
-      gotoUrl = request.getQueryString().substring(request.getQueryString().indexOf("channelUrl")+11,request.getQueryString().length());
-   } else if (request.getParameter("channelUrl") != null && request.getParameter("channelUrl").length() > 0) {
-      gotoUrl = request.getParameter("channelUrl");
-   }
-   
-   if (request.getParameter("selectedTab") != null && request.getParameter("selectedTab").length() > 0) {
-       session.setAttribute("selectedTab", request.getParameter("selectedTab"));
-   }
-      
-   request.setAttribute("gotoUrl", gotoUrl);
-%>
-
 <portal:portalTop />
 <portal:portalTabs selectedTab="${sessionScope.selectedTab}" />
 <portal:portalBody selectedTab="${sessionScope.selectedTab}"

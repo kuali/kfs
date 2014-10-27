@@ -2717,9 +2717,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         boolean require = taDoc.requiresTravelAdvanceReviewRouting();
         require &= !taDoc.getTravelAdvance().getTravelAdvancePolicy();
 
-        // no need to route back to traveler if s/he is the initiator
-        require &= !isInitiatorTraveler(taDoc);
-
         return require;
     }
 

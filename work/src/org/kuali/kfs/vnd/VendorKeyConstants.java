@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,21 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_W9_AND_W8_RECEIVED_INDICATOR_BOTH_TRUE = "error.vendor.w9Andw8.receivedIndicator.BothTrue";
     public static final String MESSAGE_VENDOR_PARENT_TO_DIVISION = "message.vendorMaint.parent.to.division";
     public static final String CONFIRM_VENDOR_CHANGE_TO_PARENT = "message.vendorMaint.confirm.change.to.parent";
-    
+
+    public static final String ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY = "error.vendorMaint.w8Andw9Signed.after.today";
+    public static final String ERROR_VENDOR_W8TYPE_REQUIRED = "error.vendorMaint.w8Type.required";
+    public static final String ERROR_VENDOR_FOREIGN_REQUIRED = "error.vendorMaint.foreign.required.true";
+    public static final String ERROR_VENDOR_W8TYPE_AND_SIGNED_DATE_INVALID = "error.vendorMaint.w8TypeAndSignedDate.invalid";
+    public static final String ERROR_VENDOR_W9SIGNED_DATE_INVALID = "error.vendorMaint.w9SignedDate.invalid";
+    public static final String ERROR_VENDOR_W8SINGED_DATE_REQUIRED = "error.vendorMaint.w8Date.required";
+    public static final String ERROR_VENDOR_W9SINGED_DATE_REQUIRED = "error.vendorMaint.w9Date.required";
+    public static final String ERROR_VENDOR_CORP_CTZN_REQUIRED = "error.vendorMaint.corpCitznCountry.required";
+    public static final String ERROR_VENDOR_GIIN_FORMAT_ERROR = "error.vendorMaint.giin.format.error";
+    public static final String ERROR_VENDOR_W8_OWNERSHIP_INVALID = "error.vendorMaint.w8Type.ownership.invalid";
+
+
+
+
     // Vendor Lookup
     public static final String ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT = "error.vendorLookup.name.too.short";
     public static final String ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID = "error.vendorLookup.taxNum.invalid";
@@ -82,5 +96,5 @@ public class VendorKeyConstants {
 
     // Vendor Exclude
     public static final String MESSAGE_BATCH_UPLOAD_VENDOR_EXCLUDE = "message.batchUpload.title.vendor.exclude";
-    
+
 }

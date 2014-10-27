@@ -200,13 +200,10 @@ public class ArPropertyConstants{
         public static final String AGENCY_NUMBER = "agencyNumber";
     }
 
-    // Event bo fields
-    public static class EventFields {
+    // Collection Event bo fields
+    public static class CollectionEventFields {
         public static final String INVOICE_DOCUMENT_PROPOSAL_NUMBER = "invoiceDocument.invoiceGeneralDetails.proposalNumber";
-        public static final String INVOICE_DOCUMENT_AGENCY_NUMBER = "invoiceDocument.award.agency.agencyNumber";
         public static final String INVOICE_DOCUMENT_OPEN_INV_IND = "invoiceDocument." + ArPropertyConstants.OPEN_INVOICE_IND;
-        public static final String EVENT_CODE = "eventCode";
-        public static final String EVENT_IDENTIFIER = "eventIdentifier";
         public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";

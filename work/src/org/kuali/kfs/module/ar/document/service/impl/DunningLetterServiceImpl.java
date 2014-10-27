@@ -38,9 +38,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
-import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -107,14 +107,10 @@ public class DunningLetterServiceImpl implements DunningLetterService {
                     selectedInvoices.add(cgInvoice);
                     // 1. Now we know that the invoice is going to have its dunning letter processed. So we assume the letter is
                     // sent and set the event for it.
-                    Event event = new Event();
+                    CollectionEvent event = new CollectionEvent();
                     event.setInvoiceNumber(cgInvoice.getDocumentNumber());
-                    // calculate event code
-                    // Add sequence number to event code
-                    lastEventCode = cgInvoice.getEvents().size() + 1;
-                    String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
-                    event.setEventCode(eventCode);
-                    // To get the Activity Code from the Collection Activity type eDoc basedo n the indicator.
+                    event.setCollectionEventCode(cgInvoice.getNextCollectionEventCode());
+                    // To get the Activity Code from the Collection Activity type eDoc based on the indicator.
                     String activityCode = null;
                     List<CollectionActivityType> activityTypes = (List<CollectionActivityType>) getBusinessObjectService().findAll(CollectionActivityType.class);
                     for (CollectionActivityType activityType : activityTypes) {
@@ -135,7 +131,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
                             event.setUser(authorUniversal);
                         }
                         businessObjectService.save(event);
-                        cgInvoice.getEvents().add(event);
+                        cgInvoice.getCollectionEvents().add(event);
                     }
 
                     // 2. To set the Last sent date of the dunning letter.
@@ -378,6 +374,27 @@ public class DunningLetterServiceImpl implements DunningLetterService {
     }
 
     /**
+     * Maps the given ContractsGrantsInvoiceDocuments by their agency number
+     * @param invoices the invoices to Map to agency number
+     * @return the Map of the invoices
+     */
+    protected Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
+        Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
+        for (ContractsGrantsInvoiceDocument invoice : invoices) {
+            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
+            if (invoicesByAward.containsKey(proposalNumber)) {
+                invoicesByAward.get(proposalNumber).add(invoice);
+            }
+            else {
+                List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
+                invoicesByProposalNumber.add(invoice);
+                invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
+            }
+        }
+        return invoicesByAward;
+    }
+
+    /**
      * Gets the businessObjectService attribute.
      *
      * @return Returns the businessObjectService.
@@ -456,8 +473,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
 
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
-    }
-
+}
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }

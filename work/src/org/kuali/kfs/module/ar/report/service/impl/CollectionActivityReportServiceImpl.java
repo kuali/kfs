@@ -33,8 +33,8 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
@@ -127,11 +127,11 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
 
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             for (ContractsGrantsInvoiceDocument cgInvoiceDocument : contractsGrantsInvoiceDocs) {
-                List<Event> events = cgInvoiceDocument.getEvents();
+                List<CollectionEvent> events = cgInvoiceDocument.getCollectionEvents();
                 List<CustomerInvoiceDetail> details = cgInvoiceDocument.getSourceAccountingLines();
                 final String accountNum = (!CollectionUtils.isEmpty(details) && !ObjectUtils.isNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
                 if (CollectionUtils.isNotEmpty(events)) {
-                    for (Event event : events) {
+                    for (CollectionEvent event : events) {
                         String workflowDocumentStatusCode = financialSystemDocumentService.findByDocumentNumber(event.getDocumentNumber()).getWorkflowDocumentStatusCode();
                         if (!StringUtils.equals(workflowDocumentStatusCode, DocumentStatus.SAVED.getCode())) {
                             CollectionActivityReport collectionActivityReport = new CollectionActivityReport();
@@ -199,49 +199,49 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     }
 
     /**
-     * This method is used to convert the Event Object into collection activity report.
+     * This method is used to convert the CollectionEvent Object into collection activity report.
      *
      * @param collectionActivityReport
-     * @param event
+     * @param collectionEvent
      * @return Returns the Object of CollectionActivityReport class.
      */
-    protected CollectionActivityReport convertEventToCollectionActivityReport(CollectionActivityReport collectionActivityReport, Event event) {
+    protected CollectionActivityReport convertEventToCollectionActivityReport(CollectionActivityReport collectionActivityReport, CollectionEvent collectionEvent) {
 
-        if (ObjectUtils.isNull(event)) {
+        if (ObjectUtils.isNull(collectionEvent)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
         // account no
-        collectionActivityReport.setInvoiceNumber(event.getInvoiceNumber());
-        collectionActivityReport.setActivityDate(event.getActivityDate());
+        collectionActivityReport.setInvoiceNumber(collectionEvent.getInvoiceNumber());
+        collectionActivityReport.setActivityDate(collectionEvent.getActivityDate());
 
         // Activity Type
-        CollectionActivityType collectionActivityType = event.getCollectionActivityType();
+        CollectionActivityType collectionActivityType = collectionEvent.getCollectionActivityType();
 
         if (ObjectUtils.isNotNull(collectionActivityType)) {
             collectionActivityReport.setActivityType(collectionActivityType.getActivityDescription());
         }
 
-        collectionActivityReport.setActivityComment(event.getActivityText());
-        collectionActivityReport.setFollowupDate(event.getFollowupDate());
-        collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getInvoiceGeneralDetail().getProposalNumber());
-        collectionActivityReport.setCompleted(event.isCompleted());
-        collectionActivityReport.setCompletedDate(event.getCompletedDate());
+        collectionActivityReport.setActivityComment(collectionEvent.getActivityText());
+        collectionActivityReport.setFollowupDate(collectionEvent.getFollowupDate());
+        collectionActivityReport.setProposalNumber(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail().getProposalNumber());
+        collectionActivityReport.setCompleted(collectionEvent.isCompleted());
+        collectionActivityReport.setCompletedDate(collectionEvent.getCompletedDate());
 
-        String userPrincId = event.getUserPrincipalId();
+        String userPrincId = collectionEvent.getUserPrincipalId();
         Person person = personService.getPerson(userPrincId);
 
         if (ObjectUtils.isNotNull(person)) {
             collectionActivityReport.setUserPrincipalId(person.getName());
         }
 
-        if (ObjectUtils.isNotNull(event.getInvoiceDocument())) {
-            collectionActivityReport.setChartOfAccountsCode(event.getInvoiceDocument().getBillByChartOfAccountCode());
+        if (ObjectUtils.isNotNull(collectionEvent.getInvoiceDocument())) {
+            collectionActivityReport.setChartOfAccountsCode(collectionEvent.getInvoiceDocument().getBillByChartOfAccountCode());
         }
-        if (ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail()) && ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency())) {
-            collectionActivityReport.setAgencyNumber(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getAgencyNumber());
-            collectionActivityReport.setAgencyName(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getFullName());
+        if (ObjectUtils.isNotNull(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail()) && ObjectUtils.isNotNull(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency())) {
+            collectionActivityReport.setAgencyNumber(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getAgencyNumber());
+            collectionActivityReport.setAgencyName(collectionEvent.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getFullName());
         }
         return collectionActivityReport;
     }

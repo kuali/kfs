@@ -19,7 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
 
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -79,12 +79,12 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the validateEvent() method of service and returns true when all rules passed.
      */
     public void testValidateEvent_True() {
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
 
-        boolean result = collectionActivityDocumentRule.validateEvent(event);
+        boolean result = collectionActivityDocumentRule.validateCollectionEvent(event);
         assertTrue(result);
     }
 
@@ -92,13 +92,13 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the validateEvent() method of service and returns false when any rule is not passed.
      */
     public void testValidateEvent_False() {
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
         event.setFollowup(Boolean.TRUE);
 
-        boolean result = collectionActivityDocumentRule.validateEvent(event);
+        boolean result = collectionActivityDocumentRule.validateCollectionEvent(event);
         assertFalse(result);
     }
 
@@ -106,13 +106,13 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the validateEvents() method of service and returns true when all rules passed.
      */
     public void testValidateEvents_True() {
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
 
-        collectionActivityDocument.getEvents().add(event);
-        boolean result = collectionActivityDocumentRule.validateEvents(collectionActivityDocument);
+        collectionActivityDocument.getCollectionEvents().add(event);
+        boolean result = collectionActivityDocumentRule.validateCollectionEvents(collectionActivityDocument);
         assertTrue(result);
     }
 
@@ -120,9 +120,9 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the validateEvents() method of service and returns false when any rule is not passed.
      */
     public void testValidateEvents_False() {
-        Event event = new Event();
-        collectionActivityDocument.getEvents().add(event);
-        boolean result = collectionActivityDocumentRule.validateEvents(collectionActivityDocument);
+        CollectionEvent event = new CollectionEvent();
+        collectionActivityDocument.getCollectionEvents().add(event);
+        boolean result = collectionActivityDocumentRule.validateCollectionEvents(collectionActivityDocument);
         assertFalse(result);
     }
 
@@ -130,13 +130,13 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the processAddEventBusinessRules() method of service and returns true when all rules are passed.
      */
     public void testProcessAddEventBusinessRules_True() {
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
 
-        collectionActivityDocument.getEvents().add(event);
-        boolean result = collectionActivityDocumentRule.processAddCollectionActivityDocumentEventBusinessRules(collectionActivityDocument, event);
+        collectionActivityDocument.getCollectionEvents().add(event);
+        boolean result = collectionActivityDocumentRule.processAddCollectionEventBusinessRules(collectionActivityDocument, event);
         assertTrue(result);
     }
 
@@ -144,14 +144,14 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
      * Tests the processAddEventBusinessRules() method of service and returns false when any rule is not passed.
      */
     public void testProcessAddEventBusinessRules_False() {
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
         event.setCompleted(Boolean.TRUE);
 
-        collectionActivityDocument.getEvents().add(event);
-        boolean result = collectionActivityDocumentRule.processAddCollectionActivityDocumentEventBusinessRules(collectionActivityDocument, event);
+        collectionActivityDocument.getCollectionEvents().add(event);
+        boolean result = collectionActivityDocumentRule.processAddCollectionEventBusinessRules(collectionActivityDocument, event);
         assertFalse(result);
     }
 }

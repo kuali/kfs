@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -29,7 +29,7 @@ public abstract class CollectionActivityDocumentEventBase extends KualiDocumentE
 
     private static final Logger LOG = Logger.getLogger(CollectionActivityDocumentEventBase.class);
 
-    private final Event event;
+    private final CollectionEvent collectionEvent;
 
     /**
      * Constructor for the class.
@@ -39,12 +39,12 @@ public abstract class CollectionActivityDocumentEventBase extends KualiDocumentE
      * @param document
      * @param event
      */
-    public CollectionActivityDocumentEventBase(String description, String errorPathPrefix, Document document, Event event) {
+    public CollectionActivityDocumentEventBase(String description, String errorPathPrefix, Document document, CollectionEvent collectionEvent) {
         super(description, errorPathPrefix, document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        this.event = (Event) ObjectUtils.deepCopy(event);
+        this.collectionEvent = (CollectionEvent) ObjectUtils.deepCopy(collectionEvent);
 
         logEvent();
     }
@@ -53,8 +53,8 @@ public abstract class CollectionActivityDocumentEventBase extends KualiDocumentE
      * @see org.kuali.kfs.module.ar.document.validation.event.CollectionActivityDetailEvent#getEvent()
      */
     @Override
-    public Event getEvent() {
-        return event;
+    public CollectionEvent getCollectionEvent() {
+        return collectionEvent;
     }
 
     /**
@@ -63,8 +63,8 @@ public abstract class CollectionActivityDocumentEventBase extends KualiDocumentE
     @Override
     public void validate() {
         super.validate();
-        if (ObjectUtils.isNull(getEvent())) {
-            throw new IllegalArgumentException("invalid (null) event");
+        if (ObjectUtils.isNull(getCollectionEvent())) {
+            throw new IllegalArgumentException("invalid (null) collection event");
         }
     }
 
@@ -76,12 +76,12 @@ public abstract class CollectionActivityDocumentEventBase extends KualiDocumentE
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (ObjectUtils.isNull(event)) {
-            logMessage.append("null event");
+        if (ObjectUtils.isNull(collectionEvent)) {
+            logMessage.append("null collection event");
         }
         else {
-            logMessage.append(" event# ");
-            logMessage.append(event.getEventIdentifier());
+            logMessage.append(" collection event# ");
+            logMessage.append(collectionEvent.getId());
         }
 
         LOG.debug(logMessage);

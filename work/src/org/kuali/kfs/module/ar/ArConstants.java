@@ -115,7 +115,7 @@ public class ArConstants{
     public static final String DEFAULT_PROCESSING_CHART = "DEFAULT_PROCESSING_CHART";
     public static final String DEFAULT_PROCESSING_ORG = "DEFAULT_PROCESSING_ORG";
 
-    public static final String NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX = "newEvent";
+    public static final String NEW_COLLECTION_EVENT_ERROR_PATH_PREFIX = "newCollectionEvent";
 
     public static final String CUSTOMER_COMPONENT = "Customer";
 

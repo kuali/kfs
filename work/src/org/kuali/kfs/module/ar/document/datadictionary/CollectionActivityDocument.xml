@@ -85,7 +85,7 @@
 				</entry>
 				<entry>
 					<key>
-						<value>org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDetailEvent
+						<value>org.kuali.kfs.module.ar.document.validation.event.AddCollectionEventEvent
 						</value>
 					</key>
 					<value>CollectionActivity-addCollectionActivityDetailValidation</value>

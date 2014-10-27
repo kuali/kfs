@@ -27,8 +27,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,21 +56,21 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     protected String selectedInvoiceDocumentNumber;
     protected transient ContractsAndGrantsBillingAward award;
     protected transient Customer customer;
-    protected Event newEvent;
-    protected Event globalEvent;
+    protected CollectionEvent newCollectionEvent;
+    protected CollectionEvent globalCollectionEvent;
     private String selectedInvoiceDocumentNumberList;
 
     private List<ContractsGrantsInvoiceDocument> invoices;
-    private List<Event> events;
+    private List<CollectionEvent> collectionEvents;
 
     /**
      * Default constructor for CollectionActivityDocument.
      */
     public CollectionActivityDocument() {
         super();
-        globalEvent = new Event();
+        globalCollectionEvent = new CollectionEvent();
         invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        events = new ArrayList<Event>();
+        collectionEvents = new ArrayList<CollectionEvent>();
     }
 
     /**
@@ -233,21 +233,21 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the events attribute.
+     * Gets the collectionEvents attribute.
      *
-     * @return Returns the events.
+     * @return Returns the collectionEvents.
      */
-    public List<Event> getEvents() {
-        return events;
+    public List<CollectionEvent> getCollectionEvents() {
+        return collectionEvents;
     }
 
     /**
-     * Sets the events attribute.
+     * Sets the collectionEvents attribute.
      *
-     * @param events The events to set.
+     * @param events The collectionEvents to set.
      */
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setCollectionEvents(List<CollectionEvent> collectionEvents) {
+        this.collectionEvents = collectionEvents;
     }
 
     /**
@@ -255,32 +255,32 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      */
     public void setEventsFromCGInvoices() {
         if (ObjectUtils.isNotNull(invoices) && !invoices.isEmpty()) {
-            events = new ArrayList<Event>();
+            collectionEvents = new ArrayList<CollectionEvent>();
             for (ContractsGrantsInvoiceDocument invoice : invoices) {
-                List<Event> invoiceEvents = invoice.getEvents();
+                List<CollectionEvent> invoiceEvents = invoice.getCollectionEvents();
                 if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty()) {
-                    events.addAll(invoiceEvents);
+                    collectionEvents.addAll(invoiceEvents);
                 }
             }
         }
     }
 
     /**
-     * Gets the newEvent attribute.
+     * Gets the newCollectionEvent attribute.
      *
-     * @return Returns the newEvent.
+     * @return Returns the newCollectionEvent.
      */
-    public Event getNewEvent() {
-        return newEvent;
+    public CollectionEvent getNewCollectionEvent() {
+        return newCollectionEvent;
     }
 
     /**
-     * Sets the newEvent attribute.
+     * Sets the newCollectionEvent attribute.
      *
-     * @param newEvent The newEvent to set.
+     * @param newCollectionEvent The newCollectionEvent to set.
      */
-    public void setNewEvent(Event newEvent) {
-        this.newEvent = newEvent;
+    public void setNewCollectionEvent(CollectionEvent newCollectionEvent) {
+        this.newCollectionEvent = newCollectionEvent;
     }
 
     /**
@@ -301,12 +301,12 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         this.selectedInvoiceDocumentNumber = selectedInvoiceDocumentNumber;
     }
 
-    public Event getGlobalEvent() {
-        return globalEvent;
+    public CollectionEvent getGlobalCollectionEvent() {
+        return globalCollectionEvent;
     }
 
-    public void setGlobalEvent(Event globalEvent) {
-        this.globalEvent = globalEvent;
+    public void setGlobalCollectionEvent(CollectionEvent globalCollectionEvent) {
+        this.globalCollectionEvent = globalCollectionEvent;
     }
 
     /**
@@ -346,10 +346,10 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      *
      * @return Returns the events.
      */
-    public List<Event> getSelectedInvoiceEvents() {
-        List<Event> selectedEvents = new ArrayList<Event>();
-        for (Event event : events) {
-            if (ObjectUtils.isNotNull(events) && !events.isEmpty()) {
+    public List<CollectionEvent> getSelectedInvoiceEvents() {
+        List<CollectionEvent> selectedEvents = new ArrayList<CollectionEvent>();
+        for (CollectionEvent event : collectionEvents) {
+            if (ObjectUtils.isNotNull(collectionEvents) && !collectionEvents.isEmpty()) {
                 if (event.getInvoiceNumber().equals(getSelectedInvoiceDocumentNumber())) {
                     selectedEvents.add(event);
                 }
@@ -369,13 +369,10 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
             BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             this.setInvoiceListByProposalNumber(this.getProposalNumber());
             this.setEventsFromCGInvoices();
-            if (ObjectUtils.isNotNull(events) && !events.isEmpty()) {
-                for (Event event : events) {
-                    // If the document is final, do the required changes.
-                    if (ObjectUtils.isNull(event.getEventCode())) {
-                        int lastEventCode = event.getInvoiceDocument().getEvents().size() + 1;
-                        String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
-                        event.setEventCode(eventCode);
+            if (ObjectUtils.isNotNull(collectionEvents) && !collectionEvents.isEmpty()) {
+                for (CollectionEvent event : collectionEvents) {
+                    if (ObjectUtils.isNull(event.getCollectionEventCode())) {
+                        event.setCollectionEventCode(event.getInvoiceDocument().getNextCollectionEventCode());
                     }
                     boService.save(event);
                 }

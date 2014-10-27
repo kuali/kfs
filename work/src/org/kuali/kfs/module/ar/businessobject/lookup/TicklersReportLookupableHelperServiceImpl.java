@@ -28,7 +28,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
@@ -89,7 +89,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
         final String proposalNumber = (String) lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
-            fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
+            fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
         }
 
         final String completed = (String) lookupFormFields.get(ArPropertyConstants.COMPLETED);
@@ -97,14 +97,14 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             fieldValues.put(ArPropertyConstants.COMPLETED, completed);
         }
 
-        fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
-        fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP, "true");
+        fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
+        fieldValues.put(ArPropertyConstants.CollectionEventFields.FOLLOW_UP, "true");
 
-        Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues, null);
+        Collection<CollectionEvent> collectionEvents = getCollectionActivityDocumentService().retrieveCollectionEvents(fieldValues, null);
 
         final String agencyNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 
-        for (Event event : events) {
+        for (CollectionEvent event : collectionEvents) {
 
             // Check for followup date range
             boolean isValid = true;
@@ -260,7 +260,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      * @param dateToFieldValues the end of the date range
      * @return true if date field is within range, false otherwise.
      */
-    protected boolean isEventFollowupDateFieldInRange(Event event, String dateFromFieldValues, String dateToFieldValues) {
+    protected boolean isEventFollowupDateFieldInRange(CollectionEvent event, String dateFromFieldValues, String dateToFieldValues) {
         if (ObjectUtils.isNull(event.getFollowupDate())) {
             return true; // we don't have a follow up date, so let's just bail without filtering out this event
         }

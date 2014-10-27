@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.event;
 
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
@@ -24,9 +24,9 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 public interface CollectionActivityDocumentEvent extends KualiDocumentEvent {
 
     /**
-     * Gets the Event object.
+     * Gets the CollectionEvent object.
      *
-     * @return Returns the Event Object.
+     * @return Returns the CollectionEvent Object.
      */
-    public Event getEvent();
+    public CollectionEvent getCollectionEvent();
 }

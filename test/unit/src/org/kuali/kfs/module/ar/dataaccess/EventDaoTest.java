@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 @ConfigureContext(session = khuntley)
 public class EventDaoTest extends KualiTestBase {
 
-    private EventDao eventDao;
+    private CollectionEventDao eventDao;
 
     private static final String INVOICE_NUMBER = "4295";
 
@@ -44,7 +44,7 @@ public class EventDaoTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        eventDao = SpringContext.getBean(EventDao.class);
+        eventDao = SpringContext.getBean(CollectionEventDao.class);
     }
 
     /**
@@ -53,10 +53,10 @@ public class EventDaoTest extends KualiTestBase {
     public void testGetMatchingEventsByCollection() {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(ArPropertyConstants.INVOICE_NUMBER, INVOICE_NUMBER);
-        List<Event> events = new ArrayList<Event>(eventDao.getMatchingEventsByCollection(fieldValues, null));
+        List<CollectionEvent> events = new ArrayList<CollectionEvent>(eventDao.getMatchingEventsByCollection(fieldValues, null));
         assertNotNull(events);
 
-        for (Event event : events) {
+        for (CollectionEvent event : events) {
             assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());
         }
     }

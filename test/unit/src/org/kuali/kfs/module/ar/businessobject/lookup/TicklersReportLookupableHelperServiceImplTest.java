@@ -29,7 +29,7 @@ import java.util.Map;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
@@ -151,7 +151,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         documentService.saveDocument(cgInvoice);
 
         // to Add events
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setDocumentNumber(cgInvoice.getDocumentNumber());
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
@@ -163,7 +163,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         event.setInvoiceDocument(cgInvoice);
         SpringContext.getBean(BusinessObjectService.class).save(event);
 
-        cgInvoice.getEvents().add(event);
+        cgInvoice.getCollectionEvents().add(event);
         documentService.saveDocument(cgInvoice);
 
         ticklersReportLookupForm.setFieldsForLookup(fieldValues);

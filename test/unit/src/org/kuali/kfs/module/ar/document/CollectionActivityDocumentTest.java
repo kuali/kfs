@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
@@ -111,10 +111,10 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
     public void testSetEventsFromCGInvoices() {
         int size = 0;
         for (ContractsGrantsInvoiceDocument cg : invoices) {
-            size += cg.getEvents().size();
+            size += cg.getCollectionEvents().size();
         }
         collectionActivityDocument.setEventsFromCGInvoices();
-        assertEquals(size, collectionActivityDocument.getEvents().size());
+        assertEquals(size, collectionActivityDocument.getCollectionEvents().size());
     }
 
     /**
@@ -140,8 +140,8 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
      */
     public void testGetSelectedInvoiceEvents() {
         collectionActivityDocument.setEventsFromCGInvoices();
-        List<Event> caDetails = collectionActivityDocument.getSelectedInvoiceEvents();
-        for (Event caDetail : caDetails) {
+        List<CollectionEvent> caDetails = collectionActivityDocument.getSelectedInvoiceEvents();
+        for (CollectionEvent caDetail : caDetails) {
             assertEquals(cgInvoice.getDocumentNumber(), caDetail.getInvoiceNumber());
         }
     }

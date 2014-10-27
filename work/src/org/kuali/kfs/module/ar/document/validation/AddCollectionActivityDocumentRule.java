@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.rice.krad.document.TransactionalDocument;
 
 /**
@@ -24,11 +24,11 @@ import org.kuali.rice.krad.document.TransactionalDocument;
 public interface AddCollectionActivityDocumentRule<F extends TransactionalDocument>  {
 
     /**
-     * This method is called when a event is added
+     * This method is called when a collection event is added
      *
      * @param transactionalDocument the event document
      * @param event the event to be added
      * @return true if valid to be added, false otherwise
      */
-    public boolean processAddCollectionActivityDocumentEventBusinessRules(F transactionalDocument, Event event);
+    public boolean processAddCollectionEventBusinessRules(F transactionalDocument, CollectionEvent event);
 }

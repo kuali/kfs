@@ -25,9 +25,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.dataaccess.EventDao;
+import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -60,7 +60,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentTypeService documentTypeService;
-    protected EventDao eventDao;
+    protected CollectionEventDao collectionEventDao;
     protected InvoicePaidAppliedService invoicePaidAppliedService;
     protected KualiModuleService kualiModuleService;
 
@@ -124,34 +124,32 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
+     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void addNewEvent(String description, CollectionActivityDocument colActDoc, Event newEvent) throws WorkflowException {
+    public void addNewCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException {
 
         final Timestamp now = dateTimeService.getCurrentTimestamp();
-        newEvent.setPostedDate(now);
+        newCollectionEvent.setPostedDate(now);
 
         if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
             Person authorUniversal = GlobalVariables.getUserSession().getPerson();
-            newEvent.setUserPrincipalId(authorUniversal.getPrincipalId());
-            newEvent.setUser(authorUniversal);
+            newCollectionEvent.setUserPrincipalId(authorUniversal.getPrincipalId());
+            newCollectionEvent.setUser(authorUniversal);
         }
 
-        ContractsGrantsInvoiceDocument invoice = newEvent.getInvoiceDocument();
-        newEvent.setDocumentNumber(colActDoc.getDocumentNumber());
-        int lastEventCode = invoice.getEvents().size() + 1;
-        String eventCode = newEvent.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
-        newEvent.setEventCode(eventCode);
+        ContractsGrantsInvoiceDocument invoice = newCollectionEvent.getInvoiceDocument();
+        newCollectionEvent.setDocumentNumber(colActDoc.getDocumentNumber());
+        newCollectionEvent.setCollectionEventCode(invoice.getNextCollectionEventCode());
 
-        colActDoc.getEvents().add(newEvent);
+        colActDoc.getCollectionEvents().add(newCollectionEvent);
 
         colActDoc.prepareForSave();
 
         documentService.prepareWorkflowDocument(colActDoc);
 
-        businessObjectService.save(newEvent);
+        businessObjectService.save(newCollectionEvent);
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
@@ -161,12 +159,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editCollectionEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void editEvent(String description, CollectionActivityDocument colActDoc, Event event) throws WorkflowException {
+    public void editCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException {
         event.setDocumentNumber(colActDoc.getDocumentNumber());
 
         colActDoc.populateDocumentForRouting();
@@ -187,8 +185,8 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editCollectionEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
@@ -217,8 +215,8 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      */
     @Override
     @Transactional
-    public Collection<Event> retrieveEvents(Map fieldValues, String documentNumberToExclude) {
-        return eventDao.getMatchingEventsByCollection(fieldValues, documentNumberToExclude);
+    public Collection<CollectionEvent> retrieveCollectionEvents(Map fieldValues, String documentNumberToExclude) {
+        return collectionEventDao.getMatchingEventsByCollection(fieldValues, documentNumberToExclude);
     }
 
     /**
@@ -273,13 +271,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     @NonTransactional
-    public EventDao getEventDao() {
-        return eventDao;
+    public CollectionEventDao getCollectionEventDao() {
+        return collectionEventDao;
     }
 
     @NonTransactional
-    public void setEventDao(EventDao eventDao) {
-        this.eventDao = eventDao;
+    public void setCollectionEventDao(CollectionEventDao collectionEventDao) {
+        this.collectionEventDao = collectionEventDao;
     }
 
     @NonTransactional

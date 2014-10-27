@@ -29,12 +29,12 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Collection Activity Event class.
+ * Collection Event class.
  */
-public class Event extends PersistableBusinessObjectBase {
+public class CollectionEvent extends PersistableBusinessObjectBase {
 
-    private Long eventIdentifier;
-    private String eventCode;
+    private Long id;
+    private String collectionEventCode;
     private String invoiceNumber;
     private String activityCode;
     private Date activityDate;
@@ -45,22 +45,21 @@ public class Event extends PersistableBusinessObjectBase {
     private Date completedDate;
     private Timestamp postedDate;
     private String userPrincipalId;
-    private String eventRouteStatus;
     private String documentNumber;
 
     private transient Person user;
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private CollectionActivityType collectionActivityType;
 
-    public Event() {
+    public CollectionEvent() {
         super();
     }
 
 
-    public Event(Event event) {
+    public CollectionEvent(CollectionEvent event) {
         super();
-        this.eventIdentifier = event.eventIdentifier;
-        this.eventCode = event.eventCode;
+        this.id = event.id;
+        this.collectionEventCode = event.collectionEventCode;
         this.invoiceNumber = event.invoiceNumber;
         this.activityCode = event.activityCode;
         this.activityDate = event.activityDate;
@@ -71,45 +70,43 @@ public class Event extends PersistableBusinessObjectBase {
         this.completedDate = event.completedDate;
         this.postedDate = event.postedDate;
         this.userPrincipalId = event.userPrincipalId;
-        this.eventRouteStatus = event.eventRouteStatus;
         this.documentNumber = event.documentNumber;
     }
 
-
     /**
-     * Gets the eventIdentifier attribute.
+     * Gets the id attribute.
      *
-     * @return Returns the eventIdentifier.
+     * @return Returns the id.
      */
-    public Long getEventIdentifier() {
-        return eventIdentifier;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * Sets the eventIdentifier attribute value.
+     * Sets the id attribute value.
      *
-     * @param eventIdentifier The eventIdentifier to set.
+     * @param id The id to set.
      */
-    public void setEventIdentifier(Long eventIdentifier) {
-        this.eventIdentifier = eventIdentifier;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Gets the eventCode attribute.
+     * Gets the collectionEventCode attribute.
      *
-     * @return Returns the eventCode.
+     * @return Returns the collectionEventCode.
      */
-    public String getEventCode() {
-        return eventCode;
+    public String getCollectionEventCode() {
+        return collectionEventCode;
     }
 
     /**
-     * Sets the eventCode attribute.
+     * Sets the collectionEventCode attribute.
      *
-     * @param eventCode The eventCode to set.
+     * @param collectionEventCode The collectionEventCode to set.
      */
-    public void setEventCode(String eventCode) {
-        this.eventCode = eventCode;
+    public void setCollectionEventCode(String collectionEventCode) {
+        this.collectionEventCode = collectionEventCode;
     }
 
     /**
@@ -293,24 +290,6 @@ public class Event extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the eventRouteStatus attribute.
-     *
-     * @return Returns the eventRouteStatus.
-     */
-    public String getEventRouteStatus() {
-        return eventRouteStatus;
-    }
-
-    /**
-     * Sets the eventRouteStatus attribute.
-     *
-     * @param eventRouteStatus The eventRouteStatus to set.
-     */
-    public void setEventRouteStatus(String eventRouteStatus) {
-        this.eventRouteStatus = eventRouteStatus;
-    }
-
-    /**
      * Gets the documentNumber attribute.
      *
      * @return Returns the documentNumber.
@@ -400,8 +379,8 @@ public class Event extends PersistableBusinessObjectBase {
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("eventIdentifier", eventIdentifier);
-        m.put("eventCode", this.eventCode);
+        m.put("id", id);
+        m.put("collectionEventCode", this.collectionEventCode);
         m.put("invoiceNumber", this.invoiceNumber);
         m.put("activityCode", this.activityCode);
         if (ObjectUtils.isNotNull(this.activityText)) {

@@ -18,23 +18,21 @@ package org.kuali.kfs.module.ar.dataaccess;
 import java.util.Collection;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 
 /**
- * DAO interface for Event.
+ * DAO interface for Collection Event.
  */
-public interface EventDao {
+public interface CollectionEventDao {
 
     /**
-     * Gets the events based on the field values given in the map and the indicator
-     * for saved route status.
+     * Gets the events based on the field values given in the map and documentNumberToExclude.
      *
-     * @param fieldValues The map containing field values to filter out the events.
-     * @param savedRouteStatusOnly Indicator for returning events that are in saved route status only.
+     * @param fieldValues The map containing field values to filter out the collection events.
      * @param documentNumberToExclude Document number that will be filtered out of the results.
      *
-     * @return Returns the collection of events which match the given map and indicator.
+     * @return Returns the collection of collection events which match the given map and indicator.
      */
-    public Collection<Event> getMatchingEventsByCollection(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude);
+    public Collection<CollectionEvent> getMatchingEventsByCollection(Map fieldValues, String documentNumberToExclude);
 
 }

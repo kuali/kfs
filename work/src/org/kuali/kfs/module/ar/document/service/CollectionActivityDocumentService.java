@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -30,24 +30,24 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 public interface CollectionActivityDocumentService {
 
     /**
-     * Adds the new event for invoice.
+     * Adds the new collection event for invoice.
      *
      * @param description The document description.
      * @param colActDoc The Collection Activity Document object.
-     * @param newEvent The event object to be added.
+     * @param newCollectionEvent The collection event object to be added.
      * @throws WorkflowException
      */
-    public void addNewEvent(String description, CollectionActivityDocument colActDoc, Event newEvent) throws WorkflowException;
+    public void addNewCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
 
     /**
-     * Edits the existing event.
+     * Edits the existing collection event.
      *
      * @param description The document description.
      * @param colActDoc The Collection Activity Document object.
      * @param event The event object to be edited.
      * @throws WorkflowException
      */
-    public void editEvent(String description, CollectionActivityDocument colActDoc, Event event) throws WorkflowException;
+    public void editCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException;
 
     /**
      * Retrieves the award information from proposal number of given CollectionActivityDocument object.
@@ -57,14 +57,14 @@ public interface CollectionActivityDocumentService {
     public void loadAwardInformationForCollectionActivityDocument(CollectionActivityDocument colActDoc);
 
     /**
-     * Retrieves the events based on the field values passed in. Results are furthered filtered
+     * Retrieves the collection events based on the field values passed in. Results are furthered filtered
      * by document number to exclude.
      *
-     * @param fieldValues The fieldValues to filter out events.
+     * @param fieldValues The fieldValues to filter out collection events.
      * @param documentNumberToExclude Document number that will be filtered out of the results.
-     * @return Returns the collection of Event which match the criteria.
+     * @return Returns the collection of CollectionEvent which match the criteria.
      */
-    public Collection<Event> retrieveEvents(Map fieldValues, String documentNumberToExclude);
+    public Collection<CollectionEvent> retrieveCollectionEvents(Map fieldValues, String documentNumberToExclude);
 
     /**
      * Retrieves the award by given proposal number.

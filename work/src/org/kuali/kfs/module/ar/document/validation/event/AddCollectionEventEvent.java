@@ -15,26 +15,24 @@
  */
 package org.kuali.kfs.module.ar.document.validation.event;
 
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.validation.AddCollectionActivityDocumentRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Event class to define rules while adding new event.
+ * Event class to define rules while adding new collection event.
  */
-public final class AddCollectionActivityDocumentEvent extends CollectionActivityDocumentEventBase {
+public final class AddCollectionEventEvent extends CollectionActivityDocumentEventBase {
 
     /**
-     * Constructor.
-     *
      * @param errorPathPrefix Prefix of error file if error occurs.
      * @param document The transaction document.
      * @param event The event object which is getting added.
      */
-    public AddCollectionActivityDocumentEvent(String errorPathPrefix, Document document, Event event) {
-        super("Adding collection acitivty document detail to document " + getDocumentId(document), errorPathPrefix, document, event);
+    public AddCollectionEventEvent(String errorPathPrefix, Document document, CollectionEvent event) {
+        super("Adding collection event to collection activity document " + getDocumentId(document), errorPathPrefix, document, event);
     }
 
     /**
@@ -48,7 +46,7 @@ public final class AddCollectionActivityDocumentEvent extends CollectionActivity
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddCollectionActivityDocumentRule) rule).processAddCollectionActivityDocumentEventBusinessRules((TransactionalDocument) getDocument(), getEvent());
+        return ((AddCollectionActivityDocumentRule) rule).processAddCollectionEventBusinessRules((TransactionalDocument) getDocument(), getCollectionEvent());
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
@@ -137,12 +137,12 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
         reportDetail.setInvoiceDate(docCreateDate);
 
         // last event date
-        List<Event> events = cgInvoiceReportEntry.getEvents();
+        List<CollectionEvent> events = cgInvoiceReportEntry.getCollectionEvents();
         if (ObjectUtils.isNotNull(events) && CollectionUtils.isNotEmpty(events)) {
-            Collections.sort(events, new Comparator<Event>() {
+            Collections.sort(events, new Comparator<CollectionEvent>() {
 
                 @Override
-                public int compare(Event o1, Event o2) {
+                public int compare(CollectionEvent o1, CollectionEvent o2) {
                     if (KfsDateUtils.isSameDay(o1.getActivityDate(), o2.getActivityDate())) {
                         return 0;
                     }

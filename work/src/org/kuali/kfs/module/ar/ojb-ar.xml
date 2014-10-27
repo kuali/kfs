@@ -1196,10 +1196,10 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.Event" table="AR_EVENT_T">
-		<field-descriptor name="eventIdentifier" column="EVENT_ID" jdbc-type="BIGINT" primarykey="true" index="true"
-			autoincrement="true" sequence-name="AR_EVENT_ID_SEQ" />
-		<field-descriptor name="eventCode" column="EVENT_CD" jdbc-type="VARCHAR" />
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectionEvent" table="AR_CLCTN_EVNT_T">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"
+			autoincrement="true" sequence-name="AR_CLCTN_EVNT_ID_SEQ" />
+		<field-descriptor name="collectionEventCode" column="CLCTN_EVNT_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="invoiceNumber" column="INV_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="activityCode" column="ACTVY_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="activityDate" column="ACTVY_DT" jdbc-type="DATE" />
@@ -1778,7 +1778,7 @@
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentNumber" />
 		</collection-descriptor>
-		<collection-descriptor name="events" proxy="false" element-class-ref="org.kuali.kfs.module.ar.businessobject.Event"
+		<collection-descriptor name="collectionEvents" proxy="false" element-class-ref="org.kuali.kfs.module.ar.businessobject.CollectionEvent"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="invoiceNumber" />
 		</collection-descriptor>

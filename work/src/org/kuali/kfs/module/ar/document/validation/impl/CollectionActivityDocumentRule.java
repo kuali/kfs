@@ -20,13 +20,13 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.validation.AddCollectionActivityDocumentRule;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -42,63 +42,62 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        isValid &= this.validateEvents((CollectionActivityDocument) document);
+        isValid &= this.validateCollectionEvents((CollectionActivityDocument) document);
         return isValid;
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.AddEventRule#processAddEventBusinessRules(org.kuali.rice.krad.document.TransactionalDocument,
-     *      org.kuali.kfs.module.ar.businessobject.Event)
+     * @see org.kuali.kfs.module.ar.document.validation.AddCollectionActivityDocumentRule#processAddCollectionEventBusinessRules(org.kuali.rice.krad.document.TransactionalDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
-    public boolean processAddCollectionActivityDocumentEventBusinessRules(CollectionActivityDocument transactionalDocument, Event event) {
+    public boolean processAddCollectionEventBusinessRules(CollectionActivityDocument transactionalDocument, CollectionEvent collectionEvent) {
         boolean isSuccess = true;
 
-        isSuccess &= this.validateEvent(event);
-        isSuccess &= this.validateEvents(transactionalDocument);
+        isSuccess &= this.validateCollectionEvent(collectionEvent);
+        isSuccess &= this.validateCollectionEvents(transactionalDocument);
 
         return isSuccess;
     }
 
     /**
-     * Validates the collection activity document detail list from document.
+     * Validates the collection activity document collection event list from document.
      *
      * @param collectionActivityDocument The document which contains the list.
      * @return Returns true if all validations succeed otherwise false.
      */
-    public boolean validateEvents(CollectionActivityDocument collectionActivityDocument) {
-        List<Event> caDetails = collectionActivityDocument.getEvents();
+    public boolean validateCollectionEvents(CollectionActivityDocument collectionActivityDocument) {
+        List<CollectionEvent> collectionEvents = collectionActivityDocument.getCollectionEvents();
         boolean isSuccess = true;
-        if (CollectionUtils.isNotEmpty(caDetails)) {
-            for (Event caDetail : caDetails) {
-                isSuccess &= this.validateEvent(caDetail);
+        if (CollectionUtils.isNotEmpty(collectionEvents)) {
+            for (CollectionEvent collectionEvent : collectionEvents) {
+                isSuccess &= this.validateCollectionEvent(collectionEvent);
             }
         }
         return isSuccess;
     }
 
     /**
-     * Validates a single collection activity document detail object.
+     * Validates a single collection activity document collection event object.
      *
-     * @param event The object to get validated.
+     * @param collectionEvent The object to get validated.
      * @return Returns true if all validations succeed otherwise false.
      */
-    public boolean validateEvent(Event event) {
+    public boolean validateCollectionEvent(CollectionEvent collectionEvent) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
         boolean isValid = true;
 
         int originalErrorCount = errorMap.getErrorCount();
         // call the DD validation which checks basic data integrity
-        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(event);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(collectionEvent);
         isValid = (errorMap.getErrorCount() == originalErrorCount);
 
-        if (ObjectUtils.isNotNull(event.isFollowup()) && event.isFollowup() && event.getFollowupDate() == null) {
-            errorMap.putError(ArPropertyConstants.EventFields.FOLLOW_UP_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_FOLLOW_UP_DATE_REQUIRED);
+        if (ObjectUtils.isNotNull(collectionEvent.isFollowup()) && collectionEvent.isFollowup() && collectionEvent.getFollowupDate() == null) {
+            errorMap.putError(ArPropertyConstants.CollectionEventFields.FOLLOW_UP_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_FOLLOW_UP_DATE_REQUIRED);
             isValid = false;
         }
-        if (ObjectUtils.isNotNull(event.isCompleted()) && event.isCompleted() && event.getCompletedDate() == null) {
-            errorMap.putError(ArPropertyConstants.EventFields.COMPLETED_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
+        if (ObjectUtils.isNotNull(collectionEvent.isCompleted()) && collectionEvent.isCompleted() && collectionEvent.getCompletedDate() == null) {
+            errorMap.putError(ArPropertyConstants.CollectionEventFields.COMPLETED_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
             isValid = false;
         }
         return isValid;

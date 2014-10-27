@@ -29,7 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
@@ -93,7 +93,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
      */
     public void testAddNewEvent() throws WorkflowException {
         CollectionActivityDocument collectionActivityDocument;
-        Event newEvent = new Event();
+        CollectionEvent newCollectionEvent = new CollectionEvent();
 
         collectionActivityDocument = (CollectionActivityDocument) documentService.getNewDocument(CollectionActivityDocument.class);
 
@@ -135,7 +135,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
         documentService.saveDocument(cgInvoice);
 
         // to Add events
-        Event event = new Event();
+        CollectionEvent event = new CollectionEvent();
         event.setDocumentNumber(cgInvoice.getDocumentNumber());
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
@@ -146,7 +146,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
         event.setFollowupDate(today);
         event.setActivityDate(today);
         SpringContext.getBean(BusinessObjectService.class).save(event);
-        cgInvoice.getEvents().add(event);
+        cgInvoice.getCollectionEvents().add(event);
 
         documentService.saveDocument(cgInvoice);
 
@@ -156,7 +156,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             collectionActivityDocument.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
         }
 
-        collectionActivityDocumentService.addNewEvent("Collection Activity created for testing", collectionActivityDocument, event);
+        collectionActivityDocumentService.addNewCollectionEvent("Collection Activity created for testing", collectionActivityDocument, event);
     }
 
     /**
@@ -165,9 +165,9 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     public void testRetrieveEventsByCriteria() {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put("invoiceNumber", INVOICE_NUMBER);
-        Collection<Event> events = collectionActivityDocumentService.retrieveEvents(fieldValues, null);
+        Collection<CollectionEvent> events = collectionActivityDocumentService.retrieveCollectionEvents(fieldValues, null);
         assertNotNull(events);
-        for (Event event : events) {
+        for (CollectionEvent event : events) {
             assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());
         }
     }

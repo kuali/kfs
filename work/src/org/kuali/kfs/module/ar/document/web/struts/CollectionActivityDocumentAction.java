@@ -35,10 +35,10 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
-import org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDocumentEvent;
+import org.kuali.kfs.module.ar.document.validation.event.AddCollectionEventEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
@@ -123,7 +123,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CollectionActivityDocumentForm colActForm = (CollectionActivityDocumentForm) form;
-        loadEvents(colActForm, colActForm.getSelectedInvoiceDocumentNumber());
+        loadCollectionEvents(colActForm, colActForm.getSelectedInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -139,7 +139,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CollectionActivityDocumentForm colActForm = (CollectionActivityDocumentForm) form;
-        loadEvents(colActForm, colActForm.getNextInvoiceDocumentNumber());
+        loadCollectionEvents(colActForm, colActForm.getNextInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -155,7 +155,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CollectionActivityDocumentForm colActForm = (CollectionActivityDocumentForm) form;
-        loadEvents(colActForm, colActForm.getPreviousInvoiceDocumentNumber());
+        loadCollectionEvents(colActForm, colActForm.getPreviousInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -203,17 +203,17 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
             colActDoc.setInvoiceListByProposalNumber(proposalNumber);
         }
 
-        loadEvents(colActForm, currentInvoiceNumber);
+        loadCollectionEvents(colActForm, currentInvoiceNumber);
 
     }
 
     /**
-     * This method loads the events for selected invoice number.
+     * This method loads the collection events for selected invoice number.
      *
      * @param colActForm The form object of Collection Activity.
      * @param currentInvoiceNumber The invoice number of which, events are to be loaded.
      */
-    public void loadEvents(CollectionActivityDocumentForm colActForm, String currentInvoiceNumber) {
+    public void loadCollectionEvents(CollectionActivityDocumentForm colActForm, String currentInvoiceNumber) {
         CollectionActivityDocument colActDoc = colActForm.getCollectionActivityDocument();
 
         // if no invoice number entered than get the first invoice
@@ -256,7 +256,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
     }
 
     /**
-     * This method adds a new event.
+     * This method adds a new collection event.
      *
      * @param mapping action mapping
      * @param form action form
@@ -265,18 +265,18 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      * @return forward action
      * @throws Exception
      */
-    public ActionForward addEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addCollectionEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
 
-        Event newEvent = colActDoc.getNewEvent();
+        CollectionEvent newCollectionEvent = colActDoc.getNewCollectionEvent();
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
-        if (ObjectUtils.isNull(colActDocForm.getSelectedInvoiceApplication().getEvents())) {
-            colActDocForm.getSelectedInvoiceApplication().setEvents(new ArrayList<Event>());
+        if (ObjectUtils.isNull(colActDocForm.getSelectedInvoiceApplication().getCollectionEvents())) {
+            colActDocForm.getSelectedInvoiceApplication().setCollectionEvents(new ArrayList<CollectionEvent>());
         }
         colActDoc.setProposalNumber(new Long(colActDocForm.getSelectedProposalNumber()));
-        newEvent.setInvoiceNumber(colActDocForm.getSelectedInvoiceDocumentNumber());
+        newCollectionEvent.setInvoiceNumber(colActDocForm.getSelectedInvoiceDocumentNumber());
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
         boolean rulePassed = true;
@@ -285,18 +285,18 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
 
         // apply rules for the new collection activity document detail
-        rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newEvent));
+        rulePassed &= ruleService.applyRules(new AddCollectionEventEvent(ArConstants.NEW_COLLECTION_EVENT_ERROR_PATH_PREFIX, colActDoc, newCollectionEvent));
 
         if (rulePassed) {
-            collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newEvent);
-            colActDoc.setNewEvent(new Event());
+            collectionActivityDocumentService.addNewCollectionEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newCollectionEvent);
+            colActDoc.setNewCollectionEvent(new CollectionEvent());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method adds a new event
+     * This method edits a collection event
      *
      * @param mapping action mapping
      * @param form action form
@@ -305,15 +305,15 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      * @return forward action
      * @throws Exception
      */
-    public ActionForward editEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward editCollectionEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int index = getSelectedLine(request);
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
-        Event selectedEvent = null;
-        if (ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication()) && ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication().getEvents()) && !colActDocForm.getSelectedInvoiceApplication().getEvents().isEmpty()) {
-            selectedEvent = colActDocForm.getSelectedInvoiceApplication().getEvents().get(index);
+        CollectionEvent selectedEvent = null;
+        if (ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication()) && ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication().getCollectionEvents()) && !colActDocForm.getSelectedInvoiceApplication().getCollectionEvents().isEmpty()) {
+            selectedEvent = colActDocForm.getSelectedInvoiceApplication().getCollectionEvents().get(index);
         }
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
@@ -323,10 +323,10 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
 
         // apply rules for the new collection activity document detail
-        rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, selectedEvent));
+        rulePassed &= ruleService.applyRules(new AddCollectionEventEvent(ArConstants.NEW_COLLECTION_EVENT_ERROR_PATH_PREFIX, colActDoc, selectedEvent));
 
         if (rulePassed) {
-            collectionActivityDocumentService.editEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, selectedEvent);
+            collectionActivityDocumentService.editCollectionEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, selectedEvent);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -371,12 +371,12 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward addGlobalEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addGlobalCollectionEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
         if (ObjectUtils.isNull(colActDoc.getSelectedInvoiceDocumentNumberList())) {
-            errorMap.putError("document." + ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_INVOICE_REQUIRED);
+            errorMap.putError("document." + ArPropertyConstants.CollectionEventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_INVOICE_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));
@@ -386,18 +386,18 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
         for (String invoiceNumber : selectedInvoiceList) {
             boolean rulePassed = true;
-            Event newGlobalEvent = new Event(colActDoc.getGlobalEvent());
-            newGlobalEvent.setInvoiceNumber(invoiceNumber);
+            CollectionEvent newGlobalCollectionEvent = new CollectionEvent(colActDoc.getGlobalCollectionEvent());
+            newGlobalCollectionEvent.setInvoiceNumber(invoiceNumber);
             // apply save rules for the doc
             rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
 
             // apply rules for the new collection activity document detail
-            rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalEvent));
+            rulePassed &= ruleService.applyRules(new AddCollectionEventEvent(ArConstants.NEW_COLLECTION_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalCollectionEvent));
             if (rulePassed) {
-                collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalEvent);
+                collectionActivityDocumentService.addNewCollectionEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalCollectionEvent);
             }
         }
-        colActDoc.setGlobalEvent(new Event());
+        colActDoc.setGlobalCollectionEvent(new CollectionEvent());
         colActDoc.setSelectedInvoiceDocumentNumberList("");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

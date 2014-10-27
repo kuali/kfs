@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
@@ -29,6 +30,7 @@ public class ArGenericAttributes extends TransientBusinessObjectBase {
     private String agencyFullName;
     private String letterOfCreditFundCode;
     private String letterOfCreditFundGroupCode;
+    private Date paymentDate;
 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
@@ -79,6 +81,14 @@ public class ArGenericAttributes extends TransientBusinessObjectBase {
 
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
         this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
 }

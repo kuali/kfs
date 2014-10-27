@@ -23,40 +23,30 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.dataaccess.EventDao;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
+import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kew.api.KewApiConstants;
 
 /**
- * Implementation class for Event DAO interface.
+ * Implementation class for Collection Event DAO interface.
  */
-public class EventDaoOjb extends PlatformAwareDaoBaseOjb implements EventDao {
+public class CollectionEventDaoOjb extends PlatformAwareDaoBaseOjb implements CollectionEventDao {
 
     /**
      * @see org.kuali.kfs.module.ar.dataaccess.EventDao#getEventsByCriteria(org.apache.ojb.broker.query.Criteria)
      */
     @Override
-    public Collection<Event> getMatchingEventsByCollection(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Event());
-
-        // Factor in saved route status
-        if (isSavedRouteStatus){
-            criteria.addEqualTo(ArPropertyConstants.EventFields.EVENT_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        }
-        else {
-            criteria.addNotEqualTo(ArPropertyConstants.EventFields.EVENT_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        }
+    public Collection<CollectionEvent> getMatchingEventsByCollection(Map fieldValues, String documentNumberToExclude) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new CollectionEvent());
 
         // Factor in document number to exclude
         if (StringUtils.isNotEmpty(documentNumberToExclude)){
             criteria.addNotEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumberToExclude);
         }
 
-        QueryByCriteria qbc = QueryFactory.newQuery(Event.class, criteria);
-        Collection<Event> events = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        QueryByCriteria qbc = QueryFactory.newQuery(CollectionEvent.class, criteria);
+        Collection<CollectionEvent> events = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
 
         return events;
     }

@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="scripts/module/ar/awardObjectInfo.js"></script>
 
-<%@ attribute name="eventAttributes" required="true" type="java.util.Map"
+<%@ attribute name="collectionEventAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for cash control detail fields."%>
 <%@ attribute name="readOnly" required="true" description="determines whether the cash control detail will be displayed readonly"%>
 <%@ attribute name="addLine" required="true" description="determines whether the displayed line is the add line or not"%>
@@ -35,32 +35,32 @@
 <c:choose>
 	<c:when test="${addLine}">
 		<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${eventAttributes.eventCode}"
-			property="${propertyName}.eventCode" readOnly="true" />
+		<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.collectionEventCode}"
+			property="${propertyName}.collectionEventCode" readOnly="true" />
 		</td>
 		<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${eventAttributes.activityCode}"
+		<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityCode}"
 			property="${propertyName}.activityCode" readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 			&nbsp;
 			<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityType" fieldConversions="activityCode:${propertyName}.activityCode" />
 			</c:if>
 		</td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="${readOnly}" expandedTextArea="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followup}"
 			property="${propertyName}.followup" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completed}"
 			property="${propertyName}.completed" readOnly="${readOnly}" onclick="clearDate(this.name, '${propertyName}.completedDate');" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
 			property="${propertyName}.completedDate" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.postedDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.postedDate}"
 			property="${propertyName}.postedDate" readOnly="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.userPrincipalId}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.userPrincipalId}"
 			property="${propertyName}.user.name" readOnly="true" /></td>
 		<c:if test="${includeMultipleInvoiceLookup}">
 			<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${DataDictionary.CollectionActivityDocument.attributes.selectedInvoiceDocumentNumberList}"
@@ -80,28 +80,28 @@
 	</c:when>
 	<c:otherwise>
 		<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${eventAttributes.eventCode}"
-			property="${propertyName}.eventCode" readOnly="true" />
+		<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.collectionEventCode}"
+			property="${propertyName}.collectionEventCode" readOnly="true" />
 		</td>
 		<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${eventAttributes.activityCode}"
+		<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityCode}"
 			property="${propertyName}.activityCode" readOnly="true" />
 		</td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="false" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followup}"
 			property="${propertyName}.followup" readOnly="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="true" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}" onclick="clearDate(this.name, '${propertyName}.completedDate');"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completed}" onclick="clearDate(this.name, '${propertyName}.completedDate');"
 			property="${propertyName}.completed" readOnly="false" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedDate}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
 			property="${propertyName}.completedDate" readOnly="false" /></td>
 		<td align=left class="${cssClass}">
 			<fmt:formatDate value="${KualiForm.document.selectedInvoiceEvents[rowHeading-1].postedDate}" pattern="${dateFormatPattern}"/>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.userPrincipalId}"
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.userPrincipalId}"
 			property="${propertyName}.user.name" readOnly="true" /></td>
 		<td class="${cssClass}">
 		<c:if test="${not readOnly}">

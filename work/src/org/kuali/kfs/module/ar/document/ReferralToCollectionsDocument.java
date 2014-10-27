@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -283,11 +283,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
                         if (ObjectUtils.isNotNull(activityCode)) {
                             // create the event
-                            Event event = new Event();
-                            int lastEventCode = invoice.getEvents().size() + 1;
+                            CollectionEvent event = new CollectionEvent();
                             event.setInvoiceNumber(invoice.getDocumentNumber());
-                            String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
-                            event.setEventCode(eventCode);
+                            event.setCollectionEventCode(invoice.getNextCollectionEventCode());
                             event.setActivityCode(activityCode);
                             event.setActivityDate(new java.sql.Date(new Date().getTime()));
                             ReferralType refType = boService.findBySinglePrimaryKey(ReferralType.class, invoice.getInvoiceGeneralDetail().getReferralTypeCode());

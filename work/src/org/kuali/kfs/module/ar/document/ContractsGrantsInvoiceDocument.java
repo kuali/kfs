@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -54,7 +54,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private KualiDecimal paymentAmount = KualiDecimal.ZERO;
     private KualiDecimal balanceDue = KualiDecimal.ZERO;
     private List<ContractsGrantsInvoiceDetail> invoiceDetails;
-    private List<Event> events;
+    private List<CollectionEvent> collectionEvents;
     private List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes;
     private List<InvoiceAddressDetail> invoiceAddressDetails;
     private List<InvoiceAccountDetail> accountDetails;
@@ -72,7 +72,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
         invoiceAddressDetails = new ArrayList<InvoiceAddressDetail>();
         invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
-        events = new ArrayList<Event>();
+        collectionEvents = new ArrayList<CollectionEvent>();
         accountDetails = new ArrayList<InvoiceAccountDetail>();
         invoiceMilestones = new ArrayList<InvoiceMilestone>();
         invoiceBills = new ArrayList<InvoiceBill>();
@@ -381,21 +381,32 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the list of Events.
+     * Gets the list of Collection Events.
      *
-     * @return Returns the events.
+     * @return Returns the collectionEvents.
      */
-    public List<Event> getEvents() {
-        return events;
+    public List<CollectionEvent> getCollectionEvents() {
+        return collectionEvents;
     }
 
     /**
-     * Sets the list of Events.
+     * Sets the list of Collection Events.
      *
-     * @param events The events to set.
+     * @param events The collectionEvents to set.
      */
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setCollectionEvents(List<CollectionEvent> collectionEvents) {
+        this.collectionEvents = collectionEvents;
+    }
+
+    /**
+     * Generate the next Collection Event Code by concatenating a the count of current events +1 formatted, to the
+     * document number for this invoice.
+     *
+     * @return next collection event code
+     */
+    public String getNextCollectionEventCode() {
+        String nextCollectionEventCode = documentNumber + "-" + String.format("%03d", collectionEvents.size() + 1);
+        return nextCollectionEventCode;
     }
 
     /**

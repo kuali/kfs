@@ -18,6 +18,8 @@
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
+<c:set var="arGenericAttributes"
+	value="${DataDictionary['ArGenericAttributes'].attributes}" />
 <c:set var="customerAttributes"
 	value="${DataDictionary['Customer'].attributes}" />
 <c:set var="cgInvoiceAttributes"
@@ -30,8 +32,8 @@
 	value="${DataDictionary['Award'].attributes}" />
 <c:set var="agencyAttributes"
 	value="${DataDictionary['Agency'].attributes}" />
-<c:set var="eventAttributes"
-	value="${DataDictionary['Event'].attributes}" />
+<c:set var="collectionEventAttributes"
+	value="${DataDictionary['CollectionEvent'].attributes}" />
 
 <kul:tab tabTitle="Award Information" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
@@ -119,7 +121,7 @@
 							<table>
 			<tr>
 				<td colspan='2' class='tab-subhead'><label
-					for="selectedInvoiceDocumentNumber">Global Events</label></td>
+					for="selectedInvoiceDocumentNumber">Global Collection Events</label></td>
 			</tr>
 			<tr>
 				<c:choose>
@@ -129,28 +131,28 @@
 					<c:otherwise>
 						<td colspan='2'>
 							<table width='100%' cellpadding='0' cellspacing='0'
-								class='datatable' id="selectedInvoiceEventDetails">
+								class='datatable' id="selectedInvoiceCollectionEventDetails">
 								<tr>
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.eventCode}" />
+										attributeEntry="${collectionEventAttributes.collectionEventCode}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.activityCode}" />
+										attributeEntry="${collectionEventAttributes.activityCode}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.activityDate}" />
+										attributeEntry="${collectionEventAttributes.activityDate}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.activityText}" />
+										attributeEntry="${collectionEventAttributes.activityText}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.followup}" />
+										attributeEntry="${collectionEventAttributes.followup}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.followupDate}" />
+										attributeEntry="${collectionEventAttributes.followupDate}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.completed}" />
+										attributeEntry="${collectionEventAttributes.completed}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.completedDate}" />
+										attributeEntry="${collectionEventAttributes.completedDate}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.postedDate}" />
+										attributeEntry="${collectionEventAttributes.postedDate}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.userPrincipalId}" />
+										attributeEntry="${collectionEventAttributes.userPrincipalId}" />
 									<kul:htmlAttributeHeaderCell literalLabel="Invoices Selected" />
 									<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 								</tr>
@@ -158,10 +160,10 @@
 									<td></td>
 								</tr>
 								<c:if test="${true}">
-									<ar:eventDetails propertyName="document.globalEvent"
-										eventAttributes="${eventAttributes}" addLine="true"
+									<ar:collectionEventDetails propertyName="document.globalCollectionEvent"
+										collectionEventAttributes="${collectionEventAttributes}" addLine="true"
 										readOnly="false" rowHeading="add" cssClass="infoline"
-										actionMethod="addGlobalEvent"
+										actionMethod="addGlobalCollectionEvent"
 										actionAlt="Add"
 										actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
 										includeMultipleInvoiceLookup="true" />
@@ -232,7 +234,7 @@
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.sourceTotal}" labelFor="document.sourceTotal" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}" labelFor="invoiceGeneralDetail.billingFrequencyCode" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentAmount}" labelFor="document.paymentAmount" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentDate}" labelFor="document.paymentDate" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${arGenericAttributes.paymentDate}" labelFor="document.paymentDate" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.balanceDue}" labelFor="document.balanceDue" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.age}" labelFor="document.age" /></th>
 													</tr>
@@ -267,7 +269,7 @@
 																attributeEntry="${cgInvoiceAttributes.paymentAmount}"
 																property="selectedInvoicePaymentAmount" readOnly="true" /></td>
 														<td><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.paymentDate}"
+																attributeEntry="${arGenericAttributes.paymentDate}"
 																property="selectedInvoicePaymentDate" readOnly="true" /></td>
 														<td><kul:htmlControlAttribute
 																attributeEntry="${cgInvoiceAttributes.balanceDue}"
@@ -282,52 +284,52 @@
 										</tr>
 										<tr>
 											<td colspan='2' class='tab-subhead'><label
-												for="selectedInvoiceDocumentNumber">Events</label></td>
+												for="selectedInvoiceDocumentNumber">Collection Events</label></td>
 										</tr>
 										<tr>
 											<td colspan='2'>
 												<table width='100%' cellpadding='0' cellspacing='0'
-													class='datatable' id="selectedInvoiceEventDetails">
+													class='datatable' id="selectedInvoiceCollectionEventDetails">
 													<tr>
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.eventCode}" />
+															attributeEntry="${collectionEventAttributes.collectionEventCode}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.activityCode}" />
+															attributeEntry="${collectionEventAttributes.activityCode}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.activityDate}" />
+															attributeEntry="${collectionEventAttributes.activityDate}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.activityText}" />
+															attributeEntry="${collectionEventAttributes.activityText}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.followup}" />
+															attributeEntry="${collectionEventAttributes.followup}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.followupDate}" />
+															attributeEntry="${collectionEventAttributes.followupDate}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.completed}" />
+															attributeEntry="${collectionEventAttributes.completed}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.completedDate}" />
+															attributeEntry="${collectionEventAttributes.completedDate}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.postedDate}" />
+															attributeEntry="${collectionEventAttributes.postedDate}" />
 														<kul:htmlAttributeHeaderCell
-															attributeEntry="${eventAttributes.userPrincipalId}" />
+															attributeEntry="${collectionEventAttributes.userPrincipalId}" />
 														<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 													</tr>
 													<c:if
 														test="${!empty KualiForm.selectedInvoiceApplication}">
-														<ar:eventDetails propertyName="document.newEvent"
-															eventAttributes="${eventAttributes}" addLine="true"
+														<ar:collectionEventDetails propertyName="document.newCollectionEvent"
+															collectionEventAttributes="${collectionEventAttributes}" addLine="true"
 															readOnly="${readOnly}" rowHeading="add"
-															cssClass="infoline" actionMethod="addEvent"
-															actionAlt="Add Event"
+															cssClass="infoline" actionMethod="addCollectionEvent"
+															actionAlt="Add Collection Event"
 															actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
-														<logic:iterate id="event" name="KualiForm"
+														<logic:iterate id="collectionEvent" name="KualiForm"
 															property="document.selectedInvoiceEvents" indexId="ctr">
-															<ar:eventDetails
+															<ar:collectionEventDetails
 																propertyName="document.selectedInvoiceEvents[${ctr}]"
-																eventAttributes="${eventAttributes}" addLine="false"
+																collectionEventAttributes="${collectionEventAttributes}" addLine="false"
 																readOnly="${readOnly}" rowHeading="${ctr+1}"
 																cssClass="datacell"
-																actionMethod="editEvent.line${ctr}"
-																actionAlt="Edit Event"
+																actionMethod="editCollectionEvent.line${ctr}"
+																actionAlt="Edit Collection Event"
 																actionImage="${ConfigProperties.externalizable.images.url}tinybutton-save.gif" />
 														</logic:iterate>
 													</c:if>

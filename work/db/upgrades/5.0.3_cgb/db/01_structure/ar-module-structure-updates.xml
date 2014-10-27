@@ -231,17 +231,17 @@
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
 			<column name="BILL_BY_ORG_CD" type="VARCHAR(4)" />
 		</createTable>
-		<createTable tableName="AR_EVENT_T">
-			<column name="EVENT_ID" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_EVENT_TP1" />
+		<createTable tableName="AR_CLCTN_EVNT_T">
+			<column name="ID" type="DECIMAL(12,0)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_EVNT_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_EVENT_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_EVNT_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="EVENT_CD" type="VARCHAR(20)" />
+			<column name="CLCTN_EVNT_CD" type="VARCHAR(20)" />
 			<column name="INV_NBR" type="VARCHAR(14)">
 				<constraints nullable="false" />
 			</column>
@@ -714,8 +714,8 @@
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_oracle" dbms="oracle">
 		<createSequence sequenceName="AR_BILL_ID_SEQ" />
+		<createSequence sequenceName="AR_CLCTN_EVNT_ID_SEQ" />
 		<createSequence sequenceName="AR_DUN_LTR_DIST_ID_SEQ" />
-		<createSequence sequenceName="AR_ENTRY_ID_SEQ" />
 		<createSequence sequenceName="AR_ERROR_LOG_ID_SEQ" />
 		<createSequence sequenceName="AR_ERROR_MSG_ID_SEQ" />
 		<createSequence sequenceName="AR_EVENT_ID_SEQ" />

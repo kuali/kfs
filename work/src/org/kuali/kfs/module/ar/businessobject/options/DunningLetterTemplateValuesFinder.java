@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
-import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Value finder class for Dunning Letter Template.
  */
 public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
-    protected static volatile DunningLetterDistributionService dunningLetterDistributionService;
+    protected static volatile DunningLetterService dunningLetterService;
 
     protected List<KeyValue> keyValues = new ArrayList();
 
@@ -50,7 +50,7 @@ public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
                 keyValues.add(new ConcreteKeyValue(element.getDunningLetterTemplateCode(), element.getDunningLetterTemplateDescription()));
             }
             else {
-                if (getDunningLetterDistributionService().isValidOrganizationForTemplate(element, currentUser) && element.isActive()) {
+                if (getDunningLetterService().isValidOrganizationForTemplate(element, currentUser) && element.isActive()) {
                     keyValues.add(new ConcreteKeyValue(element.getDunningLetterTemplateCode(), element.getDunningLetterTemplateDescription()));
                 }
             }
@@ -66,10 +66,10 @@ public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
         keyValues = null;
     }
 
-    public DunningLetterDistributionService getDunningLetterDistributionService() {
-        if (dunningLetterDistributionService == null) {
-            dunningLetterDistributionService = SpringContext.getBean(DunningLetterDistributionService.class);
+    public DunningLetterService getDunningLetterService() {
+        if (dunningLetterService == null) {
+            dunningLetterService = SpringContext.getBean(DunningLetterService.class);
         }
-        return dunningLetterDistributionService;
+        return dunningLetterService;
     }
 }

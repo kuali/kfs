@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.CRC32;
@@ -38,13 +39,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
-import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
@@ -73,8 +74,8 @@ import com.lowagie.text.pdf.PdfReader;
  * Implementation class for DunningLetterDistributionService.
  */
 @Transactional
-public class DunningLetterDistributionServiceImpl implements DunningLetterDistributionService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionServiceImpl.class);
+public class DunningLetterServiceImpl implements DunningLetterService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterServiceImpl.class);
 
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
@@ -91,7 +92,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @param dunningLetterDistributionLookupResult
      * @return
      */
-    protected byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult) {
+    protected byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, GenerateDunningLettersLookupResult dunningLetterDistributionLookupResult) {
 
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         byte[] reportStream = null;
@@ -187,7 +188,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#createDunningLettersForAllResults(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate, java.util.Collection)
      */
     @Override
-    public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException {
+    public byte[] createDunningLettersForAllResults(Collection<GenerateDunningLettersLookupResult> results) throws DocumentException, IOException {
         ByteArrayOutputStream zos = null;
         PdfCopyFields reportCopy = null;
         byte[] finalReport = null;
@@ -197,8 +198,8 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             reportCopy.open();
             List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
             for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
-                for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
-                    final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
+                for (GenerateDunningLettersLookupResult generateDunningLettersLookupResult : results) {
+                    final byte[] report = createDunningLetters(dunningLetterTemplate, generateDunningLettersLookupResult);
                     if (ObjectUtils.isNotNull(report)) {
                         reportCopy.addDocument(new PdfReader(report));
                     }
@@ -348,6 +349,70 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             return StringUtils.equals(template.getBillByChartOfAccountCode(), userChartOrg.getChartOfAccountsCode()) && StringUtils.equals(template.getBilledByOrganizationCode(), userChartOrg.getOrganizationCode());
         }
         return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#getPopulatedDunningLetterDistributionLookupResults(java.util.Collection)
+     */
+    @Override
+    public Collection<GenerateDunningLettersLookupResult> getPopulatedGenerateDunningLettersLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices) {
+        Collection<GenerateDunningLettersLookupResult> populatedGenerateDunningLettersLookupResults = new ArrayList<GenerateDunningLettersLookupResult>();
+
+        if (CollectionUtils.isEmpty(invoices)) {
+            return populatedGenerateDunningLettersLookupResults;
+        }
+
+        Iterator iter = getInvoicesByAward(invoices).entrySet().iterator();
+        GenerateDunningLettersLookupResult generateDunningLettersLookupResult = null;
+        while (iter.hasNext()) {
+
+            Map.Entry entry = (Map.Entry) iter.next();
+            List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
+
+            if (CollectionUtils.isNotEmpty(list)){
+                // Get data from first award for agency data
+                ContractsGrantsInvoiceDocument document = list.get(0);
+                ContractsAndGrantsBillingAward award = document.getAward();
+                if (ObjectUtils.isNotNull(award) && !award.isStopWorkIndicator()) {
+                    generateDunningLettersLookupResult = new GenerateDunningLettersLookupResult();
+                    generateDunningLettersLookupResult.setProposalNumber(award.getProposalNumber());
+                    generateDunningLettersLookupResult.setInvoiceDocumentNumber(document.getDocumentNumber());
+                    generateDunningLettersLookupResult.setAgencyNumber(award.getAgencyNumber());
+                    generateDunningLettersLookupResult.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
+                    generateDunningLettersLookupResult.setAwardTotal(award.getAwardTotalAmount());
+                    generateDunningLettersLookupResult.setCampaignID(award.getDunningCampaign());
+                    if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
+                        generateDunningLettersLookupResult.setAccountNumber(document.getAccountDetails().get(0).getAccountNumber());
+                    }
+                    generateDunningLettersLookupResult.setInvoices(list);
+
+                    populatedGenerateDunningLettersLookupResults.add(generateDunningLettersLookupResult);
+                }
+            }
+        }
+
+        return populatedGenerateDunningLettersLookupResults;
+    }
+
+    /**
+     * Maps the given ContractsGrantsInvoiceDocuments by their agency number
+     * @param invoices the invoices to Map to agency number
+     * @return the Map of the invoices
+     */
+    protected Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
+        Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
+        for (ContractsGrantsInvoiceDocument invoice : invoices) {
+            Long proposalNumber = invoice.getProposalNumber();
+            if (invoicesByAward.containsKey(proposalNumber)) {
+                invoicesByAward.get(proposalNumber).add(invoice);
+            }
+            else {
+                List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
+                invoicesByProposalNumber.add(invoice);
+                invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
+            }
+        }
+        return invoicesByAward;
     }
 
     /**

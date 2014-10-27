@@ -33,9 +33,9 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
- * Business object for Dunning Letter Distribution Lookup Result.
+ * Business object for the Generate Dunning Letters Lookup Result.
  */
-public class DunningLetterDistributionLookupResult extends TransientBusinessObjectBase {
+public class GenerateDunningLettersLookupResult extends TransientBusinessObjectBase {
 
     private String principalId;
     private Long proposalNumber;
@@ -415,7 +415,7 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
         invoiceAttributesForDisplay.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.AGE);
-        invoiceAttributesForDisplay.add(ArPropertyConstants.DunningLetterDistributionFields.DUNNING_LETTER_TAMPLATE_SENT_DATE);
+        invoiceAttributesForDisplay.add(ArPropertyConstants.DunningLetterDistributionFields.DUNNING_LETTER_TEMPLATE_SENT_DATE);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.SOURCE_TOTAL);
         invoiceAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
         return invoiceAttributesForDisplay;

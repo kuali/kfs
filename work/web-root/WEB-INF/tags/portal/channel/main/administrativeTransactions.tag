@@ -20,9 +20,8 @@
 	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">
   		<strong>Accounts Receivable</strong></br>
   		<ul class="chan">	
-			<li><portal:portalLink displayTitle="true"
-				title="Transmit Contracts & Grants Invoices"
-				url="arTransmitContractsAndGrantsInvoices.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookupDataHolder&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+			<li><portal:portalLink displayTitle="true" title="Generate Dunning Letters" url="arGenerateDunningLettersLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+			<li><portal:portalLink displayTitle="true" title="Transmit Contracts & Grants Invoices" url="arTransmitContractsAndGrantsInvoices.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookupDataHolder&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   		</ul>
 	</c:if>
 	<c:if test="${ConfigProperties.module.capital.asset.enabled == 'true'}">

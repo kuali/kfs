@@ -49,9 +49,6 @@
 					url="arCustomerInvoiceWriteoffLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
-						title="Dunning Letter Distribution"
-						url="arDunningLetterDistributionLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
-				<li><portal:portalLink displayTitle="true"
 						title="Final Billed Indicator"
 						url="arFinalBilledIndicatorDocument.do?methodToCall=docHandler&command=initiate&docTypeName=FBI" /></li>
 			</c:if>

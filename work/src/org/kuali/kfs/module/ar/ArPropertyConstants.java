@@ -322,7 +322,7 @@ public class ArPropertyConstants{
 
     public static class DunningLetterDistributionFields {
         public static final String DAYS_PAST_DUE = "daysPastDue";
-        public static final String DUNNING_LETTER_TAMPLATE_SENT_DATE = "dunningLetterTemplateSentDate";
+        public static final String DUNNING_LETTER_TEMPLATE_SENT_DATE = "dunningLetterTemplateSentDate";
         public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
         public static final String PROCESSING_CHART_CODE = "processingChartCode";
     }

@@ -143,11 +143,11 @@
 		<form-bean name="ContractsGrantsInvoiceSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSummaryForm" />
 
-		<form-bean name="DunningLetterDistributionLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm" />
+		<form-bean name="GenerateDunningLettersLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersLookupForm" />
 
-		<form-bean name="DunningLetterDistributionSummaryForm"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionSummaryForm" />
+		<form-bean name="GenerateDunningLettersSummaryForm"
+			type="org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersSummaryForm" />
 
  		<form-bean name="ReferralToCollectionsSummaryForm"
  			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsSummaryForm" />
@@ -567,20 +567,20 @@
 				path="/jsp/module/ar/ContractsGrantsInvoiceLookup.jsp" />
 		</action>
 		
-		<action path="/arDunningLetterDistributionSummary" name="DunningLetterDistributionSummaryForm"
+		<action path="/arGenerateDunningLettersSummary" name="GenerateDunningLettersSummaryForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionSummaryAction">
+			type="org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersSummaryAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/DunningLetterDistributionSummary.jsp" />
+				path="/jsp/module/ar/GenerateDunningLettersSummary.jsp" />
 		</action>
 
-		<action path="/arDunningLetterDistributionLookup" name="DunningLetterDistributionLookupForm"
+		<action path="/arGenerateDunningLettersLookup" name="GenerateDunningLettersLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupAction">
+			type="org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersLookupAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/DunningLetterDistributionLookup.jsp" />
+				path="/jsp/module/ar/GenerateDunningLettersLookup.jsp" />
 		</action>
 
 		<action path="/arReferralToCollectionsLookup" name="MultipleValueLookupForm"

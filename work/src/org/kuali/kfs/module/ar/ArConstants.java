@@ -538,7 +538,7 @@ public class ArConstants{
         public static final String REFERRAL_TO_COLLECTIONS = "arReferralToCollectionsSummary.do";
         public static final String COLLECTION_ACTIVITY_INVOICES = "arCollectionActivityDocument.do";
         public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
-        public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
+        public static final String GENERATE_DUNNING_LETTERS_SUMMARY = "arGenerateDunningLettersSummary.do";
     }
 
     public static class UrlActions {

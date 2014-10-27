@@ -15,6 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<ar:contractsGrantsLookupPage formActionName="arDunningLetterDistributionLookup">
-	<ar:dunningLetterDistributionLookupResults resultsList="${requestScope.reqSearchResults}" />
+<ar:contractsGrantsLookupPage formActionName="arGenerateDunningLettersLookup">
+	<ar:generateDunningLettersLookupResults resultsList="${requestScope.reqSearchResults}" />
 </ar:contractsGrantsLookupPage>

@@ -206,8 +206,8 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="dunningLetterDistributionService">
-			<ref bean="dunningLetterDistributionService"/>
+		<property name="dunningLetterService">
+			<ref bean="dunningLetterService"/>
 		</property>
 	</bean>
 
@@ -589,8 +589,8 @@
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionLookupableHelperService" parent="dunningLetterDistributionLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="dunningLetterDistributionLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupableHelperServiceImpl">
+	<bean id="generateDunningLettersLookupableHelperService" parent="generateDunningLettersLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="generateDunningLettersLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.GenerateDunningLettersLookupableHelperServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
@@ -603,8 +603,8 @@
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
-		<property name="dunningLetterDistributionService">
-			<ref bean="dunningLetterDistributionService"/>
+		<property name="dunningLetterService">
+			<ref bean="dunningLetterService"/>
 		</property>
 		<property name="personService">
 			<ref bean="personService"/>
@@ -614,9 +614,9 @@
 		</property>
 	</bean>
 
-	<bean id="dunningLetterDistributionLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="generateDunningLettersLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="dunningLetterDistributionLookupableHelperService" />
+			<ref bean="generateDunningLettersLookupableHelperService" />
 		</property>
 	</bean>
 
@@ -2436,8 +2436,8 @@
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionService" parent="dunningLetterDistributionService-parentBean" />
-	<bean id="dunningLetterDistributionService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionServiceImpl" abstract="true">
+	<bean id="dunningLetterService" parent="dunningLetterService-parentBean" />
+	<bean id="dunningLetterService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

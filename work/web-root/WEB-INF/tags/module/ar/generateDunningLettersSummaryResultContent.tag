@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<c:set var="dunningLetterDistributionLookupResultAttributes" value="${DataDictionary.DunningLetterDistributionLookupResult.attributes}" />
 <c:set var="accountDetails" value="${DataDictionary.Account.attributes}" />
 <c:set var="invoiceGeneralDetails" value="${DataDictionary.InvoiceGeneralDetail.attributes}" />
 <c:set var="invoiceAttributes" value="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"/>
@@ -34,7 +33,7 @@
 			</tr>
 		</thead>
 		<logic:iterate id="invoices" name="KualiForm" property="${requestScope.propertyName}.invoices" indexId="ctr">
-			<ar:dunningLetterDistributionSummarySubResult invoiceAttributes="${invoiceAttributes}" propertyName="${requestScope.propertyName}.invoices[${ctr}]" />
+			<ar:generateDunningLettersSummarySubResult invoiceAttributes="${invoiceAttributes}" propertyName="${requestScope.propertyName}.invoices[${ctr}]" />
 		</logic:iterate>
 	</table>
 </div>

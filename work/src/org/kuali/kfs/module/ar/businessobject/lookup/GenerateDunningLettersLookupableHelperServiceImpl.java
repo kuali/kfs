@@ -35,12 +35,13 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
@@ -63,14 +64,15 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Defines a lookupable helper service class for Dunning Letter Distribution.
+ * Defines a lookupable helper service class for Generate Dunning Letters.
  */
-public class DunningLetterDistributionLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupableHelperServiceImpl.class);
+public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GenerateDunningLettersLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    protected DunningLetterService dunningLetterService;
     protected PersonService personService;
 
     /**
@@ -85,14 +87,14 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends Accoun
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         // Call search method to get results - always use unbounded to get the entire set of results.
-        Collection<DunningLetterDistributionLookupResult> displayList = (Collection<DunningLetterDistributionLookupResult>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
+        Collection<GenerateDunningLettersLookupResult> displayList = (Collection<GenerateDunningLettersLookupResult>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
 
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // Iterate through result list and wrap rows with return url and action urls
-        for (DunningLetterDistributionLookupResult result : displayList) {
+        for (GenerateDunningLettersLookupResult result : displayList) {
             List<String> invoiceAttributesForDisplay = result.getInvoiceAttributesForDisplay();
 
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(result, user);
@@ -156,7 +158,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends Accoun
      * @param fieldValues
      * @return collection of DunningLetterDistributionLookupResult
      */
-    protected Collection<DunningLetterDistributionLookupResult> getInvoiceDocumentsForDunningLetterLookup(Map<String, String> fieldValues) {
+    protected Collection<GenerateDunningLettersLookupResult> getInvoiceDocumentsForDunningLetterLookup(Map<String, String> fieldValues) {
         // to get the search criteria
         String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
@@ -204,7 +206,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends Accoun
         // To validate the invoices for any additional parameters.
         Collection<ContractsGrantsInvoiceDocument> eligibleInvoiceDocuments = validateInvoicesForDunningLetters(fieldValues, cgInvoiceDocuments);
 
-        return DunningLetterDistributionLookupUtil.getPopulatedDunningLetterDistributionLookupResults(eligibleInvoiceDocuments);
+        return getDunningLetterService().getPopulatedGenerateDunningLettersLookupResults(eligibleInvoiceDocuments);
     }
 
     protected Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments) {
@@ -628,6 +630,14 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends Accoun
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public DunningLetterService getDunningLetterService() {
+        return dunningLetterService;
+    }
+
+    public void setDunningLetterService(DunningLetterService dunningLetterService) {
+        this.dunningLetterService = dunningLetterService;
     }
 
     public PersonService getPersonService() {

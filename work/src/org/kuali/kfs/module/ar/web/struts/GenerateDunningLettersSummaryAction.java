@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,25 +27,28 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
-import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupUtil;
-import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action class for Dunning Letter Distribution Summary.
  */
-public class DunningLetterDistributionSummaryAction extends KualiAction {
-    private static volatile DunningLetterDistributionService dunningLetterDistributionService;
+public class GenerateDunningLettersSummaryAction extends KualiAction {
+    private static volatile DunningLetterService dunningLetterDistributionService;
     private static volatile DateTimeService dateTimeService;
+    private static volatile LookupResultsService lookupResultsService;
 
     /**
      * 1. This method passes the control from Dunning Letter Distribution lookup to the Dunning Letter Distribution
@@ -59,13 +63,13 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
      */
     public ActionForward viewSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        DunningLetterDistributionSummaryForm dunningLetterDistributionSummaryForm = (DunningLetterDistributionSummaryForm) form;
+        GenerateDunningLettersSummaryForm dunningLetterDistributionSummaryForm = (GenerateDunningLettersSummaryForm) form;
         String lookupResultsSequenceNumber = dunningLetterDistributionSummaryForm.getLookupResultsSequenceNumber();
         if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
             String personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-            Collection<DunningLetterDistributionLookupResult> dunningLetterDistributionLookupResults = DunningLetterDistributionLookupUtil.getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
+            Collection<GenerateDunningLettersLookupResult> generateDunningLettersLookupResults = getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
 
-            dunningLetterDistributionSummaryForm.setDunningLetterDistributionLookupResults(dunningLetterDistributionLookupResults);
+            dunningLetterDistributionSummaryForm.setGenerateDunningLettersLookupResults(generateDunningLettersLookupResults);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -81,9 +85,9 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward sendDunningLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward generateDunningLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        DunningLetterDistributionSummaryForm dunningLetterDistributionSummaryForm = (DunningLetterDistributionSummaryForm) form;
+        GenerateDunningLettersSummaryForm dunningLetterDistributionSummaryForm = (GenerateDunningLettersSummaryForm) form;
 
         Person person = GlobalVariables.getUserSession().getPerson();
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -93,16 +97,16 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
             lookupResultsSequenceNumber = StringUtils.substringBetween(parameterName, ".number", ".");
         }
 
-        Collection<DunningLetterDistributionLookupResult> lookupResults = DunningLetterDistributionLookupUtil.getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        Collection<GenerateDunningLettersLookupResult> lookupResults = getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         byte[] finalReport = getDunningLetterDistributionService().createDunningLettersForAllResults(lookupResults);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (finalReport.length > 0 && getDunningLetterDistributionService().createZipOfPDFs(finalReport, baos)) {
             WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.ZIP_MIME_TYPE, baos, "Dunning_Letters_" + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + KFSConstants.ReportGeneration.ZIP_FILE_EXTENSION);
+            dunningLetterDistributionSummaryForm.setDunningLettersGenerated(true);
             return null;
         }
         else {
             KNSGlobalVariables.getMessageList().add(ArKeyConstants.DunningCampaignConstantsAndErrors.MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT);
-            dunningLetterDistributionSummaryForm.setDunningLetterNotSent(true);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
@@ -121,9 +125,39 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
 
-    public DunningLetterDistributionService getDunningLetterDistributionService() {
+    /**
+     * Convenience method to turn a set of multiple value lookup results of ContractsGrantsInvoiceDocuments into DunningLetterDistributionLookupResult data transfer objects
+     * @param lookupResultsSequenceNumber the id of the multiple value lookup results
+     * @param personId the user requesting results
+     * @return a Collection of DunningLetterDistributionLookupResult data transfer objects
+     */
+    protected Collection<GenerateDunningLettersLookupResult> getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
+        return getDunningLetterDistributionService().getPopulatedGenerateDunningLettersLookupResults(getCGInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId));
+    }
+
+    /**
+     * Finds a Collection of ContractsGrantsInvoiceDocuments by the multiple value lookup sequence id
+     * @param lookupResultsSequenceNumber the sequence number to lookup values for
+     * @param personId the person completing the lookup
+     * @return the Collection of ContractsGrantsInvoiceDocuments returned from the multivalue lookup
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> getCGInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
+        Collection<ContractsGrantsInvoiceDocument> invoiceDocuments = new ArrayList<ContractsGrantsInvoiceDocument>();
+        try {
+            for (PersistableBusinessObject obj : getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ContractsGrantsInvoiceDocument.class, personId)) {
+                invoiceDocuments.add((ContractsGrantsInvoiceDocument) obj);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e); // due to retrieveSelectedResultBOs, we have no choice but to pokemon here
+        }
+
+        return invoiceDocuments;
+    }
+
+    public DunningLetterService getDunningLetterDistributionService() {
         if (dunningLetterDistributionService == null) {
-            dunningLetterDistributionService = SpringContext.getBean(DunningLetterDistributionService.class);
+            dunningLetterDistributionService = SpringContext.getBean(DunningLetterService.class);
         }
         return dunningLetterDistributionService;
     }
@@ -133,5 +167,12 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
             dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return dateTimeService;
+    }
+
+    public LookupResultsService getLookupResultsService() {
+        if (lookupResultsService == null) {
+            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
+        }
+        return lookupResultsService;
     }
 }

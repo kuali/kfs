@@ -11,29 +11,29 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="DunningLetterDistributionLookupResult" parent="DunningLetterDistributionLookupResult-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult" parent="GenerateDunningLettersLookupResult-parentBean" />
 
-	<bean id="DunningLetterDistributionLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult" />
+	<bean id="GenerateDunningLettersLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult" />
 		<property name="objectLabel" value="Dunning Letter Distribution Lookup Result" />
 		<property name="lookupDefinition">
-			<ref bean="DunningLetterDistributionLookupResult-lookupDefinition" />
+			<ref bean="GenerateDunningLettersLookupResult-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="DunningLetterDistributionLookupResult-reportOption" />
-				<ref bean="DunningLetterDistributionLookupResult-chartOfAccountsCode" />
-				<ref bean="DunningLetterDistributionLookupResult-organizationCode" />
-				<ref bean="DunningLetterDistributionLookupResult-principalId" />
- 				<ref bean="DunningLetterDistributionLookupResult-collector.principalName" />
-				<ref bean="DunningLetterDistributionLookupResult-proposalNumber" />
-				<ref bean="DunningLetterDistributionLookupResult-accountNumber" />
-				<ref bean="DunningLetterDistributionLookupResult-agencyNumber" />
-				<ref bean="DunningLetterDistributionLookupResult-customerNumber" />
-				<ref bean="DunningLetterDistributionLookupResult-campaignID" />
-				<ref bean="DunningLetterDistributionLookupResult-agingBucket" />
-				<ref bean="DunningLetterDistributionLookupResult-awardTotal" />
-				<ref bean="DunningLetterDistributionLookupResult-invoiceDocumentNumber" />
+				<ref bean="GenerateDunningLettersLookupResult-reportOption" />
+				<ref bean="GenerateDunningLettersLookupResult-chartOfAccountsCode" />
+				<ref bean="GenerateDunningLettersLookupResult-organizationCode" />
+				<ref bean="GenerateDunningLettersLookupResult-principalId" />
+ 				<ref bean="GenerateDunningLettersLookupResult-collector.principalName" />
+				<ref bean="GenerateDunningLettersLookupResult-proposalNumber" />
+				<ref bean="GenerateDunningLettersLookupResult-accountNumber" />
+				<ref bean="GenerateDunningLettersLookupResult-agencyNumber" />
+				<ref bean="GenerateDunningLettersLookupResult-customerNumber" />
+				<ref bean="GenerateDunningLettersLookupResult-campaignID" />
+				<ref bean="GenerateDunningLettersLookupResult-agingBucket" />
+				<ref bean="GenerateDunningLettersLookupResult-awardTotal" />
+				<ref bean="GenerateDunningLettersLookupResult-invoiceDocumentNumber" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -86,9 +86,9 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="DunningLetterDistributionLookupResult-reportOption" parent="DunningLetterDistributionLookupResult-reportOption-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-reportOption" parent="GenerateDunningLettersLookupResult-reportOption-parentBean" />
 	
-	<bean id="DunningLetterDistributionLookupResult-reportOption-parentBean"
+	<bean id="GenerateDunningLettersLookupResult-reportOption-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reportOption" />
 		<property name="forceUppercase" value="false" />
@@ -106,8 +106,8 @@
 		</property>
 	</bean>
 
-	<bean id="DunningLetterDistributionLookupResult-chartOfAccountsCode" parent="DunningLetterDistributionLookupResult-chartOfAccountsCode-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+	<bean id="GenerateDunningLettersLookupResult-chartOfAccountsCode" parent="GenerateDunningLettersLookupResult-chartOfAccountsCode-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="chartOfAccountsCode" />
 		<property name="label" value="Processing/Billing Chart Code" />
 		<property name="control">
@@ -115,8 +115,8 @@
     	</property>
 	</bean>
 
-	<bean id="DunningLetterDistributionLookupResult-organizationCode" parent="DunningLetterDistributionLookupResult-organizationCode-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-organizationCode-parentBean"
+	<bean id="GenerateDunningLettersLookupResult-organizationCode" parent="GenerateDunningLettersLookupResult-organizationCode-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Processing/Billing Organization Code" />
 		<property name="control">
@@ -124,9 +124,9 @@
     	</property>
 	</bean>
 
-  	<bean id="DunningLetterDistributionLookupResult-collector.principalName" parent="DunningLetterDistributionLookupResult-collector.principalName-parentBean"/>
+  	<bean id="GenerateDunningLettersLookupResult-collector.principalName" parent="GenerateDunningLettersLookupResult-collector.principalName-parentBean"/>
 
-  	<bean id="DunningLetterDistributionLookupResult-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  	<bean id="GenerateDunningLettersLookupResult-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
 	    <property name="name" value="collector.principalName"/>
 	    <property name="label" value="Collector"/>
 	    <property name="required" value="false"/>
@@ -135,9 +135,9 @@
     	</property>
 	</bean>
 
-  	<bean id="DunningLetterDistributionLookupResult-principalId" parent="DunningLetterDistributionLookupResult-principalId-parentBean"/>
+  	<bean id="GenerateDunningLettersLookupResult-principalId" parent="GenerateDunningLettersLookupResult-principalId-parentBean"/>
 
-  	<bean id="DunningLetterDistributionLookupResult-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+  	<bean id="GenerateDunningLettersLookupResult-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
 	    <property name="name" value="principalId"/>
 	    <property name="forceUppercase" value="true"/>
 	    <property name="label" value="Collector"/>
@@ -148,23 +148,23 @@
      	</property>
   	</bean>
 
-	<bean id="DunningLetterDistributionLookupResult-proposalNumber" parent="DunningLetterDistributionLookupResult-proposalNumber-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+	<bean id="GenerateDunningLettersLookupResult-proposalNumber" parent="GenerateDunningLettersLookupResult-proposalNumber-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		
 	</bean>
 	
-	<bean id="DunningLetterDistributionLookupResult-accountNumber" parent="DunningLetterDistributionLookupResult-accountNumber-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-accountNumber" parent="GenerateDunningLettersLookupResult-accountNumber-parentBean" />
 
-	<bean id="DunningLetterDistributionLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+	<bean id="GenerateDunningLettersLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
 		<property name="control">
       		<bean parent="TextControlDefinition" p:size="9"/>
     	</property>
 	</bean>
 
-	<bean id="DunningLetterDistributionLookupResult-agencyNumber" parent="DunningLetterDistributionLookupResult-agencyNumber-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-agencyNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+	<bean id="GenerateDunningLettersLookupResult-agencyNumber" parent="GenerateDunningLettersLookupResult-agencyNumber-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-agencyNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
 		<property name="name" value="agencyNumber" />
 		<property name="label" value="Agency Number" />
@@ -173,32 +173,32 @@
     	</property>
 	</bean>
 	
-	<bean id="DunningLetterDistributionLookupResult-invoiceDocumentNumber" parent="DunningLetterDistributionLookupResult-invoiceDocumentNumber-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-invoiceDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
+	<bean id="GenerateDunningLettersLookupResult-invoiceDocumentNumber" parent="GenerateDunningLettersLookupResult-invoiceDocumentNumber-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-invoiceDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
 	<property name="name" value="invoiceDocumentNumber" />
 	<property name="label" value="Invoice Document Number" />
 	</bean>
 
 
-	<bean id="DunningLetterDistributionLookupResult-customerNumber" parent="DunningLetterDistributionLookupResult-customerNumber-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber" />
+	<bean id="GenerateDunningLettersLookupResult-customerNumber" parent="GenerateDunningLettersLookupResult-customerNumber-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber" />
 
 	
-	<bean id="DunningLetterDistributionLookupResult-campaignID" parent="DunningLetterDistributionLookupResult-campaignID-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-campaignID-parentBean" abstract="true" parent="DunningCampaign-campaignID" />
+	<bean id="GenerateDunningLettersLookupResult-campaignID" parent="GenerateDunningLettersLookupResult-campaignID-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-campaignID-parentBean" abstract="true" parent="DunningCampaign-campaignID" />
 	
 
-	<bean id="DunningLetterDistributionLookupResult-awardTotal" parent="DunningLetterDistributionLookupResult-awardTotal-parentBean" />
-	<bean id="DunningLetterDistributionLookupResult-awardTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+	<bean id="GenerateDunningLettersLookupResult-awardTotal" parent="GenerateDunningLettersLookupResult-awardTotal-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-awardTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="awardTotal" />
 		<property name="label" value="Award Total Amount" />
 		<property name="shortLabel" value="Total" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
-		<bean id="DunningLetterDistributionLookupResult-agingBucket" parent="DunningLetterDistributionLookupResult-agingBucket-parentBean" />
+		<bean id="GenerateDunningLettersLookupResult-agingBucket" parent="GenerateDunningLettersLookupResult-agingBucket-parentBean" />
 
-	<bean id="DunningLetterDistributionLookupResult-agingBucket-parentBean" abstract="true"
+	<bean id="GenerateDunningLettersLookupResult-agingBucket-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="agingBucket" />
 		<property name="label" value="Aging Bucket" />
@@ -213,11 +213,11 @@
 
 	<!-- Business Object Lookup Definition -->
 
-	<bean id="DunningLetterDistributionLookupResult-lookupDefinition" parent="DunningLetterDistributionLookupResult-lookupDefinition-parentBean" />
+	<bean id="GenerateDunningLettersLookupResult-lookupDefinition" parent="GenerateDunningLettersLookupResult-lookupDefinition-parentBean" />
 
-	<bean id="DunningLetterDistributionLookupResult-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Dunning Letter Distribution Lookup" />
-		<property name="lookupableID" value="dunningLetterDistributionLookupResultLookupable" />
+	<bean id="GenerateDunningLettersLookupResult-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Generate Dunning Letters Lookup" />
+		<property name="lookupableID" value="generateDunningLettersLookupResultLookupable" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

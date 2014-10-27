@@ -19,21 +19,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.lowagie.text.DocumentException;
 
-public interface DunningLetterDistributionService {
+public interface DunningLetterService {
 
     /**
-     * Creates a byte stream of pdfs for all dunning letters created for the given DunningLetterDistributionLookupResults.
+     * Creates a byte stream of pdfs for all dunning letters created for the given GenerateDunningLettersLookupResult.
      *
      * @param results the dunning letter lookup results to create pdfs for
      * @return a byte stream of PDFS
      */
-    public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException;
+    public byte[] createDunningLettersForAllResults(Collection<GenerateDunningLettersLookupResult> results) throws DocumentException, IOException;
 
     /**
      * This method generates the actual pdf files to print.
@@ -54,4 +55,17 @@ public interface DunningLetterDistributionService {
      */
     public boolean isValidOrganizationForTemplate(DunningLetterTemplate template, Person user);
 
+    /**
+     * This helper method returns a list of award lookup results based on the Generate Dunning Letters lookup
+     * @param invoices the invoices to convert into DunningLetterDistributionLookupResult data transfer objects
+     * @return a Collection of DunningLetterDistributionLookupResult data transfer objects
+     */
+    public Collection<GenerateDunningLettersLookupResult> getPopulatedGenerateDunningLettersLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices);
+
+    /**
+     * Convenience method to turn a set of multiple value lookup results of ContractsGrantsInvoiceDocuments into DunningLetterDistributionLookupResult data transfer objects
+     * @param lookupResultsSequenceNumber the id of the multiple value lookup results
+     * @param personId the user requesting results
+     * @return a Collection of DunningLetterDistributionLookupResult data transfer objects
+     */
 }

@@ -32,11 +32,11 @@ import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
- * Action class for Dunning Letter Distribution Lookup.
+ * Action class for the Generate Dunning Letters Lookup.
  */
-public class DunningLetterDistributionLookupAction extends ContractsGrantsMultipleValueLookupAction {
+public class GenerateDunningLettersLookupAction extends ContractsGrantsMultipleValueLookupAction {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupAction.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GenerateDunningLettersLookupAction.class);
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#search(org.apache.struts.action.ActionMapping,
@@ -98,6 +98,6 @@ public class DunningLetterDistributionLookupAction extends ContractsGrantsMultip
      */
     @Override
     protected String getActionUrl() {
-        return ArConstants.MultipleValueReturnActions.DUNNING_LETTER_DISTRIBUTIONS;
+        return ArConstants.MultipleValueReturnActions.GENERATE_DUNNING_LETTERS_SUMMARY;
     }
 }

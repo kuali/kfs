@@ -32,13 +32,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.DunningCampaignFixture;
@@ -47,7 +47,7 @@ import org.kuali.kfs.module.ar.fixture.DunningLetterTemplateFixture;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm;
+import org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,8 +69,8 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupableHelperServiceImplTest.class);
 
-    private DunningLetterDistributionLookupableHelperServiceImpl dunningLetterDistributionLookupableHelperServiceImpl;
-    private DunningLetterDistributionLookupForm dunningLetterDistributionLookupForm;
+    private GenerateDunningLettersLookupableHelperServiceImpl generateDunningLettersLookupableHelperServiceImpl;
+    private GenerateDunningLettersLookupForm generateDunningLettersLookupForm;
     private Map fieldValues;
 
     private static final String invoiceDocumentNumber = null;
@@ -81,16 +81,16 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        dunningLetterDistributionLookupableHelperServiceImpl = new DunningLetterDistributionLookupableHelperServiceImpl();
-        dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
-        dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
-        dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectClass(DunningLetterDistributionLookupResult.class);
-        dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
-        dunningLetterDistributionLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
-        dunningLetterDistributionLookupableHelperServiceImpl.setParameterService(SpringContext.getBean(ParameterService.class));
-        dunningLetterDistributionLookupableHelperServiceImpl.setDunningLetterDistributionService(SpringContext.getBean(DunningLetterDistributionService.class));
+        generateDunningLettersLookupableHelperServiceImpl = new GenerateDunningLettersLookupableHelperServiceImpl();
+        generateDunningLettersLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
+        generateDunningLettersLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
+        generateDunningLettersLookupableHelperServiceImpl.setBusinessObjectClass(GenerateDunningLettersLookupResult.class);
+        generateDunningLettersLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        generateDunningLettersLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
+        generateDunningLettersLookupableHelperServiceImpl.setParameterService(SpringContext.getBean(ParameterService.class));
+        generateDunningLettersLookupableHelperServiceImpl.setDunningLetterService(SpringContext.getBean(DunningLetterService.class));
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        dunningLetterDistributionLookupForm = new DunningLetterDistributionLookupForm();
+        generateDunningLettersLookupForm = new GenerateDunningLettersLookupForm();
         // To create a basic invoice with test data
 
         String coaCode = "BL";
@@ -160,8 +160,8 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
      */
     @Override
     protected void tearDown() throws Exception {
-        dunningLetterDistributionLookupableHelperServiceImpl = null;
-        dunningLetterDistributionLookupForm = null;
+        generateDunningLettersLookupableHelperServiceImpl = null;
+        generateDunningLettersLookupForm = null;
         fieldValues = null;
     }
 
@@ -170,8 +170,8 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
      */
     public void testPerformLookup() {
         Collection resultTable = new ArrayList<String>();
-        dunningLetterDistributionLookupForm.setFieldsForLookup(fieldValues);
+        generateDunningLettersLookupForm.setFieldsForLookup(fieldValues);
 
-        assertTrue(dunningLetterDistributionLookupableHelperServiceImpl.performLookup(dunningLetterDistributionLookupForm, resultTable, true).size() > 0);
+        assertTrue(generateDunningLettersLookupableHelperServiceImpl.performLookup(generateDunningLettersLookupForm, resultTable, true).size() > 0);
     }
 }

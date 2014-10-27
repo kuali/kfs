@@ -80,7 +80,7 @@ public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getInvoiceGeneralDetail().getProposalNumber());
             ContractsAndGrantsBillingAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
             assertTrue(awardAccount.isFinalBilledIndicator());
         }
@@ -95,7 +95,7 @@ public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getInvoiceGeneralDetail().getProposalNumber());
             ContractsAndGrantsBillingAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
             assertFalse(awardAccount.isFinalBilledIndicator());
         }

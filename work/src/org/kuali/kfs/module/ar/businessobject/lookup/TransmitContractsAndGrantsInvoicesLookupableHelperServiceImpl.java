@@ -102,7 +102,7 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
         result.setBillByChartOfAccountCode(contractsGrantsInvoiceDocument.getBillByChartOfAccountCode());
         result.setBilledByOrganizationCode(contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
         result.setInvoiceInitiatorPrincipalName(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        result.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
+        result.setProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber());
         result.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
         result.setInvoiceInitiatorPrincipalName(personService.getPerson(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName());
         result.setInvoiceAmount(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().toString());

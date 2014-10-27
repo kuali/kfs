@@ -28,7 +28,7 @@ public class AwardStopWorkSuspensionCategory extends SuspensionCategoryBase {
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getAward().isStopWorkIndicator();
+        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().isStopWorkIndicator();
     }
 
 }

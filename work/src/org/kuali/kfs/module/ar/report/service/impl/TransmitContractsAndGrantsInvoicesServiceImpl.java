@@ -154,7 +154,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public boolean isInvoiceValidToEmail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getDateEmailProcessed())) {
+        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getDateEmailProcessed())) {
             for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
                 if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                     return true;
@@ -166,7 +166,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public boolean isInvoiceValidToMail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getDateReportProcessed())) {
+        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getDateReportProcessed())) {
             for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
                 if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                     return true;

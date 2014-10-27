@@ -701,7 +701,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getAward(), currPeriod);
+        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
         Date invoiceDate = pair[1];
         Date completionDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
@@ -712,7 +712,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         document.setInvoiceMilestones(invoiceMilestones);
 
         Milestone milestone = new Milestone();
-        milestone.setProposalNumber(document.getProposalNumber());
+        milestone.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         milestone.setMilestoneNumber(invMilestone_1.getMilestoneNumber());
         milestone.setMilestoneIdentifier(invMilestone_1.getMilestoneIdentifier());
         milestone.setMilestoneDescription(invMilestone_1.getMilestoneDescription());
@@ -720,11 +720,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         milestone.setMilestoneActualCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
         milestone.setMilestoneExpectedCompletionDate(completionDate);
         milestone.setBilled(false);
-        milestone.setAward(document.getAward());
+        milestone.setAward(document.getInvoiceGeneralDetail().getAward());
         milestone.setActive(true);
 
         MilestoneSchedule milestoneSchedule = new MilestoneSchedule();
-        milestoneSchedule.setProposalNumber(document.getProposalNumber());
+        milestoneSchedule.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         List<Milestone> milestones = new ArrayList<Milestone>();
         milestones.add(milestone);
         milestoneSchedule.setMilestones(milestones);
@@ -740,7 +740,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getAward(), currPeriod);
+        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
         Date invoiceDate = pair[1];
         Date billDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
@@ -751,18 +751,18 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         document.setInvoiceBills(invoiceBills);
 
         Bill bill = new Bill();
-        bill.setProposalNumber(document.getProposalNumber());
+        bill.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         bill.setBillNumber(invBill_1.getBillNumber());
         bill.setBillDescription(invBill_1.getBillDescription());
         bill.setBillIdentifier(invBill_1.getBillIdentifier());
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
         bill.setBilled(false);
-        bill.setAward(document.getAward());
+        bill.setAward(document.getInvoiceGeneralDetail().getAward());
         bill.setActive(true);
 
         PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
-        predeterminedBillingSchedule.setProposalNumber(document.getProposalNumber());
+        predeterminedBillingSchedule.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         List<Bill> bills = new ArrayList<Bill>();
         bills.add(bill);
         predeterminedBillingSchedule.setBills(bills);

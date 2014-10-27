@@ -35,7 +35,7 @@ public class AwardStopDateSuspensionCategory extends SuspensionCategoryBase {
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         Date now = dateTimeService.getCurrentDate();
 
-        return now.after(contractsGrantsInvoiceDocument.getAward().getAwardEndingDate());
+        return now.after(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getAwardEndingDate());
     }
 
     public DateTimeService getDateTimeService() {

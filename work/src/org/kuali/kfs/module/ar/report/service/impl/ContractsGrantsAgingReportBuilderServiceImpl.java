@@ -125,11 +125,11 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
     protected void setReportData(ContractsGrantsInvoiceDocument cgInvoiceReportEntry, ContractsGrantsAgingReportDetailDataHolder reportDetail) {
         java.util.Date today = new java.util.Date();
         Date sqlToday = new java.sql.Date(today.getTime());
-        reportDetail.setAgencyNumber(cgInvoiceReportEntry.getAward().getAgency().getAgencyNumber());
-        reportDetail.setAgencyName(cgInvoiceReportEntry.getAward().getAgency().getReportingName());
+        reportDetail.setAgencyNumber(cgInvoiceReportEntry.getInvoiceGeneralDetail().getAward().getAgency().getAgencyNumber());
+        reportDetail.setAgencyName(cgInvoiceReportEntry.getInvoiceGeneralDetail().getAward().getAgency().getReportingName());
         reportDetail.setCustomerNumber(cgInvoiceReportEntry.getCustomerNumber());
-        reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber().toString());
-        reportDetail.setAwardEndDate(cgInvoiceReportEntry.getAward().getAwardEndingDate());
+        reportDetail.setProposalNumber(cgInvoiceReportEntry.getInvoiceGeneralDetail().getProposalNumber().toString());
+        reportDetail.setAwardEndDate(cgInvoiceReportEntry.getInvoiceGeneralDetail().getAward().getAwardEndingDate());
         reportDetail.setDocumentNumber(cgInvoiceReportEntry.getDocumentNumber());
 
         WorkflowDocument workflowDocument = cgInvoiceReportEntry.getDocumentHeader().getWorkflowDocument();

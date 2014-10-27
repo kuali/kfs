@@ -95,7 +95,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         cgInvoice.getAccountsReceivableDocumentHeader().setDocumentHeader(cgInvoice.getDocumentHeader());
 
         cgInvoice.setBillingDate(new java.sql.Date(new Date().getTime()));
-        cgInvoice.setAward(award);
+        cgInvoice.getInvoiceGeneralDetail().setAward(award);
         cgInvoice.setOpenInvoiceIndicator(true);
 
         cgInvoice.setCustomerName(customerName);

@@ -30,7 +30,7 @@ public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends Suspe
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        KualiDecimal invoiceMinimumAmount = contractsGrantsInvoiceDocument.getAward().getMinInvoiceAmount();
+        KualiDecimal invoiceMinimumAmount = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getMinInvoiceAmount();
         if (invoiceMinimumAmount == null) {
             return false; // if no minimum specified, then no limit
         }

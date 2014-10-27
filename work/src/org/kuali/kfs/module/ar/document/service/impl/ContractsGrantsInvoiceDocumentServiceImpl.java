@@ -144,7 +144,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
-        final List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = retrieveInvoiceAccountsForAward(contractsGrantsInvoiceDocument.getAward());
+        final List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = retrieveInvoiceAccountsForAward(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward());
         boolean awardBillByInvoicingAccount = false;
         List<String> invoiceAccountDetails = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
             boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
             if (isUsingReceivableFAU) {
-                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
+                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward()) && CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
                     for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
                         if (awardInvoiceAccount.getAccountType().equals(ArConstants.INCOME_ACCOUNT)) {
                             if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
@@ -170,7 +170,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
 
             // To check if award is set to bill by Contract Control Account.
-            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && contractsGrantsInvoiceDocument.getAward().getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward()) && contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
 
             final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
             final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
@@ -644,7 +644,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
                 InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
                 invoiceDetailAccountObjectCode.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
-                invoiceDetailAccountObjectCode.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
+                invoiceDetailAccountObjectCode.setProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber());
                 invoiceDetailAccountObjectCode.setCategoryCode(categoryCode);
                 invoiceDetailAccountObjectCode.setAccountNumber(invoiceAccountDetail.getAccountNumber());
                 invoiceDetailAccountObjectCode.setChartOfAccountsCode(invoiceAccountDetail.getChartOfAccountsCode());
@@ -799,7 +799,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     @Override
     public void updateSuspensionCategoriesOnDocument(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         if (!contractsGrantsInvoiceDocument.isCorrectionDocument()) {
-            ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
+            ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();
             String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
 
             if (ObjectUtils.isNotNull(suspensionCategories)) {
@@ -825,7 +825,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         KualiDecimal totalPayments = KualiDecimal.ZERO;
 
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        criteria.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, award.getProposalNumber());
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocs = businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, criteria);
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocs) {
@@ -1141,7 +1141,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @return a Map.  With everything.
      */
     protected Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
-        ContractsAndGrantsBillingAward award = document.getAward();
+        ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
 
         Map cinvDocMap = new ReflectionMap(document);
         Map<String, Object> parameterMap = new FallbackMap<String, Object>(cinvDocMap);
@@ -1158,7 +1158,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateFinalized())) {
             parameterMap.put(ArPropertyConstants.FINAL_STATUS_DATE, getDateTimeService().toDateString(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().toDate()));
         }
-        parameterMap.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+        parameterMap.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getInvoiceGeneralDetail().getProposalNumber());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.NAME, document.getBillingAddressName());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.ADDRESS_LINE1, document.getBillingLine1StreetAddress());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.ADDRESS_LINE2, document.getBillingLine2StreetAddress());
@@ -1359,14 +1359,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = iterator.next();
             if (isFinalBill) {
-                setAwardAccountFinalBilledValueAndLastBilledDate(id, true, document.getProposalNumber(), invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), invoiceDocumentStatus);
+                setAwardAccountFinalBilledValueAndLastBilledDate(id, true, document.getInvoiceGeneralDetail().getProposalNumber(), invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), invoiceDocumentStatus);
             } else {
-                calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), document.getProposalNumber(), invoiceDocumentStatus);
+                calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), document.getInvoiceGeneralDetail().getProposalNumber(), invoiceDocumentStatus);
             }
         }
 
         // 2. Set last Billed to Award = least of last billed date of award account.
-        Long proposalNumber = document.getProposalNumber();
+        Long proposalNumber = document.getInvoiceGeneralDetail().getProposalNumber();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
@@ -1612,24 +1612,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         // set the billed to Date Field
         if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
             // check if award has milestones
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getInvoiceGeneralDetail().getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
         else if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
             // check if award has bills
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getInvoiceGeneralDetail().getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
         else {
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber()));
             document.getInvoiceGeneralDetail().setNewTotalBilled(KualiDecimal.ZERO);
         }
 
         // to set Date email processed and Date report processed to null.
-        document.setDateEmailProcessed(null);
-        document.setDateReportProcessed(null);
+        document.getInvoiceGeneralDetail().setDateEmailProcessed(null);
+        document.getInvoiceGeneralDetail().setDateReportProcessed(null);
     }
 
     /**

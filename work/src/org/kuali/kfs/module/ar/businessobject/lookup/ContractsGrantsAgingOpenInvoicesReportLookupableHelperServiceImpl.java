@@ -201,7 +201,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         Properties parameters = new Properties();
         ContractsGrantsInvoiceDocument cgInvoice = getBusinessObjectService().findBySinglePrimaryKey(ContractsGrantsInvoiceDocument.class, detail.getDocumentNumber());
 
-        String proposalNumber = cgInvoice.getProposalNumber().toString();
+        String proposalNumber = cgInvoice.getInvoiceGeneralDetail().getProposalNumber().toString();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
         parameters.put("selectedProposalNumber", proposalNumber);
         parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());

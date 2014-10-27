@@ -224,7 +224,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
         Map<String, String> parameterMap = new HashMap<String, String>();
 
         if (CollectionUtils.isNotEmpty(invoices)){
-            ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
+            ContractsAndGrantsBillingAward award = invoices.get(0).getInvoiceGeneralDetail().getAward();
             Map primaryKeys = new HashMap<String, Object>();
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.proposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getProposalNumber()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "currentDate", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
@@ -353,7 +353,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
             if (CollectionUtils.isNotEmpty(list)){
                 // Get data from first award for agency data
                 ContractsGrantsInvoiceDocument document = list.get(0);
-                ContractsAndGrantsBillingAward award = document.getAward();
+                ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
                 if (ObjectUtils.isNotNull(award) && !award.isStopWorkIndicator()) {
                     generateDunningLettersLookupResult = new GenerateDunningLettersLookupResult();
                     generateDunningLettersLookupResult.setProposalNumber(award.getProposalNumber());
@@ -383,7 +383,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
     protected Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
         Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            Long proposalNumber = invoice.getProposalNumber();
+            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
             if (invoicesByAward.containsKey(proposalNumber)) {
                 invoicesByAward.get(proposalNumber).add(invoice);
             }

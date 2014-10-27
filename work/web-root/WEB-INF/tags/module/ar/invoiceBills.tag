@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="readOnly" required="false" description="If document is in read only mode"%>
 
-<c:if test="${!empty KualiForm.document.proposalNumber}">
+<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 
 	<!-- If there are no bills, this section should not be displayed -->
 	<kul:tab tabTitle="Bills" defaultOpen="true" tabErrorKey="document.invoiceBills*">
@@ -37,7 +37,7 @@
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceBills" id="bill">
 					<tr>
 						<td class="datacell"><a
-							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Bill&proposalNumber=${KualiForm.document.proposalNumber}&billIdentifier=${KualiForm.document.invoiceBills[ctr].billIdentifier}&billNumber=${KualiForm.document.invoiceBills[ctr].billNumber}&methodToCall=start"
+							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Bill&proposalNumber=${KualiForm.document.invoiceGeneralDetail.proposalNumber}&billIdentifier=${KualiForm.document.invoiceBills[ctr].billIdentifier}&billNumber=${KualiForm.document.invoiceBills[ctr].billNumber}&methodToCall=start"
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceBillAttributes.billNumber}"
 									property="document.invoiceBills[${ctr}].billNumber" readOnly="true" />
 						</a></td>

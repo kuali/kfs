@@ -303,7 +303,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
         Collection<ContractsGrantsInvoiceDocument> invoices;
         Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
-            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())) {
             fieldValuesForInvoice.put(ArPropertyConstants.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
@@ -351,7 +351,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
             Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
             while (itr.hasNext()) {
                 ContractsGrantsInvoiceDocument invoice = itr.next();
-                if (invoice.getAward() == null || (checkAwardNumber && (invoice.getAward().getAwardDocumentNumber() == null || !invoice.getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                if (invoice.getInvoiceGeneralDetail().getAward() == null || (checkAwardNumber && (invoice.getInvoiceGeneralDetail().getAward().getAwardDocumentNumber() == null || !invoice.getInvoiceGeneralDetail().getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber() == null || !invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber().equals(agencyNumber)))) {
                     itr.remove();
                 }
             }

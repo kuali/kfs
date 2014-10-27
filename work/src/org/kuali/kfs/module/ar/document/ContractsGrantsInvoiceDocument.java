@@ -24,13 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -38,7 +35,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
-import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -58,7 +54,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocument.class);
-    private Long proposalNumber;
     private KualiDecimal paymentAmount = KualiDecimal.ZERO;
     private KualiDecimal balanceDue = KualiDecimal.ZERO;
     private List<ContractsGrantsInvoiceDetail> invoiceDetails;
@@ -70,20 +65,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private List<InvoiceMilestone> invoiceMilestones;
     private List<InvoiceBill> invoiceBills;
     private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
-    private ContractsAndGrantsBillingAward award;
 
-    protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
-    protected String letterOfCreditFundGroupCode;
-    protected String letterOfCreditFundCode;
-
-    private String referralTypeCode;
-    private String finalDispositionCode;
-
-    private ReferralType referralType;
-    private FinalDisposition finalDisposition;
-
-    public java.util.Date dateReportProcessed;
-    private java.util.Date dateEmailProcessed;
     public Date paymentDate;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
 
@@ -111,7 +93,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         if (this == null) {
             return false;
         }
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().isAfter(this.getAward().getAwardEndingDate().getTime());
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().isAfter(getInvoiceGeneralDetail().getAward().getAwardEndingDate().getTime());
     }
 
     /**
@@ -121,32 +103,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public boolean isCorrectionDocument() {
         return !StringUtils.isEmpty(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
-    }
-
-    /**
-     * Gets the dateReportProcessed attribute.
-     *
-     * @return Returns the dateReportProcessed.
-     */
-    public java.util.Date getDateReportProcessed() {
-        return dateReportProcessed;
-    }
-
-    /**
-     * Sets the dateReportProcessed attribute value.
-     *
-     * @param dateReportProcessed The dateReportProcessed to set.
-     */
-    public void setDateReportProcessed(java.util.Date date) {
-        this.dateReportProcessed = date;
-    }
-
-    public java.util.Date getDateEmailProcessed() {
-        return dateEmailProcessed;
-    }
-
-    public void setDateEmailProcessed(java.util.Date dateEmailProcessed) {
-        this.dateEmailProcessed = dateEmailProcessed;
     }
 
     /**
@@ -161,10 +117,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         // To be performed whenever the document is saved only for awards without Milestones, Bills or LOC Billing
         if (!this.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
             contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(this);
-
-
         }
     }
 
@@ -189,7 +142,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         invoice.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                         SpringContext.getBean(DocumentService.class).updateDocument(invoice);
                         // update correction to the AwardAccount Objects since the Invoice was unmarked as Final
-                        contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoice.getAccountDetails(),invoice.getProposalNumber());
+                        contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoice.getAccountDetails(),invoice.getInvoiceGeneralDetail().getProposalNumber());
                         getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
 
                         if (invoice.getInvoiceGeneralDetail().getBillingFrequencyCode().equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
@@ -238,7 +191,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
+            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, getInvoiceGeneralDetail().getProposalNumber());
         }
     }
 
@@ -381,12 +334,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        m.put("letterOfCreditFundCode", letterOfCreditFundCode);
         m.put("invoiceGeneralDetail", invoiceGeneralDetail);
-        m.put("letterOfCreditFundGroupCode", letterOfCreditFundGroupCode);
-        m.put("award", award);
-        m.put("letterOfCreditCreationType", letterOfCreditCreationType);
         return m;
     }
 
@@ -407,44 +355,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public void setInvoiceGeneralDetail(InvoiceGeneralDetail invoiceGeneralDetail) {
         this.invoiceGeneralDetail = invoiceGeneralDetail;
     }
-
-    /**
-     * Gets the proposalNumber attribute.
-     *
-     * @return Returns the proposalNumber.
-     */
-    public Long getProposalNumber() {
-        return proposalNumber;
-    }
-
-    /**
-     * Sets the proposalNumber attribute value.
-     *
-     * @param proposalNumber The proposalNumber to set.
-     */
-    public void setProposalNumber(Long proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    /**
-     * Gets the award attribute.
-     *
-     * @return Returns the award.
-     */
-    public ContractsAndGrantsBillingAward getAward() {
-        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
-        return award;
-    }
-
-    /**
-     * Sets the award attribute value.
-     *
-     * @param award The award to set.
-     */
-    public void setAward(ContractsAndGrantsBillingAward award) {
-        this.award = award;
-    }
-
 
     /**
      * Gets the invoiceMilestones attribute.
@@ -480,60 +390,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public void setInvoiceBills(List<InvoiceBill> invoiceBills) {
         this.invoiceBills = invoiceBills;
-    }
-
-    /**
-     * Gets the letterOfCreditCreationType attribute.
-     *
-     * @return Returns the letterOfCreditCreationType.
-     */
-    public String getLetterOfCreditCreationType() {
-        return letterOfCreditCreationType;
-    }
-
-    /**
-     * Sets the letterOfCreditCreationType attribute value.
-     *
-     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
-     */
-    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
-        this.letterOfCreditCreationType = letterOfCreditCreationType;
-    }
-
-    /**
-     * Gets the letterOfCreditFundGroupCode attribute.
-     *
-     * @return Returns the letterOfCreditFundGroupCode.
-     */
-    public String getLetterOfCreditFundGroupCode() {
-        return letterOfCreditFundGroupCode;
-    }
-
-    /**
-     * Sets the letterOfCreditFundGroupCode attribute value.
-     *
-     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
-     */
-    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
-        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
-    }
-
-    /**
-     * Gets the letterOfCreditFundCode attribute.
-     *
-     * @return Returns the letterOfCreditFundCode.
-     */
-    public String getLetterOfCreditFundCode() {
-        return letterOfCreditFundCode;
-    }
-
-    /**
-     * Sets the letterOfCreditFundCode attribute value.
-     *
-     * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
-     */
-    public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
-        this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
     /**
@@ -623,7 +479,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private boolean isRequiresFundingManagerApproval() {
         // if auto approve on the award is false or suspension exists, then we need to have funds manager approve.
         boolean result;
-        result = !this.getAward().getAutoApproveIndicator() || !this.getInvoiceSuspensionCategories().isEmpty();
+        result = !getInvoiceGeneralDetail().getAward().getAutoApproveIndicator() || !this.getInvoiceSuspensionCategories().isEmpty();
         return result;
     }
 
@@ -649,78 +505,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
-    }
-
-    /**
-     * Gets the finalDispositionCode attribute.
-     *
-     * @return Returns the finalDispositionCode.
-     */
-    public String getFinalDispositionCode() {
-        return finalDispositionCode;
-    }
-
-    /**
-     * Sets the finalDispositionCode attribute.
-     *
-     * @param finalDispositionCode The finalDispositionCode to set.
-     */
-    public void setFinalDispositionCode(String finalDispositionCode) {
-        this.finalDispositionCode = finalDispositionCode;
-    }
-
-    /**
-     * Gets the referralTypeCode attribute.
-     *
-     * @return Returns the referralTypeCode attribute.
-     */
-    public String getReferralTypeCode() {
-        return referralTypeCode;
-    }
-
-    /**
-     * Sets the referralTypeCode attribute.
-     *
-     * @param referralTypeCode The referralTypeCode to set.
-     */
-    public void setReferralTypeCode(String referralTypeCode) {
-        this.referralTypeCode = referralTypeCode;
-    }
-
-    /**
-     * Gets the finalDisposition attribute.
-     *
-     * @return Returns the finalDisposition attribute.
-     */
-    public FinalDisposition getFinalDisposition() {
-        return finalDisposition;
-    }
-
-    /**
-     * Sets the finalDisposition attribute.
-     *
-     * @param finalDisposition The finalDisposition to set.
-     */
-    public void setFinalDisposition(FinalDisposition finalDisposition) {
-        this.finalDisposition = finalDisposition;
-    }
-
-    /**
-     * Gets the referralType attribute.
-     *
-     * @return Returns the referralType attribute.
-     */
-    public ReferralType getReferralType() {
-        return referralType;
-    }
-
-    /**
-     * Sets the referralType attribute.
-     *
-     * @param referralType The referralType to set.
-     */
-    public void setReferralType(ReferralType referralType) {
-        this.referralType = referralType;
     }
 
     public String getCustomerNumber() {

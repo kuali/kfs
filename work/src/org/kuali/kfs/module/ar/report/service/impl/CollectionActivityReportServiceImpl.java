@@ -191,8 +191,8 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
      * @return true if the document matches the given agency number, false otherwise
      */
     protected boolean matchesAgencyNumber(ContractsGrantsInvoiceDocument document, Set<String> agencyNumbers) {
-        if (!ObjectUtils.isNull(document) && !ObjectUtils.isNull(document.getAward()) && !StringUtils.isBlank(document.getAward().getAgencyNumber())) {
-            final String documentAgencyNumber = document.getAward().getAgencyNumber();
+        if (!ObjectUtils.isNull(document) && !ObjectUtils.isNull(document.getInvoiceGeneralDetail().getAward()) && !StringUtils.isBlank(document.getInvoiceGeneralDetail().getAward().getAgencyNumber())) {
+            final String documentAgencyNumber = document.getInvoiceGeneralDetail().getAward().getAgencyNumber();
             return agencyNumbers.contains(documentAgencyNumber);
         }
         return false;
@@ -225,7 +225,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
 
         collectionActivityReport.setActivityComment(event.getActivityText());
         collectionActivityReport.setFollowupDate(event.getFollowupDate());
-        collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getProposalNumber());
+        collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getInvoiceGeneralDetail().getProposalNumber());
         collectionActivityReport.setCompleted(event.isCompleted());
         collectionActivityReport.setCompletedDate(event.getCompletedDate());
 
@@ -239,9 +239,9 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         if (ObjectUtils.isNotNull(event.getInvoiceDocument())) {
             collectionActivityReport.setChartOfAccountsCode(event.getInvoiceDocument().getBillByChartOfAccountCode());
         }
-        if (ObjectUtils.isNotNull(event.getInvoiceDocument().getAward()) && ObjectUtils.isNotNull(event.getInvoiceDocument().getAward().getAgency())) {
-            collectionActivityReport.setAgencyNumber(event.getInvoiceDocument().getAward().getAgency().getAgencyNumber());
-            collectionActivityReport.setAgencyName(event.getInvoiceDocument().getAward().getAgency().getFullName());
+        if (ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail()) && ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency())) {
+            collectionActivityReport.setAgencyNumber(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getAgencyNumber());
+            collectionActivityReport.setAgencyName(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgency().getFullName());
         }
         return collectionActivityReport;
     }

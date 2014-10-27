@@ -171,7 +171,7 @@ public class AREmailServiceImpl implements AREmailService {
                         setupMailServiceForNonProductionInstance();
                         mailService.sendMessage(message);
 
-                        invoice.setDateEmailProcessed(new Date(new java.util.Date().getTime()));
+                        invoice.getInvoiceGeneralDetail().setDateEmailProcessed(new Date(new java.util.Date().getTime()));
                         documentService.updateDocument(invoice);
                     } else {
                         success = false;
@@ -185,8 +185,8 @@ public class AREmailServiceImpl implements AREmailService {
     protected String getSubject(ContractsGrantsInvoiceDocument invoice) {
         String subject = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_SUBJECT);
 
-        return MessageFormat.format(subject, invoice.getAward().getProposal().getGrantNumber(),
-                invoice.getProposalNumber(),
+        return MessageFormat.format(subject, invoice.getInvoiceGeneralDetail().getAward().getProposal().getGrantNumber(),
+                invoice.getInvoiceGeneralDetail().getProposalNumber(),
                 invoice.getDocumentNumber());
     }
 
@@ -194,7 +194,7 @@ public class AREmailServiceImpl implements AREmailService {
         String message = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_BODY);
 
         String department = "";
-        String[] orgCode = invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPrimaryDepartmentCode().split("-");
+        String[] orgCode = invoice.getInvoiceGeneralDetail().getAward().getAwardPrimaryFundManager().getFundManager().getPrimaryDepartmentCode().split("-");
         Map<String, Object> key = new HashMap<String, Object>();
         key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[0].trim());
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[1].trim());
@@ -205,11 +205,11 @@ public class AREmailServiceImpl implements AREmailService {
 
         return MessageFormat.format(message, customerAddress.getCustomer().getCustomerName(),
                 customerAddress.getCustomerAddressName(),
-                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName(),
-                invoice.getAward().getAwardPrimaryFundManager().getProjectTitle(),
+                invoice.getInvoiceGeneralDetail().getAward().getAwardPrimaryFundManager().getFundManager().getName(),
+                invoice.getInvoiceGeneralDetail().getAward().getAwardPrimaryFundManager().getProjectTitle(),
                 department,
-                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber(),
-                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress());
+                invoice.getInvoiceGeneralDetail().getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber(),
+                invoice.getInvoiceGeneralDetail().getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress());
     }
 
     /**

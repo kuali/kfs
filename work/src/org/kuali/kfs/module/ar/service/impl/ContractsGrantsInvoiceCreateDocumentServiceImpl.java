@@ -46,6 +46,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
@@ -379,10 +380,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
-                    cgInvoiceDocument.setAward(awd);
                     populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
                     contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument);
-                    if (ObjectUtils.isNotNull(cgInvoiceDocument.getAward())) {
+                    if (ObjectUtils.isNotNull(cgInvoiceDocument.getInvoiceGeneralDetail().getAward())) {
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }
 
@@ -415,9 +415,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         if (ObjectUtils.isNotNull(award)) {
 
             // Invoice General Detail section
-            document.setProposalNumber(award.getProposalNumber());
             InvoiceGeneralDetail invoiceGeneralDetail = new InvoiceGeneralDetail();
             invoiceGeneralDetail.setDocumentNumber(document.getDocumentNumber());
+            invoiceGeneralDetail.setProposalNumber(award.getProposalNumber());
+            invoiceGeneralDetail.setAward(award);
 
             // Set the last Billed Date and Billing Period
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
@@ -620,7 +621,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             performBilledAndExpenditureCalculationForDetail(invDetail, awardAccountObjectCodeTotalBilleds, document.getInvoiceDetailAccountObjectCodes(), category);
 
             // calculate the rest using billed to date
-            performBudgetCalculationsOnInvoiceDetail(invDetail, awardAccounts, category, document.getAward().getAwardBeginningDate());
+            performBudgetCalculationsOnInvoiceDetail(invDetail, awardAccounts, category, document.getInvoiceGeneralDetail().getAward().getAwardBeginningDate());
             document.getInvoiceDetails().add(invDetail);
         }
     }
@@ -673,7 +674,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             final List<Balance> glBalances = retrieveBalancesForAwardAccounts(awardAccounts, awardBeginningYear, currentYear, category);
             for (Balance bal : glBalances) {
                 if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                    final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(bal, category, document.getDocumentNumber(), document.getProposalNumber());
+                    final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(bal, category, document.getDocumentNumber(), document.getInvoiceGeneralDetail().getProposalNumber());
 
                     if (!document.getInvoiceDetailAccountObjectCodes().contains(invoiceDetailAccountObjectCode)) {
                         document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
@@ -702,7 +703,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodeList = new ArrayList<InvoiceDetailAccountObjectCode>();
                 for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
-                    if (invoiceDetailAccountObjectCode.getDocumentNumber().equals(document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getProposalNumber()) && invoiceDetailAccountObjectCode.getAccountNumber().equals(awdAcct.getAccountNumber()) && invoiceDetailAccountObjectCode.getChartOfAccountsCode().equals(awdAcct.getChartOfAccountsCode())) {
+                    if (invoiceDetailAccountObjectCode.getDocumentNumber().equals(document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getInvoiceGeneralDetail().getProposalNumber()) && invoiceDetailAccountObjectCode.getAccountNumber().equals(awdAcct.getAccountNumber()) && invoiceDetailAccountObjectCode.getChartOfAccountsCode().equals(awdAcct.getChartOfAccountsCode())) {
                         invoiceDetailAccountObjectCodeList.add(invoiceDetailAccountObjectCode);
                     }
                 }
@@ -717,7 +718,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 // code to write values from award acct total billed amount to invoice detail account object code..
 
                 Map<String, Object> totalBilledKeys = new HashMap<String, Object>();
-                totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+                totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getInvoiceGeneralDetail().getProposalNumber());
                 totalBilledKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awdAcct.getChartOfAccountsCode());
                 totalBilledKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awdAcct.getAccountNumber());
 
@@ -880,15 +881,15 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         // To set LOC creation type and appropriate values from award.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditCreationType())) {
-            document.setLetterOfCreditCreationType(award.getLetterOfCreditCreationType());
+            document.getInvoiceGeneralDetail().setLetterOfCreditCreationType(award.getLetterOfCreditCreationType());
         }
         // To set up values for Letter of Credit Fund and Fund Group irrespective of the LOC Creation type.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode())) {
-            document.setLetterOfCreditFundCode(award.getLetterOfCreditFundCode());
+            document.getInvoiceGeneralDetail().setLetterOfCreditFundCode(award.getLetterOfCreditFundCode());
         }
         if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
             if (StringUtils.isNotEmpty(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode())) {
-                document.setLetterOfCreditFundGroupCode(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                document.getInvoiceGeneralDetail().setLetterOfCreditFundGroupCode(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
             }
         }
 
@@ -1562,7 +1563,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     protected Collection<ContractsGrantsInvoiceDocument> getInProgressInvoicesForAward(ContractsAndGrantsBillingAward award) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        fieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, award.getProposalNumber());
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, financialSystemDocumentService.getPendingDocumentStatuses());
 
         return businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);

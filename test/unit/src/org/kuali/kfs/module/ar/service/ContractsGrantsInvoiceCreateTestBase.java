@@ -114,7 +114,7 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getAward(), currPeriod);
+        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
         Date invoiceDate = pair[1];
         Date billDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
@@ -125,18 +125,18 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         document.setInvoiceBills(invoiceBills);
 
         Bill bill = new Bill();
-        bill.setProposalNumber(document.getProposalNumber());
+        bill.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         bill.setBillNumber(invBill_1.getBillNumber());
         bill.setBillDescription(invBill_1.getBillDescription());
         bill.setBillIdentifier(invBill_1.getBillIdentifier());
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
         bill.setBilled(false);
-        bill.setAward(document.getAward());
+        bill.setAward(document.getInvoiceGeneralDetail().getAward());
         bill.setActive(true);
 
         PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
-        predeterminedBillingSchedule.setProposalNumber(document.getProposalNumber());
+        predeterminedBillingSchedule.setProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber());
         List<Bill> bills = new ArrayList<Bill>();
         bills.add(bill);
         predeterminedBillingSchedule.setBills(bills);

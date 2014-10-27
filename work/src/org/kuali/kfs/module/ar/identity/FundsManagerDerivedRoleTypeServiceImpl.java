@@ -53,7 +53,7 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
             String documentNumber = qualification.get(KFSPropertyConstants.DOCUMENT_NUMBER);
             if (StringUtils.isNotBlank(documentNumber)) {
                 ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument(documentNumber);
-                ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
+                ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();
 
                 return getRoleMembersForAward(award.getProposalNumber().toString());
             } else {

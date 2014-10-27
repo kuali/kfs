@@ -131,7 +131,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         SpringContext.getBean(BusinessObjectService.class).save(dunningCampaign);
 
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setDunningCampaignFromFixture((Award) award);
-        cgInvoice.setAward(award);
+        cgInvoice.getInvoiceGeneralDetail().setAward(award);
         cgInvoice.setAge(10);
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());

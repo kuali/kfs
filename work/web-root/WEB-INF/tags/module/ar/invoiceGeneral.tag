@@ -28,12 +28,12 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalNumber}" labelFor="document.proposalNumber" useShortLabel="false" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.proposalNumber}" labelFor="document.invoiceGeneralDetail.proposalNumber" useShortLabel="false" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
 					<div id="document.proposalNumber.div">
-						<kul:htmlControlAttribute attributeEntry="${documentAttributes.proposalNumber}" property="document.proposalNumber" readOnly="true" />
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.proposalNumber}" property="document.invoiceGeneralDetail.proposalNumber" readOnly="true" />
 					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -125,7 +125,7 @@
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.newTotalBilled}"
 							property="document.invoiceGeneralDetail.newTotalBilled" readOnly="true" />
 						&nbsp;&nbsp;&nbsp;
-						<c:if test="${!empty KualiForm.document.proposalNumber && KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
+						<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber && KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
 							<c:if test="${empty KualiForm.document.invoiceMilestones}">
 								<c:if test="${empty KualiForm.document.invoiceBills}">
 									<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_calculate.gif" styleClass="tinybutton"

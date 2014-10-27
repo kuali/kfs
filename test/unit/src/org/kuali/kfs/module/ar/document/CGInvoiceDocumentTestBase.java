@@ -177,7 +177,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
         bill.setBilled(billed);
-        bill.setAward(document.getAward());
+        bill.setAward(document.getInvoiceGeneralDetail().getAward());
 
         PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
         predeterminedBillingSchedule.setProposalNumber(proposalNumber);
@@ -205,7 +205,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         milestone.setMilestoneActualCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
         milestone.setMilestoneExpectedCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
         milestone.setBilled(billed);
-        milestone.setAward(document.getAward());
+        milestone.setAward(document.getInvoiceGeneralDetail().getAward());
 
         MilestoneSchedule milestoneSchedule = new MilestoneSchedule();
         milestoneSchedule.setProposalNumber(proposalNumber);

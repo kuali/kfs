@@ -736,7 +736,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     }
                 }
             }
-            invoice.setDateReportProcessed(new Date(new java.util.Date().getTime()));
+            invoice.getInvoiceGeneralDetail().setDateReportProcessed(new Date(new java.util.Date().getTime()));
             documentService.updateDocument(invoice);
         }
         if (pageAdded) {
@@ -775,7 +775,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                         pageAdded = true;
                         document.newPage();
                         // adding the sent From address
-                        Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
+                        Organization org = invoice.getInvoiceGeneralDetail().getAward().getPrimaryAwardOrganization().getOrganization();
                         Paragraph sentBy = generateAddressParagraph(org.getOrganizationName(), org.getOrganizationLine1Address(), org.getOrganizationLine2Address(), org.getOrganizationCityName(), org.getOrganizationStateCode(), org.getOrganizationZipCode(), ArConstants.PdfReportFonts.ENVELOPE_SMALL_FONT);
                         sentBy.setIndentationLeft(ArConstants.InvoiceEnvelopePdf.INDENTATION_LEFT);
                         sentBy.setAlignment(Element.ALIGN_LEFT);

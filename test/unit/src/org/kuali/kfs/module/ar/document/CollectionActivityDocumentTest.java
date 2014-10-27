@@ -88,7 +88,7 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
         cgInvoice.getAccountsReceivableDocumentHeader().setDocumentHeader(documentHeader);
 
         cgInvoice.setBillingDate(new java.sql.Date(new Date().getTime()));
-        cgInvoice.setAward(award);
+        cgInvoice.getInvoiceGeneralDetail().setAward(award);
         cgInvoice.setOpenInvoiceIndicator(true);
         cgInvoice.setCustomerName(CUSTOMER_NAME);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
@@ -100,7 +100,7 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
 
         collectionActivityDocument = new CollectionActivityDocument();
         contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        invoices = new ArrayList<ContractsGrantsInvoiceDocument>(contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(cgInvoice.getProposalNumber()));
+        invoices = new ArrayList<ContractsGrantsInvoiceDocument>(contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(cgInvoice.getInvoiceGeneralDetail().getProposalNumber()));
         collectionActivityDocument.setInvoices(invoices);
         collectionActivityDocument.setSelectedInvoiceDocumentNumber(cgInvoice.getDocumentNumber());
     }

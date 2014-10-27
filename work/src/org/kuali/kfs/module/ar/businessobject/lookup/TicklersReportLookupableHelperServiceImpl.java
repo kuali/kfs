@@ -110,7 +110,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             boolean isValid = true;
 
             if (!StringUtils.isBlank(agencyNumber)) {
-                if (ObjectUtils.isNull(event.getInvoiceDocument().getAward()) || !StringUtils.equals(agencyNumber, event.getInvoiceDocument().getAward().getAgencyNumber())) {
+                if (ObjectUtils.isNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) || !StringUtils.equals(agencyNumber, event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgencyNumber())) {
                     isValid = false;
                 }
             }
@@ -155,11 +155,11 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
                 TicklersReport ticklerReport = new TicklersReport();
                 ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
-                ticklerReport.setProposalNumber(invoice.getProposalNumber());
+                ticklerReport.setProposalNumber(invoice.getInvoiceGeneralDetail().getProposalNumber());
                 ticklerReport.setActivityCode(event.getActivityCode());
-                if (ObjectUtils.isNotNull(invoice.getAward()) && ObjectUtils.isNotNull(invoice.getAward().getAgency())) {
-                    ticklerReport.setAgencyNumber(invoice.getAward().getAgency().getAgencyNumber());
-                    ticklerReport.setAgencyName(invoice.getAward().getAgency().getFullName());
+                if (ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward().getAgency())) {
+                    ticklerReport.setAgencyNumber(invoice.getInvoiceGeneralDetail().getAward().getAgency().getAgencyNumber());
+                    ticklerReport.setAgencyName(invoice.getInvoiceGeneralDetail().getAward().getAgency().getFullName());
                 }
                 if (CollectionUtils.isNotEmpty(invoice.getAccountDetails())) {
                     ticklerReport.setAccountNumber(invoice.getAccountDetails().get(0).getAccountNumber());

@@ -35,7 +35,7 @@ public class CostCategoryCodesSuspensionCategory extends SuspensionCategoryBase 
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        String billingFrequencyCode = contractsGrantsInvoiceDocument.getAward().getBillingFrequencyCode();
+        String billingFrequencyCode = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getBillingFrequencyCode();
 
         if (!StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
                 !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, billingFrequencyCode)) {

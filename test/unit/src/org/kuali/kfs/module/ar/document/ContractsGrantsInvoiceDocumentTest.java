@@ -126,9 +126,6 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
         setAwardAccountsToAward(award.getProposalNumber(), awardAccounts);
 
-        contractsGrantsInvoiceDocument_1.setAward(award);
-        contractsGrantsInvoiceDocument_2.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL3.createInvoiceAccountDetail();
 
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
@@ -141,6 +138,9 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
         InvoiceGeneralDetail invoiceGeneralDetail_1 = InvoiceGeneralDetailFixture.INV_GNRL_DTL3.createInvoiceGeneralDetail();
         InvoiceGeneralDetail invoiceGeneralDetail_2 = InvoiceGeneralDetailFixture.INV_GNRL_DTL3.createInvoiceGeneralDetail();
+        invoiceGeneralDetail_1.setAward(award);
+        invoiceGeneralDetail_2.setAward(award);
+
         // To set last Billed Date to invoice and check if they are being set to award Accounts and award properly.
         Date lastBilledDate_1 = Date.valueOf("2011-10-26");
         Date lastBilledDate_2 = Date.valueOf("2011-10-27");
@@ -186,7 +186,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(lastBilledDate_2, awdAcct_2.getCurrentLastBilledDate());
         mapKey.clear();
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        contractsGrantsInvoiceDocument_2.setAward(null);
+        contractsGrantsInvoiceDocument_2.getInvoiceGeneralDetail().setAward(null);
         award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, mapKey);
         assertEquals(lastBilledDate_1, award.getLastBilledDate());
 
@@ -264,8 +264,10 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
     public void testInvoiceDetails() {
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
-        contractsGrantsInvoiceDocument.setAward(award);
-        contractsGrantsInvoiceDocument.setProposalNumber(award.getProposalNumber());
+        InvoiceGeneralDetail invoiceGeneralDetail = new InvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
+        invoiceGeneralDetail.setProposalNumber(award.getProposalNumber());
+        contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL4.createInvoiceDetail();
         ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL5.createInvoiceDetail();
@@ -277,7 +279,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         // all
         List<ContractsGrantsInvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
@@ -427,8 +429,8 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
     public void testBeanMapVersionOfDocument() {
         ContractsGrantsInvoiceDocument cinvDoc = new ContractsGrantsInvoiceDocument();
-        cinvDoc.setProposalNumber(new Long(80075L));
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setProposalNumber(new Long(80075L));
         cinvDoc.setInvoiceGeneralDetail(invoiceGeneralDetail);
         InvoiceAccountDetail invoiceAccountDetail = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<>();

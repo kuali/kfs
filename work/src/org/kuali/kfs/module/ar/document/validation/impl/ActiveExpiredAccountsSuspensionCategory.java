@@ -37,7 +37,7 @@ public class ActiveExpiredAccountsSuspensionCategory extends SuspensionCategoryB
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         Date now = dateTimeService.getCurrentDate();
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getActiveAwardAccounts();
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             if (ObjectUtils.isNotNull(awardAccount.getAccount())) {
                 Date accountExpirationDate = awardAccount.getAccount().getAccountExpirationDate();

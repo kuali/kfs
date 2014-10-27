@@ -75,7 +75,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     protected CollectionActivityInvoiceLookup convert(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         CollectionActivityInvoiceLookup cl = new CollectionActivityInvoiceLookup();
-        cl.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
+        cl.setProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber());
         cl.setInvoiceNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
 
         if (CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getAccountDetails())) {

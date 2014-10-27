@@ -285,7 +285,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
 
-        contractsGrantsInvoiceDocument_1.setAward(award);
+        contractsGrantsInvoiceDocument_1.getInvoiceGeneralDetail().setAward(award);
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL3.createInvoiceAccountDetail();
 
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
@@ -297,7 +297,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         contractsGrantsInvoiceDocument_2 = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
 
-        assertEquals(contractsGrantsInvoiceDocument_1.getProposalNumber(), contractsGrantsInvoiceDocument_2.getProposalNumber());
+        assertEquals(contractsGrantsInvoiceDocument_1.getInvoiceGeneralDetail().getProposalNumber(), contractsGrantsInvoiceDocument_2.getInvoiceGeneralDetail().getProposalNumber());
         assertEquals(contractsGrantsInvoiceDocument_1.getAccountDetails().get(0).getAccountNumber(), contractsGrantsInvoiceDocument_2.getAccountDetails().get(0).getAccountNumber());
         assertEquals(contractsGrantsInvoiceDocument_1.getAccountDetails().get(0).getChartOfAccountsCode(), contractsGrantsInvoiceDocument_2.getAccountDetails().get(0).getChartOfAccountsCode());
         assertEquals(contractsGrantsInvoiceDocument_1.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), contractsGrantsInvoiceDocument_2.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());

@@ -96,7 +96,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
             final String proposalNumbers = harvestIdsFromAwards(matchingAwards);
             if (!StringUtils.isBlank(proposalNumbers)) {
-                invoiceDocumentCriteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumbers);
+                invoiceDocumentCriteria.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumbers);
             }
         }
 
@@ -119,12 +119,12 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                             cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
                             cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
                             cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
-                            if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
-                                if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
-                                    cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                            if (ObjectUtils.isNotNull(cgInvoiceDoc.getInvoiceGeneralDetail().getAward())) {
+                                if (ObjectUtils.isNotNull(cgInvoiceDoc.getInvoiceGeneralDetail().getAward().getLetterOfCreditFund())) {
+                                    cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getInvoiceGeneralDetail().getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
                                 }
                             }
-                            ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
+                            ContractsAndGrantsBillingAward award = cgInvoiceDoc.getInvoiceGeneralDetail().getAward();
                             Person fundManager = award.getAwardPrimaryFundManager().getFundManager();
                             String fundManagerPrincipalName = fundManager.getPrincipalName();
 

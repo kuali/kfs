@@ -136,14 +136,14 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
             fieldValuesForInvoice.put(ArPropertyConstants.CUSTOMER_NAME, customerName);
         }
         if (!StringUtils.isBlank(proposalNumber)) {
-            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
         if (!StringUtils.isBlank(markedAsFinal)) {
             if (markedAsFinal.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
-                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, KFSConstants.Booleans.TRUE);
+                fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.FINAL_BILL, KFSConstants.Booleans.TRUE);
             }
             else if (markedAsFinal.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
-                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, KFSConstants.Booleans.FALSE);
+                fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.FINAL_BILL, KFSConstants.Booleans.FALSE);
             }
         }
         if (!StringUtils.isBlank(invoiceNumber)) {
@@ -213,7 +213,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = iter.next();
-                if (!ObjectUtils.isNull(document.getAward()) && awardIds != null && !awardIds.contains(document.getAward().getProposalNumber())) {
+                if (!ObjectUtils.isNull(document.getInvoiceGeneralDetail()) && !ObjectUtils.isNull(document.getInvoiceGeneralDetail().getAward()) && awardIds != null && !awardIds.contains(document.getInvoiceGeneralDetail().getAward().getProposalNumber())) {
                     iter.remove();
                 } else if (StringUtils.isNotEmpty(collectorPrincipalId)) {
                     if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {

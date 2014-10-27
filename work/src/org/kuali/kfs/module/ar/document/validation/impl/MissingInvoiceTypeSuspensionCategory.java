@@ -30,7 +30,7 @@ public class MissingInvoiceTypeSuspensionCategory extends SuspensionCategoryBase
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return StringUtils.isBlank(contractsGrantsInvoiceDocument.getAward().getInvoicingOptions());
+        return StringUtils.isBlank(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getInvoicingOptions());
     }
 
 }

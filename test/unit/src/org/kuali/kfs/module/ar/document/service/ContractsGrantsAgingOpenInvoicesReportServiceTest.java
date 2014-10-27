@@ -87,7 +87,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceTest extends KualiTest
         cgInvoice.getAccountsReceivableDocumentHeader().setDocumentHeader(documentHeader);
 
         cgInvoice.setBillingDate(new java.sql.Date(new Date().getTime()));
-        cgInvoice.setAward(award);
+        cgInvoice.getInvoiceGeneralDetail().setAward(award);
         cgInvoice.setOpenInvoiceIndicator(true);
         cgInvoice.setCustomerName(CUSTOMER_NAME);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {

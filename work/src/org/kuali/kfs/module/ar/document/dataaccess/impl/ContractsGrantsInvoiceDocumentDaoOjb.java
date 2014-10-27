@@ -83,7 +83,7 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
             throw new IllegalArgumentException("Cannot find contracts and grants invoices for blank proposal number");
         }
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        criteria.addEqualTo(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
 
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);

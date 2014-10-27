@@ -22,7 +22,7 @@
 
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 
-<c:if test="${!empty KualiForm.document.proposalNumber}">
+<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 	<kul:tab tabTitle="Organization" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS}">
 		<div class="tab-container" align=center>
 			<table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">

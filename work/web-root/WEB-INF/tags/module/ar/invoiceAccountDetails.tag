@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="readOnly" required="false" description="If document is in read only mode"%>
 
-<c:if test="${!empty KualiForm.document.proposalNumber}">
+<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 	<kul:tab tabTitle="Account Details" defaultOpen="true" tabErrorKey="document.invoiceAccountDetails*">
 		<c:set var="invoiceAccountDetailsAttributes" value="${DataDictionary.InvoiceAccountDetail.attributes}" />
 

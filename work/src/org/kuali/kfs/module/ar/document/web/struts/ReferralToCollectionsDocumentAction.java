@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
@@ -112,7 +113,7 @@ public class ReferralToCollectionsDocumentAction extends KualiTransactionalDocum
         Collection<ContractsGrantsInvoiceDocument> invoices = getCGInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
         if (ObjectUtils.isNotNull(invoices) && CollectionUtils.isNotEmpty(invoices)) {
             ContractsGrantsInvoiceDocument selectedInvoice = invoices.iterator().next();
-            ContractsAndGrantsBillingAward award = selectedInvoice.getAward();
+            ContractsAndGrantsBillingAward award = selectedInvoice.getInvoiceGeneralDetail().getAward();
             rcDoc.setAgencyNumber(award.getAgencyNumber());
             rcDoc.setAgencyFullName(award.getAgency().getFullName());
             rcDoc.setCustomerNumber(selectedInvoice.getCustomer() != null ? selectedInvoice.getCustomer().getCustomerNumber() : award.getAgency().getCustomerNumber());
@@ -163,21 +164,22 @@ public class ReferralToCollectionsDocumentAction extends KualiTransactionalDocum
 
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             ReferralToCollectionsDetail rcDetail = new ReferralToCollectionsDetail();
-            ContractsAndGrantsBillingAward award = invoice.getAward();
+            InvoiceGeneralDetail invoiceGeneralDetail = invoice.getInvoiceGeneralDetail();
+            ContractsAndGrantsBillingAward award = invoiceGeneralDetail.getAward();
             ContractsAndGrantsBillingAgency agency = award.getAgency();
 
             // Get data from first award for agency data
-            rcDoc.setReferralTypeCode(invoice.getReferralTypeCode());
+            rcDoc.setReferralTypeCode(invoiceGeneralDetail.getReferralTypeCode());
             rcDetail.setDocumentNumber(rcDoc.getDocumentNumber());
             rcDetail.setAgencyNumber(agency.getAgencyNumber());
             rcDetail.setProposalNumber(award.getProposalNumber());
             rcDetail.setAge(invoice.getAge());
             rcDetail.setInvoiceNumber(invoice.getDocumentNumber());
-            rcDetail.setProposalNumber(invoice.getProposalNumber());
+            rcDetail.setProposalNumber(invoiceGeneralDetail.getProposalNumber());
             rcDetail.setChart(invoice.getBillByChartOfAccountCode());
             rcDetail.setInvoiceTotal(invoice.getSourceTotal());
             rcDetail.setBillingDate(invoice.getBillingDate());
-            rcDetail.setFinalDispositionCode(invoice.getFinalDispositionCode());
+            rcDetail.setFinalDispositionCode(invoiceGeneralDetail.getFinalDispositionCode());
 
             KualiDecimal paymentAmount = getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(invoice.getDocumentNumber());
             rcDetail.setInvoiceBalance(invoice.getSourceTotal().subtract(paymentAmount));

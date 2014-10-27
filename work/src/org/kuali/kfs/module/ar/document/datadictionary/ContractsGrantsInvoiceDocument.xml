@@ -44,7 +44,6 @@
 			<list>
 				<ref
 					bean="ContractsGrantsInvoiceDocument-documentHeader.documentDescription" />
-				<ref bean="ContractsGrantsInvoiceDocument-proposalNumber" />
 				<ref bean="ContractsGrantsInvoiceDocument-paymentAmount" />
 				<ref bean="ContractsGrantsInvoiceDocument-balanceDue" />
 				<ref bean="ContractsGrantsInvoiceDocument-documentNumber" />
@@ -108,8 +107,6 @@
 				<ref bean="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress" />
 				<ref bean="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress" />
 				<ref bean="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator" />
-				<ref bean="ContractsGrantsInvoiceDocument-referralTypeCode" />
-				<ref bean="ContractsGrantsInvoiceDocument-finalDispositionCode" />
 				<ref bean="ContractsGrantsInvoiceDocument-paymentDate" />
 			</list>
 		</property>
@@ -158,22 +155,6 @@
 		<property name="name" value="documentHeader.documentDescription" />
 	</bean>
 
-
-	<bean id="ContractsGrantsInvoiceDocument-proposalNumber"
-		parent="ContractsGrantsInvoiceDocument-proposalNumber-parentBean" />
-
-	<bean id="ContractsGrantsInvoiceDocument-proposalNumber-parentBean"
-		abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
-		p:sourceAttributeName="proposalNumber">
-		<property name="name" value="proposalNumber" />
-		<property name="maxLength" value="10" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
-		</property>
-	</bean>
 
 	<bean id="ContractsGrantsInvoiceDocument-paymentAmount"
 		parent="ContractsGrantsInvoiceDocument-paymentAmount-parentBean" />
@@ -831,42 +812,6 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDocument-referralTypeCode" parent="ContractsGrantsInvoiceDocument-referralTypeCode-parentBean" />
-	<bean id="ContractsGrantsInvoiceDocument-referralTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="referralTypeCode"/>
-	    <property name="label" value="Referral Type"/>
-	    <property name="shortLabel" value="Referral Type"/>
-	    <property name="maxLength" value="6"/>
-	    <property name="validationPattern">
-	      <ref bean="AnyCharacterValidation" />
-	    </property>
-	    <property name="required" value="false"/>
-	    <property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ReferralTypeValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-  	<bean id="ContractsGrantsInvoiceDocument-finalDispositionCode" parent="ContractsGrantsInvoiceDocument-finalDispositionCode-parentBean"/>
-
-  	<bean id="ContractsGrantsInvoiceDocument-finalDispositionCode-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="finalDispositionCode"/>
-	    <property name="forceUppercase" value="true"/>
-	    <property name="label" value="Final Disposition"/>
-	    <property name="shortLabel" value="Final Disposition"/>
-	    <property name="maxLength" value="4"/>
-	    <property name="validationPattern">
-	      <ref bean="AnyCharacterValidation" />
-	    </property>
-	    <property name="required" value="false"/>
-	    <property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.FinalDispositionTypeValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-	
 	<bean id="ContractsGrantsInvoiceDocument-paymentDate" parent="ContractsGrantsInvoiceDocument-paymentDate-parentBean"/>
 	
 	<bean id="ContractsGrantsInvoiceDocument-paymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -917,14 +862,14 @@
 		<property name="searchingAttribute" ref="SearchingAttribute-proposalNumber" />
 		<property name="documentValues">
 			<list>
-				<value>proposalNumber</value>
+				<value>invoiceGeneralDetail.proposalNumber</value>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="SearchingAttribute-proposalNumber" class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
-			value="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" />
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail" />
 		<property name="attributeName" value="proposalNumber" />
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="true" />

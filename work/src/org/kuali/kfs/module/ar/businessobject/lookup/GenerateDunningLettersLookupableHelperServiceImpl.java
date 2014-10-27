@@ -172,7 +172,7 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments;
         Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
-            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
         if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
@@ -301,11 +301,11 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
             return false;
         }
 
-        if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
+        if (invoice.getInvoiceGeneralDetail().getAward() == null || invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign() == null) {
             return false;
         }
 
-        String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+        String dunningCampaignCode = invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign();
         DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
         if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
             return false;
@@ -351,10 +351,10 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
      * @return true if the invoice matches the criteria, false otherwise
      */
     protected boolean doesInvoiceMatchAwardCriteria(ContractsGrantsInvoiceDocument invoice, String agencyNumberParameter, String campaignIdParameter) {
-        if (StringUtils.isNotBlank(agencyNumberParameter) && (!StringUtils.equals(invoice.getAward().getAgencyNumber(), agencyNumberParameter))) {
+        if (StringUtils.isNotBlank(agencyNumberParameter) && (!StringUtils.equals(invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber(), agencyNumberParameter))) {
             return false;
         }
-        if (StringUtils.isNotBlank(campaignIdParameter) && (!StringUtils.equals(invoice.getAward().getDunningCampaign(), campaignIdParameter))) {
+        if (StringUtils.isNotBlank(campaignIdParameter) && (!StringUtils.equals(invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign(), campaignIdParameter))) {
             return false;
         }
         return true;
@@ -375,7 +375,7 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
         }
         int agingBucketStart = agingBucketStartValue.intValue();
         int agingBucketEnd = agingBucketEndValue.intValue();
-        if (invoice.getAward().getAgency().isStateAgencyIndicator()) {
+        if (invoice.getInvoiceGeneralDetail().getAward().getAgency().isStateAgencyIndicator()) {
             if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
                 agingBucketStart = new Integer(stateAgencyFinalCutOffDate) + 1;
                 agingBucketEnd = 0;
@@ -387,12 +387,12 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
         }
 
         if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
-            if (invoice.getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
+            if (invoice.getInvoiceGeneralDetail().getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
                 return false;
             }
         }
         else if (StringUtils.equalsIgnoreCase(agingBucket, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
-            if (!invoice.getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
+            if (!invoice.getInvoiceGeneralDetail().getAward().getAgency().isStateAgencyIndicator() || invoice.getAge().intValue() < agingBucketStart) {
                 return false;
             }
         }
@@ -411,9 +411,9 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
      * @return the name of the matching dunning letter template or null if no suitable template could be found
      */
     protected String findMatchingDunningLetterTemplate(ContractsGrantsInvoiceDocument invoice, Integer cutoffDateFinal, String stateAgencyFinalCutOffDate) {
-        ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
+        ContractsAndGrantsBillingAgency agency = invoice.getInvoiceGeneralDetail().getAward().getAgency();
 
-        String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+        String dunningCampaignCode = invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign();
         DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
 
         List<DunningLetterDistribution> dunningLetterDistributions = dunningCampaign.getDunningLetterDistributions();

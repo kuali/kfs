@@ -61,7 +61,7 @@ public class FinalBilledIndicatorDocument extends TransactionalDocumentBase {
             if (ObjectUtils.isNotNull(invoiceDocument)) {
                 invoiceDocument.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                 ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-                contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoiceDocument.getAccountDetails(),invoiceDocument.getProposalNumber());
+                contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoiceDocument.getAccountDetails(),invoiceDocument.getInvoiceGeneralDetail().getProposalNumber());
                 SpringContext.getBean(DocumentService.class).updateDocument(invoiceDocument);
             }
         }

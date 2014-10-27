@@ -265,8 +265,8 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
                     // Set the referral type of invoices
                     if (ObjectUtils.isNotNull(invoice)) {
-                        invoice.setReferralTypeCode(this.getReferralTypeCode());
-                        invoice.setFinalDispositionCode(rcDetail.getFinalDispositionCode());
+                        invoice.getInvoiceGeneralDetail().setReferralTypeCode(this.getReferralTypeCode());
+                        invoice.getInvoiceGeneralDetail().setFinalDispositionCode(rcDetail.getFinalDispositionCode());
                         // not sure why we have to do this, but without it, the FinancialSystemDocumentHeader documentNumber is null
                         // on the invoice doc, and an exception is thrown when we try to save the invoice
                         invoice.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
@@ -290,8 +290,8 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                             event.setEventCode(eventCode);
                             event.setActivityCode(activityCode);
                             event.setActivityDate(new java.sql.Date(new Date().getTime()));
-                            ReferralType refType = boService.findBySinglePrimaryKey(ReferralType.class, invoice.getReferralTypeCode());
-                            event.setActivityText(ObjectUtils.isNotNull(refType) ? refType.getDescription() : invoice.getReferralTypeCode());
+                            ReferralType refType = boService.findBySinglePrimaryKey(ReferralType.class, invoice.getInvoiceGeneralDetail().getReferralTypeCode());
+                            event.setActivityText(ObjectUtils.isNotNull(refType) ? refType.getDescription() : invoice.getInvoiceGeneralDetail().getReferralTypeCode());
 
                             // Set author and posted date
                             final Timestamp now = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();

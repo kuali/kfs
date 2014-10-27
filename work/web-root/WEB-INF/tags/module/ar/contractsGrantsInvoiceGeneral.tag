@@ -27,7 +27,7 @@
 
 <c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
-<c:if test="${!empty KualiForm.document.proposalNumber}">
+<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 
 	<kul:tab tabTitle="Customer Information" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
 		<div class="tab-container" align=center>

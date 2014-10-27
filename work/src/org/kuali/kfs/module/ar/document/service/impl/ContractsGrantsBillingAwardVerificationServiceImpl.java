@@ -129,7 +129,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     @Override
     public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        fieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, award.getProposalNumber());
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, getFinancialSystemDocumentService().getPendingDocumentStatuses());
 
         return getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues) > 0;

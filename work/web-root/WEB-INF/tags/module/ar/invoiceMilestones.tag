@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="readOnly" required="false" description="If document is in read only mode"%>
 
-<c:if test="${!empty KualiForm.document.proposalNumber}">
+<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 
 	<!-- If there are no invoiceMilestones, this section should not be displayed -->
 	<kul:tab tabTitle="Milestones" defaultOpen="true" tabErrorKey="document.invoiceMilestones*">
@@ -36,7 +36,7 @@
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceMilestones" id="milestone">
 					<tr>
 						<td class="datacell"><a
-							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Milestone&proposalNumber=${KualiForm.document.proposalNumber}&milestoneIdentifier=${KualiForm.document.invoiceMilestones[ctr].milestoneIdentifier}&methodToCall=start"
+							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Milestone&proposalNumber=${KualiForm.document.invoiceGeneralDetail.proposalNumber}&milestoneIdentifier=${KualiForm.document.invoiceMilestones[ctr].milestoneIdentifier}&methodToCall=start"
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceMilestoneAttributes.milestoneNumber}"
 									property="document.invoiceMilestones[${ctr}].milestoneNumber" readOnly="true" />
 						</a></td>

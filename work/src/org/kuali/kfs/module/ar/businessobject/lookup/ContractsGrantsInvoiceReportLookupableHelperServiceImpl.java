@@ -144,7 +144,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             String documentNumber = ObjectUtils.isNull(documentHeader) ? "" : documentHeader.getDocumentNumber();
             cgInvoiceReport.setDocumentNumber(openCGInvoiceDoc.getDocumentNumber());
             if (openCGInvoiceDoc instanceof ContractsGrantsInvoiceDocument) {
-                cgInvoiceReport.setProposalNumber(((ContractsGrantsInvoiceDocument)openCGInvoiceDoc).getProposalNumber());
+                cgInvoiceReport.setProposalNumber(((ContractsGrantsInvoiceDocument)openCGInvoiceDoc).getInvoiceGeneralDetail().getProposalNumber());
             }
             cgInvoiceReport.setInvoiceType(documentHeader.getWorkflowDocumentTypeName());
 
@@ -214,7 +214,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         final String proposalNumber = (String)lookupFormFields.remove(KFSPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
-            lookupFields.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            lookupFields.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
         final String documentNumber = (String)lookupFormFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);

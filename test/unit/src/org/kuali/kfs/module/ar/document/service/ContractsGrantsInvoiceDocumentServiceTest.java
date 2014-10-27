@@ -111,9 +111,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
 
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
@@ -212,9 +211,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
-        contractsGrantsInvoiceDocument.setAward(award);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
 
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
@@ -289,8 +288,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR1.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR2.createInvoiceSuspensionCategory();
         List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<>();
@@ -306,6 +303,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
@@ -332,8 +330,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
@@ -342,6 +338,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
@@ -363,8 +360,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         assertNotNull(contractsGrantsInvoiceDocument);
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceSuspensionCategory invoiceSuspensionCategory_1 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR3.createInvoiceSuspensionCategory();
         InvoiceSuspensionCategory invoiceSuspensionCategory_2 = InvoiceSuspensionCategoryFixture.INV_SUSPEN_CTGR4.createInvoiceSuspensionCategory();
         List<InvoiceSuspensionCategory> invoiceSuspensionCategories = new ArrayList<>();
@@ -380,6 +375,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
@@ -411,14 +407,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL7.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -449,14 +444,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -487,14 +481,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ((Award)award).setAdditionalFormsRequiredIndicator(true);
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -525,14 +518,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL7.createInvoiceDetail();
@@ -554,14 +546,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail_1 = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -597,14 +588,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -635,8 +625,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
@@ -645,6 +633,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -675,14 +664,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ((Award)award).setLetterOfCreditFund(LetterOfCreditFundFixture.CG_LOCF.createLetterOfCreditFund());
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL7.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -720,14 +708,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -759,14 +746,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -797,14 +783,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -842,14 +827,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -886,14 +870,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ((Award)award).setStopWorkIndicator(true);
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
-        contractsGrantsInvoiceDocument.setAward(award);
-
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL5.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        invoiceGeneralDetail.setAward(award);
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
         InvoiceAddressDetail invoiceAddressDetail = InvoiceAddressDetailFixture.INV_ADDRESS_DETAIL1.createInvoiceAddressDetail();
@@ -1007,29 +990,29 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
 
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 1a. Award with Milestones
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_Mlstn);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_Mlstn.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 1b. Award with Bills
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_Bill);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_Bill.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 2. Invoicing by Account
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 3. Invoicing by Contract Control Account. For this case the account number might be different so setting a different
         // invoice account detail here.
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
 
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_CCA.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_CCA.createAward());
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
@@ -1050,29 +1033,29 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 1a. Award with Milestones
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_Mlstn);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_Mlstn.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 1b. Award with Bills
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_Bill);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
+        inv_Gnrl_Dtl_Bill.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 2. Invoicing by Account
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
 
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 3. Invoicing by Contract Control Account. For this case the account number might be different so setting a different
         // invoice account detail here.
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        contractsGrantsInvoiceDocument.setAward(ARAwardFixture.CG_AWARD_INV_CCA.createAward());
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_CCA.createAward());
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
@@ -1094,7 +1077,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsAndGrantsBillingAward awardInvAward = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
         awardInvAward.getActiveAwardInvoiceAccounts().clear();
         awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        contractsGrantsInvoiceDocument.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(awardInvAward);
 
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
@@ -1114,7 +1097,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         awardInvAward = ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
         awardInvAward.getActiveAwardInvoiceAccounts().clear();
         awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        contractsGrantsInvoiceDocument.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(awardInvAward);
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 3. Invoicing by Contract Control Account. For this case the account number might be different so setting a different
@@ -1123,7 +1106,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         awardInvAward = ARAwardFixture.CG_AWARD_INV_CCA.createAward();
         awardInvAward.getActiveAwardInvoiceAccounts().clear();
         awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        contractsGrantsInvoiceDocument.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(awardInvAward);
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);

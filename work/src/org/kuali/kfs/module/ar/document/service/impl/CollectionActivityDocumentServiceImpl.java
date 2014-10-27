@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
@@ -195,13 +196,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
+            map.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
             List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
             if (CollectionUtils.isNotEmpty(invoices)) {
                 ContractsGrantsInvoiceDocument invoice = invoices.get(0);
-                if (ObjectUtils.isNotNull(invoice.getAward()) && ObjectUtils.isNotNull(invoice.getAward().getAgency())) {
-                    ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
+                if (ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward().getAgency())) {
+                    ContractsAndGrantsBillingAgency agency = invoice.getInvoiceGeneralDetail().getAward().getAgency();
                     colActDoc.setAgencyNumber(agency.getAgencyNumber());
                     colActDoc.setAgencyName(agency.getFullName());
                 }

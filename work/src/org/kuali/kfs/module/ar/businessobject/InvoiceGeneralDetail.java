@@ -19,8 +19,11 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -45,8 +48,19 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private Date lastBilledDate;
     private String dunningLetterTemplateAssigned;
     private Date dunningLetterTemplateSentDate;
+    private Long proposalNumber;
+    private String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
+    private String letterOfCreditFundGroupCode;
+    private String letterOfCreditFundCode;
+    private java.util.Date dateReportProcessed;
+    private java.util.Date dateEmailProcessed;
+    private String referralTypeCode;
+    private String finalDispositionCode;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
+    private ContractsAndGrantsBillingAward award;
+    private ReferralType referralType;
+    private FinalDisposition finalDisposition;
 
     /**
      * Gets the comment attribute.
@@ -390,5 +404,123 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         this.dunningLetterTemplateSentDate = dunningLetterTemplateSentDate;
     }
 
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
+
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    public String getLetterOfCreditCreationType() {
+        return letterOfCreditCreationType;
+    }
+
+    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
+        this.letterOfCreditCreationType = letterOfCreditCreationType;
+    }
+
+    public String getLetterOfCreditFundGroupCode() {
+        return letterOfCreditFundGroupCode;
+    }
+
+    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
+        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
+
+    public String getLetterOfCreditFundCode() {
+        return letterOfCreditFundCode;
+    }
+
+    public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
+        this.letterOfCreditFundCode = letterOfCreditFundCode;
+    }
+
+    public java.util.Date getDateReportProcessed() {
+        return dateReportProcessed;
+    }
+
+    public void setDateReportProcessed(java.util.Date dateReportProcessed) {
+        this.dateReportProcessed = dateReportProcessed;
+    }
+
+    public java.util.Date getDateEmailProcessed() {
+        return dateEmailProcessed;
+    }
+
+    public void setDateEmailProcessed(java.util.Date dateEmailProcessed) {
+        this.dateEmailProcessed = dateEmailProcessed;
+    }
+
+    public String getReferralTypeCode() {
+        return referralTypeCode;
+    }
+
+    public void setReferralTypeCode(String referralTypeCode) {
+        this.referralTypeCode = referralTypeCode;
+    }
+
+    public String getFinalDispositionCode() {
+        return finalDispositionCode;
+    }
+
+    public void setFinalDispositionCode(String finalDispositionCode) {
+        this.finalDispositionCode = finalDispositionCode;
+    }
+
+    /**
+     * Gets the award attribute.
+     *
+     * @return Returns the award.
+     */
+    public ContractsAndGrantsBillingAward getAward() {
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
+        return award;
+    }
+
+    /**
+     * Sets the award attribute value.
+     *
+     * @param award The award to set.
+     */
+    public void setAward(ContractsAndGrantsBillingAward award) {
+        this.award = award;
+    }
+
+    /**
+     * Gets the finalDisposition attribute.
+     *
+     * @return Returns the finalDisposition attribute.
+     */
+    public FinalDisposition getFinalDisposition() {
+        return finalDisposition;
+    }
+
+    /**
+     * Sets the finalDisposition attribute.
+     *
+     * @param finalDisposition The finalDisposition to set.
+     */
+    public void setFinalDisposition(FinalDisposition finalDisposition) {
+        this.finalDisposition = finalDisposition;
+    }
+
+    /**
+     * Gets the referralType attribute.
+     *
+     * @return Returns the referralType attribute.
+     */
+    public ReferralType getReferralType() {
+        return referralType;
+    }
+
+    /**
+     * Sets the referralType attribute.
+     *
+     * @param referralType The referralType to set.
+     */
+    public void setReferralType(ReferralType referralType) {
+        this.referralType = referralType;
+    }
 
 }

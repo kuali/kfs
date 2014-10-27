@@ -1462,6 +1462,22 @@
 		<field-descriptor name="lastBilledDate" column="LST_BILLED_DT" jdbc-type="DATE" />
 		<field-descriptor name="dunningLetterTemplateAssigned" column="DUN_LTR_TMPLT_ASND" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningLetterTemplateSentDate" column="DUN_LTR_TMPLT_SNT_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" index="true" />
+		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="dateEmailProcessed" column="EMAIL_PROCESSED_DT" jdbc-type="DATE" />
+		<field-descriptor name="dateReportProcessed" column="RPRT_PROCESSED_DT" jdbc-type="DATE" />
+		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />	
+		<reference-descriptor name="finalDisposition" class-ref="org.kuali.kfs.module.ar.businessobject.FinalDisposition"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="finalDispositionCode" />
+		</reference-descriptor>
+		<reference-descriptor name="referralType" class-ref="org.kuali.kfs.module.ar.businessobject.ReferralType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="referralTypeCode" />
+		</reference-descriptor>		
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" table="AR_INV_DTL_ACCT_OBJ_CD_T">
@@ -1620,10 +1636,6 @@
 
 	<class-descriptor class="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" table="AR_INV_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
-		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" index="true" />
-		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="postingYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
@@ -1680,10 +1692,6 @@
 		<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="dateEmailProcessed" column="EMAIL_PROCESSED_DT" jdbc-type="DATE" />
-		<field-descriptor name="dateReportProcessed" column="RPRT_PROCESSED_DT" jdbc-type="DATE" />
-		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />
 		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false"> 
 			<foreignkey field-ref="documentNumber" />
@@ -1750,14 +1758,6 @@
 		<reference-descriptor name="customerInvoiceRecurrenceDetails" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails"
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
 			<foreignkey field-ref="documentNumber" />
-		</reference-descriptor>
-		<reference-descriptor name="finalDisposition" class-ref="org.kuali.kfs.module.ar.businessobject.FinalDisposition"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="finalDispositionCode" />
-		</reference-descriptor>
-		<reference-descriptor name="referralType" class-ref="org.kuali.kfs.module.ar.businessobject.ReferralType"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="referralTypeCode" />
 		</reference-descriptor>
 		<collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

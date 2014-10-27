@@ -453,6 +453,14 @@
 			<column name="CG_AGENCY_NBR" type="VARCHAR(6)" />
 			<column name="DUN_LTR_TMPLT_ASND" type="VARCHAR(20)" />
 			<column name="DUN_LTR_TMPLT_SNT_DT" type="DATETIME" />
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
+			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
+			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
+			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
+			<column name="EMAIL_PROCESSED_DT" type="DATETIME" />
+			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
+			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
+			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</createTable>
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -696,16 +704,6 @@
 			<column name="STOP_WRK_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="STOP_WRK_REASON_TXT" type="VARCHAR(120)" />
 			<column name="CUST_INV_TMPLT_CD" type="VARCHAR(10)" />
-		</addColumn>
-		<addColumn tableName="AR_INV_DOC_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
-			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
-			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="EMAIL_PROCESSED_DT" type="DATETIME" />
-			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
-			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
-			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</addColumn>
 		<addColumn tableName="AR_ORG_OPTION_T">
 			<column name="CG_BILLER_IND" type="VARCHAR(1)" />

@@ -64,15 +64,15 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        document.setDateEmailProcessed(new java.util.Date());
-        document.setDateReportProcessed(new java.util.Date());
+        document.getInvoiceGeneralDetail().setDateEmailProcessed(new java.util.Date());
+        document.getInvoiceGeneralDetail().setDateReportProcessed(new java.util.Date());
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
 
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        assertNull(document.getDateEmailProcessed());
-        assertNull(document.getDateReportProcessed());
+        assertNull(document.getInvoiceGeneralDetail().getDateEmailProcessed());
+        assertNull(document.getInvoiceGeneralDetail().getDateReportProcessed());
 
-        contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getProposalNumber());
+        contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getInvoiceGeneralDetail().getProposalNumber());
         Iterator iterator = document.getAccountDetails().iterator();
 
         while (iterator.hasNext()) {
@@ -80,7 +80,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getInvoiceGeneralDetail().getProposalNumber());
             ContractsAndGrantsBillingAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
             assertFalse(awardAccount.isFinalBilledIndicator());
         }
@@ -92,7 +92,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         documentService.saveDocument(document);
 
         String documentNumber = document.getDocumentNumber();
-        Long proposalNumber = document.getProposalNumber();
+        Long proposalNumber = document.getInvoiceGeneralDetail().getProposalNumber();
 
         setupMilestones(documentNumber, proposalNumber, true);
 
@@ -130,7 +130,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         documentService.saveDocument(document);
 
         String documentNumber = document.getDocumentNumber();
-        Long proposalNumber = document.getProposalNumber();
+        Long proposalNumber = document.getInvoiceGeneralDetail().getProposalNumber();
 
         setupBills(documentNumber, proposalNumber, true);
 

@@ -38,7 +38,7 @@ public enum ContractsGrantsInvoiceDocumentFixture {
     }
 
     private void setValues(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        contractsGrantsInvoiceDocument.setProposalNumber(this.proposalNumber);
+        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setProposalNumber(this.proposalNumber);
         contractsGrantsInvoiceDocument.setBillingDate(Date.valueOf(this.billingDate));
     }
 

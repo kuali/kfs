@@ -79,10 +79,14 @@ public class ArPropertyConstants{
         public static final String INVOICE_DOCUMENT_RECURRENCE = "customerInvoiceRecurrenceDetails";
         public static final String INVOICE_DOCUMENT_RECURRENCE_ACTIVE = "customerInvoiceRecurrenceDetails.active";
 
-        public static final String INVOICE_DOCUMENT_FINAL_BILL = "invoiceGeneralDetail.finalBill";
         public static final String CG_ACCT_RESP_ID = "sourceAccountingLines.account.contractsAndGrantsAccountResponsibilityId";
         public static final String ACCOUNT_NUMBER = "sourceAccountingLines.accountNumber";
         public static final String FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER = "financialDocumentReferenceInvoiceNumber";
+    }
+
+    public static class ContractsGrantsInvoiceDocumentFields {
+        public static final String FINAL_BILL = "invoiceGeneralDetail.finalBill";
+        public static final String PROPOSAL_NUMBER = "invoiceGeneralDetail.proposalNumber";
     }
 
     // InvoiceRecurrence
@@ -197,7 +201,7 @@ public class ArPropertyConstants{
 
     // Event bo fields
     public static class EventFields {
-        public static final String INVOICE_DOCUMENT_PROPOSAL_NUMBER = "invoiceDocument.proposalNumber";
+        public static final String INVOICE_DOCUMENT_PROPOSAL_NUMBER = "invoiceDocument.invoiceGeneralDetails.proposalNumber";
         public static final String INVOICE_DOCUMENT_AGENCY_NUMBER = "invoiceDocument.award.agency.agencyNumber";
         public static final String INVOICE_DOCUMENT_OPEN_INV_IND = "invoiceDocument." + ArPropertyConstants.OPEN_INVOICE_IND;
         public static final String EVENT_CODE = "eventCode";

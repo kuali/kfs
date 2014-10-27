@@ -50,7 +50,7 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
             if (CollectionUtils.isNotEmpty(list)){
                 // Get data from first award for agency data
                 ContractsGrantsInvoiceDocument invoice = list.get(0);
-                ContractsAndGrantsBillingAward award = invoice.getAward();
+                ContractsAndGrantsBillingAward award = invoice.getInvoiceGeneralDetail().getAward();
 
                 if (ObjectUtils.isNotNull(award)) {
                     ContractsAndGrantsBillingAgency agency = award.getAgency();
@@ -84,7 +84,7 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
         // use a map to sort awards by agency
         Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            Long proposalNumber = invoice.getProposalNumber();
+            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
             if (invoicesByAward.containsKey(proposalNumber)) {
                 invoicesByAward.get(proposalNumber).add(invoice);
             }

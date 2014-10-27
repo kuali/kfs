@@ -28,7 +28,7 @@ public class ReportsRequiredSuspensionCategory extends SuspensionCategoryBase {
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator();
+        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().isAdditionalFormsRequiredIndicator();
     }
 
 }

@@ -108,7 +108,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
         final String proposalNumber = (String)lookupFormFields.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         if (!StringUtils.isBlank(proposalNumber)) {
-            lookupCriteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            lookupCriteria.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
         final String lowerBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);

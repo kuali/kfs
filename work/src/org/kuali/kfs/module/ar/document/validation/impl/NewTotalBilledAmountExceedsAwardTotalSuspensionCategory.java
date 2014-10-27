@@ -28,7 +28,7 @@ public class NewTotalBilledAmountExceedsAwardTotalSuspensionCategory extends Sus
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getAward().getAwardTotalAmount());
+        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getAwardTotalAmount());
     }
 
 }

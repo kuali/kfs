@@ -44,7 +44,6 @@ SELECT P.AP_PUR_DOC_LNK_ID,
 		
 		<!-- receiving lines -->
 		<dropForeignKeyConstraint baseTableName="PUR_RCVNG_LN_T" constraintName="PUR_RCVNG_LN_TR1"/>
-		<!-- dropIndex tableName="PUR_RCVNG_LN_T" indexName="PUR_RCVNG_LN_TR1"/ -->
 		<renameTable oldTableName="PUR_RCVNG_LN_STAT_T" newTableName="DEPR_PUR_RCVNG_LN_STAT_T"/>
 		<renameColumn tableName="PUR_RCVNG_LN_T" oldColumnName="RCVNG_LN_STAT_CD" newColumnName="DEPR_RCVNG_LN_STAT_CD" columnDataType="varchar(4)"/>
 		

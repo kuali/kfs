@@ -62,14 +62,29 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         return false;
     }
 
+    public boolean canModifyTransmissionDate(ContractsGrantsInvoiceDocument document) {
+        if (document.hasInvoiceBeenCorrected()) {
+            return false;
+        }
+
+        if (document.isInvoiceReversal()) {
+            return false;
+        }
+
+        if (StringUtils.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
+            return false;
+        }
+
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isProcessed() || workflowDocument.isFinal()));
+    }
+
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!(((ContractsGrantsInvoiceDocument) document).isInvoiceReversal()) &&
-                !(((ContractsGrantsInvoiceDocument) document).hasInvoiceBeenCorrected()) &&
-                ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isProcessed() || workflowDocument.isFinal())) {
+        if (canModifyTransmissionDate((ContractsGrantsInvoiceDocument) document)) {
             editModes.add(ArAuthorizationConstants.ContractsGrantsInvoiceDocumentEditMode.MODIFY_TRANSMISSION_DATE);
         }
 

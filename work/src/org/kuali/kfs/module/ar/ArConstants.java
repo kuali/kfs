@@ -35,7 +35,6 @@ public class ArConstants{
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
     public static final String PAYMENT_DOC_TYPE = "Payment";
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
-    public static final String FINAL_BILLED_INDICATOR_DOC_TYPE = "FBI";
 
     public static final String SORT_INDEX_SESSION_KEY = "sortIndex";
     public static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
@@ -273,6 +272,7 @@ public class ArConstants{
     public static final String CASH_CONTROL_DOCUMENT_TYPE_CODE = "CTRL";
     public static final String CUSTOMER_CREDIT_MEMO_DOCUMENT_TYPE_CODE = "CRM";
     public static final String CUSTOMER_INVOICE_DOCUMENT_TYPE_CODE = "INV";
+    public static final String FINAL_BILLED_INDICATOR_DOCUMENT_TYPE_CODE = "FBI";
 
     // Organization Options Section Ids
     public static class OrganizationOptionsSections {

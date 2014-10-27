@@ -44,7 +44,7 @@ public class FinalBilledIndicatorDocumentForm extends KualiTransactionalDocument
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return ArConstants.FINAL_BILLED_INDICATOR_DOC_TYPE;
+        return ArConstants.FINAL_BILLED_INDICATOR_DOCUMENT_TYPE_CODE;
     }
 
     /**

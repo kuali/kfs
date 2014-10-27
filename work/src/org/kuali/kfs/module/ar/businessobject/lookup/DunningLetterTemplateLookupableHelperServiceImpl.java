@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
-import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -31,7 +31,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLookupableHelperServiceImplBase {
 
-    protected DunningLetterDistributionService dunningLetterDistributionService;
+    protected DunningLetterService dunningLetterService;
 
     /**
      * This method was overridden to add the links specific to the Dunning Letter Template Lookup Results
@@ -45,16 +45,21 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLo
 
         DunningLetterTemplate dunningLetterTemplate = (DunningLetterTemplate) businessObject;
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject)) {
+
+        boolean allowsMaintEdit = false;
+        if (!StringUtils.isBlank(getMaintenanceDocumentTypeName())) {
+            allowsMaintEdit = allowsMaintenanceEditAction(businessObject);
+        }
+        if (allowsMaintEdit) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         if (allowsMaintenanceNewOrCopyAction()) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
-        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(dunningLetterTemplate, currentUser) || !dunningLetterTemplate.isAccessRestricted()) {
+        if (allowsMaintEdit) {
             htmlDataList.add(getTemplateUploadUrl(ArPropertyConstants.DunningLetterTemplateFields.DUNNING_LETTER_TEMPLATE_CODE, dunningLetterTemplate.getDunningLetterTemplateCode()));
         }
-        if (StringUtils.isNotBlank(dunningLetterTemplate.getFilename()) && templateFileExists(dunningLetterTemplate.getFilename())) {
+        if (allowsMaintEdit && StringUtils.isNotBlank(dunningLetterTemplate.getFilename()) && templateFileExists(dunningLetterTemplate.getFilename())) {
             htmlDataList.add(getTemplateDownloadUrl(dunningLetterTemplate.getFilename()));
         }
 
@@ -69,11 +74,11 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLo
         return ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD;
     }
 
-    public DunningLetterDistributionService getDunningLetterDistributionService() {
-        return dunningLetterDistributionService;
+    public DunningLetterService getDunningLetterService() {
+        return dunningLetterService;
     }
 
-    public void setDunningLetterDistributionService(DunningLetterDistributionService dunningLetterDistributionService) {
-        this.dunningLetterDistributionService = dunningLetterDistributionService;
+    public void setDunningLetterService(DunningLetterService dunningLetterService) {
+        this.dunningLetterService = dunningLetterService;
     }
 }

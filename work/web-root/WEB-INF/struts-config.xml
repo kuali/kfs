@@ -528,7 +528,7 @@
 
 		<action path="/arAccountsReceivableDunningLetterTemplateUpload" name="AccountsReceivableDunningLetterTemplateUploadForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableTemplateUploadAction">
+			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableDunningLetterTemplateUploadAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/AccountsReceivableDunningLetterTemplateUpload.jsp" />

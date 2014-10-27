@@ -99,7 +99,7 @@
 							</c:choose>			    
 							<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 							<h3 style="background-color: #C3C3C3; ">
-								<a href="kew/DocHandler.do?command=displayDocSearchView&docId=${view.documentNumber}" target="_BLANK">${view.documentNumber} - ${view.documentTitle}</a>
+								<a href="${ConfigProperties.rice.server.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${view.documentNumber}" target="_BLANK">${view.documentNumber} - ${view.documentTitle}</a>
 								<c:if test="${!empty KualiForm.relatedDocumentNotes[view.documentNumber]}">
 									<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 										<html:image property="methodToCall.toggleTab.tab${tabKey}" 

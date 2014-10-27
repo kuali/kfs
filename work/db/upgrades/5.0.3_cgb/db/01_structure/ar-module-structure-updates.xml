@@ -132,7 +132,6 @@
 			<column name="INV_EXPND_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_CUM_AMT" type="DECIMAL(19,2)" />
 			<column name="CTGRY_CD" type="VARCHAR(4)" />
-			<column name="CTGRY_NM" type="VARCHAR(255)" />
 			<column name="IND_CST_IND" type="VARCHAR(1)" />
 			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>

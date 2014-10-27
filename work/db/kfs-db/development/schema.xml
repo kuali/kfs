@@ -4310,7 +4310,7 @@
         <column name="CG_LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="AUTO_APPROVE_IND" size="1" type="VARCHAR"/>
         <column name="FUNDING_EXP_DT" type="DATE"/>
-        <column name="INV_OPT" size="120" type="VARCHAR"/>
+        <column name="INV_OPT_CD" size="1" type="VARCHAR"/>
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="EXCL_FRM_INV_REASON_TXT" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR_IND" size="1" type="VARCHAR"/>

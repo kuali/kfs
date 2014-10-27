@@ -255,11 +255,11 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getAnalystTelephoneNumber();
 
     /**
-     * Gets the preferredBillingFrequency attribute.
+     * Gets the billingFrequencyCode attribute.
      *
-     * @return Returns the preferredBillingFrequency.
+     * @return Returns the billingFrequencyCode.
      */
-    public String getPreferredBillingFrequency();
+    public String getBillingFrequencyCode();
 
     /**
      * Gets the awardProjectTitle attribute.

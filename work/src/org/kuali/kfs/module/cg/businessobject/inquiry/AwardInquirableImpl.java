@@ -120,13 +120,13 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             String sectionId = inquirySection.getId();
             if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !sectionIdsToIgnore.contains(sectionId)) {
                 if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID)) {
-                    if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
+                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
                         SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);
                     }
                 } else if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_MILESTONE_SCHEDULE_SECTION_ID)) {
-                    if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
+                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
                         SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasMilestoneSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);

@@ -212,10 +212,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                             // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
                             // account if its Milestone/Predetermined Schedule.
                             KualiDecimal totalAmount = KualiDecimal.ZERO;
-                            if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
+                            if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
                                 totalAmount = totalMilestoneAmount;
                             }
-                            else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
+                            else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
                                 totalAmount = totalBillAmount;
                             }
                             else {
@@ -242,7 +242,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected KualiDecimal getBillAmountTotal(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         KualiDecimal totalBillAmount = KualiDecimal.ZERO;
         // To calculate the total bill amount.
-        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getInvoiceBills())) {
+        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getInvoiceBills())) {
             for (InvoiceBill bill : contractsGrantsInvoiceDocument.getInvoiceBills()) {
                 if (bill.getEstimatedAmount() != null) {
                     totalBillAmount = totalBillAmount.add(bill.getEstimatedAmount());
@@ -260,7 +260,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected KualiDecimal getInvoiceMilestoneTotal(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         KualiDecimal totalMilestoneAmount = KualiDecimal.ZERO;
         // To calculate the total milestone amount.
-        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getInvoiceMilestones())) {
+        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getInvoiceMilestones())) {
             for (InvoiceMilestone milestone : contractsGrantsInvoiceDocument.getInvoiceMilestones()) {
                 if (milestone.getMilestoneAmount() != null) {
                     totalMilestoneAmount = totalMilestoneAmount.add(milestone.getMilestoneAmount());
@@ -1166,8 +1166,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.CITY, document.getBillingCityName());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.STATE, document.getBillingStateCode());
         parameterMap.put(KFSPropertyConstants.PAYEE+"."+KFSPropertyConstants.ZIPCODE, document.getBillingZipCode());
-        parameterMap.put(ArPropertyConstants.ADVANCE_FLAG, ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency()));
-        parameterMap.put(ArPropertyConstants.REIMBURSEMENT_FLAG, !ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency()));
+        parameterMap.put(ArPropertyConstants.ADVANCE_FLAG, ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequencyCode()));
+        parameterMap.put(ArPropertyConstants.REIMBURSEMENT_FLAG, !ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequencyCode()));
         parameterMap.put(ArPropertyConstants.ACCOUNT_DETAILS+"."+KFSPropertyConstants.CONTRACT_CONTROL_ACCOUNT_NUMBER, getRecipientAccountNumber(document.getAccountDetails()));
         if (ObjectUtils.isNotNull(sysInfo)) {
             parameterMap.put(ArPropertyConstants.SYSTEM_INFORMATION+"."+ArPropertyConstants.SystemInformationFields.FEIN_NUMBER, sysInfo.getUniversityFederalEmployerIdentificationNumber());
@@ -1287,7 +1287,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, award.getFederalPassThroughAgencyNumber());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AGENCY_ANALYST_NAME, award.getAgencyAnalystName());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.ANALYST_TELEPHONE_NUMBER, award.getAnalystTelephoneNumber());
-            parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.PREFERRED_BILLING_FREQUENCY, award.getPreferredBillingFrequency());
+            parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.BILLING_FREQUENCY_CODE, award.getBillingFrequencyCode());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.AWARD_PROJECT_TITLE, award.getAwardProjectTitle());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.AWARD_PURPOSE_CODE, award.getAwardPurposeCode());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+KFSPropertyConstants.ACTIVE, award.isActive());
@@ -1624,13 +1624,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
 
         // set the billed to Date Field
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
+        if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
             // check if award has milestones
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
-        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
+        else if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
             // check if award has bills
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.

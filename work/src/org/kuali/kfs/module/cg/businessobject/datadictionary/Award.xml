@@ -59,7 +59,7 @@
 				<ref bean="Award-agencyNumber" />
 				<ref bean="Award-agency.reportingName" />
 				<ref bean="Award-analystTelephoneNumber" />
-				<ref bean="Award-preferredBillingFrequency" />
+				<ref bean="Award-billingFrequencyCode" />
 				<ref bean="Award-awardAddendumNumber" />
 				<ref bean="Award-awardAllocatedUniversityComputingServicesAmount" />
 				<ref bean="Award-awardBeginningDate" />
@@ -890,11 +890,11 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="Award-preferredBillingFrequency" parent="Award-preferredBillingFrequency-parentBean" />
+	<bean id="Award-billingFrequencyCode" parent="Award-billingFrequencyCode-parentBean" />
 
-	<bean id="Award-preferredBillingFrequency-parentBean" abstract="true"
+	<bean id="Award-billingFrequencyCode-parentBean" abstract="true"
 		parent="BillingFrequency-frequency">
-		<property name="name" value="preferredBillingFrequency" />
+		<property name="name" value="billingFrequencyCode" />
 		<property name="label" value="Billing Frequency" />
 		<property name="shortLabel" value="Billing Frequency" />
 		<property name="control">
@@ -1132,7 +1132,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyAnalystName" />
 				<bean parent="FieldDefinition" p:attributeName="analystTelephoneNumber" />
 				<bean parent="FieldDefinition" p:attributeName="awardDocumentNumber" />
-				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -1178,22 +1177,24 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="lastBilledDate" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
-				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
+				<bean parent="FieldDefinition" p:attributeName="billingFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
+				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
+				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
-				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicingReason" />
+				<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
-				<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
-				<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
+				<bean parent="FieldDefinition" p:attributeName="dunningCampaign" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicingReason" />
 				<bean parent="FieldDefinition" p:attributeName="stopWorkIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="stopWorkReason" />
+				<bean parent="FieldDefinition" p:attributeName="lastBilledDate" />
 			</list>
 		</property>
 	</bean>
@@ -1464,7 +1465,7 @@
 					p:defaultValue="Contracts &amp; Grants Project Director" />
 				<bean parent="FieldDefinition" p:attributeName="awardOrganizations.organization.organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="awardAccounts.account.accountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
+				<bean parent="FieldDefinition" p:attributeName="billingFrequencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
@@ -1490,7 +1491,7 @@
 				<bean parent="FieldDefinition" p:attributeName="primaryAwardOrganization.organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryProjectDirector.projectDirector.name" />
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManager.fundManager.name" />
-				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
+				<bean parent="FieldDefinition" p:attributeName="billingFrequencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />

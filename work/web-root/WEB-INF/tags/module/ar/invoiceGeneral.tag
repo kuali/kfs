@@ -62,13 +62,13 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}" useShortLabel="false" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}" useShortLabel="false" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billingFrequency.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}"
-							property="document.invoiceGeneralDetail.billingFrequency" readOnly="true" />
+					<div id="document.billingFrequencyCode.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}"
+							property="document.invoiceGeneralDetail.billingFrequencyCode" readOnly="true" />
 					</div>
 				</td>
 			</tr>

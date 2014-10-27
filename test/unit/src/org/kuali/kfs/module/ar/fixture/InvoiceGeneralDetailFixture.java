@@ -36,7 +36,7 @@ public enum InvoiceGeneralDetailFixture {
     private String documentNumber;
     private String comment;
     private String awardDateRange;
-    private String billingFrequency;
+    private String billingFrequencyCode;
     private boolean finalBillIndicator;
     private String billingPeriod;
     private String instrumentTypeCode;
@@ -46,11 +46,11 @@ public enum InvoiceGeneralDetailFixture {
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
 
-    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String instrumentTypeCode, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal billedToDateAmount, KualiDecimal costShareAmount, Date lastBilledDate) {
+    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequencyCode, boolean finalBillIndicator, String billingPeriod, String instrumentTypeCode, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal billedToDateAmount, KualiDecimal costShareAmount, Date lastBilledDate) {
         this.documentNumber = documentNumber;
         this.comment = comment;
         this.awardDateRange = awardDateRange;
-        this.billingFrequency = billingFrequency;
+        this.billingFrequencyCode = billingFrequencyCode;
         this.finalBillIndicator = finalBillIndicator;
         this.billingPeriod = billingPeriod;
         this.instrumentTypeCode = instrumentTypeCode;
@@ -66,7 +66,7 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setDocumentNumber(this.documentNumber);
         invoiceGeneralDetail.setComment(comment);
         invoiceGeneralDetail.setAwardDateRange(awardDateRange);
-        invoiceGeneralDetail.setBillingFrequency(billingFrequency);
+        invoiceGeneralDetail.setBillingFrequencyCode(billingFrequencyCode);
         invoiceGeneralDetail.setFinalBillIndicator(finalBillIndicator);
         invoiceGeneralDetail.setBillingPeriod(billingPeriod);
         invoiceGeneralDetail.setInstrumentTypeCode(instrumentTypeCode);

@@ -26,7 +26,7 @@
 				<ref bean="InvoiceGeneralDetail-documentNumber" />
 				<ref bean="InvoiceGeneralDetail-comment" />
 				<ref bean="InvoiceGeneralDetail-awardDateRange" />
-				<ref bean="InvoiceGeneralDetail-billingFrequency" />
+				<ref bean="InvoiceGeneralDetail-billingFrequencyCode" />
 				<ref bean="InvoiceGeneralDetail-finalBillIndicator" />
 				<ref bean="InvoiceGeneralDetail-billingPeriod" />
 				<ref bean="InvoiceGeneralDetail-instrumentTypeCode" />
@@ -78,10 +78,10 @@
 		</property>
 	</bean>
 
-	<bean id="InvoiceGeneralDetail-billingFrequency" parent="InvoiceGeneralDetail-billingFrequency-parentBean" />
+	<bean id="InvoiceGeneralDetail-billingFrequencyCode" parent="InvoiceGeneralDetail-billingFrequencyCode-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-billingFrequency-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="billingFrequency" />
+	<bean id="InvoiceGeneralDetail-billingFrequencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="billingFrequencyCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Billing Frequency" />
 		<property name="shortLabel" value="BillingFrequency" />

@@ -34,7 +34,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String comment;
     private String awardDateRange;
     private String agencyNumber;
-    private String billingFrequency;
+    private String billingFrequencyCode;
     private boolean finalBillIndicator;
     private String billingPeriod;
     private String instrumentTypeCode;
@@ -105,22 +105,22 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the billingFrequency attribute.
+     * Gets the billingFrequencyCode attribute.
      *
-     * @return Returns the billingFrequency.
+     * @return Returns the billingFrequencyCode.
      */
-    public String getBillingFrequency() {
-        return billingFrequency;
+    public String getBillingFrequencyCode() {
+        return billingFrequencyCode;
     }
 
 
     /**
-     * Sets the billingFrequency attribute value.
+     * Sets the billingFrequencyCode attribute value.
      *
-     * @param billingFrequency The billingFrequency to set.
+     * @param billingFrequencyCode The billingFrequencyCode to set.
      */
-    public void setBillingFrequency(String billingFrequency) {
-        this.billingFrequency = billingFrequency;
+    public void setBillingFrequencyCode(String billingFrequencyCode) {
+        this.billingFrequencyCode = billingFrequencyCode;
     }
 
 
@@ -260,7 +260,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("comment", this.comment);
         m.put("awardDateRange", this.awardDateRange);
-        m.put("billingFrequency", this.billingFrequency);
+        m.put("billingFrequency", this.billingFrequencyCode);
         m.put("billingPeriod", this.billingPeriod);
         m.put("instrumentTypeCode", this.instrumentTypeCode);
         if (ObjectUtils.isNotNull(this.awardTotal)) {

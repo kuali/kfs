@@ -115,10 +115,10 @@
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-awardBillingFrequency" parent="ContractsGrantsInvoiceLookupResult-awardBillingFrequency-parentBean" />
-	<bean id="ContractsGrantsInvoiceLookupResult-awardBillingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequency">
+	<bean id="ContractsGrantsInvoiceLookupResult-awardBillingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequencyCode">
 		<property name="name" value="awardBillingFrequency" />
-		<property name="label" value="Preferred Billing Frequency" />
-		<property name="shortLabel" value="Preferred Billing Frequency" />
+		<property name="label" value="Billing Frequency" />
+		<property name="shortLabel" value="Billing Frequency" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.RestrictedBillingFrequencyValuesFinder"
 				p:includeKeyInLabel="false" />

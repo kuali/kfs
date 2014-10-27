@@ -147,7 +147,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-CAM","Batch","NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES","KFS99","1","CONFG","N;O","Asset status codes excluded from asset depreciation process.","A","KFS"
 "KFS-CG","Agency","DEFAULT_DUNNING_CAMPAIGN","KFS-CGB-PARM-012","1","CONFG","","The default value for the Dunning Campaign code for Agencies.","A","KFS"
 "KFS-CG","All","OLTP_LOCKOUT_ACTIVE_IND","KFSCNTRB65-5",1,"CONFG","N","Y/N indicator showing if the contracts and grants module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.","A","KFS"
-"KFS-CG","Award","DEFAULT_BILLING_FREQUENCY","KFS-CGB-PARM-013","1","CONFG","MNTH","The default value for the preferred billing frequency code for Awards.","A","KFS"
+"KFS-CG","Award","DEFAULT_BILLING_FREQUENCY","KFS-CGB-PARM-013","1","CONFG","MNTH","The default value for the billing frequency code for Awards.","A","KFS"
 "KFS-CG","Award","DEFAULT_INVOICING_OPTION","KFS-CGB-PARM-014","1","CONFG","2","The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account.","A","KFS"
 "KFS-CG","CfdaBatchStep","RESULT_SUMMARY_TO_EMAIL_ADDRESSES","KFS102","1","CONFG","knoreceipt-l@indiana.edu","Listserv for recipients of CFDA batch process results.","A","KFS"
 "KFS-CG","CfdaBatchStep","SOURCE_URL","KFS103","1","CONFG","ftp://ftp.cfda.gov/programs","CFDA url","A","KFS"

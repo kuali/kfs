@@ -230,7 +230,7 @@
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.billingDate}" labelFor="document.billingDate" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" labelFor="document.invoiceGeneralDetail.billingPeriod" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.sourceTotal}" labelFor="document.sourceTotal" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}" labelFor="invoiceGeneralDetail.billingFrequency" /></th>
+														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}" labelFor="invoiceGeneralDetail.billingFrequencyCode" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentAmount}" labelFor="document.paymentAmount" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentDate}" labelFor="document.paymentDate" /></th>
 														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.balanceDue}" labelFor="document.balanceDue" /></th>
@@ -260,8 +260,8 @@
 																attributeEntry="${cgInvoiceAttributes.sourceTotal}"
 																property="selectedInvoiceTotalAmount" readOnly="true" /></td>
 														<td><kul:htmlControlAttribute
-																attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}"
-																property="selectedInvoiceApplication.invoiceGeneralDetail.billingFrequency"
+																attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}"
+																property="selectedInvoiceApplication.invoiceGeneralDetail.billingFrequencyCode"
 																readOnly="true" /></td>
 														<td><kul:htmlControlAttribute
 																attributeEntry="${cgInvoiceAttributes.paymentAmount}"

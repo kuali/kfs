@@ -933,8 +933,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected Map<String, List<ContractsAndGrantsBillingAward>> getAwardByAgency(Collection<ContractsAndGrantsBillingAward> awards) {
         // use a map to sort awards by agency
         Map<String, List<ContractsAndGrantsBillingAward>> awardsByAgency = new HashMap<>();
-        for (ContractsAndGrantsBillingAward award : awards) {// To display awards only if their preferred Billing frequency is not LOC Billing
-            if (!StringUtils.isBlank(award.getPreferredBillingFrequency()) && !StringUtils.equalsIgnoreCase(award.getPreferredBillingFrequency(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+        for (ContractsAndGrantsBillingAward award : awards) {// To display awards only if their Billing frequency is not LOC Billing
+            if (!StringUtils.isBlank(award.getBillingFrequencyCode()) && !StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 String agencyNumber = award.getAgencyNumber();
                 if (awardsByAgency.containsKey(agencyNumber)) {
                     awardsByAgency.get(agencyNumber).add(award);

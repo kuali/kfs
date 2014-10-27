@@ -441,7 +441,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
         Map<String, Object> map = new ReflectionMap(cinvDoc);
         assertEquals(new Long(80075L), map.get(KFSPropertyConstants.PROPOSAL_NUMBER));
-        assertEquals("MILE", map.get(ArPropertyConstants.INVOICE_GENERAL_DETAIL+".billingFrequency"));
+        assertEquals("MILE", map.get(ArPropertyConstants.INVOICE_GENERAL_DETAIL+"." + ArPropertyConstants.BILLING_FREQUENCY_CODE));
         assertEquals("9000000", map.get("accountDetails[0]."+KFSPropertyConstants.ACCOUNT_NUMBER));
         assertNull(map.get("zebra"));
         assertNull(map.get(ArPropertyConstants.INVOICE_GENERAL_DETAIL+".zebra"));

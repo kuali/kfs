@@ -254,7 +254,7 @@ public class ArPropertyConstants{
     public static final String REPORT_OPTION = "reportOption";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String BILLS = "bills";
-    public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
+    public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
     public static final String INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";

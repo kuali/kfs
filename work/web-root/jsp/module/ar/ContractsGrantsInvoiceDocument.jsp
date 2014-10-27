@@ -40,10 +40,10 @@
 		readOnly="${readOnly}" />
 		
 	<c:choose>
-		<c:when test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
+		<c:when test="${KualiForm.document.invoiceGeneralDetail.billingFrequencyCode == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
 			<ar:invoiceMilestones />
 		</c:when>
-		<c:when	test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
+		<c:when	test="${KualiForm.document.invoiceGeneralDetail.billingFrequencyCode == ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
 			<ar:invoiceBills />
 		</c:when>
 		<c:otherwise>

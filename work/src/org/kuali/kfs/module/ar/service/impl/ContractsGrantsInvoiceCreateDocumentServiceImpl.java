@@ -447,7 +447,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
             java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();
-            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {// To check if award has milestones
+            if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {// To check if award has milestones
                 final List<Milestone> milestones = getContractsGrantsBillingUtilityService().getActiveMilestonesForProposalNumber(award.getProposalNumber());
                 if (!CollectionUtils.isEmpty(milestones)) {
                     // copy award milestones to invoice milestones
@@ -456,7 +456,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     document.getInvoiceMilestones().addAll(invoiceMilestones);
                 }
             }
-            else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {// To check if award has bills
+            else if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {// To check if award has bills
                 final List<Bill> bills = getContractsGrantsBillingUtilityService().getActiveBillsForProposalNumber(award.getProposalNumber());
                 if (!CollectionUtils.isEmpty(bills)) {
                     // copy award milestones to invoice milestones
@@ -503,7 +503,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
             invoiceAccountDetail.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
             invoiceAccountDetail.setProposalNumber(award.getProposalNumber());
-            updateBudgetsAndCumulativesForInvoiceAccountDetail(invoiceAccountDetail, invoiceGeneralDetail.getLastBilledDate(), invoiceGeneralDetail.getBillingFrequency(), award.getAwardBeginningDate());
+            updateBudgetsAndCumulativesForInvoiceAccountDetail(invoiceAccountDetail, invoiceGeneralDetail.getLastBilledDate(), invoiceGeneralDetail.getBillingFrequencyCode(), award.getAwardBeginningDate());
             invoiceAccountDetails.add(invoiceAccountDetail);
         }
         return invoiceAccountDetails;
@@ -689,8 +689,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         // copy General details from award to the invoice
         invoiceGeneralDetail.setAwardTotal(award.getAwardTotalAmount());
         invoiceGeneralDetail.setAgencyNumber(award.getAgencyNumber());
-        if (ObjectUtils.isNotNull(award.getPreferredBillingFrequency())) {
-            invoiceGeneralDetail.setBillingFrequency(award.getPreferredBillingFrequency());
+        if (ObjectUtils.isNotNull(award.getBillingFrequencyCode())) {
+            invoiceGeneralDetail.setBillingFrequencyCode(award.getBillingFrequencyCode());
         }
         if (ObjectUtils.isNotNull(award.getInstrumentTypeCode())) {
             invoiceGeneralDetail.setInstrumentTypeCode(award.getInstrumentTypeCode());
@@ -701,10 +701,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         // set the billed to Date Field
         // To check if award has milestones
-        if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+        if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
         }
-        else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+        else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequencyCode(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
         }
         else {
@@ -734,7 +734,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     }
 
                     // Retrieve cumulative amounts based on the biling period.
-                    if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+                    if (document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
                         invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
                     }
                     else {
@@ -751,7 +751,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         // accounting more than one fiscal years.
 
         for (ContractsAndGrantsBillingAwardAccount awdAcct : awardAccounts) {
-            if (awdAcct.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+            if (awdAcct.isLetterOfCreditReviewIndicator() && award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
 
                 List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodeList = new ArrayList<InvoiceDetailAccountObjectCode>();
@@ -864,7 +864,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param billingFrequency the billing frequency on the award
      * @param awardBeginningDate the beginning date of the award
      */
-    protected void updateBudgetsAndCumulativesForInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail, java.sql.Date lastBilledDate, String billingFrequency, java.sql.Date awardBeginningDate) {
+    protected void updateBudgetsAndCumulativesForInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail, java.sql.Date lastBilledDate, String billingFrequencyCode, java.sql.Date awardBeginningDate) {
         List<Balance> glBalances = new ArrayList<Balance>();
         Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
         List<Integer> fiscalYears = new ArrayList<Integer>();
@@ -898,7 +898,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     budAmt = budAmt.add(balAmt);
                 }
                 else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArConstants.ACTUAL_BALANCE_TYPE)) {
-                    if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+                    if (billingFrequencyCode.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
 
                         cumAmt = cumAmt.add(calculateBalanceAmountWithoutLastBilledPeriod(lastBilledDate, bal));
                     }
@@ -990,7 +990,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             invAcctD.setExpenditureAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
             for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                     currentExpenditureAmount = awardAccount.getAmountToDraw();
                     invAcctD.setExpenditureAmount(currentExpenditureAmount);
                 }
@@ -1177,7 +1177,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         Iterator<ContractsAndGrantsBillingAward> it = awards.iterator();
         while (it.hasNext()) {
             ContractsAndGrantsBillingAward award = it.next();
-            if (StringUtils.equalsIgnoreCase(award.getPreferredBillingFrequency(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+            if (StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 it.remove();
             }
         }
@@ -1222,7 +1222,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             List<String> errorList = new ArrayList<String>();
 
             if (award.getAwardBeginningDate() != null) {
-                if (award.getPreferredBillingFrequency() != null && getContractsGrantsBillingAwardVerificationService().isValueOfPreferredBillingFrequencyValid(award)) {
+                if (award.getBillingFrequencyCode() != null && getContractsGrantsBillingAwardVerificationService().isValueOfBillingFrequencyValid(award)) {
                     if (verifyBillingFrequencyService.validateBillingFrequency(award)) {
                         validateAward(errorList, award);
                     } else {
@@ -1267,8 +1267,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
         }
 
-        // 5. Award preferred billing frequency is not set correctly
-        if (!getContractsGrantsBillingAwardVerificationService().isPreferredBillingFrequencySetCorrectly(award)) {
+        // 5. Award billing frequency is not set correctly
+        if (!getContractsGrantsBillingAwardVerificationService().isBillingFrequencySetCorrectly(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
         }
 
@@ -1330,7 +1330,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 16. If all accounts of award has invoices in progress.
-        if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award)) {
+        if ((award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
         }
 
@@ -1563,13 +1563,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * This method returns the valid award accounts based on evaluation of preferred billing frequency and invoice document status
+     * This method returns the valid award accounts based on evaluation of billing frequency and invoice document status
      *
      * @param awardAccounts
      * @return valid awardAccounts
      */
     protected List<ContractsAndGrantsBillingAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
-        if (!award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+        if (!award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
             final Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {

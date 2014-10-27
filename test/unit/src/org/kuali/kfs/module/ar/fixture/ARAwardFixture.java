@@ -108,7 +108,7 @@ public enum ARAwardFixture {
         award.setActive(this.active);
         award.setBillingFrequency(billingFrequency);
         if (ObjectUtils.isNotNull(billingFrequency)) {
-            award.setPreferredBillingFrequency(billingFrequency.getFrequency());
+            award.setBillingFrequencyCode(billingFrequency.getFrequency());
         }
 
         award.getActiveAwardAccounts().clear();

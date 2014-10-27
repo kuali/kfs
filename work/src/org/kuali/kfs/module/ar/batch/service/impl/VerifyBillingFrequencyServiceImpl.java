@@ -115,7 +115,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         Date previousAccountingPeriodStartDay = null;
         Date tmpEndDate;
         Date lastBilledDate = award.getLastBilledDate();
-        String billingFrequency = award.getPreferredBillingFrequency();
+        String billingFrequency = award.getBillingFrequencyCode();
         ArrayList<Date> periodEndDateListOfCurrFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(currPeriod);
 
         // this is used later on when obtaining the last date of the previous fiscal year as the previousAccountPeriodEndDay

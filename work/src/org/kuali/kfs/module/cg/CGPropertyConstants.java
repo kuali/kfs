@@ -46,7 +46,7 @@ public class CGPropertyConstants{
 
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
+    public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";

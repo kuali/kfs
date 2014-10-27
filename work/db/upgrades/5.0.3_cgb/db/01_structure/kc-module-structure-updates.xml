@@ -5,7 +5,7 @@
 
 	<changeSet author="KFSCGB" id="KFS_CGB_NEW_KC_TABLE">
 		<createTable tableName="KC_BILL_FREQ_MAP_T">
-			<column name="KFS_FREQ_CD" type="VARCHAR(10)">
+			<column name="KFS_FREQ_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="KC_BILL_FREQ_MAP_TP1"/>
 			</column>
 			<column name="KC_FREQ_CD" type="VARCHAR(3)">

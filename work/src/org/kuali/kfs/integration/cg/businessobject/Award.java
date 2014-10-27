@@ -84,7 +84,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String agencyAnalystName;
     private String analystTelephoneNumber;
 
-    private String preferredBillingFrequency;
+    private String billingFrequencyCode;
     private ContractsAndGrantsBillingFrequency billingFrequency;
 
 
@@ -783,23 +783,23 @@ public class Award implements ContractsAndGrantsBillingAward {
 
 
     /**
-     * Gets the preferredBillingFrequency attribute.
+     * Gets the billingFrequencyCode attribute.
      *
-     * @return Returns the preferredBillingFrequency.
+     * @return Returns the billingFrequencyCode.
      */
     @Override
-    public String getPreferredBillingFrequency() {
-        return preferredBillingFrequency;
+    public String getBillingFrequencyCode() {
+        return billingFrequencyCode;
     }
 
 
     /**
-     * Sets the preferredBillingFrequency attribute value.
+     * Sets the billingFrequencyCode attribute value.
      *
-     * @param preferredBillingFrequency The preferredBillingFrequency to set.
+     * @param billingFrequencyCode The billingFrequencyCode to set.
      */
-    public void setPreferredBillingFrequency(String preferredBillingFrequency) {
-        this.preferredBillingFrequency = preferredBillingFrequency;
+    public void setBillingFrequencyCode(String billingFrequencyCode) {
+        this.billingFrequencyCode = billingFrequencyCode;
     }
 
 

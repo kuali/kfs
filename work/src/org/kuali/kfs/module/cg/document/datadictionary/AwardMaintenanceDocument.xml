@@ -144,7 +144,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="awardAllocatedUniversityComputingServicesAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardAddendumNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber" />
-				<bean parent="MaintainableFieldDefinition" p:name="instrumentTypeCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyAnalystName" />
 				<bean parent="MaintainableFieldDefinition" p:name="analystTelephoneNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
@@ -366,27 +365,27 @@
 		<property name="title" value="Invoicing" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="lastBilledDate"
-					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundCode"
 					p:webUILeaveFieldFunction="onblur_letterOfCreditFundCode"
 					p:triggerOnChange="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 					p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency" />
+				<bean parent="MaintainableFieldDefinition" p:name="billingFrequencyCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />
+				<bean parent="MaintainableFieldDefinition" p:name="minInvoiceAmount" />
+				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicing" />
-				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicingReason" />
+				<bean parent="MaintainableFieldDefinition" p:name="instrumentTypeCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsRequiredIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsDescription" />
-				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="minInvoiceAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign" />
+				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicing" />
+				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicingReason" />
 				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="stopWorkReason" />				
+				<bean parent="MaintainableFieldDefinition" p:name="lastBilledDate" p:unconditionallyReadOnly="true" />
 			</list>
 		</property>
 	</bean>

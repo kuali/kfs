@@ -1452,7 +1452,7 @@
 		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardDateRange" column="AWD_DT_RNG" jdbc-type="VARCHAR" />
 		<field-descriptor name="comment" column="COMMENT_TXT" jdbc-type="VARCHAR" />
-		<field-descriptor name="billingFrequency" column="BILL_FREQ" jdbc-type="VARCHAR" />
+		<field-descriptor name="billingFrequencyCode" column="BILL_FREQ_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalBillIndicator" column="FINAL_BILL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="billingPeriod" column="BILLNG_PRD" jdbc-type="VARCHAR" />
 		<field-descriptor name="instrumentTypeCode" column="INSTRMNT_TYP_CD" jdbc-type="VARCHAR" />

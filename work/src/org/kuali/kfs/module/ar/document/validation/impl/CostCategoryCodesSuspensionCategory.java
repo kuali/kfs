@@ -36,10 +36,10 @@ public class CostCategoryCodesSuspensionCategory extends SuspensionCategoryBase 
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        String preferredBillingFrequency = contractsGrantsInvoiceDocument.getAward().getPreferredBillingFrequency();
+        String billingFrequencyCode = contractsGrantsInvoiceDocument.getAward().getBillingFrequencyCode();
 
-        if (!StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, preferredBillingFrequency) &&
-                !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, preferredBillingFrequency)) {
+        if (!StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
+                !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, billingFrequencyCode)) {
             ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
                 KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();

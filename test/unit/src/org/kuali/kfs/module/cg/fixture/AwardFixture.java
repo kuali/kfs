@@ -59,9 +59,9 @@ public enum AwardFixture {
     private boolean excludedFromInvoicing;
     private String invoicingOptions;
     private boolean active;
-    private String preferredBillingFrequency;
+    private String billingFrequencyCode;
 
-    private AwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptions, boolean active, String preferredBillingFrequency) {
+    private AwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptions, boolean active, String billingFrequencyCode) {
 
         this.proposalNumber = proposalNumber;
         this.awardBeginningDate = awardBeginningDate;
@@ -72,7 +72,7 @@ public enum AwardFixture {
         this.excludedFromInvoicing = excludedFromInvoicing;
         this.invoicingOptions = invoicingOptions;
         this.active = active;
-        this.preferredBillingFrequency = preferredBillingFrequency;
+        this.billingFrequencyCode = billingFrequencyCode;
     }
 
     public Award createAward() {
@@ -86,7 +86,7 @@ public enum AwardFixture {
         award.setExcludedFromInvoicing(this.excludedFromInvoicing);
         award.setInvoicingOptions(this.invoicingOptions);
         award.setActive(this.active);
-        award.setPreferredBillingFrequency(this.preferredBillingFrequency);
+        award.setBillingFrequencyCode(this.billingFrequencyCode);
         return award;
     }
 

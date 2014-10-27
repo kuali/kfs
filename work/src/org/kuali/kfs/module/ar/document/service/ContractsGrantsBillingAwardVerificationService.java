@@ -23,21 +23,21 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 public interface ContractsGrantsBillingAwardVerificationService {
 
    /**
-    * Check if Preferred Billing Frequency is set correctly.
+    * Check if Billing Frequency Code is set correctly.
     *
     * @param award
-    * @return False if preferred billing schedule is set as perdetermined billing schedule or milestone billing schedule, and award
+    * @return False if billing frequency is set as predetermined billing schedule or milestone billing schedule, and award
     *         has no award account or more than 1 award accounts assigned.
     */
-   public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award);
+   public boolean isBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award);
 
    /**
-    * Check if the value of PreferredBillingFrequency is in the value set.
+    * Check if the value of Billing Frequency Code is in the value set.
     *
     * @param award
     * @return
     */
-   public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award);
+   public boolean isValueOfBillingFrequencyValid(ContractsAndGrantsBillingAward award);
 
    /**
     * Check if the final Invoice for all accounts in the invoice have already been built.

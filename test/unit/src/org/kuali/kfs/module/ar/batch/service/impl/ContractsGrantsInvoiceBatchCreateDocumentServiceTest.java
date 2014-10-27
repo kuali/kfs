@@ -132,7 +132,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
     public void testBatchCreateCGInvoiceDocumentsByAccountNonBillable() throws WorkflowException, IOException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
+        award.setBillingFrequencyCode(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
         documentService.saveDocument(cgInvoice);
@@ -164,7 +164,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
     public void testBatchCreateCGInvoiceDocumentsByCCAContractAccountNotBillable() throws WorkflowException, IOException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
+        award.setBillingFrequencyCode(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
         documentService.saveDocument(cgInvoice);
@@ -196,7 +196,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
     public void testBatchCreateCGInvoiceDocumentsByAwardNotAllBillableAccounts() throws WorkflowException, IOException {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
+        award.setBillingFrequencyCode(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
         documentService.saveDocument(cgInvoice);

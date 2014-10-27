@@ -49,8 +49,8 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
     public boolean canProrate(ContractsGrantsInvoiceDocument document) {
         if (canEdit(document) &&
                 KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.CG_PRORATE_BILL_IND)) &&
-                !StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequency()) &&
-                !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequency())) {
+                !StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequencyCode()) &&
+                !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
             return true;
         }
         return false;

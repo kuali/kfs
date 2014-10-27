@@ -56,7 +56,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
         }
         value = fieldValues.remove("awardBillingFrequency");
         if (StringUtils.isNotBlank(value)) {
-            fieldValues.put("preferredBillingFrequency", value);
+            fieldValues.put("billingFrequencyCode", value);
         }
         value = fieldValues.remove("awardTotal");
         if (StringUtils.isNotBlank(value)) {

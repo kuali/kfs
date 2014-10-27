@@ -108,7 +108,7 @@
 	</bean>
 	
 	<bean id="CollectionActivityInvoiceLookup-billingFrequency" parent="CollectionActivityInvoiceLookup-billingFrequency-parentBean" />
-	<bean id="CollectionActivityInvoiceLookup-billingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequency">
+	<bean id="CollectionActivityInvoiceLookup-billingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequencyCode">
 		<property name="name" value="billingFrequency" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Billing Frequency" />

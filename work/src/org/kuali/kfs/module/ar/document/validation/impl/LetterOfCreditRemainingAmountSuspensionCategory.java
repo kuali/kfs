@@ -30,9 +30,9 @@ public class LetterOfCreditRemainingAmountSuspensionCategory extends SuspensionC
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        String preferredBillingFrequency = contractsGrantsInvoiceDocument.getAward().getPreferredBillingFrequency();
+        String billingFrequencyCode = contractsGrantsInvoiceDocument.getAward().getBillingFrequencyCode();
 
-        if (StringUtils.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE, preferredBillingFrequency) &&
+        if (StringUtils.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
                 (contractsGrantsInvoiceDocument.getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled()))) {
             return true;
         }

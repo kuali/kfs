@@ -444,7 +444,7 @@
 				<constraints nullable="false" />
 			</column>			
 			<column name="AWD_DT_RNG" type="VARCHAR(50)" />
-			<column name="BILL_FREQ" type="VARCHAR(50)" />
+			<column name="BILL_FREQ_CD" type="VARCHAR(4)" />
 			<column name="FND_TYP" type="VARCHAR(50)" />
 			<column name="INSTRMNT_TYP_CD" type="VARCHAR(10)" />
 			<column name="FINAL_BILL_IND" type="VARCHAR(1)" />

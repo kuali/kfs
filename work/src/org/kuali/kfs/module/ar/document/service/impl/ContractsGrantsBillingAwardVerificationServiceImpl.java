@@ -66,16 +66,16 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     protected UniversityDateService universityDateService;
 
     /**
-     * Check if Preferred Billing Frequency is set correctly.
+     * Check if Billing Frequency is set correctly.
      *
      * @param award
-     * @return False if preferred billing schedule is null, or set as perdetermined billing schedule or milestone billing schedule
+     * @return False if billing frequency code is blank, or set as predetermined billing schedule or milestone billing schedule
      *         and award has no award account or more than 1 award accounts assigned.
      */
     @Override
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award) {
+    public boolean isBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award) {
 
-        if (award.getPreferredBillingFrequency() == null || ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) && award.getActiveAwardAccounts().size() != 1)) {
+        if (StringUtils.isBlank(award.getBillingFrequencyCode()) || ((award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) || award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) && award.getActiveAwardAccounts().size() != 1)) {
             return false;
         }
         return true;
@@ -83,16 +83,16 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
 
 
     /**
-     * Check if the value of PreferredBillingFrequency is in the BillingFrequency value set.
+     * Check if the value of the billing frequency code is in the BillingFrequency value set.
      *
      * @param award
      * @return
      */
     @Override
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
-        if (!StringUtils.isBlank(award.getPreferredBillingFrequency())) {
+    public boolean isValueOfBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
+        if (!StringUtils.isBlank(award.getBillingFrequencyCode())) {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.FREQUENCY, award.getPreferredBillingFrequency());
+            criteria.put(KFSPropertyConstants.FREQUENCY, award.getBillingFrequencyCode());
             criteria.put(KFSPropertyConstants.ACTIVE, true);
             Collection<ContractsAndGrantsBillingFrequency> matchingBillingFrequencies = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
 
@@ -140,7 +140,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     @Override
     public boolean hasMilestonesToInvoice(ContractsAndGrantsBillingAward award) {
         boolean hasMilestonesToInvoice = true;
-        if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+        if (award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             List<Milestone> milestones = new ArrayList<Milestone>();
             List<Milestone> validMilestones = new ArrayList<Milestone>();
 
@@ -176,7 +176,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     @Override
     public boolean hasBillsToInvoice(ContractsAndGrantsBillingAward award) {
         boolean hasBillsToInvoice = true;
-        if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+        if (award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
             List<Bill> bills = new ArrayList<Bill>();
             List<Bill> validBills = new ArrayList<Bill>();

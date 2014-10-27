@@ -81,7 +81,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
-    private String preferredBillingFrequency;
+    private String billingFrequencyCode;
     private String awardProjectTitle;
     private String awardPurposeCode;
     private boolean active;
@@ -521,12 +521,12 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getPreferredBillingFrequency() {
-        return preferredBillingFrequency;
+    public String getBillingFrequencyCode() {
+        return billingFrequencyCode;
     }
 
-    public void setPreferredBillingFrequency(String preferredBillingFrequency) {
-        this.preferredBillingFrequency = preferredBillingFrequency;
+    public void setBillingFrequencyCode(String billingFrequencyCode) {
+        this.billingFrequencyCode = billingFrequencyCode;
     }
 
 

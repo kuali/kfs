@@ -167,7 +167,7 @@
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="MNTH" />
 			<column name="PARM_DESC_TXT"
-				value="The default value for the preferred billing frequency code for Awards." />
+				value="The default value for the billing frequency code for Awards." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>

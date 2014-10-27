@@ -130,10 +130,10 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
         // Set Billing Schedule
         if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
-            getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
+            getAward().setBillingFrequencyCode(defaultBillingScheduleParm);
         }
         else {
-            getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+            getAward().setBillingFrequencyCode(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
         }
     }
 
@@ -446,11 +446,11 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         Award award = getAward();
-        // To set preferred billing frequency to "LOC Billing" if LOC Fund is chosen - Cannot be done via scripts, as they get
+        // To set billing frequency to "LOC Billing" if LOC Fund is chosen - Cannot be done via scripts, as they get
         // refreshed back to old values.
         // To be optimized if there is a better approach.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode()) && StringUtils.isNotBlank(award.getLetterOfCreditFundCode())) {
-            award.setPreferredBillingFrequency(CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
+            award.setBillingFrequencyCode(CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
         }
 
 

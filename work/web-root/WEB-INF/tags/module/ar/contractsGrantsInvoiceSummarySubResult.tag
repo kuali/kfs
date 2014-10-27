@@ -25,7 +25,7 @@
 			readOnly="true" /></td>
 	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.awardEndingDate}" property="${propertyName}.awardEndingDate" readOnly="true" />
 	</td>
-	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.preferredBillingFrequency}" property="${propertyName}.preferredBillingFrequency"
+	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.billingFrequencyCode}" property="${propertyName}.billingFrequencyCode"
 			readOnly="true" /></td>
 	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.instrumentTypeCode}" property="${propertyName}.instrumentTypeCode" readOnly="true" />
 	</td>

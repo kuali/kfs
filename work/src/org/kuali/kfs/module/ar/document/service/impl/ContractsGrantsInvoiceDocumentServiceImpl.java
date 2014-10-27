@@ -1082,73 +1082,70 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             // validating the invoice template
             if (ObjectUtils.isNotNull(invoiceAddressDetail.getCustomerInvoiceTemplateCode())) {
                 invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getCustomerInvoiceTemplateCode());
-            }
-            else {
-                addNoteForInvoiceReportFail(document);
 
-            }
+                // generate invoices from templates.
+                if (ObjectUtils.isNotNull(invoiceTemplate) && invoiceTemplate.isActive() && StringUtils.isNotBlank(invoiceTemplate.getFilename())) {
+                    ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
+                    String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
+                    String templateFilePath = templateFolderPath + File.separator + invoiceTemplate.getFilename();
+                    File templateFile = new File(templateFilePath);
+                    File outputDirectory = null;
+                    String outputFileName;
+                    try {
+                        // generating original invoice
+                        outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + ArConstants.TemplateUploadSystem.EXTENSION;
+                        Map<String, String> replacementList = getTemplateParameterList(document);
+                        replacementList.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER+"."+ArPropertyConstants.FULL_ADDRESS, contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
+                        reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
+                        // creating and saving the original note with an attachment
+                        if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
+                            reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_FINAL));
+                        }
+                        Note note = new Note();
+                        note.setNotePostedTimestampToCurrent();
+                        final String finalNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_FINAL_NOTE);
+                        note.setNoteText(MessageFormat.format(finalNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
+                        note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                        Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                        note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
+                        Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), KFSConstants.EMPTY_STRING);
+                        // adding attachment to the note
+                        note.setAttachment(attachment);
+                        noteService.save(note);
+                        attachment.setNoteIdentifier(note.getNoteIdentifier());
+                        businessObjectService.save(attachment);
+                        document.addNote(note);
 
-            // generate invoices from templates.
-            if (ObjectUtils.isNotNull(invoiceTemplate) && invoiceTemplate.isActive() && ObjectUtils.isNotNull(invoiceTemplate.getFilename())) {
-                ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
-                String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
-                String templateFilePath = templateFolderPath + File.separator + invoiceTemplate.getFilename();
-                File templateFile = new File(templateFilePath);
-                File outputDirectory = null;
-                String outputFileName;
-                try {
-                    // generating original invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + ArConstants.TemplateUploadSystem.EXTENSION;
-                    Map<String, String> replacementList = getTemplateParameterList(document);
-                    replacementList.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER+"."+ArPropertyConstants.FULL_ADDRESS, contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
-                    reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
-                    // creating and saving the original note with an attachment
-                    if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-                        reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_FINAL));
+                        // generating Copy invoice
+                        outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX) + ArConstants.TemplateUploadSystem.EXTENSION;
+                        copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_COPY));
+                        // creating and saving the copy note with an attachment
+                        Note copyNote = new Note();
+                        copyNote.setNotePostedTimestampToCurrent();
+                        final String copyNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_NOTE);
+                        copyNote.setNoteText(MessageFormat.format(copyNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
+                        copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                        copyNote = noteService.createNote(copyNote, document.getNoteTarget(), systemUser.getPrincipalId());
+                        Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), KFSConstants.EMPTY_STRING);
+                        // adding attachment to the note
+                        copyNote.setAttachment(copyAttachment);
+                        noteService.save(copyNote);
+                        copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
+                        businessObjectService.save(copyAttachment);
+                        document.addNote(copyNote);
+                        invoiceAddressDetail.setNoteId(note.getNoteIdentifier());
+                        // saving the note to the document header
+                        documentService.updateDocument(document);
+                    } catch (IOException | DocumentException ex) {
+                        addNoteForInvoiceReportFail(document);
                     }
-                    Note note = new Note();
-                    note.setNotePostedTimestampToCurrent();
-                    final String finalNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_FINAL_NOTE);
-                    note.setNoteText(MessageFormat.format(finalNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
-                    note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-                    note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
-                    Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), KFSConstants.EMPTY_STRING);
-                    // adding attachment to the note
-                    note.setAttachment(attachment);
-                    noteService.save(note);
-                    attachment.setNoteIdentifier(note.getNoteIdentifier());
-                    businessObjectService.save(attachment);
-                    document.addNote(note);
-
-                    // generating Copy invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + getDateTimeService().toDateStringForFilename(getDateTimeService().getCurrentDate()) + getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX) + ArConstants.TemplateUploadSystem.EXTENSION;
-                    copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_COPY));
-                    // creating and saving the copy note with an attachment
-                    Note copyNote = new Note();
-                    copyNote.setNotePostedTimestampToCurrent();
-                    final String copyNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_NOTE);
-                    copyNote.setNoteText(MessageFormat.format(copyNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
-                    copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    copyNote = noteService.createNote(copyNote, document.getNoteTarget(), systemUser.getPrincipalId());
-                    Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), KFSConstants.EMPTY_STRING);
-                    // adding attachment to the note
-                    copyNote.setAttachment(copyAttachment);
-                    noteService.save(copyNote);
-                    copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
-                    businessObjectService.save(copyAttachment);
-                    document.addNote(copyNote);
-                    invoiceAddressDetail.setNoteId(note.getNoteIdentifier());
-                    // saving the note to the document header
-                    documentService.updateDocument(document);
-                }
-                catch (IOException | DocumentException ex) {
+                } else {
                     addNoteForInvoiceReportFail(document);
                 }
-            }
-            else {
+            } else {
                 addNoteForInvoiceReportFail(document);
             }
+
         }
     }
 
@@ -1695,7 +1692,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected void addNoteForInvoiceReportFail(ContractsGrantsInvoiceDocument document) {
         Note note = new Note();
         note.setNotePostedTimestampToCurrent();
-        note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE));
+        note.setNoteText(configurationService.getPropertyValueAsString(ArKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE));
         note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
         Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());

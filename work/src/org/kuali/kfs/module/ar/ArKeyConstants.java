@@ -303,6 +303,8 @@ public class ArKeyConstants {
         public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
     }
 
+    public static final String ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE = "error.fileUpload.save.noPdfFileSelected";
+
     // Collection Activity Type errors
     public static class CollectionActivityTypeConstants {
         public static final String ERROR_COLLECTION_ACTIVITY_TYPE_DUPLICATE_VALUE = "error.document.collectionActivityType.duplicateValue";

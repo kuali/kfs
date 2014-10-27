@@ -643,7 +643,6 @@ public class KFSKeyConstants {
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE = "error.batchUpload.save.noFileSelected";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED = "error.batchUpload.save.noFileSetIdentifier";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE = "error.batchUpload.save.noFileSelected.for.file.type";
-    public static final String ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE = "error.fileUpload.save.noPdfFileSelected";
     public static final String ERROR_CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.correction.noInvoiceFound";
     public static final String ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR = "error.batchUpload.save.fileSaveError";
     public static final String ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR = "error.batchUpload.validation.fileSaveError";

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -254,7 +255,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#getBalancesForCostCategory(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.module.ar.businessobject.CostCategory)
      */
     @Override
-    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, String objectType, CostCategory costCategory) {
+    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, Collection<String> objectTypeCodes, CostCategory costCategory) {
         if (!costCategory.isActive()) {
             return new ArrayList<Balance>(); // cost category isn't active?  then dont' find any matching balances
         }
@@ -264,7 +265,8 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceType);
-        crit.addEqualTo(KFSPropertyConstants.OBJECT_TYPE_CODE, objectType);
+
+        crit.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodes);
 
         Criteria objectCodesCollectiveCriteria = new Criteria();
 

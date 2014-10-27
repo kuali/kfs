@@ -75,4 +75,12 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @return True if the file load and store was successful, false otherwise.
      */
     public Collection<ContractsAndGrantsBillingAward> retrieveNonLOCAwards();
+
+    /**
+     * Retrieves the collection of object type codes used to create CG Invoice Documents.
+     * Default behavior retrieves object type codes in the "EX" basic accounting category.
+     *
+     * @return The collection of object type codes used to create CG Invoice Documents
+     */
+    public Collection<String> retrieveExpenseObjectTypes();
 }

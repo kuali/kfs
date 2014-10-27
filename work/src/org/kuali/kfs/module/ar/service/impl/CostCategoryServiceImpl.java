@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -89,11 +90,11 @@ public class CostCategoryServiceImpl implements CostCategoryService {
      * @see org.kuali.kfs.module.ar.service.CostCategoryService#getBalancesForCostCategory(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.module.ar.businessobject.CostCategory)
      */
     @Override
-    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, String objectType, CostCategory costCategory) {
+    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, Collection<String> objectTypeCodes, CostCategory costCategory) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Retrieving balances for cost category: "+costCategory.getCategoryCode()+"; fiscal year = "+fiscalYear+"; chart: "+chartOfAccountsCode+"; account number: "+accountNumber+"; balance type: "+balanceType+"; object type: "+objectType);
+            LOG.debug("Retrieving balances for cost category: "+costCategory.getCategoryCode()+"; fiscal year = "+fiscalYear+"; chart: "+chartOfAccountsCode+"; account number: "+accountNumber+"; balance type: "+balanceType+"; object type codes: "+objectTypeCodes.toString());
         }
-        return getCostCategoryDao().getBalancesForCostCategory(fiscalYear, chartOfAccountsCode, accountNumber, balanceType, objectType, costCategory);
+        return getCostCategoryDao().getBalancesForCostCategory(fiscalYear, chartOfAccountsCode, accountNumber, balanceType, objectTypeCodes, costCategory);
     }
 
     public CostCategoryDao getCostCategoryDao() {

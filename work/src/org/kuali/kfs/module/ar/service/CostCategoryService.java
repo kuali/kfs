@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -58,5 +59,5 @@ public interface CostCategoryService {
      * @param costCategory the cost category of object codes to find
      * @return a List of all matching balances
      */
-    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, String objectType, CostCategory costCategory);
+    public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, Collection<String> objectTypeCodes, CostCategory costCategory);
 }

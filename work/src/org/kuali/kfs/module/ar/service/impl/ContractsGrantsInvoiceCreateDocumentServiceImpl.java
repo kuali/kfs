@@ -808,7 +808,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             for (int fy = awardBeginningYear; fy <= currentYear; fy++) {
                 final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
-                final List<Balance> matchingBalances = getCostCategoryService().getBalancesForCostCategory(fy, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), category);
+                final List<Balance> matchingBalances = getCostCategoryService().getBalancesForCostCategory(fy, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), retrieveExpenseObjectTypes(), category);
                 glBalances.addAll(matchingBalances);
             }
         }
@@ -1022,7 +1022,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
             for (Integer eachFiscalYr : fiscalYears) {
-                final List<Balance> matchingCurrentYearBalances = getCostCategoryService().getBalancesForCostCategory(eachFiscalYr, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getBudgetCheckingBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), costCategory);
+                final List<Balance> matchingCurrentYearBalances = getCostCategoryService().getBalancesForCostCategory(eachFiscalYr, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getBudgetCheckingBalanceTypeCd(), retrieveExpenseObjectTypes(), costCategory);
                 glBalances.addAll(matchingCurrentYearBalances);
             }
             for (Balance glBalance : glBalances) {
@@ -1541,6 +1541,22 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, financialSystemDocumentService.getPendingDocumentStatuses());
 
         return businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#retrieveExpenseObjectTypes()
+     */
+    @Override
+    public Collection<String> retrieveExpenseObjectTypes() {
+        List<String> objectTypeCodes = new ArrayList<String>();
+        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
+        objectTypeCodes.add(systemOptions.getFinObjTypeExpendNotExpCode());
+        objectTypeCodes.add(systemOptions.getFinObjTypeExpNotExpendCode());
+        objectTypeCodes.add(systemOptions.getFinObjTypeExpenditureexpCd());
+        objectTypeCodes.add(systemOptions.getFinancialObjectTypeTransferExpenseCd());
+
+        return objectTypeCodes;
     }
 
     public AccountService getAccountService() {

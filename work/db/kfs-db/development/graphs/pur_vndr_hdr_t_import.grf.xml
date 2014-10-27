@@ -22,16 +22,25 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.vndr_typ_cd := replace(nvl($vndr_typ_cd, ""), "~!~", "|" );
-        $0.vndr_tax_nbr := replace(nvl($vndr_tax_nbr, ""), "~!~", "|" );
+        $0.vndr_us_tax_nbr := replace(nvl($vndr_us_tax_nbr, ""), "~!~", "|" );
         $0.vndr_tax_typ_cd := replace(nvl($vndr_tax_typ_cd, ""), "~!~", "|" );
         $0.vndr_ownr_cd := replace(nvl($vndr_ownr_cd, ""), "~!~", "|" );
         $0.vndr_ownr_ctgry_cd := replace(nvl($vndr_ownr_ctgry_cd, ""), "~!~", "|" );
         $0.vndr_fwt_beg_dt := $vndr_fwt_beg_dt;
         $0.vndr_fwt_end_dt := $vndr_fwt_end_dt;
         $0.vndr_w9_rcvd_ind := replace(nvl($vndr_w9_rcvd_ind, ""), "~!~", "|" );
-        $0.vndr_w8_ben_rcvd_ind := replace(nvl($vndr_w8_ben_rcvd_ind, ""), "~!~", "|" );
+        $0.vndr_w8_rcvd_ind := replace(nvl($vndr_w8_rcvd_ind, ""), "~!~", "|" );
         $0.vndr_debrd_ind := replace(nvl($vndr_debrd_ind, ""), "~!~", "|" );
         $0.vndr_frgn_ind := replace(nvl($vndr_frgn_ind, ""), "~!~", "|" );
+        $0.vndr_w8_typ_cd := replace(nvl($vndr_w8_typ_cd, ""), "~!~", "|" );
+        $0.vndr_w9_signed_dt := $vndr_w9_signed_dt;
+        $0.vndr_w8_signed_dt := $vndr_w8_signed_dt;
+        $0.vndr_corp_ctzn_cntry_cd := replace(nvl($vndr_corp_ctzn_cntry_cd, ""), "~!~", "|" );
+        $0.vndr_foreign_tax_id := replace(nvl($vndr_foreign_tax_id, ""), "~!~", "|" );
+        $0.vndr_giin := replace(nvl($vndr_giin, ""), "~!~", "|" );
+        $0.vndr_dob_dt := $vndr_dob_dt;
+        $0.vndr_chap_3_stat_cd := replace(nvl($vndr_chap_3_stat_cd, ""), "~!~", "|" );
+        $0.vndr_chap_4_stat_cd := replace(nvl($vndr_chap_4_stat_cd, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

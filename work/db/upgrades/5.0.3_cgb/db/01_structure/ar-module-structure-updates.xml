@@ -145,9 +145,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
-				<constraints nullable="false" />
-			</column>
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 			<column name="CG_AGENCY_NBR" type="VARCHAR(6)" />
 			<column name="AGENCY_NM" type="VARCHAR(50)" />
 			<column name="CUST_NBR" type="VARCHAR(9)" />

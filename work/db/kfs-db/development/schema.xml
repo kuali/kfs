@@ -8628,6 +8628,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="FDOC_NXT_LINE_NBR" size="7" type="DECIMAL"/>
+        <column name="AUTO_APPROVED_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FP_PRCRMNT_CARD_HLDR_T" name="FP_PRCRMNT_DOC_TR2">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -8765,14 +8766,25 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="FS_DOC_HDRS_MSNG_IN_KEW_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+    </table>
     <table name="FS_DOC_HEADER_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="FDOC_STATUS_CD" size="2" type="VARCHAR"/>
         <column name="FDOC_TOTAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_IN_ERR_NBR" size="14" type="VARCHAR"/>
         <column name="TEMP_DOC_FNL_DT" type="DATE"/>
+        <column name="FDOC_HDR_STAT_CD" size="1" type="VARCHAR"/>
+        <column name="APP_DOC_STAT" size="64" type="VARCHAR"/>
+        <column name="INITR_PRNCPL_ID" size="40" type="VARCHAR"/>
+        <column name="FDOC_TYP_NM" size="64" type="VARCHAR"/>
+        <column name="FDOC_CRTE_DT" type="DATE"/>
         <index name="FS_DOC_HEADER_TI1">
             <index-column name="FDOC_IN_ERR_NBR"/>
+        </index>
+        <index name="FS_DOC_HEADER_TI2">
+            <index-column name="FDOC_CRTE_DT"/>
         </index>
     </table>
     <table name="FS_HOME_ORIGIN_T">
@@ -11677,6 +11689,18 @@
             <index-column name="UNIV_FISCAL_YR"/>
         </index>
     </table>
+    <table name="LD_ERROR_CERT_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="EXPND_DESC" size="400" type="VARCHAR"/>
+        <column name="EXPND_PROJ_BENEFIT_DESC" size="400" type="VARCHAR"/>
+        <column name="ERROR_DESC" size="400" type="VARCHAR"/>
+        <column name="ERROR_CORR_REASON_DESC" size="400" type="VARCHAR"/>
+        <unique name="LD_ERROR_CERT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="LD_EXP_TRNFR_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -12748,6 +12772,8 @@
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="BNK_ACCT_TYP_CD" size="2" type="VARCHAR"/>
         <column default="1" name="PAYEE_ID_NBR" required="true" size="40" type="VARCHAR"/>
+        <column name="AUTO_INACTV_IND" size="1" type="VARCHAR"/>
+        <column name="LST_UPDT_TS" type="DATE"/>
         <foreign-key foreignTable="PDP_ACH_TRANS_CD_T" name="PDP_PAYEE_ACH_ACCT_T_TR2">
             <reference foreign="TRANS_CD" local="BNK_ACCT_TYP_CD"/>
         </foreign-key>
@@ -16883,7 +16909,7 @@
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2040"/>
     <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
-    <sequence name="KRNS_MAINT_LOCK_S" nextval="2002"/>
+    <sequence name="KRNS_MAINT_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_NTE_S" nextval="2060"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="30000"/>
     <sequence name="KRSB_BAM_S" nextval="30000"/>

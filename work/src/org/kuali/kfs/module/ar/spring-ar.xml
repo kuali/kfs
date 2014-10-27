@@ -184,9 +184,6 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
     </bean>
 
 	<bean id="ArConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">

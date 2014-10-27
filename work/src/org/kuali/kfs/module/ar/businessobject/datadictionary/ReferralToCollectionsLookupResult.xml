@@ -106,8 +106,8 @@
 	<bean id="ReferralToCollectionsLookupResult-invoiceDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="invoiceDocumentNumber"/>
 	    <property name="forceUppercase" value="true"/>
-	    <property name="label" value="Invoice Document Number"/>
-	    <property name="shortLabel" value="Invoice Doc Number"/>
+	    <property name="label" value="Document Number"/>
+	    <property name="shortLabel" value="Doc Number"/>
 	    <property name="maxLength" value="9"/>
 	    <property name="validationPattern">
 	      <ref bean="AnyCharacterValidation" />
@@ -167,12 +167,11 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="agencyNumber" />
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="awardDocumentNumber" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceDocumentNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="accountNumber" />				
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="awardDocumentNumber" />				
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="customerNumber" />
-				<bean parent="FieldDefinition" p:required="false" p:attributeName="customerName" />
 			</list>
 		</property>
 		<property name="resultFields">

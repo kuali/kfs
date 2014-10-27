@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,14 +34,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccountsReceivableModuleBillingServiceImpl implements AccountsReceivableModuleBillingService {
     protected BusinessObjectService businessObjectService;
-    protected ParameterService parameterService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected KualiModuleService kualiModuleService;
     protected ConfigurationService configurationService;
@@ -160,25 +157,12 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
         return getConfigurationService().getPropertyValueAsBoolean(KFSConstants.CONTRACTS_GRANTS_BILLING_ENABLED);
     }
 
-    @Override
-    public Collection<String> getDoNotInvoiceStatuses() {
-        return getParameterService().getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.AWARD_STATUS_CODES);
-    }
-
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {

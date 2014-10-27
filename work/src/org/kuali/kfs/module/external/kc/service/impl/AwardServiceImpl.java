@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
@@ -62,7 +61,6 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     protected AccountDefaultsService accountDefaultsService;
-    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected BillingFrequencyService billingFrequencyService;
     protected ParameterService parameterService;
     protected PersonService personService;
@@ -212,7 +210,6 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
             award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
         }
         award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
-        award.setExcludedFromInvoicing(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
         award.setAwardPrimaryProjectDirector(getProjectDirector(kcAward));
         award.setExcludedFromInvoicing(kcAward.isExcludedFromInvoicing());
         award.setExcludedFromInvoicingReason(kcAward.getExcludedFromInvoicingReason());
@@ -227,24 +224,12 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         return director;
     }
 
-    protected Collection<String> getDoNotInvoiceStatuses() {
-        return getAccountsReceivableModuleBillingService().getDoNotInvoiceStatuses();
-    }
-
     protected AccountDefaultsService getAccountDefaultsService() {
         return accountDefaultsService;
     }
 
     public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
         this.accountDefaultsService = accountDefaultsService;
-    }
-
-    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
-        return accountsReceivableModuleBillingService;
-    }
-
-    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
-        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
     protected ParameterService getParameterService() {

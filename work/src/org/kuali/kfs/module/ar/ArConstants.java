@@ -74,7 +74,6 @@ public class ArConstants{
     public static final String INVOICE_TEMPLATE_NEW_FILE_NAME_PREFIX = "Invoice_Template_";
 
     public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
-    public static final String AWARD_STATUS_CODES = "AWARD_STATUS_CODES";
 
 
     // Valid number of days the invoice due date can be more than invoice creation date.

@@ -16,7 +16,6 @@
 package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -123,12 +122,4 @@ public interface AccountsReceivableModuleBillingService {
      * @return true if Contracts and Grants Billing enhancement is enabled
      */
     public boolean isContractsGrantsBillingEnhancementActive();
-
-    /**
-     * Obtain list Kuali Coeus Award Status Codes that indicate the award should not be invoiced
-     * from parameter. Used by Kuali Coeus module when Contracts and Grants Billing is enabled.
-     *
-     * @return list of award status codes
-     */
-    public Collection<String> getDoNotInvoiceStatuses();
 }

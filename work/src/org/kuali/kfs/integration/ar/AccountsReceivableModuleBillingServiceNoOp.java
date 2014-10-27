@@ -16,7 +16,6 @@
 package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -96,12 +95,6 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
     public boolean isContractsGrantsBillingEnhancementActive() {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
-    }
-
-    @Override
-    public Collection<String> getDoNotInvoiceStatuses() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
     }
 
     @Override

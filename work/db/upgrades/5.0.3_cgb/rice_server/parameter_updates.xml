@@ -58,19 +58,6 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
-			<column name="PARM_NM" value="AWARD_STATUS_CODES" />
-			<column name="OBJ_ID" value="KFS-CGB-PARM-005" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="2;4;5;6" />
-			<column name="PARM_DESC_TXT"
-				value="Kuali Coeus Award Status Codes that indicate the award should not be invoiced." />
-			<column name="EVAL_OPRTR_CD" value="D" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS" />
 			<column name="OBJ_ID" value="KFS-CGB-PARM-006" />
 			<column name="VER_NBR" value="1" />

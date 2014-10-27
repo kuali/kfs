@@ -24,7 +24,7 @@
 			<h3>Invoice Details</h3>
 			<table cellpadding=0 class="datatable" summary="Invoice Details section">
 				<tr>
-					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.categoryName}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes['categoryName']}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.expenditures}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsInvoiceDetailAttributes.cumulative}" useShortLabel="false" />
@@ -35,29 +35,28 @@
 				</tr>
 				<c:if test="${!empty KualiForm.document.invoiceDetails}">
 					<!-- If the categories are not retrieved, then its better not to display the total fields in this section. -->
-					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetailsWithIndirectCosts" id="invoiceDetail">
+					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetails" id="invoiceDetail">
 						<tr>
-							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.categoryName}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].categoryName" readOnly="true" /></td>
+							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes['categoryName']}"
+									property="document.invoiceDetails[${ctr}].costCategory.categoryName" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].budget" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].budget" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.expenditures}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].expenditures" readOnly="${readOnly}" /></td>
+									property="document.invoiceDetails[${ctr}].expenditures" readOnly="${readOnly}" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.cumulative}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].cumulative" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].cumulative" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.balance}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].balance" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].balance" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.billed}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].billed" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].billed" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.billed}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].adjustedCumExpenditures" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].adjustedCumExpenditures" readOnly="true" /></td>
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.billed}"
-									property="document.invoiceDetailsWithIndirectCosts[${ctr}].adjustedBalance" readOnly="true" /></td>
+									property="document.invoiceDetails[${ctr}].adjustedBalance" readOnly="true" /></td>
 						</tr>
 					</logic:iterate>
 					<tr>
-						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.categoryName}"
-									property="document.totalDirectCostInvoiceDetail.categoryName" readOnly="true" />
+						<td class="datacell"><b> <bean:message key="${ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_DIRECT_SUBTOTAL_LABEL}"/>
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}"
 								property="document.totalDirectCostInvoiceDetail.budget" readOnly="true" /></td>
@@ -76,28 +75,26 @@
 					</tr>
 
 					<tr>
-						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.categoryName}"
-									property="document.totalInDirectCostInvoiceDetail.categoryName" readOnly="true" />
+						<td class="datacell"><b> <bean:message key="${ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_INDIRECT_SUBTOTAL_LABEL}"/>
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}"
-								property="document.totalInDirectCostInvoiceDetail.budget" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.budget" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.expenditures}"
-								property="document.totalInDirectCostInvoiceDetail.expenditures" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.expenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.cumulative}"
-								property="document.totalInDirectCostInvoiceDetail.cumulative" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.cumulative" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.balance}"
-								property="document.totalInDirectCostInvoiceDetail.balance" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.balance" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.billed}"
-								property="document.totalInDirectCostInvoiceDetail.billed" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.billed" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.balance}"
-								property="document.totalInDirectCostInvoiceDetail.adjustedCumExpenditures" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.adjustedCumExpenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.billed}"
-								property="document.totalInDirectCostInvoiceDetail.adjustedBalance" readOnly="true" /></td>
+								property="document.totalIndirectCostInvoiceDetail.adjustedBalance" readOnly="true" /></td>
 					</tr>
 
 					<tr>
-						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.categoryName}"
-									property="document.totalCostInvoiceDetail.categoryName" readOnly="true" />
+						<td class="datacell"><b> <bean:message key="${ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_TOTAL_LABEL}"/>
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDetailAttributes.budget}"
 								property="document.totalCostInvoiceDetail.budget" readOnly="true" /></td>

@@ -39,6 +39,7 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     private boolean indirectCostIndicator;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
+    private CostCategory costCategory;
 
     /**
      * Gets the categoryCode attribute.
@@ -231,6 +232,13 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         this.indirectCostIndicator = indirectCostIndicator;
     }
 
+    public CostCategory getCostCategory() {
+        return costCategory;
+    }
+
+    public void setCostCategory(CostCategory costCategory) {
+        this.costCategory = costCategory;
+    }
 
     /**
      * Gets the adjustedCumExpenditures attribute.
@@ -283,4 +291,22 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         return m;
     }
 
+    /**
+     * Adds the values from the given ContractgsGrantsInvoiceDetail onto this one
+     * @param contractsGrantsInvoiceDetail the detail to sum into this
+     */
+    public void sumInvoiceDetail(ContractsGrantsInvoiceDetail contractsGrantsInvoiceDetail) {
+        if (null != contractsGrantsInvoiceDetail.getBudget()) {
+            budget = budget.add(contractsGrantsInvoiceDetail.getBudget());
+        }
+        if (null != contractsGrantsInvoiceDetail.getCumulative()) {
+            cumulative = cumulative.add(contractsGrantsInvoiceDetail.getCumulative());
+        }
+        if (null != contractsGrantsInvoiceDetail.getExpenditures()) {
+            expenditures = expenditures.add(contractsGrantsInvoiceDetail.getExpenditures());
+        }
+        if (null != contractsGrantsInvoiceDetail.getBilled()) {
+            billed = billed.add(contractsGrantsInvoiceDetail.getBilled());
+        }
+    }
 }

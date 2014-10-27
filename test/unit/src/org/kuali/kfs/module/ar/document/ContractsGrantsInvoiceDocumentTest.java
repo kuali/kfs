@@ -29,7 +29,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -284,24 +283,23 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         List<ContractsGrantsInvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
 
         // non-totals
-        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithoutIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts();
-        List<ContractsGrantsInvoiceDetail> invoiceDetailsIdcOnly = contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly();
-        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithoutIdc = contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsIdcOnly = contractsGrantsInvoiceDocument.getIndirectCostInvoiceDetails();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetails();
 
         // totals
         ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
         ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
-        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalIndirectCostInvoiceDetail();
 
         // non-totals
-        assertEquals(15, allInvoiceDetails.size());
+        assertEquals(12, allInvoiceDetails.size());
         assertEquals(11, invoiceDetailsWithoutIdc.size());
         assertEquals(1, invoiceDetailsIdcOnly.size());
         assertEquals(12, invoiceDetailsWithIdc.size());
 
         // totals
         assertNotNull(totalCostInvoiceDetail);
-        assertEquals(ArConstants.TOTAL_COST_CD, totalCostInvoiceDetail.getCategoryCode());
         assertEquals(new KualiDecimal(960.00), totalCostInvoiceDetail.getBudget());
         assertEquals(new KualiDecimal(1020.00), totalCostInvoiceDetail.getCumulative());
         assertEquals(new KualiDecimal(-60.00), totalCostInvoiceDetail.getBalance());
@@ -310,7 +308,6 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(new KualiDecimal(960.00), totalCostInvoiceDetail.getAdjustedBalance());
 
         assertNotNull(totalDirectCostInvoiceDetail);
-        assertEquals(ArConstants.TOTAL_DIRECT_COST_CD, totalDirectCostInvoiceDetail.getCategoryCode());
         assertEquals(new KualiDecimal(640.00), totalDirectCostInvoiceDetail.getBudget());
         assertEquals(new KualiDecimal(680.00), totalDirectCostInvoiceDetail.getCumulative());
         assertEquals(new KualiDecimal(-40.00), totalDirectCostInvoiceDetail.getBalance());
@@ -319,7 +316,6 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(new KualiDecimal(640.00), totalDirectCostInvoiceDetail.getAdjustedBalance());
 
         assertNotNull(totalInDirectCostInvoiceDetail);
-        assertEquals(ArConstants.TOTAL_IN_DIRECT_COST_CD, totalInDirectCostInvoiceDetail.getCategoryCode());
         assertEquals(new KualiDecimal(320.00), totalInDirectCostInvoiceDetail.getBudget());
         assertEquals(new KualiDecimal(340.00), totalInDirectCostInvoiceDetail.getCumulative());
         assertEquals(new KualiDecimal(-20.00), totalInDirectCostInvoiceDetail.getBalance());

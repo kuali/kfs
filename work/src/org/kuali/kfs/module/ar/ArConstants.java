@@ -118,17 +118,6 @@ public class ArConstants{
 
     public static final String NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX = "newEvent";
 
-    // Category Codes for Total fields.
-
-    public static final String TOTAL_DIRECT_COST = "Total Direct Cost";
-    public static final String TOTAL_DIRECT_COST_CD = "TDC";
-    public static final String TOTAL_IN_DIRECT_COST = "Total Indirect Cost";
-    public static final String TOTAL_IN_DIRECT_COST_CD = "TIDC";
-    public static final String TOTAL_COST = "Total Cost";
-    public static final String TOTAL_COST_CD = "TC";
-
-    public static final String DOCUMENT_STATUS_FINAL = "F";
-
     public static final String CUSTOMER_COMPONENT = "Customer";
 
     public static final String CLEAR_INIT_TAB_METHOD = "clearInitTab";

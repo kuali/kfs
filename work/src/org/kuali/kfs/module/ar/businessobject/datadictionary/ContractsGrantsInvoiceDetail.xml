@@ -40,6 +40,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 				<ref bean="ContractsGrantsInvoiceDetail-billed" />
 				<ref bean="ContractsGrantsInvoiceDetail-adjustedCumExpenditures" />
 				<ref bean="ContractsGrantsInvoiceDetail-adjustedBalance" />
+				<ref bean="ContractsGrantsInvoiceDetail-costCategory.categoryName"/>
 			</list>
 		</property>
 	</bean>
@@ -142,5 +143,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<property name="required" value="false" />
 		<property name="label" value="Adjusted Balance" />
 		<property name="shortLabel" value="Adjusted Balance" />
+	</bean>
+	
+	<bean id="ContractsGrantsInvoiceDetail-costCategory.categoryName" parent="ContractsGrantsInvoiceDetail-costCategory.categoryName-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDetail-costCategory.categoryName-parentBean" abstract="true" parent="CostCategory-categoryName">
+		<property name="name" value="costCategory.categoryName"/>
 	</bean>
 </beans>

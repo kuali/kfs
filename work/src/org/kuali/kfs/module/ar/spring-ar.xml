@@ -192,11 +192,16 @@
 	<bean id="ArConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.ar.ArConstants" />
 	</bean>
+	
+	<bean id="ArKeyConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.ar.ArKeyConstants" />
+	</bean>
   
 	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
 		<property name="attributes">
 			<map>
 				<entry key="ArConstants" value-ref="ArConstants" />
+				<entry key="ArKeyConstants" value-ref="ArKeyConstants" />
 			</map>
 		</property>
 	</bean>

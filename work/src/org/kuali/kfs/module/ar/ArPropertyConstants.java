@@ -552,6 +552,7 @@ public class ArPropertyConstants{
     public static final String CATEGORIES = "categories";
     public static final String CATEGORY = "CATEGORY";
     public static final String CATEGORY_CODE = "categoryCode";
+    public static final String COST_CATEGORY = "costCategory";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String COLUMN_TITLE = "columnTitle";
     public static final String CUMULATIVE = "cumulative";

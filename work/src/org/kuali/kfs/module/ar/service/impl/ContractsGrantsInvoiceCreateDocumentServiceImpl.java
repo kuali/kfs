@@ -60,7 +60,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetailTotal;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
@@ -615,6 +614,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             invDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
             invDetail.setCategoryCode(category.getCategoryCode());
             invDetail.setCategoryName(category.getCategoryName());
+            invDetail.setCostCategory(category);
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first
             performBilledAndExpenditureCalculationForDetail(invDetail, awardAccountObjectCodeTotalBilleds, document.getInvoiceDetailAccountObjectCodes(), category);
@@ -623,60 +623,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             performBudgetCalculationsOnInvoiceDetail(invDetail, awardAccounts, category, document.getAward().getAwardBeginningDate());
             document.getInvoiceDetails().add(invDetail);
         }
-
-        // To calculate total values for Invoice Detail section.
-        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
-        InvoiceDetailTotal indirectCostTotal = new InvoiceDetailTotal();
-
-        for (ContractsGrantsInvoiceDetail invD : document.getInvoiceDetailsWithIndirectCosts()) {
-            // To sum up values for indirect Cost Invoice Details
-            if (invD.isIndirectCostIndicator()) {
-                indirectCostTotal.sumInvoiceDetail(invD);
-            }
-            else {
-                directCostTotal.sumInvoiceDetail(invD);
-            }
-        }
-        ContractsGrantsInvoiceDetail directCostInvDetail = new ContractsGrantsInvoiceDetail();
-        directCostInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-
-        directCostInvDetail.setCategoryCode(ArConstants.TOTAL_DIRECT_COST_CD);
-        directCostInvDetail.setCategoryName(ArConstants.TOTAL_DIRECT_COST);
-        directCostInvDetail.setBudget(directCostTotal.getBudget());
-        directCostInvDetail.setExpenditures(directCostTotal.getExpenditures());
-        directCostInvDetail.setCumulative(directCostTotal.getCumulative());
-        directCostInvDetail.setBilled(directCostTotal.getBilled());
-        document.getInvoiceDetails().add(directCostInvDetail);
-
-        // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
-
-        ContractsGrantsInvoiceDetail indInvDetail = new ContractsGrantsInvoiceDetail();
-        indInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-        indInvDetail.setIndirectCostIndicator(true);
-        indInvDetail.setCategoryCode(ArConstants.TOTAL_IN_DIRECT_COST_CD);
-        indInvDetail.setCategoryName(ArConstants.TOTAL_IN_DIRECT_COST);
-        indInvDetail.setBudget(indirectCostTotal.getBudget());
-        indInvDetail.setExpenditures(indirectCostTotal.getExpenditures());
-        indInvDetail.setCumulative(indirectCostTotal.getCumulative());
-        indInvDetail.setBilled(indirectCostTotal.getBilled());
-        document.getInvoiceDetails().add(indInvDetail);
-
-        // Sum up the direct cost and indirect cost invoice details.
-
-        ContractsGrantsInvoiceDetail totalInvDetail = new ContractsGrantsInvoiceDetail();
-        totalInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-        totalInvDetail.setCategoryCode(ArConstants.TOTAL_COST_CD);
-        totalInvDetail.setCategoryName(ArConstants.TOTAL_COST);
-
-        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
-        if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
-            totalInvDetail.setBudget(directCostTotal.getBudget().add(indirectCostTotal.getBudget()));
-            totalInvDetail.setExpenditures(directCostTotal.getExpenditures().add(indirectCostTotal.getExpenditures()));
-            totalInvDetail.setCumulative(directCostTotal.getCumulative().add(indirectCostTotal.getCumulative()));
-            totalInvDetail.setBilled(directCostTotal.getBilled().add(indirectCostTotal.getBilled()));
-        }
-
-        document.getInvoiceDetails().add(totalInvDetail);
     }
 
     /**

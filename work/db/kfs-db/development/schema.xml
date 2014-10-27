@@ -825,8 +825,6 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="ACTVY_DESC" size="120" type="VARCHAR"/>
-        <column default="N" name="RFRL_IND" size="1" type="VARCHAR"/>
-        <column default="N" name="DUN_PRCS_IND" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="AR_CLCTN_ACTVY_TYP_TC0">
             <unique-column name="OBJ_ID"/>

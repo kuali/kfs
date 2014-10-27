@@ -22,8 +22,6 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.actvy_desc := replace(nvl($actvy_desc, ""), "~!~", "|" );
-        $0.rfrl_ind := replace(nvl($rfrl_ind, ""), "~!~", "|" );
-        $0.dun_prcs_ind := replace(nvl($dun_prcs_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>

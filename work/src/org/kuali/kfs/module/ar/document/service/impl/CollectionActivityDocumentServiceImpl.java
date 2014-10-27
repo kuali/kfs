@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
@@ -37,7 +36,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
@@ -140,8 +138,11 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             newEvent.setUser(authorUniversal);
         }
 
-        newEvent.setEventRouteStatus(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+        ContractsGrantsInvoiceDocument invoice = newEvent.getInvoiceDocument();
         newEvent.setDocumentNumber(colActDoc.getDocumentNumber());
+        int lastEventCode = invoice.getEvents().size() + 1;
+        String eventCode = newEvent.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
+        newEvent.setEventCode(eventCode);
 
         colActDoc.getEvents().add(newEvent);
 
@@ -165,7 +166,6 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     @Transactional
     public void editEvent(String description, CollectionActivityDocument colActDoc, Event event) throws WorkflowException {
-        event.setEventRouteStatus(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         event.setDocumentNumber(colActDoc.getDocumentNumber());
 
         colActDoc.populateDocumentForRouting();
@@ -212,13 +212,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveEvents(java.util.Map, java.lang.String)
      */
     @Override
     @Transactional
-    public Collection<Event> retrieveEvents(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude) {
-        return eventDao.getMatchingEventsByCollection(fieldValues, isSavedRouteStatus, documentNumberToExclude);
+    public Collection<Event> retrieveEvents(Map fieldValues, String documentNumberToExclude) {
+        return eventDao.getMatchingEventsByCollection(fieldValues, documentNumberToExclude);
     }
 
     /**
@@ -234,24 +233,6 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#validateInvoiceForSavedEvents(java.lang.String,
-     *      java.lang.String)
-     */
-    @Override
-    @Transactional
-    public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
-        boolean result = true;
-        Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put(ArPropertyConstants.INVOICE_NUMBER, invoiceNumber);
-
-        List<Event> events = (List<Event>) this.retrieveEvents(fieldValues, true, documentNumber);
-        if (CollectionUtils.isNotEmpty(events)) {
-            result = false;
-        }
-        return result;
     }
 
     @Override

@@ -285,62 +285,54 @@
 												for="selectedInvoiceDocumentNumber">Events</label></td>
 										</tr>
 										<tr>
-											<c:choose>
-												<c:when
-													test="${!KualiForm.document.selectedInvoiceApplication.showEvents}">
-													<td colspan='2'>Events can not be displayed.</td>
-												</c:when>
-												<c:otherwise>
-													<td colspan='2'>
-														<table width='100%' cellpadding='0' cellspacing='0'
-															class='datatable' id="selectedInvoiceEventDetails">
-															<tr>
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.eventCode}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.activityCode}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.activityDate}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.activityText}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.followup}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.followupDate}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.completed}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.completedDate}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.postedDate}" />
-																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.userPrincipalId}" />
-																<kul:htmlAttributeHeaderCell literalLabel="Actions" />
-															</tr>
-															<c:if
-																test="${!empty KualiForm.selectedInvoiceApplication}">
-																<ar:eventDetails propertyName="document.newEvent"
-																	eventAttributes="${eventAttributes}" addLine="true"
-																	readOnly="${readOnly}" rowHeading="add"
-																	cssClass="infoline" actionMethod="addEvent"
-																	actionAlt="Add Event"
-																	actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
-																<logic:iterate id="event" name="KualiForm"
-																	property="document.selectedInvoiceEvents" indexId="ctr">
-																	<ar:eventDetails
-																		propertyName="document.selectedInvoiceEvents[${ctr}]"
-																		eventAttributes="${eventAttributes}" addLine="false"
-																		readOnly="${readOnly}" rowHeading="${ctr+1}"
-																		cssClass="datacell"
-																		actionMethod="editEvent.line${ctr}"
-																		actionAlt="Edit Event"
-																		actionImage="${ConfigProperties.externalizable.images.url}tinybutton-save.gif" />
-																</logic:iterate>
-															</c:if>
-														</table>
-													</td>
-												</c:otherwise>
-											</c:choose>
+											<td colspan='2'>
+												<table width='100%' cellpadding='0' cellspacing='0'
+													class='datatable' id="selectedInvoiceEventDetails">
+													<tr>
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.eventCode}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.activityCode}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.activityDate}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.activityText}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.followup}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.followupDate}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.completed}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.completedDate}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.postedDate}" />
+														<kul:htmlAttributeHeaderCell
+															attributeEntry="${eventAttributes.userPrincipalId}" />
+														<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+													</tr>
+													<c:if
+														test="${!empty KualiForm.selectedInvoiceApplication}">
+														<ar:eventDetails propertyName="document.newEvent"
+															eventAttributes="${eventAttributes}" addLine="true"
+															readOnly="${readOnly}" rowHeading="add"
+															cssClass="infoline" actionMethod="addEvent"
+															actionAlt="Add Event"
+															actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
+														<logic:iterate id="event" name="KualiForm"
+															property="document.selectedInvoiceEvents" indexId="ctr">
+															<ar:eventDetails
+																propertyName="document.selectedInvoiceEvents[${ctr}]"
+																eventAttributes="${eventAttributes}" addLine="false"
+																readOnly="${readOnly}" rowHeading="${ctr+1}"
+																cssClass="datacell"
+																actionMethod="editEvent.line${ctr}"
+																actionAlt="Edit Event"
+																actionImage="${ConfigProperties.externalizable.images.url}tinybutton-save.gif" />
+														</logic:iterate>
+													</c:if>
+												</table>
+											</td>
 										</tr>
 									</table>
 								</td>

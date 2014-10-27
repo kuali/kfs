@@ -205,7 +205,6 @@ public class ArPropertyConstants{
         public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
-        public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
         public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
     }
 

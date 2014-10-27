@@ -254,7 +254,6 @@
 			<column name="CMPLTD_IND" type="VARCHAR(1)" />
 			<column name="CMPLTD_DT" type="DATETIME" />
 			<column name="POST_DT" type="DATETIME" />
-			<column name="EVENT_ROUTE_STATUS" type="VARCHAR(1)" />
 			<column name="FDOC_NBR" type="VARCHAR(14)" />
 			<column name="USR_PRNCPL_ID" type="VARCHAR(40)" />
 		</createTable>

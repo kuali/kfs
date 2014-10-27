@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,13 +29,11 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -255,16 +252,13 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the events from invoices list of this class.
-     *
-     * @param addOnlyFinalEvents True if final events are to be added from invoices. False if all the events are to be added
-     *        irrespective of route state of event.
      */
     public void setEventsFromCGInvoices() {
         if (ObjectUtils.isNotNull(invoices) && !invoices.isEmpty()) {
             events = new ArrayList<Event>();
             for (ContractsGrantsInvoiceDocument invoice : invoices) {
                 List<Event> invoiceEvents = invoice.getEvents();
-                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty() && invoice.isShowEvents()) {
+                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty()) {
                     events.addAll(invoiceEvents);
                 }
             }
@@ -379,33 +373,14 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
                 for (Event event : events) {
                     // If the document is final, do the required changes.
                     if (ObjectUtils.isNull(event.getEventCode())) {
-                        int lastEventCode = this.getFinalEventsCount(event.getInvoiceDocument().getEvents()) + 1;
+                        int lastEventCode = event.getInvoiceDocument().getEvents().size() + 1;
                         String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
                         event.setEventCode(eventCode);
                     }
-                    event.setEventRouteStatus(KewApiConstants.ROUTE_HEADER_FINAL_CD);
                     boService.save(event);
                 }
             }
         }
-    }
-
-    /**
-     * Gets the number of final events in list.
-     *
-     * @param events The list of events.
-     * @return Returns the number of final events.
-     */
-    private int getFinalEventsCount(List<Event> events) {
-        int count = 0;
-        if (CollectionUtils.isNotEmpty(events)) {
-            for (Event event : events) {
-                if (ObjectUtils.isNull(event.getEventRouteStatus()) || event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     /**
@@ -434,33 +409,12 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
 
         if (!CollectionUtils.isEmpty(cgInvoices)) {
-            cgInvoices = this.validateInvoices(cgInvoices);
-            this.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
+            setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
         }
         else {
             LOG.error("There were no invoices retreived. Please refer to the log file " + ArConstants.BatchFileSystem.EVT_CREATION_CLN_ACT_ERROR_OUTPUT_FILE + ArConstants.BatchFileSystem.EXTENSION + " for more details.");
             this.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>());
         }
-    }
-
-    /**
-     * Validates the invoices based on the events which are under process.
-     *
-     * @param cgInvoices List of invoices to validate.
-     * @return Returns list of invoices with value true or false based on state of events in invoices.
-     */
-    private Collection<ContractsGrantsInvoiceDocument> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices) {
-        CollectionActivityDocumentService collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
-        Iterator<ContractsGrantsInvoiceDocument> invoiceItr = cgInvoices.iterator();
-        for (ContractsGrantsInvoiceDocument invoice : cgInvoices) {
-            if (!collectionActivityDocumentService.validateInvoiceForSavedEvents(invoice.getDocumentNumber(), this.getDocumentNumber())) {
-                invoice.setShowEvents(false);
-            }
-            else {
-                invoice.setShowEvents(true);
-            }
-        }
-        return cgInvoices;
     }
 
     /**

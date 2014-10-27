@@ -55,7 +55,6 @@ import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
@@ -110,7 +109,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
                     event.setInvoiceNumber(cgInvoice.getDocumentNumber());
                     // calculate event code
                     // Add sequence number to event code
-                    lastEventCode = this.getFinalEventsCount(cgInvoice.getEvents()) + 1;
+                    lastEventCode = cgInvoice.getEvents().size() + 1;
                     String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
                     event.setEventCode(eventCode);
                     // To get the Activity Code from the Collection Activity type eDoc basedo n the indicator.
@@ -213,24 +212,6 @@ public class DunningLetterServiceImpl implements DunningLetterService {
             }
         }
         return finalReport;
-    }
-
-    /**
-     * Gets the number of final events in list.
-     *
-     * @param events The list of events.
-     * @return Returns the number of final events.
-     */
-    protected int getFinalEventsCount(List<Event> events) {
-        int count = 0;
-        if (CollectionUtils.isNotEmpty(events)) {
-            for (Event event : events) {
-                if (event.getEventRouteStatus() == null || event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     /**

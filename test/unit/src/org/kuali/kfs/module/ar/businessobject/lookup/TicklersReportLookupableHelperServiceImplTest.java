@@ -47,7 +47,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -157,7 +156,6 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
         event.setFollowup(true);
-        event.setEventRouteStatus(KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
         event.setUser(user);
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());

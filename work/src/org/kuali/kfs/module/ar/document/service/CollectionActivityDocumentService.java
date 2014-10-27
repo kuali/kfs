@@ -58,14 +58,13 @@ public interface CollectionActivityDocumentService {
 
     /**
      * Retrieves the events based on the field values passed in. Results are furthered filtered
-     * by document number to exclude and saved route status only indicator.
+     * by document number to exclude.
      *
      * @param fieldValues The fieldValues to filter out events.
-     * @param savedRouteStatusOnly Indicator for returning events that are in saved route status only.
      * @param documentNumberToExclude Document number that will be filtered out of the results.
      * @return Returns the collection of Event which match the criteria.
      */
-    public Collection<Event> retrieveEvents(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude);
+    public Collection<Event> retrieveEvents(Map fieldValues, String documentNumberToExclude);
 
     /**
      * Retrieves the award by given proposal number.
@@ -74,16 +73,6 @@ public interface CollectionActivityDocumentService {
      * @return Returns the award object.
      */
     public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber);
-
-    /**
-     * Validates the invoices for events with saved state for that particular document.
-     *
-     * @param invoiceNumber The invoiceNumber of event.
-     * @param documentNumber The collection activity document number for event.
-     * @return Returns true if no event with saved state is available for this invoice. Returns false if any event with saved state
-     *         and different document number found.
-     */
-    public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber);
 
     /**
      * To retrieve the first payment date by given document number.

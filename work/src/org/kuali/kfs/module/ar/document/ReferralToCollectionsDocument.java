@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -285,7 +284,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                         if (ObjectUtils.isNotNull(activityCode)) {
                             // create the event
                             Event event = new Event();
-                            int lastEventCode = this.getFinalEventsCount(invoice.getEvents()) + 1;
+                            int lastEventCode = invoice.getEvents().size() + 1;
                             event.setInvoiceNumber(invoice.getDocumentNumber());
                             String eventCode = event.getInvoiceNumber() + "-" + String.format("%03d", lastEventCode);
                             event.setEventCode(eventCode);
@@ -309,24 +308,6 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                 }
             }
         }
-    }
-
-    /**
-     * Gets the number of final events in list.
-     *
-     * @param events The list of events.
-     * @return Returns the number of final events.
-     */
-    private int getFinalEventsCount(List<Event> events) {
-        int count = 0;
-        if (CollectionUtils.isNotEmpty(events)) {
-            for (Event event : events) {
-                if (ObjectUtils.isNull(event.getEventRouteStatus()) || event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     /**

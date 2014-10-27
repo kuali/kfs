@@ -165,7 +165,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     public void testRetrieveEventsByCriteria() {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put("invoiceNumber", INVOICE_NUMBER);
-        Collection<Event> events = collectionActivityDocumentService.retrieveEvents(fieldValues,false,null);
+        Collection<Event> events = collectionActivityDocumentService.retrieveEvents(fieldValues, null);
         assertNotNull(events);
         for (Event event : events) {
             assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());

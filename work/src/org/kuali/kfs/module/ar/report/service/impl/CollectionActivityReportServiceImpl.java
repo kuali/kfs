@@ -132,7 +132,8 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 final String accountNum = (!CollectionUtils.isEmpty(details) && !ObjectUtils.isNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
                 if (CollectionUtils.isNotEmpty(events)) {
                     for (Event event : events) {
-                        if (ObjectUtils.isNull(event.getEventRouteStatus()) || !StringUtils.equals(event.getEventRouteStatus(), DocumentStatus.SAVED.getCode())) {
+                        String workflowDocumentStatusCode = financialSystemDocumentService.findByDocumentNumber(event.getDocumentNumber()).getWorkflowDocumentStatusCode();
+                        if (!StringUtils.equals(workflowDocumentStatusCode, DocumentStatus.SAVED.getCode())) {
                             CollectionActivityReport collectionActivityReport = new CollectionActivityReport();
                             collectionActivityReport.setAccountNumber(accountNum);
                             convertEventToCollectionActivityReport(collectionActivityReport, event);

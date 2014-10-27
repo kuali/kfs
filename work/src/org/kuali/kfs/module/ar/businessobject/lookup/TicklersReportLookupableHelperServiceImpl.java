@@ -100,7 +100,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
         fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP, "true");
 
-        Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues,false,null);
+        Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues, null);
 
         final String agencyNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 

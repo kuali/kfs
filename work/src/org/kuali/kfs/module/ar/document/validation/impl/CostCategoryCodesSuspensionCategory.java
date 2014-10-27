@@ -22,7 +22,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Suspension Category that checks to see if cost category codes are setup correctly. An object code might not
@@ -41,17 +40,14 @@ public class CostCategoryCodesSuspensionCategory extends SuspensionCategoryBase 
         if (!StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
                 !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, billingFrequencyCode)) {
             ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
-            if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
-                KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
-                KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
+            KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
+            KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
 
-                for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
-                    accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
-                }
-
-                return !categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure);
+            for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
+                accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
             }
-            return true;
+
+            return !categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure);
         }
 
         return false;

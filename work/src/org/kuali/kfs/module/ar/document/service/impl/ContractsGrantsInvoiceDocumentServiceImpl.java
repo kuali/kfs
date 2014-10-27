@@ -800,19 +800,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void updateSuspensionCategoriesOnDocument(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        if (!contractsGrantsInvoiceDocument.isCorrectionDocument()) {
+            ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
+            String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
 
-        ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
-        String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
-
-        if (ObjectUtils.isNotNull(suspensionCategories)) {
-            for (SuspensionCategory suspensionCategory : suspensionCategories) {
-                InvoiceSuspensionCategory invoiceSuspensionCategory = new InvoiceSuspensionCategory(documentNumber, suspensionCategory.getCode());
-                if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument)) {
-                    if (!contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
-                        contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().add(invoiceSuspensionCategory);
+            if (ObjectUtils.isNotNull(suspensionCategories)) {
+                for (SuspensionCategory suspensionCategory : suspensionCategories) {
+                    InvoiceSuspensionCategory invoiceSuspensionCategory = new InvoiceSuspensionCategory(documentNumber, suspensionCategory.getCode());
+                    if (suspensionCategory.shouldSuspend(contractsGrantsInvoiceDocument)) {
+                        if (!contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
+                            contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().add(invoiceSuspensionCategory);
+                        }
+                    } else if (contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
+                        contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().remove(invoiceSuspensionCategory);
                     }
-                } else if (contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().contains(invoiceSuspensionCategory)) {
-                    contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().remove(invoiceSuspensionCategory);
                 }
             }
         }

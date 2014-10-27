@@ -319,6 +319,42 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
     }
 
     /**
+     * Tests updateSuspensionCategoriesOnDocument() method on Correction document.
+     */
+    public void testUpdateSuspensionCategoriesOnCorrectionDocument() {
+
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
+        assertNotNull(contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber("12345");
+
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD2.createAward();
+
+        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
+
+        contractsGrantsInvoiceDocument.setAward(award);
+
+        InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
+        InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
+        List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
+        accountDetails.add(invoiceAccountDetail_1);
+        accountDetails.add(invoiceAccountDetail_2);
+        contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
+
+        InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
+        contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
+
+        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
+
+        assertEquals(0, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+
+        // update them again, should be the same results
+        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
+
+        assertEquals(0, contractsGrantsInvoiceDocument.getInvoiceSuspensionCategories().size());
+    }
+
+    /**
      * Tests updateSuspensionCategoriesOnDocument() method.
      */
     public void testUpdateSuspensionCategoriesOnDocumentValid() {

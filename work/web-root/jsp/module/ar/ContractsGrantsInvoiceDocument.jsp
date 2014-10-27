@@ -52,8 +52,10 @@
 		</c:otherwise>
 	</c:choose>
 
-	<ar:invoiceSuspensionCategories />
-	
+	<c:if test="${!KualiForm.document.correctionDocument}">
+		<ar:invoiceSuspensionCategories />
+	</c:if>
+		
 	<ar:invoiceTransmissionDetails readOnly="${readOnly}"/>
 
 	<gl:generalLedgerPendingEntries />

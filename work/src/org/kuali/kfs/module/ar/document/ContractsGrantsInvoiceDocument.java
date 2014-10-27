@@ -250,6 +250,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     @Override
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
+        invoiceSuspensionCategories.clear();
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(this);
     }
 

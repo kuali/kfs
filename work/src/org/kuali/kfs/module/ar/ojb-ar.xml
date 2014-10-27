@@ -1533,6 +1533,14 @@
 		<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="noteId" column="NTE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="initialTransmissionDate" column="INIT_TRNS_DT" jdbc-type="DATE" />
+		<field-descriptor name="customerLine1StreetAddress" column="CUST_LINE_1_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerLine2StreetAddress" column="CUST_LINE_2_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerCityName" column="CUST_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerStateCode" column="CUST_STATE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerZipCode" column="CUST_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerCountryCode" column="CUST_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerAddressInternationalProvinceName" column="CUST_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerInternationalMailCode" column="CUST_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 		<reference-descriptor name="customerAddress" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerAddress" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="customerNumber" />
 			<foreignkey field-ref="customerAddressIdentifier" />

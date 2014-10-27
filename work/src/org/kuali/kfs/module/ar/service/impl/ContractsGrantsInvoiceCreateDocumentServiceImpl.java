@@ -582,6 +582,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
             invoiceAddressDetail.setInvoiceTransmissionMethodCode(customerAddress.getInvoiceTransmissionMethodCode());
             invoiceAddressDetail.setCustomerEmailAddress(customerAddress.getCustomerEmailAddress());
+            invoiceAddressDetail.setCustomerLine1StreetAddress(customerAddress.getCustomerLine1StreetAddress());
+            invoiceAddressDetail.setCustomerLine2StreetAddress(customerAddress.getCustomerLine2StreetAddress());
+            invoiceAddressDetail.setCustomerCityName(customerAddress.getCustomerCityName());
+            invoiceAddressDetail.setCustomerStateCode(customerAddress.getCustomerStateCode());
+            invoiceAddressDetail.setCustomerZipCode(customerAddress.getCustomerZipCode());
+            invoiceAddressDetail.setCustomerCountryCode(customerAddress.getCustomerCountryCode());
+            invoiceAddressDetail.setCustomerInternationalMailCode(customerAddress.getCustomerInternationalMailCode());
+            invoiceAddressDetail.setCustomerAddressInternationalProvinceName(customerAddress.getCustomerAddressInternationalProvinceName());
             if (StringUtils.isNotBlank(customerAddress.getCustomerInvoiceTemplateCode())) {
                 invoiceAddressDetail.setCustomerInvoiceTemplateCode(customerAddress.getCustomerInvoiceTemplateCode());
             } else {

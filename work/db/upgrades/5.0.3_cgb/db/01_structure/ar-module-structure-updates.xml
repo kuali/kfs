@@ -340,6 +340,14 @@
 			<column name="NTE_ID" type="DECIMAL(14,0)" />
 			<column name="CUST_EMAIL_ADDR" type="VARCHAR(60)" />
 			<column name="INIT_TRNS_DT" type="DATETIME" />
+        	<column name="CUST_LINE_1_ADDR" type="VARCHAR"/>
+        	<column name="CUST_LINE_2_ADDR" type="VARCHAR"/>
+        	<column name="CUST_CITY_NM" type="VARCHAR"/>
+        	<column name="CUST_STATE_CD" type="VARCHAR"/>
+        	<column name="CUST_ZIP_CD" type="VARCHAR"/>
+        	<column name="CUST_CNTRY_CD" type="VARCHAR"/>
+        	<column name="CUST_ADDR_INTL_PROV_NM" type="VARCHAR"/>
+        	<column name="CUST_INTL_MAIL_CD" type="VARCHAR"/>
 		</createTable>
 		<createTable tableName="AR_INV_BILL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">

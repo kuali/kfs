@@ -26,6 +26,7 @@
 				<tr>
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressTypeCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell literalLabel="Address" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerEmailAddress}" useShortLabel="false" />
@@ -39,6 +40,30 @@
 								property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressTypeCode" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}"
 								property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressName" readOnly="true" /></td>
+						<td class="datacell">
+							<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerLine1StreetAddress}"
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerLine1StreetAddress" readOnly="true" /><br/>
+							<c:if test="${not empty invoiceAddressDetail.customerLine2StreetAddress}">
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerLine2StreetAddress}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerLine2StreetAddress" readOnly="true" /><br/>
+							</c:if>
+							<c:if test="${not empty invoiceAddressDetail.customerCityName || not empty invoiceAddressDetail.customerStateCode || not empty invoiceAddressDetail.customerZipCode}">
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerCityName}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerCityName" readOnly="true" />, 
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerStateCode}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerStateCode" readOnly="true" />,
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerZipCode}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerZipCode" readOnly="true" /><br/>								 
+							</c:if>
+							<c:if test="${not empty invoiceAddressDetail.customerAddressInternationalProvinceName || not empty invoiceAddressDetail.customerInternationalMailCode}">
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressInternationalProvinceName}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressInternationalProvinceName" readOnly="true" />, 
+								<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerInternationalMailCode}"
+									property="document.invoiceAddressDetails[${loopCounter.index}].customerInternationalMailCode" readOnly="true" /><br/>
+							</c:if>
+							<kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerCountryCode}"
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerCountryCode" readOnly="true" />
+						</td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}"
 								property="document.invoiceAddressDetails[${loopCounter.index}].customerInvoiceTemplateCode" readOnly="${readOnly}" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}"

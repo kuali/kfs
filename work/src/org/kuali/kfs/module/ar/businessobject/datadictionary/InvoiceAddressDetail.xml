@@ -30,6 +30,14 @@
 				<ref bean="InvoiceAddressDetail-invoiceTransmissionMethodCode" />
 				<ref bean="InvoiceAddressDetail-customerEmailAddress" />
 				<ref bean="InvoiceAddressDetail-initialTransmissionDate" />
+				<ref bean="InvoiceAddressDetail-customerLine1StreetAddress" />
+				<ref bean="InvoiceAddressDetail-customerLine2StreetAddress" />
+				<ref bean="InvoiceAddressDetail-customerCityName" />
+				<ref bean="InvoiceAddressDetail-customerStateCode" />
+				<ref bean="InvoiceAddressDetail-customerZipCode" />
+				<ref bean="InvoiceAddressDetail-customerCountryCode" />
+				<ref bean="InvoiceAddressDetail-customerAddressInternationalProvinceName" />
+				<ref bean="InvoiceAddressDetail-customerInternationalMailCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -164,5 +172,37 @@
 	    <property name="name" value="initialTransmissionDate"/>
 	    <property name="label" value="Initial Transmission Date"/>
 	</bean>
+
+	<bean id="InvoiceAddressDetail-customerLine1StreetAddress" parent="InvoiceAddressDetail-customerLine1StreetAddress-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress"/>
+
+	<bean id="InvoiceAddressDetail-customerLine2StreetAddress" parent="InvoiceAddressDetail-customerLine2StreetAddress-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress"/>
+	
+	<bean id="InvoiceAddressDetail-customerCityName" parent="InvoiceAddressDetail-customerCityName-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName"/>
+
+	<bean id="InvoiceAddressDetail-customerStateCode" parent="InvoiceAddressDetail-customerStateCode-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode"/>
+
+	<bean id="InvoiceAddressDetail-customerZipCode" parent="InvoiceAddressDetail-customerZipCode-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode"/>
+
+	<bean id="InvoiceAddressDetail-customerCountryCode" parent="InvoiceAddressDetail-customerCountryCode-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode"/>
+
+	<bean id="InvoiceAddressDetail-customerAddressInternationalProvinceName" parent="InvoiceAddressDetail-customerAddressInternationalProvinceName-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName"/>
+
+	<bean id="InvoiceAddressDetail-customerInternationalMailCode" parent="InvoiceAddressDetail-customerInternationalMailCode-parentBean"/>
+
+	<bean id="InvoiceAddressDetail-customerInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode"/>
 	
 </beans>

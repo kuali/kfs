@@ -37,6 +37,14 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private String customerEmailAddress;
     private long noteId;
     private Date initialTransmissionDate;
+    private String customerLine1StreetAddress;
+    private String customerLine2StreetAddress;
+    private String customerCityName;
+    private String customerStateCode;
+    private String customerZipCode;
+    private String customerCountryCode;
+    private String customerAddressInternationalProvinceName;
+    private String customerInternationalMailCode;
 
     private CustomerAddress customerAddress;
 
@@ -197,6 +205,70 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
 
     public void setInitialTransmissionDate(Date initialTransmissionDate) {
         this.initialTransmissionDate = initialTransmissionDate;
+    }
+
+    public String getCustomerLine1StreetAddress() {
+        return customerLine1StreetAddress;
+    }
+
+    public void setCustomerLine1StreetAddress(String customerLine1StreetAddress) {
+        this.customerLine1StreetAddress = customerLine1StreetAddress;
+    }
+
+    public String getCustomerLine2StreetAddress() {
+        return customerLine2StreetAddress;
+    }
+
+    public void setCustomerLine2StreetAddress(String customerLine2StreetAddress) {
+        this.customerLine2StreetAddress = customerLine2StreetAddress;
+    }
+
+    public String getCustomerCityName() {
+        return customerCityName;
+    }
+
+    public void setCustomerCityName(String customerCityName) {
+        this.customerCityName = customerCityName;
+    }
+
+    public String getCustomerStateCode() {
+        return customerStateCode;
+    }
+
+    public void setCustomerStateCode(String customerStateCode) {
+        this.customerStateCode = customerStateCode;
+    }
+
+    public String getCustomerZipCode() {
+        return customerZipCode;
+    }
+
+    public void setCustomerZipCode(String customerZipCode) {
+        this.customerZipCode = customerZipCode;
+    }
+
+    public String getCustomerCountryCode() {
+        return customerCountryCode;
+    }
+
+    public void setCustomerCountryCode(String customerCountryCode) {
+        this.customerCountryCode = customerCountryCode;
+    }
+
+    public String getCustomerAddressInternationalProvinceName() {
+        return customerAddressInternationalProvinceName;
+    }
+
+    public void setCustomerAddressInternationalProvinceName(String customerAddressInternationalProvinceName) {
+        this.customerAddressInternationalProvinceName = customerAddressInternationalProvinceName;
+    }
+
+    public String getCustomerInternationalMailCode() {
+        return customerInternationalMailCode;
+    }
+
+    public void setCustomerInternationalMailCode(String customerInternationalMailCode) {
+        this.customerInternationalMailCode = customerInternationalMailCode;
     }
 
     /**

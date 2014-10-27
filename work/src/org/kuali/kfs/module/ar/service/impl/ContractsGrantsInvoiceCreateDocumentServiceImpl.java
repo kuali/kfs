@@ -832,7 +832,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, invoiceAccountDetail.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceAccountDetail.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOptions.getFinancialObjectTypeTransferExpenseCd());
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOptions.getFinObjTypeExpenditureexp().getCode());
             balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
             glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
         }

@@ -7750,7 +7750,7 @@
         </index>
     </table>
     <table name="FP_PRCRMNT_CARD_DFLT_T">
-        <column name="CC_NBR" primaryKey="true" size="16" type="VARCHAR"/>
+        <column name="CC_NBR" size="16" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="CARD_HLDR_NM" size="123" type="VARCHAR"/>
@@ -7773,6 +7773,7 @@
         <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
         <column name="PROJECT_CD" size="10" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <foreign-key foreignTable="CA_CHART_T" name="FP_PRCRMNT_CARD_DFLT_TR1">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
@@ -16127,6 +16128,7 @@
     <sequence name="END_TKLR_SEQ" nextval="1"/>
     <sequence name="EN_SERVICE_DEF_INTERFACE_SEQ" nextval="2000"/>
     <sequence name="FP_CASHIER_ITM_IN_PROC_T_SEQ" nextval="1000"/>
+    <sequence name="FP_PRCRMNT_CARD_DFLT_SEQ" nextval="1"/>
     <sequence name="FP_PRCRMNT_CARD_TRN_MT_SEQ" nextval="2040"/>
     <sequence name="GL_ORIGIN_ENTRY_GRP_T_SEQ" nextval="12069"/>
     <sequence name="GL_ORIGIN_ENTRY_T_SEQ" nextval="31905"/>

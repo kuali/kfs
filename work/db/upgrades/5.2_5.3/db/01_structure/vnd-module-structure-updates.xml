@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright 2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+  
+	<changeSet author="KFS53" id="KFSTP-1359_changes">
+        <comment>KFSTP-1359 Add fields to capture foreign vendor data</comment>
+        
+
+		<createTable tableName="PUR_VNDR_CHAP_3_STAT_T">
+			<column name="VNDR_CHAP_3_STAT_CD" type="VARCHAR(2)">
+				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_CHAP_3_STAT_TP1" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="PUR_VNDR_CHAP_3_STAT_TC0" />	
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="VNDR_CHAP_3_STAT_DESC" type="VARCHAR(40)" />
+			<column name="ACTV_IND" type="VARCHAR(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>		
+  	
+  		<createTable tableName="PUR_VNDR_CHAP_4_STAT_T">
+			<column name="VNDR_CHAP_4_STAT_CD" type="VARCHAR(2)">
+				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_CHAP_4_STAT_TP1" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="PUR_VNDR_CHAP_4_STAT_TC0" />	
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="VNDR_CHAP_4_STAT_DESC" type="VARCHAR(40)" />
+			<column name="ACTV_IND" type="VARCHAR(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="PUR_VNDR_W8_TYP_T">
+			<column name="VNDR_W8_TYP_CD" type="VARCHAR(2)">
+				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_W8_TYP_TP1" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="PUR_VNDR_W8_TYP_TC0" />	
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="VNDR_W8_TYP_DESC" type="VARCHAR(40)" />
+			<column name="ACTV_IND" type="VARCHAR(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="PUR_VNDR_W8_OWNRSHP_T">
+			<column name="VNDR_W8_OWNRSHP_ID" type="VARCHAR(2)">
+				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_W8_OWNRSHP_TP1" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="PUR_VNDR_W8_OWNRSHP_TC0" />	
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="VNDR_W8_TYP_CD" type="VARCHAR(2)" />
+			<column name="VNDR_OWNRSHIP_CD" type="VARCHAR(2)" />
+			<column name="ACTV_IND" type="VARCHAR(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+  
+  		<addColumn tableName="PUR_VNDR_HDR_T">
+        
+       		<column name="VNDR_W8_TYP_CD" type="VARCHAR(2)" />
+			<column name="VNDR_W9_SIGNED_DT" type="DATE" />
+			<column name="VNDR_W8_SIGNED_DT" type="DATE" />
+			<column name="VNDR_CORP_CTZN_CNTRY_CD" type="VARCHAR(2)" />
+			<column name="VNDR_FOREIGN_TAX_ID" type="VARCHAR(255)" />
+			<column name="VNDR_GIIN" type="VARCHAR(19)" />
+			<column name="VNDR_DOB_DT" type="DATE" />
+			<column name="VNDR_CHAP_3_STAT_CD" type="VARCHAR(2)" />
+			<column name="VNDR_CHAP_4_STAT_CD" type="VARCHAR(2)" />
+        </addColumn>
+        
+        <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_W8_BEN_RCVD_IND" newColumnName="VNDR_W8_RCVD_IND" columnDataType="VARCHAR(1)"/>
+        <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_TAX_NBR" newColumnName="VNDR_US_TAX_NBR" columnDataType="VARCHAR(1)"/>
+        
+  
+ 	</changeSet>
+  	<changeSet author="KFS53" id="KFSTP-1359_PUR_VNDR_W8_OWNRSHP_ID_SEQ_oracle" dbms="oracle">
+    	<createSequence sequenceName="PUR_VNDR_W8_OWNRSHP_ID_SEQ" startValue="1" />
+    </changeSet>
+    
+    <changeSet author="KFS53" id="KFSTP-1359_PUR_VNDR_W8_OWNRSHP_ID_SEQ_mysql" dbms="mysql">
+    	<createTable tableName="PUR_VNDR_W8_OWNRSHP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(22)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+    </changeSet>
+  
+ 
+</databaseChangeLog>

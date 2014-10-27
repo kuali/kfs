@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -29,6 +31,7 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Overridden to add informative help message
@@ -85,7 +88,59 @@ public class CostCategoryMaintainableImpl extends FinancialSystemMaintainable {
                     }
                 }
             }
+
+            if (!ObjectUtils.isNull(document.getOldMaintainableObject()) && !ObjectUtils.isNull(document.getOldMaintainableObject().getBusinessObject())) {
+                CostCategory oldCostCategory = (CostCategory)document.getOldMaintainableObject().getBusinessObject();
+                if (!sameSize(oldCostCategory.getObjectCodes(), costCategory.getObjectCodes())) {
+                    if (oldCostCategory.getObjectCodes() == null) {
+                        oldCostCategory.setObjectCodes(new ArrayList<CostCategoryObjectCode>());
+                    }
+                    while (oldCostCategory.getObjectCodes().size() < costCategory.getObjectCodes().size()) {
+                        CostCategoryObjectCode paddingObjectCode = new CostCategoryObjectCode();
+                        paddingObjectCode.setCategoryCode(oldCostCategory.getCategoryCode());
+                        oldCostCategory.getObjectCodes().add(paddingObjectCode);
+                    }
+                }
+
+                if (!sameSize(oldCostCategory.getObjectLevels(), costCategory.getObjectLevels())) {
+                    if (oldCostCategory.getObjectLevels() == null) {
+                        oldCostCategory.setObjectLevels(new ArrayList<CostCategoryObjectLevel>());
+                    }
+                    while (oldCostCategory.getObjectLevels().size() < costCategory.getObjectLevels().size()) {
+                        CostCategoryObjectLevel paddingObjectLevel = new CostCategoryObjectLevel();
+                        paddingObjectLevel.setCategoryCode(oldCostCategory.getCategoryCode());
+                        oldCostCategory.getObjectLevels().add(paddingObjectLevel);
+                    }
+                }
+
+                if (!sameSize(oldCostCategory.getObjectConsolidations(), costCategory.getObjectConsolidations())) {
+                    if (oldCostCategory.getObjectConsolidations() == null) {
+                        oldCostCategory.setObjectConsolidations(new ArrayList<CostCategoryObjectConsolidation>());
+                    }
+                    while (oldCostCategory.getObjectConsolidations().size() < costCategory.getObjectConsolidations().size()) {
+                        CostCategoryObjectConsolidation paddingConsolidation = new CostCategoryObjectConsolidation();
+                        paddingConsolidation.setCategoryCode(oldCostCategory.getCategoryCode());
+                        oldCostCategory.getObjectConsolidations().add(paddingConsolidation);
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * Determines if two collections are the same size.  Being null and having no elements are treated as equivalent
+     * @param a the first collection to check
+     * @param b the second collection to check
+     * @return true if the two Collections are the same size, false otherwise
+     */
+    protected boolean sameSize(Collection<?> a, Collection<?> b) {
+        if (CollectionUtils.isEmpty(a)) {
+            return CollectionUtils.isEmpty(b);
+        }
+        if (CollectionUtils.isEmpty(b)) {
+            return false; // a isn't empty or we would have returned; therefore, a and b can't be the same size if we're here
+        }
+        return a.size() == b.size();
     }
 
     /**

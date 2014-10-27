@@ -99,6 +99,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
             customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
             customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
             customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
+            customerAddress.setCustomerEmailAddress(agencyAddress.getAgencyContactEmailAddress());
             customer.getCustomerAddresses().add(customerAddress);
         }
 

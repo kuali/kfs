@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.fixture;
 
-import org.kuali.kfs.module.cg.CGPropertyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
  */
 public enum AwardInvoiceAccountFixture {
 
-    AWD_INV_ACCT_1(new Long(111), "BL", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), "1031400", "5000", null, null, CGPropertyConstants.INCOME_ACCOUNT);
+    AWD_INV_ACCT_1(new Long(111), "BL", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), "1031400", "5000", null, null, CGConstants.INCOME_ACCOUNT);
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

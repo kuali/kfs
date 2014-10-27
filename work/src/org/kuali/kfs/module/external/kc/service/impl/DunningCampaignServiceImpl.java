@@ -24,6 +24,7 @@ import javax.jws.WebParam;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.external.kc.dto.DunningCampaignDTO;
 import org.kuali.kfs.module.external.kc.service.DunningCampaignService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -39,7 +40,7 @@ public class DunningCampaignServiceImpl implements DunningCampaignService {
         ModuleService responsibleModuleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(AccountsReceivableDunningCampaign.class);
         if (responsibleModuleService != null) {
             Map<String, Object> values = new HashMap<String, Object>();
-            values.put("campaignID", campaignID);
+            values.put(ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID, campaignID);
             return getDunningCampaignDTO(responsibleModuleService.getExternalizableBusinessObject(AccountsReceivableDunningCampaign.class, values));
         } else {
             return null;

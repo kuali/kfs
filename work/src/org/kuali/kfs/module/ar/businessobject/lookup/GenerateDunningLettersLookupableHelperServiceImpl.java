@@ -161,7 +161,7 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
     protected Collection<GenerateDunningLettersLookupResult> getInvoiceDocumentsForDunningLetterLookup(Map<String, String> fieldValues) {
         // to get the search criteria
         String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
         String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
         String awardTotal = fieldValues.get(ArConstants.AWARD_TOTAL);
         String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);

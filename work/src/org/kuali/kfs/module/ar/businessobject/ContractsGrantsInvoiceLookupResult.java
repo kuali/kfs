@@ -196,7 +196,7 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
      * @return Returns the billingFrequency.
      */
     public ContractsAndGrantsBillingFrequency getBillingFrequency() {
-        return billingFrequency = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).retrieveExternalizableBusinessObjectIfNecessary(this, billingFrequency, "billingFrequency");
+        return billingFrequency = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).retrieveExternalizableBusinessObjectIfNecessary(this, billingFrequency, ArPropertyConstants.BILLING_FREQUENCY);
     }
 
 

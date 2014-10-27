@@ -876,14 +876,15 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             fiscalYears.add(i);
         }
         List<String> balanceTypeCodeList = new ArrayList<String>();
-        balanceTypeCodeList.add(ArConstants.BUDGET_BALANCE_TYPE);
-        balanceTypeCodeList.add(ArConstants.ACTUAL_BALANCE_TYPE);
+        final SystemOptions systemOptions = retrieveSystemOptions(awardBeginningFiscalYear);
+        balanceTypeCodeList.add(systemOptions.getBudgetCheckingBalanceTypeCd());
+        balanceTypeCodeList.add(systemOptions.getActualFinancialBalanceTypeCd());
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, invoiceAccountDetail.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceAccountDetail.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOptions.getFinancialObjectTypeTransferExpenseCd());
             balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
             glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
         }
@@ -893,11 +894,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArConstants.BUDGET_BALANCE_TYPE)) {
+                if (bal.getBalanceTypeCode().equalsIgnoreCase(systemOptions.getBudgetCheckingBalanceTypeCd())) {
                     balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
                     budAmt = budAmt.add(balAmt);
                 }
-                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArConstants.ACTUAL_BALANCE_TYPE)) {
+                else if (bal.getBalanceTypeCode().equalsIgnoreCase(systemOptions.getActualFinancialBalanceTypeCd())) {
                     if (billingFrequencyCode.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequencyCode.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
 
                         cumAmt = cumAmt.add(calculateBalanceAmountWithoutLastBilledPeriod(lastBilledDate, bal));
@@ -1372,6 +1373,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 Date beginningDate = award.getAwardBeginningDate();
                 Date endingDate = award.getAwardEndingDate();
                 KualiDecimal totalAmount = award.getAwardTotalAmount();
+                final SystemOptions systemOptions = retrieveSystemOptions(getUniversityDateService().getFiscalYear(beginningDate));
 
                 contractsGrantsInvoiceDocumentErrorLog.setProposalNumber(award.getProposalNumber());
                 contractsGrantsInvoiceDocumentErrorLog.setAwardBeginningDate(beginningDate);
@@ -1384,7 +1386,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     boolean firstLineFlag = true;
 
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, beginningDate));
+
+                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOptions.getActualFinancialBalanceTypeCd(), beginningDate));
                         if (firstLineFlag) {
                             firstLineFlag = false;
                             contractsGrantsInvoiceDocumentErrorLog.setAccounts(awardAccount.getAccountNumber());
@@ -1513,9 +1516,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
             }
             else {
+                final SystemOptions systemOptions = retrieveSystemOptions(getUniversityDateService().getFiscalYear(award.getAwardBeginningDate()));
+
                 // calculate cumulativeExpenses
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOptions.getActualFinancialBalanceTypeCd(), award.getAwardBeginningDate()));
                 }
                 boolean firstLineFlag = true;
 

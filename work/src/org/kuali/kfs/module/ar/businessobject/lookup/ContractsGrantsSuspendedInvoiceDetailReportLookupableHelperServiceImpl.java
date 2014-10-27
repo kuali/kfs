@@ -272,7 +272,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                 col.setPropertyValue(propValue);
 
                 // Add url when property is documentNumber
-                if (col.getPropertyName().equals("documentNumber")) {
+                if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
                     String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                     Map<String, String> fieldList = new HashMap<String, String>();

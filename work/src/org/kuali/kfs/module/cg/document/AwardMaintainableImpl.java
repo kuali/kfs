@@ -133,7 +133,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
             getAward().setBillingFrequencyCode(defaultBillingScheduleParm);
         }
         else {
-            getAward().setBillingFrequencyCode(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+        	getAward().setBillingFrequencyCode(CGConstants.MONTHLY_BILLING_SCHEDULE_CODE);
         }
     }
 
@@ -253,7 +253,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     @SuppressWarnings("unchecked")
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        if (StringUtils.equals("proposalLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
+        if (StringUtils.equals(CGPropertyConstants.PROPOSAL_LOOKUPABLE, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
 
             boolean isAwarded = AwardRuleUtil.isProposalAwarded(getAward());
             if (isAwarded) {
@@ -450,7 +450,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         // refreshed back to old values.
         // To be optimized if there is a better approach.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode()) && StringUtils.isNotBlank(award.getLetterOfCreditFundCode())) {
-            award.setBillingFrequencyCode(CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
+        	award.setBillingFrequencyCode(CGConstants.LOC_BILLING_SCHEDULE_CODE);
         }
 
 
@@ -464,7 +464,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
                     // To get parameter Value of GLPE Recievable offset generation method.
                     String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
 
-                    if (sectionId.equalsIgnoreCase(CGConstants.SectionId.AWARD_INVOICE_ACCOUNTS_SECTION_ID)) {
+                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.SectionId.AWARD_INVOICE_ACCOUNTS_SECTION_ID)) {
                         if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
                             section.setHidden(false);
                             section.setDefaultOpen(true);

@@ -26,7 +26,6 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -51,7 +50,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
     protected UniversityDateService universityDateService;
 
     /**
-     * This method retrieves the amount to draw for the award account based on teh criteria passed
+     * This method retrieves the amount to draw for the award account based on the criteria passed
      *
      * @param awardaccounts
      * @return
@@ -66,9 +65,11 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
 
+            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, award.getAwardBeginningDate());
+
             // 2. Get the Cumulative amount from GL Balances.
 
-            KualiDecimal cumAmt = getContractsGrantsInvoiceDocumentService().getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate());
+            KualiDecimal cumAmt = getContractsGrantsInvoiceDocumentService().getBudgetAndActualsForAwardAccount(awardAccount, systemOptions.getActualFinancialBalanceTypeCd(), award.getAwardBeginningDate());
             KualiDecimal billedAmount = KualiDecimal.ZERO;
             KualiDecimal amountToDraw = KualiDecimal.ZERO;
 
@@ -110,15 +111,16 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
         for (Integer currFiscalYear = fiscalYear; currFiscalYear <= currentYear; currFiscalYear++) {
             final List<String> objectTypeCodeList = getIncomeAndExpenseObjectTypesForFiscalYear(currFiscalYear);
             final Collection<Balance> glBalances = retrieveBalancesForAwardAccount(awardAccount, currFiscalYear, objectTypeCodeList);
+            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currFiscalYear);
 
             for (Balance bal : glBalances) {
                 if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                    if (bal.getObjectTypeCode().equalsIgnoreCase(ArConstants.EXPENSE_OBJECT_TYPE)) {
+                    if (bal.getObjectTypeCode().equalsIgnoreCase(systemOptions.getFinancialObjectTypeTransferExpenseCd())) {
                         balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
                         expAmt = expAmt.add(balAmt);
                     }
-                    else if (bal.getObjectTypeCode().equalsIgnoreCase(ArConstants.INCOME_OBJECT_TYPE)) {
+                    else if (bal.getObjectTypeCode().equalsIgnoreCase(systemOptions.getFinancialObjectTypeTransferIncomeCd())) {
                         balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
                         incAmt = incAmt.add(balAmt);
@@ -136,11 +138,14 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
      * @param objectTypeCodeList the selection of object type codes the balance may have
      */
     protected Collection<Balance> retrieveBalancesForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, Integer fiscalYear, List<String> objectTypeCodeList) {
+
+        final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+
         Map<String, Object> balanceKeys = new HashMap<String, Object>();
         balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
         balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
         balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArConstants.ACTUAL_BALANCE_TYPE);
+        balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, systemOptions.getActualFinancialBalanceTypeCd());
         balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
         return getBusinessObjectService().findMatching(Balance.class, balanceKeys);
     }

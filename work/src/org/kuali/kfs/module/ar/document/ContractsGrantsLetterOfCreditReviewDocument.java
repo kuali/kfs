@@ -41,6 +41,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditReviewDocumentService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -115,7 +116,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
      * @return Returns the letterOfCreditFund.
      */
     public ContractsAndGrantsLetterOfCreditFund getLetterOfCreditFund() {
-        return letterOfCreditFund = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFund, "letterOfCreditFund");
+        return letterOfCreditFund = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFund, ArPropertyConstants.LETTER_OF_CREDIT_FUND);
     }
 
     /**
@@ -133,7 +134,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
      * @return Returns the letterOfCreditFundGroup.
      */
     public ContractsAndGrantsLetterOfCreditFundGroup getLetterOfCreditFundGroup() {
-        return letterOfCreditFundGroup = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, "letterOfCreditFundGroup");
+        return letterOfCreditFundGroup = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP);
     }
 
     /**
@@ -206,12 +207,12 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put("letterOfCreditFundCode", letterOfCreditFundCode);
-        m.put("letterOfCreditFund", letterOfCreditFund);
-        m.put("letterOfCreditFundGroupCode", letterOfCreditFundGroupCode);
-        m.put("letterOfCreditFundGroup", letterOfCreditFundGroup);
-        m.put("headerReviewDetails", headerReviewDetails);
-        m.put("accountReviewDetails", accountReviewDetails);
+        m.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, letterOfCreditFundCode);
+        m.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND, letterOfCreditFund);
+        m.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
+        m.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP, letterOfCreditFundGroup);
+        m.put(ArPropertyConstants.HEADER_REVIEW_DETAILS, headerReviewDetails);
+        m.put(ArPropertyConstants.ACCOUNT_REVIEW_DETAILS, accountReviewDetails);
         return m;
     }
 
@@ -291,6 +292,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
 
                     headerReviewDetails.add(locReviewDtl);
+                    final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, award.getAwardBeginningDate());
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
@@ -302,7 +304,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                         locReviewDtl.setAccountExpirationDate(awardAccount.getAccount().getAccountExpirationDate());
                         locReviewDtl.setClaimOnCashBalance(getContractsGrantsLetterOfCreditReviewDocumentService().getClaimOnCashforAwardAccount(awardAccount, award.getAwardBeginningDate()));
                         totalClaimOnCashBalance = totalClaimOnCashBalance.add(locReviewDtl.getClaimOnCashBalance());
-                        locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.BUDGET_BALANCE_TYPE, award.getAwardBeginningDate()));
+                        locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOption.getBudgetCheckingBalanceTypeCd(), award.getAwardBeginningDate()));
                         totalAwardBudgetAmount = totalAwardBudgetAmount.add(locReviewDtl.getAwardBudgetAmount());
                         if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccountNumber()) && awardAccount.getAccountNumber().equalsIgnoreCase(awardAccount.getAccount().getContractControlAccountNumber())) {
                             locReviewDtl.setAccountDescription(ArConstants.CONTRACT_CONTROL_ACCOUNT);

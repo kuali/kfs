@@ -55,6 +55,7 @@ import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ReportGenerationService;
@@ -330,11 +331,13 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, Map<String, String> replacementList) {
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
+        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, year);
+
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             int index = 0;
             KualiDecimal baseSum = KualiDecimal.ZERO;
             KualiDecimal amountSum = KualiDecimal.ZERO;
-            cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+            cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOption.getActualFinancialBalanceTypeCd(), award.getAwardBeginningDate()));
             if (ObjectUtils.isNotNull(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()) && ObjectUtils.isNotNull(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd())) {
                 index++;
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.INDIRECT_EXPENSE_TYPE + " " + index, awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd());
@@ -481,6 +484,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         Map<String, String> replacementList = new HashMap<String, String>();
         contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.REPORTING_PERIOD_END_DATE, getReportingPeriodEndDate(reportingPeriod, year));
         contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.FEDERAL_AGENCY, agency.getFullName());
+        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, year);
 
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
@@ -528,7 +532,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
 
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
-                    totalCashDisbursement = totalCashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
+                    totalCashDisbursement = totalCashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOption.getActualFinancialBalanceTypeCd(), awards.get(i).getAwardBeginningDate()));
                 }
             }
         }

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsInstrumentType;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -63,7 +64,7 @@ public class InstrumentType extends PersistableBusinessObjectBase implements Con
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("instrumentTypeCode", this.instrumentTypeCode);
+        m.put(CGPropertyConstants.INSTRUMENT_TYPE_CODE, this.instrumentTypeCode);
         return m;
     }
 }

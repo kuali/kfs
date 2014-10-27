@@ -22,52 +22,33 @@ package org.kuali.kfs.module.cg;
  */
 public class CGPropertyConstants{
 
-    // Common document values
-    public static final String DOCUMENT = "document";
-    public static final String DOCUMENT_NUMBER = "documentNumber";
-    public static final String NEW_MAINTAINABLE_OBJECT = "newMaintainableObject";
-
     // Research Risk Type
-    public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
     public static final String RESEARCH_RISK_TYPE_SORT_NUMBER = "researchRiskTypeSortNumber";
 
     // Award
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
-    public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
-    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MILE";
-    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MNTH";
-    public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
-    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
-    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
-    public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
-
     public static final String AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH = "documentAttribute.proposalNumber";
 
 
-    public static final String INCOME_ACCOUNT = "Income";
-    public static final String AR_ACCOUNT = "Accounts Receivable";
+
     public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
-    public static final String PROPOSAL_NUMBER = "proposalNumber";
-    public static final String LOC_FUND_GROUP = "letterOfCreditFundGroupCode";
-    public static final String LOC_FUND = "letterOfCreditFundCode";
+    public static final String PROPOSAL_LOOKUPABLE = "proposalLookupable";
+    public static final String AWARD_FUND_MANAGER_PROJECT_TITLE = "awardFundManagerProjectTitle";
+
+    //Instrument Type
+    public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
 
     // Agency
     public static class AgencyFields {
-        public static final String AGENCY_TAB_GENERAL_INFORMATION = "agencyGeneralInformation";
         public static final String AGENCY_TAB_ADDRESSES = "agencyAddresses";
-        public static final String AGENCY_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.agencyAddresses";
-        public static final String AGENCY_CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
-        public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
         public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String AGENCY_NAME = "agencyName";
         public static final String AGENCY_ADDRESS_STATE_CODE = "agencyStateCode";
         public static final String AGENCY_ADDRESS_ZIP_CODE = "agencyZipCode";
         public static final String AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "agencyAddressInternationalProvinceName";
         public static final String AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE = "agencyInternationalMailCode";
-        public static final String AGENCY_ADDRESS_END_DATE = "agencyAddressEndDate";
         public static final String AGENCY_CUSTOMER_TYPE_CODE= "customerTypeCode";
     }
 
@@ -86,15 +67,30 @@ public class CGPropertyConstants{
     public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
 
       // ProposalAwardCloseDocument
-    public static final String PROPOSAL_AWARD_CLOSE_DOC_CLOSE_ON_OR_BEFORE_DATE = "closeOnOrBeforeDate";
     public static final String PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE = "userInitiatedCloseDate";
-    public static final String PROPOSAL_AWARD_CLOSE_DOC_AWARD_CLOSED_COUNT = "awardClosedCount";
-    public static final String PROPOSAL_AWARD_CLOSE_DOC_PROPOSAL_CLOSED_COUNT = "proposalClosedCount";
-    public static final String PPROPOSAL_AWARD_CLOSE_DOC_RINCIPAL_NAME = "principalName";
 
     public static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
     public static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
     public static final String AWARD_LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
     public static final String AWARD_LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.principalId";
     public static final String PROPOSAL_LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
+
+    public static class SectionId {
+        public static final String AGENCY_ADDRESS_SECTION_ID = "addressSection";
+        public static final String AGENCY_ADDRESSES_SECTION_ID = "addressesSection";
+        public static final String AGENCY_COLLECTIONS_MAINTENANCE_SECTION_ID = "collectionsMaintenanceSection";
+        public static final String AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID = "contractsAndGrantsSection";
+        public static final String AGENCY_CUSTOMER_SECTION_ID = "customerSection";
+        public static final String AWARD_FUND_MANAGERS_SECTION_ID = "fundManagersSection";
+        public static final String AWARD_INVOICE_ACCOUNTS_SECTION_ID = "invoiceAccountsSection";
+        public static final String AWARD_INVOICING_SECTION_ID = "invoicingSection";
+        public static final String AWARD_MILESTONE_SCHEDULE_SECTION_ID = "milestoneScheduleSection";
+        public static final String AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID = "predeterminedBillingScheduleSection";
+        public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
+    }
+
+
+    public static class AwardCreationDefaults {
+        public static final String KcUnit = "kcUnit";
+    }
 }

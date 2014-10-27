@@ -46,6 +46,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerif
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -269,13 +270,14 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
         String coaCode = null, orgCode = null;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
         // This condition is validated only if GLPE is 3 and CG enhancements is ON
         if (isUsingReceivableFAU) {
             Map<String, Object> criteria = new HashMap<>();
             Map<String, Object> sysCriteria = new HashMap<>();
             criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArConstants.ACTUAL_BALANCE_TYPE);
+            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, systemOption.getActualFinancialBalanceTypeCd());
             criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
             // 1. To get the chart code and org code for invoicing depending on the invoicing options.
             if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {

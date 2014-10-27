@@ -80,6 +80,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.FallbackMap;
@@ -760,6 +761,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
+        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
@@ -777,7 +779,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                     balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                     balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
-                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
+                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinancialObjectTypeTransferExpenseCd());
                     glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
                 }
                 for (Balance bal : glBalances) {
@@ -851,6 +853,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     protected KualiDecimal getCumulativeCashDisbursement(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
         Integer currentYear = universityDateService.getCurrentFiscalYear();
+        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
         KualiDecimal cumAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         List<Balance> glBalances = new ArrayList<Balance>();
@@ -869,8 +872,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, systemOption.getActualFinancialBalanceTypeCd());
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinancialObjectTypeTransferExpenseCd());
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {

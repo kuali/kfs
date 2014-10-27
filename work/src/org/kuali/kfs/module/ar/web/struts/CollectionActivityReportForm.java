@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
@@ -35,7 +36,7 @@ public class CollectionActivityReportForm extends ContractsGrantsReportLookupFor
      * Default constructor.
      */
     public CollectionActivityReportForm() {
-        setHtmlFormAction("collectionActivityReportLookup");
+        setHtmlFormAction(ArConstants.COLLECTION_ACTIVITY_REPORT_LOOKUP);
     }
 
     /**

@@ -748,7 +748,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getPostingYear().toString());
-        pkMap.put("universityFiscalPeriodCode", this.getPostingPeriodCode());
+        pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, this.getPostingPeriodCode());
         pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
 
         Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);

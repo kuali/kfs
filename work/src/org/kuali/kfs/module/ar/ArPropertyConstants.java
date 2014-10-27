@@ -153,8 +153,8 @@ public class ArPropertyConstants{
         public static final String APPLICATION_DOC_STATUS = "status";
         public static final String ORGANIZATION_DOC_NBR = "organizationDocumentNumber";
         public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
-        public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String BANK_CODE = "document.bankCode";
+        public static final String CUSTOMER_PAYMENT_MEDIUM = "customerPaymentMedium";
     }
 
     // CashControlDetail
@@ -173,7 +173,6 @@ public class ArPropertyConstants{
 
     // CustomerInvoiceWriteoffLookupResult
     public static class CustomerInvoiceWriteoffLookupResultFields {
-        public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String CUSTOMER_NAME = "customerName";
         public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
         public static final String CUSTOMER_INVOICE_NUMBER = "customerInvoiceNumber";
@@ -255,6 +254,7 @@ public class ArPropertyConstants{
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String BILLS = "bills";
     public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
+    public static final String BILLING_FREQUENCY = "billingFrequency";
     public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
     public static final String INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
@@ -569,9 +569,12 @@ public class ArPropertyConstants{
     public static final String INVOICE_TYPE = "invoiceType";
     public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
+    public static final String LETTER_OF_CREDIT_FUND_GROUP = "letterOfCreditFundGroup";
     public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
+    public static final String HEADER_REVIEW_DETAILS = "headerReviewDetails";
+    public static final String ACCOUNT_REVIEW_DETAILS = "accountReviewDetails";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
     public static final String OBJECT_CODES = "objectCodes";
     public static final String OBJECT_CONSOLIDATION = "objectConsolidation";

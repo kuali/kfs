@@ -78,6 +78,8 @@ public class CGConstants{
     public static final String LOC_BY_AWARD = "LOC By Award";
     public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
     public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
+    public static final String INCOME_ACCOUNT = "Income";
+    public static final String AR_ACCOUNT = "Accounts Receivable";
 
     // Award Invoice
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
@@ -116,6 +118,14 @@ public class CGConstants{
 
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
 
+    public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
+    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MILE";
+    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MNTH";
+    public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
+    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
+    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
+    public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
+
     public static class TemplateUploadSystem {
         static final public String EXTENSION = ".pdf";
         static final public String TEMPLATE_MIME_TYPE = "application/pdf";
@@ -130,20 +140,6 @@ public class CGConstants{
         public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";
         public static final String UNPROCESSED_ROUTING_NODE_NAME = "Unprocessed";
 
-    }
-
-    public static class SectionId {
-        public static final String AGENCY_ADDRESS_SECTION_ID = "addressSection";
-        public static final String AGENCY_ADDRESSES_SECTION_ID = "addressesSection";
-        public static final String AGENCY_COLLECTIONS_MAINTENANCE_SECTION_ID = "collectionsMaintenanceSection";
-        public static final String AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID = "contractsAndGrantsSection";
-        public static final String AGENCY_CUSTOMER_SECTION_ID = "customerSection";
-        public static final String AWARD_FUND_MANAGERS_SECTION_ID = "fundManagersSection";
-        public static final String AWARD_INVOICE_ACCOUNTS_SECTION_ID = "invoiceAccountsSection";
-        public static final String AWARD_INVOICING_SECTION_ID = "invoicingSection";
-        public static final String AWARD_MILESTONE_SCHEDULE_SECTION_ID = "milestoneScheduleSection";
-        public static final String AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID = "predeterminedBillingScheduleSection";
-        public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
     }
 
     public static class ReportsConstants {
@@ -165,9 +161,4 @@ public class CGConstants{
         }
     }
 
-    public static class AwardCreationDefaults {
-        public static final String CHART_OF_ACCOUNT_CODE = "chartOfAccountsCode";
-        public static final String ACCOUNT_NUMBER = "accountNumber";
-        public static final String KcUnit = "kcUnit";
-    }
 }

@@ -39,18 +39,17 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This class holds the business rules for the AR Cash Control Document
@@ -68,8 +67,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
-        ccDocument.refreshReferenceObject("customerPaymentMedium");
-        ccDocument.refreshReferenceObject("generalLedgerPendingEntries");
+        ccDocument.refreshReferenceObject(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM);
+        ccDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
@@ -112,8 +111,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument cashControlDocument = (CashControlDocument) approveEvent.getDocument();
 
-        cashControlDocument.refreshReferenceObject("customerPaymentMedium");
-        cashControlDocument.refreshReferenceObject("generalLedgerPendingEntries");
+        cashControlDocument.refreshReferenceObject(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM);
+        cashControlDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
 
         isValid &= checkAllAppDocsApproved(cashControlDocument);
         isValid &= checkGLPEsCreated(cashControlDocument);
@@ -355,12 +354,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         if (customerNumber != null && !customerNumber.equals("")) {
 
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("customerNumber", customerNumber);
+            criteria.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
 
             Customer customer = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
             if (customer == null) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
                 isValid = false;
             }
         }

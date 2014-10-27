@@ -72,7 +72,7 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
 
     /**
      * Build the inquiry URL for the business object passed in as a parameter.
-     * 
+     *
      * @param businessObject
      * @param inquiryHref
      */
@@ -119,14 +119,14 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             InquirySectionDefinition inquirySection = iter.next();
             String sectionId = inquirySection.getId();
             if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !sectionIdsToIgnore.contains(sectionId)) {
-                if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID)) {
-                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
+                if (StringUtils.equals(sectionId, CGPropertyConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID)) {
+                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
                         SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);
                     }
-                } else if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_MILESTONE_SCHEDULE_SECTION_ID)) {
-                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
+                } else if (StringUtils.equals(sectionId, CGPropertyConstants.SectionId.AWARD_MILESTONE_SCHEDULE_SECTION_ID)) {
+                    if (StringUtils.equals(award.getBillingFrequencyCode(), CGConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
                         SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasMilestoneSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);

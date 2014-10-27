@@ -35,10 +35,13 @@ public class ArConstants{
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
     public static final String PAYMENT_DOC_TYPE = "Payment";
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
+    public static final String FINAL_BILLED_INDICATOR_DOC_TYPE = "FBI";
 
     public static final String SORT_INDEX_SESSION_KEY = "sortIndex";
     public static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
     public static final String TOTALS_TABLE_KEY = "totalsTable";
+
+    public static final String COLLECTION_ACTIVITY_REPORT_LOOKUP = "collectionActivityReportLookup";
 
     // System Parameters
 
@@ -460,10 +463,6 @@ public class ArConstants{
     public static final String INV_AWARD = "1";
     public static final String INV_ACCOUNT = "2";
     public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
-    public static final String INCOME_OBJECT_TYPE = "IN";
-    public static final String EXPENSE_OBJECT_TYPE = "EX";
-    public static final String BUDGET_BALANCE_TYPE = "CB";
-    public static final String ACTUAL_BALANCE_TYPE = "AC";
     public static final String INVOICE_AMOUNT_LABEL = "Invoice Amount";
     public static final String PRINT_INVOICES_FROM_LABEL = "Print Invoices From";
     public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
@@ -474,8 +473,6 @@ public class ArConstants{
     public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
     static final public String REMINDER_EMAIL_SUBJECT = "REMINDER_EMAIL_SUBJECT";
-
-    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 
     // Agency Collections Maintenance
     public static final String CHAPTER7_CODE = "C7";
@@ -532,6 +529,7 @@ public class ArConstants{
         public static final String ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableDunningLetterTemplateUpload";
         public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
         public static final String CONTRACTS_GRANTS_LOC_REPORT = "contractsGrantsLOCReport";
+        public static final String AR_TICKLER_REPORT = "arTicklersReport";
     }
 
     public static class MultipleValueReturnActions {

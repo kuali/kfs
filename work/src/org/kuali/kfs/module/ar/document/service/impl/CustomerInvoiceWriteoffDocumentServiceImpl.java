@@ -199,7 +199,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues) {
 
         //  only one of these four will be used, based on priority
-        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
         String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
         String customerTypeCode = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_TYPE_CODE);
         String customerInvoiceNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_INVOICE_NUMBER);

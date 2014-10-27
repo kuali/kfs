@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -267,25 +268,25 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 int arCount = 0;
                 int incomeCount = 0;
                 for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
+                    if (awardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
                         if (awardInvoiceAccount.isActive()) {
                             arCount++;
 
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
+                            if (newAwardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
                                 if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
+                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
                                     return false;
                                 }
                             }
                         }
                     }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
+                    else if (awardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
                         if (awardInvoiceAccount.isActive()) {
                             incomeCount++;
 
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
+                            if (newAwardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
                                 if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
+                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
                                     return false;
                                 }
                             }
@@ -294,11 +295,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 }
 
                 if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
+                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
                     return false;
                 }
                 if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
+                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
                     return false;
                 }
 
@@ -541,12 +542,12 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 int arCount = 0;
                 int incomeCount = 0;
                 for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
+                    if (awardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
                         if (awardInvoiceAccount.isActive()) {
                             arCount++;
                         }
                     }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
+                    else if (awardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
                         if (awardInvoiceAccount.isActive()) {
                             incomeCount++;
                         }
@@ -559,11 +560,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                     success = false;
                 }
                 else if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
+                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
                     return false;
                 }
                 if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
+                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
                     return false;
                 }
             }
@@ -593,8 +594,8 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
             // Check for Predetermined and Milestone billing schedules
             if (ObjectUtils.isNotNull(billingFrequencyCode) &&
-                    (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
-                     CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
+                    (CGConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
+                            CGConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
 
                 // Get count of active accounts on Award
                 Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
@@ -645,11 +646,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         String oldBillingFrequencyCode = oldAwardCopy.getBillingFrequencyCode();
 
         if (!StringUtils.equals(newBillingFrequencyCode, oldBillingFrequencyCode)) {
-            if (StringUtils.equals(oldBillingFrequencyCode, CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
+            if (StringUtils.equals(oldBillingFrequencyCode, CGConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
                     SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveMilestones(newAwardCopy.getProposalNumber())) {
                 success = false;
                 putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_MILESTONES_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
-            } else if (StringUtils.equals(oldBillingFrequencyCode, CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
+            } else if (StringUtils.equals(oldBillingFrequencyCode, CGConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
                     SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveBills(newAwardCopy.getProposalNumber())) {
                 success = false;
                 putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_BILLS_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());

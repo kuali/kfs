@@ -417,7 +417,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         // To retrieve the batch file directory name as "reports/ar"
-        ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
+        ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(ArConstants.AR_NAMESPACE_CODE).getModuleConfiguration();
 
         // Set destination folder path
         String destinationFolderPath = StringUtils.EMPTY;

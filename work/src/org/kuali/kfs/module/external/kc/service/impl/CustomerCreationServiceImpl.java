@@ -26,11 +26,13 @@ import javax.jws.WebParam;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.dto.CustomerCreationStatusDto;
 import org.kuali.kfs.module.external.kc.dto.CustomerTypeDto;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
 import org.kuali.kfs.module.external.kc.service.CustomerCreationService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.UserSession;
@@ -54,7 +56,7 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
         CustomerCreationStatusDto result = new CustomerCreationStatusDto();
         UserSession oldSession = GlobalVariables.getUserSession();
         try {
-            GlobalVariables.setUserSession(new UserSession("kfs"));
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
             Agency agency = new Agency(sponsor);
             String description = configurationService.getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
             String customerNumber = accountsReceivableModuleService.createAndSaveCustomer(description, agency);
@@ -83,11 +85,11 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
     }
 
     @Override
-    public boolean isValidCustomer(@WebParam(name = "customerNumber") String customerNumber) {
+    public boolean isValidCustomer(@WebParam(name = ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER) String customerNumber) {
         ModuleService responsibleModuleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(AccountsReceivableCustomer.class);
         if (responsibleModuleService!=null && responsibleModuleService.isExternalizable(AccountsReceivableCustomer.class)) {
             Map<String, Object> values = new HashMap<String, Object>();
-            values.put("customerNumber", customerNumber);
+            values.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
             return (responsibleModuleService.getExternalizableBusinessObject(AccountsReceivableCustomer.class, values) != null);
         } else {
             return false;

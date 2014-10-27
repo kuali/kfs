@@ -196,4 +196,10 @@ public class KcConstants {
     public static class RiceApplicationConfigurationService {
         public static final String WEB_SERVICE_NAME = "KcRiceApplicationConfigurationService";
     }
+
+    public static class BillingFrequencyService {
+        public static final String FREQUENCY = "frequency";
+        public static final String FREQUENCY_DESCRIPTION = "frequencyDescription";
+        public static final String KC_FREQUENCY_CODE = "kcFrequencyCode";
+    }
 }

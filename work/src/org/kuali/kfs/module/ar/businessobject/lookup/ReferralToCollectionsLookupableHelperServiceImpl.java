@@ -107,7 +107,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
         String agencyNumber = (String) fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
         String proposalNumber = (String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String invoiceDocumentNumber = (String) fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
-        String customerNumber = (String) fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerNumber = (String) fieldValues.get(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
         String customerName = (String) fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
 
         if ((ObjectUtils.isNull(customerNumber) || StringUtils.isBlank(customerNumber)) && (ObjectUtils.isNull(agencyNumber) || StringUtils.isBlank(agencyNumber)) && (ObjectUtils.isNull(customerName) || StringUtils.isBlank(customerName)) && (ObjectUtils.isNull(proposalNumber) || StringUtils.isBlank(proposalNumber)) && (ObjectUtils.isNull(invoiceDocumentNumber) || StringUtils.isBlank(invoiceDocumentNumber))) {
@@ -296,7 +296,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
         String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
         String awardDocumentNumber = fieldValues.get(ArPropertyConstants.ReferralToCollectionsFields.AWARD_DOCUMENT_NUMBER);
-        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
         String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
         String collectorPrincipalName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 

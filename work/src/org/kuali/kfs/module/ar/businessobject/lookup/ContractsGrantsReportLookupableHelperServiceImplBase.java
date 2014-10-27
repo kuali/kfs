@@ -77,7 +77,7 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
                 col.setPropertyValue(propValue);
 
                 // Add url when property is documentNumber and paymentNumber (paymentNumber is a document number.)
-                if (col.getPropertyName().equals("documentNumber") || col.getPropertyName().equals("paymentNumber")) {
+                if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER) || col.getPropertyName().equals("paymentNumber")) {
                     String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                     Map<String, String> fieldList = new HashMap<String, String>();

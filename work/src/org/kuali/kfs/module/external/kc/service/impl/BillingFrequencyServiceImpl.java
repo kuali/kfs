@@ -74,7 +74,7 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
     @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         //use the proposal number as its the awardId on the KC side.
-        FrequencyDto dto  = this.getWebService().getFrequency((String)primaryKeys.get("frequency"));
+        FrequencyDto dto  = this.getWebService().getFrequency((String)primaryKeys.get(KcConstants.BillingFrequencyService.FREQUENCY));
         return createBillingFrequency(dto);
     }
 
@@ -86,7 +86,7 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
             if (fieldValues.isEmpty()) {
                 result = this.getWebService().findAll();
             } else {
-                result = this.getWebService().findMatching((String) fieldValues.get("frequency"), (String) fieldValues.get("frequencyDescription"));
+                result = this.getWebService().findMatching((String) fieldValues.get(KcConstants.BillingFrequencyService.FREQUENCY), (String) fieldValues.get(KcConstants.BillingFrequencyService.FREQUENCY_DESCRIPTION));
             }
         } catch (WebServiceException ex) {
             GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
@@ -136,7 +136,7 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
 
     protected BillingFrequencyMapping getFrequencyMapping(String kcFrequencyCode) {
         Map<String, String> values = new HashMap<String, String>();
-        values.put("kcFrequencyCode", kcFrequencyCode);
+        values.put(KcConstants.BillingFrequencyService.KC_FREQUENCY_CODE, kcFrequencyCode);
         Collection<BillingFrequencyMapping> mappings = getBusinessObjectService().findMatching(BillingFrequencyMapping.class, values);
         if (mappings != null && !mappings.isEmpty()) {
             return mappings.iterator().next();

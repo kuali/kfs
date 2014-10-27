@@ -494,7 +494,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, KFSConstants.Booleans.TRUE);
         params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "INVW");
-        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
+        params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
         return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
     }
 
@@ -513,7 +513,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
+        params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
         params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME, detail.getCustomerName());
         return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
     }

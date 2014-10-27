@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -43,7 +44,7 @@ public class FinalBilledIndicatorDocumentForm extends KualiTransactionalDocument
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "FBI";
+        return ArConstants.FINAL_BILLED_INDICATOR_DOC_TYPE;
     }
 
     /**

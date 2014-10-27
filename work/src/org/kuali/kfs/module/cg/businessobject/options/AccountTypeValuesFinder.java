@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.cg.CGPropertyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -34,8 +34,8 @@ public class AccountTypeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
-        activeLabels.add(new ConcreteKeyValue(CGPropertyConstants.INCOME_ACCOUNT, CGPropertyConstants.INCOME_ACCOUNT));
-        activeLabels.add(new ConcreteKeyValue(CGPropertyConstants.AR_ACCOUNT, CGPropertyConstants.AR_ACCOUNT));
+        activeLabels.add(new ConcreteKeyValue(CGConstants.INCOME_ACCOUNT, CGConstants.INCOME_ACCOUNT));
+        activeLabels.add(new ConcreteKeyValue(CGConstants.AR_ACCOUNT, CGConstants.AR_ACCOUNT));
         return activeLabels;
     }
 

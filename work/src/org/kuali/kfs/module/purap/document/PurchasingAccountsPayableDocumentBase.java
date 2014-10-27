@@ -92,8 +92,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected String vendorAttentionName;
     protected String accountDistributionMethod;  //code for account distribution method
 
-    protected String statusCode;
-
     // NOT PERSISTED IN DB
     protected String vendorNumber;
     protected Integer vendorAddressGeneratedIdentifier;
@@ -1373,25 +1371,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return currentSourceLines;
-    }
-
-    /**
-     * Gets the statusCode attribute.
-     *
-     * @return Returns the statusCode
-     */
-
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Sets the statusCode attribute.
-     *
-     * @param statusCode The statusCode to set.
-     */
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
     }
 
     /**

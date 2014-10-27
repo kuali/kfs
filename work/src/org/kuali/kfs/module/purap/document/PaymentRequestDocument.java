@@ -19,7 +19,6 @@ package org.kuali.kfs.module.purap.document;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -777,7 +776,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 //**START AZ** KATTS-37 KevinMcO
                 if (StringUtils.isBlank(cancelledStatus) &&
                         StringUtils.isBlank(PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName)) &&
-                        (PaymentRequestStatuses.APPDOC_INITIATE.equals(getStatusCode()) || PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getStatusCode()))) {
+                        (PaymentRequestStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus()) || PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getApplicationDocumentStatus()))) {
                 cancelledStatus = PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS;
                 }
                 //**END AZ**
@@ -1480,5 +1479,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
     }
-    
+
 }

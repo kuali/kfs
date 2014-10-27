@@ -18,8 +18,6 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +30,7 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
 import org.kuali.kfs.module.external.kc.dto.AwardAccountDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountSoapService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
@@ -73,10 +72,17 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
 
     @Override
     public Collection findMatching(Map fieldValues) {
-        Map hashMapList = new HashMap();
+        String accountNumber = (String)fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        if (StringUtils.isBlank(accountNumber)) {
+            accountNumber = null; // don't pass an empty string account number to KC
+        }
+        String chartOfAccountsCode = (String)fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            chartOfAccountsCode = null; // don't pass an empty string chart code to KC
+        }
 
-        for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
+        List awardAccounts = new ArrayList();
+        List<AwardAccountDTO> awardAccountDTOs = null;
 
             String key = (String) e.getKey();
             String val = (String) e.getValue();

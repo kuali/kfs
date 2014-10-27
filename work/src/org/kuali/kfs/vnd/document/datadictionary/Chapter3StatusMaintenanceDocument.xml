@@ -15,14 +15,14 @@
  limitations under the License.
 -->
 
-  <bean id="Chapter4StatusMaintenanceDocument" parent="Chapter4StatusMaintenanceDocument-parentBean"/>
+  <bean id="Chapter3StatusMaintenanceDocument" parent="Chapter3StatusMaintenanceDocument-parentBean"/>
 
-  <bean id="Chapter4StatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.Chapter4Status"/>
+  <bean id="Chapter3StatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.Chapter3Status"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
-        <ref bean="Chapter4StatusMaintenanceDocument-EditChapter4Status"/>
+        <ref bean="Chapter3StatusMaintenanceDocument-EditChapter3Status"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -34,17 +34,17 @@
     <property name="documentTypeName" value="PVCT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="Chapter4StatusMaintenanceDocument-workflowAttributes"/>
+    	<ref bean="Chapter3StatusMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="Chapter4StatusMaintenanceDocument-EditChapter4Status" parent="Chapter4StatusMaintenanceDocument-EditChapter4Status-parentBean"/>
+  <bean id="Chapter3StatusMaintenanceDocument-EditChapter3Status" parent="Chapter3StatusMaintenanceDocument-EditChapter3Status-parentBean"/>
 
-  <bean id="Chapter4StatusMaintenanceDocument-EditChapter4Status-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Chapter 4 Status"/>
-    <property name="title" value="Edit Chapter 4 Status"/>
+  <bean id="Chapter3StatusMaintenanceDocument-EditChapter3Status-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Chapter 3 Status"/>
+    <property name="title" value="Edit Chapter 3 Status"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="vendorChapter3StatusCode" p:required="true"/>
@@ -55,7 +55,7 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="Chapter4StatusMaintenanceDocument-workflowAttributes" parent="Chapter4StatusMaintenanceDocument-workflowAttributes-parentBean"/>
+  <bean id="Chapter3StatusMaintenanceDocument-workflowAttributes" parent="Chapter3StatusMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="Chapter4StatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="Chapter3StatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

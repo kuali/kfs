@@ -646,22 +646,23 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         catch (Exception e) {
             LOG.error("sendAchAdviceEmail() Invalid email address. Sending message to " + customer.getAdviceReturnEmailAddr(), e);
 
-            // send notification to advice return address with payment details
-            message.addToAddress(customer.getAdviceReturnEmailAddr());
+            // send notification to advice return address with payment details- need a new MailMessage here of course
+            MailMessage msg = new MailMessage();
+            msg.addToAddress(customer.getAdviceReturnEmailAddr());
 
             String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
             if(StringUtils.isEmpty(returnAddress)) {
                 returnAddress = mailService.getBatchMailingList();
             }
-            message.setFromAddress(returnAddress);
-            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
+            msg.setFromAddress(returnAddress);
+            msg.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
 
             LOG.warn("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
             // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
-            alterMessageWhenNonProductionInstance(message, null);
+            alterMessageWhenNonProductionInstance(msg, null);
 
             try {
-                mailService.sendMessage(message);
+                mailService.sendMessage(msg);
             }
             catch (Exception e1) {
                 LOG.error("Could not send email to advice return email address on customer profile: " + customer.getAdviceReturnEmailAddr(), e1);

@@ -2181,27 +2181,31 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
-        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
-            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
-                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+        if (ObjectUtils.isNull(matchingGlAssets) || matchingGlAssets.isEmpty()) {
+            return;
+        }
+        for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
+            GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
-                // update gl status as processed
-                if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
-                    generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                    businessObjectService.save(generalLedgerEntry);
+            // update gl status as processed
+            if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
+                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+                businessObjectService.save(generalLedgerEntry);
+            }
+
+            //if all the capital assets have been processed then update the
+            //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
+            updateTransactionLedgerEntryAmount(generalLedgerEntry);
+
+            // release asset lock
+            List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
+            String assetNumber;
+            for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
+                if (!capitalAssetInformation.isCapitalAssetProcessedIndicator()) {
+                    continue;
                 }
-
-                //if all the capital assets have been processed then update the
-                //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
-                updateTransactionLedgerEntryAmount(generalLedgerEntry);
-
-                // release asset lock
-                List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
-                String assetNumber;
-                for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
-                    assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
-                }
+                assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
+                getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
             }
         }
     }
@@ -3017,3 +3021,4 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     }
 }
+

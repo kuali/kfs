@@ -853,7 +853,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         this.disbVchrPayeePostalZipCode = disbVchrPayeePostalZipCode;
     }
 
-
     /**
      * Checks the payee type code for vendor type
      */
@@ -938,19 +937,25 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         return address.toString();
     }
 
+    /**
+     * For non-vendor employee payee, retrieves the principalId using payeeId (which shall hold employeeId in this case);
+     * otherwise return null.
+     * @return
+     */
     public String getEmployeePrincipalId() {
-        if (StringUtils.isBlank(disbVchrPayeeIdNumber) || !isEmployee()) {
+        if (StringUtils.isBlank(disbVchrPayeeIdNumber) || isVendor() || !isEmployee()) {
             return null;
         }
 
         List<Principal> plist = SpringContext.getBean(IdentityService.class).getPrincipalsByEmployeeId(disbVchrPayeeIdNumber);
-        if (!plist.isEmpty()) {
+        if (ObjectUtils.isNotNull(plist) && !plist.isEmpty()) {
             // we can only return on principal for inquiry link, choose the first one in the list as default
             Principal principal = plist.get(0);
             if (ObjectUtils.isNotNull(principal)) {
                 return principal.getPrincipalId();
             }
         }
+
         return null;
     }
 

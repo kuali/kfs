@@ -5,24 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.app.VelocityEngine;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.VelocityEmailService;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.mail.EmailBcList;
-import org.kuali.rice.core.api.mail.EmailBody;
-import org.kuali.rice.core.api.mail.EmailCcList;
-import org.kuali.rice.core.api.mail.EmailFrom;
-import org.kuali.rice.core.api.mail.EmailSubject;
-import org.kuali.rice.core.api.mail.EmailToList;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 /**
@@ -33,7 +21,6 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 public abstract class VelocityEmailServiceBase implements VelocityEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VelocityEmailServiceBase.class);
     protected MailService mailService;
-    protected ConfigurationService configurationService;
     protected ParameterService parameterService;
     protected VelocityEngine velocityEngine;
     protected BusinessObjectService businessObjectService;
@@ -51,7 +38,7 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
             List<String> toList = new ArrayList<String>(mailMessage.getToAddresses());
             List<String> ccList = new ArrayList<String>(mailMessage.getCcAddresses());
             List<String> bccList = new ArrayList<String>(mailMessage.getBccAddresses());
-            CoreApiServiceLocator.getMailer().sendEmail(new EmailFrom(mailMessage.getFromAddress()), new EmailToList(toList), new EmailSubject(mailMessage.getSubject()), new EmailBody(mailMessage.getMessage()), new EmailCcList(ccList), new EmailBcList(bccList), isHtmlMessage());
+            mailService.sendMessage(mailMessage);
         }
         catch (Exception ex) {
             LOG.error("Exception received when send email ", ex);
@@ -76,18 +63,6 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
      */
     public void setHtmlMessage(boolean htmlMessage) {
         this.htmlMessage = htmlMessage;
-    }
-
-    /**
-     * get the testing email address
-     *
-     * @return
-     */
-    protected Collection<String> getTestingEmailAddress() {
-        // retrieve from system parameter.
-        Collection<String> address = getParameterService().getParameterValuesAsString(KewApiConstants.KEW_NAMESPACE, KRADConstants.DetailTypes.ACTION_LIST_DETAIL_TYPE, KewApiConstants.ACTIONLIST_EMAIL_TEST_ADDRESS);
-
-        return address;
     }
 
     /**
@@ -136,38 +111,22 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
         // from...
         message.setFromAddress(mailService.getBatchMailingList());
 
-        // to..subject...
-        String productionEnvironmentCode = getConfigurationService().getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = getConfigurationService().getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-
-
-        boolean isProduction = StringUtils.equals(productionEnvironmentCode, environmentCode);
         Collection<String> emailReceivers;
-        if (isProduction) {
-            message.setSubject(getEmailSubject());
-            emailReceivers = getProdEmailReceivers();
-            if (emailReceivers != null && !emailReceivers.isEmpty()) {
-                setAndSplitEmailAddress(emailReceivers, message);
-            }
-
-            emailReceivers = getCcEmailReceivers();
-            if (emailReceivers != null && !emailReceivers.isEmpty()) {
-                setAndSplitCcEmailReceivers(emailReceivers, message);
-            }
-
-            emailReceivers = getBccEmailReceivers();
-            if (emailReceivers != null && !emailReceivers.isEmpty()) {
-                setAndSplitBccEmailReceivers(emailReceivers, message);
-            }
-        }
-        else {
-            message.setSubject(environmentCode + ": " + getEmailSubject());
-            emailReceivers = getTestingEmailAddress();
-            if (emailReceivers != null && !emailReceivers.isEmpty()) {
-                setAndSplitEmailAddress(emailReceivers, message);
-            }
+        message.setSubject(getEmailSubject());
+        emailReceivers = getProdEmailReceivers();
+        if (emailReceivers != null && !emailReceivers.isEmpty()) {
+            setAndSplitEmailAddress(emailReceivers, message);
         }
 
+        emailReceivers = getCcEmailReceivers();
+        if (emailReceivers != null && !emailReceivers.isEmpty()) {
+            setAndSplitCcEmailReceivers(emailReceivers, message);
+        }
+
+        emailReceivers = getBccEmailReceivers();
+        if (emailReceivers != null && !emailReceivers.isEmpty()) {
+            setAndSplitBccEmailReceivers(emailReceivers, message);
+        }
 
         String body = VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), getTemplateUrl(), templateVariables);
         message.setMessage(body);
@@ -206,25 +165,6 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
      */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
-    }
-
-    /**
-     * Gets the configurationService attribute.
-     *
-     * @return Returns the configurationService
-     */
-
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    /**
-     * Sets the configurationService attribute.
-     *
-     * @param configurationService The configurationService to set.
-     */
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
     }
 
     /**

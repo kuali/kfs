@@ -70,7 +70,6 @@ public class KcConstants {
         public static final String SERVICE_NAME ="awardAccountService";
 
         public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
-        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("accountNumber", "chartOfAccountsCode");
     }
 
     public static class KcWebService {

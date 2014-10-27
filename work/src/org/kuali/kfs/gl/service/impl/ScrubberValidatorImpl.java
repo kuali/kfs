@@ -823,9 +823,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // grab bypass origin codes from parameters
         Set<String> objectTypeBypassOriginationCodes = new HashSet<String>(parameterService.getParameterValuesAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS));
 
-        // if this is not a bypassed origination code then insert appropriate object type code for incoming transaction based
-        // on the object code - want to do this before validation checks
-        if (!objectTypeBypassOriginationCodes.contains(originEntry.getFinancialSystemOriginationCode())) {
+        // if this is not a bypassed origination code or if object type code is blank (PDP origin) then insert appropriate object type code
+        // for incoming transaction based on the object code - want to do this before validation checks
+        if ((!objectTypeBypassOriginationCodes.contains(originEntry.getFinancialSystemOriginationCode())) || (!StringUtils.hasText(originEntry.getFinancialObjectTypeCode()))) {
             ObjectCode workingEntryFinancialObject = accountingCycleCachingService.getObjectCode(workingEntry.getUniversityFiscalYear(), workingEntry.getChartOfAccountsCode(), workingEntry.getFinancialObjectCode());
             workingEntry.setFinancialObjectTypeCode(workingEntryFinancialObject.getFinancialObjectTypeCode());
         } else {

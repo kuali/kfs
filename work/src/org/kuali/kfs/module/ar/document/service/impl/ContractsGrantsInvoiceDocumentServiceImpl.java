@@ -777,7 +777,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                     balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                     balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
-                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinancialObjectTypeTransferExpenseCd());
+                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinObjTypeExpenditureexp().getCode());
                     glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
                 }
                 for (Balance bal : glBalances) {
@@ -871,7 +871,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, systemOption.getActualFinancialBalanceTypeCd());
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinancialObjectTypeTransferExpenseCd());
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOption.getFinObjTypeExpenditureexp().getCode());
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {

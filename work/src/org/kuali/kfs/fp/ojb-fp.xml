@@ -1796,9 +1796,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.ProcurementCardDefault" table="FP_PRCRMNT_CARD_DFLT_T">
-    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />    
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" index="true"/>    
     <field-descriptor name="cardHolderName" column="CARD_HLDR_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="cardHolderAlternateName" column="CARD_HLDR_ALTRNT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="cardHolderLine1Address" column="CARD_HLDR_LN1_ADDR" jdbc-type="VARCHAR" />

@@ -36,6 +36,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="objectLabel" value="Procurement Cardholder" />    
     <property name="attributes" >
       <list>
+        <ref bean="ProcurementCardDefault-id"/>
         <ref bean="ProcurementCardDefault-creditCardNumber" />
         <ref bean="ProcurementCardDefault-cardHolderName" />
         <ref bean="ProcurementCardDefault-cardHolderAlternateName" />        
@@ -62,9 +63,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
 <!-- Attribute Definitions -->
+  <bean id="ProcurementCardDefault-id" parent="ProcurementCardDefault-id-parentBean"/>
+  <bean id="ProcurementCardDefault-id-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="id"/>
+  	<property name="label" value="Procurement Card Default ID"/>
+  	<property name="shortLabel" value="ID"/>
+  	<property name="maxLength" value="22"/>
+  	<property name="control">
+  		<bean parent="TextControlDefinition" p:size="24" />
+  	</property>
+  </bean>
 
   <bean id="ProcurementCardDefault-creditCardNumber" parent="ProcurementCardDefault-creditCardNumber-parentBean" />
-	
   <bean id="ProcurementCardDefault-creditCardNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditCardNumber" />
     <property name="label" value="Procurement Card Number" />
@@ -74,7 +84,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <bean parent="AlphaNumericValidationPattern"
             p:exactLength="16" />     
     </property>
-    <property name="control" >
+    <property name="control">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
@@ -217,7 +227,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="title" value="Bearer of the Card of Procurement" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
-            <list>        
+            <list> 
+            	<bean parent="FieldDefinition"
+            		p:attributeName="id"/>       
                	<bean parent="FieldDefinition"
                     p:attributeName="creditCardNumber" /> 
               	<bean parent="FieldDefinition"
@@ -300,6 +312,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="lookupFields" >
       <list>
+      	<bean parent="FieldDefinition"
+              p:attributeName="id"/>
         <bean parent="FieldDefinition"        
               p:attributeName="cardHolderName" />
         <bean parent="FieldDefinition"
@@ -315,6 +329,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="resultFields" >
       <list>
+      	<bean parent="FieldDefinition"
+              p:attributeName="id"/>
         <bean parent="FieldDefinition"
               p:attributeName="creditCardNumber"  />      
         <bean parent="FieldDefinition"

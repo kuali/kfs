@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.businessobject.ProcurementCardDefault;
@@ -24,14 +29,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class represents business rules for the procurement cardholder maintenance document
  */
 
 public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
-    protected static final String WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER = "warning.document.procurementcardholderdetail.cardholder.last.active";
-    protected static ParameterService parameterService;
+    private static volatile ParameterService parameterService;
+    private static volatile BusinessObjectService businessObjectService;
 
     /**
      * Returns true procurement card defaults maintenance document is routed successfully
@@ -46,6 +52,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
         boolean continueRouting = super.processCustomRouteDocumentBusinessRules(document);
         final ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)getNewBo();
 
+        continueRouting &= validateCreditCardNumberUniqueness(newProcurementCardDefault);
         continueRouting &= validateCardHolderDefault(newProcurementCardDefault);
         continueRouting &= validateAccountingDefault(newProcurementCardDefault);
 
@@ -60,6 +67,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
         super.processCustomSaveDocumentBusinessRules(document);
 
         final ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)getNewBo();
+        validateCreditCardNumberUniqueness(newProcurementCardDefault);
         validateCardHolderDefault(newProcurementCardDefault);
         validateAccountingDefault(newProcurementCardDefault);
 
@@ -67,9 +75,32 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * Determines if the given procurement card default has a unique credit card number
+     * @param procurementCardDefault the procurement card default to check
+     * @return true if the procurement card default credit card number is unique, false otherwise
+     */
+    public boolean validateCreditCardNumberUniqueness(ProcurementCardDefault procurementCardDefault) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, procurementCardDefault.getCreditCardNumber());
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        Collection<ProcurementCardDefault> matchingPcardDefaults = getBusinessObjectService().findMatching(ProcurementCardDefault.class, fieldValues);
+        if (CollectionUtils.isEmpty(matchingPcardDefaults)) {
+            return true; // no other pcard defaults with the same credit card, so we must be safe
+        }
+        for (ProcurementCardDefault pcardDefault : matchingPcardDefaults) {
+            if (!procurementCardDefault.getId().equals(pcardDefault.getId())) {
+                putFieldError(KFSPropertyConstants.CREDIT_CARD_NUMBER, KFSKeyConstants.ERROR_PROCUREMENT_CARD_DEFAULT_CREDIT_CARD_NUMBER_NOT_UNIQUE);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @return true if use of card holder defaults is turned on via parameter, false if it is turned off
      */
     protected boolean isCardHolderDefaultTurnedOn() {
+        // phrasing much?
         return getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME);
     }
 
@@ -169,11 +200,17 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
     /**
      * @return the default implementation of the ParameterService
      */
-    protected synchronized ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
     }
 
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
 }

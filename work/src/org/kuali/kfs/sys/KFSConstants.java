@@ -1405,6 +1405,8 @@ public class KFSConstants {
 	public static final String NOTIFICATION_TEXT_KEY = "notificationText";
     public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
 
+    public static final String PROCUREMENT_CARD_DEFAULT_SEQUENCE_NAME = "FP_PRCRMNT_CARD_DFLT_SEQ";
+
     private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
     public static Integer getMaxLengthOfDocumentDescription() {
         if (MAX_LENGTH_OF_DOCUMENT_DESCRIPTION == null) {

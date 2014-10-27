@@ -54,21 +54,6 @@
         </insert>
     </changeSet>
 
-	<changeSet author="KFS53" id="KFSCNTRB-1793_COUNT_PER_ROLL_BY_DENOMINATION">
-        <comment>Adds parameter for KFSCNTRB-1793 for standard roll sizes</comment>
-        <insert tableName="KRCR_PARM_T">
-            <column name="NMSPC_CD" value="KFS-FP" />
-            <column name="CMPNT_CD" value="CoinDetail" />
-            <column name="PARM_NM" value="COUNT_PER_ROLL_BY_DENOMINATION" />
-            <column name="OBJ_ID" value="KFS-PARM-170" />
-            <column name="PARM_TYP_CD" value="CONFG" />
-            <column name="VAL" value="100c=25;50c=20;25c=40;10c=50;5c=40;1c=50" />
-            <column name="PARM_DESC_TXT" value="Counts of coins per roll for each standard roll. Note: each roll is defined in the format of denomination =countPerRoll; countPerRoll must be a positive integer; all 6 rolls shall be defined, separated by semicolon; the order of them does not matter." />
-            <column name="EVAL_OPRTR_CD" value="A" />
-            <column name="APPL_ID" value="KFS" />
-        </insert>
-    </changeSet>
-    
     <changeSet author="KFS53" id="KFSCNTRB_1536_AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND">
         <comment>
             If yes, commodity codes are automatically added to vendors when a REQS becomes a PO.

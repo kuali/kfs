@@ -56,6 +56,7 @@
 			<list>
 				<value>procurementCardDocumentJob</value>
 				<value>disbursementVoucherPreDisbursementProcessorExtractJob</value>
+				<value>populateProcurementCardDefaultIdsJob</value>
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -486,6 +487,32 @@
  
     <bean id="accountingDocumentPreRuleService" parent="accountingDocumentPreRuleService-parentBean"/>
 	<bean id="accountingDocumentPreRuleService-parentBean" class="org.kuali.kfs.fp.service.impl.AccountingDocumentPreRuleServiceImpl"  abstract="true"/>
+	
+	<!-- upgrade jobs for kfs 5.3 -->
+	<bean id="populateProcurementCardDefaultIdsStep" parent="populateProcurementCardDefaultIdsStep-parentBean"/>
+	<bean id="populateProcurementCardDefaultIdsStep-parentBean" abstract="true" class="org.kuali.kfs.fp.batch.PopulateProcurementCardDefaultIdStep">
+		<property name="populateProcurementCardDefaultIdsService" ref="populateProcurementCardDefaultIdsService"/>
+	</bean>
+	
+	<bean id="populateProcurementCardDefaultIdsJob" parent="populateProcurementCardDefaultIdsJob-parentBean"/>
+	<bean id="populateProcurementCardDefaultIdsJob-parentBean" abstract="true" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="populateProcurementCardDefaultIdsStep"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="populateProcurementCardDefaultIdsService" parent="populateProcurementCardDefaultIdsService-parentBean"/>
+	<bean id="populateProcurementCardDefaultIdsService-parentBean" abstract="true" class="org.kuali.kfs.fp.service.impl.PopulateProcurementCardDefaultIdsServiceImpl">
+		<property name="populateProcurementCardDefaultIdsDao" ref="populateProcurementCardDefaultIdsDao"/>
+	</bean>
+	
+	<bean id="populateProcurementCardDefaultIdsDao" parent="populateProcurementCardDefaultIdsDao-parentBean"/>
+	<bean id="populateProcurementCardDefaultIdsDao-parentBean" abstract="true" parent="platformAwareDaoJdbc" class="org.kuali.kfs.fp.dataaccess.impl.PopulateProcurementCardDefaultIdsDaoJdbc">
+		<property name="sequenceAccessorService" ref="sequenceAccessorService"/>
+	</bean>
+	<!-- ***** -->
 
     <!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />

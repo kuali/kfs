@@ -572,8 +572,8 @@
 
 	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
-		<property name="contractsAndGrantsInvoiceReportService">
-			<ref bean="contractsAndGrantsInvoiceReportService"/>
+		<property name="contractsGrantsInvoiceReportService">
+			<ref bean="contractsGrantsInvoiceReportService"/>
 		</property>
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService"/>

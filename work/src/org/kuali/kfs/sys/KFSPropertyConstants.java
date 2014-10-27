@@ -1135,7 +1135,7 @@ public class KFSPropertyConstants {
     public static final String SUFFICIENT_FUNDS_CODE = "sufficientFundsCode";
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
     public static final String SUPERVISOR_USER = "supervisorUser";
-    public static final String SUSPENSION_REASON = "suspensionReason";
+    public static final String EXCLUDED_FROM_INVOICING_REASON = "excludedFromInvoicingReason";
     public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
     public static final String TARGET_ACCOUNTING_LINES = "targetAccountingLines";

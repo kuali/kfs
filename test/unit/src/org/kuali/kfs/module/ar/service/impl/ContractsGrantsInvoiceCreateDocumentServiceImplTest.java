@@ -169,7 +169,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationAwardInvoicingSuspended() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
         List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
@@ -196,7 +196,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
     public void testPerformAwardValidationSuspendedAndInactiveAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         ((Award)awards.get(0)).setActive(false);
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
         List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
@@ -212,7 +212,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         ((Award)awards.get(0)).setActive(false);
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         awards.addAll(awards2);
 
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
@@ -229,7 +229,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
     public void testPerformAwardValidationOneValidOneInvalidAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         awards.addAll(awards2);
 
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();

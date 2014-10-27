@@ -28,7 +28,7 @@ public class AwardSuspendedByUserSuspensionCategory extends SuspensionCategoryBa
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getAward().isSuspendInvoicingIndicator();
+        return contractsGrantsInvoiceDocument.getAward().isExcludedFromInvoicing();
     }
 
 }

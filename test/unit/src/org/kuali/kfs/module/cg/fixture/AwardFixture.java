@@ -56,12 +56,12 @@ public enum AwardFixture {
     private KualiDecimal awardDirectCostAmount;
     private KualiDecimal awardIndirectCostAmount;
     private KualiDecimal minInvoiceAmount;
-    private boolean suspendInvoicingIndicator;
+    private boolean excludedFromInvoicing;
     private String invoicingOptions;
     private boolean active;
     private String preferredBillingFrequency;
 
-    private AwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean suspendInvoicingIndicator, String invoicingOptions, boolean active, String preferredBillingFrequency) {
+    private AwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptions, boolean active, String preferredBillingFrequency) {
 
         this.proposalNumber = proposalNumber;
         this.awardBeginningDate = awardBeginningDate;
@@ -69,7 +69,7 @@ public enum AwardFixture {
         this.awardDirectCostAmount = awardDirectCostAmount;
         this.awardIndirectCostAmount = awardIndirectCostAmount;
         this.minInvoiceAmount = minInvoiceAmount;
-        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
+        this.excludedFromInvoicing = excludedFromInvoicing;
         this.invoicingOptions = invoicingOptions;
         this.active = active;
         this.preferredBillingFrequency = preferredBillingFrequency;
@@ -83,7 +83,7 @@ public enum AwardFixture {
         award.setAwardDirectCostAmount(this.awardDirectCostAmount);
         award.setAwardIndirectCostAmount(this.awardIndirectCostAmount);
         award.setMinInvoiceAmount(this.minInvoiceAmount);
-        award.setSuspendInvoicingIndicator(this.suspendInvoicingIndicator);
+        award.setExcludedFromInvoicing(this.excludedFromInvoicing);
         award.setInvoicingOptions(this.invoicingOptions);
         award.setActive(this.active);
         award.setPreferredBillingFrequency(this.preferredBillingFrequency);

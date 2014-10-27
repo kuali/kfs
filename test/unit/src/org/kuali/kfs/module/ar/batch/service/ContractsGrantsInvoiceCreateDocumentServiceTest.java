@@ -79,7 +79,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     public void testValidateManualAwardsOneInvalidAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
         List<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
 
         Collection<ContractsAndGrantsBillingAward> validAwards = contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL.getCode());
@@ -115,9 +115,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     public void testValidateManualAwardsTwoInvalidAwards() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         ((Award)awards2.get(0)).setProposalNumber(new Long(11));
         awards.addAll(awards2);
         List<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
@@ -139,7 +139,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
     public void testValidateManualAwardsOneValidOneInvalidAwards() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         ((Award)awards2.get(0)).setProposalNumber(new Long(11));
         awards.addAll(awards2);
         List<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
@@ -175,7 +175,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     public void testValidateBatchAwardsOneInvalidAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
 
         Collection<ContractsAndGrantsBillingAward> validAwards = contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, null, errorOutputFile, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode());
 
@@ -213,9 +213,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     public void testValidateBatchAwardsTwoInvalidAwards() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards.get(0)).setExcludedFromInvoicing(true);
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         ((Award)awards2.get(0)).setProposalNumber(new Long(11));
         awards.addAll(awards2);
 
@@ -237,7 +237,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
     public void testValidateBatchAwardsOneValidOneInvalidAwards() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        ((Award)awards2.get(0)).setSuspendInvoicingIndicator(true);
+        ((Award)awards2.get(0)).setExcludedFromInvoicing(true);
         ((Award)awards2.get(0)).setProposalNumber(new Long(11));
         awards.addAll(awards2);
 

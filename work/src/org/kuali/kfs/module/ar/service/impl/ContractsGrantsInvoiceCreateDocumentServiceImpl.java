@@ -1253,7 +1253,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     protected void validateAward(List<String> errorList, ContractsAndGrantsBillingAward award) {
         // 1. Award Invoicing suspended by user.
-        if (award.isSuspendInvoicingIndicator()) {
+        if (award.isExcludedFromInvoicing()) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
         }
 

@@ -375,8 +375,8 @@
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 				<field-descriptor name="preferredBillingFrequency" column="PREF_BILL_FREQ_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="stateTransferIndicator" column="STATE_TRNSFR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="suspendInvoicingIndicator" column="SUSPND_INVCNG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="suspensionReason" column="SUSP_REASON_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="excludedFromInvoicing" column="EXCL_FRM_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="excludedFromInvoicingReason" column="EXCL_FRM_INV_REASON_TXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="additionalFormsRequiredIndicator" column="ADDTNL_FRMS_RQRD" jdbc-type="VARCHAR"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="additionalFormsDescription" column="ADDTNL_FRM_DESC" jdbc-type="VARCHAR" />

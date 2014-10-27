@@ -1294,7 +1294,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.KIM_GROUP_NAMES, award.getKimGroupNames());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.ROUTING_ORG, award.getRoutingOrg());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.ROUTING_CHART, award.getRoutingChart());
-            parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.SUSPEND_INVOICING, award.isSuspendInvoicingIndicator());
+            parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.EXCLUDED_FROM_INVOICING, award.isExcludedFromInvoicing());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.ADDITIONAL_FORMS_REQUIRED, award.isAdditionalFormsRequiredIndicator());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.ContractsAndGrantsBillingAwardFields.ADDITIONAL_FORMS_DESCRIPTION, award.getAdditionalFormsDescription());
             parameterMap.put(KFSPropertyConstants.AWARD+"."+ArPropertyConstants.INSTRUMENT_TYPE_CODE, award.getInstrumentTypeCode());

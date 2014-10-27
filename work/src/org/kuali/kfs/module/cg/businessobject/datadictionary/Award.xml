@@ -89,8 +89,8 @@
 				<ref bean="Award-proposalAwardTypeCode" />
 				<ref bean="Award-awardInquiryTitle" />
 				<ref bean="Award-stateTransferIndicator" />
-				<ref bean="Award-suspendInvoicingIndicator" />
-				<ref bean="Award-suspensionReason" />
+				<ref bean="Award-excludedFromInvoicing" />
+				<ref bean="Award-excludedFromInvoicingReason" />
 				<ref bean="Award-additionalFormsRequiredIndicator" />
 				<ref bean="Award-additionalFormsDescription" />
 				<ref bean="Award-instrumentTypeCode" />
@@ -913,11 +913,11 @@
 		<property name="shortLabel" value="State Transfer" />
 	</bean>
 
-	<bean id="Award-suspendInvoicingIndicator" parent="Award-suspendInvoicingIndicator-parentBean" />
+	<bean id="Award-excludedFromInvoicing" parent="Award-excludedFromInvoicing-parentBean" />
 
-	<bean id="Award-suspendInvoicingIndicator-parentBean" abstract="true"
+	<bean id="Award-excludedFromInvoicing-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="suspendInvoicingIndicator" />
+		<property name="name" value="excludedFromInvoicing" />
 		<property name="label" value="Exclude from Invoicing" />
 		<property name="shortLabel" value="Exclude from Invoicing" />
 	</bean>
@@ -931,11 +931,11 @@
 		<property name="shortLabel" value="Additional Forms Required" />
 	</bean>
 
-	<bean id="Award-suspensionReason" parent="Award-suspensionReason-parentBean" />
+	<bean id="Award-excludedFromInvoicingReason" parent="Award-excludedFromInvoicingReason-parentBean" />
 
-	<bean id="Award-suspensionReason-parentBean" abstract="true"
+	<bean id="Award-excludedFromInvoicingReason-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="suspensionReason" />
+		<property name="name" value="excludedFromInvoicingReason" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Reason for Excluding from Invoicing" />
 		<property name="shortLabel" value="Exclusion Reason" />
@@ -1184,8 +1184,8 @@
 					p:attributeName="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
 				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="suspensionReason" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicingReason" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
@@ -1465,7 +1465,7 @@
 				<bean parent="FieldDefinition" p:attributeName="awardOrganizations.organization.organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="awardAccounts.account.accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
@@ -1491,7 +1491,7 @@
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryProjectDirector.projectDirector.name" />
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManager.fundManager.name" />
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="excludedFromInvoicing" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

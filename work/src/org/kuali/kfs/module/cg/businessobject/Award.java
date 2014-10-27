@@ -118,10 +118,10 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String routingChart;
 
     private boolean stateTransferIndicator;
-    private boolean suspendInvoicingIndicator;
+    private boolean excludedFromInvoicing;
     private boolean additionalFormsRequiredIndicator;
     private String additionalFormsDescription;
-    private String suspensionReason;
+    private String excludedFromInvoicingReason;
     private String instrumentTypeCode;
     private String invoicingOptions;
 
@@ -163,14 +163,13 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the suspensionReason attribute.
+     * Gets the excludedFromInvoicingReason attribute.
      *
-     * @return Returns the suspensionReason.
+     * @return Returns the excludedFromInvoicingReason.
      */
-
     @Override
-    public String getSuspensionReason() {
-        return suspensionReason;
+    public String getExcludedFromInvoicingReason() {
+        return excludedFromInvoicingReason;
     }
 
     /**
@@ -178,7 +177,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the stateTransferIndicator.
      */
-
     @Override
     public boolean isStateTransferIndicator() {
         return stateTransferIndicator;
@@ -194,12 +192,12 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Sets the suspensionReason attribute value.
+     * Sets the excludedFromInvoicingReason attribute value.
      *
-     * @param suspensionReason The suspensionReason to set.
+     * @param excludedFromInvoicingReason The excludedFromInvoicingReason to set.
      */
-    public void setSuspensionReason(String suspensionReason) {
-        this.suspensionReason = suspensionReason;
+    public void setExcludedFromInvoicingReason(String excludedFromInvoicingReason) {
+        this.excludedFromInvoicingReason = excludedFromInvoicingReason;
     }
 
     /**
@@ -209,7 +207,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-
     @Override
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
@@ -1437,25 +1434,23 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.preferredBillingFrequency = preferredBillingFrequency;
     }
 
-
     /**
-     * Gets the suspendInvoicingIndicator attribute.
+     * Gets the excludedFromInvoicing attribute.
      *
-     * @return Returns the suspendInvoicingIndicator.
+     * @return Returns the excludedFromInvoicing.
      */
-
     @Override
-    public boolean isSuspendInvoicingIndicator() {
-        return suspendInvoicingIndicator;
+    public boolean isExcludedFromInvoicing() {
+        return excludedFromInvoicing;
     }
 
     /**
-     * Sets the suspendInvoicingIndicator attribute value.
+     * Sets the excludedFromInvoicing attribute value.
      *
-     * @param suspendInvoicingIndicator The suspendInvoicingIndicator to set.
+     * @param excludedFromInvoicing The excludedFromInvoicing to set.
      */
-    public void setSuspendInvoicingIndicator(boolean suspendInvoicingIndicator) {
-        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
+    public void setExcludedFromInvoicing(boolean excludedFromInvoicing) {
+        this.excludedFromInvoicing = excludedFromInvoicing;
     }
 
     /**
@@ -1463,7 +1458,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the additionalFormsRequiredIndicator.
      */
-
     @Override
     public boolean isAdditionalFormsRequiredIndicator() {
         return additionalFormsRequiredIndicator;

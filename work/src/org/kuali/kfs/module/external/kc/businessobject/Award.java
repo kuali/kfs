@@ -90,10 +90,10 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String routingOrg;
     private String routingChart;
     private boolean stateTransferIndicator;
-    private boolean suspendInvoicingIndicator;
+    private boolean excludedFromInvoicing;
     private boolean additionalFormsRequiredIndicator;
     private String additionalFormsDescription;
-    private String suspensionReason;
+    private String excludedFromInvoicingReason;
     private String instrumentTypeCode;
     private String invoicingOptions;
     private String invoicingOptionDescription;
@@ -603,12 +603,12 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getSuspensionReason() {
-        return suspensionReason;
+    public String getExcludedFromInvoicingReason() {
+        return excludedFromInvoicingReason;
     }
 
-    public void setSuspensionReason(String suspensionReason) {
-        this.suspensionReason = suspensionReason;
+    public void setExcludedFromInvoicingReason(String excludedFromInvoicingReason) {
+        this.excludedFromInvoicingReason = excludedFromInvoicingReason;
     }
 
     @Override
@@ -805,12 +805,12 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public boolean isSuspendInvoicingIndicator() {
-        return suspendInvoicingIndicator;
+    public boolean isExcludedFromInvoicing() {
+        return excludedFromInvoicing;
     }
 
-    public void setSuspendInvoicingIndicator(boolean suspendInvoicingIndicator) {
-        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
+    public void setExcludedFromInvoicing(boolean excludedFromInvoicing) {
+        this.excludedFromInvoicing = excludedFromInvoicing;
     }
 
     @Override

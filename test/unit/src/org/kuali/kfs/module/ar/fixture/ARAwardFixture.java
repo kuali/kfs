@@ -74,12 +74,12 @@ public enum ARAwardFixture {
     private KualiDecimal awardIndirectCostAmount;
     private KualiDecimal minInvoiceAmount;
     private KualiDecimal awardTotalAmount;
-    private boolean suspendInvoicingIndicator;
+    private boolean excludedFromInvoicing;
     private String invoicingOptions;
     private boolean active;
     private BillingFrequency billingFrequency;
 
-    private ARAwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean suspendInvoicingIndicator, String invoicingOptions, boolean active, BillingFrequency billingFrequency) {
+    private ARAwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptions, boolean active, BillingFrequency billingFrequency) {
 
         this.proposalNumber = proposalNumber;
         this.awardBeginningDate = awardBeginningDate;
@@ -88,7 +88,7 @@ public enum ARAwardFixture {
         this.awardDirectCostAmount = awardDirectCostAmount;
         this.awardIndirectCostAmount = awardIndirectCostAmount;
         this.minInvoiceAmount = minInvoiceAmount;
-        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
+        this.excludedFromInvoicing = excludedFromInvoicing;
         this.invoicingOptions = invoicingOptions;
         this.active = active;
         this.billingFrequency = billingFrequency;
@@ -103,7 +103,7 @@ public enum ARAwardFixture {
         award.setAwardDirectCostAmount(this.awardDirectCostAmount);
         award.setAwardIndirectCostAmount(this.awardIndirectCostAmount);
         award.setMinInvoiceAmount(this.minInvoiceAmount);
-        award.setSuspendInvoicingIndicator(this.suspendInvoicingIndicator);
+        award.setExcludedFromInvoicing(this.excludedFromInvoicing);
         award.setInvoicingOptions(this.invoicingOptions);
         award.setActive(this.active);
         award.setBillingFrequency(billingFrequency);

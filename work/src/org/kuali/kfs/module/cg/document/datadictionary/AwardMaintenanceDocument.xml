@@ -377,8 +377,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency" />
 				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="suspendInvoicingIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="suspensionReason" />
+				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicing" />
+				<bean parent="MaintainableFieldDefinition" p:name="excludedFromInvoicingReason" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsRequiredIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsDescription" />
 				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />

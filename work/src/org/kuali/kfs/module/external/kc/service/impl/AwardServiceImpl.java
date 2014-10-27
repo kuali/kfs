@@ -212,10 +212,10 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
             award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
         }
         award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
-        award.setSuspendInvoicingIndicator(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
+        award.setExcludedFromInvoicing(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
         award.setAwardPrimaryProjectDirector(getProjectDirector(kcAward));
-        award.setSuspendInvoicingIndicator(kcAward.isSuspendInvoicing());
-        award.setSuspensionReason(kcAward.getSuspendInvoicingReason());
+        award.setExcludedFromInvoicing(kcAward.isExcludedFromInvoicing());
+        award.setExcludedFromInvoicingReason(kcAward.getExcludedFromInvoicingReason());
         return award;
     }
 

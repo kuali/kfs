@@ -84,7 +84,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
         success &= checkProjectDirectorsStatuses(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkFederalPassThrough();
-        success &= checkSuspendedAwardInvoicing();
+        success &= checkExcludedFromInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         success &= checkStopWorkReason();
         if(contractsGrantsBillingEnhancementActive){
@@ -98,17 +98,17 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
 
     /**
-     * Checks whether the award Invoicing is Suspended.
+     * Checks whether the award is excluded from invoicing.
      *
      * @return
      */
-    protected boolean checkSuspendedAwardInvoicing() {
-        if (newAwardCopy.isSuspendInvoicingIndicator()) {
-            if (ObjectUtils.isNotNull(newAwardCopy.getSuspensionReason())) {
+    protected boolean checkExcludedFromInvoicing() {
+        if (newAwardCopy.isExcludedFromInvoicing()) {
+            if (ObjectUtils.isNotNull(newAwardCopy.getExcludedFromInvoicingReason())) {
                 return true;
             }
             else {
-                putFieldError(KFSPropertyConstants.SUSPENSION_REASON, KFSKeyConstants.ERROR_SUSPENSION_REASON_REQUIRED);
+                putFieldError(KFSPropertyConstants.EXCLUDED_FROM_INVOICING_REASON, KFSKeyConstants.ERROR_EXCLUDED_FROM_INVOICING_REASON_REQUIRED);
                 return false;
             }
         }

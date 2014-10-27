@@ -325,11 +325,11 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public boolean isStateTransferIndicator();
 
     /**
-     * Gets the suspendInvoicing attribute.
+     * Gets the excludedFromInvoicing attribute.
      *
-     * @return Returns the suspendInvoicing.
+     * @return Returns the excludedFromInvoicing.
      */
-    public boolean isSuspendInvoicingIndicator();
+    public boolean isExcludedFromInvoicing();
 
     /**
      * Gets the additionalFormsRequired attribute.
@@ -346,11 +346,11 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getAdditionalFormsDescription();
 
     /**
-     * Gets the suspensionReason attribute.
+     * Gets the excludedFromInvoicingReason attribute.
      *
-     * @return Returns the suspensionReason.
+     * @return Returns the excludedFromInvoicingReason.
      */
-    public String getSuspensionReason();
+    public String getExcludedFromInvoicingReason();
 
     /**
      * Gets the instrumentTypeCode attribute.

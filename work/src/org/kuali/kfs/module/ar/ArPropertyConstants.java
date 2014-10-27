@@ -506,7 +506,7 @@ public class ArPropertyConstants{
         public static final String KIM_GROUP_NAMES = "kimGroupNames";
         public static final String ROUTING_ORG = "routingOrg";
         public static final String ROUTING_CHART = "routingChart";
-        public static final String SUSPEND_INVOICING = "suspendInvoicing";
+        public static final String EXCLUDED_FROM_INVOICING = "excludedFromInvoicing";
         public static final String ADDITIONAL_FORMS_REQUIRED = "additionalFormsRequired";
         public static final String ADDITIONAL_FORMS_DESCRIPTION = "additionalFormsDescription";
         public static final String MIN_INVOICE_AMOUNT = "minInvoiceAmount";

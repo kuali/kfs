@@ -755,7 +755,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD4.createAward();
-        ((Award)award).setSuspendInvoicingIndicator(true);
+        ((Award)award).setExcludedFromInvoicing(true);
 
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 

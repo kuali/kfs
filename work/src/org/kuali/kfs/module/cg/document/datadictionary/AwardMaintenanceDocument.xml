@@ -372,7 +372,7 @@
 					p:name="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="billingFrequencyCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />
+				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptionCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="minInvoiceAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />

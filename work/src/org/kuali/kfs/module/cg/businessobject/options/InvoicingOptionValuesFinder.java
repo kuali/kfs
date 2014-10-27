@@ -19,11 +19,11 @@ import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 
 /**
- * This class returns list of string key value pairs for InvoicingOptions
+ * This class returns list of string key value pairs for InvoicingOption
  */
-public class InvoicingOptionsValuesFinder extends EnumValuesFinder {
+public class InvoicingOptionValuesFinder extends EnumValuesFinder {
 
-    public InvoicingOptionsValuesFinder() {
+    public InvoicingOptionValuesFinder() {
         super(CGIntegrationConstants.AwardInvoicingOption.Types.class);
     }
 

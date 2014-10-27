@@ -95,7 +95,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String additionalFormsDescription;
     private String excludedFromInvoicingReason;
     private String instrumentTypeCode;
-    private String invoicingOptions;
+    private String invoicingOptionCode;
     private String invoicingOptionDescription;
     private KualiDecimal minInvoiceAmount;
     private boolean autoApproveIndicator;
@@ -621,12 +621,12 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getInvoicingOptions() {
-        return invoicingOptions;
+    public String getInvoicingOptionCode() {
+        return invoicingOptionCode;
     }
 
-    public void setInvoicingOptions(String invoicingOptions) {
-        this.invoicingOptions = invoicingOptions;
+    public void setInvoicingOptionCode(String invoicingOptionCode) {
+        this.invoicingOptionCode = invoicingOptionCode;
     }
 
     @Override

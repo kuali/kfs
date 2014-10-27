@@ -187,7 +187,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         award.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
         award.setStopWorkIndicator(kcAward.isStopWork());
         award.setStopWorkReason(kcAward.getStopWorkReason());
-        award.setInvoicingOptions(kcAward.getInvoicingOption());
+        award.setInvoicingOptionCode(kcAward.getInvoicingOption());
         award.setInvoicingOptionDescription(kcAward.getInvoicingOptionDescription());
         award.setDunningCampaign(kcAward.getDunningCampaignId());
         if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {

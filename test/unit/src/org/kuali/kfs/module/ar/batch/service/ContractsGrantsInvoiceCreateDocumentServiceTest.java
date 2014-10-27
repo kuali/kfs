@@ -392,7 +392,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArConstants.INV_ACCOUNT);
+        award2.setInvoicingOptionCode(ArConstants.INV_ACCOUNT);
 
         errorMessages = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
 
@@ -423,7 +423,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+        award2.setInvoicingOptionCode(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
 
         errorMessages = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
 
@@ -454,7 +454,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
         List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
         Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArConstants.INV_AWARD);
+        award2.setInvoicingOptionCode(ArConstants.INV_AWARD);
 
         errorMessages = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
 

@@ -342,7 +342,7 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
         awardAttributesForDisplay.add(KFSPropertyConstants.AWARD_ENDING_DATE);
         awardAttributesForDisplay.add(ArPropertyConstants.BILLING_FREQUENCY_CODE);
         awardAttributesForDisplay.add(ArPropertyConstants.INSTRUMENT_TYPE_CODE);
-        awardAttributesForDisplay.add(ArPropertyConstants.INVOICING_OPTIONS);
+        awardAttributesForDisplay.add(ArPropertyConstants.INVOICING_OPTION_DESCRIPTION);
         awardAttributesForDisplay.add(KFSPropertyConstants.AWARD_TOTAL_AMOUNT);
 
         return awardAttributesForDisplay;

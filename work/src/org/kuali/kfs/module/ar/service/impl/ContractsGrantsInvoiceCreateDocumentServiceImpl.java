@@ -151,7 +151,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         if (ObjectUtils.isNotNull(awards) && awards.size() > 0) {
             for (ContractsAndGrantsBillingAward awd : awards) {
-                String invOpt = awd.getInvoicingOptions();
+                String invOpt = awd.getInvoicingOptionCode();
                 final ContractsAndGrantsOrganization awardOrganization = awd.getPrimaryAwardOrganization();
                 if (ObjectUtils.isNull(awardOrganization)) {
                     final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD, awd.getProposalNumber().toString());
@@ -1211,7 +1211,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 4. Award invoicing option is missing
-        if (StringUtils.isEmpty(award.getInvoicingOptions())) {
+        if (StringUtils.isEmpty(award.getInvoicingOptionCode())) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
         }
 

@@ -91,7 +91,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkStopWorkReason();
         if(contractsGrantsBillingEnhancementActive){
             success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
-            success &= checkInvoicingOptions();
+            success &= checkInvoicingOption();
             success &= checkAwardInvoiceAccounts();
             success &= checkNumberOfAccountsForBillingFrequency();
             success &= checkBillingFrequency();
@@ -513,12 +513,12 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      *
      * @return
      */
-    protected boolean checkInvoicingOptions() {
+    protected boolean checkInvoicingOption() {
         boolean success = true;
         List<String> errorString = SpringContext.getBean(AccountsReceivableModuleBillingService.class).checkAwardContractControlAccounts(newAwardCopy);
         if (CollectionUtils.isNotEmpty(errorString) && errorString.size() > 1) {
             success = false;
-            putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTIONS, errorString.get(0), errorString.get(1));
+            putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTION_CODE, errorString.get(0), errorString.get(1));
         }
         return success;
     }

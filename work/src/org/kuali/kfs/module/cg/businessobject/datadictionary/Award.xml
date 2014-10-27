@@ -95,7 +95,8 @@
 				<ref bean="Award-additionalFormsDescription" />
 				<ref bean="Award-instrumentTypeCode" />
 				<ref bean="Award-minInvoiceAmount" />
-				<ref bean="Award-invoicingOptions" />
+				<ref bean="Award-invoicingOptionCode" />
+				<ref bean="Award-invoicingOptionDescription" />
 				<ref bean="Award-autoApproveIndicator" />
 				<ref bean="Award-fundingExpirationDate" />
 				<ref bean="Award-dunningCampaign" />
@@ -991,21 +992,33 @@
 	</bean>
 
 
-	<bean id="Award-invoicingOptions" parent="Award-invoicingOptions-parentBean" />
+	<bean id="Award-invoicingOptionCode" parent="Award-invoicingOptionCode-parentBean" />
 
-	<bean id="Award-invoicingOptions-parentBean" abstract="true"
+	<bean id="Award-invoicingOptionCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="invoicingOptions" />
+		<property name="name" value="invoicingOptionCode" />
 		<property name="label" value="Invoicing Option" />
 		<property name="shortLabel" value="Invoicing Option" />
 		<property name="maxLength" value="120" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.InvoicingOptionsValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.InvoicingOptionValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 
+	<bean id="Award-invoicingOptionDescription" parent="Award-invoicingOptionDescription-parentBean" />
+
+	<bean id="Award-invoicingOptionDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="invoicingOptionDescription" />
+		<property name="label" value="Invoicing Option" />
+		<property name="shortLabel" value="Invoicing Option" />
+		<property name="maxLength" value="120" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="122" />
+		</property>
+	</bean>
 
 	<bean id="Award-autoApproveIndicator" parent="Award-autoApproveIndicator-parentBean" />
 
@@ -1181,7 +1194,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 				<bean parent="FieldDefinition" p:attributeName="billingFrequencyCode" />
-				<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
+				<bean parent="FieldDefinition" p:attributeName="invoicingOptionCode" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />

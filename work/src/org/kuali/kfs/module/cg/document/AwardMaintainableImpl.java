@@ -121,10 +121,10 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         // Set Invoicing Option
 
         if (ObjectUtils.isNotNull(defaultInvoiceType)) {
-            getAward().setInvoicingOptions(defaultInvoiceType);
+            getAward().setInvoicingOptionCode(defaultInvoiceType);
         }
         else {
-            getAward().setInvoicingOptions(CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode());
+            getAward().setInvoicingOptionCode(CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode());
         }
 
 

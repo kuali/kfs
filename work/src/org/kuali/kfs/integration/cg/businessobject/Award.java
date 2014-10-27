@@ -116,7 +116,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String excludedFromInvoicingReason;
     private String instrumentTypeCode;
 
-    private String invoicingOptions;
+    private String invoicingOptionCode;
 
     private KualiDecimal minInvoiceAmount = KualiDecimal.ZERO;
 
@@ -1088,28 +1088,28 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     /**
-     * Gets the invoicingOptions attribute.
+     * Gets the invoicingOptionCode attribute.
      *
-     * @return Returns the invoicingOptions.
+     * @return Returns the invoicingOptionCode.
      */
     @Override
-    public String getInvoicingOptions() {
-        return invoicingOptions;
+    public String getInvoicingOptionCode() {
+        return invoicingOptionCode;
     }
 
     @Override
     public String getInvoicingOptionDescription() {
-        return CGIntegrationConstants.AwardInvoicingOption.Types.get(invoicingOptions);
+        return CGIntegrationConstants.AwardInvoicingOption.Types.get(invoicingOptionCode);
     }
 
 
     /**
-     * Sets the invoicingOptions attribute value.
+     * Sets the invoicingOptionCode attribute value.
      *
-     * @param invoicingOptions The invoicingOptions to set.
+     * @param invoicingOptionCode The invoicingOptionCode to set.
      */
-    public void setInvoicingOptions(String invoicingOptions) {
-        this.invoicingOptions = invoicingOptions;
+    public void setInvoicingOptionCode(String invoicingOptionCode) {
+        this.invoicingOptionCode = invoicingOptionCode;
     }
 
 

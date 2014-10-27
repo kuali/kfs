@@ -170,7 +170,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
 
             // To check if award is set to bill by Contract Control Account.
-            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward()) && contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward()) && contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
 
             final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
             final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
@@ -1703,7 +1703,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         boolean isValid = true;
         int accountNum = award.getActiveAwardAccounts().size();
         // To check if invoicing options exist on the award
-        if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
+        if (ObjectUtils.isNotNull(award.getInvoicingOptionCode())) {
 
             // To check if the award account is associated with a contract control account.
             for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
@@ -1715,7 +1715,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
             // if the Invoicing option is "By Contract Control Account" and there are no contract control accounts for one / all
             // award accounts, then throw error.
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+            if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(award.getInvoicingOptionDescription());
@@ -1724,7 +1724,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
             // if the Invoicing option is "By Award" and there are no contract control accounts for one / all award accounts, then
             // throw error.
-            else if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_AWARD)) {
+            else if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_AWARD)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(award.getInvoicingOptionDescription());

@@ -75,11 +75,11 @@ public enum ARAwardFixture {
     private KualiDecimal minInvoiceAmount;
     private KualiDecimal awardTotalAmount;
     private boolean excludedFromInvoicing;
-    private String invoicingOptions;
+    private String invoicingOptionCode;
     private boolean active;
     private BillingFrequency billingFrequency;
 
-    private ARAwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptions, boolean active, BillingFrequency billingFrequency) {
+    private ARAwardFixture(Long proposalNumber, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean excludedFromInvoicing, String invoicingOptionCode, boolean active, BillingFrequency billingFrequency) {
 
         this.proposalNumber = proposalNumber;
         this.awardBeginningDate = awardBeginningDate;
@@ -89,7 +89,7 @@ public enum ARAwardFixture {
         this.awardIndirectCostAmount = awardIndirectCostAmount;
         this.minInvoiceAmount = minInvoiceAmount;
         this.excludedFromInvoicing = excludedFromInvoicing;
-        this.invoicingOptions = invoicingOptions;
+        this.invoicingOptionCode = invoicingOptionCode;
         this.active = active;
         this.billingFrequency = billingFrequency;
 
@@ -104,7 +104,7 @@ public enum ARAwardFixture {
         award.setAwardIndirectCostAmount(this.awardIndirectCostAmount);
         award.setMinInvoiceAmount(this.minInvoiceAmount);
         award.setExcludedFromInvoicing(this.excludedFromInvoicing);
-        award.setInvoicingOptions(this.invoicingOptions);
+        award.setInvoicingOptionCode(this.invoicingOptionCode);
         award.setActive(this.active);
         award.setBillingFrequency(billingFrequency);
         if (ObjectUtils.isNotNull(billingFrequency)) {

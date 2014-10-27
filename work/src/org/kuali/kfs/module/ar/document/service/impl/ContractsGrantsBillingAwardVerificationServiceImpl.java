@@ -280,8 +280,8 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, systemOption.getActualFinancialBalanceTypeCd());
             criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
             // 1. To get the chart code and org code for invoicing depending on the invoicing options.
-            if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_ACCOUNT)) {
+            if (ObjectUtils.isNotNull(award.getInvoicingOptionCode())) {
+                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_ACCOUNT)) {
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         coaCode = awardAccount.getAccount().getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
@@ -291,7 +291,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         }
                     }
                 }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                     List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
@@ -303,7 +303,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         }
                     }
                 }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArConstants.INV_AWARD)) {
+                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_AWARD)) {
                     List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {

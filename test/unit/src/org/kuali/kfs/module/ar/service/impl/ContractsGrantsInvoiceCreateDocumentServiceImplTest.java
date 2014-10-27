@@ -245,7 +245,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationMissingAwardInvoicingOption() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(null);
+        ((Award)awards.get(0)).setInvoicingOptionCode(null);
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
         List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
@@ -517,7 +517,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationNoContractControlAccountsByCCA() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+        ((Award)awards.get(0)).setInvoicingOptionCode(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT);
 
         List<AwardAccount> awardAccounts = ((Award)awards.get(0)).getAwardAccounts();
         for (AwardAccount awardAccount: awardAccounts) {
@@ -536,7 +536,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationNoContractControlAccountsByAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_AWARD);
+        ((Award)awards.get(0)).setInvoicingOptionCode(ArConstants.INV_AWARD);
 
         List<AwardAccount> awardAccounts = ((Award)awards.get(0)).getAwardAccounts();
         for (AwardAccount awardAccount: awardAccounts) {
@@ -555,7 +555,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
     public void testPerformAwardValidationMultipleContractControlAccountsByAward() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        ((Award)awards.get(0)).setInvoicingOptions(ArConstants.INV_AWARD);
+        ((Award)awards.get(0)).setInvoicingOptionCode(ArConstants.INV_AWARD);
 
         AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_3.createAwardAccount();
         awardAccount_2.refreshReferenceObject("account");

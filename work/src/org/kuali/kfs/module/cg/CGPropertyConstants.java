@@ -33,7 +33,7 @@ public class CGPropertyConstants{
 
     public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
-    public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
+    public static final String AWARD_INVOICING_OPTION_CODE = "invoicingOptionCode";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String PROPOSAL_LOOKUPABLE = "proposalLookupable";
     public static final String PROJECT_TITLE = "projectTitle";

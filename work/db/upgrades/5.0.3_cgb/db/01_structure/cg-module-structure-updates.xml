@@ -179,7 +179,7 @@
 			<column name="CG_LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="AUTO_APPROVE_IND" type="VARCHAR(1)" />
 			<column name="FUNDING_EXP_DT" type="DATETIME" />
-			<column name="INV_OPT" type="VARCHAR(120)" />
+			<column name="INV_OPT_CD" type="VARCHAR(1)" />
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="EXCL_FRM_INV_REASON_TXT" type="VARCHAR(255)" />
 			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />

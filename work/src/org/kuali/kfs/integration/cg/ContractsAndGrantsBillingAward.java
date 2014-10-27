@@ -360,11 +360,11 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getInstrumentTypeCode();
 
     /**
-     * Gets the invoicingOptions attribute.
+     * Gets the invoicingOptionCode attribute.
      *
-     * @return Returns the invoicingOptions.
+     * @return Returns the invoicingOptionCode.
      */
-    public String getInvoicingOptions();
+    public String getInvoicingOptionCode();
 
     /**
      * Returns the module specific description for the invoicing option selected.

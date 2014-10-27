@@ -136,7 +136,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>			
-			<column name="CG_LTRCR_FND_DESC" type="VARCHAR(40)" />
+			<column name="CG_LTRCR_FND_DESC" type="VARCHAR(60)" />
 			<column name="CG_LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
 			<column name="CG_LTRCR_AMT" type="DECIMAL(19,2)" />
 			<column name="CG_LTRCR_START_DT" type="DATETIME" />

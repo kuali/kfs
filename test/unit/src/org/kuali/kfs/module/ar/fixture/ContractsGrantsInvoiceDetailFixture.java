@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.fixture;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Fixture class for ContractsGrantsInvoiceDetail
@@ -53,7 +52,6 @@ public enum ContractsGrantsInvoiceDetailFixture {
         this.balance = balance;
         this.billed = billed;
         this.indirectCostIndicator = indirectCostIndicator;
-
     }
 
     public ContractsGrantsInvoiceDetail createInvoiceDetail() {
@@ -63,9 +61,6 @@ public enum ContractsGrantsInvoiceDetailFixture {
         invoiceDetail.setDocumentNumber(this.documentNumber);
         invoiceDetail.setCategoryCode(this.categoryCode);
         invoiceDetail.refreshReferenceObject(ArPropertyConstants.COST_CATEGORY);
-        if (!ObjectUtils.isNull(invoiceDetail.getCostCategory())) {
-            invoiceDetail.setCategoryName(invoiceDetail.getCostCategory().getCategoryName());
-        }
         invoiceDetail.setBudget(this.budget);
         invoiceDetail.setExpenditures(this.expenditures);
         invoiceDetail.setCumulative(this.cumulative);
@@ -73,8 +68,5 @@ public enum ContractsGrantsInvoiceDetailFixture {
         invoiceDetail.setIndirectCostIndicator(this.indirectCostIndicator);
 
         return invoiceDetail;
-
     }
-
-
 }

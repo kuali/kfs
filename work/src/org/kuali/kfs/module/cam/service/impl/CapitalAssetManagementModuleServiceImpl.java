@@ -205,7 +205,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
         this.deleteAssetLocks(document.getDocumentNumber(), null, null);
 
         // if document is not cancelled nor disapproved nor recalled regenerate them all again based on set
-        if (!workflowDocument.isCanceled() && !workflowDocument.isDisapproved() && !workflowDocument.isRecalled()) {
+        if (!workflowDocument.isCanceled() && !workflowDocument.isDisapproved() && !workflowDocument.isRecalled() && !workflowDocument.isFinal()) {
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
             generateCapitalAssetLock(document, documentTypeName);
         }

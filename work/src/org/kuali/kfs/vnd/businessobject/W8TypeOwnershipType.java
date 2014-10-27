@@ -20,13 +20,17 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class W8TypeOwnershipType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private int id;
+    private Integer id;
     private String vendorOwnershipCode;
     private String w8TypeCode;
     private boolean active;
 
     private W8Type w8Type;
     private OwnershipType ownershipType;
+
+    public W8TypeOwnershipType() {
+
+    }
 
 
     /**
@@ -124,7 +128,7 @@ public class W8TypeOwnershipType extends PersistableBusinessObjectBase implement
      * @return Returns the id
      */
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     /**
@@ -132,7 +136,7 @@ public class W8TypeOwnershipType extends PersistableBusinessObjectBase implement
      *
      * @param id The id to set.
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

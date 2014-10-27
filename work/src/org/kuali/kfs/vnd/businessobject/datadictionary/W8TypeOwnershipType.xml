@@ -44,7 +44,6 @@
 
   	<bean id="W8TypeOwnershipType-id-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="name" value="id" />
-    	<property name="forceUppercase" value="true" />
     	<property name="label" value="W8 Type Ownership Type Id" />
     	<property name="shortLabel" value="W8 Ownership ID" />
     	<property name="maxLength" value="10" />

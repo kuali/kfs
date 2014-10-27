@@ -116,8 +116,8 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkAwardBillingFrequency() {
         boolean success = false;
 
-        if (ObjectUtils.isNotNull(newMilestoneScheduleCopy.getAward().getBillingFrequency())) {
-            if (StringUtils.equals(newMilestoneScheduleCopy.getAward().getBillingFrequency().getFrequency(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+        if (ObjectUtils.isNotNull(newMilestoneScheduleCopy.getAward().getBillingFrequencyCode())) {
+            if (StringUtils.equals(newMilestoneScheduleCopy.getAward().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
                 success = true;
             }
         }

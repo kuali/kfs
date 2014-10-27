@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,13 +43,14 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
      * A validation to check if the given accounting period is within the "grace period" of the AV doc, defined in JIRA KULRNE-4634.
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         /*
          * Nota bene: a full summarization of these rules can be found in the comments to KULRNE-4634
          */
         // first we need to get the period itself to check these things
         boolean valid = true;
-        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(getAuxiliaryVoucherDocumentForValidation().getPostingPeriodCode(), getAuxiliaryVoucherDocumentForValidation().getPostingYear());        
+        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(getAuxiliaryVoucherDocumentForValidation().getPostingPeriodCode(), getAuxiliaryVoucherDocumentForValidation().getPostingYear());
 
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
@@ -68,7 +69,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
         else {
             // it's not the same fiscal year, so we need to test whether we are currently
             // in the grace period of the acctPeriod
-            if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod) && getAuxiliaryVoucherDocumentForValidation().isEndOfPreviousFiscalYear(acctPeriod)) {
+            if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod)) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
@@ -78,7 +79,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
     }
 
     /**
-     * Gets the auxiliaryVoucherDocumentForValidation attribute. 
+     * Gets the auxiliaryVoucherDocumentForValidation attribute.
      * @return Returns the auxiliaryVoucherDocumentForValidation.
      */
     public AuxiliaryVoucherDocument getAuxiliaryVoucherDocumentForValidation() {
@@ -94,7 +95,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
     }
 
     /**
-     * Gets the accountingPeriodService attribute. 
+     * Gets the accountingPeriodService attribute.
      * @return Returns the accountingPeriodService.
      */
     public AccountingPeriodService getAccountingPeriodService() {
@@ -110,7 +111,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
     }
 
     /**
-     * Gets the universityDateService attribute. 
+     * Gets the universityDateService attribute.
      * @return Returns the universityDateService.
      */
     public UniversityDateService getUniversityDateService() {
@@ -126,7 +127,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
     }
 
     /**
-     * Gets the parameterService attribute. 
+     * Gets the parameterService attribute.
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {

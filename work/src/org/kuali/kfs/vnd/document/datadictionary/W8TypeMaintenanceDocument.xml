@@ -60,7 +60,7 @@
   
   <bean id="W8TypeMaintenanceDocument-W8TypeOwnership-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="w8TypeOwnershipTypes"/>
-    <property name="title" value="W8 Ownership Types"/>
+    <property name="title" value="W-8 Ownership Types"/>
     <property name="defaultOpen" value="true"/>
     <property name="maintainableItems">
       <list>

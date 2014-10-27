@@ -1452,7 +1452,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorGIIN())) {
             String giin = vDetail.getVendorHeader().getVendorGIIN();
 
-            if (!giin.matches(SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.GIIN_NUMBER_FORMATS))) {
+            if (!giin.matches(SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.GIIN_NUMBER_FORMAT))) {
                 putFieldError(VendorPropertyConstants.VENDOR_GIIN_CODE, VendorKeyConstants.ERROR_VENDOR_GIIN_FORMAT_ERROR);
                 valid &= false;
             }

@@ -24,7 +24,7 @@ public class VendorParameterConstants {
     public static final String NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
     public static final String TAX_FEIN_NUMBER_FORMATS = "TAX_FEIN_NUMBER_FORMATS";
     public static final String TAX_SSN_NUMBER_FORMATS = "TAX_SSN_NUMBER_FORMATS";
-    public static final String GIIN_NUMBER_FORMATS = "GIIN_NUMBER_FORMATS";
+    public static final String GIIN_NUMBER_FORMAT = "GIIN_NUMBER_FORMAT";
     public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
     public static final String VENDOR_MIN_ORDER_AMOUNT = "MIN_ORDER_AMOUNT";
     public static final String SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";

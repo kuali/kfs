@@ -185,7 +185,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements PaymentSo
             pg.setTaxablePayment(Boolean.FALSE);
         }
         // If the payee is an employee, set these flags accordingly
-        else if ((document.getDvPayeeDetail().isVendor() && getVendorService().isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
+        else if (!document.getDvPayeeDetail().isVendor()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
             pg.setTaxablePayment(

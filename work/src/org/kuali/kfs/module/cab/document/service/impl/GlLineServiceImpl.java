@@ -34,8 +34,8 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -471,6 +471,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected List<AssetPaymentDetail> createAssetPaymentDetails(GeneralLedgerEntry entry, Document document, int seqNo, Integer capitalAssetLineNumber) {
         List<AssetPaymentDetail> appliedPayments = new ArrayList<AssetPaymentDetail>();
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry.getDocumentNumber(), capitalAssetLineNumber);
+        Collection<GeneralLedgerEntry> documentGlEntries = findAllGeneralLedgerEntry(entry.getDocumentNumber());
 
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
@@ -478,6 +479,14 @@ public class GlLineServiceImpl implements GlLineService {
 
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 AssetPaymentDetail detail = new AssetPaymentDetail();
+
+                // find matching gl entry for asset accounting line
+                for (GeneralLedgerEntry glEntry : documentGlEntries){
+                    if(doesGeneralLedgerEntryMatchAssetAccountingDetails(glEntry, accountingLine)) {
+                        entry = glEntry;
+                    }
+                }
+
                 //TODO
                 // sub-object code, as well as sub-account, project code, and org ref id, shall not be populated from GL entry;
                 // instead, they need to be passed from the original FP document for each individual accounting line to be stored in CapitalAssetAccountsGroupDetails,

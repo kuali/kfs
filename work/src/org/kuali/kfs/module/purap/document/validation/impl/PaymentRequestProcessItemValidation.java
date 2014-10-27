@@ -51,7 +51,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
     private CompositeValidation reviewAccountingLineValidation;
     private PaymentRequestDocument preqDocument;
     private PurApAccountingLine preqAccountingLine;
-    
+
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         this.event = event;
@@ -93,7 +93,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         // only run item validations if before full entry
         if (!purapService.isFullDocumentEntryCompleted(paymentRequestDocument)) {
             if (item.getItemType().isLineItemIndicator()) {
-                valid &= validateAboveTheLineItems(item, identifierString,paymentRequestDocument.isReceivingDocumentRequiredIndicator());
+                valid &= validateAboveTheLineItems(item, identifierString,paymentRequestDocument.isReceivingDocumentRequiredIndicator(),paymentRequestDocument);
             }
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
@@ -107,9 +107,10 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
      * 
      * @param item - payment request item
      * @param identifierString - identifier string used to mark in an error map
+     * @param paymentRequestDocument, Payment Request Document for items
      * @return
      */
-    protected boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString, boolean isReceivingDocumentRequiredIndicator) {
+    protected boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString, boolean isReceivingDocumentRequiredIndicator, PaymentRequestDocument paymentRequestDocument) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
         // must be either a positive number or NULL for DB
@@ -139,9 +140,9 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
                 errorMap.putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
-
+        //Modified to use the payment request document to not cause unnecessary refetch
         // check that non-quantity based items are not trying to pay on a zero encumbrance amount (check only prior to ap approval)
-        if ((ObjectUtils.isNull(item.getPaymentRequest().getPurapDocumentIdentifier())) || (PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(item.getPaymentRequest().getApplicationDocumentStatus()))) {
+        if ((ObjectUtils.isNull(paymentRequestDocument.getPurapDocumentIdentifier())) || (PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(paymentRequestDocument.getApplicationDocumentStatus()))) {
 // RICE20 : needed? :  !purapService.isFullDocumentEntryCompleted(item.getPaymentRequest())) {
             if ((item.getItemType().isAmountBasedGeneralLedgerIndicator()) && ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero())) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {
@@ -193,7 +194,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
             valid &= reviewAccountingLineValidation(paymentRequestDocument, accountingLine);            
             accountTotal = accountTotal.add(accountingLine.getAmount());
         }
-        if (purapService.isFullDocumentEntryCompleted((PaymentRequestDocument) paymentRequestDocument)) {
+        if (purapService.isFullDocumentEntryCompleted(paymentRequestDocument)) {
             // check amounts not percent after full entry
             if (accountTotal.compareTo(itemTotal) != 0) {
                 valid = false;

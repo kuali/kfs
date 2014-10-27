@@ -798,7 +798,6 @@
         <column name="INV_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_CUM_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CTGRY_CD" size="4" type="VARCHAR"/>
-        <column name="CTGRY_NM" size="255" type="VARCHAR"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
         <column name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CGB_INV_DTL_TR1">

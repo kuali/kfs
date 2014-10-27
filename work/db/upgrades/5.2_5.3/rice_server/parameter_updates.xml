@@ -326,7 +326,7 @@
 	    </insert>
 
 	    <insert tableName="KRCR_PARM_T">
-	      <column name="NMSPC_CD" value="KFS-FP"/>
+	      <column name="NMSPC_CD" value="KFS-VND"/>
 	      <column name="CMPNT_CD" value="VendorDetail"/>
 	      <column name="PARM_NM" value="W9_SIGNED_DATE_REQUIRED_IND"/>
 	      <column name="APPL_ID" value="KFS"/>
@@ -339,8 +339,8 @@
 	    </insert>
 
 	    <insert tableName="KRCR_PARM_T">
-	      <column name="NMSPC_CD" value="KFS-FP"/>
-	      <column name="CMPNT_CD" value="DisbursementVoucher"/>
+	      <column name="NMSPC_CD" value="KFS-VND"/>
+	      <column name="CMPNT_CD" value="VendorDetail"/>
 	      <column name="PARM_NM" value="GIIN_NUMBER_FORMAT"/>
 	      <column name="APPL_ID" value="KFS"/>
 	      <column name="OBJ_ID" value="KFSTP-1359-3"/>

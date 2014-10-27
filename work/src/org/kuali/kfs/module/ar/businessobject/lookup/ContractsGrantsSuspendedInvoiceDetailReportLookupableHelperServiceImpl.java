@@ -205,28 +205,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         awardLookupFields.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         final List<? extends ContractsAndGrantsAward> awards = getContractsAndGrantsModuleBillingService().lookupAwards(awardLookupFields, true);
-
-        // filter awards - we can't get back only the primary project director or fund manager, but we can filter down in the query
-        // here, let's make sure the primary project director or fund manager for each award matches
-        if (fundManagerPrincipalIds.isEmpty() && projectDirectorPrincipalIds.isEmpty()) {
-            filteredAwards.addAll(awards); // nothing to filter out
-        }
-        else {
-            for (ContractsAndGrantsAward award : awards) {
-                if (award instanceof ContractsAndGrantsBillingAward) {
-                    final ContractsAndGrantsBillingAward billingAward = (ContractsAndGrantsBillingAward)award;
-                    if (!fundManagerPrincipalIds.isEmpty() && !ObjectUtils.isNull(billingAward.getAwardPrimaryFundManager()) && !fundManagerPrincipalIds.contains(billingAward.getAwardPrimaryFundManager().getPrincipalId())) {
-                        continue;
-                    }
-                    if (!projectDirectorPrincipalIds.isEmpty() && !ObjectUtils.isNull(billingAward.getAwardPrimaryProjectDirector()) && !projectDirectorPrincipalIds.contains(billingAward.getAwardPrimaryProjectDirector().getPrincipalId())) {
-                        continue;
-                    }
-                    filteredAwards.add(award);
-                }
-            }
-        }
-
-        return filteredAwards;
+        return awards;
     }
 
     /**

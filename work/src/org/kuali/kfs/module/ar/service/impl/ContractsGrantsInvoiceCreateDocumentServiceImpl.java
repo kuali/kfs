@@ -1252,9 +1252,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param award to perform validation upon
      */
     protected void validateAward(List<String> errorList, ContractsAndGrantsBillingAward award) {
-        // 1. Award Invoicing suspended by user.
+        // 1. Award is excluded from invoicing
         if (award.isExcludedFromInvoicing()) {
-            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING));
         }
 
         // 2. Award is Inactive

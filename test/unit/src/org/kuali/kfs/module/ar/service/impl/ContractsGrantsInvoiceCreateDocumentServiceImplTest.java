@@ -177,7 +177,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
         assertTrue("invalidGroup should contain one award.", invalidGroup.size() == 1);
         assertTrue("qualifiedAwards should be empty.", qualifiedAwards.size() == 0);
-        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR)));
+        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING)));
     }
 
     public void testPerformAwardValidationInactiveAward() {
@@ -204,7 +204,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
         assertTrue("invalidGroup should contain one award.", invalidGroup.size() == 1);
         assertTrue("qualifiedAwards should be empty.", qualifiedAwards.size() == 0);
-        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR)));
+        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING)));
         assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(1).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR)));
     }
 
@@ -223,7 +223,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         assertTrue("invalidGroup should contain one award.", invalidGroup.size() == 2);
         assertTrue("qualifiedAwards should be empty.", qualifiedAwards.size() == 0);
         assertTrue("invalidGroup should contain our first award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR)));
-        assertTrue("invalidGroup should contain our second award with the error message we're expecting.", invalidGroup.get(awards.get(1)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR)));
+        assertTrue("invalidGroup should contain our second award with the error message we're expecting.", invalidGroup.get(awards.get(1)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING)));
     }
 
     public void testPerformAwardValidationOneValidOneInvalidAward() {
@@ -240,7 +240,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         assertTrue("invalidGroup should be empty.", invalidGroup.size() == 1);
         assertTrue("qualifiedAwards should  contain one award.", qualifiedAwards.size() == 1);
         assertTrue("qualifiedAwards should contain our initial award.", qualifiedAwards.get(0).equals(awards.get(0)));
-        assertTrue("invalidGroup should contain our second award with the error message we're expecting.", invalidGroup.get(awards.get(1)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_USER_SUSPENDED_ERROR)));
+        assertTrue("invalidGroup should contain our second award with the error message we're expecting.", invalidGroup.get(awards.get(1)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING)));
     }
 
     public void testPerformAwardValidationMissingAwardInvoicingOption() {

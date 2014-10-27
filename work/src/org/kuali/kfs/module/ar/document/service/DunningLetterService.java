@@ -61,11 +61,4 @@ public interface DunningLetterService {
      * @return a Collection of DunningLetterDistributionLookupResult data transfer objects
      */
     public Collection<GenerateDunningLettersLookupResult> getPopulatedGenerateDunningLettersLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices);
-
-    /**
-     * Convenience method to turn a set of multiple value lookup results of ContractsGrantsInvoiceDocuments into DunningLetterDistributionLookupResult data transfer objects
-     * @param lookupResultsSequenceNumber the id of the multiple value lookup results
-     * @param personId the user requesting results
-     * @return a Collection of DunningLetterDistributionLookupResult data transfer objects
-     */
 }

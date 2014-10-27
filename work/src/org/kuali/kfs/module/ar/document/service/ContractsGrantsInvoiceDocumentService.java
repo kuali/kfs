@@ -285,4 +285,11 @@ public interface ContractsGrantsInvoiceDocumentService {
      * @param invoiceMilestones the invoice milestones to update
      */
     public void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones);
+
+    /**
+     * This helper method returns a map of a list of invoices mapped by the proposal number of the invoice
+     * @param invoices The list of invoices for which filtering to be done by proposal number
+     * @return Returns the map of invoices based on key of proposal number.
+     */
+    public Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices);
 }

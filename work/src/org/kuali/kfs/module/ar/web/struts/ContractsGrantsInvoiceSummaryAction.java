@@ -43,11 +43,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -60,11 +57,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Action class for Contracts Grants Invoice Summary.
  */
-public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
+public class ContractsGrantsInvoiceSummaryAction extends ContractsGrantsBillingSummaryActionBase {
     private static volatile ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService;
-    private static volatile DateTimeService dateTimeService;
     private static volatile SegmentedLookupResultsService segmentedLookupResultsService;
-    private static volatile LookupResultsService lookupResultsService;
 
     /**
      * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice
@@ -253,24 +248,10 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         return contractsGrantsInvoiceReportService;
     }
 
-    public static DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return dateTimeService;
-    }
-
     public static SegmentedLookupResultsService getSegmentedLookupResultsService() {
         if (segmentedLookupResultsService == null) {
             segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
         }
         return segmentedLookupResultsService;
-    }
-
-    public static LookupResultsService getLookupResultsService() {
-        if (lookupResultsService == null) {
-            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-        }
-        return lookupResultsService;
     }
 }

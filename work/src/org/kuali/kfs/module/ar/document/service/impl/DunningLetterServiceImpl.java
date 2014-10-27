@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
@@ -78,6 +79,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
 
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected DateTimeService dateTimeService;
     protected KualiModuleService kualiModuleService;
@@ -343,7 +345,7 @@ public class DunningLetterServiceImpl implements DunningLetterService {
             return populatedGenerateDunningLettersLookupResults;
         }
 
-        Iterator iter = getInvoicesByAward(invoices).entrySet().iterator();
+        Iterator iter = getContractsGrantsInvoiceDocumentService().getInvoicesByAward(invoices).entrySet().iterator();
         GenerateDunningLettersLookupResult generateDunningLettersLookupResult = null;
         while (iter.hasNext()) {
 
@@ -373,27 +375,6 @@ public class DunningLetterServiceImpl implements DunningLetterService {
         }
 
         return populatedGenerateDunningLettersLookupResults;
-    }
-
-    /**
-     * Maps the given ContractsGrantsInvoiceDocuments by their agency number
-     * @param invoices the invoices to Map to agency number
-     * @return the Map of the invoices
-     */
-    protected Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
-            if (invoicesByAward.containsKey(proposalNumber)) {
-                invoicesByAward.get(proposalNumber).add(invoice);
-            }
-            else {
-                List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
-                invoicesByProposalNumber.add(invoice);
-                invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
-            }
-        }
-        return invoicesByAward;
     }
 
     /**
@@ -471,5 +452,13 @@ public class DunningLetterServiceImpl implements DunningLetterService {
 
     public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
         this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

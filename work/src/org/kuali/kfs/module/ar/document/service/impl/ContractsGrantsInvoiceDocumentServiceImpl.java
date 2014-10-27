@@ -1824,6 +1824,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getInvoicesByAward(java.util.Collection)
+     */
+    @Override
+    public Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
+        // use a map to sort awards by agency
+        Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<>();
+        for (ContractsGrantsInvoiceDocument invoice : invoices) {
+            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
+            if (invoicesByAward.containsKey(proposalNumber)) {
+                invoicesByAward.get(proposalNumber).add(invoice);
+            }
+            else {
+                List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
+                invoicesByProposalNumber.add(invoice);
+                invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
+            }
+        }
+        return invoicesByAward;
+    }
+
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
     }

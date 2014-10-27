@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,27 +27,21 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.DunningLetterService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action class for Dunning Letter Distribution Summary.
  */
-public class GenerateDunningLettersSummaryAction extends KualiAction {
+public class GenerateDunningLettersSummaryAction extends ContractsGrantsBillingSummaryActionBase {
     private static volatile DunningLetterService dunningLetterDistributionService;
-    private static volatile DateTimeService dateTimeService;
-    private static volatile LookupResultsService lookupResultsService;
 
     /**
      * 1. This method passes the control from Dunning Letter Distribution lookup to the Dunning Letter Distribution
@@ -135,44 +128,10 @@ public class GenerateDunningLettersSummaryAction extends KualiAction {
         return getDunningLetterDistributionService().getPopulatedGenerateDunningLettersLookupResults(getCGInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId));
     }
 
-    /**
-     * Finds a Collection of ContractsGrantsInvoiceDocuments by the multiple value lookup sequence id
-     * @param lookupResultsSequenceNumber the sequence number to lookup values for
-     * @param personId the person completing the lookup
-     * @return the Collection of ContractsGrantsInvoiceDocuments returned from the multivalue lookup
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getCGInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
-        Collection<ContractsGrantsInvoiceDocument> invoiceDocuments = new ArrayList<ContractsGrantsInvoiceDocument>();
-        try {
-            for (PersistableBusinessObject obj : getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ContractsGrantsInvoiceDocument.class, personId)) {
-                invoiceDocuments.add((ContractsGrantsInvoiceDocument) obj);
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e); // due to retrieveSelectedResultBOs, we have no choice but to pokemon here
-        }
-
-        return invoiceDocuments;
-    }
-
     public DunningLetterService getDunningLetterDistributionService() {
         if (dunningLetterDistributionService == null) {
             dunningLetterDistributionService = SpringContext.getBean(DunningLetterService.class);
         }
         return dunningLetterDistributionService;
-    }
-
-    public DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return dateTimeService;
-    }
-
-    public LookupResultsService getLookupResultsService() {
-        if (lookupResultsService == null) {
-            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-        }
-        return lookupResultsService;
     }
 }

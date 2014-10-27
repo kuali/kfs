@@ -858,7 +858,9 @@
 	</bean>
 	
 	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
-	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl"/>
+	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl">
+		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -2445,6 +2447,9 @@
 		</property>
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />

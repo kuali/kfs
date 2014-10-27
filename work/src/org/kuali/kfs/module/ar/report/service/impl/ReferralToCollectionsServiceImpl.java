@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +26,19 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+/**
+ * Default implementation of the ReferralToCollectionsService
+ */
 public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsService {
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService#getPopulatedReferralToCollectionsLookupResults(java.util.Collection)
+     */
     @Override
     public Collection<ReferralToCollectionsLookupResult> getPopulatedReferralToCollectionsLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices) {
         Collection<ReferralToCollectionsLookupResult> populatedReferralToCollectionsLookupResults = new ArrayList<ReferralToCollectionsLookupResult>();
@@ -40,7 +47,7 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
             return populatedReferralToCollectionsLookupResults;
         }
 
-        Iterator iter = getInvoicesByAward(invoices).entrySet().iterator();
+        Iterator iter = getContractsGrantsInvoiceDocumentService().getInvoicesByAward(invoices).entrySet().iterator();
         ReferralToCollectionsLookupResult referralToCollectionsLookupResult = null;
         while (iter.hasNext()) {
 
@@ -74,26 +81,11 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
         return populatedReferralToCollectionsLookupResults;
     }
 
-    /**
-     * This helper method returns a map of a list of awards by agency
-     *
-     * @param invoices The list of invoices for which filtering to be done by award.
-     * @return Returns the map of invoices based on key of proposal number.
-     */
-    protected Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        // use a map to sort awards by agency
-        Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            Long proposalNumber = invoice.getInvoiceGeneralDetail().getProposalNumber();
-            if (invoicesByAward.containsKey(proposalNumber)) {
-                invoicesByAward.get(proposalNumber).add(invoice);
-            }
-            else {
-                List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
-                invoicesByProposalNumber.add(invoice);
-                invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
-            }
-        }
-        return invoicesByAward;
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

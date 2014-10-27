@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -28,14 +27,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -43,9 +38,8 @@ import org.kuali.rice.krad.util.UrlFactory;
 /**
  * Action class for Referral To Document Summary.
  */
-public class ReferralToCollectionsSummaryAction extends KualiAction {
+public class ReferralToCollectionsSummaryAction extends ContractsGrantsBillingSummaryActionBase {
     private volatile static ReferralToCollectionsService referralToCollectionsService;
-    private volatile static LookupResultsService lookupResultsService;
 
     /**
      * 1. This method passes the control from the Referral To Collections lookup to the Referral To Collections
@@ -83,26 +77,6 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
     }
 
     /**
-     * Gets the invoice documents from sequence number.
-     * @param lookupResultsSequenceNumber The sequence number of search result.
-     * @param personId The principal id of the person who searched.
-     * @return Returns the list of invoice documents.
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getCGInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
-        Collection<ContractsGrantsInvoiceDocument> invoiceDocuments = new ArrayList<ContractsGrantsInvoiceDocument>();
-        try {
-            for (PersistableBusinessObject obj : getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ContractsGrantsInvoiceDocument.class, personId)) {
-                invoiceDocuments.add((ContractsGrantsInvoiceDocument) obj);
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return invoiceDocuments;
-    }
-
-    /**
      * This method initiates a Referral To Collections document for the list of invoices.
      * invoices.
      *
@@ -114,7 +88,6 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward createInvoices(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         String lookupResultsSequenceNumber = "";
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
@@ -149,12 +122,5 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
             referralToCollectionsService = SpringContext.getBean(ReferralToCollectionsService.class);
         }
         return referralToCollectionsService;
-    }
-
-    public static LookupResultsService getLookupResultsService() {
-        if (lookupResultsService == null) {
-            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-        }
-        return lookupResultsService;
     }
 }

@@ -17,9 +17,12 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class ContractsGrantsInvoiceDocumentAuthorizer extends CustomerInvoiceDocumentAuthorizer {
@@ -39,5 +42,23 @@ public class ContractsGrantsInvoiceDocumentAuthorizer extends CustomerInvoiceDoc
         return getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), nameSpaceCode,
                 KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails);
     }
+
+    /**
+     * Overriding to make sure KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT permission is not removed by super class
+     *
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
+        boolean canErrorCorrect = documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
+        Set<String> documentActionsAfterProcessing = super.getDocumentActions(document, user, documentActionsFromPresentationController);
+
+        if (canErrorCorrect && !documentActionsAfterProcessing.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
+            documentActionsAfterProcessing.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
+        }
+
+        return documentActionsAfterProcessing;
+    }
+
 
 }

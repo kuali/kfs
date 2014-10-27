@@ -832,6 +832,29 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="AR_CLCTN_EVNT_T">
+        <column name="ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CLCTN_EVNT_CD" size="20" type="VARCHAR"/>
+        <column name="INV_NBR" required="true" size="14" type="VARCHAR"/>
+        <column name="ACTVY_CD" size="4" type="VARCHAR"/>
+        <column name="ACTVY_DT" type="DATE"/>
+        <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
+        <column name="FLLW_UP_IND" size="1" type="VARCHAR"/>
+        <column name="FLLW_UP_DT" type="DATE"/>
+        <column name="CMPLTD_IND" size="1" type="VARCHAR"/>
+        <column name="CMPLTD_DT" type="DATE"/>
+        <column name="POST_DT" type="DATE"/>
+        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
+        <column name="USR_PRNCPL_ID" size="40" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_EVENT_TR1">
+            <reference foreign="FDOC_NBR" local="INV_NBR"/>
+        </foreign-key>
+        <unique name="AR_CLCTN_EVNT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="AR_CLCTN_STATUS_T">
         <column name="CLCTN_STATUS_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -1189,29 +1212,6 @@
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
         <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
         <unique name="AR_DUN_LTR_TMPLT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_EVENT_T">
-        <column name="EVENT_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="EVENT_CD" size="20" type="VARCHAR"/>
-        <column name="INV_NBR" required="true" size="14" type="VARCHAR"/>
-        <column name="ACTVY_CD" size="4" type="VARCHAR"/>
-        <column name="ACTVY_DT" type="DATE"/>
-        <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
-        <column name="FLLW_UP_IND" size="1" type="VARCHAR"/>
-        <column name="FLLW_UP_DT" type="DATE"/>
-        <column name="CMPLTD_IND" size="1" type="VARCHAR"/>
-        <column name="CMPLTD_DT" type="DATE"/>
-        <column name="POST_DT" type="DATE"/>
-        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
-        <column name="USR_PRNCPL_ID" size="40" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_EVENT_TR1">
-            <reference foreign="FDOC_NBR" local="INV_NBR"/>
-        </foreign-key>
-        <unique name="AR_EVENT_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16831,11 +16831,11 @@
     <sequence name="AP_PUR_DOC_LNK_ID" nextval="21"/>
     <sequence name="AP_SUM_ACCT_T_SEQ" nextval="1"/>
     <sequence name="AR_BILL_ID_SEQ" nextval="41"/>
+    <sequence name="AR_CLCTN_EVNT_ID_SEQ" nextval="1"/>
     <sequence name="AR_DUN_LTR_DIST_ID_SEQ" nextval="21"/>
     <sequence name="AR_ENTRY_ID_SEQ" nextval="1"/>
     <sequence name="AR_ERROR_LOG_ID_SEQ" nextval="1"/>
     <sequence name="AR_ERROR_MSG_ID_SEQ" nextval="1"/>
-    <sequence name="AR_EVENT_ID_SEQ" nextval="1"/>
     <sequence name="AR_INV_DTL_ID_SEQ" nextval="1"/>
     <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
     <sequence name="AR_LTRCR_RVW_DTL_ID_SEQ" nextval="1"/>

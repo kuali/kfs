@@ -96,7 +96,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
             final String proposalNumbers = harvestIdsFromAwards(matchingAwards);
             if (!StringUtils.isBlank(proposalNumbers)) {
-                invoiceDocumentCriteria.put(ArConstants.PROPOSAL_NUMBER, proposalNumbers);
+                invoiceDocumentCriteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumbers);
             }
         }
 

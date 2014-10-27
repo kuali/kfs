@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
@@ -51,7 +50,7 @@ public class AccountDefaultServiceImpl implements AccountDefaultsService {
         }
 
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(CGPropertyConstants.AwardCreationDefaults.KcUnit, unitNumber);
+        criteria.put(KcConstants.AccountCreationDefaults.KcUnit, unitNumber);
         defaults = businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
 
         // if the matching defaults is null, try the parents in the hierarchy
@@ -64,13 +63,13 @@ public class AccountDefaultServiceImpl implements AccountDefaultsService {
             catch (Exception ex) {
                 LOG.error( KcUtils.getErrorMessage(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, null) + ": " + ex.getMessage());
 
-                GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, CGPropertyConstants.AwardCreationDefaults.KcUnit, ex.getMessage());
+                GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, KcConstants.AccountCreationDefaults.KcUnit, ex.getMessage());
 
             }
 
             if (parentUnits != null) {
                 for (String unit : parentUnits) {
-                    criteria.put(CGPropertyConstants.AwardCreationDefaults.KcUnit, unit);
+                    criteria.put(KcConstants.AccountCreationDefaults.KcUnit, unit);
                     defaults = businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
                     if (defaults != null) {
                         break;

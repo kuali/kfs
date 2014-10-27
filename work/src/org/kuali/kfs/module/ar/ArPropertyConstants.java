@@ -528,10 +528,12 @@ public class ArPropertyConstants{
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
     public static final String INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
     public static final String SEQUENCE_NUMBER= "sequenceNumber";
-    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
     public static final String BILLING_CHART_CODE = "billingChartCode";
     public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
     public static final String COMPLETED = "completed";
+    public static final String NOTE = "note";
+    public static final String SUBMITTED_ON ="submittedOn";
+    public static final String SUBMITTED_BY_PRINCIPAL_ID = "submittedByPrincipalId";
 
     public static final String ACCOUNT_DETAILS = "accountDetails";
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
@@ -573,6 +575,7 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
+    public static final String LETTER_OF_CREDIT_CREATION_TYPE ="letterOfCreditCreationType" ;
     public static final String HEADER_REVIEW_DETAILS = "headerReviewDetails";
     public static final String ACCOUNT_REVIEW_DETAILS = "accountReviewDetails";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";

@@ -470,8 +470,6 @@ public class ArConstants{
     public static final String LETTER_OF_CREDIT_FUND_GROUP = "Letter of Credit Fund Group";
     public static final String LETTER_OF_CREDIT_REVIEW_DOCUMENT = "Letter Of Credit Review Document.";
 
-    public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
-
     static final public String REMINDER_EMAIL_SUBJECT = "REMINDER_EMAIL_SUBJECT";
 
     // Agency Collections Maintenance
@@ -485,13 +483,8 @@ public class ArConstants{
     public static final String CHAPTER13 = "Chapter 13";
     public static final String JUDGMENT_OBTAINED= "Judgment Obtained";
 
-    public static final String NOTE = "note";
-    public static final String SUBMITTED_ON ="submittedOn";
-    public static final String SUBMITTED_BY_PRINCIPAL_ID = "submittedByPrincipalId";
     public static final String CUS = "CUS";
     public static final String INVR = "INVR";
-    public static final String LETTER_OF_CREDIT_CREATION_TYPE ="letterOfCreditCreationType" ;
-    public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
     public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MILE";
     public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MNTH";

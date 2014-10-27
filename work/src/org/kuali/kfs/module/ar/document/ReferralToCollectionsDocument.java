@@ -276,9 +276,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                         invoice.refresh();
                         boService.save(invoice);
 
-                        Map<String, String> fieldValues = new HashMap<String, String>();
-                        fieldValues.put(ArPropertyConstants.CollectionActivityTypeFields.REFERRAL_INDICATOR, "true");
-                        fieldValues.put(KFSPropertyConstants.ACTIVE, "true");
+                        Map fieldValues = new HashMap();
+                        fieldValues.put(ArPropertyConstants.CollectionActivityTypeFields.REFERRAL_INDICATOR, Boolean.TRUE);
+                        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
                         List<CollectionActivityType> activityTypes = (List<CollectionActivityType>) boService.findMatching(CollectionActivityType.class, fieldValues);
                         String activityCode = CollectionUtils.isNotEmpty(activityTypes) ? activityTypes.get(0).getActivityCode() : null;
 

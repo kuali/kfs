@@ -33,6 +33,7 @@ import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -502,19 +503,19 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         //  create submittedBy element
-        e = xmldoc.createElement(ArConstants.SUBMITTED_BY_PRINCIPAL_ID);
+        e = xmldoc.createElement(ArPropertyConstants.SUBMITTED_BY_PRINCIPAL_ID);
         n = xmldoc.createCDATASection(writeoffBatchVO.getSubmittedByPrincipalName());
         e.appendChild(n);
         root.appendChild(e);
 
         //  create submittedOn element
-        e = xmldoc.createElement(ArConstants.SUBMITTED_ON);
+        e = xmldoc.createElement(ArPropertyConstants.SUBMITTED_ON);
         n = xmldoc.createCDATASection(writeoffBatchVO.getSubmittedOn());
         e.appendChild(n);
         root.appendChild(e);
 
         //  create note element
-        e = xmldoc.createElement(ArConstants.NOTE);
+        e = xmldoc.createElement(ArPropertyConstants.NOTE);
         n = xmldoc.createCDATASection(writeoffBatchVO.getNote());
         e.appendChild(n);
         root.appendChild(e);

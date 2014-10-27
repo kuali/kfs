@@ -51,6 +51,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD = "error.document.customerInvoiceDocument.invalidSubFundWithNoARObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM = "error.document.customerInvoiceDocument.invalidSubFundARObjectCodeInParm";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD = "error.document.customerInvoiceDocument.invalidUnitOfMeasureCode";
+    public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
+
 
     // Invoice Recurrence errors/warnings:
     public static final String ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED = "error.document.invoiceRecurrenceMaintenance.invoiceMustBeApproved";

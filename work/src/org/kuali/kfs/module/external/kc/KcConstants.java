@@ -144,6 +144,7 @@ public class KcConstants {
 
     public static class CustomerCreationService {
         public static final String WEB_SERVICE_NAME = "customerCreationService";
+        public static final String CUSTOMER_NUMBER = "customerNumber";
     }
 
     public static class BudgetAdjustmentService {
@@ -178,6 +179,7 @@ public class KcConstants {
 
     public static class DunningCampaignService {
         public static final String WEB_SERVICE_NAME = "dunningCampaignService";
+        public static final String DUNNING_CAMPAIGN_ID = "campaignID";
     }
 
     public static class ObjectCodeService {

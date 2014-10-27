@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
@@ -200,7 +201,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         }
                     }
                     else {
-                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CORRECTED_INVOICE_NOT_FOUND_ERROR, ArConstants.CORRECTED_INVOICE_NOT_FOUND_ERROR);
+                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CORRECTED_INVOICE_NOT_FOUND_ERROR, ArKeyConstants.CORRECTED_INVOICE_NOT_FOUND_ERROR);
                     }
                 }
                 catch (WorkflowException ex) {

@@ -160,9 +160,9 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
         Map<String,String> fieldValues = new HashMap<String,String>();
 
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
         if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
-            fieldValues.put(ArConstants.PROPOSAL_NUMBER, locValue);
+            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
             fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
@@ -448,7 +448,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveLetterOfCreditInvoices(String locFund, final String creationType) {
         Map<String, String> fieldValues = new HashMap<>();
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, creationType);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_CREATION_TYPE, creationType);
         fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);

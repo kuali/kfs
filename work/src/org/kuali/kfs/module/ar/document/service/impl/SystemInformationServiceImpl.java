@@ -66,7 +66,7 @@ public class SystemInformationServiceImpl implements SystemInformationService {
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         fieldValues.put(KFSPropertyConstants.PROCESSING_CHART_OF_ACCT_CD, chartCode);
         fieldValues.put(KFSPropertyConstants.PROCESSING_ORGANIZATION_CODE, orgCode);
-        fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
         final Collection<SystemInformation> systemInformations = getBusinessObjectService().findMatching(SystemInformation.class, fieldValues);
         SystemInformation result = null;

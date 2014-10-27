@@ -811,7 +811,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PRPSL_NBR" required="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="AGENCY_NM" size="50" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
@@ -1357,13 +1357,6 @@
         <column name="CUST_SPCL_PRCS_CD" size="2" type="VARCHAR"/>
         <column name="CUST_REC_ATT_IND" size="1" type="CHAR"/>
         <column name="AR_OPEN_INV_IND" size="1" type="VARCHAR"/>
-        <column name="PMT_FIN_COA_CD" size="2" type="VARCHAR"/>
-        <column name="PMT_ACCT_NBR" size="7" type="VARCHAR"/>
-        <column name="PMT_SUB_ACCT_NBR" size="5" type="VARCHAR"/>
-        <column name="PMT_FIN_OBJ_CD" size="4" type="VARCHAR"/>
-        <column name="PMT_FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
-        <column name="PMT_PROJECT_CD" size="10" type="VARCHAR"/>
-        <column name="PMT_ORG_REF_ID" size="8" type="VARCHAR"/>
         <column name="AR_PRNT_DT" type="DATE"/>
         <column name="AR_INV_CLOSE_DT" type="DATE"/>
         <column name="CUST_NM" size="60" type="VARCHAR"/>
@@ -1396,16 +1389,6 @@
         <foreign-key foreignTable="AR_CUST_PRCS_TYP_T" name="AR_INV_DOC_TR1">
             <reference foreign="CUST_SPCL_PRCS_CD" local="CUST_SPCL_PRCS_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_SUB_OBJECT_CD_T" name="AR_INV_DOC_TR10">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-            <reference foreign="FIN_COA_CD" local="PMT_FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="PMT_ACCT_NBR"/>
-            <reference foreign="FIN_OBJECT_CD" local="PMT_FIN_OBJ_CD"/>
-            <reference foreign="FIN_SUB_OBJ_CD" local="PMT_FIN_SUB_OBJ_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_PROJECT_T" name="AR_INV_DOC_TR11">
-            <reference foreign="PROJECT_CD" local="PMT_PROJECT_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="AR_DOC_HDR_T" name="AR_INV_DOC_TR2">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1419,23 +1402,6 @@
         <foreign-key foreignTable="CA_ORG_T" name="AR_INV_DOC_TR5">
             <reference foreign="FIN_COA_CD" local="AR_BILL_BY_COA_CD"/>
             <reference foreign="ORG_CD" local="AR_BILL_BY_ORG_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="AR_INV_DOC_TR6">
-            <reference foreign="FIN_COA_CD" local="PMT_FIN_COA_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="AR_INV_DOC_TR7">
-            <reference foreign="FIN_COA_CD" local="PMT_FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="PMT_ACCT_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_SUB_ACCT_T" name="AR_INV_DOC_TR8">
-            <reference foreign="FIN_COA_CD" local="PMT_FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="PMT_ACCT_NBR"/>
-            <reference foreign="SUB_ACCT_NBR" local="PMT_SUB_ACCT_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="AR_INV_DOC_TR9">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-            <reference foreign="FIN_COA_CD" local="PMT_FIN_COA_CD"/>
-            <reference foreign="FIN_OBJECT_CD" local="PMT_FIN_OBJ_CD"/>
         </foreign-key>
         <unique name="AR_INV_DOC_TC0">
             <unique-column name="OBJ_ID"/>
@@ -16992,7 +16958,7 @@
     <sequence name="PUR_SNSTV_DTA_ASGN_ID_SEQ" nextval="2000"/>
     <sequence name="PUR_THRSHLD_ID" nextval="1007"/>
     <sequence name="PUR_VNDR_EXCL_MTCH_T_SEQ" nextval="1"/>
-    <sequence name="PUR_VNDR_W8_OWNRSHP_ID_SEC" nextval="1"/>
+    <sequence name="PUR_VNDR_W8_OWNRSHP_ID_SEQ" nextval="1"/>
     <sequence name="RCVNG_COR_ITM_ID" nextval="1000"/>
     <sequence name="RCVNG_LN_ITM_ID" nextval="1000"/>
     <sequence name="REQS_ACCT_ID" nextval="1003"/>

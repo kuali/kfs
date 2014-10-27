@@ -351,7 +351,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
             Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
             while (itr.hasNext()) {
                 ContractsGrantsInvoiceDocument invoice = itr.next();
-                if (invoice.getInvoiceGeneralDetail().getAward() == null || (checkAwardNumber && (invoice.getInvoiceGeneralDetail().getAward().getAwardDocumentNumber() == null || !invoice.getInvoiceGeneralDetail().getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber() == null || !invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber().equals(agencyNumber)))) {
+                if (ObjectUtils.isNull(invoice.getInvoiceGeneralDetail()) || ObjectUtils.isNull(invoice.getInvoiceGeneralDetail().getAward()) || (checkAwardNumber && (!invoice.getInvoiceGeneralDetail().getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (!StringUtils.equals(invoice.getInvoiceGeneralDetail().getAward().getAgencyNumber(), agencyNumber)))) {
                     itr.remove();
                 }
             }

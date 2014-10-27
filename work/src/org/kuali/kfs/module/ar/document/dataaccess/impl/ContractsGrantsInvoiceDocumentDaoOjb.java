@@ -62,8 +62,8 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
         Criteria subCriteria = new Criteria();
 
 
-        referralNull.addIsNull(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TYPE);
-        referralOutside.addNotEqualTo(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TYPE, outsideColAgencyCodeToExclude);
+        referralNull.addIsNull(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.REFERRAL_TYPE);
+        referralOutside.addNotEqualTo(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.REFERRAL_TYPE, outsideColAgencyCodeToExclude);
 
         subCriteria.addOrCriteria(referralNull);
         subCriteria.addOrCriteria(referralOutside);

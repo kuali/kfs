@@ -87,6 +87,7 @@ public class ArPropertyConstants{
     public static class ContractsGrantsInvoiceDocumentFields {
         public static final String FINAL_BILL = "invoiceGeneralDetail.finalBill";
         public static final String PROPOSAL_NUMBER = "invoiceGeneralDetail.proposalNumber";
+        public static final String REFERRAL_TYPE = "invoiceGeneralDetail.referralType";
     }
 
     // InvoiceRecurrence
@@ -359,7 +360,6 @@ public class ArPropertyConstants{
 
     public static class ReferralToCollectionsFields {
         public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
-        public static final String REFERRAL_TYPE = "referralType";
         public static final String ACCOUNTS_RECEIVABLE_CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
         public static final String REFERRAL_TO_COLLECTIONS_DETAILS = "referralToCollectionsDetails";
     }

@@ -151,7 +151,7 @@ public class PdfFormattingMap implements Map<String, String> {
      * @return a String for the pdf based on the given boolean value
      */
     protected String stringifyBooleanForContractsGrantsInvoiceTemplate(boolean bool) { // the name is longer than the code : - ?
-       return bool ? "Yes" : "Off";
+       return bool ? "Yes" : "No";
     }
 
     protected DateTimeService getDateTimeService() {

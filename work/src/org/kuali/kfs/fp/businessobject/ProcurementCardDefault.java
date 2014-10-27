@@ -33,8 +33,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 
 public class ProcurementCardDefault extends PersistableBusinessObjectBase implements MutableInactivatable {
-    private String creditCardNumber;
+    private Long id;
 
+    private String creditCardNumber;
     private String cardHolderName;
     private String cardHolderAlternateName;
     private String cardHolderLine1Address;
@@ -72,7 +73,15 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     }
 
-     /**
+     public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
      * Gets the creditCardNumber attribute.
      *
      * @return Returns the creditCardNumber

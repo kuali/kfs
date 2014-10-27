@@ -107,7 +107,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         // release lock for asset edit...
         if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null, null);
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 

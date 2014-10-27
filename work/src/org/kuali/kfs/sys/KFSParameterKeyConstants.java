@@ -36,7 +36,6 @@ public class KFSParameterKeyConstants {
 
     public static class FpParameterConstants {
     	public static final String FP_BUDGET_BALANCE_TYPES = "BUDGET_BALANCE_TYPES";
-    	public static final String COUNT_PER_ROLL_BY_DENOMINATION = "COUNT_PER_ROLL_BY_DENOMINATION";
         public static final String NEGATIVE_ACCOUNTING_LINES_IND = "NEGATIVE_ACCOUNTING_LINES_IND";
     }
 

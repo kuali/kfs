@@ -1022,10 +1022,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      *
      */
     protected ProcurementCardDefault retrieveProcurementCardDefault(String creditCardNumber) {
-        Map<String, String> pkMap = new HashMap<String, String>();
-        pkMap.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, creditCardNumber);
-        ProcurementCardDefault procurementCardDefault = businessObjectService.findByPrimaryKey(ProcurementCardDefault.class, pkMap);
-
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, creditCardNumber);
+        List<ProcurementCardDefault> matchingPcardDefaults = (List<ProcurementCardDefault>)businessObjectService.findMatching(ProcurementCardDefault.class, fieldValues);
+        ProcurementCardDefault procurementCardDefault = matchingPcardDefaults.get(0);
         return procurementCardDefault;
     }
 

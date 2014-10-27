@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -124,7 +124,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
-    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -136,7 +135,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the assetRepresentative attribute.
-     *
+     * 
      * @return Returns the assetRepresentative
      */
     public Person getAssetRepresentative() {
@@ -146,7 +145,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the assetRepresentative attribute.
-     *
+     * 
      * @param assetRepresentative The assetRepresentative to set.
      */
     public void setAssetRepresentative(Person assetRepresentative) {
@@ -155,7 +154,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the building attribute.
-     *
+     * 
      * @return Returns the building.
      */
     public Building getBuilding() {
@@ -165,7 +164,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the buildingCode attribute.
-     *
+     * 
      * @return Returns the buildingCode
      */
     public String getBuildingCode() {
@@ -174,7 +173,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the buildingRoom attribute.
-     *
+     * 
      * @return Returns the buildingRoom.
      */
     public Room getBuildingRoom() {
@@ -184,7 +183,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the buildingRoomNumber attribute.
-     *
+     * 
      * @return Returns the buildingRoomNumber
      */
     public String getBuildingRoomNumber() {
@@ -193,7 +192,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the buildingSubRoomNumber attribute.
-     *
+     * 
      * @return Returns the buildingSubRoomNumber
      */
     public String getBuildingSubRoomNumber() {
@@ -203,7 +202,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the campus attribute.
-     *
+     * 
      * @return Returns the campus
      */
     public CampusEbo getCampus() {
@@ -226,7 +225,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the campusCode attribute.
-     *
+     * 
      * @return Returns the campusCode
      */
     public String getCampusCode() {
@@ -235,10 +234,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the documentNumber attribute.
-     *
+     * 
      * @return Returns the documentNumber
      */
-    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -246,7 +244,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
-    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
@@ -258,7 +255,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return this.sourceAssetGlpeSourceDetails;
     }
 
-    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, postable, sequenceHelper, explicitEntry);
@@ -270,7 +266,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the offCampusAddress attribute.
-     *
+     * 
      * @return Returns the offCampusAddress
      */
     public String getOffCampusAddress() {
@@ -280,7 +276,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the offCampusCityName attribute.
-     *
+     * 
      * @return Returns the offCampusCityName
      */
     public String getOffCampusCityName() {
@@ -289,7 +285,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the offCampusState attribute.
-     *
+     * 
      * @return Returns the offCampusState.
      */
     public StateEbo getOffCampusState() {
@@ -308,14 +304,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
                 }
             }
         }
-
+        
         return offCampusState;
     }
 
 
     /**
      * Gets the offCampusStateCode attribute.
-     *
+     * 
      * @return Returns the offCampusStateCode
      */
     public String getOffCampusStateCode() {
@@ -324,7 +320,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the offCampusZipCode attribute.
-     *
+     * 
      * @return Returns the offCampusZipCode
      */
     public String getOffCampusZipCode() {
@@ -333,7 +329,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the postalZipCode attribute.
-     *
+     * 
      * @return Returns the postalZipCode
      */
     public PostalCodeEbo getPostalZipCode() {
@@ -352,13 +348,13 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
                 }
             }
         }
-
-        return postalZipCode;
+        
+        return postalZipCode;        
     }
 
     /**
      * Gets the offCampusCountry attribute.
-     *
+     * 
      * @return Returns the offCampusCountry.
      */
     public CountryEbo getOffCampusCountry() {
@@ -382,7 +378,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationInventoryName attribute.
-     *
+     * 
      * @return Returns the organizationInventoryName
      */
     public String getOrganizationInventoryName() {
@@ -391,7 +387,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationOwnerAccount attribute.
-     *
+     * 
      * @return Returns the organizationOwnerAccount
      */
     public Account getOrganizationOwnerAccount() {
@@ -400,7 +396,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the oldOrganizationOwnerAccount attribute.
-     *
+     * 
      * @return Returns the oldOrganizationOwnerAccount
      */
     public Account getOldOrganizationOwnerAccount() {
@@ -409,7 +405,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationOwnerAccountNumber attribute.
-     *
+     * 
      * @return Returns the organizationOwnerAccountNumber
      */
     public String getOrganizationOwnerAccountNumber() {
@@ -418,7 +414,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationOwnerChartOfAccounts attribute.
-     *
+     * 
      * @return Returns the organizationOwnerChartOfAccounts
      */
     public Chart getOrganizationOwnerChartOfAccounts() {
@@ -428,7 +424,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationOwnerChartOfAccountsCode attribute.
-     *
+     * 
      * @return Returns the organizationOwnerChartOfAccountsCode
      */
     public String getOrganizationOwnerChartOfAccountsCode() {
@@ -437,7 +433,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationTagNumber attribute.
-     *
+     * 
      * @return Returns the organizationTagNumber
      */
     public String getOrganizationTagNumber() {
@@ -446,7 +442,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the organizationText attribute.
-     *
+     * 
      * @return Returns the organizationText
      */
     public String getOrganizationText() {
@@ -455,7 +451,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the representativeUniversalIdentifier attribute.
-     *
+     * 
      * @return Returns the representativeUniversalIdentifier
      */
     public String getRepresentativeUniversalIdentifier() {
@@ -464,7 +460,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the transferOfFundsFinancialDocument attribute.
-     *
+     * 
      * @return Returns the transferOfFundsFinancialDocument.
      */
     public TransferOfFundsDocument getTransferOfFundsFinancialDocument() {
@@ -481,7 +477,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the transferOfFundsFinancialDocumentNumber attribute.
-     *
+     * 
      * @return Returns the transferOfFundsFinancialDocumentNumber
      */
     public String getTransferOfFundsFinancialDocumentNumber() {
@@ -490,7 +486,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the capitalAssetNumber attribute.
-     *
+     * 
      * @return Returns the capitalAssetNumber.
      */
     public Long getCapitalAssetNumber() {
@@ -499,7 +495,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the capitalAssetNumber attribute value.
-     *
+     * 
      * @param capitalAssetNumber The capitalAssetNumber to set.
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -509,8 +505,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
-
-    @Override
+    
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
@@ -544,11 +539,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
         // Remove asset lock when doc status change. We don't include isFinal since document always go to 'processed' first.
         if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
-            getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null, null);
+            getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }
 
-    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
         boolean isDebit = false;
@@ -573,7 +567,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Gets the interdepartmentalSalesIndicator attribute.
-     *
+     * 
      * @return Returns the interdepartmentalSalesIndicator
      */
     public boolean isInterdepartmentalSalesIndicator() {
@@ -587,11 +581,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the building attribute value.
-     *
+     * 
      * @param building The building to set.
      * @deprecated
      */
-    @Deprecated
     public void setBuilding(Building building) {
         this.building = building;
     }
@@ -599,7 +592,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the buildingCode attribute.
-     *
+     * 
      * @param buildingCode The buildingCode to set.
      */
     public void setBuildingCode(String buildingCode) {
@@ -609,18 +602,17 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the buildingRoom attribute value.
-     *
+     * 
      * @param buildingRoom The buildingRoom to set.
      * @deprecated
      */
-    @Deprecated
     public void setBuildingRoom(Room buildingRoom) {
         this.buildingRoom = buildingRoom;
     }
 
     /**
      * Sets the buildingRoomNumber attribute.
-     *
+     * 
      * @param buildingRoomNumber The buildingRoomNumber to set.
      */
     public void setBuildingRoomNumber(String buildingRoomNumber) {
@@ -630,7 +622,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the buildingSubRoomNumber attribute.
-     *
+     * 
      * @param buildingSubRoomNumber The buildingSubRoomNumber to set.
      */
     public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
@@ -640,11 +632,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the campus attribute.
-     *
+     * 
      * @param campus The campus to set.
      * @deprecated
      */
-    @Deprecated
     public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
@@ -652,7 +643,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the campusCode attribute.
-     *
+     * 
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -661,10 +652,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the documentNumber attribute.
-     *
+     * 
      * @param documentNumber The documentNumber to set.
      */
-    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -677,7 +667,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the interdepartmentalSalesIndicator attribute.
-     *
+     * 
      * @param interdepartmentalSalesIndicator The interdepartmentalSalesIndicator to set.
      */
     public void setInterdepartmentalSalesIndicator(boolean interdepartmentalSalesIndicator) {
@@ -687,7 +677,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusAddress attribute.
-     *
+     * 
      * @param offCampusAddress The offCampusAddress to set.
      */
     public void setOffCampusAddress(String offCampusAddress) {
@@ -696,7 +686,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusCityName attribute.
-     *
+     * 
      * @param offCampusCityName The offCampusCityName to set.
      */
     public void setOffCampusCityName(String offCampusCityName) {
@@ -705,11 +695,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusState attribute value.
-     *
+     * 
      * @param offCampusState The offCampusState to set.
      * @deprecated
      */
-    @Deprecated
     public void setOffCampusState(StateEbo offCampusState) {
         this.offCampusState = offCampusState;
     }
@@ -717,7 +706,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusStateCode attribute.
-     *
+     * 
      * @param offCampusStateCode The offCampusStateCode to set.
      */
     public void setOffCampusStateCode(String offCampusStateCode) {
@@ -727,7 +716,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusZipCode attribute.
-     *
+     * 
      * @param offCampusZipCode The offCampusZipCode to set.
      */
     public void setOffCampusZipCode(String offCampusZipCode) {
@@ -736,7 +725,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the postalZipCode attribute.
-     *
+     * 
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalCodeEbo postalZipCode) {
@@ -745,11 +734,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the offCampusCountry attribute value.
-     *
+     * 
      * @param offCampusCountry The offCampusCountry to set.
      * @deprecated
      */
-    @Deprecated
     public void setOffCampusCountry(CountryEbo offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
@@ -757,7 +745,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationInventoryName attribute.
-     *
+     * 
      * @param organizationInventoryName The organizationInventoryName to set.
      */
     public void setOrganizationInventoryName(String organizationInventoryName) {
@@ -767,34 +755,32 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationOwnerAccount attribute.
-     *
+     * 
      * @param organizationOwnerAccount The organizationOwnerAccount to set.
      * @deprecated
      */
-    @Deprecated
     public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
         this.organizationOwnerAccount = organizationOwnerAccount;
     }
 
     /**
      * Sets the oldOrganizationOwnerAccount attribute.
-     *
+     * 
      * @param oldOrganizationOwnerAccount The oldOrganizationOwnerAccount to set.
      * @deprecated
      */
-    @Deprecated
     public void setOldOrganizationOwnerAccount(Account oldOrganizationOwnerAccount) {
         this.oldOrganizationOwnerAccount = oldOrganizationOwnerAccount;
     }
 
     /**
      * Sets the organizationOwnerAccountNumber attribute.
-     *
+     * 
      * @param organizationOwnerAccountNumber The organizationOwnerAccountNumber to set.
      */
     public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
         this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
-
+        
         // if accounts can't cross charts, set chart code whenever account number is set
         AccountService accountService = SpringContext.getBean(AccountService.class);
         if (!accountService.accountsCanCrossCharts()) {
@@ -808,11 +794,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationOwnerChartOfAccounts attribute.
-     *
+     * 
      * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
      * @deprecated
      */
-    @Deprecated
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
     }
@@ -820,7 +805,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationOwnerChartOfAccountsCode attribute.
-     *
+     * 
      * @param organizationOwnerChartOfAccountsCode The organizationOwnerChartOfAccountsCode to set.
      */
     public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
@@ -829,7 +814,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationTagNumber attribute.
-     *
+     * 
      * @param organizationTagNumber The organizationTagNumber to set.
      */
     public void setOrganizationTagNumber(String organizationTagNumber) {
@@ -839,7 +824,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the organizationText attribute.
-     *
+     * 
      * @param organizationText The organizationText to set.
      */
     public void setOrganizationText(String organizationText) {
@@ -849,7 +834,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the representativeUniversalIdentifier attribute.
-     *
+     * 
      * @param representativeUniversalIdentifier The representativeUniversalIdentifier to set.
      */
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
@@ -859,7 +844,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the transferOfFundsFinancialDocumentNumber attribute.
-     *
+     * 
      * @param transferOfFundsFinancialDocumentNumber The transferOfFundsFinancialDocumentNumber to set.
      */
     public void setTransferOfFundsFinancialDocumentNumber(String transferOfFundsFinancialDocumentNumber) {
@@ -879,7 +864,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
-    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);
@@ -974,7 +958,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        String accountingPeriodCompositeString = getAccountingPeriodCompositeString();
+        String accountingPeriodCompositeString = getAccountingPeriodCompositeString();                
         setPostingYear(new Integer(StringUtils.right(accountingPeriodCompositeString, 4)));
         setPostingPeriodCode(StringUtils.left(accountingPeriodCompositeString, 2));
     }

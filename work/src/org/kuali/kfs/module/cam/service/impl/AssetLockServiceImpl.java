@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -113,8 +114,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @return Return false without any of the asset being locked. Return true when all assets can be locked.
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
      */
-
-    @Override
+ 
     public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks) {
         if (assetLocks == null || assetLocks.isEmpty() || !assetLocks.iterator().hasNext()) {
             return true;
@@ -137,7 +137,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         }
 
         for (AssetLock assetLock : assetLocks) {
-            deleteAssetLocks(documentNumber, String.valueOf(assetLock.getCapitalAssetNumber()), assetLock.getLockingInformation());
+            deleteAssetLocks(documentNumber, assetLock.getLockingInformation());
         }
 
         getBusinessObjectService().save(assetLocks);
@@ -186,8 +186,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#deleteLocks(java.lang.String, java.lang.String)
      */
 
-    @Override
-    public void deleteAssetLocks(String documentNumber, String assetNumber, String lockingInformation) {
+    public void deleteAssetLocks(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return;
         }
@@ -195,9 +194,6 @@ public class AssetLockServiceImpl implements AssetLockService {
         fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
         if (StringUtils.isNotBlank(lockingInformation)) {
             fieldValues.put(CabPropertyConstants.CapitalAssetLock.LOCKING_INFORMATION, lockingInformation);
-        }
-        if (StringUtils.isNotBlank(assetNumber)) {
-            fieldValues.put(CabPropertyConstants.CapitalAssetLock.CAPITAL_ASSET_NUMBER, assetNumber);
         }
         getBusinessObjectService().deleteMatching(AssetLock.class, fieldValues);
     }
@@ -207,7 +203,6 @@ public class AssetLockServiceImpl implements AssetLockService {
      *      java.lang.String, java.lang.String, java.lang.String)
      */
 
-    @Override
     public List<AssetLock> buildAssetLockHelper(List<Long> assetNumbers, String documentNumber, String documentType, String lockingInformation) {
         List<AssetLock> assetLocks = new ArrayList<AssetLock>();
 
@@ -223,7 +218,7 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Generating error messages and doc links for blocking documents.
-     *
+     * 
      * @param blockingDocuments
      */
     protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments, String documentTypeName) {
@@ -259,8 +254,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
-
-    @Override
+  
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return false;
@@ -280,7 +274,6 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLocked(java.util.List, java.lang.String, java.lang.String)
      */
 
-    @Override
     public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         if (assetNumbers == null || assetNumbers.isEmpty()) {
             return false;
@@ -299,8 +292,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#getAssetLockingDocuments(java.util.List, java.lang.String,
      *      java.lang.String)
      */
-
-    @Override
+  
     public List<String> getAssetLockingDocuments(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         Collection blockingDocumentTypes = getBlockingDocumentTypes(documentTypeName);
         List<String> lockingDocumentNumbers = getCapitalAssetLockDao().getLockingDocumentNumbers(assetNumbers, blockingDocumentTypes, excludingDocumentNumber);

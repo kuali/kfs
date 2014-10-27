@@ -239,7 +239,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         // release the lock when document status changed as following...
         WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         if (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal()) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null, null);
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 
@@ -263,7 +263,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
 
     @Override
     public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
-        String capitalAssetNumber = fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+        String capitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
 
         if (StringUtils.isNotBlank(capitalAssetNumber)) {
             fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);

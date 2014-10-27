@@ -444,7 +444,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
             ContractsAndGrantsBillingAgency agency = award.getAgency();
             if (ObjectUtils.isNotNull(agency)) {
-                final List<InvoiceAddressDetail> invoiceAddressDetails = buildInvoiceAddressDetailsFromAgency(agency, document.getDocumentNumber());
+                final List<InvoiceAddressDetail> invoiceAddressDetails = buildInvoiceAddressDetailsFromAgency(agency, document);
                 document.getInvoiceAddressDetails().addAll(invoiceAddressDetails);
             }
 
@@ -567,13 +567,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param documentNumber the document number of the CINV document we're creating
      * @return a List of the generated invoice address details
      */
-    protected List<InvoiceAddressDetail> buildInvoiceAddressDetailsFromAgency(ContractsAndGrantsBillingAgency agency, String documentNumber) {
+    protected List<InvoiceAddressDetail> buildInvoiceAddressDetailsFromAgency(ContractsAndGrantsBillingAgency agency, ContractsGrantsInvoiceDocument document) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, agency.getCustomerNumber());
         final List<CustomerAddress> customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
+        String documentNumber = document.getDocumentNumber();
 
         List<InvoiceAddressDetail> invoiceAddressDetails = new ArrayList<>();
         for (CustomerAddress customerAddress : customerAddresses) {
+            if (StringUtils.equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY, customerAddress.getCustomerAddressTypeCode())) {
+                document.setCustomerBillToAddressOnInvoice(customerAddress);
+            }
             InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
             invoiceAddressDetail.setCustomerNumber(customerAddress.getCustomerNumber());
             invoiceAddressDetail.setDocumentNumber(documentNumber);

@@ -60,7 +60,7 @@
 				<ref bean="Customer-customerAddresses.customerInvoiceTemplateCode" />
 				<ref bean="Customer-customerAddresses.invoiceTransmissionMethodCode" />
 				<ref bean="Customer-customerAddresses.customerCopiesToPrint" />
-				<ref bean="Customer-customerAddresses.customerPrintEnvelopesNumber" />
+				<ref bean="Customer-customerAddresses.customerEnvelopesToPrintQuantity" />
 				<ref bean="Customer-customerTaxTypeCode" />
 				<ref bean="Customer-customerTaxNbr" />				
 				<ref bean="Customer-bankruptcyType"/>
@@ -459,12 +459,12 @@
 		abstract="true" parent="CustomerAddress-customerCopiesToPrint">
 		<property name="name" value="customerAddresses.customerCopiesToPrint" />
 	</bean>
-		<bean id="Customer-customerAddresses.customerPrintEnvelopesNumber"
-		parent="Customer-customerAddresses.customerPrintEnvelopesNumber-parentBean" />
+		<bean id="Customer-customerAddresses.customerEnvelopesToPrintQuantity"
+		parent="Customer-customerAddresses.customerEnvelopesToPrintQuantity-parentBean" />
 
-	<bean id="Customer-customerAddresses.customerPrintEnvelopesNumber-parentBean"
-		abstract="true" parent="CustomerAddress-customerPrintEnvelopesNumber">
-		<property name="name" value="customerAddresses.customerPrintEnvelopesNumber" />
+	<bean id="Customer-customerAddresses.customerEnvelopesToPrintQuantity-parentBean"
+		abstract="true" parent="CustomerAddress-customerEnvelopesToPrintQuantity">
+		<property name="name" value="customerAddresses.customerEnvelopesToPrintQuantity" />
 	</bean>
 		<bean id="Customer-bankruptcyType" parent="Customer-bankruptcyType-parentBean" />
 
@@ -659,7 +659,7 @@
 				<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
 				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerCopiesToPrint" />
-				<bean parent="FieldDefinition" p:attributeName="customerPrintEnvelopesNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerEnvelopesToPrintQuantity" />
 			</list>
 		</property>
 		<property name="summaryFields">

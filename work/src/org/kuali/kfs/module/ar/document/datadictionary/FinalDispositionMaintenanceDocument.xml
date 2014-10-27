@@ -27,7 +27,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>dispositionCode</value>
+        <value>code</value>
       </list>
     </property>
     
@@ -49,8 +49,8 @@
     <property name="title" value="Edit Final Disposition"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="dispositionCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="dispositionDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

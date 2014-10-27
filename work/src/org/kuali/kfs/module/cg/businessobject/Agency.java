@@ -62,7 +62,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     // Creating Customer from Agency
     private AccountsReceivableCustomer customer;
-    private String customerCreated;
+    private String customerCreationOptionCode;
     private String customerNumber;
     private String customerTypeCode;
     private String dunningCampaign;
@@ -421,21 +421,21 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     }
 
     /**
-     * Gets the customerCreated attribute.
+     * Gets the customerCreationOptionCode attribute.
      *
-     * @return Returns the customerCreated.
+     * @return Returns the customerCreationOptionCode.
      */
-    public String getCustomerCreated() {
-        return customerCreated;
+    public String getCustomerCreationOptionCode() {
+        return customerCreationOptionCode;
     }
 
     /**
-     * Sets the customerCreated attribute value.
+     * Sets the customerCreationOptionCode attribute value.
      *
-     * @param customerCreated The customerCreated to set.
+     * @param customerCreationOptionCode The customerCreationOptionCode to set.
      */
-    public void setCustomerCreated(String customerCreated) {
-        this.customerCreated = customerCreated;
+    public void setCustomerCreationOptionCode(String customerCreationOptionCode) {
+        this.customerCreationOptionCode = customerCreationOptionCode;
     }
 
     /**

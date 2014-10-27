@@ -763,7 +763,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                     CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
 
-                    Integer numberOfEnvelopesToPrint = address.getCustomerPrintEnvelopesNumber();
+                    Integer numberOfEnvelopesToPrint = address.getCustomerEnvelopesToPrintQuantity();
                     if (ObjectUtils.isNull(numberOfEnvelopesToPrint)) {
                         numberOfEnvelopesToPrint = 1;
                     }

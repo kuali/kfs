@@ -1657,7 +1657,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     @Override
     public AwardFundManager getAwardPrimaryFundManager() {
         for (AwardFundManager awdFundMgr : awardFundManagers) {
-            if (awdFundMgr != null && awdFundMgr.isAwardPrimaryFundManagerIndicator()) {
+            if (awdFundMgr != null && awdFundMgr.isPrimaryFundManagerIndicator()) {
                 return awdFundMgr;
             }
         }

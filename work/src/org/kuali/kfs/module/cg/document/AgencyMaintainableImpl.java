@@ -94,15 +94,15 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
                             SpringContext.getBean(BusinessObjectService.class).save(agencyAddress);
                         }
                         // To create customer only if "create new customer" was selected on the document.
-                        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
+                        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreationOptionCode())) {
                             String customerNumber = SpringContext.getBean(AccountsReceivableModuleService.class).createAndSaveCustomer(description, agency);
-                            agency.setCustomerCreated(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE);
+                            agency.setCustomerCreationOptionCode(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE);
                             agency.setCustomerNumber(customerNumber);
 
                         }
                         // If no customer was selected, clear out the link between the agency and the old customer
-                        else if (CGConstants.AGENCY_NO_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
-                            agency.setCustomerCreated(CGConstants.AGENCY_NO_CUSTOMER_CODE);
+                        else if (CGConstants.AGENCY_NO_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreationOptionCode())) {
+                            agency.setCustomerCreationOptionCode(CGConstants.AGENCY_NO_CUSTOMER_CODE);
                             agency.setCustomerNumber(null);
                             agency.setCustomer(null);
                             agency.setCustomerTypeCode(null);
@@ -146,8 +146,8 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
             if (sectionId.equalsIgnoreCase(CGPropertyConstants.CUSTOMER)) {
                 for (Row row : section.getRows()) {
                     for (Field field : row.getFields()) {
-                        if (StringUtils.isNotEmpty(agency.getCustomerCreated())) {
-                            if (agency.getCustomerCreated().equals(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE)) {
+                        if (StringUtils.isNotEmpty(agency.getCustomerCreationOptionCode())) {
+                            if (agency.getCustomerCreationOptionCode().equals(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE)) {
                                 if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_NUMBER)) {
                                     field.setReadOnly(false);
                                 }
@@ -160,7 +160,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
                                     }
                                 }
                             }
-                            else if (agency.getCustomerCreated().equals(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE)) {
+                            else if (agency.getCustomerCreationOptionCode().equals(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE)) {
                                 if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_NUMBER)) {
                                     agency.setCustomerNumber(null);
                                     field.setReadOnly(true);
@@ -169,7 +169,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
                                     field.setReadOnly(false);
                                 }
                             }
-                            else if (agency.getCustomerCreated().equals(CGConstants.AGENCY_NO_CUSTOMER_CODE)) {
+                            else if (agency.getCustomerCreationOptionCode().equals(CGConstants.AGENCY_NO_CUSTOMER_CODE)) {
                                 if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_NUMBER)) {
                                     agency.setCustomerNumber(null);
                                     field.setReadOnly(true);

@@ -54,7 +54,7 @@
 			<column name="PERSON_UNVL_ID" type="VARCHAR(40)">
 				<constraints primaryKey="true" primaryKeyName="CG_AWD_FNDMGR_TP1"/>
 			</column>
-			<column name="CGPRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0">
+			<column name="CGPRPSL_NBR" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="CG_AWD_FNDMGR_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -63,8 +63,8 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />
 			</column>
-			<column name="CGAWD_PRM_FNDMGR_IND" type="VARCHAR(1)" />
-			<column name="CGAWD_FNDMGR_PRJ_TTL" type="VARCHAR(100)" />
+			<column name="PRI_FNDMGR_IND" type="VARCHAR(1)" />
+			<column name="PROJECT_TTL" type="VARCHAR(100)" />
 			<column name="ACTV_IND" type="VARCHAR(1)">
 				<constraints nullable="false" />
 			</column>
@@ -112,7 +112,7 @@
 			<column name="GRACE_PERIOD" type="VARCHAR(3)" defaultValue="0" />
 		</createTable>
 		<createTable tableName="CG_INSTRMNT_TYP_T">
-			<column name="INSTRMNT_TYP_CD" type="VARCHAR(10)">
+			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="CG_INSTRMNT_TYP_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -157,14 +157,14 @@
 			<column name="DUNS_NBR" type="VARCHAR(20)" />
 			<column name="DUNS_PLUS_FOUR_NBR" type="VARCHAR(20)" />
 			<column name="CUST_NBR" type="VARCHAR(9)" />
-			<column name="CUST_TYP_CD" type="VARCHAR(10)" />
-			<column name="CUST_CRTD" type="VARCHAR(1)" />
+			<column name="CUST_TYP_CD" type="VARCHAR(2)" />
+			<column name="CUST_CRTN_OPTN_CD" type="VARCHAR(1)" />
 			<column name="CMPGN_ID" type="VARCHAR(4)" />
 			<column name="STATE_AGENCY_IND" type="VARCHAR(1)" defaultValue="N" />
 		</addColumn>
 		<addColumn tableName="CG_AWD_ACCT_T">
-			<column name="FINAL_BILLED" type="VARCHAR(1)" />
-			<column name="AMT_TO_DRW" type="DECIMAL(19,2)" defaultValue="0" />
+			<column name="FNL_BILLED_IND" type="VARCHAR(1)" />
+			<column name="AMT_TO_DRW" type="DECIMAL(19,2)" />
 			<column name="LTRCR_RVW_IND" type="VARCHAR(1)" />
 			<column name="CURR_LST_BILLED_DT" type="DATETIME" />
 			<column name="PREV_LST_BILLED_DT" type="DATETIME" />
@@ -172,13 +172,12 @@
 		<addColumn tableName="CG_AWD_T">
 			<column name="BILL_FREQ_CD" type="VARCHAR(4)" />
 			<column name="EXCL_FRM_INV_IND" type="VARCHAR(1)" />
-			<column name="ADDTNL_FRMS_RQRD" type="VARCHAR(1)" />
-			<column name="ADDTNL_FRM_DESC" type="VARCHAR(255)" />
-			<column name="INSTRMNT_TYP_CD" type="VARCHAR(10)" />
-			<column name="AWRD_SRC_OF_FNDS" type="VARCHAR(10)" />
+			<column name="ADDL_FRMS_REQ_IND" type="VARCHAR(1)" />
+			<column name="ADDL_FRMS_DESC" type="VARCHAR(255)" />
+			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)" />
 			<column name="CG_MIN_INV_AMT" type="DECIMAL(19,2)" />
 			<column name="CG_LTRCR_FND_CD" type="VARCHAR(15)" />
-			<column name="AUTO_APP" type="VARCHAR(1)" />
+			<column name="AUTO_APPROVE_IND" type="VARCHAR(1)" />
 			<column name="FUNDING_EXP_DT" type="DATETIME" />
 			<column name="CG_INV_OPT" type="VARCHAR(120)" />
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />

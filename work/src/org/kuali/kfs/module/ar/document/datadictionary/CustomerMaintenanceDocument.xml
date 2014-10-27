@@ -151,7 +151,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="customerInvoiceTemplateCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="invoiceTransmissionMethodCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="customerCopiesToPrint"/>
-              <bean parent="MaintainableFieldDefinition" p:name="customerPrintEnvelopesNumber"/>     
+              <bean parent="MaintainableFieldDefinition" p:name="customerEnvelopesToPrintQuantity"/>     
             </list>
           </property>
         </bean>

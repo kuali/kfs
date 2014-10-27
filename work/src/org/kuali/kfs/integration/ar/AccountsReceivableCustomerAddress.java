@@ -84,7 +84,7 @@ public interface AccountsReceivableCustomerAddress extends ExternalizableBusines
     
     public Integer getCustomerCopiesToPrint(); 
     
-    public Integer getCustomerPrintEnvelopesNumber();
+    public Integer getCustomerEnvelopesToPrintQuantity();
     @Override
     public void refresh();
 }

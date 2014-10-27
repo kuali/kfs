@@ -52,7 +52,7 @@
 				<ref bean="Agency-agencyAddresses.agencyAddressInternationalProvinceName" />
 				<ref bean="Agency-agencyAddresses.agencyContactEmailAddress" />
 				<ref bean="Agency-active" />
-				<ref bean="Agency-customerCreated" />
+				<ref bean="Agency-customerCreationOptionCode" />
 				<ref bean="Agency-customerNumber" />
 				<ref bean="Agency-customerTypeCode" />
 				<ref bean="Agency-dunningCampaign" />
@@ -283,11 +283,11 @@
 		</property>
 	</bean>
 
-	<bean id="Agency-customerCreated" parent="Agency-customerCreated-parentBean" />
+	<bean id="Agency-customerCreationOptionCode" parent="Agency-customerCreationOptionCode-parentBean" />
 
-	<bean id="Agency-customerCreated-parentBean" abstract="true"
+	<bean id="Agency-customerCreationOptionCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="customerCreated" />
+		<property name="name" value="customerCreationOptionCode" />
 		<property name="label" value="Customer Exists?" />
 		<property name="shortLabel" value="Customer Exists?" />
 		<property name="maxLength" value="4" />
@@ -477,7 +477,7 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="customerCreated" />
+				<bean parent="FieldDefinition" p:attributeName="customerCreationOptionCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
 			</list>

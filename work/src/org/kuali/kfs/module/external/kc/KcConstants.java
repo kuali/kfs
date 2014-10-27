@@ -204,4 +204,7 @@ public class KcConstants {
         public static final String FREQUENCY_DESCRIPTION = "frequencyDescription";
         public static final String KC_FREQUENCY_CODE = "kcFrequencyCode";
     }
+
+    public static final String DEFAULT_AWARD_FUND_MANAGER_TITLE = "Fund Manager";
+
 }

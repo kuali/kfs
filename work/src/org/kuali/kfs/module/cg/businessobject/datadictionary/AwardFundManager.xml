@@ -30,8 +30,8 @@
 				<ref bean="AwardFundManager-fundManager.principalName" />
 				<ref bean="AwardFundManager-fundManager.name" />
 				<ref bean="AwardFundManager-proposalNumber" />
-				<ref bean="AwardFundManager-awardPrimaryFundManagerIndicator" />
-				<ref bean="AwardFundManager-awardFundManagerProjectTitle" />
+				<ref bean="AwardFundManager-primaryFundManagerIndicator" />
+				<ref bean="AwardFundManager-projectTitle" />
 				<ref bean="AwardFundManager-newCollectionRecord" />
 				<ref bean="AwardFundManager-active" />
 			</list>
@@ -103,21 +103,21 @@
 	<bean id="AwardFundManager-proposalNumber-parentBean" abstract="true"
 		parent="Award-proposalNumber">
 	</bean>
-	<bean id="AwardFundManager-awardPrimaryFundManagerIndicator"
-		parent="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean" />
+	<bean id="AwardFundManager-primaryFundManagerIndicator"
+		parent="AwardFundManager-primaryFundManagerIndicator-parentBean" />
 
-	<bean id="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean"
+	<bean id="AwardFundManager-primaryFundManagerIndicator-parentBean"
 		abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="awardPrimaryFundManagerIndicator" />
+		<property name="name" value="primaryFundManagerIndicator" />
 		<property name="label" value="Primary" />
 		<property name="shortLabel" value="Primary" />
 	</bean>
-	<bean id="AwardFundManager-awardFundManagerProjectTitle"
-		parent="AwardFundManager-awardFundManagerProjectTitle-parentBean" />
+	<bean id="AwardFundManager-projectTitle"
+		parent="AwardFundManager-projectTitle-parentBean" />
 
-	<bean id="AwardFundManager-awardFundManagerProjectTitle-parentBean"
+	<bean id="AwardFundManager-projectTitle-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="awardFundManagerProjectTitle" />
+		<property name="name" value="projectTitle" />
 		<property name="label" value="Title" />
 		<property name="shortLabel" value="Title" />
 		<property name="maxLength" value="100" />
@@ -163,8 +163,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+				<bean parent="FieldDefinition" p:attributeName="primaryFundManagerIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="projectTitle" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -186,8 +186,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+				<bean parent="FieldDefinition" p:attributeName="primaryFundManagerIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="projectTitle" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -195,8 +195,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+				<bean parent="FieldDefinition" p:attributeName="primaryFundManagerIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="projectTitle" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

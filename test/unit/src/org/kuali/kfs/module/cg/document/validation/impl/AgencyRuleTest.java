@@ -82,7 +82,7 @@ public class AgencyRuleTest extends MaintenanceRuleTestBase {
         agencyAddress.setAgencyStateCode("");
         agencyAddress.setAgencyZipCode("");
         //To set customer exists value to "Create New Customer"
-        agency.setCustomerCreated(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE);
+        agency.setCustomerCreationOptionCode(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE);
         rule.newAgency = agency;        
         AgencyRule rule = (AgencyRule) setupMaintDocRule(newMaintDoc(agency), AgencyRule.class);
         boolean result = rule.checkAddressIsValid(agencyAddress);
@@ -100,7 +100,7 @@ public class AgencyRuleTest extends MaintenanceRuleTestBase {
         agencyAddress.setAgencyAddressInternationalProvinceName("");
         agencyAddress.setAgencyZipCode("");
         //To set customer exists value to "Create New Customer"
-        agency.setCustomerCreated(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE);
+        agency.setCustomerCreationOptionCode(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE);
         rule.newAgency = agency;   
         AgencyRule rule = (AgencyRule) setupMaintDocRule(newMaintDoc(agency), AgencyRule.class);
         boolean result = rule.checkAddressIsValid(agencyAddress);

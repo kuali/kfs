@@ -150,7 +150,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         }
         List<AwardFundManager> managers = getAward().getAwardFundManagers();
         if (managers != null && managers.size() == 1) {
-            managers.get(0).setAwardPrimaryFundManagerIndicator(true);
+            managers.get(0).setPrimaryFundManagerIndicator(true);
         }
         List<AwardOrganization> organizations = getAward().getAwardOrganizations();
         if (organizations.size() == 1) {

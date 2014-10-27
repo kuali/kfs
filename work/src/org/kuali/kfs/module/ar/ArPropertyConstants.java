@@ -382,11 +382,6 @@ public class ArPropertyConstants{
         public static final String COLLECTION_STATUS_CODE = "statusCode";
     }
 
-    // Final Disposition
-    public static class FinalDispositionFields {
-        public static final String FINAL_DISPOSITION_CODE = "dispositionCode";
-    }
-
     // Referral Type
     public static class ReferralTypeFields {
         public static final String REFERRAL_TYPE_CODE = "referralTypeCode";

@@ -206,7 +206,7 @@ public class AREmailServiceImpl implements AREmailService {
         return MessageFormat.format(message, customerAddress.getCustomer().getCustomerName(),
                 customerAddress.getCustomerAddressName(),
                 invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName(),
-                invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle(),
+                invoice.getAward().getAwardPrimaryFundManager().getProjectTitle(),
                 department,
                 invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber(),
                 invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress());

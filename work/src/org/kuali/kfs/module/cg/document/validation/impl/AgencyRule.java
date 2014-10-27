@@ -133,7 +133,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
      */
     protected boolean validateAgencyReportingName(MaintenanceDocument document) {
         String agencyReportingName = newAgency.getReportingName();
-        String agencyExistsValue = newAgency.getCustomerCreated();
+        String agencyExistsValue = newAgency.getCustomerCreationOptionCode();
         if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agencyExistsValue)) {
             if (agencyReportingName.length() < 3) {
                 putFieldError("reportingName", CGKeyConstants.AgencyConstants.ERROR_AGENCY_NAME_LESS_THAN_THREE_CHARACTERS);
@@ -259,7 +259,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public boolean checkAddressIsValid(AgencyAddress agencyAddress) {
         boolean isValid = true;
         // To validate only if the Agency agency exists field says "Create New Customer".
-        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreated())) {
+        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreationOptionCode())) {
             if (CGKeyConstants.AgencyConstants.AGENCY_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(agencyAddress.getAgencyCountryCode())) {
                 if (StringUtils.isBlank(agencyAddress.getAgencyZipCode())) {
                     isValid = false;
@@ -295,7 +295,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         boolean isValid = true;
         String propertyName = CGPropertyConstants.AgencyFields.AGENCY_TAB_ADDRESSES + "[" + ind + "].";
         // To validate only if the Agency agencyexists field says "Create New Customer".
-        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreated())) {
+        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(newAgency.getCustomerCreationOptionCode())) {
             if (CGKeyConstants.AgencyConstants.AGENCY_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(agencyAddress.getAgencyCountryCode())) {
                 if (StringUtils.isBlank(agencyAddress.getAgencyZipCode())) {
                     isValid = false;
@@ -351,7 +351,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         boolean isValid = true;
 
         // Only validate if new customer create option is selected
-        if ( CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated()) ){
+        if ( CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreationOptionCode()) ){
             // Customer Type must be filled-in
             if( StringUtils.isEmpty(agency.getCustomerTypeCode()) ){
                 putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_TYPE_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_CUSTOMER_TYPE_CODE_REQUIRED_WHEN_AGENCY_CUSTOMER_NEW);

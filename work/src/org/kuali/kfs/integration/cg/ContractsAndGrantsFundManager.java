@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ public interface ContractsAndGrantsFundManager extends ExternalizableBusinessObj
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId
      */
     public String getPrincipalId();
@@ -35,7 +35,7 @@ public interface ContractsAndGrantsFundManager extends ExternalizableBusinessObj
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
     public Long getProposalNumber();
@@ -43,16 +43,16 @@ public interface ContractsAndGrantsFundManager extends ExternalizableBusinessObj
 
     /**
      * Gets the fund manager attribute.
-     * 
+     *
      * @return the fundManager.
      */
     public Person getFundManager();
 
     /**
-     * Gets the awardFundManagerProjectTitle attribute.
-     * 
-     * @return Returns the awardFundManagerProjectTitle
+     * Gets the projectTitle attribute.
+     *
+     * @return Returns the projectTitle
      */
-    public String getAwardFundManagerProjectTitle();
+    public String getProjectTitle();
 
 }

@@ -26,14 +26,14 @@ public enum ARAwardFundManagerFixture {
 
     private String principalId;
     private Long proposalNumber;
-    private boolean awardPrimaryFundManagerIndicator;
-    private String awardFundManagerProjectTitle;
+    private boolean primaryFundManagerIndicator;
+    private String projectTitle;
 
-    private ARAwardFundManagerFixture(String principalId, Long proposalNumber, boolean awardPrimaryFundManagerIndicator, String awardFundManagerProjectTitle) {
+    private ARAwardFundManagerFixture(String principalId, Long proposalNumber, boolean primaryFundManagerIndicator, String projectTitle) {
         this.principalId = principalId;
         this.proposalNumber = proposalNumber;
-        this.awardPrimaryFundManagerIndicator = awardPrimaryFundManagerIndicator;
-        this.awardFundManagerProjectTitle = awardFundManagerProjectTitle;
+        this.primaryFundManagerIndicator = primaryFundManagerIndicator;
+        this.projectTitle = projectTitle;
     }
 
     public AwardFundManager createAwardFundManager() {
@@ -41,8 +41,8 @@ public enum ARAwardFundManagerFixture {
 
         awardFundManager.setPrincipalId(this.principalId);
         awardFundManager.setProposalNumber(this.proposalNumber);
-        awardFundManager.setAwardPrimaryFundManagerIndicator(this.awardPrimaryFundManagerIndicator);
-        awardFundManager.setAwardFundManagerProjectTitle(this.awardFundManagerProjectTitle);
+        awardFundManager.setPrimaryFundManagerIndicator(this.primaryFundManagerIndicator);
+        awardFundManager.setProjectTitle(this.projectTitle);
 
         return awardFundManager;
     }

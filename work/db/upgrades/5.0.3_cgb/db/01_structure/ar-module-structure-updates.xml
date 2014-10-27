@@ -134,14 +134,14 @@
 			<column name="CTGRY_CD" type="VARCHAR(4)" />
 			<column name="CTGRY_NM" type="VARCHAR(255)" />
 			<column name="IND_CST_IND" type="VARCHAR(1)" />
-			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
+			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>
-		<createTable tableName="AR_CLCTN_ACTVTY_DOC_T">
+		<createTable tableName="AR_CLCTN_ACTVY_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
-				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVTY_DOC_TP1" />
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVY_DOC_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_ACTVTY_DOC_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_ACTVY_DOC_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
@@ -154,23 +154,23 @@
 			<column name="CUST_NBR" type="VARCHAR(9)" />
 			<column name="CUST_NM" type="VARCHAR(60)" />
 		</createTable>
-		<createTable tableName="AR_CLCTN_ACTVTY_TYP_T">
-			<column name="AR_CLCTN_ACTVTY_TYP_CD" type="VARCHAR(6)">
-				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVTY_TYP_TP1" />
+		<createTable tableName="AR_CLCTN_ACTVY_TYP_T">
+			<column name="CLCTN_ACTVY_TYP_CD" type="VARCHAR(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVY_TYP_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_ACTVTY_TYP_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_ACTVY_TYP_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="ACTVTY_DESC" type="VARCHAR(120)" />
+			<column name="ACTVY_DESC" type="VARCHAR(120)" />
 			<column name="RFRL_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="DUN_PRCS_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 		<createTable tableName="AR_CLCTN_STATUS_T">
-			<column name="AR_CLCTN_STATUS_CD" type="VARCHAR(6)">
+			<column name="CLCTN_STATUS_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_CLLCTN_STATUS_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -208,7 +208,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="DYS_PST_DUE_TXT" type="VARCHAR(45)" />
+			<column name="DAYS_PST_DUE_TXT" type="VARCHAR(45)" />
 			<column name="SND_DUN_LTR_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y">
 			</column>
@@ -225,9 +225,8 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="DUN_LTR_TMPLT_DESC" type="VARCHAR(45)" />
-			<column name="FILENAME" type="VARCHAR(50)" />
-			<column name="ACCESS_RSTRCTD_IND" type="VARCHAR(1)"
-				defaultValue="N" />
+			<column name="FILE_NM" type="VARCHAR(50)" />
+			<column name="ACCESS_RSTRC_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 			<column name="UPLOAD_DT" type="VARCHAR(25)" />
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
@@ -244,58 +243,56 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="EVENT_CD" type="VARCHAR(10)" />
-			<column name="INVOICE_NBR" type="VARCHAR(14)">
+			<column name="INV_NBR" type="VARCHAR(14)">
 				<constraints nullable="false" />
 			</column>
-			<column name="ACTVTY_CD" type="VARCHAR(6)" />
-			<column name="ACTVTY_DT" type="DATETIME" />
-			<column name="ACTVTY_TXT" type="VARCHAR(200)" />
-			<column name="FLW_UP_IND" type="VARCHAR(1)" defaultValue="N" />
-			<column name="FLW_UP_DT" type="DATETIME" />
+			<column name="ACTVY_CD" type="VARCHAR(4)" />
+			<column name="ACTVY_DT" type="DATETIME" />
+			<column name="ACTVY_TXT" type="VARCHAR(200)" />
+			<column name="FLLW_UP_IND" type="VARCHAR(1)" defaultValue="N" />
+			<column name="FLLW_UP_DT" type="DATETIME" />
 			<column name="CMPLTD_IND" type="VARCHAR(1)" defaultValue="Y" />
 			<column name="CMPLTD_DT" type="DATETIME" />
-			<column name="POST_TS" type="DATETIME" />
+			<column name="POST_DT" type="DATETIME" />
 			<column name="EVENT_ROUTE_STATUS" type="VARCHAR(1)" />
 			<column name="FDOC_NBR" type="VARCHAR(14)" />
 			<column name="USR_PRNCPL_ID" type="VARCHAR(40)" />
 		</createTable>
-		<createTable tableName="AR_FINAL_BILLED_IND_ENTRY_T">
+		<createTable tableName="AR_FNL_BILLED_IND_ENTRY_T">
 			<column name="ENTRY_ID" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_FINAL_BILLED_IND_ENTRY_TP1"/>
-			</column>
-			<column name="DOC_HDR_ID" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_FINAL_BILLED_IND_ENTRY_TP1"/>
+				<constraints primaryKey="true" primaryKeyName="AR_FNL_BILLED_IND_ENTRY_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_BILLED_IND_ENTRY_TC0"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FNL_BILLED_IND_ENTRY_TC0"/>
 			</column>
+			<column name="FDOC_NBR" type="VARCHAR(14)" />
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INVOICE_NBR" type="VARCHAR(14)" />
+			<column name="INV_NBR" type="VARCHAR(14)" />
 		</createTable>
-		<createTable tableName="AR_FINAL_BILLED_IND_DOC_T">
-			<column name="DOC_HDR_ID" type="DECIMAL(12,0)">
-				<constraints primaryKey="true" primaryKeyName="AR_FINAL_BILLED_IND_DOC_TP1"/>
+		<createTable tableName="AR_FNL_BILLED_IND_DOC_T">
+			<column name="FDOC_NBR" type="VARCHAR(14)">
+				<constraints primaryKey="true" primaryKeyName="AR_FNL_BILLED_IND_DOC_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_BILLED_IND_DOC_TC0"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FNL_BILLED_IND_DOC_TC0"/>
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<createTable tableName="AR_FINAL_DISPOS_T">
-			<column name="AR_FINAL_DISPOS_CD" type="VARCHAR(4)">
-				<constraints primaryKey="true" primaryKeyName="AR_FINAL_DISPOS_TP1" />
+		<createTable tableName="AR_FNL_DISPOS_T">
+			<column name="CD" type="VARCHAR(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_FNL_DISPOS_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_DISPOS_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FNL_DISPOS_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="DISPOS_DESC" type="VARCHAR(25)" />
+			<column name="DESC" type="VARCHAR(25)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 		<createTable tableName="AR_INV_ACCT_DTL_T">
@@ -322,7 +319,7 @@
 			<column name="EXP_AMT" type="DECIMAL(19,2)" />
 			<column name="CUM_AMT" type="DECIMAL(19,2)" />
 			<column name="CNTRCT_CNTRL_ACCT_NBR" type="VARCHAR(7)"/>
-			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
+			<column name="BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_INV_ADDR_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -342,9 +339,9 @@
 			</column>			
 			<column name="CUST_ADDR_TYPE_CD" type="VARCHAR(2)" />
 			<column name="CUST_ADDR_NM" type="VARCHAR(40)" />
-			<column name="CUST_INV_TYP_CD" type="VARCHAR(10)" />
+			<column name="CUST_INV_TMPLT_CD" type="VARCHAR(10)" />
 			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
-			<column name="NOTE_ID" type="DECIMAL(14,0)" />
+			<column name="NTE_ID" type="DECIMAL(14,0)" />
 			<column name="CUST_EMAIL_ADDR" type="VARCHAR(60)" />
 		</createTable>
 		<createTable tableName="AR_INV_BILL_T">
@@ -426,10 +423,10 @@
 			<column name="TOT_BILLED_AMT" type="DECIMAL(12,2)">
 				<constraints nullable="false" />
 			</column>
-			<column name="CURR_EXPND" type="DECIMAL(12,2)">
+			<column name="CURR_EXPND_AMT" type="DECIMAL(12,2)">
 				<constraints nullable="false" />
 			</column>
-			<column name="CUM_EXPND" type="DECIMAL(12,2)">
+			<column name="CUM_EXPND_AMT" type="DECIMAL(12,2)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -445,9 +442,8 @@
 			</column>			
 			<column name="AWD_DT_RNG" type="VARCHAR(50)" />
 			<column name="BILL_FREQ_CD" type="VARCHAR(4)" />
-			<column name="FND_TYP" type="VARCHAR(50)" />
-			<column name="INSTRMNT_TYP_CD" type="VARCHAR(10)" />
-			<column name="FINAL_BILL_IND" type="VARCHAR(1)" />
+			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)" />
+			<column name="FNL_BILL_IND" type="VARCHAR(1)" />
 			<column name="AWD_TOT_AMT" type="DECIMAL(19,2)" />
 			<column name="NEW_TOT_BILLED_AMT" type="DECIMAL(19,2)" />
 			<column name="BILLNG_PRD" type="VARCHAR(50)" />
@@ -456,8 +452,8 @@
 			<column name="LST_BILLED_DT" type="DATETIME" />
 			<column name="COMMENT_TXT" type="VARCHAR(255)" />
 			<column name="CG_AGENCY_NBR" type="VARCHAR(6)" />
-			<column name="DUN_LTR_ASSGNED" type="VARCHAR(20)" />
-			<column name="DUN_LTR_SNT_DT" type="DATETIME" />
+			<column name="DUN_LTR_TMPLT_ASND" type="VARCHAR(20)" />
+			<column name="DUN_LTR_TMPLT_SNT_DT" type="DATETIME" />
 		</createTable>
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -506,22 +502,22 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<createTable tableName="AR_INV_TYP_T">
-			<column name="INV_TYP_CD" type="VARCHAR(10)">
-				<constraints primaryKey="true" primaryKeyName="AR_INV_TYP_TP1"/>
+		<createTable tableName="AR_INV_TMPLT_T">
+			<column name="INV_TMPLT_CD" type="VARCHAR(10)">
+				<constraints primaryKey="true" primaryKeyName="AR_INV_TMPLT_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_TYP_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_TMPLT_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INV_TYP_DESC" type="VARCHAR(45)" />
+			<column name="INV_TMPLT_DESC" type="VARCHAR(45)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
-			<column name="FILENAME" type="VARCHAR(50)" />
-			<column name="ACCESS_RSTRCTD_IND" type="VARCHAR(1)" />
+			<column name="FILE_NM" type="VARCHAR(50)" />
+			<column name="ACCESS_RSTRC_IND" type="VARCHAR(1)" />
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
 			<column name="BILL_BY_ORG_CD" type="VARCHAR(4)" />
 			<column name="UPLOAD_DT" type="VARCHAR(25)" />
@@ -543,8 +539,7 @@
 			<column name="FDOC_NBR" type="VARCHAR(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_LTRCR_RVW_DTL_TP1" />
 			</column>
-			<column name="LTRCR_RVW_DTL_ID" type="DECIMAL(12,0)"
-				defaultValue="0">
+			<column name="LTRCR_RVW_DTL_ID" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_LTRCR_RVW_DTL_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -553,27 +548,26 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>			
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0"></column>
-			<column name="FIN_COA_CD" type="VARCHAR(2)"></column>
-			<column name="ACCOUNT_NBR" type="VARCHAR(7)"></column>
-			<column name="AWD_BUD_AMT" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="AMT_DRW" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="AMT_AVL_DRW" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="AWD_DOC_NBR" type="VARCHAR(12)" />
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
+			<column name="FIN_COA_CD" type="VARCHAR(2)" />
+			<column name="ACCOUNT_NBR" type="VARCHAR(7)" />
+			<column name="AWD_BDGT_AMT" type="DECIMAL(19,2)" />
+			<column name="DRW_AMT" type="DECIMAL(19,2)" />
+			<column name="AVAIL_DRW_AMT" type="DECIMAL(19,2)" />
+			<column name="AWD_FDOC_NBR" type="VARCHAR(12)" />
 			<column name="ACCOUNT_DESC" type="VARCHAR(45)" />
-			<column name="ACCT_EXPIRATION_DT" type="DATETIME" />
-			<column name="CLM_ON_CSH" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="FND_NOT_DRWN" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="LTRCR_AMT" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="HDN_AMT_TO_DRW" type="DECIMAL(19,2)"
-				defaultValue="0" />
+			<column name="ACCT_EXP_DT" type="DATETIME" />
+			<column name="CLM_ON_CSH_BAL_AMT" type="DECIMAL(19,2)" />
+			<column name="FND_NOT_DRWN_AMT" type="DECIMAL(19,2)" />
+			<column name="LTRCR_AMT" type="DECIMAL(19,2)" />
+			<column name="HDN_DRW_AMT" type="DECIMAL(19,2)" />
 			<column name="AWD_BEG_DT" type="DATETIME" />
 			<column name="AWD_END_DT" type="DATETIME" />
 			<column name="CG_AGENCY_NBR" type="VARCHAR(6)" />
 			<column name="CUST_NBR" type="VARCHAR(9)" />
 		</createTable>
 		<createTable tableName="AR_MLSTN_SCHDL_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_SCHDL_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -605,7 +599,7 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_PRDTRMND_BILL_SCHDL_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)">
 				<constraints primaryKey="true" primaryKeyName="AR_PRDTRMND_BILL_SCHDL_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -630,8 +624,8 @@
 			<column name="CUST_NBR" type="VARCHAR(9)" />
 			<column name="CUST_NM" type="VARCHAR(60)" />
 			<column name="CUST_TYP_CD" type="VARCHAR(4)" />
-			<column name="CLCTN_STATUS_CD" type="VARCHAR(6)" />
-			<column name="RFRL_TYP_CD" type="VARCHAR(6)" />
+			<column name="CLCTN_STATUS_CD" type="VARCHAR(4)" />
+			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
 		</createTable>
 		<createTable tableName="AR_RFRL_TO_CLCTNS_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -655,10 +649,10 @@
 			<column name="INV_TOTAL_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_BAL_AMT" type="DECIMAL(19,2)" />
 			<column name="AGE_DAYS" type="DECIMAL(4,0)" />
-			<column name="FINAL_DISPOS_CD" type="VARCHAR(4)" />
+			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</createTable>
 		<createTable tableName="AR_RFRL_TYP_T">
-			<column name="AR_RFRL_TYPE_CD" type="VARCHAR(4)">
+			<column name="RFRL_TYP_CD" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TYP_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
@@ -669,8 +663,7 @@
 			</column>
 			<column name="RFRL_TYP_DESC" type="VARCHAR(40)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-			<column name="OUTSD_CLCTN_AGENCY_IND" type="VARCHAR(1)"
-				defaultValue="N" />
+			<column name="OUTSD_CLCTN_AGENCY_IND" type="VARCHAR(1)" defaultValue="N" />
 		</createTable>
 		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>
@@ -683,23 +676,23 @@
 			<column name="INV_DOC_TYP" type="VARCHAR(4)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />			
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0" />
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 		</addColumn>
 		<addColumn tableName="AR_CSH_CTRL_T">
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="INV_DOC_TYP" type="VARCHAR(4)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0" />
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 		</addColumn>
 		<addColumn tableName="AR_CUST_ADDR_T">
-			<column name="INV_TYP_CD" type="VARCHAR(10)" />
+			<column name="INV_TMPLT_CD" type="VARCHAR(10)" />
 			<column name="COPIES_TO_PRINT_QTY" type="DECIMAL(5,0)" />
 			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
-			<column name="PRNT_ENV_NBR" type="DECIMAL(5,0)" />
+			<column name="ENV_TO_PRINT_QTY" type="DECIMAL(5,0)" />
 		</addColumn>
 		<addColumn tableName="AR_CUST_T">
-			<column name="BNKRPTCY_TYPE_CD" type="VARCHAR(5)" />
+			<column name="BNKRPTCY_TYP_CD" type="VARCHAR(4)" />
 			<column name="BNKRPTCY_DT" type="DATETIME" />
 			<column name="BNKRPTCY_REVIEW_DT" type="DATETIME" />
 			<column name="STOP_WRK_IND" type="VARCHAR(1)" defaultValue="N" />
@@ -707,17 +700,17 @@
 			<column name="CUST_INV_TMPLT_CD" type="VARCHAR(10)" />
 		</addColumn>
 		<addColumn tableName="AR_INV_DOC_T">
-			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0" />
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
 			<column name="EMAIL_PROCESSED_DT" type="DATE" />
 			<column name="RPRT_PROCESSED_DT" type="DATE" />
-			<column name="RFRL_TYP_CD" type="VARCHAR(6)" />
-			<column name="FINAL_DISPOS_CD" type="VARCHAR(4)" />
+			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
+			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</addColumn>
 		<addColumn tableName="AR_ORG_OPTION_T">
-			<column name="AR_CG_BILLER_IND" type="VARCHAR(1)" />
+			<column name="CG_BILLER_IND" type="VARCHAR(1)" />
 		</addColumn>
 		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>

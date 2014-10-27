@@ -13,7 +13,7 @@
 			referencedTableName="AR_DUN_CMPGN_DOC_T" baseColumnNames="CMPGN_ID"
 			baseTableName="AR_DUN_LTR_DIST_T" referencedColumnNames="CMPGN_ID" />
 		<addForeignKeyConstraint constraintName="AR_EVENT_TR1"
-			referencedTableName="AR_INV_DOC_T" baseColumnNames="INVOICE_NBR"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="INV_NBR"
 			baseTableName="AR_EVENT_T" referencedColumnNames="FDOC_NBR" />
 		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"

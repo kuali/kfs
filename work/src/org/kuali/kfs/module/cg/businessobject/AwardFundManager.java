@@ -34,8 +34,8 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
 
     private String principalId;
     private Long proposalNumber;
-    private boolean awardPrimaryFundManagerIndicator;
-    private String awardFundManagerProjectTitle;
+    private boolean primaryFundManagerIndicator;
+    private String projectTitle;
     private boolean active = true;
 
     private Person fundManager;
@@ -65,38 +65,38 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
     }
 
     /**
-     * Gets the awardPrimaryFundManagerIndicator attribute.
+     * Gets the primaryFundManagerIndicator attribute.
      *
-     * @return Returns the awardPrimaryFundManagerIndicator
+     * @return Returns the primaryFundManagerIndicator
      */
-    public boolean isAwardPrimaryFundManagerIndicator() {
-        return awardPrimaryFundManagerIndicator;
+    public boolean isPrimaryFundManagerIndicator() {
+        return primaryFundManagerIndicator;
     }
 
     /**
-     * Sets the awardPrimaryFundManagerIndicator attribute.
+     * Sets the primaryFundManagerIndicator attribute.
      *
-     * @param awardPrimaryFundManagerIndicator The awardPrimaryFundManagerIndicator to set.
+     * @param primaryFundManagerIndicator The primaryFundManagerIndicator to set.
      */
-    public void setAwardPrimaryFundManagerIndicator(boolean awardPrimaryFundManagerIndicator) {
-        this.awardPrimaryFundManagerIndicator = awardPrimaryFundManagerIndicator;
+    public void setPrimaryFundManagerIndicator(boolean primaryFundManagerIndicator) {
+        this.primaryFundManagerIndicator = primaryFundManagerIndicator;
     }
 
     /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getAwardFundManagerProjectTitle()
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getProjectTitle()
      */
     @Override
-    public String getAwardFundManagerProjectTitle() {
-        return awardFundManagerProjectTitle;
+    public String getProjectTitle() {
+        return projectTitle;
     }
 
     /**
-     * Sets the awardFundManagerProjectTitle attribute.
+     * Sets the projectTitle attribute.
      *
-     * @param awardFundManagerProjectTitle The awardFundManagerProjectTitle to set.
+     * @param projectTitle The projectTitle to set.
      */
-    public void setAwardFundManagerProjectTitle(String awardFundManagerProjectTitle) {
-        this.awardFundManagerProjectTitle = awardFundManagerProjectTitle;
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
     }
 
     /**
@@ -117,7 +117,7 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
      */
     @Override
     public boolean isPrimary() {
-        return isAwardPrimaryFundManagerIndicator();
+        return isPrimaryFundManagerIndicator();
     }
 
     /**
@@ -143,7 +143,7 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, this.principalId);
-        m.put(CGPropertyConstants.AWARD_FUND_MANAGER_PROJECT_TITLE, this.awardFundManagerProjectTitle);
+        m.put(CGPropertyConstants.PROJECT_TITLE, this.projectTitle);
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }

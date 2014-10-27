@@ -296,8 +296,8 @@
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="fundManager.name" />
-							<bean parent="MaintainableFieldDefinition" p:name="awardPrimaryFundManagerIndicator" />
-							<bean parent="MaintainableFieldDefinition" p:name="awardFundManagerProjectTitle" />
+							<bean parent="MaintainableFieldDefinition" p:name="primaryFundManagerIndicator" />
+							<bean parent="MaintainableFieldDefinition" p:name="projectTitle" />
 						</list>
 					</property>
 					<property name="maintainableFields">
@@ -308,8 +308,8 @@
 								p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="principalId"
 								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="awardPrimaryFundManagerIndicator" />
-							<bean parent="MaintainableFieldDefinition" p:name="awardFundManagerProjectTitle" />
+							<bean parent="MaintainableFieldDefinition" p:name="primaryFundManagerIndicator" />
+							<bean parent="MaintainableFieldDefinition" p:name="projectTitle" />
 							<bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord" />
 							<bean parent="MaintainableFieldDefinition" p:name="active"
 								p:defaultValue="true" />

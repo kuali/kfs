@@ -95,8 +95,8 @@
 		<property name="title" value="Customer" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="customerCreated"
-					p:webUILeaveFieldFunction="onblur_customerCreated"
+				<bean parent="MaintainableFieldDefinition" p:name="customerCreationOptionCode"
+					p:webUILeaveFieldFunction="onblur_customerCreationOptionCode"
 					p:triggerOnChange="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="customerNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="customerTypeCode" />

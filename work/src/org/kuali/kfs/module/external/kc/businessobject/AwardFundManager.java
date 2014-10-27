@@ -16,23 +16,22 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class AwardFundManager implements ContractsAndGrantsFundManager {
 
-    private static final String DEFAULT_AWARD_FUND_MANAGER_TITLE = "Fund Manager";
-
     private String principalId;
     private Long proposalNumber;
-    private String awardFundManagerProjectTitle;
+    private String projectTitle;
     private Person fundManager;
 
     public AwardFundManager() { }
     public AwardFundManager(Long proposalNumber, String principalId) {
         this.proposalNumber = proposalNumber;
         this.principalId = principalId;
-        this.awardFundManagerProjectTitle = DEFAULT_AWARD_FUND_MANAGER_TITLE;
+        this.projectTitle = KcConstants.DEFAULT_AWARD_FUND_MANAGER_TITLE;
     }
 
     /**
@@ -73,12 +72,12 @@ public class AwardFundManager implements ContractsAndGrantsFundManager {
     }
 
     @Override
-    public String getAwardFundManagerProjectTitle() {
-        return awardFundManagerProjectTitle;
+    public String getProjectTitle() {
+        return projectTitle;
     }
 
-    public void setAwardFundManagerProjectTitle(String awardFundManagerProjectTitle) {
-        this.awardFundManagerProjectTitle = awardFundManagerProjectTitle;
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
     }
 
 }

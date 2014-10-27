@@ -26,44 +26,44 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class FinalDisposition extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String dispositionCode;
-    private String dispositionDescription;
+    private String code;
+    private String description;
     private boolean active;
 
     /**
-     * Gets the dispositionCode attribute.
+     * Gets the code attribute.
      *
-     * @return Returns the dispositionCode.
+     * @return Returns the code.
      */
-    public String getDispositionCode() {
-        return dispositionCode;
+    public String getCode() {
+        return code;
     }
 
     /**
-     * Sets the dispositionCode attribute value.
+     * Sets the code attribute value.
      *
-     * @param dispositionCode The dispositionCode to set.
+     * @param code The code to set.
      */
-    public void setDispositionCode(String dispositionCode) {
-        this.dispositionCode = dispositionCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
-     * Gets the dispositionDescription attribute.
+     * Gets the description attribute.
      *
-     * @return Returns the dispositionDescription.
+     * @return Returns the description.
      */
-    public String getDispositionDescription() {
-        return dispositionDescription;
+    public String getDescription() {
+        return description;
     }
 
     /**
-     * Sets the dispositionDescription attribute value.
+     * Sets the description attribute value.
      *
-     * @param dispositionDescription The dispositionDescription to set.
+     * @param description The description to set.
      */
-    public void setDispositionDescription(String dispositionDescription) {
-        this.dispositionDescription = dispositionDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -89,11 +89,10 @@ public class FinalDisposition extends PersistableBusinessObjectBase implements M
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("dispositionCode", this.dispositionCode);
-        m.put("dispositionDescription", this.dispositionDescription);
+        m.put("code", this.code);
+        m.put("description", this.description);
         m.put("active", this.active);
         return m;
     }

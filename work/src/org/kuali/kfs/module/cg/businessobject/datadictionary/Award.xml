@@ -1249,15 +1249,15 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="fundManager.principalName" />
 							<bean parent="FieldDefinition" p:attributeName="fundManager.name" />
-							<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+							<bean parent="FieldDefinition" p:attributeName="primaryFundManagerIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="projectTitle" />
 						</list>
 					</property>
 					<property name="summaryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="fundManager.name" />
-							<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManagerIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="awardFundManagerProjectTitle" />
+							<bean parent="FieldDefinition" p:attributeName="primaryFundManagerIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="projectTitle" />
 						</list>
 					</property>
 				</bean>

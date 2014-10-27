@@ -70,7 +70,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     private InvoiceTransmissionMethod invoiceTransmissionMethod;
 
     private Integer customerCopiesToPrint;
-    private Integer customerPrintEnvelopesNumber;
+    private Integer customerEnvelopesToPrintQuantity;
 
     /**
      * Default constructor.
@@ -587,11 +587,11 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     }
 
     @Override
-    public Integer getCustomerPrintEnvelopesNumber() {
-        return customerPrintEnvelopesNumber;
+    public Integer getCustomerEnvelopesToPrintQuantity() {
+        return customerEnvelopesToPrintQuantity;
     }
 
-    public void setCustomerPrintEnvelopesNumber(Integer customerPrintEnvelopesNumber) {
-        this.customerPrintEnvelopesNumber = customerPrintEnvelopesNumber;
+    public void setCustomerEnvelopesToPrintQuantity(Integer customerEnvelopesToPrintQuantity) {
+        this.customerEnvelopesToPrintQuantity = customerEnvelopesToPrintQuantity;
     }
 }

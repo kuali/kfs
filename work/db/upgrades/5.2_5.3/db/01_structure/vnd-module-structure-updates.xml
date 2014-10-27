@@ -20,7 +20,6 @@
   
 	<changeSet author="KFS53" id="KFSTP-1359_changes">
         <comment>KFSTP-1359 Add fields to capture foreign vendor data</comment>
-        
 
 		<createTable tableName="PUR_VNDR_CHAP_3_STAT_T">
 			<column name="VNDR_CHAP_3_STAT_CD" type="VARCHAR(2)">
@@ -71,7 +70,7 @@
 		</createTable>
 		
 		<createTable tableName="PUR_VNDR_W8_OWNRSHP_T">
-			<column name="VNDR_W8_OWNRSHP_ID" type="VARCHAR(2)">
+			<column name="ID" type="VARCHAR(2)">
 				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_W8_OWNRSHP_TP1" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)" >
@@ -102,9 +101,9 @@
         
         <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_W8_BEN_RCVD_IND" newColumnName="VNDR_W8_RCVD_IND" columnDataType="VARCHAR(1)"/>
         <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_TAX_NBR" newColumnName="VNDR_US_TAX_NBR" columnDataType="VARCHAR(1)"/>
-        
   
  	</changeSet>
+ 	
   	<changeSet author="KFS53" id="KFSTP-1359_PUR_VNDR_W8_OWNRSHP_ID_SEQ_oracle" dbms="oracle">
     	<createSequence sequenceName="PUR_VNDR_W8_OWNRSHP_ID_SEQ" startValue="1" />
     </changeSet>

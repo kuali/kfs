@@ -495,7 +495,7 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_INV_TRNS_MTHD_T">
-			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)">
+			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(6)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_TRNS_MTHD_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">

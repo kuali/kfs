@@ -340,4 +340,12 @@
 
     </changeSet>
     
+    <changeSet id="KFSTP-1353_TEM_KIM_FIX" author="KFS53">
+        <comment>Clarify role responsibility action which was shipped with CAB.</comment>
+        <update tableName="KRIM_ROLE_RSP_ACTN_T">
+        	<column name="ROLE_RSP_ID" value="*"/>
+        	<where>ROLE_RSP_ACTN_ID = 'KFS10697'</where>
+        </update>
+    </changeSet>
+    
 </databaseChangeLog>

@@ -64,8 +64,8 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
 
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-
-            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, award.getAwardBeginningDate());
+            Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
+            final SystemOptions systemOptions = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
 
             // 2. Get the Cumulative amount from GL Balances.
 

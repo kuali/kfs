@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -292,7 +293,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
 
                     headerReviewDetails.add(locReviewDtl);
-                    final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, award.getAwardBeginningDate());
+                    Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(award.getAwardBeginningDate());
+                    final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {

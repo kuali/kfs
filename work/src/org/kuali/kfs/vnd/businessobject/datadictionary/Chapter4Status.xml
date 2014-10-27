@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!--
+		Copyright 2007-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="Chapter4Status" parent="Chapter4Status-parentBean" />
+
+	<bean id="Chapter4Status-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.vnd.businessobject.Chapter4Status" />
+		<property name="inquiryDefinition">
+			<ref bean="Chapter4Status-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Chapter4Status-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="Chapter4StatusCode" />
+		<property name="objectLabel" value="Chapter 4 Status" />
+		<property name="attributes">
+			<list>
+				<ref bean="Chapter4Status-vendorChapter4StatusCode" />
+				<ref bean="Chapter4Status-vendorChapter4StatusDescription" />
+				<ref bean="Chapter4Status-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="Chapter4Status-vendorChapter4StatusCode"
+		parent="Chapter4Status-vendorChapter4StatusCode-parentBean" />
+
+	<bean id="Chapter4Status-vendorChapter4StatusCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorChapter4StatusCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Chapter 4 Status Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+	<bean id="Chapter4Status-vendorChapter4StatusDescription"
+		parent="Chapter4Status-vendorChapter4StatusDescription-parentBean" />
+
+	<bean id="Chapter4Status-vendorChapter4StatusDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorChapter4StatusDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Chapter 4 Status Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+	<bean id="Chapter4Status-active" parent="Chapter4Status-active-parentBean" />
+
+	<bean id="Chapter4Status-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="Chapter4Status-inquiryDefinition" parent="Chapter4Status-inquiryDefinition-parentBean" />
+
+	<bean id="Chapter4Status-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Chapter 4 Status Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="Chapter4Status-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Chapter4Status-inquirySectionDefinition"
+		parent="Chapter4Status-inquirySectionDefinition-parentBean" />
+	<bean id="Chapter4Status-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="Chapter4Status-lookupDefinition" parent="Chapter4Status-lookupDefinition-parentBean" />
+
+	<bean id="Chapter4Status-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Chapter 4 Status Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorChapter4StatusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

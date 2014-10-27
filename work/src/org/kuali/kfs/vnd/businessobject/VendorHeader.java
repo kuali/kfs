@@ -53,9 +53,22 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     private Boolean vendorDebarredIndicator;
     private Boolean vendorForeignIndicator;
 
+    private String vendorW8TypeCode;
+    private Date vendorW8SignedDate;
+    private Date vendorW9SignedDate;
+    private String vendorCorpCitizenCode;
+    private String vendorForeignTaxId;
+    private String vendorGIIN;
+    private Date vendorDOB;
+    private String vendorChapter3StatusCode;
+    private String vendorChapter4StatusCode;
+
     private VendorType vendorType;
     private OwnershipType vendorOwnership;
     private OwnershipCategory vendorOwnershipCategory;
+    private W8Type w8Type;
+    private Chapter3Status chapter3Status;
+    private Chapter4Status chapter4Status;
     private List<VendorSupplierDiversity> vendorSupplierDiversities;
     private List<VendorTaxChange> vendorTaxChanges;
 
@@ -242,6 +255,235 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     public void setVendorSupplierDiversities(List<VendorSupplierDiversity> vendorSupplierDiversities) {
         this.vendorSupplierDiversities = vendorSupplierDiversities;
+    }
+
+    /**
+     * Gets the vendorW8SignedDate attribute.
+     *
+     * @return Returns the vendorW8SignedDate
+     */
+
+    public Date getVendorW8SignedDate() {
+        return vendorW8SignedDate;
+    }
+
+    /**
+     * Sets the vendorW8SignedDate attribute.
+     *
+     * @param vendorW8SignedDate The vendorW8SignedDate to set.
+     */
+    public void setVendorW8SignedDate(Date vendorW8SignedDate) {
+        this.vendorW8SignedDate = vendorW8SignedDate;
+    }
+
+    /**
+     * Gets the vendorW9SignedDate attribute.
+     *
+     * @return Returns the vendorW9SignedDate
+     */
+
+    public Date getVendorW9SignedDate() {
+        return vendorW9SignedDate;
+    }
+
+    /**
+     * Sets the vendorW9SignedDate attribute.
+     *
+     * @param vendorW9SignedDate The vendorW9SignedDate to set.
+     */
+    public void setVendorW9SignedDate(Date vendorW9SignedDate) {
+        this.vendorW9SignedDate = vendorW9SignedDate;
+    }
+
+    /**
+     * Gets the vendorCorpCitizenCode attribute.
+     *
+     * @return Returns the vendorCorpCitizenCode
+     */
+
+
+    public String getVendorCorpCitizenCode() {
+        return vendorCorpCitizenCode;
+    }
+
+    /**
+     * Gets the vendorW8TypeCode attribute.
+     *
+     * @return Returns the vendorW8TypeCode
+     */
+
+    public String getVendorW8TypeCode() {
+        return vendorW8TypeCode;
+    }
+
+    /**
+     * Sets the vendorW8TypeCode attribute.
+     *
+     * @param vendorW8TypeCode The vendorW8TypeCode to set.
+     */
+    public void setVendorW8TypeCode(String vendorW8TypeCode) {
+        this.vendorW8TypeCode = vendorW8TypeCode;
+    }
+
+    /**
+     * Sets the vendorCorpCitizenCode attribute.
+     *
+     * @param vendorCorpCitizenCode The vendorCorpCitizenCode to set.
+     */
+    public void setVendorCorpCitizenCode(String vendorCorpCitizenCode) {
+        this.vendorCorpCitizenCode = vendorCorpCitizenCode;
+    }
+
+    /**
+     * Gets the vendorForeignTaxId attribute.
+     *
+     * @return Returns the vendorForeignTaxId
+     */
+
+    public String getVendorForeignTaxId() {
+        return vendorForeignTaxId;
+    }
+
+    /**
+     * Sets the vendorForeignTaxId attribute.
+     *
+     * @param vendorForeignTaxId The vendorForeignTaxId to set.
+     */
+    public void setVendorForeignTaxId(String vendorForeignTaxId) {
+        this.vendorForeignTaxId = vendorForeignTaxId;
+    }
+
+    /**
+     * Gets the vendorGIIN attribute.
+     *
+     * @return Returns the vendorGIIN
+     */
+
+    public String getVendorGIIN() {
+        return vendorGIIN;
+    }
+
+    /**
+     * Sets the vendorGIIN attribute.
+     *
+     * @param vendorGIIN The vendorGIIN to set.
+     */
+    public void setVendorGIIN(String vendorGIIN) {
+        this.vendorGIIN = vendorGIIN;
+    }
+
+    /**
+     * Gets the vendorDOB attribute.
+     *
+     * @return Returns the vendorDOB
+     */
+
+    public Date getVendorDOB() {
+        return vendorDOB;
+    }
+
+    /**
+     * Sets the vendorDOB attribute.
+     *
+     * @param vendorDOB The vendorDOB to set.
+     */
+    public void setVendorDOB(Date vendorDOB) {
+        this.vendorDOB = vendorDOB;
+    }
+
+    /**
+     * Gets the vendorChapter3StatusCode attribute.
+     *
+     * @return Returns the vendorChapter3StatusCode
+     */
+
+    public String getVendorChapter3StatusCode() {
+        return vendorChapter3StatusCode;
+    }
+
+    /**
+     * Sets the vendorChapter3StatusCode attribute.
+     *
+     * @param vendorChapter3StatusCode The vendorChapter3StatusCode to set.
+     */
+    public void setVendorChapter3StatusCode(String vendorChapter3StatusCode) {
+        this.vendorChapter3StatusCode = vendorChapter3StatusCode;
+    }
+
+    /**
+     * Gets the vendorChapter4StatusCode attribute.
+     *
+     * @return Returns the vendorChapter4StatusCode
+     */
+
+    public String getVendorChapter4StatusCode() {
+        return vendorChapter4StatusCode;
+    }
+
+    /**
+     * Sets the vendorChapter4StatusCode attribute.
+     *
+     * @param vendorChapter4StatusCode The vendorChapter4StatusCode to set.
+     */
+    public void setVendorChapter4StatusCode(String vendorChapter4StatusCode) {
+        this.vendorChapter4StatusCode = vendorChapter4StatusCode;
+    }
+
+    /**
+     * Gets the w8Type attribute.
+     *
+     * @return Returns the w8Type
+     */
+
+    public W8Type getW8Type() {
+        return w8Type;
+    }
+
+    /**
+     * Sets the w8Type attribute.
+     *
+     * @param w8Type The w8Type to set.
+     */
+    public void setW8Type(W8Type w8Type) {
+        this.w8Type = w8Type;
+    }
+
+    /**
+     * Gets the chapter3Status attribute.
+     *
+     * @return Returns the chapter3Status
+     */
+
+    public Chapter3Status getChapter3Status() {
+        return chapter3Status;
+    }
+
+    /**
+     * Sets the chapter3Status attribute.
+     *
+     * @param chapter3Status The chapter3Status to set.
+     */
+    public void setChapter3Status(Chapter3Status chapter3Status) {
+        this.chapter3Status = chapter3Status;
+    }
+
+    /**
+     * Gets the chapter4Status attribute.
+     *
+     * @return Returns the chapter4Status
+     */
+
+    public Chapter4Status getChapter4Status() {
+        return chapter4Status;
+    }
+
+    /**
+     * Sets the chapter4Status attribute.
+     *
+     * @param chapter4Status The chapter4Status to set.
+     */
+    public void setChapter4Status(Chapter4Status chapter4Status) {
+        this.chapter4Status = chapter4Status;
     }
 
     /**

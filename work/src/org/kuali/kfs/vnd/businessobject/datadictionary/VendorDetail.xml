@@ -75,16 +75,23 @@
 				<ref bean="VendorDetail-vendorHeader.vendorOwnershipCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorOwnershipCategoryCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorW9ReceivedIndicator" />
-				<ref bean="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator" />
+				<ref bean="VendorDetail-vendorHeader.vendorW9SignedDate" />
+				<ref bean="VendorDetail-vendorHeader.vendorW8ReceivedIndicator" />
+				<ref bean="VendorDetail-vendorHeader.vendorW8SignedDate" />
+				<ref bean="VendorDetail-vendorHeader.vendorW8TypeCode"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorCorpCitizenCode"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorGIIN"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorForeignTaxId"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorDOB"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorChapter3StatusCode"/>
+        		<ref bean="VendorDetail-vendorHeader.vendorChapter4StatusCode"/>
 				<ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate" />
 				<ref bean="VendorDetail-vendorHeader.vendorDebarredIndicator" />
 				<ref bean="VendorDetail-vendorHeader.vendorForeignIndicator" />
 				<ref bean="VendorDetail-vendorHeader.vendorTypeCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorSupplierDiversitiesAsString" />
-				<ref
-					bean="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
-				<ref
-					bean="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" />
+				<ref bean="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+				<ref bean="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" />
 				<ref bean="VendorDetail-vendorAliases.vendorAliasName" />
 				<ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode" />
 				<ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber" />
@@ -567,6 +574,7 @@
 		abstract="true" parent="VendorHeader-vendorOwnershipCategoryCode">
 		<property name="name" value="vendorHeader.vendorOwnershipCategoryCode" />
 	</bean>
+	
 	<bean id="VendorDetail-vendorHeader.vendorW9ReceivedIndicator"
 		parent="VendorDetail-vendorHeader.vendorW9ReceivedIndicator-parentBean" />
 
@@ -574,14 +582,87 @@
 		abstract="true" parent="VendorHeader-vendorW9ReceivedIndicator">
 		<property name="name" value="vendorHeader.vendorW9ReceivedIndicator" />
 	</bean>
-	<bean id="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator"
-		parent="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator-parentBean" />
+	
+	<bean id="VendorDetail-vendorHeader.vendorW9SignedDate"
+		parent="VendorDetail-vendorHeader.vendorW9SignedDate-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorW9SignedDate-parentBean"
+		abstract="true" parent="VendorHeader-vendorW9SignedDate">
+		<property name="name" value="vendorHeader.vendorW9SignedDate" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorW8ReceivedIndicator"
+		parent="VendorDetail-vendorHeader.vendorW8ReceivedIndicator-parentBean" />
 
 	<bean
-		id="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator-parentBean"
-		abstract="true" parent="VendorHeader-vendorW8BenReceivedIndicator">
+		id="VendorDetail-vendorHeader.vendorW8ReceivedIndicator-parentBean"
+		abstract="true" parent="VendorHeader-vendorW8ReceivedIndicator">
 		<property name="name" value="vendorHeader.vendorW8BenReceivedIndicator" />
 	</bean>
+	<bean id="VendorDetail-vendorHeader.vendorW8SignedDate"
+		parent="VendorDetail-vendorHeader.vendorW8SignedDate-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorW8SignedDate-parentBean"
+		abstract="true" parent="VendorHeader-vendorW8SignedDate">
+		<property name="name" value="vendorHeader.vendorW8SignedDate" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorW8TypeCode"
+		parent="VendorDetail-vendorHeader.vendorW8TypeCode-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorW8TypeCode-parentBean"
+		abstract="true" parent="VendorHeader-vendorW8TypeCode">
+		<property name="name" value="vendorHeader.vendorW8TypeCode" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorCorpCitizenCode"
+		parent="VendorDetail-vendorHeader.vendorCorpCitizenCode-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorCorpCitizenCode-parentBean"
+		abstract="true" parent="VendorHeader-vendorCorpCitizenCode">
+		<property name="name" value="vendorHeader.vendorCorpCitizenCode" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorGIIN"
+		parent="VendorDetail-vendorHeader.vendorGIIN-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorGIIN-parentBean"
+		abstract="true" parent="VendorHeader-vendorGIIN">
+		<property name="name" value="vendorHeader.vendorGIIN" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorForeignTaxId"
+		parent="VendorDetail-vendorHeader.vendorForeignTaxId-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorForeignTaxId-parentBean"
+		abstract="true" parent="VendorHeader-vendorForeignTaxId">
+		<property name="name" value="vendorHeader.vendorForeignTaxId" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorDOB"
+		parent="VendorDetail-vendorHeader.vendorDOB-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorDOB-parentBean"
+		abstract="true" parent="VendorHeader-vendorDOB">
+		<property name="name" value="vendorHeader.vendorDOB" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorChapter3StatusCode"
+		parent="VendorDetail-vendorHeader.vendorChapter3StatusCode-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorChapter3StatusCode-parentBean"
+		abstract="true" parent="VendorHeader-vendorChapter3StatusCode">
+		<property name="name" value="vendorHeader.vendorChapter3StatusCode" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorHeader.vendorChapter4StatusCode"
+		parent="VendorDetail-vendorHeader.vendorChapter4StatusCode-parentBean" />
+
+	<bean id="VendorDetail-vendorHeader.vendorChapter4StatusCode-parentBean"
+		abstract="true" parent="VendorHeader-vendorChapter4StatusCode">
+		<property name="name" value="vendorHeader.vendorChapter4StatusCode" />
+	</bean>
+	
 	<bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate"
 		parent="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate-parentBean" />
 

@@ -84,7 +84,16 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCategoryCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW9ReceivedIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW9SignedDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW8BenReceivedIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW8SignedDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW8TypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorCorpCitizenCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorGIIN"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignTaxId"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorDOB"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorChapter3StatusCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorChapter4StatusCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorFederalWithholdingTaxBeginningDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorFederalWithholdingTaxEndDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorDebarredIndicator"/>

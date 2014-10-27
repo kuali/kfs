@@ -236,9 +236,9 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Exiting getVendorDefaultAddress.");
         return getVendorDefaultAddress(addresses, addressType, campus,true);
     }
-    
-    
-    
+
+
+
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String, boolean)
      */
@@ -256,8 +256,8 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Exiting getVendorDefaultAddress.");
         return getVendorDefaultAddress(addresses, addressType, campus,activeCheck);
     }
-    
-    
+
+
    /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(java.util.Collection, java.lang.String, java.lang.String)
      */
@@ -266,7 +266,7 @@ public class VendorServiceImpl implements VendorService {
        return getVendorDefaultAddress(addresses, addressType, campus,true);
     }
 
-   
+
    /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
      */
@@ -287,12 +287,12 @@ public class VendorServiceImpl implements VendorService {
                                if(activeCheck){
                                     if(address.isActive() && address.isVendorDefaultAddressIndicator()){
                                        return address;
-                                    }   
+                                    }
                                }else{
                                    return address;
                                }
                        }
-                  
+
                     }//end inner for loop
                 }
 
@@ -300,7 +300,7 @@ public class VendorServiceImpl implements VendorService {
                     allDefaultAddress = address;
                 }
             }
-            
+
         }//end outer for loop
         LOG.debug("Exiting getVendorDefaultAddress with default set for all.");
         return allDefaultAddress;
@@ -410,6 +410,7 @@ public class VendorServiceImpl implements VendorService {
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
         }
+       // vendorToUse.refreshReferenceObject("vendorHeader");
         if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {

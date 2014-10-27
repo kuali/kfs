@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -102,6 +103,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected transient DocumentService docService;
     protected transient NonAppliedHoldingService nonAppliedHoldingService;
     protected transient BusinessObjectService boService;
+    private static volatile transient AccountsReceivablePendingEntryService accountsReceivablePendingEntryService;
 
     // used for non-cash-control payapps
     protected ArrayList<NonAppliedHolding> nonAppliedHoldingsForCustomer; // control docs for non-cash-control payapps
@@ -848,7 +850,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             Account billingOrganizationAccount = ipa.getInvoiceDetail().getAccount();
             ObjectCode invoiceObjectCode = getInvoiceReceivableObjectCode(ipa);
             ObjectUtils.isNull(invoiceObjectCode); // Refresh
-            ObjectCode accountsReceivableObjectCode = ipa.getAccountsReceivableObjectCode();
+            ObjectCode accountsReceivableObjectCode = getAccountsReceivablePendingEntryService().getAccountsReceivableObjectCode(ipa);
             ObjectCode unappliedCashObjectCode = ipa.getSystemInformation().getUniversityClearingObject();
 
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
@@ -1557,4 +1559,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
+    public static AccountsReceivablePendingEntryService getAccountsReceivablePendingEntryService() {
+        if (accountsReceivablePendingEntryService == null) {
+            accountsReceivablePendingEntryService = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
+        }
+        return accountsReceivablePendingEntryService;
+    }
 }

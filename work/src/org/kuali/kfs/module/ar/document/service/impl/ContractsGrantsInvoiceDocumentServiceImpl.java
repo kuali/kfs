@@ -67,8 +67,8 @@ import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategory;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.PdfFormattingMap;
@@ -117,6 +117,7 @@ import com.lowagie.text.DocumentException;
 public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrantsInvoiceDocumentService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocumentServiceImpl.class);
 
+    protected AccountsReceivablePendingEntryService accountsReceivablePendingEntryService;
     protected AccountService accountService;
     protected AttachmentService attachmentService;
     protected BusinessObjectService businessObjectService;
@@ -124,7 +125,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
@@ -332,7 +332,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
         // To get AR Object codes for the GLPEs .... as it is not being called implicitly..
 
-        cid.setAccountsReceivableObjectCode(customerInvoiceDetailService.getAccountsReceivableObjectCodeBasedOnReceivableParameter(cid));
+        cid.setAccountsReceivableObjectCode(getAccountsReceivablePendingEntryService().getAccountsReceivableObjectCode(cid));
         return cid;
     }
 
@@ -2016,14 +2016,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         this.personService = personService;
     }
 
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
-    }
-
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -2031,6 +2023,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
+    public AccountsReceivablePendingEntryService getAccountsReceivablePendingEntryService() {
+        return accountsReceivablePendingEntryService;
+    }
+
+    public void setAccountsReceivablePendingEntryService(AccountsReceivablePendingEntryService accountsReceivablePendingEntryService) {
+        this.accountsReceivablePendingEntryService = accountsReceivablePendingEntryService;
+    }
+    
     public OptionsService getOptionsService() {
         return optionsService;
     }

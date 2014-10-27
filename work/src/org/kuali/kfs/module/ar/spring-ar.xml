@@ -120,6 +120,9 @@
 
     <bean id="accountsReceivableModuleService" parent="accountsReceivableModuleService-parentBean"/>
     <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true">
+		<property name="accountsReceivablePendingEntryService">
+			<ref bean="accountsReceivablePendingEntryService" />
+		</property>
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
@@ -387,6 +390,9 @@
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
 	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
+		<property name="accountsReceivablePendingEntryService">
+			<ref bean="accountsReceivablePendingEntryService" />
+		</property>
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -410,9 +416,6 @@
 		</property>
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
-		</property>
-		<property name="customerInvoiceDetailService">
-			<ref bean="customerInvoiceDetailService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
@@ -865,6 +868,8 @@
 	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
 	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+		<property name="collectionActivityDocumentService" ref="collectionActivityDocumentService"/>
+		<property name="customerService" ref="customerService"/>
 	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1177,6 +1182,9 @@
 	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean" />
 
 	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl" abstract="true">
+		<property name="accountsReceivablePendingEntryService">
+			<ref bean="accountsReceivablePendingEntryService" />
+		</property>
 		<property name="accountsReceivableTaxService">
 			<ref bean="accountsReceivableTaxService" />
 		</property>
@@ -1412,10 +1420,13 @@
 		</property>
 	</bean>
 
-	<bean id="customerInvoiceGLPEService"  parent="customerInvoiceGLPEService-parentBean"/>
-	<bean id="customerInvoiceGLPEService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl" abstract="true">
+	<bean id="accountsReceivablePendingEntryService"  parent="accountsReceivablePendingEntryService-parentBean"/>
+	<bean id="accountsReceivablePendingEntryService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivablePendingEntryServiceImpl" abstract="true">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 	</bean>
 

@@ -125,14 +125,6 @@ public interface CustomerInvoiceDetailService {
     public void updateAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail);
 
     /**
-     * This method returns the correct accounts receivable object code based on a receivable parameter.
-     *
-     * @param customerInvoiceDetail
-     * @return
-     */
-    public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail);
-
-    /**
      * This method is used to make sure the amounts are calculated correctly and the correct AR object code is in place
      *
      * @param customerInvoiceDetail

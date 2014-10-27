@@ -32,10 +32,10 @@ import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerCreditMemoDetail
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -59,7 +59,6 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling, AccountsReceivableCustomerCreditMemo {
-
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
 
     protected String statusCode;
@@ -604,7 +603,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, this.getInvoice());
         boolean isDebit = false;
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
 
@@ -621,7 +620,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;
         boolean isDebit = true;
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
 
@@ -642,7 +641,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
 
         List<TaxDetail> salesTaxDetails = getTaxService().getSalesTaxDetails(dateOfTransaction, postalCode, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         SalesTaxCustomerCreditMemoDetail salesTaxCustomerCreditMemoDetail;
         ReceivableCustomerCreditMemoDetail receivableCustomerCreditMemoDetail;
         for( TaxDetail salesTaxDetail : salesTaxDetails ){

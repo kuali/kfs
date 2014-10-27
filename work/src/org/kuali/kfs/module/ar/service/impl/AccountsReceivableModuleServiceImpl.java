@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
@@ -81,6 +82,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
 
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected AccountsReceivablePendingEntryService accountsReceivablePendingEntryService;
     protected BusinessObjectService businessObjectService;
     protected CustomerCreditMemoDetailService customerCreditMemoDetailService;
     protected CustomerDocumentService customerDocumentService;
@@ -521,7 +523,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail) {
-        return customerInvoiceDetailService.getAccountsReceivableObjectCodeBasedOnReceivableParameter((CustomerInvoiceDetail) customerInvoiceDetail);
+        return getAccountsReceivablePendingEntryService().getAccountsReceivableObjectCode((CustomerInvoiceDetail) customerInvoiceDetail);
     }
 
     /**
@@ -688,5 +690,13 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     public void setElectronicPaymentClaimingDocumentGenerationStrategy(ElectronicPaymentClaimingDocumentGenerationStrategy electronicPaymentClaimingDocumentGenerationStrategy) {
         this.electronicPaymentClaimingDocumentGenerationStrategy = electronicPaymentClaimingDocumentGenerationStrategy;
+    }
+
+    public AccountsReceivablePendingEntryService getAccountsReceivablePendingEntryService() {
+        return accountsReceivablePendingEntryService;
+    }
+
+    public void setAccountsReceivablePendingEntryService(AccountsReceivablePendingEntryService accountsReceivablePendingEntryService) {
+        this.accountsReceivablePendingEntryService = accountsReceivablePendingEntryService;
     }
 }

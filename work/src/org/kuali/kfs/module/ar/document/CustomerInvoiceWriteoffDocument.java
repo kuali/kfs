@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -388,7 +388,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, getCustomerInvoiceDocument());
         boolean isDebit = false;
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
     }
 
@@ -406,7 +406,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         WriteoffCustomerInvoiceDetail writeoffCustomerInvoiceDetail = new WriteoffCustomerInvoiceDetail(customerInvoiceDetail, this);
         boolean isDebit = true;
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
     }
 
@@ -422,7 +422,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
         List<TaxDetail> salesTaxDetails = SpringContext.getBean(TaxService.class).getSalesTaxDetails(dateOfTransaction, postalCode, amount);
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         SalesTaxCustomerInvoiceDetail salesTaxCustomerInvoiceDetail;
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail;
         WriteoffTaxCustomerInvoiceDetail writeoffTaxCustomerInvoiceDetail;

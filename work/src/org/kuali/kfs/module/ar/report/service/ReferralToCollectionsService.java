@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 
 /**
  * Methods to help Referral to Collections reports and document
@@ -31,4 +32,11 @@ public interface ReferralToCollectionsService {
      * @return Returns the list of ROC lookup result object.
      */
     public Collection<ReferralToCollectionsLookupResult> getPopulatedReferralToCollectionsLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices);
+
+    /**
+     * Populates fields and detail lines on the Referral to Collections document with the given invoices
+     * @param rcDoc the Referral to Collections document to populate
+     * @param invoices the invoices to populate the Referral to Collections document with
+     */
+    public void populateReferralToCollectionsDocumentWithInvoices(ReferralToCollectionsDocument rcDoc, Collection<ContractsGrantsInvoiceDocument> invoices);
 }

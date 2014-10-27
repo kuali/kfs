@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public enum CustomerInvoiceDocumentFixture {
-    
+
     BASE_CIDOC_NO_CUSTOMER(null, // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
@@ -42,8 +42,8 @@ public enum CustomerInvoiceDocumentFixture {
             null, // paymentFinancialObjectCode
             null, // paymentSubObjectCode
             null, // paymentProjectCode
-            null, // financialDocumentHeader 
-            null, 
+            null, // financialDocumentHeader
+            null,
             null, //billByChartOfAccountsCode
             null //billedByOrganizationCode
     ),
@@ -58,7 +58,7 @@ public enum CustomerInvoiceDocumentFixture {
             null, // paymentSubObjectCode
             null, // paymentProjectCode
             null, null, null, null),
-            
+
     BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
@@ -68,11 +68,11 @@ public enum CustomerInvoiceDocumentFixture {
             null, // paymentFinancialObjectCode
             null, // paymentSubObjectCode
             null, // paymentProjectCode
-            null, // financialDocumentHeader 
-            null, 
+            null, // financialDocumentHeader
+            null,
             "UA", //billByChartOfAccountsCode
             "VPIT" //billedByOrganizationCode
-    ),            
+    ),
 
     REVERSAL_CIDOC("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
@@ -96,7 +96,7 @@ public enum CustomerInvoiceDocumentFixture {
             null, // paymentProjectCode
             "FAU" // FAU
             , null, null, null);
-    
+
     public String customerNumber;
     public String processingChartOfAccountsCode;
     public String processingOrganizationCode;
@@ -110,7 +110,7 @@ public enum CustomerInvoiceDocumentFixture {
     public String financialDocumentInErrorNumber;
     public String billByChartOfAccountsCode;
     public String billedByOrganizationCode;
-    
+
     private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumber, String billByChartOfAccountsCode, String billedByOrganizationCode ){
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
@@ -126,45 +126,45 @@ public enum CustomerInvoiceDocumentFixture {
         this.billByChartOfAccountsCode = billByChartOfAccountsCode;
         this.billedByOrganizationCode = billedByOrganizationCode;
     }
-    
+
     /**
      * This method creates a customer invoice document based on the passed in customer fixture and customer invoice detail fixture array
-     * 
+     *
      * @param customerFixture
      * @param customerInvoiceDetailFixtures
      * @return
      */
     public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerFixture customerFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures) throws WorkflowException {
-    
+
         CustomerInvoiceDocument customerInvoiceDocument = createCustomerInvoiceDocument( customerInvoiceDetailFixtures );
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerFixture.customerNumber);
         return customerInvoiceDocument;
     }
-    
-    
+
+
     /**
      * This method creates a customer invoice document based on the passed in customer fixture and customer invoice detail fixture array
-     * 
+     *
      * @param customerInvoiceDetailFixtures
      * @return
      */
     public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures) throws WorkflowException {
-        
+
         CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
-            customerInvoiceDocument = (CustomerInvoiceDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerInvoiceDocument.class);
+            customerInvoiceDocument = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerInvoiceDocument.class);
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");
         }
-        
+
         // Just verify the workflow pieces
         DocumentHeader documentHeader = customerInvoiceDocument.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
-        
+
         //probably should change this to use values set in fixture
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
-        
+
         customerInvoiceDocument.setPaymentChartOfAccountsCode(paymentChartOfAccountsCode);
         customerInvoiceDocument.setPaymentAccountNumber(paymentAccountNumber);
         customerInvoiceDocument.setPaymentSubAccountNumber(paymentSubAccountNumber);
@@ -179,15 +179,15 @@ public enum CustomerInvoiceDocumentFixture {
         if( StringUtils.isNotEmpty(billedByOrganizationCode)){
             customerInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
         }
-        
-        //  this is a little hacky, as some of these dont even have a customer attached, 
+
+        //  this is a little hacky, as some of these dont even have a customer attached,
         // but these are required fields now
         //customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
         //customerInvoiceDocument.setCustomerShipToAddressIdentifier(1);
 
         //set AR doc Header
         AccountsReceivableDocumentHeader arDocHeader = null;
-        
+
         if(ObjectUtils.isNull(customerInvoiceDocument.getAccountsReceivableDocumentHeader())) {
             arDocHeader = new AccountsReceivableDocumentHeader();
             customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
@@ -199,10 +199,10 @@ public enum CustomerInvoiceDocumentFixture {
         arDocHeader.setProcessingOrganizationCode( processingOrganizationCode );
         arDocHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         //customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
-        
+
         // refresh to set the Customer on the arDocHeader so setaddressoninvoice doesn't throw an NPE
         arDocHeader.refresh();
-        
+
         CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
         CustomerAddress customerShipToAddress = customerAddressService.getPrimaryAddress(customerNumber);
         CustomerAddress customerBillToAddress = customerShipToAddress;
@@ -210,27 +210,27 @@ public enum CustomerInvoiceDocumentFixture {
             customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
             customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
             customerInvoiceDocument.setCustomerShipToAddressIdentifier(customerShipToAddress.getCustomerAddressIdentifier());
-            
+
             customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
             customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
             customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
         }
-        
-        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        
+
+        AccountsReceivablePendingEntryService accountsReceivablePendingEntryService = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
+
         //associated customer invoice detail fixtures with invoice document
         if ( customerInvoiceDetailFixtures != null ){
             for (CustomerInvoiceDetailFixture customerInvoiceDetailFixture : customerInvoiceDetailFixtures) {
                 CustomerInvoiceDetail detail = customerInvoiceDetailFixture.addTo(customerInvoiceDocument);
                 // FIXME Set the accountsReceivableObjectCode
-                String accountsReceivableObjectCode = customerInvoiceDetailService.getAccountsReceivableObjectCodeBasedOnReceivableParameter(detail);
+                String accountsReceivableObjectCode = accountsReceivablePendingEntryService.getAccountsReceivableObjectCode(detail);
                 detail.setAccountsReceivableObjectCode(accountsReceivableObjectCode);
             }
         }
-        
+
         //customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
         //customerInvoiceDocument.getPaymentFinancialObject().refresh();
-        
+
         SpringContext.getBean(DocumentService.class).saveDocument(customerInvoiceDocument);
         customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(customerInvoiceDocument.getDocumentNumber());
         return customerInvoiceDocument;

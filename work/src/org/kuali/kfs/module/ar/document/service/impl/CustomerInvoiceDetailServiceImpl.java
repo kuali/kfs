@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
@@ -48,7 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailService {
-
+    protected AccountsReceivablePendingEntryService accountsReceivablePendingEntryService;
     protected DateTimeService dateTimeService;
     protected UniversityDateService universityDateService;
     protected BusinessObjectService businessObjectService;
@@ -300,54 +301,12 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
     }
 
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getFinancialObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
-     *
-    public String getFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail) {
-        // this implementation directly returns the FinancialObjectCode contained in the ref obj
-        // customerInvoiceDetail in the customerCreditMemoDetail
-        return customerCreditMemoDetail.getCustomerInvoiceDetail().getFinancialObjectCode();
-    }
-    */
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateFinancialObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
-     *
-    public void updateFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail) {
-        // this implementation directly returns without changing FinancialObjectCode contained in the ref obj customerInvoiceDetail
-        return;
-    }
-    */
-
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     @Override
     public void updateAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
-        customerInvoiceDetail.setAccountsReceivableObjectCode(getAccountsReceivableObjectCodeBasedOnReceivableParameter(customerInvoiceDetail));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    @Override
-    public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail) {
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        String accountsReceivableObjectCode = null;
-        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(receivableOffsetOption)) {
-            if (StringUtils.isNotEmpty(customerInvoiceDetail.getChartOfAccountsCode())) {
-                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
-                accountsReceivableObjectCode = customerInvoiceDetail.getChart().getFinAccountsReceivableObj().getFinancialObjectCode();
-            }
-        }
-        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(receivableOffsetOption)) {
-            if (StringUtils.isNotEmpty(customerInvoiceDetail.getAccountNumber())) {
-                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                accountsReceivableObjectCode = parameterService.getSubParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
-            }
-        }
-        return accountsReceivableObjectCode;
+        customerInvoiceDetail.setAccountsReceivableObjectCode(getAccountsReceivablePendingEntryService().getAccountsReceivableObjectCode(customerInvoiceDetail));
     }
 
     /**
@@ -359,18 +318,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
         updateAccountsReceivableObjectCode(customerInvoiceDetail);
     }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForErrorCorrection(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     *
-    public void prepareCustomerInvoiceDetailForErrorCorrection(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
-        // negate unit price
-        customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
-
-        //clear the old CustomerInvoiceDocument
-        customerInvoiceDetail.setCustomerInvoiceDocument(null);
-    }
-    */
 
     public DateTimeService getDateTimeService() {
         return dateTimeService;
@@ -438,5 +385,13 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
+    }
+
+    public AccountsReceivablePendingEntryService getAccountsReceivablePendingEntryService() {
+        return accountsReceivablePendingEntryService;
+    }
+
+    public void setAccountsReceivablePendingEntryService(AccountsReceivablePendingEntryService accountsReceivablePendingEntryService) {
+        this.accountsReceivablePendingEntryService = accountsReceivablePendingEntryService;
     }
 }

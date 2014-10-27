@@ -53,7 +53,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -1020,7 +1020,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, this);
         boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
     }
 
@@ -1037,7 +1037,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
 
     }
@@ -1059,7 +1059,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
         List<TaxDetail> salesTaxDetails = SpringContext.getBean(TaxService.class).getSalesTaxDetails(dateOfTransaction, postalCode, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
 
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
         SalesTaxCustomerInvoiceDetail salesTaxCustomerInvoiceDetail;
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail;
         for (TaxDetail salesTaxDetail : salesTaxDetails) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,28 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEService {
+public class AccountsReceivablePendingEntryServiceImpl implements AccountsReceivablePendingEntryService {
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected ParameterService parameterService;
 
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    
     /**
      * This method creates and adds generic invoice related GLPE's
      * @param glpeSource
@@ -37,26 +46,26 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
      * @param hasClaimOnCashOffset
      * @param amount
      */
+    @Override
     public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount){
-        
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(glpeSource, glpeSourceDetail, sequenceHelper, explicitEntry);
         explicitEntry.setTransactionLedgerEntryAmount(amount.abs());
         explicitEntry.setTransactionDebitCreditCode(isDebit? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        
+
         //add explicit entry
         glpeSource.addPendingEntry(explicitEntry);
-        
+
         //add claim on cash offset entry
         if( hasClaimOnCashOffset ){
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
             generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(glpeSource.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
             glpeSource.addPendingEntry(offsetEntry);
         }
     }
-    
+
     /**
      * This method creates and adds generic invoice related GLPE's
      * @param glpeSource
@@ -67,27 +76,29 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
      * @param writeoffTaxGenerationMethodDisallowFlag
      * @param amount
      */
+    @Override
     public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasReceivableClaimOnCashOffset, boolean writeoffTaxGenerationMethodDisallowFlag, KualiDecimal amount){
-        
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(glpeSource, glpeSourceDetail, sequenceHelper, explicitEntry);
         explicitEntry.setTransactionLedgerEntryAmount(amount.abs());
         explicitEntry.setTransactionDebitCreditCode(isDebit? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        
+
         boolean overrideFinancialObjectCodeFlag = isDebit && writeoffTaxGenerationMethodDisallowFlag  && !hasReceivableClaimOnCashOffset;
-        
-        if (!overrideFinancialObjectCodeFlag)
+
+        if (!overrideFinancialObjectCodeFlag) {
             //add explicit entry
             glpeSource.addPendingEntry(explicitEntry);
-        
+        }
+
         // do not add claim on cash offset entry if GLPLE_RECEIVABLE_OFFSET_METHOD = 3 && GLPLE_WRITEOFF_TAX_GENERATION_METHOD = D
-        if (hasReceivableClaimOnCashOffset && writeoffTaxGenerationMethodDisallowFlag )
+        if (hasReceivableClaimOnCashOffset && writeoffTaxGenerationMethodDisallowFlag ) {
             return;
-        
+        }
+
         //add claim on cash offset entry
         if( hasReceivableClaimOnCashOffset || writeoffTaxGenerationMethodDisallowFlag ){
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
             generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(glpeSource.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
             if (overrideFinancialObjectCodeFlag) {
@@ -99,16 +110,72 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
             glpeSource.addPendingEntry(offsetEntry);
         }
     }
-       
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService#getAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied)
+     */
+    @Override
+    public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied invoicePaidApplied) {
+        // make sure its all re-connected with child objects
+        invoicePaidApplied.getInvoiceDetail().refresh();
+        invoicePaidApplied.getInvoiceDetail().refreshNonUpdateableReferences();
+
+        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, parameterName);
+
+        ObjectCode objectCode = null;
+        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(parameterValue) || ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(parameterValue)) {
+            invoicePaidApplied.getInvoiceDetail().refreshReferenceObject("objectCode");
+            objectCode = invoicePaidApplied.getInvoiceDetail().getObjectCode();
+        }
+        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(parameterValue)) {
+            CustomerInvoiceDocument customerInvoiceDocument = invoicePaidApplied.getInvoiceDetail().getCustomerInvoiceDocument();
+            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
+            objectCode = invoicePaidApplied.getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();
+        }
+        else {
+            throw new RuntimeException("No AR ObjectCode was available for this InvoicePaidApplied, which should never happen.");
+        }
+
+        return objectCode;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
+     */
+    @Override
+    public String getAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
+        String receivableOffsetOption = getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String accountsReceivableObjectCode = null;
+        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(receivableOffsetOption)) {
+            if (StringUtils.isNotEmpty(customerInvoiceDetail.getChartOfAccountsCode())) {
+                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
+                accountsReceivableObjectCode = customerInvoiceDetail.getChart().getFinAccountsReceivableObj().getFinancialObjectCode();
+            }
+        }
+        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(receivableOffsetOption)) {
+            if (StringUtils.isNotEmpty(customerInvoiceDetail.getAccountNumber())) {
+                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+                accountsReceivableObjectCode = getParameterService().getSubParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
+            }
+        }
+        return accountsReceivableObjectCode;
+    }
+
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return generalLedgerPendingEntryService;
     }
-
 
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
 
-    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

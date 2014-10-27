@@ -20,15 +20,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.DocumentService;
@@ -110,33 +107,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
             throw new RuntimeException("WorkflowException thrown when trying to retrieve Invoice document [" + getFinancialDocumentReferenceInvoiceNumber() + "]", e);
         }
         return customerInvoiceDocument;
-    }
-
-    public ObjectCode getAccountsReceivableObjectCode() {
-
-        // make sure its all re-connected with child objects
-        getInvoiceDetail().refresh();
-        getInvoiceDetail().refreshNonUpdateableReferences();
-
-        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, parameterName);
-
-        ObjectCode objectCode = null;
-        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(parameterValue) || ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(parameterValue)) {
-            getInvoiceDetail().refreshReferenceObject("objectCode");
-            objectCode = getInvoiceDetail().getObjectCode();
-        }
-        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(parameterValue)) {
-            CustomerInvoiceDocument customerInvoiceDocument = getInvoiceDetail().getCustomerInvoiceDocument();
-            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
-            objectCode = getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();
-        }
-        else {
-            throw new RuntimeException("No AR ObjectCode was available for this InvoicePaidApplied, which should never happen.");
-        }
-
-        return objectCode;
     }
 
     public SystemInformation getSystemInformation() {

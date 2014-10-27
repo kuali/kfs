@@ -237,8 +237,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
         contractsGrantsInvoiceCreateDocumentServiceImpl.performAwardValidation(awards, invalidGroup, qualifiedAwards);
 
-        assertTrue("invalidGroup should be empty.", invalidGroup.size() == 1);
-        assertTrue("qualifiedAwards should  contain one award.", qualifiedAwards.size() == 1);
+        assertEquals("invalidGroup should contain one award.", 1, invalidGroup.size());
+        assertEquals("qualifiedAwards should contain one award.", 1, qualifiedAwards.size());
         assertTrue("qualifiedAwards should contain our initial award.", qualifiedAwards.get(0).equals(awards.get(0)));
         assertTrue("invalidGroup should contain our second award with the error message we're expecting.", invalidGroup.get(awards.get(1)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_EXCLUDED_FROM_INVOICING)));
     }
@@ -652,7 +652,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
         assertTrue("invalidGroup should contain one award.", invalidGroup.size() == 1);
         assertTrue("qualifiedAwards should be empty.", qualifiedAwards.size() == 0);
-        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS)));
+        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS)));
     }
 
     @ConfigureContext(session = wklykins)
@@ -673,7 +673,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
 
         assertTrue("invalidGroup should contain one award.", invalidGroup.size() == 1);
         assertTrue("qualifiedAwards should be empty.", qualifiedAwards.size() == 0);
-        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS)));
+        assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS)));
     }
 
     protected List<ContractsAndGrantsBillingAward> setupAwards() {

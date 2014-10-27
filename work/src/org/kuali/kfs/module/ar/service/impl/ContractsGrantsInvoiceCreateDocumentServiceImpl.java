@@ -1235,7 +1235,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 12. All accounts of an Award have zero$ to invoice
-        if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts()) && CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award))) {
+        if (!hasBillableAccounts(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
         }
 
@@ -1250,10 +1250,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
         }
 
-        // 15. If all accounts of award has invoices in progress.
-        if ((award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
-        }
     }
 
     protected void writeErrorToFile(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, String errOutputFile) {
@@ -1481,6 +1477,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         printStream.printf("\r\n");
     }
 
+    protected boolean hasBillableAccounts(ContractsAndGrantsBillingAward award) {
+        String billingFrequencyCode = award.getBillingFrequencyCode();
+
+        if (StringUtils.equalsIgnoreCase(billingFrequencyCode, ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) ||
+                StringUtils.equalsIgnoreCase(billingFrequencyCode, ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            return !getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award);
+        } else {
+            return CollectionUtils.isEmpty(award.getActiveAwardAccounts()) || !CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award));
+        }
+    }
 
     /**
      * This method returns the valid award accounts based on evaluation of billing frequency and invoice document status

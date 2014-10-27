@@ -87,8 +87,8 @@
 		<property name="title" value="Invoice Template Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<ref bean="InvoiceTemplate-inquiryDefinition-invoiceTemplate" />
 				<ref bean="InvoiceTemplate-inquiryDefinition-organization" />
+				<ref bean="InvoiceTemplate-inquiryDefinition-invoiceTemplate" />
 				<ref bean="InvoiceTemplate-inquiryDefinition-invoiceTemplateFile" />
 			</list>
 		</property>

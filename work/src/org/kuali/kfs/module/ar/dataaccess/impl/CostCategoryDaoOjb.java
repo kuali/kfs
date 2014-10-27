@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.dataaccess.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -48,7 +47,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryObjectConsolidationUnique(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation)
      */
     @Override
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongConsolidations(CostCategoryObjectConsolidation objectConsolidation) {
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongConsolidations(CostCategoryObjectConsolidation objectConsolidation) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(objectConsolidation.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectConsolidation.getCategoryCode());
@@ -65,7 +64,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryConsolidationUniqueAmongLevels(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation)
      */
     @Override
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongLevels(CostCategoryObjectConsolidation consolidation) {
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongLevels(CostCategoryObjectConsolidation consolidation) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(consolidation.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
@@ -82,7 +81,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryConsolidationUniqueAmongCodes(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectConsolidation)
      */
     @Override
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongCodes(CostCategoryObjectConsolidation consolidation) {
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongCodes(CostCategoryObjectConsolidation consolidation) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(consolidation.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, consolidation.getCategoryCode());
@@ -110,7 +109,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryObjectLevelUnique(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel)
      */
     @Override
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongLevels(CostCategoryObjectLevel objectLevel) {
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongLevels(CostCategoryObjectLevel objectLevel) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(objectLevel.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectLevel.getCategoryCode());
@@ -127,7 +126,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryLevelUniqueAmongConsolidations(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel)
      */
     @Override
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongConsolidations(CostCategoryObjectLevel level) {
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongConsolidations(CostCategoryObjectLevel level) {
         Criteria consolidationCrit = new Criteria();
         if (!StringUtils.isBlank(level.getCategoryCode())) {
             consolidationCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, level.getCategoryCode());
@@ -159,7 +158,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryLevelUniqueAmongCodes(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel)
      */
     @Override
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongCodes(CostCategoryObjectLevel level) {
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongCodes(CostCategoryObjectLevel level) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(level.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, level.getCategoryCode());
@@ -176,7 +175,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryObjectCodeUnique(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode)
      */
     @Override
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongObjectCodes(CostCategoryObjectCode objectCode) {
+    public CostCategoryDetail retrieveMatchingCostCategoryObjectCodeAmongCodes(CostCategoryObjectCode objectCode) {
         Criteria crit = new Criteria();
         if (!StringUtils.isBlank(objectCode.getCategoryCode())) {
             crit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
@@ -193,7 +192,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryObjectCodeUniqueAmongLevels(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode)
      */
     @Override
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongLevels(CostCategoryObjectCode objectCode) {
+    public CostCategoryDetail retrieveMatchingCostCategoryObjectCodeAmongLevels(CostCategoryObjectCode objectCode) {
         Criteria objectLevelCrit = new Criteria();
         if (!StringUtils.isBlank(objectCode.getCategoryCode())) {
             objectLevelCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
@@ -224,7 +223,7 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#isCostCategoryObjectCodeUniqueAmongConsolidations(org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode)
      */
     @Override
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongConsolidations(CostCategoryObjectCode objectCode) {
+    public CostCategoryDetail retrieveCostCategoryObjectCodeAmongConsolidations(CostCategoryObjectCode objectCode) {
         Criteria objectConsolidationCrit = new Criteria();
         if (!StringUtils.isBlank(objectCode.getCategoryCode())) {
             objectConsolidationCrit.addNotEqualTo(ArPropertyConstants.CATEGORY_CODE, objectCode.getCategoryCode());
@@ -256,6 +255,10 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
      */
     @Override
     public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, String objectType, CostCategory costCategory) {
+        if (!costCategory.isActive()) {
+            return new ArrayList<Balance>(); // cost category isn't active?  then dont' find any matching balances
+        }
+
         Criteria crit = new Criteria();
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
@@ -263,60 +266,70 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceType);
         crit.addEqualTo(KFSPropertyConstants.OBJECT_TYPE_CODE, objectType);
 
-        // TODO Use subqueries?
-        boolean addedCategoryCriteria = false;
         Criteria objectCodesCollectiveCriteria = new Criteria();
-        if (!CollectionUtils.isEmpty(costCategory.getObjectCodes())) {
-            List<String> financialObjectCodes = new ArrayList<>();
-            for (CostCategoryObjectCode objectCode : costCategory.getObjectCodes()) {
-                if (objectCode.isActive() && StringUtils.equals(objectCode.getChartOfAccountsCode(), chartOfAccountsCode)) {
-                    financialObjectCodes.add(objectCode.getFinancialObjectCode());
-                }
-            }
-            if (!CollectionUtils.isEmpty(financialObjectCodes)) {
-                Criteria objectCodeCriteria = new Criteria();
-                objectCodeCriteria.addIn(KFSPropertyConstants.OBJECT_CODE, financialObjectCodes);
-                objectCodesCollectiveCriteria.addOrCriteria(objectCodeCriteria);
-                addedCategoryCriteria = true;
-            }
-        }
 
-        if (!CollectionUtils.isEmpty(costCategory.getObjectLevels())) {
-            List<String> financialObjectLevelCodes = new ArrayList<>();
-            for (CostCategoryObjectLevel objectLevel : costCategory.getObjectLevels()) {
-                if (objectLevel.isActive() && StringUtils.equals(objectLevel.getChartOfAccountsCode(), chartOfAccountsCode)) {
-                    financialObjectLevelCodes.add(objectLevel.getFinancialObjectLevelCode());
-                }
-            }
-            if (!CollectionUtils.isEmpty(financialObjectLevelCodes)) {
-                Criteria objectLevelCriteria = new Criteria();
-                objectLevelCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,financialObjectLevelCodes);
-                objectCodesCollectiveCriteria.addOrCriteria(objectLevelCriteria);
-                addedCategoryCriteria = true;
-            }
-        }
+        Criteria objectCodeCriteria = new Criteria();
+        objectCodeCriteria.addIn(KFSPropertyConstants.OBJECT_CODE, buildObjectCodesOfCostCategorySubQuery(costCategory, chartOfAccountsCode));
+        objectCodesCollectiveCriteria.addOrCriteria(objectCodeCriteria);
 
-        if (!CollectionUtils.isEmpty(costCategory.getObjectConsolidations())) {
-            List<String> consolidationCodes = new ArrayList<>();
-            for (CostCategoryObjectConsolidation consolidation : costCategory.getObjectConsolidations()) {
-                if (consolidation.isActive() && StringUtils.equals(consolidation.getChartOfAccountsCode(), chartOfAccountsCode)) {
-                    consolidationCodes.add(consolidation.getFinConsolidationObjectCode());
-                }
-            }
-            if (!CollectionUtils.isEmpty(consolidationCodes)) {
-                Criteria consolidationCriteria = new Criteria();
-                consolidationCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, consolidationCodes);
-                objectCodesCollectiveCriteria.addOrCriteria(consolidationCriteria);
-                addedCategoryCriteria = true;
-            }
-        }
+        Criteria objectLevelCriteria = new Criteria();
+        objectLevelCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,buildObjectLevelsOfCostCategorySubQuery(costCategory, chartOfAccountsCode));
+        objectCodesCollectiveCriteria.addOrCriteria(objectLevelCriteria);
 
-        if (!addedCategoryCriteria) {
-            // we found no matching criteria for this cost category - so we should not return any balances
-            return new ArrayList<>();
-        }
+        Criteria consolidationCriteria = new Criteria();
+        consolidationCriteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, buildObjectConsolidationsOfCostCategorySubQuery(costCategory, chartOfAccountsCode));
+        objectCodesCollectiveCriteria.addOrCriteria(consolidationCriteria);
+
         crit.addAndCriteria(objectCodesCollectiveCriteria);
         Query q = new QueryByCriteria(Balance.class, crit);
         return (List<Balance>)getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+
+    /**
+     * Builds a subquery to find the object codes which match the given cost category within the given chart of accounts
+     * @param costCategory the costCategory to find object codes for
+     * @param chartOfAccountsCode the chart that object codes should be limited to
+     * @return subQuery the subequery to find matching object codes
+     */
+    protected ReportQueryByCriteria buildObjectCodesOfCostCategorySubQuery(CostCategory costCategory, String chartOfAccountsCode) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(ArPropertyConstants.CATEGORY_CODE, costCategory.getCategoryCode());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(CostCategoryObjectCode.class, crit);
+        subQuery.setAttributes(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT_CODE } );
+        return subQuery;
+    }
+
+    /**
+     * Builds a subquery to find the object levels which match the given cost category within the given chart of accounts
+     * @param costCategory the costCategory to find object lvels for
+     * @param chartOfAccountsCode the chart that object codes should be limited to
+     * @return subQuery the subequery to find matching object levels
+     */
+    protected ReportQueryByCriteria buildObjectLevelsOfCostCategorySubQuery(CostCategory costCategory, String chartOfAccountsCode) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(ArPropertyConstants.CATEGORY_CODE, costCategory.getCategoryCode());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(CostCategoryObjectLevel.class, crit);
+        subQuery.setAttributes(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE } );
+        return subQuery;
+    }
+
+    /**
+     * Builds a subquery to find the object consolidations which match the given cost category within the given chart of accounts
+     * @param costCategory the costCategory to find object consolidations for
+     * @param chartOfAccountsCode the chart that object consolidations should be limited to
+     * @return subQuery the subequery to find matching object consolidations
+     */
+    protected ReportQueryByCriteria buildObjectConsolidationsOfCostCategorySubQuery(CostCategory costCategory, String chartOfAccountsCode) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(ArPropertyConstants.CATEGORY_CODE, costCategory.getCategoryCode());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(CostCategoryObjectConsolidation.class, crit);
+        subQuery.setAttributes(new String[] { KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE } );
+        return subQuery;
     }
 }

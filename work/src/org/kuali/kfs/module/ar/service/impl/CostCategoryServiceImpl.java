@@ -42,15 +42,15 @@ public class CostCategoryServiceImpl implements CostCategoryService {
      */
     @Override
     public CostCategoryDetail isCostCategoryObjectConsolidationUnique(CostCategoryObjectConsolidation objectConsolidation) {
-        CostCategoryDetail detail = getCostCategoryDao().isCostCategoryConsolidationUniqueAmongConsolidations(objectConsolidation);
+        CostCategoryDetail detail = getCostCategoryDao().retrieveMatchingCostCategoryConsolidationAmongConsolidations(objectConsolidation);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        detail = getCostCategoryDao().isCostCategoryConsolidationUniqueAmongLevels(objectConsolidation);
+        detail = getCostCategoryDao().retrieveMatchingCostCategoryConsolidationAmongLevels(objectConsolidation);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        return getCostCategoryDao().isCostCategoryConsolidationUniqueAmongCodes(objectConsolidation);
+        return getCostCategoryDao().retrieveMatchingCostCategoryConsolidationAmongCodes(objectConsolidation);
     }
 
     /**
@@ -58,15 +58,15 @@ public class CostCategoryServiceImpl implements CostCategoryService {
      */
     @Override
     public CostCategoryDetail isCostCategoryObjectLevelUnique(CostCategoryObjectLevel objectLevel) {
-        CostCategoryDetail detail = getCostCategoryDao().isCostCategoryLevelUniqueAmongLevels(objectLevel);
+        CostCategoryDetail detail = getCostCategoryDao().retrieveMatchingCostCategoryLevelAmongLevels(objectLevel);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        detail = getCostCategoryDao().isCostCategoryLevelUniqueAmongConsolidations(objectLevel);
+        detail = getCostCategoryDao().retrieveMatchingCostCategoryLevelAmongConsolidations(objectLevel);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        return getCostCategoryDao().isCostCategoryLevelUniqueAmongCodes(objectLevel);
+        return getCostCategoryDao().retrieveMatchingCostCategoryLevelAmongCodes(objectLevel);
     }
 
     /**
@@ -74,15 +74,15 @@ public class CostCategoryServiceImpl implements CostCategoryService {
      */
     @Override
     public CostCategoryDetail isCostCategoryObjectCodeUnique(CostCategoryObjectCode objectCode) {
-        CostCategoryDetail detail = getCostCategoryDao().isCostCategoryObjectCodeUniqueAmongObjectCodes(objectCode);
+        CostCategoryDetail detail = getCostCategoryDao().retrieveMatchingCostCategoryObjectCodeAmongCodes(objectCode);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        detail = getCostCategoryDao().isCostCategoryObjectCodeUniqueAmongLevels(objectCode);
+        detail = getCostCategoryDao().retrieveMatchingCostCategoryObjectCodeAmongLevels(objectCode);
         if (!ObjectUtils.isNull(detail)) {
             return detail;
         }
-        return getCostCategoryDao().isCostCategoryObjectCodeUniqueAmongConsolidations(objectCode);
+        return getCostCategoryDao().retrieveCostCategoryObjectCodeAmongConsolidations(objectCode);
     }
 
     /**

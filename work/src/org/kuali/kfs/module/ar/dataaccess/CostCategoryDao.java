@@ -34,63 +34,63 @@ public interface CostCategoryDao {
      * @param objectConsolidation the cost category object consolidation to check
      * @return null if the object consolidation is unique, otherwise the blocking cost category object consolidation
      */
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongConsolidations(CostCategoryObjectConsolidation objectConsolidation);
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongConsolidations(CostCategoryObjectConsolidation objectConsolidation);
 
     /**
      * Determines if a given cost category object consolidation would have an object consolidation unshared by any cost category object levels
      * @param consolidation the cost category object consolidation to check
      * @return null if the object consolidation is unique among cost category object levels, otherwise the blocking cost category object level
      */
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongLevels(CostCategoryObjectConsolidation consolidation);
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongLevels(CostCategoryObjectConsolidation consolidation);
 
     /**
      * Determines if a given cost category object consolidation would have an object consolidation unshared by any cost category object codes
      * @param consolidation the cost category object consolidation to check
      * @return null if the object consolidation is unique among cost category object codes, otherwise the blocking cost category object code
      */
-    public CostCategoryDetail isCostCategoryConsolidationUniqueAmongCodes(CostCategoryObjectConsolidation consolidation);
+    public CostCategoryDetail retrieveMatchingCostCategoryConsolidationAmongCodes(CostCategoryObjectConsolidation consolidation);
 
     /**
      * Determines if a given cost category object level would have an object level unshared by any other cost categories
      * @param objectLevel the cost category object level to check
      * @return null if the object level is unique, otherwise the blocking cost category detail
      */
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongLevels(CostCategoryObjectLevel objectLevel);
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongLevels(CostCategoryObjectLevel objectLevel);
 
     /**
      * Determines if a given cost category object level would be uncontained by any other cost category object consolidations
      * @param level the cost category object level to check
      * @return null if the object level is uncontained by any object consolidations on other cost categories, otherwise the blocking cost category object consolidation
      */
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongConsolidations(CostCategoryObjectLevel level);
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongConsolidations(CostCategoryObjectLevel level);
 
     /**
      * Determines if a given cost category object level would have an object level unshared by any cost category object codes
      * @param level the cost category object level to check
      * @return null if the object level is unique among cost category object codes, otherwise the blocking cost category object code
      */
-    public CostCategoryDetail isCostCategoryLevelUniqueAmongCodes(CostCategoryObjectLevel level);
+    public CostCategoryDetail retrieveMatchingCostCategoryLevelAmongCodes(CostCategoryObjectLevel level);
 
     /**
      * Determines if a given cost category object code would have an object code unshared by any other cost categories object codes
      * @param objectCode the cost category object code to check for uniqueness
      * @return null if the object code is unique among all cost category object codes, otherwise the blocking cost category object code
      */
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongObjectCodes(CostCategoryObjectCode objectCode);
+    public CostCategoryDetail retrieveMatchingCostCategoryObjectCodeAmongCodes(CostCategoryObjectCode objectCode);
 
     /**
      * Determines if a given cost category object code would not be contained by a cost category object level on a different cost category
      * @param objectCode the cost category object code to check
      * @return null if the object code is uncontained by any other cost categories' object levels, otherwise the blocking cost category object level
      */
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongLevels(CostCategoryObjectCode objectCode);
+    public CostCategoryDetail retrieveMatchingCostCategoryObjectCodeAmongLevels(CostCategoryObjectCode objectCode);
 
     /**
      * Determines if a given cost category object code would not be contained by a cost category object consolidation on a different cost category
      * @param objectCode the cost category object code to check
      * @return null if the object code is uncontained by any other cost categories' object consolidations, otherwise the blocking cost category object consolidation
      */
-    public CostCategoryDetail isCostCategoryObjectCodeUniqueAmongConsolidations(CostCategoryObjectCode objectCode);
+    public CostCategoryDetail retrieveCostCategoryObjectCodeAmongConsolidations(CostCategoryObjectCode objectCode);
 
     /**
      * Retrieves matching balances for all object codes contained within the given cost category

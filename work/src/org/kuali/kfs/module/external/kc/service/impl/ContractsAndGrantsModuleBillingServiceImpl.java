@@ -75,17 +75,17 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     }
 
     @Override
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean invoiceReversal, Date lastBilledDate) {
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
-        if (invoiceStatus.equalsIgnoreCase("FINAL")) {
+
+        if (invoiceReversal) {
+            // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
+            updateDto.setRestorePreviousBillDate(true);
+        } else {
             updateDto.setDoLastBillDateUpdate(true);
             updateDto.setLastBillDate(lastBilledDate);
         }
 
-        // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
-        else if (invoiceStatus.equalsIgnoreCase("CORRECTED")) {
-            updateDto.setRestorePreviousBillDate(true);
-        }
         handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(buildSearchDto(criteria), updateDto));
     }
 
@@ -150,19 +150,19 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
 
 
     @Override
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, Date lastBilledDate) {
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, boolean invoiceReversal, Date lastBilledDate) {
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
         updateDto.setDoFinalBilledUpdate(true);
         updateDto.setFinalBilledIndicator(finalBilled);
-        if (invoiceStatus.equalsIgnoreCase("FINAL")) {
+
+        if (invoiceReversal) {
+            // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
+            updateDto.setRestorePreviousBillDate(true);
+        } else {
             updateDto.setDoLastBillDateUpdate(true);
             updateDto.setLastBillDate(lastBilledDate);
         }
 
-        // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
-        else if (invoiceStatus.equalsIgnoreCase("CORRECTED")) {
-            updateDto.setRestorePreviousBillDate(true);
-        }
         handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(buildSearchDto(mapKey), updateDto));
     }
 

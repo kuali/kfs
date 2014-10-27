@@ -114,19 +114,17 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
      * @param lastBilledDate
      */
     @Override
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean invoiceReversal, Date lastBilledDate) {
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
-        // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
 
-        if (invoiceStatus.equalsIgnoreCase("FINAL")) {
-            awardAccount.setPreviousLastBilledDate(awardAccount.getCurrentLastBilledDate());
-            awardAccount.setCurrentLastBilledDate(lastBilledDate);
-        }
-
-        // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
-        else if (invoiceStatus.equalsIgnoreCase("CORRECTED")) {
+        if (invoiceReversal) {
+            // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
             awardAccount.setCurrentLastBilledDate(awardAccount.getPreviousLastBilledDate());
             awardAccount.setPreviousLastBilledDate(null);
+        } else {
+            // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
+            awardAccount.setPreviousLastBilledDate(awardAccount.getCurrentLastBilledDate());
+            awardAccount.setCurrentLastBilledDate(lastBilledDate);
         }
 
         getBusinessObjectService().save(awardAccount);
@@ -202,20 +200,17 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setFinalBilledAndLastBilledDateToAwardAccount(java.util.Map, java.lang.String, java.sql.Date)
      */
     @Override
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean finalBilled, String invoiceStatus, Date lastBilledDate) {
-
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean finalBilled, boolean invoiceReversal, Date lastBilledDate) {
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
-        // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
 
-        if (invoiceStatus.equalsIgnoreCase("FINAL")) {
-            awardAccount.setPreviousLastBilledDate(awardAccount.getCurrentLastBilledDate());
-            awardAccount.setCurrentLastBilledDate(lastBilledDate);
-        }
-
-        // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
-        else if (invoiceStatus.equalsIgnoreCase("CORRECTED")) {
+        if (invoiceReversal) {
+            // If the invoice is corrected, transpose previous billed date to current and set previous last billed date to null.
             awardAccount.setCurrentLastBilledDate(awardAccount.getPreviousLastBilledDate());
             awardAccount.setPreviousLastBilledDate(null);
+        } else {
+            // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
+            awardAccount.setPreviousLastBilledDate(awardAccount.getCurrentLastBilledDate());
+            awardAccount.setCurrentLastBilledDate(lastBilledDate);
         }
 
         awardAccount.setFinalBilledIndicator(finalBilled);

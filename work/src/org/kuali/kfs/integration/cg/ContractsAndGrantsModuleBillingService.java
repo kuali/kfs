@@ -50,10 +50,10 @@ public interface ContractsAndGrantsModuleBillingService {
      * This method sets last Billed Date to award Account.
      *
      * @param criteria
-     * @param invoiceStatus
+     * @param invoiceReversal
      * @param lastBilledDate
      */
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, java.sql.Date lastBilledDate);
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, boolean invoiceReversal, java.sql.Date lastBilledDate);
 
     /**
      * This method sets last billed Date to Award
@@ -100,9 +100,9 @@ public interface ContractsAndGrantsModuleBillingService {
      *
      * @param mapKey
      * @param finalBilled
-     * @param invoiceStatus
+     * @param invoiceReversal
      * @param lastBilledDate
      */
-    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, java.sql.Date lastBilledDate);
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, boolean invoiceReversal, java.sql.Date lastBilledDate);
 
 }

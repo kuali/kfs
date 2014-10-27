@@ -21,12 +21,15 @@ import java.util.List;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentAuthorizer;
 import org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -47,8 +50,11 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
         ContractsGrantsInvoiceDocument cgInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument();
         DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
         ContractsGrantsInvoiceDocumentPresentationController presoController = (ContractsGrantsInvoiceDocumentPresentationController) docHelperService.getDocumentPresentationController(cgInvoiceDocument);
+        ContractsGrantsInvoiceDocumentAuthorizer documentAuthorizer = (ContractsGrantsInvoiceDocumentAuthorizer) docHelperService.getDocumentAuthorizer(cgInvoiceDocument);
+        final Person user = GlobalVariables.getUserSession().getPerson();
+
         // add Correct Button
-        if (presoController.canErrorCorrect(cgInvoiceDocument)) {
+        if (presoController.canErrorCorrect(cgInvoiceDocument) && documentAuthorizer.canErrorCorrect(cgInvoiceDocument, user)) {
             extraButtons.add(generateErrorCorrectionButton());
         }
         // add Prorate Button

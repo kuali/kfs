@@ -294,7 +294,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
 
                     headerReviewDetails.add(locReviewDtl);
-                    final SystemOptions systemOption = optionsService.getCurrentYearOptions();
+                    final SystemOptions systemOption = getOptionsService().getCurrentYearOptions();
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {

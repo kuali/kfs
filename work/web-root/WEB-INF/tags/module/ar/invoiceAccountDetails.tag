@@ -17,11 +17,11 @@
 <%@ attribute name="readOnly" required="false" description="If document is in read only mode"%>
 
 <c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
-	<kul:tab tabTitle="Account Details" defaultOpen="true" tabErrorKey="document.invoiceAccountDetails*">
+	<kul:tab tabTitle="Account Summary" defaultOpen="true" tabErrorKey="document.invoiceAccountDetails*">
 		<c:set var="invoiceAccountDetailsAttributes" value="${DataDictionary.InvoiceAccountDetail.attributes}" />
 
 		<div class="tab-container" align="center">
-			<h3>Account Details</h3>
+			<h3>Account Summary</h3>
 			<table cellpadding=0 class="datatable" summary="Invoice Account Details section">
 				<tr>
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}" useShortLabel="false" />

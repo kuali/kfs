@@ -20,9 +20,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -259,25 +261,34 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         }
 
         // now get glpes which would create encumbrance
-        Map<String, String> glpeCriteria = new HashMap<String, String>();
-        glpeCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
-        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForEncumbrance(glpeCriteria, true); // find all approved entries with the criteria
-
+        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = getPendingEntriesForTrip(travelDocumentIdentifier);
         while (pendingEntriesIterator.hasNext()) {
             final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
-            if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {
+            if (!StringUtils.equals(skipDocumentNumber, pendingEntry.getDocumentNumber())) {
                 applyEntryToEncumbrances(allEncumbrances, pendingEntry);
             }
         }
 
         List<GeneralLedgerPendingEntry> heldEncumbranceEntries = findHeldEncumbranceEntriesForTrip(travelDocumentIdentifier);
         for (GeneralLedgerPendingEntry heldEntry : heldEncumbranceEntries) {
-            if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(heldEntry.getDocumentNumber())) {
+            if (!StringUtils.equals(skipDocumentNumber, heldEntry.getDocumentNumber())) {
                 applyEntryToEncumbrances(allEncumbrances, heldEntry);
             }
         }
 
         return allEncumbrances;
+    }
+
+    /**
+     * Retrieves the pending entries associated with the given travel document identifier
+     * @param travelDocumentIdentifier the id of the trip/travel document
+     * @return an Iterator of pending entries for that trip
+     */
+    protected Iterator<GeneralLedgerPendingEntry> getPendingEntriesForTrip(String travelDocumentIdentifier) {
+        Map<String, String> glpeCriteria = new HashMap<String, String>();
+        glpeCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
+        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForEncumbrance(glpeCriteria, true); // find all approved entries with the criteria
+        return pendingEntriesIterator;
     }
 
     /**
@@ -312,16 +323,81 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     /**
      * Applies the pending entries from the TR - if they exist - to the given encumbrances
      * @param encumbrances the encumbrances to apply entries to
-     * @param reimbursementPendingEntries the pending entries from teh reimbursement - which may be null
+     * @param reimbursementPendingEntries the pending entries from the reimbursement - which may be null
      */
     protected void applyReimbursementEntriesToEncumbrances(List<Encumbrance> encumbrances, List<GeneralLedgerPendingEntry> reimbursementPendingEntries) {
+        final Set<String> processedPendingEntryKeys = buildPendingEntryKeys(retrieveAllPendingEntriesForTravelDocumentIds(getUniqueTravelDocumentIds(reimbursementPendingEntries)));
         if (reimbursementPendingEntries != null && !reimbursementPendingEntries.isEmpty()) {
             for(GeneralLedgerPendingEntry pendingEntry : reimbursementPendingEntries) {
                 if (!pendingEntry.isTransactionEntryOffsetIndicator()) {
-                    applyEntryToEncumbrances(encumbrances, pendingEntry);
+                    final String pendingEntryKey = buildPendingEntryKey(pendingEntry);
+                    if (!processedPendingEntryKeys.contains(pendingEntryKey)) { // we need to avoid processing TR entries twice
+                        applyEntryToEncumbrances(encumbrances, pendingEntry);
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Finds a Set of the unique travel document ids in the given list of pending entries
+     * @param pendingEntries general ledger pending entries to find
+     * @return a Set of the unique ids
+     */
+    protected Set<String> getUniqueTravelDocumentIds(List<GeneralLedgerPendingEntry> pendingEntries) {
+        Set<String> travelDocIds = new HashSet<String>();
+        for (GeneralLedgerPendingEntry pendingEntry : pendingEntries) {
+            if (!StringUtils.isBlank(pendingEntry.getReferenceFinancialDocumentNumber())) {
+                travelDocIds.add(pendingEntry.getReferenceFinancialDocumentNumber());
+            }
+        }
+        return travelDocIds;
+    }
+
+    /**
+     * Retrieves all pending entries associated with all the of the trips specified with the given travel document ids
+     * @param travelDocumentIds a Set of unique travel document ids to find pending entries for
+     * @return an Iterator to list over all pending entries
+     */
+    protected Iterator<GeneralLedgerPendingEntry> retrieveAllPendingEntriesForTravelDocumentIds(Set<String> travelDocumentIds) {
+        List<GeneralLedgerPendingEntry> allPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+        for (String travelDocumentId : travelDocumentIds) {
+            Iterator<GeneralLedgerPendingEntry> currentPendingEntries = getPendingEntriesForTrip(travelDocumentId);
+            //CollectionUtils.addAll(allPendingEntries, currentPendingEntries);
+            while (currentPendingEntries.hasNext()) {
+                allPendingEntries.add(currentPendingEntries.next());
+            }
+        }
+        return allPendingEntries.iterator();
+    }
+
+    /**
+     * Builds pending entry keys for each of the given pending entries
+     * @param pendingEntries an Iterator of pending entries
+     * @return a Set of unique keys for each of the pending entries
+     */
+    protected Set<String> buildPendingEntryKeys(Iterator<GeneralLedgerPendingEntry> pendingEntries) {
+        Set<String> pendingEntryKeys = new HashSet<String>();
+        while (pendingEntries.hasNext()) {
+            GeneralLedgerPendingEntry pendingEntry = pendingEntries.next();
+            pendingEntryKeys.add(buildPendingEntryKey(pendingEntry));
+        }
+        return pendingEntryKeys;
+    }
+
+    /**
+     * Builds a key from the given pending entry based on the primary key fields of General Ledger Pending Entry
+     * @param pendingEntry the pending entry to build a key from
+     * @return a String key for the given pending entry
+     */
+    protected String buildPendingEntryKey(GeneralLedgerPendingEntry pendingEntry) {
+        StringBuilder key = new StringBuilder();
+        key.append(pendingEntry.getFinancialSystemOriginationCode());
+        key.append('-');
+        key.append(pendingEntry.getDocumentNumber());
+        key.append('-');
+        key.append(pendingEntry.getTransactionLedgerEntrySequenceNumber());
+        return key.toString();
     }
 
     /**
@@ -337,7 +413,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
             // Create encumbrance map based on account numbers
             for (Encumbrance encumbrance : encumbrances) {
-                final String key = buildKey(encumbrance);
+                final String key = buildEncumbranceKey(encumbrance);
                 encumbranceMap.put(key, encumbrance);
             }
 
@@ -349,7 +425,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
 
                 if (! StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
-                    final String key = buildKey(pendingEntry);
+                    final String key = buildEncumbranceKey(pendingEntry);
                     Encumbrance encumbrance = encumbranceMap.get(key);
 
                      //If encumbrance found, find and calculate difference. If the difference is zero don't add to new list of glpe's If
@@ -382,7 +458,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             List<GeneralLedgerPendingEntry> continuingPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
             for (GeneralLedgerPendingEntry pendingEntry : document.getGeneralLedgerPendingEntries()) {
                 if (!StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG) && !pendingEntry.isTransactionEntryOffsetIndicator()) {
-                    final String key = buildKey(pendingEntry);
+                    final String key = buildEncumbranceKey(pendingEntry);
                     encumbranceMap.remove(key);
                 }
                 if (!pendingEntry.getTransactionLedgerEntryAmount().equals(KualiDecimal.ZERO)) {
@@ -406,7 +482,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @param e the encumbrance to build a Map key for
      * @return the key for the encumbrance
      */
-    protected String buildKey(Encumbrance e) {
+    protected String buildEncumbranceKey(Encumbrance e) {
         StringBuilder key = new StringBuilder();
         key.append(e.getAccountNumber());
         key.append(e.getSubAccountNumber());
@@ -421,7 +497,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @param pendingEntry the pending entry which would update an encumbrance
      * @return the key representing the encumbrance
      */
-    protected String buildKey(GeneralLedgerPendingEntry pendingEntry) {
+    protected String buildEncumbranceKey(GeneralLedgerPendingEntry pendingEntry) {
         StringBuilder key = new StringBuilder();
         key.append(pendingEntry.getAccountNumber());
         key.append(pendingEntry.getSubAccountNumber());
@@ -798,7 +874,6 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         final java.util.Date firstDateOfFiscalYear = getUniversityDateService().getFirstDateOfFiscalYear(fiscalYear);
         final AccountingPeriod firstAccountingPeriodOfFiscalYear = getAccountingPeriodService().getByDate(new java.sql.Date(firstDateOfFiscalYear.getTime()));
         return firstAccountingPeriodOfFiscalYear;
-
     }
 
     /**

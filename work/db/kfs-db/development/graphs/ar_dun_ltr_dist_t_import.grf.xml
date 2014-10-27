@@ -22,7 +22,7 @@
         $0.dun_ltr_dist_id := $dun_ltr_dist_id;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
-        $0.dys_pst_due_txt := replace(nvl($dys_pst_due_txt, ""), "~!~", "|" );
+        $0.days_pst_due_txt := replace(nvl($days_pst_due_txt, ""), "~!~", "|" );
         $0.snd_dun_ltr_ind := replace(nvl($snd_dun_ltr_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.ltr_typ_cd := replace(nvl($ltr_typ_cd, ""), "~!~", "|" );

@@ -23,7 +23,7 @@
         $0.ver_nbr := $ver_nbr;
         $0.bill_freq_desc := replace(nvl($bill_freq_desc, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
-        $0.grace_period := replace(nvl($grace_period, ""), "~!~", "|" );
+        $0.grace_period := $grace_period;
    }
       ]]></attr>
     </Node>

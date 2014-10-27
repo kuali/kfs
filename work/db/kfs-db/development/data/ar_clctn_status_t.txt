@@ -1,4 +1,4 @@
-ar_clctn_status_cd|obj_id|ver_nbr|status_desc|actv_ind|
+clctn_status_cd|obj_id|ver_nbr|status_desc|actv_ind|
 CMPL|EDC0BE4714063031E040E00ABCD64EE1|1.0|Complete|Y|
 JMRD|EDC0BE4714033031E040E00ABCD64EE1|1.0|Judgement Rendered|Y|
 PMRD|EDC0BE4714003031E040E00ABCD64EE1|1.0|Payment Recovered|Y|

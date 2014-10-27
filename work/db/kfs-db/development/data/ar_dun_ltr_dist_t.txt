@@ -1,4 +1,4 @@
-cmpgn_id|dun_ltr_dist_id|obj_id|ver_nbr|dys_pst_due_txt|snd_dun_ltr_ind|actv_ind|ltr_typ_cd|
+cmpgn_id|dun_ltr_dist_id|obj_id|ver_nbr|days_pst_due_txt|snd_dun_ltr_ind|actv_ind|ltr_typ_cd|
 KUAL|7.0|17dacb78-d72f-4fb0-8ed2-41eb03f33e6e|1.0|Current|Y|Y|KCURRENT|
 KUAL|8.0|8d50fd95-b98b-4348-a8d7-33d62d8c1f48|1.0|31-60|Y|Y|K3160|
 KUAL|9.0|ead67955-6e9b-49d4-8edb-3c6339f3d886|1.0|61-90|Y|Y|K6190|

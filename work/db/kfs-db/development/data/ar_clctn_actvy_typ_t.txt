@@ -1,4 +1,4 @@
-ar_clctn_actvty_typ_cd|obj_id|ver_nbr|actvty_desc|rfrl_ind|dun_prcs_ind|actv_ind|
+clctn_actvy_typ_cd|obj_id|ver_nbr|actvy_desc|rfrl_ind|dun_prcs_ind|actv_ind|
 CFPI|EDC0BE4713E53031E040E00ABCD64EE1|1.0|Call From Project Director|N|N|Y|
 CFSR|EDC0BE4713E63031E040E00ABCD64EE1|1.0|Call From Sponsor|N|N|Y|
 CMTS|EDC0BE4713E73031E040E00ABCD64EE1|1.0|Call Made to Sponsor|N|N|Y|

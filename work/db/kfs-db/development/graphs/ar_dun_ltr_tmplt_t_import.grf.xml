@@ -22,10 +22,10 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.dun_ltr_tmplt_desc := replace(nvl($dun_ltr_tmplt_desc, ""), "~!~", "|" );
-        $0.filename := replace(nvl($filename, ""), "~!~", "|" );
-        $0.access_rstrctd_ind := replace(nvl($access_rstrctd_ind, ""), "~!~", "|" );
+        $0.file_nm := replace(nvl($file_nm, ""), "~!~", "|" );
+        $0.access_rstrc_ind := replace(nvl($access_rstrc_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
-        $0.upload_dt := replace(nvl($upload_dt, ""), "~!~", "|" );
+        $0.upload_dt := $upload_dt;
         $0.bill_by_coa_cd := replace(nvl($bill_by_coa_cd, ""), "~!~", "|" );
         $0.bill_by_org_cd := replace(nvl($bill_by_org_cd, ""), "~!~", "|" );
    }

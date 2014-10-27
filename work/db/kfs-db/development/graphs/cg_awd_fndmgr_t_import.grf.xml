@@ -22,8 +22,8 @@
         $0.cgprpsl_nbr := $cgprpsl_nbr;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
-        $0.cgawd_prm_fndmgr_ind := replace(nvl($cgawd_prm_fndmgr_ind, ""), "~!~", "|" );
-        $0.cgawd_fndmgr_prj_ttl := replace(nvl($cgawd_fndmgr_prj_ttl, ""), "~!~", "|" );
+        $0.pri_fndmgr_ind := replace(nvl($pri_fndmgr_ind, ""), "~!~", "|" );
+        $0.project_ttl := replace(nvl($project_ttl, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>

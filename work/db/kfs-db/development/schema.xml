@@ -149,15 +149,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AP_CRDT_MEMO_STAT_T">
-        <column name="CRDT_MEMO_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CRDT_MEMO_STAT_DESC" required="true" size="45" type="VARCHAR"/>
-        <unique name="AP_CRDT_MEMO_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AP_CRDT_MEMO_T">
         <column name="CRDT_MEMO_ID" primaryKey="true" size="9" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -176,7 +167,7 @@
         <column name="PO_ID" size="9" type="DECIMAL"/>
         <column name="PO_ENCUM_FSCL_YR" size="4" type="DECIMAL"/>
         <column name="PMT_RQST_ID" size="9" type="DECIMAL"/>
-        <column name="CRDT_MEMO_STAT_CD" size="4" type="VARCHAR"/>
+        <column name="DEPR_CRDT_MEMO_STAT_CD" size="4" type="VARCHAR"/>
         <column name="CRDT_MEMO_NBR" required="true" size="35" type="VARCHAR"/>
         <column name="CRDT_MEMO_DT" required="true" type="DATE"/>
         <column name="CRDT_MEMO_AMT" required="true" scale="2" size="19" type="DECIMAL"/>
@@ -210,17 +201,11 @@
         <foreign-key foreignTable="AP_PMT_RQST_T" name="AP_CRDT_MEMO_TR6">
             <reference foreign="PMT_RQST_ID" local="PMT_RQST_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="AP_CRDT_MEMO_STAT_T" name="AP_CRDT_MEMO_TR7">
-            <reference foreign="CRDT_MEMO_STAT_CD" local="CRDT_MEMO_STAT_CD"/>
-        </foreign-key>
         <unique name="AP_CRDT_MEMO_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
         <index name="AP_CRDT_MEMO_TI1">
             <index-column name="PO_ID"/>
-        </index>
-        <index name="AP_CRDT_MEMO_TI2">
-            <index-column name="CRDT_MEMO_STAT_CD"/>
         </index>
         <index name="AP_CRDT_MEMO_TI3">
             <index-column name="PMT_RQST_ID"/>
@@ -611,20 +596,11 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AP_PMT_RQST_STAT_T">
-        <column name="PMT_RQST_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PMT_RQST_STAT_DESC" required="true" size="45" type="VARCHAR"/>
-        <unique name="AP_PMT_RQST_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AP_PMT_RQST_T">
         <column name="PMT_RQST_ID" primaryKey="true" size="9" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PMT_RQST_STAT_CD" size="4" type="VARCHAR"/>
+        <column name="DEPR_PMT_RQST_STAT_CD" size="4" type="VARCHAR"/>
         <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="PO_ID" required="true" size="9" type="DECIMAL"/>
         <column name="PO_ENCUM_FSCL_YR" required="true" size="4" type="DECIMAL"/>
@@ -694,9 +670,6 @@
         <foreign-key foreignTable="FP_BANK_T" name="AP_PMT_RQST_TR1">
             <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="AP_PMT_RQST_STAT_T" name="AP_PMT_RQST_TR2">
-            <reference foreign="PMT_RQST_STAT_CD" local="PMT_RQST_STAT_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="PUR_VNDR_DTL_T" name="AP_PMT_RQST_TR5">
             <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>
             <reference foreign="VNDR_DTL_ASND_ID" local="VNDR_DTL_ASND_ID"/>
@@ -713,9 +686,6 @@
         <unique name="AP_PMT_RQST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <index name="AP_PMT_RQST_TI1">
-            <index-column name="PMT_RQST_STAT_CD"/>
-        </index>
         <index name="AP_PMT_RQST_TI2">
             <index-column name="PO_ID"/>
         </index>
@@ -4754,6 +4724,51 @@
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="AST_RETIRE_REAS_RSTR_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="CM_RETIRE_REAS_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="DEPR_AP_CRDT_MEMO_STAT_T">
+        <column name="CRDT_MEMO_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CRDT_MEMO_STAT_DESC" required="true" size="45" type="VARCHAR"/>
+        <unique name="AP_CRDT_MEMO_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="DEPR_AP_PMT_RQST_STAT_T">
+        <column name="PMT_RQST_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PMT_RQST_STAT_DESC" required="true" size="45" type="VARCHAR"/>
+        <unique name="AP_PMT_RQST_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="DEPR_PUR_PO_STAT_T">
+        <column name="PO_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PO_STAT_DESC" required="true" size="45" type="VARCHAR"/>
+        <unique name="PUR_PO_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="DEPR_PUR_RCVNG_LN_STAT_T">
+        <column name="RCVNG_LN_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="RCVNG_LN_STAT_DESC" size="45" type="VARCHAR"/>
+        <unique name="PUR_RCVNG_LN_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="DEPR_PUR_REQS_STAT_T">
+        <column name="REQS_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="REQS_STAT_DESC" required="true" size="45" type="VARCHAR"/>
+        <unique name="PUR_REQS_STAT_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -12983,15 +12998,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="PUR_PO_STAT_T">
-        <column name="PO_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PO_STAT_DESC" required="true" size="45" type="VARCHAR"/>
-        <unique name="PUR_PO_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="PUR_PO_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -12999,7 +13005,7 @@
         <column name="PO_ID" size="9" type="DECIMAL"/>
         <column name="REQS_ID" size="8" type="DECIMAL"/>
         <column name="REQS_SRC_CD" size="4" type="VARCHAR"/>
-        <column name="PO_STAT_CD" size="4" type="VARCHAR"/>
+        <column name="DEPR_PO_STAT_CD" size="4" type="VARCHAR"/>
         <column name="PO_VNDR_CHC_CD" size="4" type="VARCHAR"/>
         <column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>
@@ -13141,9 +13147,6 @@
         <foreign-key foreignTable="PUR_AP_RECUR_PMT_FREQ_T" name="PUR_PO_TR19">
             <reference foreign="RECUR_PMT_FREQ_CD" local="RECUR_PMT_FREQ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="PUR_PO_STAT_T" name="PUR_PO_TR2">
-            <reference foreign="PO_STAT_CD" local="PO_STAT_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="PUR_PMT_TERM_TYP_T" name="PUR_PO_TR20">
             <reference foreign="VNDR_PMT_TERM_CD" local="VNDR_PMT_TERM_CD"/>
         </foreign-key>
@@ -13198,9 +13201,6 @@
         </index>
         <index name="PUR_PO_TI2">
             <index-column name="RECUR_PMT_FREQ_CD"/>
-        </index>
-        <index name="PUR_PO_TI3">
-            <index-column name="PO_STAT_CD"/>
         </index>
         <index name="PUR_PO_TI4">
             <index-column name="PO_TRNS_MTHD_CD"/>
@@ -13404,15 +13404,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="PUR_RCVNG_LN_STAT_T">
-        <column name="RCVNG_LN_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="RCVNG_LN_STAT_DESC" size="45" type="VARCHAR"/>
-        <unique name="PUR_RCVNG_LN_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="PUR_RCVNG_LN_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -13450,10 +13441,7 @@
         <column name="DLVY_REQ_DT_REAS_CD" size="4" type="VARCHAR"/>
         <column name="AP_PUR_DOC_LNK_ID" size="10" type="DECIMAL"/>
         <column name="DLVY_BLDG_OTHR_IND" size="1" type="VARCHAR"/>
-        <column name="RCVNG_LN_STAT_CD" size="4" type="VARCHAR"/>
-        <foreign-key foreignTable="PUR_RCVNG_LN_STAT_T" name="PUR_RCVNG_LN_TR1">
-            <reference foreign="RCVNG_LN_STAT_CD" local="RCVNG_LN_STAT_CD"/>
-        </foreign-key>
+        <column name="DEPR_RCVNG_LN_STAT_CD" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="PUR_CARI_T" name="PUR_RCVNG_LN_TR4">
             <reference foreign="CARI_CD" local="CARI_CD"/>
         </foreign-key>
@@ -13652,15 +13640,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="PUR_REQS_STAT_T">
-        <column name="REQS_STAT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="REQS_STAT_DESC" required="true" size="45" type="VARCHAR"/>
-        <unique name="PUR_REQS_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="PUR_REQS_T">
         <column name="REQS_ID" primaryKey="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -13668,7 +13647,7 @@
         <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="FND_SRC_CD" size="4" type="VARCHAR"/>
         <column name="REQS_SRC_CD" required="true" size="4" type="VARCHAR"/>
-        <column name="REQS_STAT_CD" size="4" type="VARCHAR"/>
+        <column name="DEPR_REQS_STAT_CD" size="4" type="VARCHAR"/>
         <column name="PO_TRNS_MTHD_CD" size="4" type="VARCHAR"/>
         <column name="PO_CST_SRC_CD" required="true" size="4" type="VARCHAR"/>
         <column name="DLVY_REQ_DT_REAS_CD" size="4" type="VARCHAR"/>
@@ -13782,9 +13761,6 @@
         <foreign-key foreignTable="PUR_VNDR_CONTR_T" name="PUR_REQS_TR17">
             <reference foreign="VNDR_CONTR_GNRTD_ID" local="VNDR_CONTR_GNRTD_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="PUR_REQS_STAT_T" name="PUR_REQS_TR2">
-            <reference foreign="REQS_STAT_CD" local="REQS_STAT_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="PUR_CPTL_AST_SYS_TYP_T" name="PUR_REQS_TR20">
             <reference foreign="CPTL_AST_SYS_TYP_CD" local="CPTL_AST_SYS_TYP_CD"/>
         </foreign-key>
@@ -13821,9 +13797,6 @@
         </index>
         <index name="PUR_REQS_TI2">
             <index-column name="FND_SRC_CD"/>
-        </index>
-        <index name="PUR_REQS_TI3">
-            <index-column name="REQS_STAT_CD"/>
         </index>
         <index name="PUR_REQS_TI4">
             <index-column name="PO_TRNS_MTHD_CD"/>
@@ -16087,7 +16060,7 @@
     <view name="END_KEMID_HIST_REP_GRP_V" viewdefinition="SELECT C.KEMID, CL.SEC_RPT_GRP, C.SEC_ID, C.REGIS_CD, C.HLDG_IP_IND, SUM(C.HLDG_UNITS) AS UNITS, SUM(HLDG_COST) AS CARRY_VAL, SUM(HLDG_MVAL) AS MARKET_VAL, SUM(HLDG_NEXT_FY_EST_INC) AS NEXT_FY_EST_INC, SUM(HLDG_FY_REM_EST_INC) AS FY_REM_EST_INC, SUM(HLDG_ANNL_INC_EST) AS ANNL_INC_EST, C.ME_DT_ID FROM END_HLDG_HIST_T C, END_SEC_T S, END_CLS_CD_T CL WHERE C.SEC_ID = S.SEC_ID AND S.SEC_CLS_CD = CL.SEC_CLS_CD GROUP BY C.KEMID, CL.SEC_RPT_GRP, C.HLDG_IP_IND, C.SEC_ID, C.REGIS_CD, C.ME_DT_ID&#xa;"/>
     <view name="PUR_PO_ITM_TOT_AMT_V" viewdefinition="(SELECT FDOC_NBR, SUM(                      CASE                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC                      WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC                      WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC                      WHEN ITM_ACTV_IND ='N' THEN 0                      ELSE 0                        END) AS TOTAL_AMOUNT        FROM PUR_PO_ITM_T GROUP BY FDOC_NBR)&#xa;"/>
     <view name="PUR_PO_ITM_TOT_ENC_V" viewdefinition="(SELECT A.FDOC_NBR AS FDOC_NBR,         SUM(A.ITM_OSTND_ENC_AMT) AS TOTAL_ENCUMBRANCE FROM PUR_PO_ITM_T A GROUP BY A.FDOC_NBR)&#xa;"/>
-    <view name="PUR_PO_V" viewdefinition="SELECT P.AP_PUR_DOC_LNK_ID,             P.PO_ID,             P.PO_CUR_IND,             P.FDOC_NBR,             P.OBJ_ID,             P.PO_STAT_CD,             P.RECUR_PMT_TYP_CD,             P.PO_VNDR_CHC_CD,             P.PO_END_DT,             E.TOTAL_ENCUMBRANCE,             SUMMATION.TOTAL_AMOUNT   FROM PUR_PO_T P,            PUR_PO_ITM_TOT_ENC_V E,            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR    AND P.FDOC_NBR = SUMMATION.FDOC_NBR&#xa;"/>
+    <view name="PUR_PO_V" viewdefinition="SELECT P.AP_PUR_DOC_LNK_ID,&#xa;             P.PO_ID,&#xa;             P.PO_CUR_IND,&#xa;             P.FDOC_NBR,&#xa;             P.OBJ_ID,&#xa;             P.RECUR_PMT_TYP_CD,&#xa;             P.PO_VNDR_CHC_CD,&#xa;             P.PO_END_DT,&#xa;             E.TOTAL_ENCUMBRANCE,&#xa;             SUMMATION.TOTAL_AMOUNT&#xa;   FROM PUR_PO_T P,&#xa;            PUR_PO_ITM_TOT_ENC_V E,&#xa;            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR&#xa;    AND P.FDOC_NBR = SUMMATION.FDOC_NBR"/>
     <sequence name="A21_LBR_BLD_NBR_SEQ" nextval="2000"/>
     <sequence name="AP_CRDT_MEMO_ACCT_CHG_SEQ" nextval="2000"/>
     <sequence name="AP_CRDT_MEMO_ACCT_HIST_SEQ" nextval="1000"/>

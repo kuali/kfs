@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewOverrideFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.web.renderers.OverrideFieldRenderer;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -100,12 +101,8 @@ public class AccountingLineViewOverrideField implements RenderableElement {
         OverrideFieldRenderer renderer = new OverrideFieldRenderer();
         renderer.setField(overrideField);
         renderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
-        if (parent.isReadOnly() && definition.isAllowEditDespiteReadOnlyParentWhenAccoutingLineEditable() && renderingContext.isEditableLine()) {
-            renderer.setReadOnly(false);
-        } else {
-            renderer.setReadOnly(parent.isReadOnly());
-        }
-        renderer.setOverrideNeededValue(getOverrideNeededValue(renderingContext.getAccountingLine()));
+        WorkflowDocument doc = renderingContext.getAccountingDocument().getFinancialSystemDocumentHeader().getWorkflowDocument();
+        renderer.setReadOnly(doc.isFinal() || doc.isProcessed());        renderer.setOverrideNeededValue(getOverrideNeededValue(renderingContext.getAccountingLine()));
         renderer.setAccountingLine(renderingContext.getAccountingLine());
         renderer.render(pageContext, parentTag);
         renderer.clear();

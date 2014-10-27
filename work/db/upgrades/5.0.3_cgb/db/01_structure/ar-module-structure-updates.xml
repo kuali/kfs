@@ -561,7 +561,7 @@
 			<column name="AWD_BDGT_AMT" type="DECIMAL(19,2)" />
 			<column name="DRW_AMT" type="DECIMAL(19,2)" />
 			<column name="AVAIL_DRW_AMT" type="DECIMAL(19,2)" />
-			<column name="AWD_FDOC_NBR" type="VARCHAR(12)" />
+			<column name="AWD_FDOC_NBR" type="VARCHAR(14)" />
 			<column name="ACCOUNT_DESC" type="VARCHAR(45)" />
 			<column name="ACCT_EXP_DT" type="DATETIME" />
 			<column name="CLM_ON_CSH_BAL_AMT" type="DECIMAL(19,2)" />

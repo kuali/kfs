@@ -175,11 +175,11 @@
 			<column name="ADDL_FRMS_REQ_IND" type="VARCHAR(1)" />
 			<column name="ADDL_FRMS_DESC" type="VARCHAR(255)" />
 			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)" />
-			<column name="CG_MIN_INV_AMT" type="DECIMAL(19,2)" />
+			<column name="MIN_INV_AMT" type="DECIMAL(19,2)" />
 			<column name="CG_LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="AUTO_APPROVE_IND" type="VARCHAR(1)" />
 			<column name="FUNDING_EXP_DT" type="DATETIME" />
-			<column name="CG_INV_OPT" type="VARCHAR(120)" />
+			<column name="INV_OPT" type="VARCHAR(120)" />
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="EXCL_FRM_INV_REASON_TXT" type="VARCHAR(255)" />
 			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />

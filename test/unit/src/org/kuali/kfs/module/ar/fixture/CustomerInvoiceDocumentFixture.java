@@ -36,13 +36,6 @@ public enum CustomerInvoiceDocumentFixture {
     BASE_CIDOC_NO_CUSTOMER(null, // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
-            null, // paymentChartOfAccountsCode
-            null, // paymentAccountNumber
-            null, // paymentSubAccountNumber
-            null, // paymentFinancialObjectCode
-            null, // paymentSubObjectCode
-            null, // paymentProjectCode
-            null, // financialDocumentHeader
             null,
             null, //billByChartOfAccountsCode
             null //billedByOrganizationCode
@@ -51,24 +44,11 @@ public enum CustomerInvoiceDocumentFixture {
     BASE_CIDOC_WITH_CUSTOMER("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
-            null, // paymentChartOfAccountsCode
-            null, // paymentAccountNumber
-            null, // paymentSubAccountNumber
-            null, // paymentFinancialObjectCode
-            null, // paymentSubObjectCode
-            null, // paymentProjectCode
-            null, null, null, null),
+            null, null, null),
 
     BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
-            null, // paymentChartOfAccountsCode
-            null, // paymentAccountNumber
-            null, // paymentSubAccountNumber
-            null, // paymentFinancialObjectCode
-            null, // paymentSubObjectCode
-            null, // paymentProjectCode
-            null, // financialDocumentHeader
             null,
             "UA", //billByChartOfAccountsCode
             "VPIT" //billedByOrganizationCode
@@ -77,13 +57,7 @@ public enum CustomerInvoiceDocumentFixture {
     REVERSAL_CIDOC("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
-            null, // paymentChartOfAccountsCode
-            null, // paymentAccountNumber
-            null, // paymentSubAccountNumber
-            null, // paymentFinancialObjectCode
-            null, // paymentSubObjectCode
-            null, // paymentProjectCode
-            null, "123456", null, null);
+            "123456", null, null);
 
     public String customerNumber;
     public String processingChartOfAccountsCode;
@@ -92,10 +66,11 @@ public enum CustomerInvoiceDocumentFixture {
     public String billByChartOfAccountsCode;
     public String billedByOrganizationCode;
 
-    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumber, String billByChartOfAccountsCode, String billedByOrganizationCode ){
+    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String financialDocumentInErrorNumber, String billByChartOfAccountsCode, String billedByOrganizationCode ){
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
         this.processingChartOfAccountsCode = processingChartOfAccountsCode;
+        this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
         this.billByChartOfAccountsCode = billByChartOfAccountsCode;
         this.billedByOrganizationCode = billedByOrganizationCode;
     }

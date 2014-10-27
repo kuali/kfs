@@ -100,7 +100,9 @@
 				hideRequiredAsterisk="true" align="center" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}" useShortLabel="false"
 				hideRequiredAsterisk="true" align="center" />
-			<kul:htmlAttributeHeaderCell literalLabel="Actions" horizontal="true" align="center" />
+			<c:if test="${!KualiForm.workflowDocument.final}" >
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" horizontal="true" align="center" />
+			</c:if>
 		
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.referralToCollectionsDetails" id="rocDocumentDetails">
 						<tr>
@@ -122,9 +124,11 @@
 										property="document.referralToCollectionsDetails[${ctr}].age" readOnly="true" /></td>
 								<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}"
 										property="document.referralToCollectionsDetails[${ctr}].finalDispositionCode" readOnly="${readOnly}" /></td>
-								<td class="datacell">
-									<html:image property="methodToCall.deleteInvoice.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Invoice" title="Delete Invoice" styleClass="tinybutton" />
-								</td>
+								<c:if test="${!KualiForm.workflowDocument.final}" >
+									<td class="datacell">
+										<html:image property="methodToCall.deleteInvoice.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Invoice" title="Delete Invoice" styleClass="tinybutton" />
+									</td>
+								</c:if>
 						</tr>
 		
 			</logic:iterate>

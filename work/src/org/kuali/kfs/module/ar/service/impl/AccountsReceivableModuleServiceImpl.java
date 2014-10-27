@@ -36,7 +36,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -54,7 +53,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -96,7 +94,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected ParameterService parameterService;
-    protected ReceivableAccountingLineService receivableAccountingLineService;
     protected SystemInformationService systemInformationService;
 
     public CustomerAddressService getCustomerAddressService() {
@@ -113,14 +110,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     public void setCustomerCreditMemoDetailService(CustomerCreditMemoDetailService customerCreditMemoDetailService) {
         this.customerCreditMemoDetailService = customerCreditMemoDetailService;
-    }
-
-    public ReceivableAccountingLineService getReceivableAccountingLineService() {
-        return receivableAccountingLineService;
-    }
-
-    public void setReceivableAccountingLineService(ReceivableAccountingLineService receivableAccountingLineService) {
-        this.receivableAccountingLineService = receivableAccountingLineService;
     }
 
     public SystemInformationService getSystemInformationService() {
@@ -494,23 +483,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isUsingReceivableFAU()
-     */
-    @Override
-    public boolean isUsingReceivableFAU() {
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        return receivableOffsetOption != null ? ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption) : false;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#setReceivableAccountingLineForCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
-     */
-    @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
-        receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument((CustomerInvoiceDocument) document);
-    }
-
-    /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
@@ -640,21 +612,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
         return getDocumentService().blanketApproveDocument((CustomerCreditMemoDocument)creditMemoDocument, annotation, null);
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#retrieveGLPEReceivableParameterValue() This method
-     *      retrieves the value of the Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD
-     * @param parameterName
-     * @return
-     */
-
-    @Override
-    public String retrieveGLPEReceivableParameterValue() {
-
-        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        return parameterValue;
-
     }
 
     /**

@@ -24,14 +24,11 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
@@ -41,12 +38,10 @@ import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -259,94 +254,6 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
         }
         return false;
 
-    }
-
-    /**
-     * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean isOffsetDefinitionSetupForInvoicing(ContractsAndGrantsBillingAward award) {
-        String coaCode = null, orgCode = null;
-        Integer currentYear = universityDateService.getCurrentFiscalYear();
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
-        // This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU) {
-            Map<String, Object> criteria = new HashMap<>();
-            Map<String, Object> sysCriteria = new HashMap<>();
-            criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, systemOption.getActualFinancialBalanceTypeCd());
-            criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-            // 1. To get the chart code and org code for invoicing depending on the invoicing options.
-            if (ObjectUtils.isNotNull(award.getInvoicingOptionCode())) {
-                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_ACCOUNT)) {
-                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return false;
-                        }
-                    }
-                }
-                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                    List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
-
-                    for (Account controlAccount : controlAccounts) {
-                        coaCode = controlAccount.getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return false;
-                        }
-                    }
-                }
-                if (award.getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_AWARD)) {
-                    List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(award);
-
-                    for (Account controlAccount : controlAccounts) {
-                        coaCode = controlAccount.getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
-        boolean isValid = true;
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = StringUtils.equals(receivableOffsetOption, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
-        if (isUsingReceivableFAU) {
-            if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
-                return false;
-            }
-            else {
-                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArConstants.AR_ACCOUNT)) {
-                        return true;
-                    }
-                }
-                return false; // we made it through the loop without finding an award invoice account with type AR account...so this test fails
-            }
-        }
-        return true;
     }
 
     public AccountingPeriodService getAccountingPeriodService() {

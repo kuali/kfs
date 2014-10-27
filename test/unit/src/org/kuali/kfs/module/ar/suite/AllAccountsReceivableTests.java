@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,19 +42,12 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailDis
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailItemCodeValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailItemQuantityValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailParentLessThanDiscountValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSystemInformationDiscountValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitOfMeasureValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitPriceValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDueDateValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceNumberOfInvoiceDetailsValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableAccountNumberValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableChartOfAccountsCodeValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableFinancialObjectCodeValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableFinancialSubObjectCodeValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableProjectCodeValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableSubAccountNumberValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRuleTest;
@@ -90,17 +83,10 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerInvoiceDetailItemCodeValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDetailItemQuantityValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDetailParentLessThanDiscountValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceDetailSubFundGroupReceivableValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDetailUnitOfMeasureValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDetailUnitPriceValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDueDateValidationTest.class);
         suite.addTestSuite(CustomerInvoiceNumberOfInvoiceDetailsValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableAccountNumberValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableChartOfAccountsCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableFinancialObjectCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableFinancialSubObjectCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableProjectCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableSubAccountNumberValidationTest.class);
         suite.addTestSuite(CustomerInvoiceDetailSystemInformationDiscountValidationTest.class);
         suite.addTestSuite(CustomerCreditMemoDetailServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentServiceTest.class);
@@ -119,7 +105,7 @@ public class AllAccountsReceivableTests {
 
     /**
      * Runs all the tests in the all test test suite
-     * 
+     *
      * @param args command line arguments
      */
     public static void main(String[] args) {

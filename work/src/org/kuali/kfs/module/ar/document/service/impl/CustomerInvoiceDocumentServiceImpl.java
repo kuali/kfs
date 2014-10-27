@@ -47,7 +47,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
-import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -59,7 +58,6 @@ import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -96,9 +94,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected FinancialSystemUserService financialSystemUserService;
     protected InvoicePaidAppliedService<CustomerInvoiceDetail> invoicePaidAppliedService;
     protected NonInvoicedDistributionService nonInvoicedDistributionService;
-    protected ParameterService parameterService;
     protected PersonService personService;
-    protected ReceivableAccountingLineService receivableAccountingLineService;
     protected UniversityDateService universityDateService;
     protected NoteService noteService;
     protected IdentityService identityService;
@@ -626,13 +622,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
             document.setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
         }
-
-        // If document is using receivable option, set receivable accounting line for customer invoice document
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        if (isUsingReceivableFAU) {
-            receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument(document);
-        }
     }
 
     /**
@@ -841,14 +830,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         this.dateTimeService = dateTimeService;
     }
 
-    public ReceivableAccountingLineService getReceivableAccountingLineService() {
-        return receivableAccountingLineService;
-    }
-
-    public void setReceivableAccountingLineService(ReceivableAccountingLineService receivableAccountingLineService) {
-        this.receivableAccountingLineService = receivableAccountingLineService;
-    }
-
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
@@ -1043,11 +1024,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 (actionTypeToCheck.compareTo(ActionType.BLANKET_APPROVE) == 0) ||
                 (actionTypeToCheck.compareTo(ActionType.SU_COMPLETE) == 0) );
     }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
 
     public FinancialSystemUserService getFinancialSystemUserService() {
         return financialSystemUserService;

@@ -17,17 +17,14 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -120,23 +117,8 @@ public class AccountsReceivablePendingEntryServiceImpl implements AccountsReceiv
         invoicePaidApplied.getInvoiceDetail().refresh();
         invoicePaidApplied.getInvoiceDetail().refreshNonUpdateableReferences();
 
-        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, parameterName);
-
-        ObjectCode objectCode = null;
-        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(parameterValue) || ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(parameterValue)) {
-            invoicePaidApplied.getInvoiceDetail().refreshReferenceObject("objectCode");
-            objectCode = invoicePaidApplied.getInvoiceDetail().getObjectCode();
-        }
-        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(parameterValue)) {
-            CustomerInvoiceDocument customerInvoiceDocument = invoicePaidApplied.getInvoiceDetail().getCustomerInvoiceDocument();
-            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
-            objectCode = invoicePaidApplied.getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();
-        }
-        else {
-            throw new RuntimeException("No AR ObjectCode was available for this InvoicePaidApplied, which should never happen.");
-        }
+        invoicePaidApplied.getInvoiceDetail().refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+        ObjectCode objectCode = invoicePaidApplied.getInvoiceDetail().getObjectCode();
 
         return objectCode;
     }
@@ -146,21 +128,12 @@ public class AccountsReceivablePendingEntryServiceImpl implements AccountsReceiv
      */
     @Override
     public String getAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
-        String receivableOffsetOption = getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        String accountsReceivableObjectCode = null;
-        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(receivableOffsetOption)) {
-            if (StringUtils.isNotEmpty(customerInvoiceDetail.getChartOfAccountsCode())) {
-                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
-                accountsReceivableObjectCode = customerInvoiceDetail.getChart().getFinAccountsReceivableObj().getFinancialObjectCode();
-            }
+        if (StringUtils.isNotEmpty(customerInvoiceDetail.getChartOfAccountsCode())) {
+            customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
+            return customerInvoiceDetail.getChart().getFinAccountsReceivableObj().getFinancialObjectCode();
         }
-        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(receivableOffsetOption)) {
-            if (StringUtils.isNotEmpty(customerInvoiceDetail.getAccountNumber())) {
-                customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                accountsReceivableObjectCode = getParameterService().getSubParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
-            }
-        }
-        return accountsReceivableObjectCode;
+
+        return null;
     }
 
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {

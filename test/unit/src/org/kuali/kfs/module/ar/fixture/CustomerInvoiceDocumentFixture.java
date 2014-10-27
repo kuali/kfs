@@ -83,30 +83,11 @@ public enum CustomerInvoiceDocumentFixture {
             null, // paymentFinancialObjectCode
             null, // paymentSubObjectCode
             null, // paymentProjectCode
-            null, "123456", null, null),
-
-    CIDOC_WITH_FAU_RECEIVABLE("ABB2", // customerNumber
-            "UA", // processingChartOfAccountsCode
-            "VPIT", // processingOrganizationCode
-            "BA", // paymentChartOfAccountsCode
-            "6044900", // paymentAccountNumber
-            "ARREC", // paymentSubAccountNumber
-            "1466", // paymentFinancialObjectCode
-            "001", // paymentSubObjectCode
-            null, // paymentProjectCode
-            "FAU" // FAU
-            , null, null, null);
+            null, "123456", null, null);
 
     public String customerNumber;
     public String processingChartOfAccountsCode;
     public String processingOrganizationCode;
-    public String paymentChartOfAccountsCode;
-    public String paymentAccountNumber;
-    public String paymentSubAccountNumber;
-    public String paymentFinancialObjectCode;
-    public String paymentFinancialSubObjectCode;
-    public String paymentProjectCode;
-    public String paymentOrganizationReferenceIdentifier;
     public String financialDocumentInErrorNumber;
     public String billByChartOfAccountsCode;
     public String billedByOrganizationCode;
@@ -115,14 +96,6 @@ public enum CustomerInvoiceDocumentFixture {
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
         this.processingChartOfAccountsCode = processingChartOfAccountsCode;
-        this.paymentChartOfAccountsCode = paymentChartOfAccountsCode;
-        this.paymentAccountNumber = paymentAccountNumber;
-        this.paymentSubAccountNumber = paymentSubAccountNumber;
-        this.paymentFinancialObjectCode = paymentFinancialObjectCode;
-        this.paymentFinancialSubObjectCode = paymentFinancialSubObjectCode;
-        this.paymentProjectCode = paymentProjectCode;
-        this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
-        this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
         this.billByChartOfAccountsCode = billByChartOfAccountsCode;
         this.billedByOrganizationCode = billedByOrganizationCode;
     }
@@ -165,13 +138,6 @@ public enum CustomerInvoiceDocumentFixture {
         //probably should change this to use values set in fixture
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
 
-        customerInvoiceDocument.setPaymentChartOfAccountsCode(paymentChartOfAccountsCode);
-        customerInvoiceDocument.setPaymentAccountNumber(paymentAccountNumber);
-        customerInvoiceDocument.setPaymentSubAccountNumber(paymentSubAccountNumber);
-        customerInvoiceDocument.setPaymentFinancialObjectCode(paymentFinancialObjectCode);
-        customerInvoiceDocument.setPaymentFinancialSubObjectCode(paymentFinancialSubObjectCode);
-        customerInvoiceDocument.setPaymentProjectCode(paymentProjectCode);
-        customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(paymentOrganizationReferenceIdentifier);
         customerInvoiceDocument.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
         if( StringUtils.isNotEmpty(billByChartOfAccountsCode)){
             customerInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountsCode);

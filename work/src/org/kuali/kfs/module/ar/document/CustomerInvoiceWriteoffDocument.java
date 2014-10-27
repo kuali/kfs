@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,8 @@ import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffTaxCustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -54,8 +54,6 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
@@ -229,7 +227,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     /**
      * This method returns all the applicable invoice details for writeoff. This method also sets the writeoff document number on
      * each of the invoice details for making retrieval of the actual writeoff amount easier.
-     * 
+     *
      * @return
      */
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsForWriteoff() {
@@ -244,7 +242,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     /**
      * This method returns the total amount to be written off
-     * 
+     *
      * @return
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
@@ -295,7 +293,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     /**
      * When document is processed do the following: 1) Apply amounts to writeoff invoice 2) Mark off invoice indiciator
-     * 
+     *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
@@ -309,9 +307,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     /**
      * do all the calculations before the document gets saved gets called for 'Submit', 'Save', and 'Blanket Approved'
-     * 
+     *
      * @see org.kuali.rice.krad.document.Document#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
+    @Override
     public void prepareForSave(KualiDocumentEvent event) {
         // generate GLPEs
         if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
@@ -321,6 +320,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         super.prepareForSave(event);
     }
 
+    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -330,53 +330,47 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * 2. D Writeoff object code (or Writeoff FAU) with remaining amount 3. C Receivable object code for tax on state tax account 4.
      * D Sales Tax object code for tax on the state tax account 5. C Receivable object code for tax on district tax account 6. D
      * District tax object code for $1.00 on the district tax account
-     * 
+     *
      * @see org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl#processGenerateGeneralLedgerPendingEntries(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
 
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
 
         // if invoice item open amount <= 0 -> do not generate GLPEs for this glpeSourceDetail
-        if (!customerInvoiceDetail.getAmountOpen().isPositive())
+        if (!customerInvoiceDetail.getAmountOpen().isPositive()) {
             return true;
+        }
 
         KualiDecimal amount;
-
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean hasReceivableClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-
-        String writeoffOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
-        boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
         boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption);
 
-        boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
-
         // if sales tax is enabled generate tax GLPEs
         if (SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(getCustomerInvoiceDocument(), customerInvoiceDetail)) {
-            
+
             amount = customerInvoiceDetail.getInvoiceItemPreTaxAmount();
-            addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
+            addReceivableGLPEs(sequenceHelper, glpeSourceDetail, true, amount);
             sequenceHelper.increment();
-            addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
-            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
+            addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, true, amount);
+            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, true, amount);
         }
         else {
             amount = customerInvoiceDetail.getAmountOpen();
-            addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
+            addReceivableGLPEs(sequenceHelper, glpeSourceDetail, true, amount);
             sequenceHelper.increment();
-            addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
+            addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, true, amount);
         }
         return true;
     }
 
     /**
      * This method creates the receivable GLPEs for customer invoice details using the remaining amount
-     * 
+     *
      * @param poster
      * @param sequenceHelper
      * @param postable
@@ -394,7 +388,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     /**
      * This method adds writeoff GLPE's for the customer invoice details using the remaining amount.
-     * 
+     *
      * @param poster
      * @param sequenceHelper
      * @param postable
@@ -450,11 +444,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     }
 
 
- 
+
 
     /** find all glpes that match this sales tax entry
-     * 
-     * 
+     *
+     *
      * @param glpes
      * @param glpeSourceDetail
      * @param glpeWriteOffDetail
@@ -475,10 +469,12 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         return arrGlpeMatches;
     }
 
+    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
         return null;
     }
 
+    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPendingEntrySourceDetails = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         generalLedgerPendingEntrySourceDetails.addAll(getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts());
@@ -486,18 +482,20 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     }
 
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public KualiDecimal getTotalDollarAmount() {
         return getInvoiceWriteoffAmount();
     }
 
     /**
      * Gets the customerNote attribute.
-     * 
+     *
      * @return Returns the customerNote.
      */
     public String getCustomerNote() {
@@ -506,7 +504,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     /**
      * Sets the customerNote attribute value.
-     * 
+     *
      * @param customerNote The customerNote to set.
      */
     public void setCustomerNote(String customerNote) {
@@ -519,17 +517,17 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         List<Note> boNotes = customerService.getCustomerNotes(this.getCustomerInvoiceDocument().getCustomer().getCustomerNumber());
         StringBuffer customerNotes = new StringBuffer();
         if (boNotes.size() > 0) {
-         
+
             for (Note note : boNotes) {
                 customerNotes.append(note.getNoteText().trim() + " ");
             }
             this.customerNote = customerNotes.toString().trim();
-        }  
+        }
     }
 
     /**
      * Answers true when invoice write off amount is greater than default approved amount ($50???)
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override

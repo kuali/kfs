@@ -80,24 +80,7 @@
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>
-				<bean parent="CustomerInvoice-receivableBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>isChartCodeReceivableValidation</value></key>
-								<bean parent="CustomerInvoice-isChartCodeReceivableBranch" scope="prototype"/>
-							</entry>
-							<entry>
-								<key><value>isSubFundGroupReceivableValidation</value></key>
-								<bean parent="CustomerInvoice-isSubFundGroupReceivableBranch" scope="prototype"/>
-							</entry>
-							<entry>
-								<key><value>isFauReceivableValidation</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>
-						</map>
-					</property>
-				</bean>
+				<bean parent="CustomerInvoice-isChartCodeReceivableBranch" scope="prototype"/>
 				<bean parent="CustomerInvoice-detailUnitPriceValidation">
 					<property name="parameterProperties">
 						<list>
@@ -182,17 +165,6 @@
 			</list>
 		</property>
 	</bean>
-							
-	<bean id="CustomerInvoice-isSubFundGroupReceivableBranch" abstract="true" parent="CustomerInvoice-detailSubFundGroupReceivableValidation" scope="prototype">
-		<property name="parameterProperties">
-			<list>
-				<bean parent="validationFieldConversion">
-					<property name="sourceEventProperty" value="accountingLine" />
-					<property name="targetValidationProperty" value="customerInvoiceDetail" />
-				</bean>
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="CustomerInvoice-isDiscountBranch" abstract="true" parent="CustomerInvoice-detailDiscountGreaterThanParentValidation" scope="prototype">
 		<property name="parameterProperties">
@@ -246,75 +218,6 @@
 	<bean id="CustomerInvoice-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
-  		</property>
-	</bean>	
-	
-	<bean id="CustomerInvoice-receivableValidation" parent="CustomerInvoice-receivableValidation-parentBean" scope="prototype" />
-	
-	<bean id="CustomerInvoice-receivableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-				<bean parent="CustomerInvoice-receivableChartOfAccountsCodeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="CustomerInvoice-receivableAccountNumberValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>				
-				<bean parent="CustomerInvoice-receivableSubAccountNumberValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>				
-				<bean parent="CustomerInvoice-receivableFinancialObjectCodeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="CustomerInvoice-receivableFinancialSubObjectCodeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>				
-				<bean parent="CustomerInvoice-receivableProjectCodeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="customerInvoiceDocument" />
-							</bean>
-						</list>
-					</property>
-				</bean>																																				  										
-			</list>
   		</property>
 	</bean>
 	
@@ -516,24 +419,6 @@
 							</bean>											
 						</list>
 					</property>					
-				</bean>				
-				<bean parent="CustomerInvoice-receivableBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>isChartCodeReceivableValidation</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>						
-							<entry>
-								<key><value>isSubFundGroupReceivableValidation</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>						
-							<entry>
-								<key><value>isFauReceivableValidation</value></key>
-								<bean parent="CustomerInvoice-receivableValidation" scope="prototype" />
-							</entry>													
-						</map>
-					</property>
 				</bean>
 				<bean parent="CustomerInvoice-recurrenceDataSufficiencyValidation" scope="prototype">
 					<property name="parameterProperties">

@@ -31,7 +31,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -57,7 +56,6 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
@@ -453,30 +451,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         	award.setBillingFrequencyCode(CGConstants.LOC_BILLING_SCHEDULE_CODE);
         }
 
-
-        List<Section> sections = super.getSections(document, oldMaintainable);
-
-        // If CGB is enabled, show/hide Invoice Account section based on parameter
-        if (SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
-            if (sections != null) {
-                for (Section section : sections) {
-                    String sectionId = section.getSectionId();
-                    // To get parameter Value of GLPE Recievable offset generation method.
-                    String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
-
-                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.SectionId.AWARD_INVOICE_ACCOUNTS_SECTION_ID)) {
-                        if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
-                            section.setHidden(false);
-                            section.setDefaultOpen(true);
-                        } else {
-                            section.setHidden(true);
-                        }
-                    }
-                }
-            }
-        }
-        return sections;
-
+        return super.getSections(document, oldMaintainable);
     }
 
     /**

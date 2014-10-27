@@ -20,14 +20,6 @@
 		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailItemQuantityValidation"
 		abstract="true" />
 
-	<bean id="CustomerInvoice-receivableBranchingValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableBranchingValidation"
-		abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>
-
 	<bean id="CustomerInvoice-detailUnitOfMeasureValidation"
 		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitOfMeasureValidation"
 		abstract="true">
@@ -40,40 +32,8 @@
 	<bean id="CustomerInvoice-detailAmountValidation"
 		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailAmountValidation" />
 
-	<bean id="CustomerInvoice-detailSubFundGroupReceivableValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidation"
-		abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>
-
 	<bean id="CustomerInvoice-detailChartCodeReceivableValidation"
 		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailChartCodeReceivableValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableAccountNumberValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableAccountNumberValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableChartOfAccountsCodeValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableChartOfAccountsCodeValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableFinancialObjectCodeValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableFinancialObjectCodeValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableFinancialSubObjectCodeValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableFinancialSubObjectCodeValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableProjectCodeValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableProjectCodeValidation"
-		abstract="true" />
-
-	<bean id="CustomerInvoice-receivableSubAccountNumberValidation"
-		class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableSubAccountNumberValidation"
 		abstract="true" />
 
 	<bean id="CustomerInvoice-customerNumberValidation"

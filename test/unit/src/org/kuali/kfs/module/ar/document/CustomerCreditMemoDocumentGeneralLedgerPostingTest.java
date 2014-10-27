@@ -18,10 +18,8 @@ package org.kuali.kfs.module.ar.document;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -30,7 +28,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -62,46 +59,12 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
     }
 
     /**
-     * This method tests if general ledger entries are created correctly for income, sales tax, and district tax
-     */
-    public void testGenerateGeneralLedgerPendingEntries_BasicGLPEs() throws WorkflowException {
-
-        // get document with GLPE's generated
-        CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
-
-        // check if basic GLPE's (income, sales tax, district tax) are generated correctly
-        CustomerInvoiceDetail testCustomerInvoiceDetail = CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL.createCustomerInvoiceDetail();
-        checkBasicGeneralLedgerPendingEntries(doc, testCustomerInvoiceDetail);
-
-    }
-
-    /**
-     * This method tests if general ledger entries are created correctly when the receivable is set to use the FAU
-     */
-    public void testGenerateGeneralLedgerPendingEntries_ReceivableFAU() throws WorkflowException {
-
-        // get document with GLPE's generated
-        CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
-
-        // check the receivable GLPE
-        String receivableChartOfAccountsCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentChartOfAccountsCode;
-        String receivableAccountNumber = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentAccountNumber;
-        String receivableSubAccountNumber = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentSubAccountNumber;
-        String receivableFinancialObjectCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentFinancialObjectCode;
-        String receivableFinancialSubObjectCode = GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode(); //TODO What should this value really be?
-        String receivableProjectCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentProjectCode;
-        String receivableOrgRefId = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentOrganizationReferenceIdentifier;
-
-        checkReceivableGeneralLedgerPendingEntries(doc, receivableChartOfAccountsCode, receivableAccountNumber, receivableSubAccountNumber, receivableFinancialObjectCode, receivableFinancialSubObjectCode, receivableProjectCode, receivableOrgRefId);
-    }
-
-    /**
      * This method tests if general ledger entries are created correctly when the receivable is set to use the Chart of Accounts
      * Code
      */
     public void testGenerateGeneralLedgerPendingEntries_ReceivableChart() throws WorkflowException {
         // get document with GLPE's generated
-        CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE);
+        CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE);
 
         // check the receivable
         CustomerInvoiceDetail testCustomerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE.createCustomerInvoiceDetail();
@@ -118,29 +81,6 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
     }
 
     /**
-     * This method tests if general ledger entries are created correctly when the receivable is set to use the Sub Fund Group
-     *
-     * TODO Test needs to be written after AR Object Code is added to Sub Fund Group
-     */
-    public void testGenerateGeneralLedgerPendingEntries_SubFundGroup() throws WorkflowException {
-        // get document with GLPE's generated
-        CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE);
-
-     // check the receivable
-        CustomerInvoiceDetail testCustomerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE.createCustomerInvoiceDetail();
-        testCustomerInvoiceDetail.refreshReferenceObject("account");
-        String receivableChartOfAccountsCode = testCustomerInvoiceDetail.getChartOfAccountsCode();
-        String receivableAccountNumber = testCustomerInvoiceDetail.getAccountNumber();
-        String receivableSubAccountNumber = testCustomerInvoiceDetail.getSubAccountNumber();
-        String receivableFinancialObjectCode = SpringContext.getBean(AccountsReceivablePendingEntryService.class).getAccountsReceivableObjectCode(testCustomerInvoiceDetail);
-        String receivableFinancialSubObjectCode = GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode(); //TODO What should this value really be?
-        String receivableProjectCode = testCustomerInvoiceDetail.getProjectCode();
-        String receivableOrgRefId = testCustomerInvoiceDetail.getOrganizationReferenceId();
-
-        checkReceivableGeneralLedgerPendingEntries(doc, receivableChartOfAccountsCode, receivableAccountNumber, receivableSubAccountNumber, receivableFinancialObjectCode, receivableFinancialSubObjectCode, receivableProjectCode, receivableOrgRefId);
-    }
-
-    /**
      * This method returns a Customer Credit Memo Document with generated GLPE's based on the receivable offset generation method
      * specified
      *
@@ -148,10 +88,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
      * @param customerInvoiceDocumentFixture
      * @return
      */
-    public CustomerCreditMemoDocument getCustomerCreditMemoDocumentWithGLPEs(String receivableOffsetGenerationMethodValue, CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture)  throws WorkflowException {
-        // update system parameter to make system use FAU receivable for Customer Invoice Document
-        TestUtils.setSystemParameter(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, receivableOffsetGenerationMethodValue);
-
+    public CustomerCreditMemoDocument getCustomerCreditMemoDocumentWithGLPEs(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture)  throws WorkflowException {
         // create Customer Invoice Document
         CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures = new CustomerInvoiceDetailFixture[] { customerInvoiceDetailFixture };
         CustomerInvoiceDocument invoice = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDetailFixtures);
@@ -228,10 +165,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
      * @param testCustomerInvoiceDetail
      */
     public void checkBasicGeneralLedgerPendingEntries(CustomerCreditMemoDocument doc, CustomerInvoiceDetail testCustomerInvoiceDetail) {
-
-        String receivableOffsetGenerationMethod = TestUtils.getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        int index = receivableOffsetGenerationMethod.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)? 2 : 1;
-        GeneralLedgerPendingEntry income = doc.getGeneralLedgerPendingEntries().get(index);
+        GeneralLedgerPendingEntry income = doc.getGeneralLedgerPendingEntries().get(1);
 
         //TODO: mock the tax service for Olga
 

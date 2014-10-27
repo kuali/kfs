@@ -196,17 +196,6 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public boolean isUsingReceivableFAU() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    @Override
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
@@ -272,12 +261,6 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
 
     @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public String retrieveGLPEReceivableParameterValue() {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }

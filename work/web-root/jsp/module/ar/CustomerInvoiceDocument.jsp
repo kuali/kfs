@@ -52,14 +52,7 @@
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />
         
     <ar:customerInvoiceAddresses
-        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
-     
-	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">
-     <ar:customerInvoiceReceivableAccountingLine
-      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"
-      	receivableValuesMap="${KualiForm.document.valuesMap}"
-        accountsCanCrossCharts="${accountsCanCrossCharts}"/>
-    </c:if>
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />
      
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 		<sys-java:accountingLines>

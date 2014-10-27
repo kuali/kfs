@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,6 +35,7 @@ public class AwardRuleTest extends MaintenanceRuleTestBase {
     private BusinessObjectService boService;
     private Long proposalNumber;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         proposalNumber = new Long(39603);
@@ -50,47 +51,41 @@ public class AwardRuleTest extends MaintenanceRuleTestBase {
 
 
     public void testCheckAccounts_True() {
-        award = (Award) boService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         rule.newAwardCopy = award;
         assertTrue(rule.checkAccounts());
     }
 
     public void testCheckProposal_True() {
-        award = (Award) boService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         rule.newAwardCopy = award;
         assertTrue(rule.checkProposal());
     }
 
     public void testCheckFederalPassThrough_True() {
-        award = (Award) boService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         rule.newAwardCopy = award;
         assertTrue(rule.checkFederalPassThrough());
     }
 
     public void testAward() {
-        award = (Award) boService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         assertTrue(rule.checkAwardOrganization(award.getPrimaryAwardOrganization()));
         assertTrue(rule.checkAwardSubcontractor(award.getAwardSubcontractors().get(0)));
         assertTrue(rule.checkAwardAccount(award.getAwardAccounts().get(0)));
         assertTrue(rule.checkAwardProjectDirector(award.getAwardProjectDirectors().get(0)));
         assertTrue(rule.checkAwardFundManager(award.getAwardFundManagers().get(0)));
     }
-    
+
     public void testCheckSuspendedAwardInvoicing_True() {
         award = AwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
         rule.newAwardCopy = award;
         assertTrue(rule.checkExcludedFromInvoicing());
     }
-    
+
     public void testCheckInvoicingOption_True() {
         award = AwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
         rule.newAwardCopy = award;
         assertTrue(rule.checkInvoicingOption());
-    }
-    
-    public void testCheckAwardInvoiceAccounts_True() {
-        award = AwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
-        rule.newAwardCopy = award;
-        assertTrue(rule.checkAwardInvoiceAccounts());
     }
 }

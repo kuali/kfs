@@ -786,4 +786,22 @@
 		</modifySql>
 	</changeSet>
 	
+	<changeSet author="KFSCGB" id="KFSTP-1273">
+		<comment>Removal of receivable line on Invoice documents.  We also need to drop constraints here or else we would be unable to drop the actual columns...</comment>
+		<!-- Are you at UCD and planning to run level 3 as an institutional customization?  Then you are going to want to skip this update -->
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR6"/>
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR7"/>
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR8"/>
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR9"/>
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR10"/>
+		<dropForeignKeyConstraint baseTableName="AR_INV_DOC_T" constraintName="AR_INV_DOC_TR11"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_FIN_COA_CD"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_ACCT_NBR"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_SUB_ACCT_NBR"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_FIN_OBJ_CD"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_FIN_SUB_OBJ_CD"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_PROJECT_CD"/>
+		<dropColumn tableName="AR_INV_DOC_T" columnName="PMT_ORG_REF_ID"/>
+	</changeSet>
+	
 </databaseChangeLog>

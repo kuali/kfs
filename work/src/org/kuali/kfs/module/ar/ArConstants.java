@@ -44,7 +44,6 @@ public class ArConstants{
 
     // System Parameters
 
-    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD = "GLPE_WRITEOFF_GENERATION_METHOD";
     public static final String ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND = "ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND";
     public static final String MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE = "MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE";
@@ -52,7 +51,6 @@ public class ArConstants{
     public static final String OBJECT_LEVELS = "OBJECT_LEVELS";
     public static final String REMIT_TO_ADDRESS_EDITABLE_IND = "REMIT_TO_ADDRESS_EDITABLE_IND";
     public static final String REMIT_TO_NAME_EDITABLE_IND = "REMIT_TO_NAME_EDITABLE_IND";
-    public static final String GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND = "GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND";
     public static final String INVOICE_RECURRENCE_INTERVALS = "INVOICE_RECURRENCE_INTERVALS";
     public static final String MAXIMUM_RECURRENCES_BY_INTERVAL = "MAXIMUM_RECURRENCES_BY_INTERVAL";
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
@@ -90,9 +88,6 @@ public class ArConstants{
 
     public static final String LOOKUP_INVOICE_NUMBER = "invoiceNumber";
     public static final String LOOKUP_INVOICE_NUMBERS = "invoiceNumbers";
-    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
-    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
-    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT = "2";
     public static final String ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO = "N";
@@ -193,7 +188,6 @@ public class ArConstants{
     }
 
     public static class OrganizationAccountingOptionsConstants {
-        public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU;
         public static final String ORG_ACCT_DEFAULT_RECEIVABLE_TAB_NAME = "Edit Organization Receivable Account Defaults";
         public static final String ORG_ACCT_DEFAULT_WRITEOFF_TAB_NAME = "Edit Organization Writeoff Account Defaults";
     }
@@ -236,7 +230,6 @@ public class ArConstants{
         public static final String CONTACTS_TEXT = "CONTACTS_TEXT";
     }
 
-    public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     public static final String GLPE_WRITEOFF_OBJECT_CODE_BY_CHART = "GLPE_WRITEOFF_OBJECT_CODE_BY_CHART";
     public static final String NO_COLLECTION_STATUS_STRING = "No Collection Status";

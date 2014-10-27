@@ -208,21 +208,6 @@ public interface AccountsReceivableModuleService {
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear);
 
     /**
-     * This method determines if the parameter controlling how the entries for the accounts receivable offset are determined
-     * (GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD) is set to the FAU Offset Generation Method (currently option 3).
-     *
-     * @return true if using FAU Offset Generation Method, false otherwise
-     */
-    public boolean isUsingReceivableFAU();
-
-    /**
-     * This method sets the receivable accounting line for customer invoice.
-     *
-     * @param document Customer Invoice document to set the receivable accounting line on.
-     */
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document);
-
-    /**
      * This method returns a Customer Invoice Detail for the given invoice item code, chart and org.
      *
      * @param invoiceItemCode invoice item code used to search for a Customer Invoice Detail
@@ -318,12 +303,4 @@ public interface AccountsReceivableModuleService {
      * @return
      */
     public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount);
-
-    /**
-     * This method retrieves the value of the Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD
-     *
-     * @param parameterName
-     * @return
-     */
-    public String retrieveGLPEReceivableParameterValue();
 }

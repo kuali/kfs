@@ -17,7 +17,6 @@ package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -81,13 +80,6 @@ public interface AccountsReceivableCustomerInvoice {
      */
     public abstract boolean isOpenInvoiceIndicator();
 
-    /**
-     * Gets the paymentAccount attribute.
-     *
-     * @return Returns the paymentAccount.
-     */
-    public abstract Account getPaymentAccount();
-
     public abstract KualiDecimal getTotalDollarAmount();
 
     public abstract String getCustomerName();
@@ -133,10 +125,6 @@ public interface AccountsReceivableCustomerInvoice {
     public void setInvoiceDueDate(Date date);
 
     public void setOrganizationInvoiceNumber(String string);
-
-    public void setPaymentChartOfAccountsCode(String processingChartCode);
-
-    public void setPaymentOrganizationReferenceIdentifier(String processingOrgCode);
 
     public String getBillByChartOfAccountCode();
 

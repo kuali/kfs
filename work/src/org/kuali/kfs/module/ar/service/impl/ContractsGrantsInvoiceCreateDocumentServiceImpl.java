@@ -43,7 +43,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -66,7 +65,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -906,31 +904,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
         }
 
-        // To set Account Receivable object code when the parameter is 3.
-
-        String receivableOffsetOption = getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        map.put(KFSPropertyConstants.ACTIVE, true);
-        awardInvoiceAccounts = kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
-        if (isUsingReceivableFAU) {
-            if (!CollectionUtils.isEmpty(awardInvoiceAccounts)) {
-                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {// consider the active invoice account only.
-                            document.setPaymentChartOfAccountsCode(awardInvoiceAccount.getChartOfAccountsCode());
-                            document.setPaymentAccountNumber(awardInvoiceAccount.getAccountNumber());
-                            document.setPaymentSubAccountNumber(awardInvoiceAccount.getSubAccountNumber());
-                            document.setPaymentFinancialObjectCode(awardInvoiceAccount.getObjectCode());
-                            document.setPaymentFinancialSubObjectCode(awardInvoiceAccount.getSubObjectCode());
-                        }
-                    }
-                }
-            }
-        }
-
         // set totalBilled by Account Number in Account Details
         Map<String, KualiDecimal> totalBilledByAccountNumberMap = new HashMap<String, KualiDecimal>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
@@ -1277,19 +1250,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
         }
 
-        // 15. if there is no AR Invoice Account present when the GLPE is 3.
-        if (!getContractsGrantsBillingAwardVerificationService().hasARInvoiceAccountAssigned(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
-        }
-
-        // 16. If all accounts of award has invoices in progress.
+        // 15. If all accounts of award has invoices in progress.
         if ((award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && getContractsGrantsBillingAwardVerificationService().isInvoiceInProgress(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
-        }
-
-        // 17. Offset Definition is not available when the GLPE is 3.
-        if (!getContractsGrantsBillingAwardVerificationService().isOffsetDefinitionSetupForInvoicing(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
         }
     }
 

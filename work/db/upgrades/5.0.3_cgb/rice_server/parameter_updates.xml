@@ -195,5 +195,19 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-	</changeSet>	
+	</changeSet>
+	
+	<changeSet author="KFSCGB" id="KFSTP-1273_REMOVE_RECEIVABLE_ALGO_PARAMETER">
+		<comment>Removes the no longer referred to parameter, KFS-AR / Customer Invoice / GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD</comment>
+		<delete tableName="KRCR_PARM_T">
+			<where>nmspc_cd = 'KFS-AR' and cmpnt_cd = 'CustomerInvoice' and parm_nm = 'GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD'</where>
+		</delete>
+	</changeSet>
+	<changeSet author="KFSCGB" id="KFSTP-1273_REMOVE_RECEIVABLE_OFFSET_BY_SUB_FUND">
+		<comment>Removes the KFS-AR / Customer Invoice / GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND parameter, which is no longer needed as receivable by sub-fund is no longer supported by foundation</comment>
+		<!-- Are you running Level 2 receivable, ie receivable by sub-fund?  Then DO NOT run this sql -->
+		<delete tableName="KRCR_PARM_T">
+			<where>nmspc_cd = 'KFS-AR' and cmpnt_cd = 'CustomerInvoice' and parm_nm = 'GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND'</where>
+		</delete>
+	</changeSet>
 </databaseChangeLog>

@@ -258,7 +258,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         // Create an invoice
         CustomerInvoiceDocument invoice =
             CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocumentAndReturnIt(
-                    CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, invoiceDetailFixtures, null);
+                    CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, invoiceDetailFixtures, null);
 
         // Create a cash control document as well.
         CashControlDocument cashControlDocument = createAndSaveNewCashControlDocument(cashControlDetailSpecs);

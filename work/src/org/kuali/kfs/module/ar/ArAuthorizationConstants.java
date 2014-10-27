@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar;
 public class ArAuthorizationConstants {
 
     public static class CustomerInvoiceDocumentEditMode {
-        public static final String SHOW_RECEIVABLE_FAU = "showReceivableFAU";
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
 

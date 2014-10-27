@@ -19,25 +19,16 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -49,11 +40,11 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -68,7 +59,6 @@ import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -103,13 +93,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     protected String customerSpecialProcessingCode;
     protected boolean customerRecordAttachmentIndicator;
     protected boolean openInvoiceIndicator;
-    protected String paymentChartOfAccountsCode;
-    protected String paymentAccountNumber;
-    protected String paymentSubAccountNumber;
-    protected String paymentFinancialObjectCode;
-    protected String paymentFinancialSubObjectCode;
-    protected String paymentProjectCode;
-    protected String paymentOrganizationReferenceIdentifier;
     protected Date printDate;
     protected Integer age;
     protected String customerName;
@@ -142,12 +125,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     protected Chart billByChartOfAccount;
     protected Organization billedByOrganization;
     protected CustomerProcessingType customerSpecialProcessing;
-    protected Account paymentAccount;
-    protected Chart paymentChartOfAccounts;
-    protected SubAccount paymentSubAccount;
-    protected ObjectCode paymentFinancialObject;
-    protected SubObjectCode paymentFinancialSubObject;
-    protected ProjectCode paymentProject;
     protected PrintInvoiceOptions printInvoiceOption;
     protected CustomerAddress customerShipToAddress;
     protected CustomerAddress customerBillToAddress;
@@ -524,143 +501,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * Gets the paymentAccountNumber attribute.
-     *
-     * @return Returns the paymentAccountNumber.
-     */
-    public String getPaymentAccountNumber() {
-        return paymentAccountNumber;
-    }
-
-    /**
-     * Sets the paymentAccountNumber attribute value.
-     *
-     * @param paymentAccountNumber The paymentAccountNumber to set.
-     */
-    public void setPaymentAccountNumber(String paymentAccountNumber) {
-        this.paymentAccountNumber = paymentAccountNumber;
-
-        // if accounts can't cross charts, set chart code whenever account number is set
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        if (!accountService.accountsCanCrossCharts()) {
-            Account account = accountService.getUniqueAccountForAccountNumber(paymentAccountNumber);
-            if (ObjectUtils.isNotNull(account)) {
-                setPaymentChartOfAccountsCode(account.getChartOfAccountsCode());
-            }
-        }
-    }
-
-    /**
-     * Gets the paymentChartOfAccountsCode attribute.
-     *
-     * @return Returns the paymentChartOfAccountsCode.
-     */
-    public String getPaymentChartOfAccountsCode() {
-        return paymentChartOfAccountsCode;
-    }
-
-    /**
-     * Sets the paymentChartOfAccountsCode attribute value.
-     *
-     * @param paymentChartOfAccountsCode The paymentChartOfAccountsCode to set.
-     */
-    @Override
-    public void setPaymentChartOfAccountsCode(String paymentChartOfAccountsCode) {
-        this.paymentChartOfAccountsCode = paymentChartOfAccountsCode;
-    }
-
-    /**
-     * Gets the paymentFinancialObjectCode attribute.
-     *
-     * @return Returns the paymentFinancialObjectCode.
-     */
-    public String getPaymentFinancialObjectCode() {
-        return paymentFinancialObjectCode;
-    }
-
-    /**
-     * Sets the paymentFinancialObjectCode attribute value.
-     *
-     * @param paymentFinancialObjectCode The paymentFinancialObjectCode to set.
-     */
-    public void setPaymentFinancialObjectCode(String paymentFinancialObjectCode) {
-        this.paymentFinancialObjectCode = paymentFinancialObjectCode;
-    }
-
-    /**
-     * Gets the paymentFinancialSubObjectCode attribute.
-     *
-     * @return Returns the paymentFinancialSubObjectCode.
-     */
-    public String getPaymentFinancialSubObjectCode() {
-        return paymentFinancialSubObjectCode;
-    }
-
-    /**
-     * Sets the paymentFinancialSubObjectCode attribute value.
-     *
-     * @param paymentFinancialSubObjectCode The paymentFinancialSubObjectCode to set.
-     */
-    public void setPaymentFinancialSubObjectCode(String paymentFinancialSubObjectCode) {
-        this.paymentFinancialSubObjectCode = paymentFinancialSubObjectCode;
-    }
-
-    /**
-     * Gets the paymentOrganizationReferenceIdentifier attribute.
-     *
-     * @return Returns the paymentOrganizationReferenceIdentifier.
-     */
-    public String getPaymentOrganizationReferenceIdentifier() {
-        return paymentOrganizationReferenceIdentifier;
-    }
-
-    /**
-     * Sets the paymentOrganizationReferenceIdentifier attribute value.
-     *
-     * @param paymentOrganizationReferenceIdentifier The paymentOrganizationReferenceIdentifier to set.
-     */
-    @Override
-    public void setPaymentOrganizationReferenceIdentifier(String paymentOrganizationReferenceIdentifier) {
-        this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
-    }
-
-    /**
-     * Gets the paymentProjectCode attribute.
-     *
-     * @return Returns the paymentProjectCode.
-     */
-    public String getPaymentProjectCode() {
-        return paymentProjectCode;
-    }
-
-    /**
-     * Sets the paymentProjectCode attribute value.
-     *
-     * @param paymentProjectCode The paymentProjectCode to set.
-     */
-    public void setPaymentProjectCode(String paymentProjectCode) {
-        this.paymentProjectCode = paymentProjectCode;
-    }
-
-    /**
-     * Gets the paymentSubAccountNumber attribute.
-     *
-     * @return Returns the paymentSubAccountNumber.
-     */
-    public String getPaymentSubAccountNumber() {
-        return paymentSubAccountNumber;
-    }
-
-    /**
-     * Sets the paymentSubAccountNumber attribute value.
-     *
-     * @param paymentSubAccountNumber The paymentSubAccountNumber to set.
-     */
-    public void setPaymentSubAccountNumber(String paymentSubAccountNumber) {
-        this.paymentSubAccountNumber = paymentSubAccountNumber;
-    }
-
-    /**
      * Gets the printDate attribute.
      *
      * @return Returns the printDate
@@ -767,127 +607,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * Gets the paymentAccount attribute.
-     *
-     * @return Returns the paymentAccount.
-     */
-    @Override
-    public Account getPaymentAccount() {
-        return paymentAccount;
-    }
-
-    /**
-     * Sets the paymentAccount attribute value.
-     *
-     * @param paymentAccount The paymentAccount to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentAccount(Account paymentAccount) {
-        this.paymentAccount = paymentAccount;
-    }
-
-    /**
-     * Gets the paymentChartOfAccounts attribute.
-     *
-     * @return Returns the paymentChartOfAccounts.
-     */
-    public Chart getPaymentChartOfAccounts() {
-        return paymentChartOfAccounts;
-    }
-
-    /**
-     * Sets the paymentChartOfAccounts attribute value.
-     *
-     * @param paymentChartOfAccounts The paymentChartOfAccounts to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentChartOfAccounts(Chart paymentChartOfAccounts) {
-        this.paymentChartOfAccounts = paymentChartOfAccounts;
-    }
-
-    /**
-     * Gets the paymentFinancialObject attribute.
-     *
-     * @return Returns the paymentFinancialObject.
-     */
-    public ObjectCode getPaymentFinancialObject() {
-        return paymentFinancialObject;
-    }
-
-    /**
-     * Sets the paymentFinancialObject attribute value.
-     *
-     * @param paymentFinancialObject The paymentFinancialObject to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentFinancialObject(ObjectCode paymentFinancialObject) {
-        this.paymentFinancialObject = paymentFinancialObject;
-    }
-
-    /**
-     * Gets the paymentFinancialSubObject attribute.
-     *
-     * @return Returns the paymentFinancialSubObject.
-     */
-    public SubObjectCode getPaymentFinancialSubObject() {
-        return paymentFinancialSubObject;
-    }
-
-    /**
-     * Sets the paymentFinancialSubObject attribute value.
-     *
-     * @param paymentFinancialSubObject The paymentFinancialSubObject to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentFinancialSubObject(SubObjectCode paymentFinancialSubObject) {
-        this.paymentFinancialSubObject = paymentFinancialSubObject;
-    }
-
-    /**
-     * Gets the paymentProject attribute.
-     *
-     * @return Returns the paymentProject.
-     */
-    public ProjectCode getPaymentProject() {
-        return paymentProject;
-    }
-
-    /**
-     * Sets the paymentProject attribute value.
-     *
-     * @param paymentProject The paymentProject to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentProject(ProjectCode paymentProject) {
-        this.paymentProject = paymentProject;
-    }
-
-    /**
-     * Gets the paymentSubAccount attribute.
-     *
-     * @return Returns the paymentSubAccount.
-     */
-    public SubAccount getPaymentSubAccount() {
-        return paymentSubAccount;
-    }
-
-    /**
-     * Sets the paymentSubAccount attribute value.
-     *
-     * @param paymentSubAccount The paymentSubAccount to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void setPaymentSubAccount(SubAccount paymentSubAccount) {
-        this.paymentSubAccount = paymentSubAccount;
-    }
-
-    /**
      * This method returns the billing date for display. If billing date hasn't been set yet, just display current date
      *
      * @return
@@ -988,17 +707,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-
-        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addReceivableGLPEs(sequenceHelper, glpeSourceDetail);
         sequenceHelper.increment();
-        addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addIncomeGLPEs(sequenceHelper, glpeSourceDetail);
 
         // if sales tax is enabled generate GLPEs
         if (SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(this, (CustomerInvoiceDetail) glpeSourceDetail)) {
-            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail);
         }
 
 
@@ -1014,14 +729,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param postable
      * @param explicitEntry
      */
-    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, this);
         boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
     }
 
     /**
@@ -1032,13 +747,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param postable
      * @param explicitEntry
      */
-    protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+    protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
 
     }
 
@@ -1049,7 +764,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param glpeSourceDetail
      * @param hasClaimOnCashOffset
      */
-    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
@@ -1068,10 +783,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, this);
 
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, false, salesTaxDetail.getTaxAmount());
 
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxCustomerInvoiceDetail, sequenceHelper, isDebit, false, salesTaxDetail.getTaxAmount());
         }
     }
 
@@ -1082,25 +797,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-    }
-
-    /**
-     * Returns a map with the primitive field names as the key and the primitive values as the map value.
-     *
-     * @return Map
-     */
-    @SuppressWarnings("unchecked")
-    public Map getValuesMap() {
-        Map valuesMap = new HashMap();
-
-        valuesMap.put("postingYear", getPostingYear());
-        valuesMap.put("paymentChartOfAccountsCode", getPaymentChartOfAccountsCode());
-        valuesMap.put("paymentAccountNumber", getPaymentAccountNumber());
-        valuesMap.put("paymentFinancialObjectCode", getPaymentFinancialObjectCode());
-        valuesMap.put("paymentSubAccountNumber", getPaymentSubAccountNumber());
-        valuesMap.put("paymentFinancialSubObjectCode", getPaymentFinancialSubObjectCode());
-        valuesMap.put("paymentProjectCode", getPaymentProjectCode());
-        return valuesMap;
     }
 
     @Override

@@ -466,13 +466,11 @@
 				<ref
 					bean="OrganizationAccountingDefault-inquirySectionDefinition-organizationIncomeAccountDefaults" />
 				<ref
-					bean="OrganizationAccountingDefault-inquirySectionDefinition-organizationReceivableAccountDefaults" />
-				<ref
 					bean="OrganizationAccountingDefault-inquirySectionDefinition-organizationWriteoffAccountDefaults" />
 			</list>
 		</property>
 		<property name="inquirableClass"
-			value="org.kuali.kfs.module.ar.document.OrganizationAccountingDefaultInquirable" />
+			value="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" />
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-inquirySectionDefinition-organizationAccountingDefaults"
@@ -507,26 +505,6 @@
 				<bean parent="FieldDefinition" p:attributeName="defaultInvoiceFinancialSubObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="defaultInvoiceProjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-			</list>
-		</property>
-	</bean>
-	<bean
-		id="OrganizationAccountingDefault-inquirySectionDefinition-organizationReceivableAccountDefaults"
-		parent="OrganizationAccountingDefault-inquirySectionDefinition-organizationReceivableAccountDefaults-parentBean" />
-	<bean
-		id="OrganizationAccountingDefault-inquirySectionDefinition-organizationReceivableAccountDefaults-parentBean"
-		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Organization Receivable Account Defaults" />
-		<property name="numberOfColumns" value="1" />
-		<property name="inquiryFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentChartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentAccountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentSubAccountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentFinancialObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentFinancialSubObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentProjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="defaultPaymentOrganizationReferenceIdentifier" />
 			</list>
 		</property>
 	</bean>

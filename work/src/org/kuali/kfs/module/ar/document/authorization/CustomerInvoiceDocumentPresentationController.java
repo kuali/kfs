@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -28,7 +27,6 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -55,13 +53,6 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         if (!isDocErrorCorrectionMode((FinancialSystemTransactionalDocument) document)) {
             editModes.add(KfsAuthorizationConstants.CustomerInvoiceEditMode.PROCESSING_ORGANIZATION_MODE);
 
-        }
-
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        String receivableOffsetOption = paramService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-
-        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
-            editModes.add(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.SHOW_RECEIVABLE_FAU);
         }
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

@@ -51,7 +51,6 @@ import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -571,18 +570,14 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
 
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-
-        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addReceivableGLPEs(sequenceHelper, glpeSourceDetail);
         sequenceHelper.increment();
-        addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addIncomeGLPEs(sequenceHelper, glpeSourceDetail);
 
         //if sales tax is enabled generate GLPEs
         CustomerInvoiceDetail invoiceDetail = ((CustomerCreditMemoDetail) glpeSourceDetail).getCustomerInvoiceDetail();
         if( getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), invoiceDetail) ) {
-            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset );
+            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail);
         }
 
         return true;
@@ -596,7 +591,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * @param postable
      * @param explicitEntry
      */
-    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;
         CustomerInvoiceDetail customerInvoiceDetail = customerCreditMemoDetail.getCustomerInvoiceDetail();
@@ -604,7 +599,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         boolean isDebit = false;
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, false, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
 
     /**
@@ -615,13 +610,13 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * @param postable
      * @param explicitEntry
      */
-    protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+    protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;
         boolean isDebit = true;
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, false, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
 
     /**
@@ -631,7 +626,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * @param glpeSourceDetail
      * @param hasClaimOnCashOffset
      */
-    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail){
 
         CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;
         boolean isDebit = false;
@@ -652,10 +647,10 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
             receivableCustomerCreditMemoDetail.setCustomerInvoiceDetail(customerCreditMemoDetail.getCustomerInvoiceDetail());
 
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerCreditMemoDetail, sequenceHelper, isDebit, false, salesTaxDetail.getTaxAmount());
 
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxCustomerCreditMemoDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxCustomerCreditMemoDetail, sequenceHelper, !isDebit, false, salesTaxDetail.getTaxAmount());
         }
     }
 

@@ -37,12 +37,7 @@
 	<c:if test="${not displayInitTab}" >
 		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-		<ar:customerCreditMemoGeneral />
-		
-    	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">
-    		<ar:customerCreditMemoReceivableAccountingLine />
-    	</c:if>
-      
+		<ar:customerCreditMemoGeneral />      
       	<ar:customerCreditMemoDetails readOnly="${readOnly}" />
       	<gl:generalLedgerPendingEntries />
     	<kul:notes />

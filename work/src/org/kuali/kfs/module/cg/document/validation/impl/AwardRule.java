@@ -23,7 +23,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -92,7 +91,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         if(contractsGrantsBillingEnhancementActive){
             success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
             success &= checkInvoicingOption();
-            success &= checkAwardInvoiceAccounts();
             success &= checkNumberOfAccountsForBillingFrequency();
             success &= checkBillingFrequency();
         }
@@ -519,60 +517,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         if (CollectionUtils.isNotEmpty(errorString) && errorString.size() > 1) {
             success = false;
             putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTION_CODE, errorString.get(0), errorString.get(1));
-        }
-        return success;
-    }
-
-
-    /**
-     * checks to see if at least and atmost ACTIVE 1 award invoice account of AR type exists when the GLPE parameter is set to 3.
-     *
-     * @return true if the award contains at least and atmost 1 ACTIVE {@link AwardInvoiceAccount}, false otherwise
-     */
-    protected boolean checkAwardInvoiceAccounts() {
-        boolean success = true;
-        Collection<AwardInvoiceAccount> awardInvoiceAccounts = newAwardCopy.getAwardInvoiceAccounts();
-        // To get parameter Value of GLPE Recievable offset generation method.
-        String receivableOffsetOption = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
-
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementActive) {
-            if (!ObjectUtils.isNull(awardInvoiceAccounts) || !awardInvoiceAccounts.isEmpty()) {
-                int arCount = 0;
-                int incomeCount = 0;
-                for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            arCount++;
-                        }
-                    }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            incomeCount++;
-                        }
-                    }
-                }
-
-                if (arCount == 0) {
-
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_ONE_AR_INV_ACCT_REQD);
-                    success = false;
-                }
-                else if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
-                    return false;
-                }
-                if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
-                    return false;
-                }
-            }
-            else {
-
-                putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_ONE_AR_INV_ACCT_REQD);
-                success = false;
-            }
         }
         return success;
     }

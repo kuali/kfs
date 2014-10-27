@@ -23,7 +23,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -181,8 +180,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     cal.add(Calendar.DATE, numDaysDue);
                     java.util.Date dueDate = cal.getTime();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-
                     AccountsReceivableCustomerInvoice customerInvoiceDocument = accountsReceivableModuleService.createCustomerInvoiceDocument();
                     LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
 
@@ -200,8 +197,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
                     customerInvoiceDocument.setInvoiceDueDate(new java.sql.Date(dueDate.getTime()));
                     customerInvoiceDocument.setOrganizationInvoiceNumber(orgInvoiceNumber.toString());
-                    customerInvoiceDocument.setPaymentChartOfAccountsCode(processingChartCode);
-                    customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(processingOrgCode);
 
                     //Make sure the address from the TA is a customer address for the Invoice that is getting created
                     AccountsReceivableCustomerAddress customerBillToAddress = null;
@@ -304,7 +299,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                         finally {
                             customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
                         }
-                        LOG.info("Submitted customer invoice document "+ customerInvoiceDocument.getDocumentNumber() + " for " + customerNumber + " - " + sdf.format(billingDate) + "\n\n");
+                        LOG.info("Submitted customer invoice document "+ customerInvoiceDocument.getDocumentNumber() + " for " + customerNumber + " - " + dateTimeService.toDateString(billingDate) + "\n\n");
 
                     }
                     catch (WorkflowException e) {
@@ -397,11 +392,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
             document.setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
-        }
-
-        // If document is using receivable option, set receivable accounting line for customer invoice document
-        if (accountsReceivableModuleService.isUsingReceivableFAU()) {
-            accountsReceivableModuleService.setReceivableAccountingLineForCustomerInvoiceDocument(document);
         }
     }
 

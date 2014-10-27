@@ -24,7 +24,6 @@
       <list>
         <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingDefaults"/>
         <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationIncomeAccountDefaults"/>
-        <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults"/>
         <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults"/>
       </list>
     </property>
@@ -116,29 +115,7 @@
       </list>
     </property>
   </bean>
-  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean"/>
 
-  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Receivable Account Defaults"/>
-    <property name="title" value="Edit Organization Receivable Account Defaults"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>defaultPaymentChartOfAccountsCode</value>
-				</list>
-			</property> 
-		</bean>        
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentSubAccountNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentFinancialObjectCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentFinancialSubObjectCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultInvoiceProjectCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="defaultPaymentOrganizationReferenceIdentifier"/>
-      </list>
-    </property>
-  </bean>
   <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults-parentBean"/>
 
   <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">

@@ -165,9 +165,6 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
-		<property name="receivableAccountingLineService">
-			<ref bean="receivableAccountingLineService" />
-		</property>
 		<property name="systemInformationService">
 			<ref bean="systemInformationService" />
 		</property>
@@ -1365,14 +1362,8 @@
 		<property name="noteService">
             <ref bean="noteService" />
         </property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
 		<property name="personService">
 			<ref bean="personService" />
-		</property>
-		<property name="receivableAccountingLineService">
-			<ref bean="receivableAccountingLineService" />
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
@@ -1448,19 +1439,6 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>
-	</bean>
-
-    <bean id="receivableAccountingLineService"  parent="receivableAccountingLineService-parentBean"/>
-    <bean id="receivableAccountingLineService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
 		</property>
 	</bean>
 

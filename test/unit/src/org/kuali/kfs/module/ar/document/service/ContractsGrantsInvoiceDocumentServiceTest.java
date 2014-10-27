@@ -26,7 +26,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -41,7 +40,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
@@ -1305,8 +1303,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // To test for all combinations of GLPE and Award Invoicing options
         // GLPE is 1.
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        // parameterService.setParameterForTesting(CustomerInvoiceDocument.class,
-        // ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART);
 
         // To check if the source accounting lines are created as expected.
         CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE_2.createCustomerInvoiceDetail();
@@ -1341,12 +1337,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
-
-
-        // GLPE is 2.
-        // parameterService.setParameterForTesting(CustomerInvoiceDocument.class,
-        // ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND);
-        // Setting subfund based on the test account number 1031400.
 
         // To check if the source accounting lines are created as expected.
         customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2.createCustomerInvoiceDetail();
@@ -1461,13 +1451,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         assertEquals(invoiceDetail.getAccountNumber(), customerInvoiceDetail.getAccountNumber());
         assertEquals(invoiceDetail.getChartOfAccountsCode(), customerInvoiceDetail.getChartOfAccountsCode());
         assertEquals(invoiceDetail.getFinancialObjectCode(), customerInvoiceDetail.getFinancialObjectCode());
-        // For GLPE 3, the AR object code will not be set. so exclude that.
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        if (!isUsingReceivableFAU) {
-
-            assertEquals(invoiceDetail.getAccountsReceivableObjectCode(), customerInvoiceDetail.getAccountsReceivableObjectCode());
-        }
         assertEquals(invoiceDetail.getAmount(), customerInvoiceDetail.getAmount());
     }
 

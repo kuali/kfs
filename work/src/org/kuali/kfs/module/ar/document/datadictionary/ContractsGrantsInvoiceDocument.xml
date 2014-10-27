@@ -68,14 +68,6 @@
 					bean="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator" />
 				<ref bean="ContractsGrantsInvoiceDocument-openInvoiceIndicator" />
 				<ref bean="ContractsGrantsInvoiceDocument-sourceTotal" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentAccountNumber" />
-				<ref
-					bean="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentSubAccountNumber" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentProjectCode" />
-				<ref bean="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode" />
 				<ref bean="ContractsGrantsInvoiceDocument-billingDateForDisplay" />
 				<ref bean="ContractsGrantsInvoiceDocument-versionNumber" />
 				<ref bean="ContractsGrantsInvoiceDocument-openAmount" />
@@ -453,98 +445,6 @@
 		<property name="name" value="sourceTotal" />
 		<property name="label" value="Invoice Total Amount" />
 		<property name="shortLabel" value="Invoice Total Amount" />
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode"
-		parent="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode-parentBean" />
-
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode">
-		<property name="name" value="paymentChartOfAccountsCode" />
-		<property name="required" value="false" />
-		<property name="control">
-			<ref bean="ChartSimpleSelectControl" />
-		</property>
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode"
-		parent="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode-parentBean" />
-
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode-parentBean"
-		abstract="true" parent="ObjectCode-financialObjectCode">
-		<property name="name" value="paymentFinancialObjectCode" />
-		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="6"/>
-    	</property>
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentAccountNumber"
-		parent="ContractsGrantsInvoiceDocument-paymentAccountNumber-parentBean" />
-
-	<bean id="ContractsGrantsInvoiceDocument-paymentAccountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="name" value="paymentAccountNumber" />
-		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="9"/>
-    	</property>
-	</bean>
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier"
-		parent="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean" />
-
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="paymentOrganizationReferenceIdentifier" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Organization Reference Id" />
-		<property name="shortLabel" value="Org Ref Id" />
-		<property name="maxLength" value="8" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<ref bean="TenCharacterTextControl" />
-		</property>
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentSubAccountNumber"
-		parent="ContractsGrantsInvoiceDocument-paymentSubAccountNumber-parentBean" />
-
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentSubAccountNumber-parentBean"
-		abstract="true" parent="SubAccount-subAccountNumber">
-		<property name="name" value="paymentSubAccountNumber" />
-		<property name="label" value="Sub-Account Code" />
-		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="7"/>
-    	</property>
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentProjectCode"
-		parent="ContractsGrantsInvoiceDocument-paymentProjectCode-parentBean" />
-
-	<bean id="ContractsGrantsInvoiceDocument-paymentProjectCode-parentBean"
-		abstract="true" parent="ProjectCode-code">
-		<property name="name" value="paymentProjectCode" />
-		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="12"/>
-    	</property>
-	</bean>
-	<bean id="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode"
-		parent="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode-parentBean" />
-
-	<bean
-		id="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode-parentBean"
-		abstract="true" parent="SubObjectCode-financialSubObjectCode">
-		<property name="name" value="paymentFinancialSubObjectCode" />
-		<property name="label" value="Sub Object Code" />
-		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="5"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-billingDateForDisplay"
 		parent="ContractsGrantsInvoiceDocument-billingDateForDisplay-parentBean" />

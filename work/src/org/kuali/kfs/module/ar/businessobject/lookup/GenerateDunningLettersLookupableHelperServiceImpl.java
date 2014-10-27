@@ -301,7 +301,7 @@ public class GenerateDunningLettersLookupableHelperServiceImpl extends AccountsR
             return false;
         }
 
-        if (invoice.getInvoiceGeneralDetail().getAward() == null || invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign() == null) {
+        if (ObjectUtils.isNull(invoice.getInvoiceGeneralDetail()) || ObjectUtils.isNull(invoice.getInvoiceGeneralDetail().getAward()) || ObjectUtils.isNull(invoice.getInvoiceGeneralDetail().getAward().getDunningCampaign())) {
             return false;
         }
 

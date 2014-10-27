@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -88,25 +87,19 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         } else {
             agencyAddresses = agency.getAgencyAddresses();
         }
-        // to set the primary agency address to the customer
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (agencyAddress.isPrimary()) {
-                if(CollectionUtils.isEmpty(customer.getCustomerAddresses())){
-                    customer.getCustomerAddresses().add(new CustomerAddress());
-                }
-                CustomerAddress customerAddress = customer.getCustomerAddresses().get(0);
-                customerAddress.setCustomerAddressName(agencyAddress.getAgencyAddressName());
-                customerAddress.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
-                customerAddress.setCustomerLine1StreetAddress(agencyAddress.getAgencyLine1StreetAddress());
-                customerAddress.setCustomerLine2StreetAddress(agencyAddress.getAgencyLine2StreetAddress());
-                customerAddress.setCustomerCityName(agencyAddress.getAgencyCityName());
-                customerAddress.setCustomerCountryCode(agencyAddress.getAgencyCountryCode());
-                customerAddress.setCustomerStateCode(agencyAddress.getAgencyStateCode());
-                customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
-                customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
-                customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
-
-            }
+            CustomerAddress customerAddress = new CustomerAddress();
+            customerAddress.setCustomerAddressName(agencyAddress.getAgencyAddressName());
+            customerAddress.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
+            customerAddress.setCustomerLine1StreetAddress(agencyAddress.getAgencyLine1StreetAddress());
+            customerAddress.setCustomerLine2StreetAddress(agencyAddress.getAgencyLine2StreetAddress());
+            customerAddress.setCustomerCityName(agencyAddress.getAgencyCityName());
+            customerAddress.setCustomerCountryCode(agencyAddress.getAgencyCountryCode());
+            customerAddress.setCustomerStateCode(agencyAddress.getAgencyStateCode());
+            customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
+            customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
+            customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
+            customer.getCustomerAddresses().add(customerAddress);
         }
 
         documentService.saveDocument(doc);

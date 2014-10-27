@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
@@ -82,9 +83,10 @@ public class DunningLetterServiceImpl implements DunningLetterService {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected DateTimeService dateTimeService;
+    protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected NoteService noteService;
-    protected FinancialSystemUserService financialSystemUserService;
+    private ParameterService parameterService;
 
     /**
      * This method generates the actual pdf file with related invoices to the template to print.
@@ -110,15 +112,8 @@ public class DunningLetterServiceImpl implements DunningLetterService {
                     CollectionEvent event = new CollectionEvent();
                     event.setInvoiceNumber(cgInvoice.getDocumentNumber());
                     event.setCollectionEventCode(cgInvoice.getNextCollectionEventCode());
-                    // To get the Activity Code from the Collection Activity type eDoc based on the indicator.
-                    String activityCode = null;
-                    List<CollectionActivityType> activityTypes = (List<CollectionActivityType>) getBusinessObjectService().findAll(CollectionActivityType.class);
-                    for (CollectionActivityType activityType : activityTypes) {
-                        if (activityType.isDunningProcessIndicator()) {
-                            activityCode = activityType.getActivityCode();
-                        }
-                    }
-                    if (ObjectUtils.isNotNull(activityCode)) {
+                    String activityCode = parameterService.getParameterValueAsString(CollectionActivityType.class, ArConstants.DUNNING_LETTER_GENERATION_CODE);
+                    if (StringUtils.isNotBlank(activityCode)) {
                         event.setActivityCode(activityCode);
                         event.setActivityDate(new java.sql.Date(new Date().getTime()));
                         event.setActivityText(ArConstants.DunningLetters.DUNNING_LETTER_SENT_TXT);
@@ -476,5 +471,13 @@ public class DunningLetterServiceImpl implements DunningLetterService {
 }
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -31,8 +31,6 @@
       <list>
         <ref bean="CollectionActivityType-activityCode"/>
         <ref bean="CollectionActivityType-activityDescription"/>
-        <ref bean="CollectionActivityType-referralIndicator"/>
-        <ref bean="CollectionActivityType-dunningProcessIndicator"/>
         <ref bean="CollectionActivityType-active"/>
       </list>
     </property>
@@ -73,22 +71,6 @@
     </property>
   </bean>
   
-  <bean id="CollectionActivityType-referralIndicator" parent="CollectionActivityType-referralIndicator-parentBean"/>
-
-  <bean id="CollectionActivityType-referralIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="referralIndicator"/>
-    <property name="label" value="Referral Indicator"/>
-    <property name="shortLabel" value="Ref Ind"/>
-  </bean>
-  
-  <bean id="CollectionActivityType-dunningProcessIndicator" parent="CollectionActivityType-dunningProcessIndicator-parentBean"/>
-
-  <bean id="CollectionActivityType-dunningProcessIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="dunningProcessIndicator"/>
-    <property name="label" value="Dunning Process Indicator"/>
-    <property name="shortLabel" value="Dun Proc Ind"/>
-  </bean>
-  
   <bean id="CollectionActivityType-active" parent="CollectionActivityType-active-parentBean"/>
 
   <bean id="CollectionActivityType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -118,8 +100,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="activityCode"/>
         <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
-        <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
-        <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
@@ -147,8 +127,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="activityCode"/>
         <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
-        <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
-        <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>

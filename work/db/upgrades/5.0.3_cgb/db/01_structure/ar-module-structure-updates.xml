@@ -164,8 +164,6 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="ACTVY_DESC" type="VARCHAR(120)" />
-			<column name="RFRL_IND" type="VARCHAR(1)" defaultValue="N" />
-			<column name="DUN_PRCS_IND" type="VARCHAR(1)" defaultValue="N" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 		<createTable tableName="AR_CLCTN_STATUS_T">

@@ -51,8 +51,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="activityCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="activityDescription" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="referralIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="dunningProcessIndicator" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

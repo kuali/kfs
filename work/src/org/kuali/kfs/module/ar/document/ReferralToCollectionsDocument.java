@@ -18,13 +18,11 @@ package org.kuali.kfs.module.ar.document;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
@@ -33,6 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -275,13 +274,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                         invoice.refresh();
                         boService.save(invoice);
 
-                        Map fieldValues = new HashMap();
-                        fieldValues.put(ArPropertyConstants.CollectionActivityTypeFields.REFERRAL_INDICATOR, Boolean.TRUE);
-                        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
-                        List<CollectionActivityType> activityTypes = (List<CollectionActivityType>) boService.findMatching(CollectionActivityType.class, fieldValues);
-                        String activityCode = CollectionUtils.isNotEmpty(activityTypes) ? activityTypes.get(0).getActivityCode() : null;
+                        String activityCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CollectionActivityType.class, ArConstants.REFER_TO_COLLECTION_CODE);
 
-                        if (ObjectUtils.isNotNull(activityCode)) {
+                        if (StringUtils.isNotBlank(activityCode)) {
                             // create the event
                             CollectionEvent event = new CollectionEvent();
                             event.setInvoiceNumber(invoice.getDocumentNumber());

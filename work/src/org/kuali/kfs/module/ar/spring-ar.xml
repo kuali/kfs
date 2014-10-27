@@ -2461,6 +2461,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="contractsGrantsBillingUtilityService">
+			<ref bean="contractsGrantsBillingUtilityService" />
+		</property>
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
 		</property>
@@ -2470,17 +2473,17 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService"/>
+		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
 		</property>
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService"/>
-		</property>
-		<property name="contractsGrantsBillingUtilityService">
-			<ref bean="contractsGrantsBillingUtilityService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 	

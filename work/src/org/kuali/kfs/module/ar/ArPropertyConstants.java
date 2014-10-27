@@ -311,7 +311,6 @@ public class ArPropertyConstants{
     public static class CollectionActivityTypeFields {
         public static final String ACTIVITY_DESC = "activityDescription";
         public static final String ACTIVITY_CODE = "activityCode";
-        public static final String REFERRAL_INDICATOR = "referralIndicator";
     }
 
     // Dunning Campaign & Templates

@@ -30,8 +30,6 @@ public class CollectionActivityType extends PersistableBusinessObjectBase implem
     private String activityCode;
     private String activityDescription;
     private boolean active;
-    private boolean referralIndicator;
-    private boolean dunningProcessIndicator;
 
     /**
      * Gets the activityCode attribute.
@@ -67,42 +65,6 @@ public class CollectionActivityType extends PersistableBusinessObjectBase implem
      */
     public void setActivityDescription(String activityDescription) {
         this.activityDescription = activityDescription;
-    }
-
-    /**
-     * Gets the referralIndicator attribute.
-     *
-     * @return Returns the referralIndicator.
-     */
-    public boolean isReferralIndicator() {
-        return referralIndicator;
-    }
-
-    /**
-     * Sets the referralIndicator attribute.
-     *
-     * @param referralIndicator The referralIndicator to set.
-     */
-    public void setReferralIndicator(boolean referralIndicator) {
-        this.referralIndicator = referralIndicator;
-    }
-
-    /**
-     * Gets the dunningProcessIndicator attribute.
-     *
-     * @return Returns the dunningProcessIndicator.
-     */
-    public boolean isDunningProcessIndicator() {
-        return dunningProcessIndicator;
-    }
-
-    /**
-     * Sets the dunningProcessIndicator attribute.
-     *
-     * @param dunningProcessIndicator The dunningProcessIndicator to set.
-     */
-    public void setDunningProcessIndicator(boolean dunningProcessIndicator) {
-        this.dunningProcessIndicator = dunningProcessIndicator;
     }
 
     /**

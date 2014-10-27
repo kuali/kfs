@@ -817,7 +817,7 @@
         <column name="AGENCY_NM" size="50" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_NM" size="60" type="VARCHAR"/>
-        <unique name="AR_CLCTN_ACTVTY_DOC_TC0">
+        <unique name="AR_CLCTN_ACTVY_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -829,7 +829,7 @@
         <column default="N" name="RFRL_IND" size="1" type="VARCHAR"/>
         <column default="N" name="DUN_PRCS_IND" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_CLCTN_ACTVTY_TYP_TC0">
+        <unique name="AR_CLCTN_ACTVY_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1220,7 +1220,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <unique name="AR_FINAL_BILLED_IND_DOC_TC0">
+        <unique name="AR_FNL_BILLED_IND_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1240,7 +1240,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="DISPOS_DESC" size="25" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_FINAL_DISPOS_TC0">
+        <unique name="AR_FNL_DISPOS_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1680,7 +1680,7 @@
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
         <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
         <column name="UPLOAD_DT" type="DATE"/>
-        <unique name="AR_INV_TYP_TC0">
+        <unique name="AR_INV_TMPLT_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -4375,7 +4375,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="BILL_FREQ_DESC" size="45" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="0" name="GRACE_PERIOD" size="3" type="DECIMAL"/>
+        <column name="GRACE_PERIOD" size="3" type="DECIMAL"/>
         <unique name="CG_BILL_FREQ_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

@@ -53,7 +53,7 @@
         $0.cgawd_purpose_cd := replace(nvl($cgawd_purpose_cd, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
         $0.pref_bill_freq_cd := replace(nvl($pref_bill_freq_cd, ""), "~!~", "|" );
-        $0.suspnd_invcng := replace(nvl($suspnd_invcng, ""), "~!~", "|" );
+        $0.excl_frm_inv_ind := replace(nvl($excl_frm_inv_ind, ""), "~!~", "|" );
         $0.addtnl_frms_rqrd := replace(nvl($addtnl_frms_rqrd, ""), "~!~", "|" );
         $0.addtnl_frm_desc := replace(nvl($addtnl_frm_desc, ""), "~!~", "|" );
         $0.instrmnt_typ_cd := replace(nvl($instrmnt_typ_cd, ""), "~!~", "|" );
@@ -64,7 +64,7 @@
         $0.funding_exp_dt := $funding_exp_dt;
         $0.cg_inv_opt := replace(nvl($cg_inv_opt, ""), "~!~", "|" );
         $0.ltrcr_crtn_typ := replace(nvl($ltrcr_crtn_typ, ""), "~!~", "|" );
-        $0.susp_reason_txt := replace(nvl($susp_reason_txt, ""), "~!~", "|" );
+        $0.excl_frm_inv_reason_txt := replace(nvl($excl_frm_inv_reason_txt, ""), "~!~", "|" );
         $0.state_trnsfr_ind := replace(nvl($state_trnsfr_ind, ""), "~!~", "|" );
         $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );
         $0.stop_wrk_ind := replace(nvl($stop_wrk_ind, ""), "~!~", "|" );

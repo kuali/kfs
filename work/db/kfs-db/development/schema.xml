@@ -4335,7 +4335,7 @@
         <column name="CGAWD_PURPOSE_CD" size="1" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="PREF_BILL_FREQ_CD" size="10" type="VARCHAR"/>
-        <column name="SUSPND_INVCNG" size="1" type="VARCHAR"/>
+        <column name="EXCL_FRM_INV_IND" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRMS_RQRD" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRM_DESC" size="255" type="VARCHAR"/>
         <column name="INSTRMNT_TYP_CD" size="10" type="VARCHAR"/>
@@ -4346,7 +4346,7 @@
         <column name="FUNDING_EXP_DT" type="DATE"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
-        <column name="SUSP_REASON_TXT" size="255" type="VARCHAR"/>
+        <column name="EXCL_FRM_INV_REASON_TXT" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR_IND" size="1" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STOP_WRK_IND" size="1" type="VARCHAR"/>

@@ -37,6 +37,8 @@ public class AwardDTO implements Serializable {
     private String invoicingOptionDescription;
     private String dunningCampaignId;
     private String stopWorkReason;
+    private boolean suspendInvoicing;
+    private String suspendInvoicingReason;
     private KualiDecimal minInvoiceAmount;
     private AwardMethodOfPaymentDTO methodOfPayment;
     private FrequencyDto invoiceBillingFrequency;
@@ -226,5 +228,17 @@ public class AwardDTO implements Serializable {
 	}
 	public void setInvoicingOptionDescription(String invoicingOptionDescription) {
 		this.invoicingOptionDescription = invoicingOptionDescription;
+	}
+	public boolean isSuspendInvoicing() {
+		return suspendInvoicing;
+	}
+	public void setSuspendInvoicing(boolean suspendInvoicing) {
+		this.suspendInvoicing = suspendInvoicing;
+	}
+	public String getSuspendInvoicingReason() {
+		return suspendInvoicingReason;
+	}
+	public void setSuspendInvoicingReason(String suspendInvoicingReason) {
+		this.suspendInvoicingReason = suspendInvoicingReason;
 	}
 }

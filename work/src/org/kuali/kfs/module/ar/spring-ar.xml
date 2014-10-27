@@ -572,6 +572,9 @@
 
 	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
+		<property name="contractsAndGrantsInvoiceReportService">
+			<ref bean="contractsAndGrantsInvoiceReportService"/>
+		</property>
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
@@ -600,6 +603,9 @@
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
+		<property name="dunningLetterDistributionService">
+			<ref bean="dunningLetterDistributionService"/>
+		</property>
 		<property name="personService">
 			<ref bean="personService"/>
 		</property>
@@ -627,6 +633,9 @@
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
+		<property name="referralToCollectionsService">
+			<ref bean="referralToCollectionsService"/>
 		</property>
 	</bean>
 
@@ -845,6 +854,9 @@
 			<ref bean="contractsGrantsBillingUtilityService" />
 		</property>
 	</bean>
+	
+	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
+	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl"/>
 
 	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

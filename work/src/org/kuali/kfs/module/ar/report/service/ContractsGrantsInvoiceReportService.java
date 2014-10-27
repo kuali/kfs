@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 
@@ -81,4 +82,11 @@ public interface ContractsGrantsInvoiceReportService {
      * @return Byte array is returned so a file is not created on the server.
      */
     public byte[] convertLetterOfCreditReviewToCSV(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument);
+
+    /**
+     * This helper method returns a list of award lookup results based on the contracts grants invoice lookup
+     * @param awards a Collection of CGB Awards to populate Contracts & Grants Invoice lookup results from
+     * @return a Collection of lookup results for the C&G Invoice lookup
+     */
+    public Collection<ContractsGrantsInvoiceLookupResult> getPopulatedContractsGrantsInvoiceLookupResults(Collection<ContractsAndGrantsBillingAward> awards);
 }

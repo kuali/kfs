@@ -17,7 +17,10 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,15 +35,21 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
-import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupUtil;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -52,6 +61,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Action class for Contracts Grants Invoice Summary.
  */
 public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
+    private static volatile ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService;
+    private static volatile DateTimeService dateTimeService;
+    private static volatile SegmentedLookupResultsService segmentedLookupResultsService;
+    private static volatile LookupResultsService lookupResultsService;
 
     /**
      * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice
@@ -70,7 +83,7 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         String lookupResultsSequenceNumber = contractsGrantsInvoiceSummaryForm.getLookupResultsSequenceNumber();
         if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
             String personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-            Collection<ContractsGrantsInvoiceLookupResult> contractsGrantsInvoiceLookupResults = ContractsGrantsInvoiceLookupUtil.getContractsGrantsInvoiceResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
+            Collection<ContractsGrantsInvoiceLookupResult> contractsGrantsInvoiceLookupResults = getContractsGrantsInvoiceResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
 
             contractsGrantsInvoiceSummaryForm.setContractsGrantsInvoiceLookupResults(contractsGrantsInvoiceLookupResults);
         }
@@ -93,14 +106,13 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         ContractsGrantsInvoiceSummaryForm contractsGrantsInvoiceSummaryForm = (ContractsGrantsInvoiceSummaryForm) form;
         ContractsGrantsInvoiceCreateDocumentService cgInvoiceDocumentCreateService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         String lookupResultsSequenceNumber = "";
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             lookupResultsSequenceNumber = StringUtils.substringBetween(parameterName, ".number", ".");
         }
 
-        Collection<ContractsGrantsInvoiceLookupResult> lookupResults = ContractsGrantsInvoiceLookupUtil.getContractsGrantsInvoiceResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        Collection<ContractsGrantsInvoiceLookupResult> lookupResults = getContractsGrantsInvoiceResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         // To retrieve the batch file directory name as "reports/cg"
         ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
@@ -111,7 +123,7 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
             destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
         }
 
-        String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+        String runtimeStamp = getDateTimeService().toDateTimeStringForFilename(new java.util.Date());
         contractsGrantsInvoiceSummaryForm.setAwardInvoiced(true);
         int validationErrors = 0;
         int validAwards = 0;
@@ -143,6 +155,82 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param lookupResultsSequenceNumber
+     * @param personId
+     * @return
+     * @throws Exception
+     */
+    protected Collection<ContractsGrantsInvoiceLookupResult> getContractsGrantsInvoiceResultsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) throws Exception {
+        return getContractsGrantsInvoiceReportService().getPopulatedContractsGrantsInvoiceLookupResults(getAwardsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId));
+    }
+
+    /**
+     * Get the Awards based on what the user selected in the lookup results.
+     *
+     * @param lookupResultsSequenceNumber sequence number used to retrieve the lookup results
+     * @param personId person who performed the lookup
+     * @return Collection of ContractsAndGrantsBillingAwards
+     * @throws Exception if there was a problem getting the selected proposal numbers from the lookup results
+     */
+    protected Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) throws Exception {
+        KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+        Collection<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
+
+        List<String> selectedProposalNumbers = getSelectedProposalNumbersFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
+        ContractsAndGrantsBillingAward award = null;
+
+        for (String selectedProposalNumber: selectedProposalNumbers) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, selectedProposalNumber);
+            award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+            if (ObjectUtils.isNotNull(award)) {
+                awards.add(award);
+            }
+        }
+
+        return awards;
+    }
+
+    /**
+     * Get the selected proposal numbers to be used as keys to retrieve the awards by retrieving the selected object ids
+     * and then matching them against the results from the lookup.
+     *
+     * @param lookupResultsSequenceNumber sequence number used to retrieve the lookup results and selected object ids
+     * @param personId person who performed the lookup
+     * @return List of proposalNumber Strings that the user selected
+     * @throws Exception if there was a problem getting the selected object ids or the lookup results
+     */
+    protected List getSelectedProposalNumbersFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) throws Exception {
+        List<String> selectedProposalNumbers = new ArrayList<String>();
+        Set<String> selectedIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        if (CollectionUtils.isNotEmpty(selectedIds)) {
+            List<ResultRow> results = getLookupResultsService().retrieveResultsTable(lookupResultsSequenceNumber, personId);
+            for (ResultRow result:results) {
+                List<Column> columns = result.getColumns();
+                if (result instanceof ContractsGrantsLookupResultRow) {
+                    for (ResultRow subResultRow : ((ContractsGrantsLookupResultRow) result).getSubResultRows()) {
+                        String objId = subResultRow.getObjectId();
+                        if (selectedIds.contains(objId)) {
+                            // This is somewhat brittle - it depends on the fact that the Proposal Number is one of
+                            // the columns in the sub result rows. If that changes, this will no longer work and will
+                            // need to be changed.
+                            for (Column column: subResultRow.getColumns()) {
+                                if (StringUtils.equals(column.getPropertyName(), KFSPropertyConstants.PROPOSAL_NUMBER)) {
+                                    selectedProposalNumbers.add(subResultRow.getColumns().get(0).getPropertyValue());
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return selectedProposalNumbers;
+    }
 
     /**
      * To cancel the document, invoices are not created when the cancel method is called.
@@ -156,5 +244,33 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
+    }
+
+    public static ContractsGrantsInvoiceReportService getContractsGrantsInvoiceReportService() {
+        if (contractsGrantsInvoiceReportService == null) {
+            contractsGrantsInvoiceReportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
+        }
+        return contractsGrantsInvoiceReportService;
+    }
+
+    public static DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
+    public static SegmentedLookupResultsService getSegmentedLookupResultsService() {
+        if (segmentedLookupResultsService == null) {
+            segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
+        }
+        return segmentedLookupResultsService;
+    }
+
+    public static LookupResultsService getLookupResultsService() {
+        if (lookupResultsService == null) {
+            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
+        }
+        return lookupResultsService;
     }
 }

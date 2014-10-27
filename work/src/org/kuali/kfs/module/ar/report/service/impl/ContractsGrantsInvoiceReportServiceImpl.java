@@ -27,6 +27,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -883,6 +885,69 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             }
         }
         return baos.toByteArray();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#getPopulatedContractsGrantsInvoiceLookupResults(java.util.Collection)
+     */
+    @Override
+    public Collection<ContractsGrantsInvoiceLookupResult> getPopulatedContractsGrantsInvoiceLookupResults(Collection<ContractsAndGrantsBillingAward> awards) {
+        Collection<ContractsGrantsInvoiceLookupResult> populatedContractsGrantsInvoiceLookupResults = new ArrayList<ContractsGrantsInvoiceLookupResult>();
+
+        if (awards.size() == 0) {
+            return populatedContractsGrantsInvoiceLookupResults;
+        }
+
+        Iterator iter = getAwardByAgency(awards).entrySet().iterator();
+        ContractsGrantsInvoiceLookupResult contractsGrantsInvoiceLookupResult = null;
+        while (iter.hasNext()) {
+
+            Map.Entry entry = (Map.Entry) iter.next();
+            List<ContractsAndGrantsBillingAward> list = (List<ContractsAndGrantsBillingAward>) entry.getValue();
+
+            // Get data from first award for agency data
+            if (CollectionUtils.isNotEmpty(list)){
+                ContractsAndGrantsBillingAgency agency = list.get(0).getAgency();
+                contractsGrantsInvoiceLookupResult = new ContractsGrantsInvoiceLookupResult();
+
+                if (ObjectUtils.isNotNull(agency)){
+                    contractsGrantsInvoiceLookupResult.setAgencyNumber(agency.getAgencyNumber());
+                    contractsGrantsInvoiceLookupResult.setAgencyReportingName(agency.getReportingName());
+                    contractsGrantsInvoiceLookupResult.setAgencyFullName(agency.getFullName());
+                    contractsGrantsInvoiceLookupResult.setCustomerNumber(agency.getCustomerNumber());
+                }
+
+                contractsGrantsInvoiceLookupResult.setAwards(list);
+                populatedContractsGrantsInvoiceLookupResults.add(contractsGrantsInvoiceLookupResult);
+            }
+        }
+
+        return populatedContractsGrantsInvoiceLookupResults;
+    }
+
+    /**
+     * This helper method returns a map of a list of awards by agency
+     * @param awards
+     * @return a Map of the given CGB Awards, keyed by the agency number
+     */
+    protected Map<String, List<ContractsAndGrantsBillingAward>> getAwardByAgency(Collection<ContractsAndGrantsBillingAward> awards) {
+        // use a map to sort awards by agency
+        Map<String, List<ContractsAndGrantsBillingAward>> awardsByAgency = new HashMap<>();
+        for (ContractsAndGrantsBillingAward award : awards) {// To display awards only if their preferred Billing frequency is not LOC Billing
+            if (!StringUtils.isBlank(award.getPreferredBillingFrequency()) && !StringUtils.equalsIgnoreCase(award.getPreferredBillingFrequency(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                String agencyNumber = award.getAgencyNumber();
+                if (awardsByAgency.containsKey(agencyNumber)) {
+                    awardsByAgency.get(agencyNumber).add(award);
+                }
+                else {
+                    List<ContractsAndGrantsBillingAward> awardsByAgencyNumber = new ArrayList<ContractsAndGrantsBillingAward>();
+                    awardsByAgencyNumber.add(award);
+                    awardsByAgency.put(agencyNumber, awardsByAgencyNumber);
+                }
+            }
+        }
+
+        return awardsByAgency;
     }
 
     public PersonService getPersonService() {

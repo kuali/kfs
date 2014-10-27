@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -68,6 +69,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
     protected AccountService accountService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    protected ReferralToCollectionsService referralToCollectionsService;
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
@@ -333,7 +335,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
             filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
         }
 
-        return ReferralToCollectionsDocumentUtil.getPopulatedReferralToCollectionsLookupResults(invoices);
+        return getReferralToCollectionsService().getPopulatedReferralToCollectionsLookupResults(invoices);
     }
 
     /**
@@ -397,5 +399,13 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends AccountsRe
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public ReferralToCollectionsService getReferralToCollectionsService() {
+        return referralToCollectionsService;
+    }
+
+    public void setReferralToCollectionsService(ReferralToCollectionsService referralToCollectionsService) {
+        this.referralToCollectionsService = referralToCollectionsService;
     }
 }

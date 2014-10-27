@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
@@ -62,6 +63,7 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsR
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    protected ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -128,7 +130,7 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsR
         // Get the list of awards
         searchResultsCollection = getSearchResultsHelper(org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), true);
         // Convert to suitable list
-        searchResultsCollection = ContractsGrantsInvoiceLookupUtil.getPopulatedContractsGrantsInvoiceLookupResults(searchResultsCollection);
+        searchResultsCollection = getContractsGrantsInvoiceReportService().getPopulatedContractsGrantsInvoiceLookupResults(searchResultsCollection);
         filterSearchResults(searchResultsCollection);
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));
     }
@@ -278,5 +280,13 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends AccountsR
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public ContractsGrantsInvoiceReportService getContractsGrantsInvoiceReportService() {
+        return contractsGrantsInvoiceReportService;
+    }
+
+    public void setContractsGrantsInvoiceReportService(ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService) {
+        this.contractsGrantsInvoiceReportService = contractsGrantsInvoiceReportService;
     }
 }

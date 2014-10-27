@@ -28,16 +28,12 @@
 	<sys:hiddenDocumentFields />
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
-
-	<ar:invoiceGeneral readOnly="${readOnly}" />
-
+	
 	<ar:contractsGrantsInvoiceOrganization
 		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
 		readOnly="${readOnly}" />
-
-	<ar:contractsGrantsInvoiceGeneral
-		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
-		readOnly="${readOnly}" />
+	
+	<ar:invoiceGeneral readOnly="${readOnly}" />
 		
 	<c:choose>
 		<c:when test="${KualiForm.document.invoiceGeneralDetail.billingFrequencyCode == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">

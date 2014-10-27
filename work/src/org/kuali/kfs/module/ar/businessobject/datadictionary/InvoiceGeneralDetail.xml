@@ -149,8 +149,8 @@
 
 	<bean id="InvoiceGeneralDetail-newTotalBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="newTotalBilled" />
-		<property name="label" value="New Total Billed" />
-		<property name="shortLabel" value="New Total Billed" />
+		<property name="label" value="Total Amount Billed To Date" />
+		<property name="shortLabel" value="Total Amount Billed To Date" />
 	</bean>
 
 	<bean id="InvoiceGeneralDetail-amountRemainingToBill" parent="InvoiceGeneralDetail-amountRemainingToBill-parentBean" />
@@ -165,8 +165,8 @@
 
 	<bean id="InvoiceGeneralDetail-billedToDateAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="billedToDateAmount" />
-		<property name="label" value="Amount Billed To Date" />
-		<property name="shortLabel" value="Amount Billed To Date" />
+		<property name="label" value="Total Previously Billed" />
+		<property name="shortLabel" value="Total Previously Billed" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>

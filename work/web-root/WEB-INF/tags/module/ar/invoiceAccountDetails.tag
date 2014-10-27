@@ -24,8 +24,8 @@
 			<h3>Account Summary</h3>
 			<table cellpadding=0 class="datatable" summary="Invoice Account Details section">
 				<tr>
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.chartOfAccountsCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.budgetAmount}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.expenditureAmount}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.cumulativeAmount}" useShortLabel="false" />
@@ -34,13 +34,13 @@
 				</tr>
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.accountDetails" id="accountDetail">
 					<tr>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.chartOfAccountsCode}"
+								property="document.accountDetails[${ctr}].chartOfAccountsCode" readOnly="true" /></td>
 						<td class="datacell"><a
 							href="${ConfigProperties.application.url}/kr/inquiry.do?chartOfAccountsCode=${KualiForm.document.accountDetails[ctr].chartOfAccountsCode}&businessObjectClassName=org.kuali.kfs.coa.businessobject.Account&methodToCall=start&accountNumber=${KualiForm.document.accountDetails[ctr].accountNumber}"
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}"
 									property="document.accountDetails[${ctr}].accountNumber" readOnly="true" />
-						</a></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.chartOfAccountsCode}"
-								property="document.accountDetails[${ctr}].chartOfAccountsCode" readOnly="true" /></td>
+						</a></td>						
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.budgetAmount}"
 								property="document.accountDetails[${ctr}].budgetAmount" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.expenditureAmount}"

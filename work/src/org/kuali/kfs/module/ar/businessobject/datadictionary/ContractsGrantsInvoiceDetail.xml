@@ -85,16 +85,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	<bean id="ContractsGrantsInvoiceDetail-budget-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="budget" />
 		<property name="required" value="false" />
-		<property name="label" value="Cumulative Budget" />
-		<property name="shortLabel" value="Cumulative Budget" />
+		<property name="label" value="Total Budget" />
+		<property name="shortLabel" value="Total Budget" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-expenditures" parent="ContractsGrantsInvoiceDetail-expenditures-parentBean" />
 	<bean id="ContractsGrantsInvoiceDetail-expenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="expenditures" />
 		<property name="required" value="false" />
-		<property name="label" value="Current Expenditures" />
-		<property name="shortLabel" value="Current Expenditures" />
+		<property name="label" value="Invoice Amount" />
+		<property name="shortLabel" value="Invoice Amount" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-cumulative" parent="ContractsGrantsInvoiceDetail-cumulative-parentBean" />
@@ -109,32 +109,32 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	<bean id="ContractsGrantsInvoiceDetail-balance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="balance" />
 		<property name="required" value="false" />
-		<property name="label" value="Balance" />
-		<property name="shortLabel" value="Balance" />
+		<property name="label" value="Budget Remaining" />
+		<property name="shortLabel" value="Budget Remaining" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-billed" parent="ContractsGrantsInvoiceDetail-billed-parentBean" />
 	<bean id="ContractsGrantsInvoiceDetail-billed-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="billed" />
 		<property name="required" value="false" />
-		<property name="label" value="Billed" />
-		<property name="shortLabel" value="Billed" />
+		<property name="label" value="Total Previously Billed" />
+		<property name="shortLabel" value="Total Previously Billed" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-adjustedCumExpenditures" parent="ContractsGrantsInvoiceDetail-adjustedCumExpenditures-parentBean" />
 	<bean id="ContractsGrantsInvoiceDetail-adjustedCumExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="adjustedCumExpenditures" />
 		<property name="required" value="false" />
-		<property name="label" value="Adjusted Cumulative Expenditures" />
-		<property name="shortLabel" value="Adjusted Cumulative Expenditures" />
+		<property name="label" value="Total Amount Billed to Date" />
+		<property name="shortLabel" value="Total Amount Billed to Date" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-adjustedBalance" parent="ContractsGrantsInvoiceDetail-adjustedBalance-parentBean" />
 	<bean id="ContractsGrantsInvoiceDetail-adjustedBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="adjustedBalance" />
 		<property name="required" value="false" />
-		<property name="label" value="Adjusted Balance" />
-		<property name="shortLabel" value="Adjusted Balance" />
+		<property name="label" value="Amount Remaining To Bill" />
+		<property name="shortLabel" value="Amount Remaining To Bill" />
 	</bean>
 	
 	<bean id="ContractsGrantsInvoiceDetail-costCategory.categoryName" parent="ContractsGrantsInvoiceDetail-costCategory.categoryName-parentBean"/>

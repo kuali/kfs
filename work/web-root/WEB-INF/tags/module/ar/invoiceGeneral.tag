@@ -19,11 +19,12 @@
 <c:set var="invoiceGeneralDetailAttributes" value="${DataDictionary.InvoiceGeneralDetail.attributes}" />
 <c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}" />
 <c:set var="readOnlyForFinal" value="${readOnly || not KualiForm.document.finalizable}" />
+<c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
 	<div class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">
 			<tr>
-				<td colspan="4" class="subhead">Invoice Lines</td>
+				<td colspan="4" class="subhead">Billing Summary</td>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -38,12 +39,12 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.comment}" useShortLabel="false" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.comment.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.comment}" property="document.invoiceGeneralDetail.comment"
+					<div id="document.awardTotal.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" property="document.invoiceGeneralDetail.awardTotal"
 							readOnly="true" />
 					</div>
 				</td>
@@ -62,6 +63,19 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" />
+					</div>
+				</th>
+				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billedToDateAmount.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" property="document.invoiceGeneralDetail.billedToDateAmount"
+							readOnly="true" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}" useShortLabel="false" />
 					</div>
 				</th>
@@ -69,50 +83,6 @@
 					<div id="document.billingFrequencyCode.div">
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}"
 							property="document.invoiceGeneralDetail.billingFrequencyCode" readOnly="true" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" />
-					</div>
-				</th>
-				<c:choose>
-					<c:when test="${KualiForm.document.invoiceReversal}">
-						<td align=left valign=middle class="datacell" style="width: 25%;" />
-					</c:when>
-					<c:otherwise>
-						<td align=left valign=middle class="datacell" style="width: 25%;">
-							<div id="document.finalBill.div">
-								<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" property="document.invoiceGeneralDetail.finalBillIndicator"
-									readOnly="${readOnlyForFinal}" />
-							</div>
-						</td>
-					</c:otherwise>
-				</c:choose>
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" />
-					</div>
-				</th>
-				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billingPeriod.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}"
-							property="document.invoiceGeneralDetail.billingPeriod" readOnly="true" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}" />
-					</div>
-				</th>
-				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.instrumentTypeCode.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}"
-							property="document.invoiceGeneralDetail.instrumentTypeCode" readOnly="true" />
 					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -139,28 +109,15 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.awardTotal.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" property="document.invoiceGeneralDetail.awardTotal"
-							readOnly="true" />
+					<div id="document.billingPeriod.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}"
+							property="document.invoiceGeneralDetail.billingPeriod" readOnly="true" />
 					</div>
 				</td>
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" />
-					</div>
-				</th>
-				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billedToDateAmount.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" property="document.invoiceGeneralDetail.billedToDateAmount"
-							readOnly="true" />
-					</div>
-				</td>
-			</tr>
-			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.amountRemainingToBill}" />
@@ -172,6 +129,39 @@
 							property="document.invoiceGeneralDetail.amountRemainingToBill" readOnly="true" />
 					</div>
 				</td>
+			</tr>
+			<tr>
+				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" />
+					</div>
+				</th>
+				<c:choose>
+					<c:when test="${KualiForm.document.invoiceReversal}">
+						<td align=left valign=middle class="datacell" style="width: 25%;" />
+					</c:when>
+					<c:otherwise>
+						<td align=left valign=middle class="datacell" style="width: 25%;">
+							<div id="document.finalBill.div">
+								<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" property="document.invoiceGeneralDetail.finalBillIndicator"
+									readOnly="${readOnlyForFinal}" />
+							</div>
+						</td>
+					</c:otherwise>
+				</c:choose>
+				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}" />
+					</div>
+				</th>
+				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.instrumentTypeCode.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}"
+							property="document.invoiceGeneralDetail.instrumentTypeCode" readOnly="true" />
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.lastBilledDate}" />
@@ -183,8 +173,6 @@
 							property="document.invoiceGeneralDetail.lastBilledDate" readOnly="true" />
 					</div>
 				</td>
-			</tr>
-			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}" />
@@ -197,6 +185,41 @@
 					</div>
 				</td>
 			</tr>
+			<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
+				<tr>
+					<td colspan="4" class="subhead">Customer Information</td>
+				</tr>
+				<tr>
+					<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+						<div align="right">
+							<kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}"
+								labelFor="document.accountsReceivableDocumentHeader.customerNumber" />
+						</div>
+					</th>
+					<td valign=top>
+            			<c:if test="${not empty KualiForm.document.accountsReceivableDocumentHeader.customerNumber}">
+		                <kul:inquiry boClassName="org.kuali.kfs.module.ar.businessobject.Customer" keyValues="customerNumber=${KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" render="true">
+		                    <kul:htmlControlAttribute 
+		                    	attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customer.customerNumber" 
+		                    	readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>
+		                </kul:inquiry>
+	                </c:if>
+          			</td>
+					<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+						<div align="right">
+							<kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" />
+						</div>
+					</th>
+					<td align=left valign=middle class="datacell" style="width: 25%;">
+						<div id="document.accountsReceivableDocumentHeader.customer.customerName.div">
+							<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerName}"
+								property="document.accountsReceivableDocumentHeader.customer.customerName" readOnly="true" />
+						</div>
+					</td>
+					
+				</tr>
+			</c:if>	
 		</table>
 	</div>
+
 </kul:tab>

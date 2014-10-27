@@ -1685,7 +1685,7 @@
         </unique>
     </table>
     <table name="AR_INV_TRNS_MTHD_T">
-        <column name="INV_TRNS_MTHD_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="INV_TRNS_MTHD_CD" primaryKey="true" size="6" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="INV_TRNS_MTHD_DESC" size="45" type="VARCHAR"/>
@@ -4375,7 +4375,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="BILL_FREQ_DESC" size="45" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="0" name="GRACE_PERIOD" size="5" type="DECIMAL"/>
+        <column default="0" name="GRACE_PERIOD" size="3" type="DECIMAL"/>
         <unique name="CG_BILL_FREQ_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -9857,7 +9857,7 @@
         <column name="KC_FREQ_CD" primaryKey="true" size="3" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="GRACE_PERIOD" size="5" type="DECIMAL"/>
+        <column name="GRACE_PERIOD" size="3" type="DECIMAL"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="KC_CG_BILL_FREQ_MAP_TC0">
             <unique-column name="OBJ_ID"/>

@@ -1197,7 +1197,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalDirectCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalDirectCostInvoiceDetail.getDocumentNumber());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORY, totalDirectCostInvoiceDetail.getCostCategory().getCategoryName());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORY, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_DIRECT_SUBTOTAL_LABEL));
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalDirectCostInvoiceDetail.getBudget());
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalDirectCostInvoiceDetail.getExpenditures());
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalDirectCostInvoiceDetail.getCumulative());
@@ -1210,7 +1210,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)) {
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalInDirectCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalInDirectCostInvoiceDetail.getDocumentNumber());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, totalInDirectCostInvoiceDetail.getCostCategory().getCategoryName());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_INDIRECT_SUBTOTAL_LABEL));
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalInDirectCostInvoiceDetail.getBudget());
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalInDirectCostInvoiceDetail.getExpenditures());
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalInDirectCostInvoiceDetail.getCumulative());
@@ -1223,7 +1223,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalCostInvoiceDetail.getDocumentNumber());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, totalCostInvoiceDetail.getCostCategory().getCategoryName());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_TOTAL_LABEL));
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalCostInvoiceDetail.getBudget());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalCostInvoiceDetail.getExpenditures());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalCostInvoiceDetail.getCumulative());

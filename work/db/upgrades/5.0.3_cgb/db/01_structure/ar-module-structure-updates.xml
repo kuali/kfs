@@ -23,7 +23,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="TOT_BILLED_AMT" type="DECIMAL(12,2)">
+			<column name="TOT_BILLED_AMT" type="DECIMAL(19,2)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -40,7 +40,7 @@
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 			<column name="BILL_NBR" type="DECIMAL(12,0)" />
 			<column name="BILL_DT" type="DATETIME" />
-			<column name="EST_AMT" type="DECIMAL(7,0)" />
+			<column name="EST_AMT" type="DECIMAL(19,2)" />
 			<column name="BILLED_IND" type="VARCHAR(5)" />
 			<column name="BILL_DESC" type="VARCHAR(45)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y">
@@ -360,7 +360,7 @@
 			<column name="BILL_NBR" type="DECIMAL(12,0)" />
 			<column name="BILL_DESC" type="VARCHAR(45)" />
 			<column name="BILL_DT" type="DATETIME" />
-			<column name="EST_AMT" type="DECIMAL(7,0)" />
+			<column name="EST_AMT" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_INV_DOC_ERROR_LOG_T">
 			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
@@ -420,13 +420,13 @@
 				<constraints nullable="false" />
 			</column>			
 			<column name="CTGRY_CD" type="VARCHAR(4)" />
-			<column name="TOT_BILLED_AMT" type="DECIMAL(12,2)">
+			<column name="TOT_BILLED_AMT" type="DECIMAL(19,2)">
 				<constraints nullable="false" />
 			</column>
-			<column name="CURR_EXPND_AMT" type="DECIMAL(12,2)">
+			<column name="CURR_EXPND_AMT" type="DECIMAL(19,2)">
 				<constraints nullable="false" />
 			</column>
-			<column name="CUM_EXPND_AMT" type="DECIMAL(12,2)">
+			<column name="CUM_EXPND_AMT" type="DECIMAL(19,2)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -471,7 +471,7 @@
 			<column name="MLSTN_NBR" type="DECIMAL(12,0)" />
 			<column name="MLSTN_DESC" type="VARCHAR(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="DATETIME" />
-			<column name="MLSTN_AMT" type="DECIMAL(7,0)" />
+			<column name="MLSTN_AMT" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_INV_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="VARCHAR(4)">

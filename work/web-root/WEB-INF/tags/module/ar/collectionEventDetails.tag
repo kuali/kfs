@@ -90,15 +90,15 @@
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
-			property="${propertyName}.activityText" readOnly="false" /></td>
+			property="${propertyName}.activityText" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followup}"
 			property="${propertyName}.followup" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completed}" onclick="clearDate(this.name, '${propertyName}.completedDate');"
-			property="${propertyName}.completed" readOnly="false" /></td>
+			property="${propertyName}.completed" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
-			property="${propertyName}.completedDate" readOnly="false" /></td>
+			property="${propertyName}.completedDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}">
 			<fmt:formatDate value="${KualiForm.document.selectedInvoiceEvents[rowHeading-1].postedDate}" pattern="${dateFormatPattern}"/>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.userPrincipalId}"

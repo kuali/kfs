@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -30,12 +31,28 @@ public abstract class CustomerAddressSuspensionCategoryBase extends SuspensionCa
      * @return
      */
     protected boolean isCustomerAddressComplete(CustomerAddress customerAddress) {
-        return !ObjectUtils.isNull(customerAddress)
-                && !StringUtils.isBlank(customerAddress.getCustomerLine1StreetAddress())
-                && !StringUtils.isBlank(customerAddress.getCustomerCityName())
-                && !StringUtils.isBlank(customerAddress.getCustomerStateCode())
-                && !StringUtils.isBlank(customerAddress.getCustomerZipCode())
-                && !StringUtils.isBlank(customerAddress.getCustomerCountryCode());
+        if (ObjectUtils.isNull(customerAddress)) {
+            return false;
+        }
+
+        if (StringUtils.isBlank(customerAddress.getCustomerLine1StreetAddress()) ||
+                StringUtils.isBlank(customerAddress.getCustomerCityName())) {
+            return false;
+        }
+
+        String countryCode = customerAddress.getCustomerCountryCode();
+        if (StringUtils.isBlank(countryCode)) {
+            return false;
+        } else {
+            if (StringUtils.equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_US, countryCode)) {
+                return !StringUtils.isBlank(customerAddress.getCustomerStateCode())
+                        && !StringUtils.isBlank(customerAddress.getCustomerZipCode());
+
+            } else {
+                return !StringUtils.isBlank(customerAddress.getCustomerAddressInternationalProvinceName())
+                        && !StringUtils.isBlank(customerAddress.getCustomerInternationalMailCode());
+            }
+        }
     }
 
 }

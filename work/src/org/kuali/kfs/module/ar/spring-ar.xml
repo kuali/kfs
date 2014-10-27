@@ -311,6 +311,7 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService"/>
 		</property>
+		<property name="optionsService" ref="optionsService" />
 	</bean>
 	
 	<bean id="contractsGrantsInvoiceBatchCreateDocumentService" parent="contractsGrantsInvoiceBatchCreateDocumentService-parentBean"/>
@@ -440,6 +441,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService"/>
 		</property>
+		
+		<property name="optionsService" ref="optionsService" />
+		
 		<property name="suspensionCategories">
       		<list>
 				<ref bean="newTotalBilledAmountExceedsAwardTotalSuspensionCategory" />
@@ -855,6 +859,7 @@
 		<property name="contractsGrantsBillingUtilityService">
 			<ref bean="contractsGrantsBillingUtilityService" />
 		</property>
+		<property name="optionsService" ref="optionsService" />
 	</bean>
 	
 	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
@@ -2597,6 +2602,7 @@
 	    <property name="contractsAndGrantsModuleBillingService" ref="contractsAndGrantsModuleBillingService"/>
 	    <property name="kualiModuleService" ref="kualiModuleService"/>
 	    <property name="universityDateService" ref="universityDateService"/>
+	    <property name="optionsService" ref="optionsService" />
 	</bean>
 	
 	<bean id="predeterminedBillingScheduleMaintenanceService" parent="predeterminedBillingScheduleMaintenanceService-parentBean"/>
@@ -2622,6 +2628,7 @@
 	    <property name="parameterService" ref="parameterService"/>
 	    <property name="verifyBillingFrequencyService" ref="verifyBillingFrequencyService"/>
 	    <property name="universityDateService" ref="universityDateService"/>
+	    <property name="optionsService" ref="optionsService" />
 	</bean>
 	
 	<bean id="costCategoryDao" parent="costCategoryDao-parentBean"/>

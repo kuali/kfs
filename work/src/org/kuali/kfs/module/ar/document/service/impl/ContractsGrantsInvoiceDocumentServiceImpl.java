@@ -81,6 +81,7 @@ import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.FallbackMap;
 import org.kuali.kfs.sys.util.ReflectionMap;
@@ -134,6 +135,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected ParameterService parameterService;
     protected PersonService personService;
     protected UniversityDateService universityDateService;
+    protected OptionsService optionsService;
 
     private List<SuspensionCategory> suspensionCategories;
 
@@ -757,7 +759,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
-        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
+        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
@@ -849,7 +851,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     protected KualiDecimal getCumulativeCashDisbursement(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
         Integer currentYear = universityDateService.getCurrentFiscalYear();
-        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
+        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
         KualiDecimal cumAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         List<Balance> glBalances = new ArrayList<Balance>();
@@ -2028,5 +2030,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

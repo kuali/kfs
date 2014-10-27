@@ -58,6 +58,7 @@ import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -108,6 +109,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected ReportGenerationService reportGenerationService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
+    protected OptionsService optionsService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
@@ -331,7 +333,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, Map<String, String> replacementList) {
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
-        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, year);
+        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             int index = 0;
@@ -484,7 +486,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         Map<String, String> replacementList = new HashMap<String, String>();
         contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.REPORTING_PERIOD_END_DATE, getReportingPeriodEndDate(reportingPeriod, year));
         contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.FEDERAL_AGENCY, agency.getFullName());
-        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, year);
+        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
 
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
@@ -1071,4 +1073,13 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
         this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
     }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
 }

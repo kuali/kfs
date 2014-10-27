@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -66,6 +66,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     private List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails;
 
     private transient static volatile ContractsGrantsLetterOfCreditReviewDocumentService contractsGrantsLetterOfCreditReviewDocumentService;
+    private transient static volatile OptionsService optionsService;
 
     public ContractsGrantsLetterOfCreditReviewDocument() {
         headerReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
@@ -293,8 +294,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
 
                     headerReviewDetails.add(locReviewDtl);
-                    Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(award.getAwardBeginningDate());
-                    final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
+                    final SystemOptions systemOption = optionsService.getCurrentYearOptions();
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
@@ -508,5 +508,12 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             contractsGrantsLetterOfCreditReviewDocumentService = SpringContext.getBean(ContractsGrantsLetterOfCreditReviewDocumentService.class);
         }
         return contractsGrantsLetterOfCreditReviewDocumentService;
+    }
+
+    public static OptionsService getOptionsService() {
+        if (optionsService == null) {
+            optionsService = SpringContext.getBean(OptionsService.class);
+        }
+        return optionsService;
     }
 }

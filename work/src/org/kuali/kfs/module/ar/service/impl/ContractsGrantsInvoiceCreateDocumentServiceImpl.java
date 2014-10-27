@@ -80,6 +80,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -127,6 +128,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected VerifyBillingFrequencyService verifyBillingFrequencyService;
     protected WorkflowDocumentService workflowDocumentService;
     protected UniversityDateService universityDateService;
+    protected OptionsService optionsService;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
@@ -795,7 +797,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         List<Balance> glBalances = new ArrayList<Balance>();
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             for (int fy = awardBeginningYear; fy <= currentYear; fy++) {
-                final SystemOptions systemOptions = retrieveSystemOptions(fy);
+                final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
                 final List<Balance> matchingBalances = getCostCategoryService().getBalancesForCostCategory(fy, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), category);
                 glBalances.addAll(matchingBalances);
             }
@@ -822,7 +824,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             fiscalYears.add(i);
         }
         List<String> balanceTypeCodeList = new ArrayList<String>();
-        final SystemOptions systemOptions = retrieveSystemOptions(awardBeginningFiscalYear);
+        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
         balanceTypeCodeList.add(systemOptions.getBudgetCheckingBalanceTypeCd());
         balanceTypeCodeList.add(systemOptions.getActualFinancialBalanceTypeCd());
         for (Integer eachFiscalYr : fiscalYears) {
@@ -1018,6 +1020,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected void performBudgetCalculationsOnInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, CostCategory costCategory, Date awardBeginningDate) {
         KualiDecimal budAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
+        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
+
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             // To retrieve the complete set of object codes and then categorize them based on object codes and BalanceType
             List<Balance> glBalances = new ArrayList<Balance>();
@@ -1033,7 +1037,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
             for (Integer eachFiscalYr : fiscalYears) {
-                final SystemOptions systemOptions = retrieveSystemOptions(eachFiscalYr);
                 final List<Balance> matchingCurrentYearBalances = getCostCategoryService().getBalancesForCostCategory(eachFiscalYr, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getBudgetCheckingBalanceTypeCd(), systemOptions.getFinObjTypeExpenditureexpCd(), costCategory);
                 glBalances.addAll(matchingCurrentYearBalances);
             }
@@ -1046,15 +1049,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         invoiceDetail.setBudget(budAmt);// Setting current budget value here
-    }
-
-    /**
-     * Retrieves a SystemOptions for a given fiscal year
-     * @param fiscalYear the fiscal year to retrieve options for
-     * @return the system options for that fiscal year
-     */
-    protected SystemOptions retrieveSystemOptions(Integer fiscalYear) {
-        return getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
     }
 
     /**
@@ -1319,7 +1313,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 Date beginningDate = award.getAwardBeginningDate();
                 Date endingDate = award.getAwardEndingDate();
                 KualiDecimal totalAmount = award.getAwardTotalAmount();
-                final SystemOptions systemOptions = retrieveSystemOptions(getUniversityDateService().getFiscalYear(beginningDate));
+                final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
 
                 contractsGrantsInvoiceDocumentErrorLog.setProposalNumber(award.getProposalNumber());
                 contractsGrantsInvoiceDocumentErrorLog.setAwardBeginningDate(beginningDate);
@@ -1462,7 +1456,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
             }
             else {
-                final SystemOptions systemOptions = retrieveSystemOptions(getUniversityDateService().getFiscalYear(award.getAwardBeginningDate()));
+                final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
 
                 // calculate cumulativeExpenses
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
@@ -1753,4 +1747,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public void setCostCategoryService(CostCategoryService costCategoryService) {
         this.costCategoryService = costCategoryService;
     }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
 }

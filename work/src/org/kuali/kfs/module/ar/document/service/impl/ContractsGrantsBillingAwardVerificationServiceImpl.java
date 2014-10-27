@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -65,6 +66,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     protected ParameterService parameterService;
     protected VerifyBillingFrequencyService verifyBillingFrequencyService;
     protected UniversityDateService universityDateService;
+    protected OptionsService optionsService;
 
     /**
      * Check if Billing Frequency is set correctly.
@@ -270,7 +272,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
         String coaCode = null, orgCode = null;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        final SystemOptions systemOption = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, currentYear);
+        final SystemOptions systemOption = optionsService.getCurrentYearOptions();
         boolean isUsingReceivableFAU = receivableOffsetOption.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
         // This condition is validated only if GLPE is 3 and CG enhancements is ON
         if (isUsingReceivableFAU) {
@@ -417,5 +419,13 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

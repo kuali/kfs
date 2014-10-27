@@ -51,8 +51,10 @@
 	<c:if test="${!KualiForm.document.correctionDocument}">
 		<ar:invoiceSuspensionCategories />
 	</c:if>
-		
-	<ar:invoiceTransmissionDetails readOnly="${readOnly}"/>
+
+	<c:if test="${!KualiForm.document.correctionDocument && KualiForm.document.invoiceGeneralDetail.billingFrequencyCode != ArConstants.LOC_BILLING_SCHEDULE_CODE}">
+		<ar:invoiceTransmissionDetails readOnly="${readOnly}"/>
+	</c:if>
 
 	<gl:generalLedgerPendingEntries />
 

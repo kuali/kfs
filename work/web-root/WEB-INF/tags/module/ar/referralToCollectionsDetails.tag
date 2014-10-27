@@ -17,7 +17,7 @@
 
 <c:set var="referralToCollectionsDetailAttributes" value="${DataDictionary.ReferralToCollectionsDetail.attributes}" />
 <c:set var="referralToCollectionsDocumentAttributes" value="${DataDictionary.ReferralToCollectionsDocument.attributes}" />
-<c:set var="cgInvoiceAttributes" value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
+<c:set var="invoiceGeneralDetailAttributes" value="${DataDictionary['InvoiceGeneralDetail'].attributes}" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Refer to Collections" defaultOpen="true" tabErrorKey="document.referralToCollectionsDocument*">
@@ -98,7 +98,7 @@
 				hideRequiredAsterisk="true" align="center" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${referralToCollectionsDetailAttributes.age}" useShortLabel="false"
 				hideRequiredAsterisk="true" align="center" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${cgInvoiceAttributes.finalDispositionCode}" useShortLabel="false"
+			<kul:htmlAttributeHeaderCell attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}" useShortLabel="false"
 				hideRequiredAsterisk="true" align="center" />
 			<kul:htmlAttributeHeaderCell literalLabel="Actions" horizontal="true" align="center" />
 		
@@ -120,7 +120,7 @@
 										property="document.referralToCollectionsDetails[${ctr}].invoiceBalance" readOnly="true" /></td>
 								<td class="datacell"><kul:htmlControlAttribute attributeEntry="${referralToCollectionsDetailAttributes.age}"
 										property="document.referralToCollectionsDetails[${ctr}].age" readOnly="true" /></td>
-								<td class="datacell"><kul:htmlControlAttribute attributeEntry="${cgInvoiceAttributes.finalDispositionCode}"
+								<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalDispositionCode}"
 										property="document.referralToCollectionsDetails[${ctr}].finalDispositionCode" readOnly="${readOnly}" /></td>
 								<td class="datacell">
 									<html:image property="methodToCall.deleteInvoice.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Invoice" title="Delete Invoice" styleClass="tinybutton" />

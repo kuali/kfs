@@ -995,7 +995,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         invoiceDetail.setExpenditures(KualiDecimal.ZERO);
         invoiceDetail.setBilled(KualiDecimal.ZERO);
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
-            if (getContractsGrantsInvoiceDocumentService().doesCostCategoryContainObjectCode(costCategory, invoiceDetailAccountObjectCode.getChartOfAccountsCode(), invoiceDetailAccountObjectCode.getFinancialObjectCode())) {
+            if (StringUtils.equals(invoiceDetailAccountObjectCode.getCategoryCode(), costCategory.getCategoryCode())) {
                 invoiceDetail.setCumulative(invoiceDetail.getCumulative().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
                 invoiceDetail.setExpenditures(invoiceDetail.getExpenditures().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
             }

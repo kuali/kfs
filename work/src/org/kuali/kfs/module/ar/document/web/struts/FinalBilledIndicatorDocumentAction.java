@@ -25,7 +25,6 @@ import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
 import org.kuali.kfs.module.ar.document.validation.impl.FinalBilledIndicatorValidation;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -83,15 +82,7 @@ public class FinalBilledIndicatorDocumentAction extends KualiTransactionalDocume
     protected void doProcessingAfterPost(KualiForm actionForm, HttpServletRequest request) {
         FinalBilledIndicatorDocumentForm form = (FinalBilledIndicatorDocumentForm) actionForm;
         FinalBilledIndicatorDocument document = form.getFinalBilledIndicatorDocument();
-        if (FinalBilledIndicatorValidation.validateDocument(document)) {
-            try {
-                document.updateContractsGrantsInvoiceDocument();
-            }
-            catch (WorkflowException ex) {
-                LOG.error("problem during FinalBilledIndicatorDocumentAction.doProcessingAfterPost()", ex);
-                throw new RuntimeException("Could not update Contracts and Grants Invoice Document for Final Billed Indicator Document",ex);
-            }
-        }
+        FinalBilledIndicatorValidation.validateDocument(document);
         super.doProcessingAfterPost(actionForm, request);
     }
 

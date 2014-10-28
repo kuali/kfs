@@ -1,0 +1,10 @@
+ctgry_cd|obj_id|ver_nbr|ctgry_nm|actv_ind|ind_cst_ind|
+EMPB|c75d07b0-a72b-11e0-8264-0800200c9a67|1.0|Employee Benefits|Y|N|
+EQIP|c75d07b0-a72b-11e0-8264-0800200c9a73|1.0|Equipment|Y|N|
+MSS|c75d07b0-a72b-11e0-8264-0800200c9a69|1.0|Materials, Supplies, Services|Y|N|
+ODC|c75d07b0-a72b-11e0-8264-0800200c9a74|1.0|Other Direct Cost|Y|N|
+PROS|c75d07b0-a72b-11e0-8264-0800200c9a68|1.0|Professional Services|Y|N|
+SAL|c75d07b0-a72b-11e0-8264-0800200c9a66|1.0|Salaries and Wages|Y|N|
+SBCT|c75d07b0-a72b-11e0-8264-0800200c9a72|1.0|Subcontract|Y|N|
+TRVD|c75d07b0-a72b-11e0-8264-0800200c9a70|1.0|Travel - Domestic|Y|N|
+TRVF|c75d07b0-a72b-11e0-8264-0800200c9a71|1.0|Travel - Foreign|Y|N|

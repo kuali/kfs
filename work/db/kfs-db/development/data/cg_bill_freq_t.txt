@@ -1,0 +1,8 @@
+bill_freq_cd|obj_id|ver_nbr|bill_freq_desc|actv_ind|grace_period|
+ANNU|KFSCGA|1.0|Annually|Y|32.0|
+LOCB|KFSCG01|1.0|LOC Billing|Y|0.0|
+MILE|3A0C2C70-37C0-3DAB-C20A-E05CCFD5C1D6|1.0|Milestone|Y|0.0|
+MNTH|FFACA586-E725-006E-1756-650CCD9607F8|1.0|Monthly|Y|0.0|
+PDBS|D4165C22-B612-5BCB-2FEF-F8E77A13BAA4|1.0|Predetermined Billing Schedule|Y|32.0|
+QUAR|8CA32113-4633-A2E1-7F39-81C73AE7B8CF|1.0|Quarterly|Y|32.0|
+SEMI|KFSCGSA|1.0|Semi Annually|Y|32.0|

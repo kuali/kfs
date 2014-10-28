@@ -1,0 +1,8 @@
+cmpgn_id|dun_ltr_dist_id|obj_id|ver_nbr|days_pst_due_txt|snd_dun_ltr_ind|actv_ind|ltr_typ_cd|
+KUAL|7.0|17dacb78-d72f-4fb0-8ed2-41eb03f33e6e|1.0|Current|Y|Y|KCURRENT|
+KUAL|8.0|8d50fd95-b98b-4348-a8d7-33d62d8c1f48|1.0|31-60|Y|Y|K3160|
+KUAL|9.0|ead67955-6e9b-49d4-8edb-3c6339f3d886|1.0|61-90|Y|Y|K6190|
+KUAL|10.0|9b08c9a8-aeff-47cf-aac5-1d856200b580|1.0|91-120|Y|Y|K91120|
+KUAL|11.0|22baf3f4-e614-4bd8-8f07-84cb6de6649e|1.0|121+|Y|Y|K121+|
+KUAL|12.0|7b3377b5-0cf4-4414-998c-a5a537aa6678|1.0|FINAL|Y|Y|KFINAL|
+KUAL|13.0|9aab7c85-1f16-4294-88f0-7b55e3ca6549|1.0|State Agency FINAL|Y|Y|KFINAL|

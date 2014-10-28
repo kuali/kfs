@@ -31,7 +31,22 @@
   <Field name="cg_agncy_analst_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_analyst_phn_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cgawd_proj_ttl"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cgawd_comment_txt"               type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cgawd_purpose_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bill_freq_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="excl_frm_inv_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addl_frms_req_ind"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addl_frms_desc"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="instrmnt_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="min_inv_amt"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_ltrcr_fnd_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="auto_approve_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="funding_exp_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="inv_opt_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ltrcr_crtn_typ"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="excl_frm_inv_reason_txt"         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="state_trnsfr_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmpgn_id"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="stop_wrk_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="stop_wrk_reason_txt"             type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

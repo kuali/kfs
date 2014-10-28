@@ -107,12 +107,12 @@ import.admin.url=$ADMIN_DATASOURCE
 	liquibase.logLevel=$LIQUIBASE_LOG_LEVEL
 	
 	post.import.liquibase.project=kfs
-	post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
+	post.import.liquibase.xml.directory=$WORKSPACE/kfs_old/work/db/rice-data
 	post.import.liquibase.contexts=bootstrap
 	
 	post.import.workflow.project=kfs
-	post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
-	post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/old_kfs/build.xml
+	post.import.workflow.xml.directory=$WORKSPACE/kfs_old/work/workflow
+	post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/kfs_old/build.xml
 	post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
 	post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
 	
@@ -124,12 +124,12 @@ import.admin.url=$ADMIN_DATASOURCE
 liquibase.logLevel=$LIQUIBASE_LOG_LEVEL
 
 post.import.liquibase.project=kfs
-post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
+post.import.liquibase.xml.directory=$WORKSPACE/kfs_old/work/db/rice-data
 post.import.liquibase.contexts=bootstrap
 
 post.import.workflow.project=kfs
-post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
-post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/old_kfs/build.xml
+post.import.workflow.xml.directory=$WORKSPACE/kfs_old/work/workflow
+post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/kfs_old/build.xml
 post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
 post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
 

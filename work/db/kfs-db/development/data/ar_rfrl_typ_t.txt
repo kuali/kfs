@@ -1,4 +1,0 @@
-rfrl_typ_cd|obj_id|ver_nbr|rfrl_typ_desc|actv_ind|outsd_clctn_agency_ind|
-01RT|EDC0BE4713E33031E040E00ABCD64EE1|1.0|Referral to Collection Admin|Y|N|
-02RT|EDC0BE4713E43031E040E00ABCD64EE1|1.0|Referral to Collection Manager|Y|N|
-03RT|EDC0BE4713E23031E040E00ABCD64EE1|1.0|Referral to outside collection agency|Y|Y|

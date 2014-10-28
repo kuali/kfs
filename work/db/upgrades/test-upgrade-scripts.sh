@@ -45,26 +45,12 @@ cd $WORKSPACE
 OLD_BRANCH_PATH=${OLD_BRANCH_PATH:-branches/release-4-1-1}
 UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
 
-# Other parameters
-SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
-PRIOR_SVN_DATA_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH/work/db/kfs-db
-
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}
 DB_SCHEMA=${DB_SCHEMA:-$DB_USER}
 DB_ADMIN_USER=${DB_ADMIN_USER:-root}
 DB_PASSWORD=${DB_PASSWORD:-$DB_USER}
 DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD:-}
-
-echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
-# Check out the old data project
-if [[ -d $TEMP_DIR/old_data ]]; then
-	svn -q revert -R $TEMP_DIR/old_data
-	svn -q switch $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
-	svn -q update --non-interactive $TEMP_DIR/old_data
-else
-	svn -q co $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
-fi
 
 # Prepare a tomcat directory that can be written to
 rm -rf $TEMP_DIR/tomcat

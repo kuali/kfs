@@ -1469,7 +1469,7 @@ Admin Password = $${impex.admin.password} (not shown)
 	<target name="clean-tomcat-config" depends="init-properties">
 		<echo>Clearing out web configuration files</echo>
 		<mkdir dir="${appserver.localhost.dir}" />
-		<delete>
+		<delete quiet="true">
 			<fileset dir="${appserver.localhost.dir}">
     			<include name="*.xml"/>
 			</fileset>

@@ -101,7 +101,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 
 		oracle.usermaint.user=kulusermaint
 
-        drivers.directory=$DRIVERS_DIRECTORY
+        drivers.directory=/opt/hudson/drivers
     
 	EOF
 	) > $WORKSPACE/impex-build.properties

@@ -90,7 +90,7 @@ import.torque.database.schema=$DB_SCHEMA
 import.torque.database.password=$DB_PASSWORD
 
 torque.project=kfs
-torque.schema.dir=$WORKSPACE/old_data/rice
+torque.schema.dir=$WORKSPACE/kfs_old/work/db/kfs-db/rice
 torque.sql.dir=\${torque.schema.dir}/sql
 torque.output.dir=\${torque.schema.dir}/sql
 
@@ -150,10 +150,10 @@ rm -rf $WORKSPACE/tomcat
 mkdir -p $WORKSPACE/tomcat/common/lib
 mkdir -p $WORKSPACE/tomcat/common/classes
 
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/development/graphs/*.xml
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
-perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
-perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
+perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs_old/work/db/kfs-db/development/graphs/*.xml
+perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs_old/work/db/kfs-db/rice/graphs/*.xml
+perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/kfs_old/work/db/kfs-db/rice/schema.xml
+perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/kfs_old/work/db/kfs-db/rice/schema.xml
 
 pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 #ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
@@ -169,7 +169,7 @@ echo OLD DATABASE - WORKFLOW
 echo '*********************************************************'
 ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
 popd
-cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
+cp $WORKSPACE/kfs_old/work/db/kfs-db/rice/schema.xml $WORKSPACE/old_schema.xml
 
 fi
 
@@ -256,9 +256,9 @@ pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" jdbc-to-xml
 popd
 
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
-perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
-perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
+perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs_old/work/db/kfs-db/rice/graphs/*.xml
+perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/kfs_old/work/db/kfs-db/rice/schema.xml
+perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/kfs_old/work/db/kfs-db/rice/schema.xml
 
 
 cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml

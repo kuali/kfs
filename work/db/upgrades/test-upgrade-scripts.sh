@@ -58,7 +58,7 @@ mkdir -p $TEMP_DIR/tomcat/common/lib
 mkdir -p $TEMP_DIR/tomcat/common/classes
 
 # Lower-case the table names in case we are running against MySQL on Amazon RDS
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/development/graphs/*.xml
+perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/kfs_old/work/db/kfs-db/development/graphs/*.xml
 
 # TODO: may need to lower case in the upgrade scripts as well
 
@@ -87,7 +87,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		import.torque.database.password=$DB_PASSWORD
 
 		torque.project=kfs
-		torque.schema.dir=$TEMP_DIR/old_data/development
+		torque.schema.dir=$TEMP_DIR/kfs_old/work/db/kfs-db/development
 		torque.sql.dir=\${torque.schema.dir}/sql
 		torque.output.dir=\${torque.schema.dir}/sql
 
@@ -107,9 +107,9 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	) > $TEMP_DIR/impex-build.properties
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/development/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $TEMP_DIR/old_data/development/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $TEMP_DIR/old_data/development/schema.xml	
+		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/kfs_old/work/db/kfs-db/development/graphs/*.xml
+		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $TEMP_DIR/kfs_old/work/db/kfs-db/development/schema.xml
+		perl -pi -e 's/&#[^;]*;/ /gi' $TEMP_DIR/kfs_old/work/db/kfs-db/development/schema.xml
 	fi
 	
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
@@ -181,7 +181,7 @@ fi
 if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 	cd $WORKSPACE
 	pushd $TEMP_DIR
-	cp old_data/development/schema.xml $WORKSPACE/old_schema.xml
+	cp kfs_old/work/db/kfs-db/development/schema.xml $WORKSPACE/old_schema.xml
 	cp upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
 	cp $PROJECT_DIR/work/db/kfs-db/development/schema.xml $WORKSPACE/new_schema.xml
 	popd

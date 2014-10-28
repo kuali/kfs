@@ -71,11 +71,6 @@
                 <arg value="-am Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}" />
             </args>
         </git>
-        <git command="push">
-            <args>
-                <arg value="origin" />
-            </args>
-        </git>
     </target>
 
 

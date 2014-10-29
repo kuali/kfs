@@ -113,7 +113,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	fi
 	
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	ant "-Dimpex.properties.file=WORKSPACE/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	popd
 fi
 
@@ -131,18 +131,18 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		username=$DB_USER
 		password=$DB_PASSWORD		
 EOF
-	) > $TEMP_DIR/liquibase.properties
+	) > $WORKSPACE/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/db
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=info --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=info --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=info --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml update
 	popd
 fi
 
@@ -180,11 +180,10 @@ fi
 
 if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 	cd $WORKSPACE
-	pushd $TEMP_DIR
-	cp kfs_old/work/db/kfs-db/development/schema.xml $WORKSPACE/old_schema.xml
-	cp upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
-	cp $PROJECT_DIR/work/db/kfs-db/development/schema.xml $WORKSPACE/new_schema.xml
-	popd
+ 	cp kfs_old/work/db/kfs-db/development/schema.xml $WORKSPACE/old_schema.xml
+	cp $TEMP_DIR/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
+	cp kfs/work/db/kfs-db/development/schema.xml $WORKSPACE/new_schema.xml
+
 	# Sanitize the sequence next values
 	perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' upgraded_schema.xml
 	perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' new_schema.xml

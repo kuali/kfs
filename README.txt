@@ -1,5 +1,5 @@
 ***********************
-** KFS Release 5.0.2   **
+** KFS Release 5.4   **
 ***********************
 
 ****** Documentation Links:

@@ -19,6 +19,7 @@
 <c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber}">
 	<kul:tab tabTitle="Account Summary" defaultOpen="true" tabErrorKey="document.invoiceAccountDetails*">
 		<c:set var="invoiceAccountDetailsAttributes" value="${DataDictionary.InvoiceAccountDetail.attributes}" />
+		<c:set var="contractsGrantsInvoiceDocumentAttributes" value="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"/>
 
 		<div class="tab-container" align="center">
 			<h3>Account Summary</h3>
@@ -56,12 +57,11 @@
 				<c:if test="${fn:length(KualiForm.document.accountDetails) gt 1}">
 					<tr>
 						<td colspan="2"><b>Totals</b></td>
-						
-						<td class="datacell"><c:out value="${KualiForm.document.budgetAmountTotal}" /> </td>
-						<td class="datacell"><c:out value="${KualiForm.document.expenditureAmountTotal}" /> </td>
-						<td class="datacell"><c:out value="${KualiForm.document.cumulativeAmountTotal}" /> </td>
-						<td class="datacell"><c:out value="${KualiForm.document.balanceAmountTotal}" /> </td>
-						<td class="datacell"><c:out value="${KualiForm.document.billedAmountTotal}" /> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.budgetAmountTotal}" property="document.budgetAmountTotal" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.expenditureAmountTotal}" property="document.expenditureAmountTotal" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.cumulativeAmountTotal}" property="document.cumulativeAmountTotal" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.balanceAmountTotal}" property="document.balanceAmountTotal" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.billedAmountTotal}" property="document.billedAmountTotal" readOnly="true"/> </td>
 					</tr>
 				</c:if>
 			</table>

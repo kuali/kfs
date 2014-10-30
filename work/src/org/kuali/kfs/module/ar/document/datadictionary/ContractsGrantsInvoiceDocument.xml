@@ -98,6 +98,11 @@
 				<ref bean="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress" />
 				<ref bean="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress" />
 				<ref bean="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator" />
+				<ref bean="ContractsGrantsInvoiceDocument-budgetAmountTotal"/>
+				<ref bean="ContractsGrantsInvoiceDocument-expenditureAmountTotal"/>
+				<ref bean="ContractsGrantsInvoiceDocument-cumulativeAmountTotal"/>
+				<ref bean="ContractsGrantsInvoiceDocument-balanceAmountTotal"/>
+				<ref bean="ContractsGrantsInvoiceDocument-billedAmountTotal"/>
 			</list>
 		</property>
 		<property name="validationMap" ref="ContractsGrantsInvoiceDocument-validations" />
@@ -709,6 +714,36 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 	</bean>
+	
+	<bean id="ContractsGrantsInvoiceDocument-budgetAmountTotal" parent="ContractsGrantsInvoiceDocument-budgetAmountTotal-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDocument-budgetAmountTotal-parentBean" abstract="true" parent="InvoiceAccountDetail-budgetAmount">
+		<property name="name" value="budgetAmountTotal"/>
+		<property name="label" value="Total Budget Amount"/> 
+	</bean>
+	
+	<bean id="ContractsGrantsInvoiceDocument-expenditureAmountTotal" parent="ContractsGrantsInvoiceDocument-expenditureAmountTotal-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDocument-expenditureAmountTotal-parentBean" abstract="true" parent="InvoiceAccountDetail-expenditureAmount">
+		<property name="name" value="expenditureAmountTotal"/>
+		<property name="label" value="Total Invoice Amount"/> 
+	</bean> 
+	
+	<bean id="ContractsGrantsInvoiceDocument-cumulativeAmountTotal" parent="ContractsGrantsInvoiceDocument-cumulativeAmountTotal-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDocument-cumulativeAmountTotal-parentBean" abstract="true" parent="InvoiceAccountDetail-cumulativeAmount">
+		<property name="name" value="cumulativeAmountTotal"/>
+		<property name="label" value="Total Cumulative Expenditures"/> 
+	</bean> 
+	
+	<bean id="ContractsGrantsInvoiceDocument-balanceAmountTotal" parent="ContractsGrantsInvoiceDocument-balanceAmountTotal-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDocument-balanceAmountTotal-parentBean" abstract="true" parent="InvoiceAccountDetail-balanceAmount">
+		<property name="name" value="balanceAmountTotal"/>
+		<property name="label" value="Total Budget Remaining"/> 
+	</bean> 
+	
+	<bean id="ContractsGrantsInvoiceDocument-billedAmountTotal" parent="ContractsGrantsInvoiceDocument-billedAmountTotal-parentBean"/>
+	<bean id="ContractsGrantsInvoiceDocument-billedAmountTotal-parentBean" abstract="true" parent="InvoiceAccountDetail-billedAmount">
+		<property name="name" value="billedAmountTotal"/>
+		<property name="label" value="Total Amount Billed To Date"/> 
+	</bean> 
 
 	<bean id="ContractsGrantsInvoiceDocument-validations" parent="ContractsGrantsInvoiceDocument-validations-parentBean" />
 

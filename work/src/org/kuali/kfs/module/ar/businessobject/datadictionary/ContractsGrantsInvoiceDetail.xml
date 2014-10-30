@@ -125,8 +125,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	<bean id="ContractsGrantsInvoiceDetail-adjustedCumExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="adjustedCumExpenditures" />
 		<property name="required" value="false" />
-		<property name="label" value="Total Amount Billed to Date" />
-		<property name="shortLabel" value="Total Amount Billed to Date" />
+		<property name="label" value="Total Amount Billed To Date" />
+		<property name="shortLabel" value="Total Amount Billed To Date" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-adjustedBalance" parent="ContractsGrantsInvoiceDetail-adjustedBalance-parentBean" />

@@ -111,7 +111,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     }
 
     protected void addTemProfileQualification(TravelAuthorizationDocument document, Map<String, String> attributes) {
-        if (ObjectUtils.isNotNull(document.getTemProfileId())){
+        if (ObjectUtils.isNotNull(document.getTemProfileId()) && !ObjectUtils.isNull(document.getTraveler())){
             attributes.put(KFSPropertyConstants.PRINCIPAL_ID, document.getTraveler().getPrincipalId());
         }
     }

@@ -70,7 +70,8 @@ public class VendorPropertyConstants {
     public static final String VENDOR_CORP_CITIZEN_CODE = "vendorHeader.vendorCorpCitizenCode";
     public static final String VENDOR_DOB = "vendorHeader.vendorDOB";
     public static final String VENDOR_W8_TYPE_CODE = "vendorHeader.vendorW8TypeCode";
-
+    public static final String VENDOR_CHAPTER_3_STATUS_CODE = "vendorHeader.vendorChapter3StatusCode";
+    public static final String VENDOR_CHAPTER_4_STATUS_CODE = "vendorHeader.vendorChapter4StatusCode";
 
 
     public static final String VENDOR_PAYMENT_TERMS = "vendorPaymentTerms";

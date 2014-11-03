@@ -2666,6 +2666,23 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
+     * Get the Capital Asset Object Code from the accounting lines.
+     *
+     * @param accountingLine
+     * @return true if the accounting line has an object code that belongs to
+     * CAPITAL_OBJECT_SUB_TYPES system paramters list else return false;
+     */
+    public boolean hasCAMSCapitalAssetObjectSubType(AccountingLine line){
+        Collection<String> capitalObjectSubTypes = getParameterService().getParameterValuesAsString(
+                AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES);
+        ObjectCode objectCode = line.getObjectCode();
+        if (ObjectUtils.isNotNull(objectCode)) {
+            return capitalObjectSubTypes.contains(objectCode.getFinancialObjectSubTypeCode());
+        }
+        return false ;
+    }
+
+    /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAllCapitalAccountingLinesProcessed(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override

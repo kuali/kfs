@@ -27,7 +27,7 @@
 		<property name="lookupDefinition">
 			<ref bean="Chapter4Status-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="Chapter4StatusCode" />
+		<property name="titleAttribute" value="vendorChapter4StatusCode" />
 		<property name="objectLabel" value="Chapter 4 Status" />
 		<property name="attributes">
 			<list>

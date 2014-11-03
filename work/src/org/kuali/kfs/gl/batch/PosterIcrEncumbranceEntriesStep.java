@@ -33,7 +33,7 @@ public class PosterIcrEncumbranceEntriesStep extends AbstractWrappedBatchStep {
         return new CustomBatchExecutor() {
             @Override
             public boolean execute() {
-                final boolean shouldRunIcrEncumbranceActivity = getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM);
+                final boolean shouldRunIcrEncumbranceActivity = getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, Boolean.FALSE);
                 if (shouldRunIcrEncumbranceActivity) {
                     posterService.postIcrEncumbranceEntries();
                 } else {

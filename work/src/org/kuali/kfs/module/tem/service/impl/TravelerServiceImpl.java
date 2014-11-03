@@ -285,7 +285,20 @@ public class TravelerServiceImpl implements TravelerService {
     @Override
     public TemProfileFromKimPerson convertToTemProfileFromKim(final Person person) {
         TemProfileFromKimPerson retval = new TemProfileFromKimPerson();
-        BeanUtils.copyProperties(person, retval);
+        retval.setPrincipalId(person.getPrincipalId());
+        retval.setEmployeeId(person.getEmployeeId());
+        retval.setPrincipalName(person.getPrincipalName());
+        retval.setEntityId(person.getEntityId());
+        retval.setFirstName(person.getFirstNameUnmasked());
+        retval.setMiddleName(person.getMiddleNameUnmasked());
+        retval.setLastName(person.getLastNameUnmasked());
+        retval.setEmailAddress(person.getEmailAddressUnmasked());
+        retval.setPhoneNumber(person.getPhoneNumber());
+        retval.setEmployeeStatusCode(person.getEmployeeStatusCode());
+        retval.setEmployeeTypeCode(person.getEmployeeTypeCode());
+        retval.setPrimaryDepartmentCode(person.getPrimaryDepartmentCode());
+        retval.setCampusCode(person.getCampusCode());
+        retval.setActive(person.isActive());
         return retval;
     }
 

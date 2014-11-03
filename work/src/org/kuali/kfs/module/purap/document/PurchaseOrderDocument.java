@@ -80,6 +80,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
@@ -1652,26 +1653,26 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     protected boolean isBudgetReviewRequired() {
         // if document's fiscal year is less than or equal to the current fiscal year
         if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
-//            // delete and recreate the GL entries for this document so they do not get included in the SF check
-//            // This is *NOT* ideal.  The SF service needs to be updated to allow it to provide the current
-//            // document number so that it can be exlcuded from pending entry checks.
-//            List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
-//            // dumb loop to just force OJB to load the objects.  Otherwise, the proxy object above
-//            // only gets resolved *after* the delete below and no SF check happens.
-//            for ( GeneralLedgerPendingEntry glpe : pendingEntries ) {
-//                glpe.getChartOfAccountsCode();
-//            }
-//            SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
-//
-//            // get list of sufficientfundItems
+            // delete and recreate the GL entries for this document so they do not get included in the SF check
+            // This is *NOT* ideal.  The SF service needs to be updated to allow it to provide the current
+            // document number so that it can be exlcuded from pending entry checks.
+            List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
+            // dumb loop to just force OJB to load the objects.  Otherwise, the proxy object above
+            // only gets resolved *after* the delete below and no SF check happens.
+            for ( GeneralLedgerPendingEntry glpe : pendingEntries ) {
+                glpe.getChartOfAccountsCode();
+            }
+            SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
+
+            // get list of sufficientfundItems
             List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
 
-//            SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
-//            if(!(StringUtils.equals(getApplicationDocumentStatus(),PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED) ||
-//                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING) ||
-//                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL))){
-//                SpringContext.getBean(BusinessObjectService.class).save( getGeneralLedgerPendingEntries() );
-//            }
+            SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
+            if(!(StringUtils.equals(getApplicationDocumentStatus(),PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED) ||
+                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING) ||
+                    StringUtils.equals(getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL))){
+                SpringContext.getBean(BusinessObjectService.class).save( getGeneralLedgerPendingEntries() );
+            }
 
             //kfsmi-7289
             if (fundsItems != null && fundsItems.size() > 0) {

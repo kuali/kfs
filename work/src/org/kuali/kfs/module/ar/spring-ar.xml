@@ -2332,9 +2332,6 @@
 	<!-- Funds Manager Derived Role -->
 	<bean id="fundsManagerDerivedRoleTypeService" parent="fundsManagerDerivedRoleTypeService-parentBean" />
 	<bean id="fundsManagerDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.FundsManagerDerivedRoleTypeServiceImpl" abstract="true">
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>		

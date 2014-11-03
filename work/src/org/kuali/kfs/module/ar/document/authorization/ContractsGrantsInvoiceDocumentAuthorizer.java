@@ -19,13 +19,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ContractsGrantsInvoiceDocumentAuthorizer extends CustomerInvoiceDocumentAuthorizer {
+
+    /**
+     * Overridden to pass in the proposal number for the CINV doc to help determine whether the current user
+     * is a fund manager for this doc/award.
+     *
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) businessObject;
+        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail()) && ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber())) {
+            attributes.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber().toString());
+        }
+    }
 
     /**
      * Overridden to pass in the current user's principal id as a qualifier to help determine if they are a Fund Manager.

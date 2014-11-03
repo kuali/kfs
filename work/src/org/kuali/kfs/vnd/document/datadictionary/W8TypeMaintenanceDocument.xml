@@ -75,10 +75,10 @@
           </property>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="vendorOwnershipCode" p:required="true"/>
-             <!--  <bean parent="MaintainableFieldDefinition" p:name="vndrW8TypeOwnershipTypeId" p:unconditionallyReadOnly="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/> -->
-              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+            	<bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.vnd.businessobject.defaultValue.NextW8OwnershipIdFinder" />
+              	<bean parent="MaintainableFieldDefinition" p:name="vendorOwnershipCode" p:required="true"/>
+             <!--  <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/> -->
+              	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
           <property name="duplicateIdentificationFields">

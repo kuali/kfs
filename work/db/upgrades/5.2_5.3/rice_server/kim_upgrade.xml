@@ -348,4 +348,227 @@
         </update>
     </changeSet>
     
+    <changeSet id="KFSTP-1359" author="KFS53">
+    	<comment>Perms and assignments for 1042s enhancement</comment>
+    	<insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10868" />
+            <column name="OBJ_ID" value="KFS-PERM-124" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="27" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Full Unmask Field VendorDetail vendorHeader.vendorGIIN" />
+            <column name="DESC_TXT" value="Authorizes users to view the GIIN Code on the Vendor Maintenance Document and Inquiry." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+		<insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10869" />
+            <column name="OBJ_ID" value="KFS-PERM-125" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="27" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Full Unmask Field VendorDetail vendorHeader.vendorDOB" />
+            <column name="DESC_TXT" value="Authorizes users to view the Vendor Date of Birth on the Vendor Maintenance Document and Inquiry." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10874" />
+            <column name="OBJ_ID" value="KFS-PERM-126" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="26" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Modify Maintenance Document Field VendorDetail vendorHeader.vendorGIIN" />
+            <column name="DESC_TXT" value="Authorizes users to modify the GIIN Code on a Vendor Maintenance Document." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10875" />
+            <column name="OBJ_ID" value="KFS-PERM-127" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="26" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Modify Maintenance Document Field VendorDetail vendorHeader.vendorDOB" />
+            <column name="DESC_TXT" value="Authorizes users to modify the Vendor Date of Birth on a Vendor Maintenance Document." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+         <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10884" />
+            <column name="OBJ_ID" value="KFS-PERM-128" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="27" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Full Unmask Field VendorDetail vendorHeader.vendorForeignTaxId" />
+            <column name="DESC_TXT" value="Authorizes users to modify the Foreign Tax Id on a Vendor Maintenance Document." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFS10885" />
+            <column name="OBJ_ID" value="KFS-PERM-129" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" value="26" />
+            <column name="NMSPC_CD" value="KFS-VND" />
+            <column name="NM" value="Modify Maintenance Document Field VendorDetail vendorHeader.vendorForeignTaxId" />
+            <column name="DESC_TXT" value="Authorizes users to modify the Foreign Tax Id on a Vendor Maintenance Document." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10870" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-223" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10868" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10871" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-224" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10868" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorGIIN" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10872" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-225" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10869" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10873" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-226" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10869" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorDOB" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10876" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-227" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10874" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10877" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-228" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10874" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorGIIN" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10878" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-229" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10875" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10879" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-230" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10875" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorDOB" />
+        </insert>
+         <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10886" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-231" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10884" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10887" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-232" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10884" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorForeignTaxId" />
+        </insert>
+         <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10888" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-233" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10885" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="5" />
+            <column name="ATTR_VAL" value="VendorDetail" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFS10889" />
+            <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-234" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFS10885" />
+            <column name="KIM_TYP_ID" value="11" />
+            <column name="KIM_ATTR_DEFN_ID" value="6" />
+            <column name="ATTR_VAL" value="vendorHeader.vendorForeignTaxId" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10880" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-365" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10868" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10881" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-366" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10869" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10882" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-367" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10874" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10883" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-368" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10875" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10886" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-369" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10884" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFS10887" />
+            <column name="OBJ_ID" value="KFS-ROLE-PERM-370" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" value="49" />
+            <column name="PERM_ID" value="KFS10885" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+    	
+    </changeSet>
+    
 </databaseChangeLog>

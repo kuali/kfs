@@ -782,17 +782,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void routeToFiscalOfficer(final TravelDocument document, final String noteText) throws WorkflowException, Exception {
         // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
-
         final Note newNote = getDocumentService().createNoteFromDocument(document, noteText);
         document.addNote(newNote);
+        getNoteService().save(newNote);
 
+        document.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
         document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
 
         addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 
-        document.getFinancialSystemDocumentHeader().setApplicationDocumentStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
-
-        getDocumentService().saveDocument(document);
+        document.getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
     }
 
     /**

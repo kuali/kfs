@@ -27,9 +27,9 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
- * Values Finder for <code>VendorType</code>.
+ * Values Finder for <code>W8Type</code>.
  *
- * @see org.kuali.kfs.vnd.businessobject.VendorType
+ * @see org.kuali.kfs.vnd.businessobject.W8Type
  */
 public class W8TypeValuesFinder extends KeyValuesBase {
 

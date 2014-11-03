@@ -537,7 +537,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         for (PerDiemExpense expense : document.getPerDiemExpenses()){
             if ((expense.getPersonal().booleanValue() && includeNonReimbursable)
                     || !expense.getPersonal().booleanValue()){
-                total = total.add(expense.getDailyTotal());
+                total = total.add(expense.getDailyTotalForDocument(document));
             }
         }
 

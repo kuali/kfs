@@ -485,12 +485,21 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     public KualiDecimal getMileageTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
-        if (!personal) {
+        if (KNSGlobalVariables.getKualiForm() instanceof TravelFormBase) {
             final TravelFormBase travelForm = (TravelFormBase)KNSGlobalVariables.getKualiForm();
             if (travelForm == null) {
                 return KualiDecimal.ZERO;
             }
             final TravelDocument travelDocument = travelForm.getTravelDocument();
+            return getMileageTotalForDocument(travelDocument);
+        }
+
+        return total;
+    }
+
+    protected KualiDecimal getMileageTotalForDocument(TravelDocument travelDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        if (!personal) {
             if (travelDocument == null) {
                 return KualiDecimal.ZERO;
             }
@@ -508,8 +517,19 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     public KualiDecimal getDailyTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         if (!personal) {
-            total = total.add(this.getMileageTotal());
-            total = total.add(this.getLodging());
+            total = total.add(getMileageTotal());
+            total = total.add(getLodging());
+            total = total.add(getMealsAndIncidentals());
+        }
+
+        return total;
+    }
+
+    public KualiDecimal getDailyTotalForDocument(TravelDocument travelDoc) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        if (!personal) {
+            total = total.add(getMileageTotalForDocument(travelDoc));
+            total = total.add(getLodging());
             total = total.add(getMealsAndIncidentals());
         }
 

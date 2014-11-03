@@ -142,4 +142,6 @@ public interface CapitalAssetBuilderModuleService {
      * @param campusTagNumber String key used to find pretagDetails to reactivate
      */
     public void reactivatePretagDetails(String campusTagNumber);
+
+    public boolean hasCAMSCapitalAssetObjectSubType(AccountingLine line);
 }

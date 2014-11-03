@@ -157,7 +157,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
 
         TravelerDetail traveler = travelDocument.getTraveler();
         String travelerEmailAddress = null;
-        if (traveler == null && travelDocument.getProfileId() != null) {
+        if (!ObjectUtils.isNull(traveler) && !ObjectUtils.isNull(travelDocument.getProfileId())) {
             TemProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileById(travelDocument.getProfileId());
             travelerEmailAddress = profile.getEmailAddress();
         }else{

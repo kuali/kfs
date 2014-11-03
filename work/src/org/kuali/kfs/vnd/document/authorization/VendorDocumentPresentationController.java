@@ -72,6 +72,14 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
             conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR);
             conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_DEBARRED_INDICATOR);
             conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W8SIGNED_DATE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W9SIGNED_DATE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W8_TYPE_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_GIIN_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_DOB);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_CHAPTER_3_STATUS_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_CHAPTER_4_STATUS_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_CORP_CITIZEN_CODE);
         }
 
         return conditionallyReadonlyPropertyNames;

@@ -22,17 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,7 +37,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(FundsManagerDerivedRoleTypeServiceImpl.class);
-    protected DocumentService documentService;
     protected KualiModuleService kualiModuleService;
 
     @Override
@@ -50,21 +44,13 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
         List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
 
         if (ObjectUtils.isNotNull(qualification) && !qualification.isEmpty()) {
-            String documentNumber = qualification.get(KFSPropertyConstants.DOCUMENT_NUMBER);
-            if (StringUtils.isNotBlank(documentNumber)) {
-                ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument(documentNumber);
-                ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();
-
-                return getRoleMembersForAward(award.getProposalNumber().toString());
+            String proposalNumber = qualification.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+            if (StringUtils.isNotBlank(proposalNumber)) {
+                return getRoleMembersForAward(proposalNumber);
             } else {
-                String proposalNumber = qualification.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-                if (StringUtils.isNotBlank(proposalNumber)) {
-                    return getRoleMembersForAward(proposalNumber);
-                } else {
-                    String principalId = qualification.get(KimConstants.AttributeConstants.PRINCIPAL_ID);
-                    if (StringUtils.isNotBlank(principalId)) {
-                        return getRoleMembersForPrincipal(principalId);
-                    }
+                String principalId = qualification.get(KimConstants.AttributeConstants.PRINCIPAL_ID);
+                if (StringUtils.isNotBlank(principalId)) {
+                    return getRoleMembersForPrincipal(principalId);
                 }
             }
         }
@@ -113,33 +99,6 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
         }
 
         return roleMembers;
-    }
-
-    /**
-     * This method retrieves the Contracts Grants Invoice document given the document number.
-     *
-     * @param String documentNumber
-     * @return Document
-     */
-    protected Document getDocument(String documentNumber) {
-        try {
-            return getDocumentService().getByDocumentHeaderId(documentNumber);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
-        }
-    }
-
-    /**
-     * Retrieves the document service.
-     * @return documentService
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
     }
 
     public KualiModuleService getKualiModuleService() {

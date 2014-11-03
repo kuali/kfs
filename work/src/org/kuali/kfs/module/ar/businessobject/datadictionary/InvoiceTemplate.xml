@@ -157,11 +157,11 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
 				<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
 				<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
 				<bean parent="FieldDefinition" p:attributeName="filename" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

@@ -74,7 +74,6 @@ import org.kuali.kfs.module.ar.report.PdfFormattingMap;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -462,8 +461,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetails()) {
             totalCost = totalCost.add(invD.getExpenditures());
         }
-        KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed
-        // so far
+        KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed so far
         KualiDecimal accountAwardTotal = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAwardTotal(); // AwardTotal
 
         if (accountAwardTotal.subtract(billedTotalCost).isGreaterEqual(new KualiDecimal(0))) {
@@ -712,7 +710,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             KualiDecimal expenditureSum = currentExpenditureByAccountNumberMap.get(accountNumber);
             // if account number not found in map, then create new total, 0
             if (expenditureSum == null) {
-                expenditureSum = new KualiDecimal(0);
+                expenditureSum = KualiDecimal.ZERO;
             }
             expenditureSum = expenditureSum.add(invoiceDetailAccountObjectCode.getCurrentExpenditures());
             currentExpenditureByAccountNumberMap.put(accountNumber, expenditureSum);

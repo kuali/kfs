@@ -97,6 +97,14 @@ public class CostCategoryServiceImpl implements CostCategoryService {
         return getCostCategoryDao().getBalancesForCostCategory(fiscalYear, chartOfAccountsCode, accountNumber, balanceType, objectTypeCodes, costCategory);
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.service.CostCategoryService#getCostCategoryForObjectCode(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @Override
+    public CostCategory getCostCategoryForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        return getCostCategoryDao().getCostCategoryForObjectCode(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+    }
+
     public CostCategoryDao getCostCategoryDao() {
         return costCategoryDao;
     }

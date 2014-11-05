@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import org.kuali.kfs.module.ar.businessobject.CostCategory;
 import org.kuali.kfs.module.ar.businessobject.CostCategoryDetail;
 import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectCode;
 import org.kuali.kfs.module.ar.businessobject.CostCategoryObjectLevel;
@@ -26,6 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 
 /**
  * Tests the CostCategoryService
@@ -79,5 +81,12 @@ public class CostCategoryServiceTest extends KualiTestBase {
         test.setChartOfAccountsCode("BL");
         test.setFinancialObjectLevelCode(objectLevelCode);
         return test;
+    }
+
+    public void testFindCostCategory() {
+        final CostCategory costCategory1 = costCategoryService.getCostCategoryForObjectCode(TestUtils.getFiscalYearForTesting(), "BL", "4000");
+        assertNotNull("There should be a cost category for object code "+TestUtils.getFiscalYearForTesting()+"-BL-4000",costCategory1);
+        final CostCategory costCategory2 = costCategoryService.getCostCategoryForObjectCode(TestUtils.getFiscalYearForTesting(), "BL", "ZZZZ");
+        assertNull("There should NOT be a cost category for object code "+TestUtils.getFiscalYearForTesting()+"-BL-ZZZZ", costCategory2);
     }
 }

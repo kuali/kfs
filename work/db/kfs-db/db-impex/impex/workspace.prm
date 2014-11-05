@@ -1,0 +1,10 @@
+
+DATABASE = import.cfg
+WORKSPACE = C:/java/projects/kfs/work/db/kfs-db/development
+PROJECT_DIR = C:/java/projects/kfs/work/db/kfs-db/development
+FORMAT_DIR = C:/java/projects/kfs/work/db/kfs-db/development/formats
+GRAPH_DIR = C:/java/projects/kfs/work/db/kfs-db/development/graphs
+DATA_DIR = C:/java/projects/kfs/work/db/kfs-db/development/data
+DUMP_DIR = C:/java/projects/kfs/work/db/kfs-db/development/data
+OUTPUT_DUMPS = false
+    	

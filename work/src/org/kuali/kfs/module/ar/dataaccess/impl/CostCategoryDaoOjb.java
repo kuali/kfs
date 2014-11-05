@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -332,6 +334,58 @@ public class CostCategoryDaoOjb extends PlatformAwareDaoBaseOjb implements CostC
         crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(CostCategoryObjectConsolidation.class, crit);
         subQuery.setAttributes(new String[] { KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE } );
+        return subQuery;
+    }
+
+    /**
+     * Attempts to look up a cost category which matches the balance
+     * @see org.kuali.kfs.module.ar.dataaccess.CostCategoryDao#getCostCategoryForBalance(org.kuali.kfs.gl.businessobject.Balance)
+     */
+    @Override
+    public CostCategory getCostCategoryForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        Criteria crit = new Criteria();
+
+        Criteria objectCodesCriteria = new Criteria();
+        objectCodesCriteria.addEqualTo(ArPropertyConstants.OBJECT_CODES+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        objectCodesCriteria.addEqualTo(ArPropertyConstants.OBJECT_CODES+"."+KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        objectCodesCriteria.addEqualTo(ArPropertyConstants.OBJECT_CODES+"."+KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        Criteria objectLevelsCriteria = new Criteria();
+        objectLevelsCriteria.addEqualTo(ArPropertyConstants.OBJECT_LEVELS+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        objectLevelsCriteria.addIn(ArPropertyConstants.OBJECT_LEVELS+"."+KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, buildObjectCodeOfBalanceSubQuery(universityFiscalYear, chartOfAccountsCode, financialObjectCode, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE));
+        objectLevelsCriteria.addEqualTo(ArPropertyConstants.OBJECT_LEVELS+"."+KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        Criteria objectConsolidationsCriteria = new Criteria();
+        objectConsolidationsCriteria.addEqualTo(ArPropertyConstants.OBJECT_CONSOLIDATIONS+"."+KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        objectConsolidationsCriteria.addIn(ArPropertyConstants.OBJECT_CONSOLIDATIONS+"."+KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, buildObjectCodeOfBalanceSubQuery(universityFiscalYear, chartOfAccountsCode, financialObjectCode, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL+"."+KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE));
+        objectConsolidationsCriteria.addEqualTo(ArPropertyConstants.OBJECT_CONSOLIDATIONS+"."+KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        crit.addOrCriteria(objectCodesCriteria);
+        crit.addOrCriteria(objectLevelsCriteria);
+        crit.addOrCriteria(objectConsolidationsCriteria);
+
+        Query q = new QueryByCriteria(CostCategory.class, crit);
+        Collection<CostCategory> costCategories = getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        if (CollectionUtils.isEmpty(costCategories)) {
+            return null;
+        }
+        final CostCategory result = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(costCategories.iterator());
+        return result;
+    }
+
+    /**
+     * Builds a sub-query to look up a value from the object code table
+     * @param balance the balance with the object code to look up further information from
+     * @param retrievalProperty the property to retrieve from the object code
+     * @return the subquery
+     */
+    protected ReportQueryByCriteria buildObjectCodeOfBalanceSubQuery(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode, String retrievalProperty) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(ObjectCode.class, crit);
+        subQuery.setAttributes(new String[] { retrievalProperty });
         return subQuery;
     }
 }

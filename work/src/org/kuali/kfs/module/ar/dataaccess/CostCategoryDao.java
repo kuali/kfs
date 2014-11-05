@@ -104,4 +104,13 @@ public interface CostCategoryDao {
      * @return a List of all matching balances
      */
     public List<Balance> getBalancesForCostCategory(Integer fiscalYear, String chartOfAccountsCode, String accountNumber, String balanceType, Collection<String> objectType, CostCategory costCategory);
+
+    /**
+     * Looks up the cost category which best matches the given fiscal year, chart of accounts, and financial object code of an object code
+     * @param universityFiscalYear the fiscal year of the object code to find a cost category for
+     * @param chartOfAccountsCode the chart of accounts code of an object code to find a cost category for
+     * @param financialObjectCode the financial object code of a financial object to find a cost category for
+     * @return the matching cost category, or null if no matching cost category could be found
+     */
+    public CostCategory getCostCategoryForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 }

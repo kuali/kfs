@@ -11,6 +11,10 @@
 /build/tomcat
 /test/classes
 /temp
+/work/db/kfs-db/db-impex/impex/build/
+/work/db/kfs-db/db-impex/impex/*.cfg
+/work/db/kfs-db/db-impex/impex/velocity.log
+/work/db/kfs-db/db-impex/impex/workspace.prm
 /work/src/OJB-logging.properties
 /work/src/OJB-repository.xml
 /work/src/OJB.properties

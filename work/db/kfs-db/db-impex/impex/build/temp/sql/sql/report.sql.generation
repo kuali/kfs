@@ -1,0 +1,3363 @@
+
+
+  
+  Platform used: org.apache.torque.engine.platform.PlatformMysqlImpl
+
+      
+  SQL file to be created: schema.sql
+
+  Creating Tables:
+      Table: AP_AUTO_APRV_EXCL_T
+    
+      Table: AP_CRDT_MEMO_ACCT_CHG_T
+    
+      Table: AP_CRDT_MEMO_ACCT_T
+    
+      Table: AP_CRDT_MEMO_ITM_T
+    
+      Table: AP_CRDT_MEMO_ITM_USE_TAX_T
+    
+      Table: AP_CRDT_MEMO_T
+    
+      Table: AP_ELCTRNC_INV_LOAD_SUM_T
+    
+      Table: AP_ELCTRNC_INV_MAP_T
+    
+      Table: AP_ELCTRNC_INV_RJT_DOC_T
+    
+      Table: AP_ELCTRNC_INV_RJT_ITM_T
+    
+      Table: AP_ELCTRNC_INV_RJT_REAS_T
+    
+      Table: AP_ELCTRNC_INV_RJT_REAS_TYP_T
+    
+      Table: AP_NEG_PMT_RQST_APRVL_LMT_T
+    
+      Table: AP_PMT_RQST_ACCT_CHG_T
+    
+      Table: AP_PMT_RQST_ACCT_T
+    
+      Table: AP_PMT_RQST_ITM_T
+    
+      Table: AP_PMT_RQST_ITM_USE_TAX_T
+    
+      Table: AP_PMT_RQST_T
+    
+      Table: AP_SUM_ACCT_T
+    
+      Table: AR_APPLICATION_DOC_T
+    
+      Table: AR_AWD_ACCT_OBJ_TOT_BLLD_T
+    
+      Table: AR_BILL_T
+    
+      Table: AR_CGB_INV_DTL_T
+    
+      Table: AR_CLCTN_ACTVY_DOC_T
+    
+      Table: AR_CLCTN_ACTVY_TYP_T
+    
+      Table: AR_CLCTN_EVNT_T
+    
+      Table: AR_CLCTN_STATUS_T
+    
+      Table: AR_CRDT_MEMO_DOC_T
+    
+      Table: AR_CRDT_MEMO_DTL_T
+    
+      Table: AR_CSH_CTRL_DTL_T
+    
+      Table: AR_CSH_CTRL_T
+    
+      Table: AR_CST_CTGRY_FIN_CONSOLDTN_T
+    
+      Table: AR_CST_CTGRY_FIN_OBJ_CD_T
+    
+      Table: AR_CST_CTGRY_FIN_OBJ_LEVEL_T
+    
+      Table: AR_CST_CTGRY_T
+    
+      Table: AR_CUST_ADDR_T
+    
+      Table: AR_CUST_ADDR_TYP_T
+    
+      Table: AR_CUST_BILLING_STMT_T
+    
+      Table: AR_CUST_PRCS_TYP_T
+    
+      Table: AR_CUST_T
+    
+      Table: AR_CUST_TYP_T
+    
+      Table: AR_DOC_HDR_T
+    
+      Table: AR_DOC_RCURRNC_T
+    
+      Table: AR_DUN_CMPGN_DOC_T
+    
+      Table: AR_DUN_LTR_DIST_T
+    
+      Table: AR_DUN_LTR_TMPLT_T
+    
+      Table: AR_FNL_BILLED_IND_DOC_T
+    
+      Table: AR_FNL_BILLED_IND_ENTRY_T
+    
+      Table: AR_FNL_DISPOS_T
+    
+      Table: AR_INV_ACCT_DTL_T
+    
+      Table: AR_INV_ADDR_DTL_T
+    
+      Table: AR_INV_BILL_T
+    
+      Table: AR_INV_DOC_ERROR_LOG_T
+    
+      Table: AR_INV_DOC_ERROR_MSG_T
+    
+      Table: AR_INV_DOC_T
+    
+      Table: AR_INV_DTL_ACCT_OBJ_CD_T
+    
+      Table: AR_INV_DTL_T
+    
+      Table: AR_INV_GNRL_DTL_T
+    
+      Table: AR_INV_ITM_CODE_T
+    
+      Table: AR_INV_MLSTN_T
+    
+      Table: AR_INV_PD_APLD_T
+    
+      Table: AR_INV_RCURRNC_DTL_T
+    
+      Table: AR_INV_SUSP_CTGRY_T
+    
+      Table: AR_INV_TMPLT_T
+    
+      Table: AR_INV_TRNS_MTHD_T
+    
+      Table: AR_LOCKBOX_T
+    
+      Table: AR_LTRCR_RVW_DOC_T
+    
+      Table: AR_LTRCR_RVW_DTL_T
+    
+      Table: AR_MLSTN_SCHDL_T
+    
+      Table: AR_MLSTN_T
+    
+      Table: AR_NON_APLD_DIST_T
+    
+      Table: AR_NON_APLD_HLDG_T
+    
+      Table: AR_NON_INV_DIST_T
+    
+      Table: AR_NON_INV_T
+    
+      Table: AR_ORG_ACCTGDFLT_T
+    
+      Table: AR_ORG_OPTION_T
+    
+      Table: AR_PMT_MEDIUM_T
+    
+      Table: AR_PRDTRMND_BILL_SCHDL_T
+    
+      Table: AR_PRN_INV_OPTN_T
+    
+      Table: AR_RFRL_TO_CLCTNS_DOC_T
+    
+      Table: AR_RFRL_TO_CLCTNS_DTL_T
+    
+      Table: AR_RFRL_TYP_T
+    
+      Table: AR_SYS_INFO_T
+    
+      Table: AR_WRITEOFF_DOC_T
+    
+      Table: CA_A21_ICR_ACCT_T
+    
+      Table: CA_A21_SUB_ACCT_T
+    
+      Table: CA_ACCOUNT_T
+    
+      Table: CA_ACCOUNT_TYPE_T
+    
+      Table: CA_ACCTG_CTGRY_T
+    
+      Table: CA_ACCT_AUTODEF_ICR_T
+    
+      Table: CA_ACCT_AUTO_CREATE_DFLT_T
+    
+      Table: CA_ACCT_CHG_DOC_T
+    
+      Table: CA_ACCT_CHG_DTL_T
+    
+      Table: CA_ACCT_DELEGATE_GBL_T
+    
+      Table: CA_ACCT_DELEGATE_T
+    
+      Table: CA_ACCT_DESC_T
+    
+      Table: CA_ACCT_GDLNPRPS_T
+    
+      Table: CA_ACCT_SF_T
+    
+      Table: CA_AICPA_FUNC_T
+    
+      Table: CA_BALANCE_TYPE_T
+    
+      Table: CA_BDGT_AGGR_T
+    
+      Table: CA_BDGT_REC_LVL_T
+    
+      Table: CA_CHART_T
+    
+      Table: CA_DLGT_CHG_DOC_T
+    
+      Table: CA_FEDERAL_FUNC_T
+    
+      Table: CA_FED_FND_T
+    
+      Table: CA_FUND_GRP_T
+    
+      Table: CA_HIGHR_ED_FUNC_T
+    
+      Table: CA_ICR_ACCT_T
+    
+      Table: CA_ICR_AUTO_ENTR_T
+    
+      Table: CA_ICR_EXCL_ACCT_T
+    
+      Table: CA_ICR_EXCL_TYPE_T
+    
+      Table: CA_ICR_RATE_T
+    
+      Table: CA_ICR_TYPE_T
+    
+      Table: CA_MNXFR_ELIM_T
+    
+      Table: CA_OBJECT_CODE_T
+    
+      Table: CA_OBJ_CD_CHG_DOC_T
+    
+      Table: CA_OBJ_CD_CHG_DTL_T
+    
+      Table: CA_OBJ_CONSOLDTN_T
+    
+      Table: CA_OBJ_LEVEL_T
+    
+      Table: CA_OBJ_SUB_TYPE_T
+    
+      Table: CA_OBJ_TYPE_T
+    
+      Table: CA_ORG_EXTNS_T
+    
+      Table: CA_ORG_REVERSION_T
+    
+      Table: CA_ORG_RTNG_MDL_NM_T
+    
+      Table: CA_ORG_RTNG_MDL_T
+    
+      Table: CA_ORG_RVRSN_CHG_DOC_T
+    
+      Table: CA_ORG_RVRSN_CHG_DTL_T
+    
+      Table: CA_ORG_RVRSN_CHG_ORG_T
+    
+      Table: CA_ORG_RVRSN_CTGRY_T
+    
+      Table: CA_ORG_RVRSN_DTL_T
+    
+      Table: CA_ORG_T
+    
+      Table: CA_ORG_TYPE_T
+    
+      Table: CA_PRIOR_YR_ACCT_T
+    
+      Table: CA_PRIOR_YR_ICR_ACCT_T
+    
+      Table: CA_PRIOR_YR_ORG_T
+    
+      Table: CA_PROJECT_T
+    
+      Table: CA_RC_T
+    
+      Table: CA_RESTRICT_STAT_T
+    
+      Table: CA_SUB_ACCT_T
+    
+      Table: CA_SUB_FND_GRP_TYP_T
+    
+      Table: CA_SUB_FUND_GRP_T
+    
+      Table: CA_SUB_OBJECT_CD_T
+    
+      Table: CA_SUB_OBJ_CD_CHG_DOC_T
+    
+      Table: CA_SUB_OBJ_CD_CHG_DTL_T
+    
+      Table: CA_UBO_FUNC_T
+    
+      Table: CB_AST_TRN_TYP_T
+    
+      Table: CB_GL_ENTRY_AST_T
+    
+      Table: CB_GL_ENTRY_T
+    
+      Table: CB_PRTG_DTL_T
+    
+      Table: CB_PRTG_T
+    
+      Table: CB_PUR_ACTN_HIST_T
+    
+      Table: CB_PUR_DOC_T
+    
+      Table: CB_PUR_ITM_AST_T
+    
+      Table: CB_PUR_LN_AST_ACCT_T
+    
+      Table: CG_AGENCY_ADDR_T
+    
+      Table: CG_AGENCY_ADDR_TYP_T
+    
+      Table: CG_AGENCY_T
+    
+      Table: CG_AGENCY_TYP_T
+    
+      Table: CG_AWD_ACCT_T
+    
+      Table: CG_AWD_FNDMGR_T
+    
+      Table: CG_AWD_INV_ACCT_T
+    
+      Table: CG_AWD_ORG_T
+    
+      Table: CG_AWD_PRJDR_T
+    
+      Table: CG_AWD_STAT_T
+    
+      Table: CG_AWD_SUBCN_T
+    
+      Table: CG_AWD_T
+    
+      Table: CG_BILL_FREQ_T
+    
+      Table: CG_CFDA_REF_T
+    
+      Table: CG_GRANT_DESC_T
+    
+      Table: CG_INSTRMNT_TYP_T
+    
+      Table: CG_LTRCR_FNDGRP_T
+    
+      Table: CG_LTRCR_FND_T
+    
+      Table: CG_PRPSL_AWD_TYP_T
+    
+      Table: CG_PRPSL_CLOSE_T
+    
+      Table: CG_PRPSL_ORG_T
+    
+      Table: CG_PRPSL_PRJDR_T
+    
+      Table: CG_PRPSL_PURPOSE_T
+    
+      Table: CG_PRPSL_RSRCH_RSK_T
+    
+      Table: CG_PRPSL_STAT_T
+    
+      Table: CG_PRPSL_SUBCN_T
+    
+      Table: CG_PRPSL_T
+    
+      Table: CG_SUBCNR_T
+    
+      Table: CM_ACQ_TYPE_T
+    
+      Table: CM_ASSET_TYPE_T
+    
+      Table: CM_AST_COMPONENT_T
+    
+      Table: CM_AST_CONDITION_T
+    
+      Table: CM_AST_DEPR_CNVNTN_T
+    
+      Table: CM_AST_DEPR_MTHD_T
+    
+      Table: CM_AST_LOC_DOC_T
+    
+      Table: CM_AST_LOC_DTL_T
+    
+      Table: CM_AST_LOC_T
+    
+      Table: CM_AST_LOC_TYP_T
+    
+      Table: CM_AST_ORG_T
+    
+      Table: CM_AST_PAYMENT_T
+    
+      Table: CM_AST_PMT_AST_DTL_T
+    
+      Table: CM_AST_PMT_DOC_T
+    
+      Table: CM_AST_PMT_DOC_TYP_T
+    
+      Table: CM_AST_PMT_DST_CD_T
+    
+      Table: CM_AST_PMT_DTL_T
+    
+      Table: CM_AST_RETIRE_DOC_T
+    
+      Table: CM_AST_RETIRE_DTL_T
+    
+      Table: CM_AST_RPR_HIST_T
+    
+      Table: CM_AST_STATUS_T
+    
+      Table: CM_AST_TRNFR_DOC_T
+    
+      Table: CM_AST_WRNTY_T
+    
+      Table: CM_CPTLAST_DOC_T
+    
+      Table: CM_CPTLAST_DTL_T
+    
+      Table: CM_CPTLAST_LOCK_T
+    
+      Table: CM_CPTLAST_OBJ_T
+    
+      Table: CM_CPTLAST_T
+    
+      Table: CM_EQPLNRTRN_DOC_T
+    
+      Table: CM_FSCL_YR_END_DEPR_DTL_T
+    
+      Table: CM_FSCL_YR_END_DEPR_HDR_T
+    
+      Table: CM_INVN_ERR_DOC_T
+    
+      Table: CM_INVN_ERR_DTL_T
+    
+      Table: CM_RETIRE_REAS_T
+    
+      Table: DEPR_AP_CRDT_MEMO_STAT_T
+    
+      Table: DEPR_AP_PMT_RQST_STAT_T
+    
+      Table: DEPR_PUR_PO_STAT_T
+    
+      Table: DEPR_PUR_RCVNG_LN_STAT_T
+    
+      Table: DEPR_PUR_REQS_STAT_T
+    
+      Table: END_ACRL_MTHD_T
+    
+      Table: END_AGRMNT_SPCL_INSTRC_CD_T
+    
+      Table: END_AGRMNT_STAT_CD_T
+    
+      Table: END_AGRMNT_TYP_CD_T
+    
+      Table: END_AUTO_CSH_INVEST_MDL_T
+    
+      Table: END_AVAIL_CSH_T
+    
+      Table: END_CAE_CD_T
+    
+      Table: END_CLOSE_CD_T
+    
+      Table: END_CLS_CD_T
+    
+      Table: END_CLS_CD_TYP_T
+    
+      Table: END_CMB_GRP_T
+    
+      Table: END_CRNT_CSH_T
+    
+      Table: END_CRNT_ENDOW_CORPUS_T
+    
+      Table: END_CRNT_TAX_LOT_BAL_T
+    
+      Table: END_CSH_SWEEP_MDL_T
+    
+      Table: END_DONR_LBL_SEL_T
+    
+      Table: END_DONR_STMT_CD_T
+    
+      Table: END_DONR_T
+    
+      Table: END_ENDOW_ACCT_LINES_T
+    
+      Table: END_ENDOW_CORPUS_T
+    
+      Table: END_ETRAN_CD_T
+    
+      Table: END_ETRAN_GL_LNK_T
+    
+      Table: END_ETRAN_TYP_CD_T
+    
+      Table: END_FEE_BAL_TYP_CD_T
+    
+      Table: END_FEE_BASE_CD_T
+    
+      Table: END_FEE_CLS_CD_T
+    
+      Table: END_FEE_ETRAN_CD_T
+    
+      Table: END_FEE_MTHD_T
+    
+      Table: END_FEE_PMT_TYP_T
+    
+      Table: END_FEE_RT_DEF_CD_T
+    
+      Table: END_FEE_SEC_T
+    
+      Table: END_FEE_TRAN_DOC_TYP_T
+    
+      Table: END_FEE_TYP_CD_T
+    
+      Table: END_FND_SRC_CD_T
+    
+      Table: END_FREQ_CD_T
+    
+      Table: END_HIST_CSH_T
+    
+      Table: END_HIST_VAL_ADJ_DOC_T
+    
+      Table: END_HLDG_HIST_T
+    
+      Table: END_HLDG_TAX_LOT_REBAL_T
+    
+      Table: END_HLDG_TAX_LOT_T
+    
+      Table: END_IP_IND_T
+    
+      Table: END_KEMID_AGRMNT_T
+    
+      Table: END_KEMID_BENE_ORG_T
+    
+      Table: END_KEMID_CMB_GRP_T
+    
+      Table: END_KEMID_CORPUS_VAL_T
+    
+      Table: END_KEMID_DONR_CMB_T
+    
+      Table: END_KEMID_DONR_T
+    
+      Table: END_KEMID_FEE_T
+    
+      Table: END_KEMID_FND_SRC_T
+    
+      Table: END_KEMID_GL_LNK_T
+    
+      Table: END_KEMID_PAY_INC_T
+    
+      Table: END_KEMID_ROLE_T
+    
+      Table: END_KEMID_SPCL_INSTRC_T
+    
+      Table: END_KEMID_T
+    
+      Table: END_KEMID_USE_CRIT_T
+    
+      Table: END_ME_DT_T
+    
+      Table: END_PENDING_TRAN_DOC_T
+    
+      Table: END_PMT_TYP_CD_T
+    
+      Table: END_POOL_FND_CTRL_T
+    
+      Table: END_POOL_FND_VAL_T
+    
+      Table: END_PRPS_CD_T
+    
+      Table: END_REC_CSH_XFR_GL_TGT_T
+    
+      Table: END_REC_CSH_XFR_KEMID_TGT_T
+    
+      Table: END_REC_CSH_XFR_T
+    
+      Table: END_REGIS_CD_T
+    
+      Table: END_RESP_ADMIN_CD_T
+    
+      Table: END_SEC_RPT_GRP_T
+    
+      Table: END_SEC_T
+    
+      Table: END_SEC_VLTN_MTHD_T
+    
+      Table: END_SUBCLS_CD_T
+    
+      Table: END_TKLR_KEMID_T
+    
+      Table: END_TKLR_RECP_GRP_T
+    
+      Table: END_TKLR_RECP_PRNCPL_T
+    
+      Table: END_TKLR_SEC_T
+    
+      Table: END_TKLR_T
+    
+      Table: END_TKLR_TYP_CD_T
+    
+      Table: END_TRAN_ARCHV_SEC_T
+    
+      Table: END_TRAN_ARCHV_T
+    
+      Table: END_TRAN_DOC_T
+    
+      Table: END_TRAN_HLDG_LOT_T
+    
+      Table: END_TRAN_LN_T
+    
+      Table: END_TRAN_RESTR_CD_T
+    
+      Table: END_TRAN_SEC_T
+    
+      Table: END_TRAN_SRC_TYP_T
+    
+      Table: END_TRAN_SUB_TYP_T
+    
+      Table: END_TYP_FEE_MTHD_T
+    
+      Table: END_TYP_RESTR_CD_T
+    
+      Table: END_TYP_T
+    
+      Table: END_USE_CRIT_T
+    
+      Table: ER_CTRL_ATTRIB_TYP_T
+    
+      Table: ER_RSRCH_RSK_TYP_T
+    
+      Table: FP_ACCT_LINES_T
+    
+      Table: FP_ACRL_VCHR_DOC_T
+    
+      Table: FP_ADV_DPST_DTL_T
+    
+      Table: FP_BAL_BY_CONS_MT
+    
+      Table: FP_BAL_BY_LEVEL_MT
+    
+      Table: FP_BAL_BY_OBJ_MT
+    
+      Table: FP_BANK_T
+    
+      Table: FP_BDGT_ADJ_DOC_T
+    
+      Table: FP_BDGT_ADJ_DTL_T
+    
+      Table: FP_CASHIER_DOC_T
+    
+      Table: FP_CASHIER_ITM_IN_PROC_T
+    
+      Table: FP_CASH_RCPT_DOC_T
+    
+      Table: FP_CHECK_DTL_T
+    
+      Table: FP_COIN_DTL_T
+    
+      Table: FP_CPTL_AST_ACCT_GRP_DTL_T
+    
+      Table: FP_CPTL_AST_INFO_DTL_T
+    
+      Table: FP_CPTL_AST_INFO_T
+    
+      Table: FP_CR_CARD_DTL_T
+    
+      Table: FP_CR_CARD_TYP_T
+    
+      Table: FP_CR_CARD_VNDR_T
+    
+      Table: FP_CSH_DRWR_T
+    
+      Table: FP_CURRENCY_DTL_T
+    
+      Table: FP_CUST_CC_INFO_T
+    
+      Table: FP_DEPOSIT_DOC_T
+    
+      Table: FP_DEPOSIT_HDR_T
+    
+      Table: FP_DEP_CSH_RCPT_T
+    
+      Table: FP_DISTRIB_DOC_T
+    
+      Table: FP_DV_ACH_T
+    
+      Table: FP_DV_DIEM_T
+    
+      Table: FP_DV_DOC_T
+    
+      Table: FP_DV_EXP_TYP_T
+    
+      Table: FP_DV_MLG_T
+    
+      Table: FP_DV_NONEMP_EXP_T
+    
+      Table: FP_DV_NONEM_TRVL_T
+    
+      Table: FP_DV_NRA_TAX_T
+    
+      Table: FP_DV_PAYEE_DTL_T
+    
+      Table: FP_DV_PMT_REAS_T
+    
+      Table: FP_DV_PRECNF_REG_T
+    
+      Table: FP_DV_PRE_CONF_T
+    
+      Table: FP_DV_TRVL_CO_NM_T
+    
+      Table: FP_ELCTRNC_PMT_CLM_T
+    
+      Table: FP_ERROR_COR_DOC_T
+    
+      Table: FP_FND_TRNFR_DOC_T
+    
+      Table: FP_FSCL_YR_CTRL_T
+    
+      Table: FP_FUNC_CTRL_CD_T
+    
+      Table: FP_ICR_ADJ_DOC_T
+    
+      Table: FP_INC_CLS_T
+    
+      Table: FP_INTERIM1_CONS_MT
+    
+      Table: FP_INTERIM1_LEVEL_MT
+    
+      Table: FP_INTERIM1_OBJ_MT
+    
+      Table: FP_INTERIM2_CONS_MT
+    
+      Table: FP_INTERIM2_LEVEL_MT
+    
+      Table: FP_INTERIM2_OBJ_MT
+    
+      Table: FP_INT_BILL_DOC_T
+    
+      Table: FP_INT_BILL_ITM_T
+    
+      Table: FP_JRNL_VCHR_DOC_T
+    
+      Table: FP_JV_ACCT_LINES_T
+    
+      Table: FP_MOTD_T
+    
+      Table: FP_NCHK_DSBRSDOC_T
+    
+      Table: FP_NRA_TAX_PCT_T
+    
+      Table: FP_OFST_ACCT_T
+    
+      Table: FP_PRCRMNT_ACCT_LINES_T
+    
+      Table: FP_PRCRMNT_CARD_DFLT_T
+    
+      Table: FP_PRCRMNT_CARD_HLDR_T
+    
+      Table: FP_PRCRMNT_CARD_TRN_MT
+    
+      Table: FP_PRCRMNT_DOC_T
+    
+      Table: FP_PRCRMNT_TRN_DTL_T
+    
+      Table: FP_PRCRMNT_VNDR_T
+    
+      Table: FP_PRE_ENCUM_DOC_T
+    
+      Table: FP_RPT_CD_T
+    
+      Table: FP_SALES_TAX_T
+    
+      Table: FS_CLCTR_HDR_T
+    
+      Table: FS_DOC_HDRS_MSNG_IN_KEW_T
+    
+      Table: FS_DOC_HEADER_T
+    
+      Table: FS_HOME_ORIGIN_T
+    
+      Table: FS_OPTION_T
+    
+      Table: FS_ORIGIN_CODE_T
+    
+      Table: FS_PMT_DOC_LOC_T
+    
+      Table: FS_PMT_SRC_WIRE_TRNFR_T
+    
+      Table: FS_TAX_COUNTY_T
+    
+      Table: FS_TAX_POSTAL_CD_T
+    
+      Table: FS_TAX_REGION_RATE_T
+    
+      Table: FS_TAX_REGION_T
+    
+      Table: FS_TAX_REGION_TYPE_T
+    
+      Table: FS_TAX_STATE_T
+    
+      Table: FS_WIRE_CHRG_T
+    
+      Table: GL_ACCT_BALANCES_HIST_T
+    
+      Table: GL_ACCT_BALANCES_T
+    
+      Table: GL_BALANCE_HIST_T
+    
+      Table: GL_BALANCE_T
+    
+      Table: GL_COR_CHG_GRP_T
+    
+      Table: GL_COR_CHG_T
+    
+      Table: GL_COR_CRTA_T
+    
+      Table: GL_COR_DOC_T
+    
+      Table: GL_ENCUMBRANCE_HIST_T
+    
+      Table: GL_ENCUMBRANCE_T
+    
+      Table: GL_ENTRY_HIST_T
+    
+      Table: GL_ENTRY_T
+    
+      Table: GL_EXPEND_TRN_MT
+    
+      Table: GL_ID_BILL_T
+    
+      Table: GL_OFFSET_DEFN_T
+    
+      Table: GL_ORG_RVRSN_CTGRY_AMT_T
+    
+      Table: GL_ORG_RVRSN_UNIT_WRK_T
+    
+      Table: GL_PENDING_BALANCES_MT
+    
+      Table: GL_PENDING_ENTRY_MT
+    
+      Table: GL_PENDING_ENTRY_T
+    
+      Table: GL_REVERSAL_T
+    
+      Table: GL_SF_BALANCES_T
+    
+      Table: GL_SF_REBUILD_T
+    
+      Table: KC_BILL_FREQ_MAP_T
+    
+      Table: KRNS_ADHOC_RTE_ACTN_RECIP_T
+    
+      Table: KRNS_ATT_T
+    
+      Table: KRNS_DOC_HDR_T
+    
+      Table: KRNS_LOOKUP_RSLT_T
+    
+      Table: KRNS_LOOKUP_SEL_T
+    
+      Table: KRNS_MAINT_DOC_ATT_LST_T
+    
+      Table: KRNS_MAINT_DOC_ATT_T
+    
+      Table: KRNS_MAINT_DOC_T
+    
+      Table: KRNS_MAINT_LOCK_T
+    
+      Table: KRNS_NTE_T
+    
+      Table: KRNS_NTE_TYP_T
+    
+      Table: KRNS_PESSIMISTIC_LOCK_T
+    
+      Table: KRNS_SESN_DOC_T
+    
+      Table: KRSB_BAM_PARM_T
+    
+      Table: KRSB_BAM_T
+    
+      Table: KRSB_MSG_PYLD_T
+    
+      Table: KRSB_MSG_QUE_T
+    
+      Table: LD_A21_DETAIL_LN_T
+    
+      Table: LD_A21_DETAIL_T
+    
+      Table: LD_A21_DTL_BLD_T
+    
+      Table: LD_A21_DTL_LN_BLD_T
+    
+      Table: LD_A21_PRD_STAT_T
+    
+      Table: LD_A21_REPORT_T
+    
+      Table: LD_A21_RPT_EARN_PAY_T
+    
+      Table: LD_A21_RPT_POS_T
+    
+      Table: LD_A21_RPT_TYP_T
+    
+      Table: LD_BCNSTR_HDR_T
+    
+      Table: LD_BCNSTR_MONTH_T
+    
+      Table: LD_BCN_2PLG_LIST_MT
+    
+      Table: LD_BCN_ACCTSEL_T
+    
+      Table: LD_BCN_ACCT_BAL_T
+    
+      Table: LD_BCN_ACCT_DUMP_T
+    
+      Table: LD_BCN_ACCT_ORG_HIER_T
+    
+      Table: LD_BCN_ACCT_RPTS_T
+    
+      Table: LD_BCN_ACCT_SUMM_T
+    
+      Table: LD_BCN_ACTV_JOB_MT
+    
+      Table: LD_BCN_ADM_POST_T
+    
+      Table: LD_BCN_AF_LOAD01_MT
+    
+      Table: LD_BCN_AF_LOAD02_MT
+    
+      Table: LD_BCN_AF_LOAD_T
+    
+      Table: LD_BCN_AF_REASON_T
+    
+      Table: LD_BCN_AF_RSN_CD_T
+    
+      Table: LD_BCN_BAL_BY_ACCT_T
+    
+      Table: LD_BCN_BENEFITS_RECALC01_MT
+    
+      Table: LD_BCN_BUILD_ACCTBAL01_MT
+    
+      Table: LD_BCN_BUILD_CTRL_LIST01_MT
+    
+      Table: LD_BCN_BUILD_CTRL_LIST02_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT01_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT02_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT03_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT04_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT05_MT
+    
+      Table: LD_BCN_BUILD_EXSALTOT06_MT
+    
+      Table: LD_BCN_BUILD_LEVLSUMM02_MT
+    
+      Table: LD_BCN_BUILD_LEVLSUMM03_MT
+    
+      Table: LD_BCN_BUILD_MNTHSUMM01_MT
+    
+      Table: LD_BCN_BUILD_MNTHSUMM02_MT
+    
+      Table: LD_BCN_BUILD_OBJTSUMM01_MT
+    
+      Table: LD_BCN_BUILD_OBJTSUMM02_MT
+    
+      Table: LD_BCN_BUILD_POSLIST01_MT
+    
+      Table: LD_BCN_BUILD_POS_SEL01_MT
+    
+      Table: LD_BCN_BUILD_PULLUP01_MT
+    
+      Table: LD_BCN_BUILD_SALSUMM01_MT
+    
+      Table: LD_BCN_BUILD_SALSUMM02_MT
+    
+      Table: LD_BCN_BUILD_SALSUMM03_MT
+    
+      Table: LD_BCN_BUILD_SALSUMM04_MT
+    
+      Table: LD_BCN_BUILD_SALSUMM05_MT
+    
+      Table: LD_BCN_BUILD_SALTOT01_MT
+    
+      Table: LD_BCN_BUILD_SALTOT02_MT
+    
+      Table: LD_BCN_BUILD_SALTOT03_MT
+    
+      Table: LD_BCN_BUILD_SALTOT04_MT
+    
+      Table: LD_BCN_BUILD_SALTOT05_MT
+    
+      Table: LD_BCN_CSF_TRCKR_T
+    
+      Table: LD_BCN_CTRL_LIST_T
+    
+      Table: LD_BCN_DOC_PULLUP01_MT
+    
+      Table: LD_BCN_DOC_PULLUP02_MT
+    
+      Table: LD_BCN_DOC_PULLUP03_MT
+    
+      Table: LD_BCN_DOC_PUSHDOWN01_MT
+    
+      Table: LD_BCN_DOC_PUSHDOWN02_MT
+    
+      Table: LD_BCN_DOC_PUSHDOWN03_MT
+    
+      Table: LD_BCN_DOC_PUSHDOWN04_MT
+    
+      Table: LD_BCN_DURATION_T
+    
+      Table: LD_BCN_FND_LOCK_T
+    
+      Table: LD_BCN_II_INIT_MT
+    
+      Table: LD_BCN_INCUMBENT_SEL_T
+    
+      Table: LD_BCN_INTINCBNT_T
+    
+      Table: LD_BCN_LCK_PYRT_ACCT01_MT
+    
+      Table: LD_BCN_LEVL_SUMM_T
+    
+      Table: LD_BCN_MNTH_SUMM_T
+    
+      Table: LD_BCN_OBJT_DUMP_T
+    
+      Table: LD_BCN_OBJT_SUMM_T
+    
+      Table: LD_BCN_OBJ_PICK_T
+    
+      Table: LD_BCN_ORG_RPTS_T
+    
+      Table: LD_BCN_PAYRT_HLDG_T
+    
+      Table: LD_BCN_POS_FND_T
+    
+      Table: LD_BCN_POS_INIT_MT
+    
+      Table: LD_BCN_POS_SEL_T
+    
+      Table: LD_BCN_POS_T
+    
+      Table: LD_BCN_PULLUP_T
+    
+      Table: LD_BCN_RQST_MT
+    
+      Table: LD_BCN_RSN_CD_PK_T
+    
+      Table: LD_BCN_SAL_FND_T
+    
+      Table: LD_BCN_SAL_SSN_T
+    
+      Table: LD_BCN_SLRY_TOT_T
+    
+      Table: LD_BCN_SUBFUND_PICK_T
+    
+      Table: LD_BCN_UPDT_RQST01_MT
+    
+      Table: LD_BCN_UPDT_RQST02_MT
+    
+      Table: LD_BENEFITS_CALC_T
+    
+      Table: LD_BENEFITS_TYPE_T
+    
+      Table: LD_CSFTRCKR_OVRD_T
+    
+      Table: LD_CSF_TRACKER_T
+    
+      Table: LD_ERROR_CERT_T
+    
+      Table: LD_EXP_TRNFR_DOC_T
+    
+      Table: LD_EXP_TRNFR_FRM_T
+    
+      Table: LD_EXP_TRNFR_TO_T
+    
+      Table: LD_JRNL_VCHR_DOC_T
+    
+      Table: LD_JRNL_VCHR_DTL_T
+    
+      Table: LD_JULY1_POS_FND_T
+    
+      Table: LD_LABOR_OBJ_T
+    
+      Table: LD_LBR_BFT_RT_CAT_T
+    
+      Table: LD_LBR_GL_ENTRY_T
+    
+      Table: LD_LBR_OBJ_BENE_T
+    
+      Table: LD_LDGR_BAL_HIST_T
+    
+      Table: LD_LDGR_BAL_T
+    
+      Table: LD_LDGR_ENTR_HIST_T
+    
+      Table: LD_LDGR_ENTR_T
+    
+      Table: LD_PNDBC_APPTFND_T
+    
+      Table: LD_PND_BCNSTR_GL_T
+    
+      Table: LD_PND_LDGR_ENTR_T
+    
+      Table: LD_POS_OBJ_GRP_T
+    
+      Table: PDP_ACCTG_CHG_CD_T
+    
+      Table: PDP_ACH_ACCT_NBR_T
+    
+      Table: PDP_ACH_BNK_T
+    
+      Table: PDP_ACH_TRANS_CD_T
+    
+      Table: PDP_ACH_TRANS_TYP_T
+    
+      Table: PDP_CUST_BNK_T
+    
+      Table: PDP_CUST_PRFL_T
+    
+      Table: PDP_DISB_NBR_RNG_T
+    
+      Table: PDP_DISB_TYP_CD_T
+    
+      Table: PDP_FIL_T
+    
+      Table: PDP_FMT_PROC_T
+    
+      Table: PDP_GL_PENDING_ENTRY_T
+    
+      Table: PDP_PAYEE_ACH_ACCT_T
+    
+      Table: PDP_PAYEE_TYP_T
+    
+      Table: PDP_PMT_ACCT_DTL_T
+    
+      Table: PDP_PMT_ACCT_HIST_T
+    
+      Table: PDP_PMT_CHG_CD_T
+    
+      Table: PDP_PMT_DTL_T
+    
+      Table: PDP_PMT_GRP_HIST_T
+    
+      Table: PDP_PMT_GRP_T
+    
+      Table: PDP_PMT_NTE_TXT_T
+    
+      Table: PDP_PMT_STAT_CD_T
+    
+      Table: PDP_PMT_TYP_T
+    
+      Table: PDP_PROC_SUM_T
+    
+      Table: PDP_PROC_T
+    
+      Table: PS_POSITION_DATA
+    
+      Table: PUR_ADDR_TYP_T
+    
+      Table: PUR_AP_CMP_PARM_T
+    
+      Table: PUR_AP_ITM_TYP_T
+    
+      Table: PUR_AP_ORG_PARM_T
+    
+      Table: PUR_AP_RECUR_PMT_FREQ_T
+    
+      Table: PUR_AP_RECUR_PMT_TYP_T
+    
+      Table: PUR_ASGN_CONTR_MGR_DTL_T
+    
+      Table: PUR_ASGN_CONTR_MGR_T
+    
+      Table: PUR_BILL_ADDR_T
+    
+      Table: PUR_BLK_RCVNG_T
+    
+      Table: PUR_CARI_T
+    
+      Table: PUR_CNTCT_TYP_T
+    
+      Table: PUR_COMM_CONTR_MGR_T
+    
+      Table: PUR_COMM_T
+    
+      Table: PUR_CONTR_MGR_T
+    
+      Table: PUR_CPTL_AST_SYS_ST_T
+    
+      Table: PUR_CPTL_AST_SYS_TYP_T
+    
+      Table: PUR_DFLT_PRNCPL_ADDR_T
+    
+      Table: PUR_DLVY_REQ_DT_REAS_T
+    
+      Table: PUR_FND_SRC_T
+    
+      Table: PUR_ITM_REAS_ADD_T
+    
+      Table: PUR_OWNR_CTGRY_T
+    
+      Table: PUR_OWNR_TYP_T
+    
+      Table: PUR_PHN_TYP_T
+    
+      Table: PUR_PMT_TERM_TYP_T
+    
+      Table: PUR_PO_ACCT_T
+    
+      Table: PUR_PO_CONTR_LANG_T
+    
+      Table: PUR_PO_CPTL_AST_ITM_AST_T
+    
+      Table: PUR_PO_CPTL_AST_ITM_T
+    
+      Table: PUR_PO_CPTL_AST_LOC_T
+    
+      Table: PUR_PO_CPTL_AST_SYS_T
+    
+      Table: PUR_PO_CST_SRC_T
+    
+      Table: PUR_PO_ITM_T
+    
+      Table: PUR_PO_ITM_USE_TAX_T
+    
+      Table: PUR_PO_QT_LANG_T
+    
+      Table: PUR_PO_QT_LST_T
+    
+      Table: PUR_PO_QT_LST_VNDR_T
+    
+      Table: PUR_PO_QT_STAT_T
+    
+      Table: PUR_PO_SNSTV_DTA_T
+    
+      Table: PUR_PO_T
+    
+      Table: PUR_PO_TRNS_MTHD_T
+    
+      Table: PUR_PO_VNDR_CHC_T
+    
+      Table: PUR_PO_VNDR_QT_T
+    
+      Table: PUR_PO_VNDR_STPLTN_T
+    
+      Table: PUR_RCVNG_ADDR_T
+    
+      Table: PUR_RCVNG_COR_ITM_T
+    
+      Table: PUR_RCVNG_COR_T
+    
+      Table: PUR_RCVNG_LN_ITM_T
+    
+      Table: PUR_RCVNG_LN_T
+    
+      Table: PUR_REQS_ACCT_T
+    
+      Table: PUR_REQS_CPTL_AST_ITM_AST_T
+    
+      Table: PUR_REQS_CPTL_AST_ITM_T
+    
+      Table: PUR_REQS_CPTL_AST_LOC_T
+    
+      Table: PUR_REQS_CPTL_AST_SYS_T
+    
+      Table: PUR_REQS_ITM_T
+    
+      Table: PUR_REQS_ITM_USE_TAX_T
+    
+      Table: PUR_REQS_SRC_T
+    
+      Table: PUR_REQS_T
+    
+      Table: PUR_SHP_PMT_TERM_T
+    
+      Table: PUR_SHP_SPCL_COND_T
+    
+      Table: PUR_SHP_TTL_T
+    
+      Table: PUR_SNSTV_DTA_ASGN_DTL_T
+    
+      Table: PUR_SNSTV_DTA_ASGN_T
+    
+      Table: PUR_SNSTV_DTA_T
+    
+      Table: PUR_SUPP_DVRST_T
+    
+      Table: PUR_THRSHLD_T
+    
+      Table: PUR_VNDR_ADDR_T
+    
+      Table: PUR_VNDR_ALIAS_T
+    
+      Table: PUR_VNDR_CHAP_3_STAT_T
+    
+      Table: PUR_VNDR_CHAP_4_STAT_T
+    
+      Table: PUR_VNDR_CNTCT_PHN_NBR_T
+    
+      Table: PUR_VNDR_CNTCT_T
+    
+      Table: PUR_VNDR_COMM_T
+    
+      Table: PUR_VNDR_CONTR_ORG_T
+    
+      Table: PUR_VNDR_CONTR_T
+    
+      Table: PUR_VNDR_CUST_NBR_T
+    
+      Table: PUR_VNDR_DFLT_ADDR_T
+    
+      Table: PUR_VNDR_DTL_T
+    
+      Table: PUR_VNDR_EXCL_MT
+    
+      Table: PUR_VNDR_EXCL_MTCH_T
+    
+      Table: PUR_VNDR_HDR_T
+    
+      Table: PUR_VNDR_INACTV_REAS_T
+    
+      Table: PUR_VNDR_PHN_NBR_T
+    
+      Table: PUR_VNDR_SHP_SPCL_COND_T
+    
+      Table: PUR_VNDR_STPLTN_T
+    
+      Table: PUR_VNDR_SUPP_DVRST_T
+    
+      Table: PUR_VNDR_TAX_CHG_T
+    
+      Table: PUR_VNDR_TYP_T
+    
+      Table: PUR_VNDR_W8_OWNRSHP_T
+    
+      Table: PUR_VNDR_W8_TYP_T
+    
+      Table: QRTZ_BLOB_TRIGGERS
+    
+      Table: QRTZ_CALENDARS
+    
+      Table: QRTZ_CRON_TRIGGERS
+    
+      Table: QRTZ_FIRED_TRIGGERS
+    
+      Table: QRTZ_JOB_DETAILS
+    
+      Table: QRTZ_JOB_LISTENERS
+    
+      Table: QRTZ_LOCKS
+    
+      Table: QRTZ_PAUSED_TRIGGER_GRPS
+    
+      Table: QRTZ_SCHEDULER_STATE
+    
+      Table: QRTZ_SIMPLE_TRIGGERS
+    
+      Table: QRTZ_TRIGGERS
+    
+      Table: QRTZ_TRIGGER_LISTENERS
+    
+      Table: SEC_SCRTY_ATTR_T
+    
+      Table: SEC_SCRTY_DEFN_DOC_TYP_T
+    
+      Table: SEC_SCRTY_DEFN_T
+    
+      Table: SEC_SCRTY_MDL_DEFN_T
+    
+      Table: SEC_SCRTY_MDL_MBR_T
+    
+      Table: SEC_SCRTY_MDL_T
+    
+      Table: SEC_SCRTY_PRNCPL_DEFN_T
+    
+      Table: SEC_SCRTY_PRNCPL_T
+    
+      Table: SH_ACCT_PERIOD_T
+    
+      Table: SH_BUILDING_T
+    
+      Table: SH_FNCTNL_FIELD_DESCR_T
+    
+      Table: SH_ROOM_T
+    
+      Table: SH_UNIV_DATE_T
+    
+      Table: SH_UOM_T
+    
+      Table: TEM_ACCOMM_TYP_T
+    
+      Table: TEM_ACCT_DOC_REL_T
+    
+      Table: TEM_ACCT_LINES_T
+    
+      Table: TEM_ADV_PMNT_RSN_T
+    
+      Table: TEM_AGENCY_SRVC_FEE_T
+    
+      Table: TEM_AGENCY_STAGING_T
+    
+      Table: TEM_AIRFARE_SRC_T
+    
+      Table: TEM_ATTENDEE_T
+    
+      Table: TEM_CC_IMP_EXP_CLR_DTL_T
+    
+      Table: TEM_CC_IMP_EXP_CLR_T
+    
+      Table: TEM_CLASS_SVC_T
+    
+      Table: TEM_CONT_REL_TYP_T
+    
+      Table: TEM_CORP_CARD_APP_DOC_T
+    
+      Table: TEM_CORP_CARD_PSEUDO_NUM_T
+    
+      Table: TEM_CREDIT_CARD_AGENCY_T
+    
+      Table: TEM_CREDIT_CARD_STAGING_T
+    
+      Table: TEM_CTS_CARD_APP_DOC_T
+    
+      Table: TEM_EM_CONT_T
+    
+      Table: TEM_ENT_DOC_T
+    
+      Table: TEM_ENT_PURPOSE_T
+    
+      Table: TEM_EXP_TYP_FIN_OBJ_CD_T
+    
+      Table: TEM_EXP_TYP_T
+    
+      Table: TEM_GRP_TRVLR_T
+    
+      Table: TEM_HELD_ENCUM_ENTRY_T
+    
+      Table: TEM_HIST_EXP_T
+    
+      Table: TEM_JOB_CLASS_T
+    
+      Table: TEM_MILEAGE_RT_T
+    
+      Table: TEM_PER_DIEM_EXP_T
+    
+      Table: TEM_PER_DIEM_MIE_BREAK_DOWN_T
+    
+      Table: TEM_PER_DIEM_REGION_T
+    
+      Table: TEM_PER_DIEM_T
+    
+      Table: TEM_PRI_DEST_T
+    
+      Table: TEM_PROFILE_ACCOUNT_T
+    
+      Table: TEM_PROFILE_ADDR_T
+    
+      Table: TEM_PROFILE_ARRANGER_T
+    
+      Table: TEM_PROFILE_EM_CONT_T
+    
+      Table: TEM_PROFILE_T
+    
+      Table: TEM_RELO_DOC_T
+    
+      Table: TEM_RELO_REASON_T
+    
+      Table: TEM_SPCL_CRCMSNCS_Q_T
+    
+      Table: TEM_SPCL_CRCMSNCS_T
+    
+      Table: TEM_TAX_RAM_DOC_T
+    
+      Table: TEM_TRANS_MD_DTL_T
+    
+      Table: TEM_TRANS_MD_T
+    
+      Table: TEM_TRAVELER_DTL_T
+    
+      Table: TEM_TRAVELER_TYP_T
+    
+      Table: TEM_TRIP_TYP_T
+    
+      Table: TEM_TRP_ACCT_INFO_T
+    
+      Table: TEM_TRVL_ADV_T
+    
+      Table: TEM_TRVL_ARRANGER_DOC_T
+    
+      Table: TEM_TRVL_AUTH_AMEND_DOC_T
+    
+      Table: TEM_TRVL_AUTH_CLOSE_DOC_T
+    
+      Table: TEM_TRVL_AUTH_DOC_T
+    
+      Table: TEM_TRVL_CARD_TYP_T
+    
+      Table: TEM_TRVL_EXP_T
+    
+      Table: TEM_TRVL_PMT_T
+    
+      Table: TEM_TRVL_REIMB_DOC_T
+    
+  
+  Creating Views
+
+    	View: CA_OBJECT_CODE_V
+    
+    	View: CA_SUB_OBJECT_CD_V
+    
+    	View: END_KEMID_CRNT_BAL_DET_V
+    
+    	View: END_KEMID_CRNT_BAL_V
+    
+    	View: END_KEMID_CRNT_REP_GRP_V
+    
+    	View: END_KEMID_HIST_BAL_DET_V
+    
+    	View: END_KEMID_HIST_BAL_V
+    
+    	View: END_KEMID_HIST_REP_GRP_V
+    
+    	View: PUR_PO_ITM_TOT_AMT_V
+    
+    	View: PUR_PO_ITM_TOT_ENC_V
+    
+    	View: PUR_PO_V
+    
+  
+  Creating Sequences
+
+    	Sequence A21_LBR_BLD_NBR_SEQ
+    
+    	Sequence AGENCY_ADDR_ID_SEQ
+    
+    	Sequence AP_CRDT_MEMO_ACCT_CHG_SEQ
+    
+    	Sequence AP_CRDT_MEMO_ACCT_HIST_SEQ
+    
+    	Sequence AP_CRDT_MEM_ITM_USE_TAX_ID_SEQ
+    
+    	Sequence AP_ELCTRNC_INV_MAP_ID
+    
+    	Sequence AP_INV_RJT_ID_SEQ
+    
+    	Sequence AP_NEG_PMT_RQST_APRVL_LMT_ID
+    
+    	Sequence AP_PMT_RQST_ACCT_CHG_SEQ
+    
+    	Sequence AP_PMT_RQST_ACCT_HIST_SEQ
+    
+    	Sequence AP_PMT_RQST_ITM_USE_TAX_ID_SEQ
+    
+    	Sequence AP_PUR_DOC_LNK_ID
+    
+    	Sequence AP_SUM_ACCT_T_SEQ
+    
+    	Sequence AR_BILL_ID_SEQ
+    
+    	Sequence AR_CLCTN_EVNT_ID_SEQ
+    
+    	Sequence AR_DUN_LTR_DIST_ID_SEQ
+    
+    	Sequence AR_ENTRY_ID_SEQ
+    
+    	Sequence AR_ERROR_LOG_ID_SEQ
+    
+    	Sequence AR_ERROR_MSG_ID_SEQ
+    
+    	Sequence AR_INV_DTL_ID_SEQ
+    
+    	Sequence AR_LOCKBOX_T_SEQ
+    
+    	Sequence AR_LTRCR_RVW_DTL_ID_SEQ
+    
+    	Sequence AR_MLSTN_ID_SEQ
+    
+    	Sequence AR_RFRL_TO_CLCTNS_DTL_ID_SEQ
+    
+    	Sequence CA_A21_ICR_ACCT_SEQ
+    
+    	Sequence CA_ACCT_AUTODEF_ICR_SEQ
+    
+    	Sequence CA_ACCT_AUTO_CREATE_DFLT_SEQ
+    
+    	Sequence CA_ICR_ACCT_SEQ
+    
+    	Sequence CB_ACTN_ID_SEQ
+    
+    	Sequence CB_GL_ACCT_ID_SEQ
+    
+    	Sequence CGPRPSL_NBR_SEQ
+    
+    	Sequence CG_AGENCY_NBR_SEQ
+    
+    	Sequence CG_PRPSL_CLOSE_NBR_SEQ
+    
+    	Sequence CG_SUBCNR_NBR_SEQ
+    
+    	Sequence CM_AST_PMT_DOC_TYP_SEQ
+    
+    	Sequence CPTLAST_NBR_SEQ
+    
+    	Sequence CRDT_MEMO_ACCT_ID
+    
+    	Sequence CRDT_MEMO_ID
+    
+    	Sequence CRDT_MEMO_ITM_ID
+    
+    	Sequence CRDT_MEMO_STAT_HIST_ID
+    
+    	Sequence CUST_ADDR_ID_SEQ
+    
+    	Sequence CUST_NBR_SEQ
+    
+    	Sequence DIRTY_CACHE_SEQ
+    
+    	Sequence DV_PAYEE_ID_NBR_SEQ
+    
+    	Sequence END_ACI_SEQ
+    
+    	Sequence END_CASH_SWEEP_SEQ
+    
+    	Sequence END_KEMID_SEQ
+    
+    	Sequence END_REC_CSH_XFR_SEQ
+    
+    	Sequence END_TKLR_SEQ
+    
+    	Sequence EN_SERVICE_DEF_INTERFACE_SEQ
+    
+    	Sequence FP_CASHIER_ITM_IN_PROC_T_SEQ
+    
+    	Sequence FP_PRCRMNT_CARD_DFLT_SEQ
+    
+    	Sequence FP_PRCRMNT_CARD_TRN_MT_SEQ
+    
+    	Sequence GL_ORIGIN_ENTRY_GRP_T_SEQ
+    
+    	Sequence GL_ORIGIN_ENTRY_T_SEQ
+    
+    	Sequence INV_LOAD_SUM_ID
+    
+    	Sequence INV_RJT_ITM_ID
+    
+    	Sequence INV_RJT_REAS_ID
+    
+    	Sequence KRNS_DOC_TYP_ATTR_S
+    
+    	Sequence KRNS_LOCK_S
+    
+    	Sequence KRNS_LOOKUP_RSLT_S
+    
+    	Sequence KRNS_MAINT_DOC_ATT_S
+    
+    	Sequence KRNS_MAINT_LOCK_S
+    
+    	Sequence KRNS_NTE_S
+    
+    	Sequence KRSB_BAM_PARM_S
+    
+    	Sequence KRSB_BAM_S
+    
+    	Sequence KRSB_MSG_QUE_S
+    
+    	Sequence ORIGIN_ENTRY_ID_SEQ
+    
+    	Sequence PDP_ACH_ACCT_GNRTD_ID_SEQ
+    
+    	Sequence PDP_BNK_ID_SEQ
+    
+    	Sequence PDP_CUST_BNK_ID_SEQ
+    
+    	Sequence PDP_CUST_ID_SEQ
+    
+    	Sequence PDP_DOC_TYP_ID_SEQ
+    
+    	Sequence PDP_GL_PENDING_ENTRY_ID_SEQ
+    
+    	Sequence PDP_PMT_ACCT_DTL_ID_SEQ
+    
+    	Sequence PDP_PMT_ACCT_HIST_ID_SEQ
+    
+    	Sequence PDP_PMT_DTL_ID_SEQ
+    
+    	Sequence PDP_PMT_FIL_ID_SEQ
+    
+    	Sequence PDP_PMT_GRP_HIST_ID_SEQ
+    
+    	Sequence PDP_PMT_GRP_ID_SEQ
+    
+    	Sequence PDP_PMT_NTE_ID_SEQ
+    
+    	Sequence PDP_PROC_ID_SEQ
+    
+    	Sequence PDP_PROC_SUM_ID_SEQ
+    
+    	Sequence PMT_CHG_ID
+    
+    	Sequence PMT_RQST_ACCT_ID
+    
+    	Sequence PMT_RQST_ID
+    
+    	Sequence PMT_RQST_ITM_ID
+    
+    	Sequence PMT_RQST_STAT_HIST_ID
+    
+    	Sequence PO_ACCT_ID
+    
+    	Sequence PO_CONTR_LANG_ID
+    
+    	Sequence PO_ID
+    
+    	Sequence PO_ITM_CPTL_AST_ID
+    
+    	Sequence PO_ITM_ID
+    
+    	Sequence PO_QT_LANG_ID
+    
+    	Sequence PO_QT_LST_ID
+    
+    	Sequence PO_RSTRC_MTRL_STATHST_ID
+    
+    	Sequence PO_STAT_HIST_ID
+    
+    	Sequence PO_VNDR_QT_ID
+    
+    	Sequence PO_VNDR_STPLTN_ID
+    
+    	Sequence PUR_PO_CPTL_AST_ITM_ID_SEQ
+    
+    	Sequence PUR_PO_CPTL_AST_LOC_ID_SEQ
+    
+    	Sequence PUR_PO_CPTL_AST_SYS_ID_SEQ
+    
+    	Sequence PUR_PO_ITM_USE_TAX_ID_SEQ
+    
+    	Sequence PUR_RCVNG_ADDR_ID
+    
+    	Sequence PUR_REQS_CPTL_AST_ITM_ID_SEQ
+    
+    	Sequence PUR_REQS_CPTL_AST_LOC_ID_SEQ
+    
+    	Sequence PUR_REQS_CPTL_AST_SYS_ID_SEQ
+    
+    	Sequence PUR_REQS_ITM_USE_TAX_ID_SEQ
+    
+    	Sequence PUR_SNSTV_DTA_ASGN_ID_SEQ
+    
+    	Sequence PUR_THRSHLD_ID
+    
+    	Sequence PUR_VNDR_EXCL_MTCH_T_SEQ
+    
+    	Sequence PUR_VNDR_W8_OWNRSHP_ID_SEQ
+    
+    	Sequence RCVNG_COR_ITM_ID
+    
+    	Sequence RCVNG_LN_ITM_ID
+    
+    	Sequence REQS_ACCT_ID
+    
+    	Sequence REQS_ID
+    
+    	Sequence REQS_ITM_CPTL_AST_ID
+    
+    	Sequence REQS_ITM_ID
+    
+    	Sequence REQS_STAT_HIST_ID
+    
+    	Sequence SEC_SCRTY_DEFN_ID_SEQ
+    
+    	Sequence SEC_SCRTY_MDL_DEFN_ID_SEQ
+    
+    	Sequence SEC_SCRTY_MDL_ID_SEQ
+    
+    	Sequence SEC_SCRTY_PRNCPL_DEFN_ID_SEQ
+    
+    	Sequence SHPMNT_RCVNG_ID
+    
+    	Sequence TEM_ACCT_DOC_REL_ID_SEQ
+    
+    	Sequence TEM_AGENCY_STAGING_ID_SEQ
+    
+    	Sequence TEM_ATTENDEE_ID_SEQ
+    
+    	Sequence TEM_CORP_CARD_PSEUDO_NUM_SEQ
+    
+    	Sequence TEM_CREDIT_CARD_STAGING_ID_SEQ
+    
+    	Sequence TEM_EM_CONT_ID_SEQ
+    
+    	Sequence TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ
+    
+    	Sequence TEM_GRP_TRVLR_ID_SEQ
+    
+    	Sequence TEM_HIST_EXP_ID_SEQ
+    
+    	Sequence TEM_MILEAGE_RT_ID_SEQ
+    
+    	Sequence TEM_PER_DIEM_EXP_ID_SEQ
+    
+    	Sequence TEM_PER_DIEM_ID_SEQ
+    
+    	Sequence TEM_PRI_DEST_ID_SEQ
+    
+    	Sequence TEM_PROFILE_ACCOUNT_ID_SEQ
+    
+    	Sequence TEM_PROFILE_ARRANGER_ID_SEQ
+    
+    	Sequence TEM_PROFILE_EM_CONT_ID_SEQ
+    
+    	Sequence TEM_PROFILE_ID_SEQ
+    
+    	Sequence TEM_SPCL_CRCMSNCS_Q_ID_SEQ
+    
+    	Sequence TEM_SPCL_CRCMSNCS_S
+    
+    	Sequence TEM_TRAVELER_DTL_ID_SEQ
+    
+    	Sequence TEM_TRP_ACCT_INFO_ID_SEQ
+    
+    	Sequence TEM_TRVL_EXP_ID_SEQ
+    
+    	Sequence TRVL_ID_SEQ
+    
+    	Sequence VNDR_ADDR_GNRTD_ID
+    
+    	Sequence VNDR_CNTCT_GNRTD_ID
+    
+    	Sequence VNDR_CNTCT_PHN_GNRTD_ID
+    
+    	Sequence VNDR_CONTR_GNRTD_ID
+    
+    	Sequence VNDR_CUST_NBR_GNRTD_ID
+    
+    	Sequence VNDR_DFLT_ADDR_GNRTD_ID
+    
+    	Sequence VNDR_HDR_GNRTD_ID
+    
+    	Sequence VNDR_PHN_GNRTD_ID
+    
+    	Sequence VNDR_STPLTN_ID
+    
+    	Sequence VNDR_TAX_CHG_GNRTD_ID
+    
+  
+  Creating Constraints File
+
+      	Constraints on Table: AP_AUTO_APRV_EXCL_T
+    
+    	Constraints on Table: AP_CRDT_MEMO_ACCT_CHG_T
+    
+    	Constraints on Table: AP_CRDT_MEMO_ACCT_T
+    
+    	Constraints on Table: AP_CRDT_MEMO_ITM_T
+    
+    	Constraints on Table: AP_CRDT_MEMO_ITM_USE_TAX_T
+    
+    	Constraints on Table: AP_CRDT_MEMO_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_LOAD_SUM_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_MAP_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_RJT_DOC_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_RJT_ITM_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_RJT_REAS_T
+    
+    	Constraints on Table: AP_ELCTRNC_INV_RJT_REAS_TYP_T
+    
+    	Constraints on Table: AP_NEG_PMT_RQST_APRVL_LMT_T
+    
+    	Constraints on Table: AP_PMT_RQST_ACCT_CHG_T
+    
+    	Constraints on Table: AP_PMT_RQST_ACCT_T
+    
+    	Constraints on Table: AP_PMT_RQST_ITM_T
+    
+    	Constraints on Table: AP_PMT_RQST_ITM_USE_TAX_T
+    
+    	Constraints on Table: AP_PMT_RQST_T
+    
+    	Constraints on Table: AP_SUM_ACCT_T
+    
+    	Constraints on Table: AR_APPLICATION_DOC_T
+    
+    	Constraints on Table: AR_AWD_ACCT_OBJ_TOT_BLLD_T
+    
+    	Constraints on Table: AR_BILL_T
+    
+    	Constraints on Table: AR_CGB_INV_DTL_T
+    
+    	Constraints on Table: AR_CLCTN_ACTVY_DOC_T
+    
+    	Constraints on Table: AR_CLCTN_ACTVY_TYP_T
+    
+    	Constraints on Table: AR_CLCTN_EVNT_T
+    
+    	Constraints on Table: AR_CLCTN_STATUS_T
+    
+    	Constraints on Table: AR_CRDT_MEMO_DOC_T
+    
+    	Constraints on Table: AR_CRDT_MEMO_DTL_T
+    
+    	Constraints on Table: AR_CSH_CTRL_DTL_T
+    
+    	Constraints on Table: AR_CSH_CTRL_T
+    
+    	Constraints on Table: AR_CST_CTGRY_FIN_CONSOLDTN_T
+    
+    	Constraints on Table: AR_CST_CTGRY_FIN_OBJ_CD_T
+    
+    	Constraints on Table: AR_CST_CTGRY_FIN_OBJ_LEVEL_T
+    
+    	Constraints on Table: AR_CST_CTGRY_T
+    
+    	Constraints on Table: AR_CUST_ADDR_T
+    
+    	Constraints on Table: AR_CUST_ADDR_TYP_T
+    
+    	Constraints on Table: AR_CUST_BILLING_STMT_T
+    
+    	Constraints on Table: AR_CUST_PRCS_TYP_T
+    
+    	Constraints on Table: AR_CUST_T
+    
+    	Constraints on Table: AR_CUST_TYP_T
+    
+    	Constraints on Table: AR_DOC_HDR_T
+    
+    	Constraints on Table: AR_DOC_RCURRNC_T
+    
+    	Constraints on Table: AR_DUN_CMPGN_DOC_T
+    
+    	Constraints on Table: AR_DUN_LTR_DIST_T
+    
+    	Constraints on Table: AR_DUN_LTR_TMPLT_T
+    
+    	Constraints on Table: AR_FNL_BILLED_IND_DOC_T
+    
+    	Constraints on Table: AR_FNL_BILLED_IND_ENTRY_T
+    
+    	Constraints on Table: AR_FNL_DISPOS_T
+    
+    	Constraints on Table: AR_INV_ACCT_DTL_T
+    
+    	Constraints on Table: AR_INV_ADDR_DTL_T
+    
+    	Constraints on Table: AR_INV_BILL_T
+    
+    	Constraints on Table: AR_INV_DOC_ERROR_LOG_T
+    
+    	Constraints on Table: AR_INV_DOC_ERROR_MSG_T
+    
+    	Constraints on Table: AR_INV_DOC_T
+    
+    	Constraints on Table: AR_INV_DTL_ACCT_OBJ_CD_T
+    
+    	Constraints on Table: AR_INV_DTL_T
+    
+    	Constraints on Table: AR_INV_GNRL_DTL_T
+    
+    	Constraints on Table: AR_INV_ITM_CODE_T
+    
+    	Constraints on Table: AR_INV_MLSTN_T
+    
+    	Constraints on Table: AR_INV_PD_APLD_T
+    
+    	Constraints on Table: AR_INV_RCURRNC_DTL_T
+    
+    	Constraints on Table: AR_INV_SUSP_CTGRY_T
+    
+    	Constraints on Table: AR_INV_TMPLT_T
+    
+    	Constraints on Table: AR_INV_TRNS_MTHD_T
+    
+    	Constraints on Table: AR_LOCKBOX_T
+    
+    	Constraints on Table: AR_LTRCR_RVW_DOC_T
+    
+    	Constraints on Table: AR_LTRCR_RVW_DTL_T
+    
+    	Constraints on Table: AR_MLSTN_SCHDL_T
+    
+    	Constraints on Table: AR_MLSTN_T
+    
+    	Constraints on Table: AR_NON_APLD_DIST_T
+    
+    	Constraints on Table: AR_NON_APLD_HLDG_T
+    
+    	Constraints on Table: AR_NON_INV_DIST_T
+    
+    	Constraints on Table: AR_NON_INV_T
+    
+    	Constraints on Table: AR_ORG_ACCTGDFLT_T
+    
+    	Constraints on Table: AR_ORG_OPTION_T
+    
+    	Constraints on Table: AR_PMT_MEDIUM_T
+    
+    	Constraints on Table: AR_PRDTRMND_BILL_SCHDL_T
+    
+    	Constraints on Table: AR_PRN_INV_OPTN_T
+    
+    	Constraints on Table: AR_RFRL_TO_CLCTNS_DOC_T
+    
+    	Constraints on Table: AR_RFRL_TO_CLCTNS_DTL_T
+    
+    	Constraints on Table: AR_RFRL_TYP_T
+    
+    	Constraints on Table: AR_SYS_INFO_T
+    
+    	Constraints on Table: AR_WRITEOFF_DOC_T
+    
+    	Constraints on Table: CA_A21_ICR_ACCT_T
+    
+    	Constraints on Table: CA_A21_SUB_ACCT_T
+    
+    	Constraints on Table: CA_ACCOUNT_T
+    
+    	Constraints on Table: CA_ACCOUNT_TYPE_T
+    
+    	Constraints on Table: CA_ACCTG_CTGRY_T
+    
+    	Constraints on Table: CA_ACCT_AUTODEF_ICR_T
+    
+    	Constraints on Table: CA_ACCT_AUTO_CREATE_DFLT_T
+    
+    	Constraints on Table: CA_ACCT_CHG_DOC_T
+    
+    	Constraints on Table: CA_ACCT_CHG_DTL_T
+    
+    	Constraints on Table: CA_ACCT_DELEGATE_GBL_T
+    
+    	Constraints on Table: CA_ACCT_DELEGATE_T
+    
+    	Constraints on Table: CA_ACCT_DESC_T
+    
+    	Constraints on Table: CA_ACCT_GDLNPRPS_T
+    
+    	Constraints on Table: CA_ACCT_SF_T
+    
+    	Constraints on Table: CA_AICPA_FUNC_T
+    
+    	Constraints on Table: CA_BALANCE_TYPE_T
+    
+    	Constraints on Table: CA_BDGT_AGGR_T
+    
+    	Constraints on Table: CA_BDGT_REC_LVL_T
+    
+    	Constraints on Table: CA_CHART_T
+    
+    	Constraints on Table: CA_DLGT_CHG_DOC_T
+    
+    	Constraints on Table: CA_FEDERAL_FUNC_T
+    
+    	Constraints on Table: CA_FED_FND_T
+    
+    	Constraints on Table: CA_FUND_GRP_T
+    
+    	Constraints on Table: CA_HIGHR_ED_FUNC_T
+    
+    	Constraints on Table: CA_ICR_ACCT_T
+    
+    	Constraints on Table: CA_ICR_AUTO_ENTR_T
+    
+    	Constraints on Table: CA_ICR_EXCL_ACCT_T
+    
+    	Constraints on Table: CA_ICR_EXCL_TYPE_T
+    
+    	Constraints on Table: CA_ICR_RATE_T
+    
+    	Constraints on Table: CA_ICR_TYPE_T
+    
+    	Constraints on Table: CA_MNXFR_ELIM_T
+    
+    	Constraints on Table: CA_OBJECT_CODE_T
+    
+    	Constraints on Table: CA_OBJ_CD_CHG_DOC_T
+    
+    	Constraints on Table: CA_OBJ_CD_CHG_DTL_T
+    
+    	Constraints on Table: CA_OBJ_CONSOLDTN_T
+    
+    	Constraints on Table: CA_OBJ_LEVEL_T
+    
+    	Constraints on Table: CA_OBJ_SUB_TYPE_T
+    
+    	Constraints on Table: CA_OBJ_TYPE_T
+    
+    	Constraints on Table: CA_ORG_EXTNS_T
+    
+    	Constraints on Table: CA_ORG_REVERSION_T
+    
+    	Constraints on Table: CA_ORG_RTNG_MDL_NM_T
+    
+    	Constraints on Table: CA_ORG_RTNG_MDL_T
+    
+    	Constraints on Table: CA_ORG_RVRSN_CHG_DOC_T
+    
+    	Constraints on Table: CA_ORG_RVRSN_CHG_DTL_T
+    
+    	Constraints on Table: CA_ORG_RVRSN_CHG_ORG_T
+    
+    	Constraints on Table: CA_ORG_RVRSN_CTGRY_T
+    
+    	Constraints on Table: CA_ORG_RVRSN_DTL_T
+    
+    	Constraints on Table: CA_ORG_T
+    
+    	Constraints on Table: CA_ORG_TYPE_T
+    
+    	Constraints on Table: CA_PRIOR_YR_ACCT_T
+    
+    	Constraints on Table: CA_PRIOR_YR_ICR_ACCT_T
+    
+    	Constraints on Table: CA_PRIOR_YR_ORG_T
+    
+    	Constraints on Table: CA_PROJECT_T
+    
+    	Constraints on Table: CA_RC_T
+    
+    	Constraints on Table: CA_RESTRICT_STAT_T
+    
+    	Constraints on Table: CA_SUB_ACCT_T
+    
+    	Constraints on Table: CA_SUB_FND_GRP_TYP_T
+    
+    	Constraints on Table: CA_SUB_FUND_GRP_T
+    
+    	Constraints on Table: CA_SUB_OBJECT_CD_T
+    
+    	Constraints on Table: CA_SUB_OBJ_CD_CHG_DOC_T
+    
+    	Constraints on Table: CA_SUB_OBJ_CD_CHG_DTL_T
+    
+    	Constraints on Table: CA_UBO_FUNC_T
+    
+    	Constraints on Table: CB_AST_TRN_TYP_T
+    
+    	Constraints on Table: CB_GL_ENTRY_AST_T
+    
+    	Constraints on Table: CB_GL_ENTRY_T
+    
+    	Constraints on Table: CB_PRTG_DTL_T
+    
+    	Constraints on Table: CB_PRTG_T
+    
+    	Constraints on Table: CB_PUR_ACTN_HIST_T
+    
+    	Constraints on Table: CB_PUR_DOC_T
+    
+    	Constraints on Table: CB_PUR_ITM_AST_T
+    
+    	Constraints on Table: CB_PUR_LN_AST_ACCT_T
+    
+    	Constraints on Table: CG_AGENCY_ADDR_T
+    
+    	Constraints on Table: CG_AGENCY_ADDR_TYP_T
+    
+    	Constraints on Table: CG_AGENCY_T
+    
+    	Constraints on Table: CG_AGENCY_TYP_T
+    
+    	Constraints on Table: CG_AWD_ACCT_T
+    
+    	Constraints on Table: CG_AWD_FNDMGR_T
+    
+    	Constraints on Table: CG_AWD_INV_ACCT_T
+    
+    	Constraints on Table: CG_AWD_ORG_T
+    
+    	Constraints on Table: CG_AWD_PRJDR_T
+    
+    	Constraints on Table: CG_AWD_STAT_T
+    
+    	Constraints on Table: CG_AWD_SUBCN_T
+    
+    	Constraints on Table: CG_AWD_T
+    
+    	Constraints on Table: CG_BILL_FREQ_T
+    
+    	Constraints on Table: CG_CFDA_REF_T
+    
+    	Constraints on Table: CG_GRANT_DESC_T
+    
+    	Constraints on Table: CG_INSTRMNT_TYP_T
+    
+    	Constraints on Table: CG_LTRCR_FNDGRP_T
+    
+    	Constraints on Table: CG_LTRCR_FND_T
+    
+    	Constraints on Table: CG_PRPSL_AWD_TYP_T
+    
+    	Constraints on Table: CG_PRPSL_CLOSE_T
+    
+    	Constraints on Table: CG_PRPSL_ORG_T
+    
+    	Constraints on Table: CG_PRPSL_PRJDR_T
+    
+    	Constraints on Table: CG_PRPSL_PURPOSE_T
+    
+    	Constraints on Table: CG_PRPSL_RSRCH_RSK_T
+    
+    	Constraints on Table: CG_PRPSL_STAT_T
+    
+    	Constraints on Table: CG_PRPSL_SUBCN_T
+    
+    	Constraints on Table: CG_PRPSL_T
+    
+    	Constraints on Table: CG_SUBCNR_T
+    
+    	Constraints on Table: CM_ACQ_TYPE_T
+    
+    	Constraints on Table: CM_ASSET_TYPE_T
+    
+    	Constraints on Table: CM_AST_COMPONENT_T
+    
+    	Constraints on Table: CM_AST_CONDITION_T
+    
+    	Constraints on Table: CM_AST_DEPR_CNVNTN_T
+    
+    	Constraints on Table: CM_AST_DEPR_MTHD_T
+    
+    	Constraints on Table: CM_AST_LOC_DOC_T
+    
+    	Constraints on Table: CM_AST_LOC_DTL_T
+    
+    	Constraints on Table: CM_AST_LOC_T
+    
+    	Constraints on Table: CM_AST_LOC_TYP_T
+    
+    	Constraints on Table: CM_AST_ORG_T
+    
+    	Constraints on Table: CM_AST_PAYMENT_T
+    
+    	Constraints on Table: CM_AST_PMT_AST_DTL_T
+    
+    	Constraints on Table: CM_AST_PMT_DOC_T
+    
+    	Constraints on Table: CM_AST_PMT_DOC_TYP_T
+    
+    	Constraints on Table: CM_AST_PMT_DST_CD_T
+    
+    	Constraints on Table: CM_AST_PMT_DTL_T
+    
+    	Constraints on Table: CM_AST_RETIRE_DOC_T
+    
+    	Constraints on Table: CM_AST_RETIRE_DTL_T
+    
+    	Constraints on Table: CM_AST_RPR_HIST_T
+    
+    	Constraints on Table: CM_AST_STATUS_T
+    
+    	Constraints on Table: CM_AST_TRNFR_DOC_T
+    
+    	Constraints on Table: CM_AST_WRNTY_T
+    
+    	Constraints on Table: CM_CPTLAST_DOC_T
+    
+    	Constraints on Table: CM_CPTLAST_DTL_T
+    
+    	Constraints on Table: CM_CPTLAST_LOCK_T
+    
+    	Constraints on Table: CM_CPTLAST_OBJ_T
+    
+    	Constraints on Table: CM_CPTLAST_T
+    
+    	Constraints on Table: CM_EQPLNRTRN_DOC_T
+    
+    	Constraints on Table: CM_FSCL_YR_END_DEPR_DTL_T
+    
+    	Constraints on Table: CM_FSCL_YR_END_DEPR_HDR_T
+    
+    	Constraints on Table: CM_INVN_ERR_DOC_T
+    
+    	Constraints on Table: CM_INVN_ERR_DTL_T
+    
+    	Constraints on Table: CM_RETIRE_REAS_T
+    
+    	Constraints on Table: DEPR_AP_CRDT_MEMO_STAT_T
+    
+    	Constraints on Table: DEPR_AP_PMT_RQST_STAT_T
+    
+    	Constraints on Table: DEPR_PUR_PO_STAT_T
+    
+    	Constraints on Table: DEPR_PUR_RCVNG_LN_STAT_T
+    
+    	Constraints on Table: DEPR_PUR_REQS_STAT_T
+    
+    	Constraints on Table: END_ACRL_MTHD_T
+    
+    	Constraints on Table: END_AGRMNT_SPCL_INSTRC_CD_T
+    
+    	Constraints on Table: END_AGRMNT_STAT_CD_T
+    
+    	Constraints on Table: END_AGRMNT_TYP_CD_T
+    
+    	Constraints on Table: END_AUTO_CSH_INVEST_MDL_T
+    
+    	Constraints on Table: END_AVAIL_CSH_T
+    
+    	Constraints on Table: END_CAE_CD_T
+    
+    	Constraints on Table: END_CLOSE_CD_T
+    
+    	Constraints on Table: END_CLS_CD_T
+    
+    	Constraints on Table: END_CLS_CD_TYP_T
+    
+    	Constraints on Table: END_CMB_GRP_T
+    
+    	Constraints on Table: END_CRNT_CSH_T
+    
+    	Constraints on Table: END_CRNT_ENDOW_CORPUS_T
+    
+    	Constraints on Table: END_CRNT_TAX_LOT_BAL_T
+    
+    	Constraints on Table: END_CSH_SWEEP_MDL_T
+    
+    	Constraints on Table: END_DONR_LBL_SEL_T
+    
+    	Constraints on Table: END_DONR_STMT_CD_T
+    
+    	Constraints on Table: END_DONR_T
+    
+    	Constraints on Table: END_ENDOW_ACCT_LINES_T
+    
+    	Constraints on Table: END_ENDOW_CORPUS_T
+    
+    	Constraints on Table: END_ETRAN_CD_T
+    
+    	Constraints on Table: END_ETRAN_GL_LNK_T
+    
+    	Constraints on Table: END_ETRAN_TYP_CD_T
+    
+    	Constraints on Table: END_FEE_BAL_TYP_CD_T
+    
+    	Constraints on Table: END_FEE_BASE_CD_T
+    
+    	Constraints on Table: END_FEE_CLS_CD_T
+    
+    	Constraints on Table: END_FEE_ETRAN_CD_T
+    
+    	Constraints on Table: END_FEE_MTHD_T
+    
+    	Constraints on Table: END_FEE_PMT_TYP_T
+    
+    	Constraints on Table: END_FEE_RT_DEF_CD_T
+    
+    	Constraints on Table: END_FEE_SEC_T
+    
+    	Constraints on Table: END_FEE_TRAN_DOC_TYP_T
+    
+    	Constraints on Table: END_FEE_TYP_CD_T
+    
+    	Constraints on Table: END_FND_SRC_CD_T
+    
+    	Constraints on Table: END_FREQ_CD_T
+    
+    	Constraints on Table: END_HIST_CSH_T
+    
+    	Constraints on Table: END_HIST_VAL_ADJ_DOC_T
+    
+    	Constraints on Table: END_HLDG_HIST_T
+    
+    	Constraints on Table: END_HLDG_TAX_LOT_REBAL_T
+    
+    	Constraints on Table: END_HLDG_TAX_LOT_T
+    
+    	Constraints on Table: END_IP_IND_T
+    
+    	Constraints on Table: END_KEMID_AGRMNT_T
+    
+    	Constraints on Table: END_KEMID_BENE_ORG_T
+    
+    	Constraints on Table: END_KEMID_CMB_GRP_T
+    
+    	Constraints on Table: END_KEMID_CORPUS_VAL_T
+    
+    	Constraints on Table: END_KEMID_DONR_CMB_T
+    
+    	Constraints on Table: END_KEMID_DONR_T
+    
+    	Constraints on Table: END_KEMID_FEE_T
+    
+    	Constraints on Table: END_KEMID_FND_SRC_T
+    
+    	Constraints on Table: END_KEMID_GL_LNK_T
+    
+    	Constraints on Table: END_KEMID_PAY_INC_T
+    
+    	Constraints on Table: END_KEMID_ROLE_T
+    
+    	Constraints on Table: END_KEMID_SPCL_INSTRC_T
+    
+    	Constraints on Table: END_KEMID_T
+    
+    	Constraints on Table: END_KEMID_USE_CRIT_T
+    
+    	Constraints on Table: END_ME_DT_T
+    
+    	Constraints on Table: END_PENDING_TRAN_DOC_T
+    
+    	Constraints on Table: END_PMT_TYP_CD_T
+    
+    	Constraints on Table: END_POOL_FND_CTRL_T
+    
+    	Constraints on Table: END_POOL_FND_VAL_T
+    
+    	Constraints on Table: END_PRPS_CD_T
+    
+    	Constraints on Table: END_REC_CSH_XFR_GL_TGT_T
+    
+    	Constraints on Table: END_REC_CSH_XFR_KEMID_TGT_T
+    
+    	Constraints on Table: END_REC_CSH_XFR_T
+    
+    	Constraints on Table: END_REGIS_CD_T
+    
+    	Constraints on Table: END_RESP_ADMIN_CD_T
+    
+    	Constraints on Table: END_SEC_RPT_GRP_T
+    
+    	Constraints on Table: END_SEC_T
+    
+    	Constraints on Table: END_SEC_VLTN_MTHD_T
+    
+    	Constraints on Table: END_SUBCLS_CD_T
+    
+    	Constraints on Table: END_TKLR_KEMID_T
+    
+    	Constraints on Table: END_TKLR_RECP_GRP_T
+    
+    	Constraints on Table: END_TKLR_RECP_PRNCPL_T
+    
+    	Constraints on Table: END_TKLR_SEC_T
+    
+    	Constraints on Table: END_TKLR_T
+    
+    	Constraints on Table: END_TKLR_TYP_CD_T
+    
+    	Constraints on Table: END_TRAN_ARCHV_SEC_T
+    
+    	Constraints on Table: END_TRAN_ARCHV_T
+    
+    	Constraints on Table: END_TRAN_DOC_T
+    
+    	Constraints on Table: END_TRAN_HLDG_LOT_T
+    
+    	Constraints on Table: END_TRAN_LN_T
+    
+    	Constraints on Table: END_TRAN_RESTR_CD_T
+    
+    	Constraints on Table: END_TRAN_SEC_T
+    
+    	Constraints on Table: END_TRAN_SRC_TYP_T
+    
+    	Constraints on Table: END_TRAN_SUB_TYP_T
+    
+    	Constraints on Table: END_TYP_FEE_MTHD_T
+    
+    	Constraints on Table: END_TYP_RESTR_CD_T
+    
+    	Constraints on Table: END_TYP_T
+    
+    	Constraints on Table: END_USE_CRIT_T
+    
+    	Constraints on Table: ER_CTRL_ATTRIB_TYP_T
+    
+    	Constraints on Table: ER_RSRCH_RSK_TYP_T
+    
+    	Constraints on Table: FP_ACCT_LINES_T
+    
+    	Constraints on Table: FP_ACRL_VCHR_DOC_T
+    
+    	Constraints on Table: FP_ADV_DPST_DTL_T
+    
+    	Constraints on Table: FP_BAL_BY_CONS_MT
+    
+    	Constraints on Table: FP_BAL_BY_LEVEL_MT
+    
+    	Constraints on Table: FP_BAL_BY_OBJ_MT
+    
+    	Constraints on Table: FP_BANK_T
+    
+    	Constraints on Table: FP_BDGT_ADJ_DOC_T
+    
+    	Constraints on Table: FP_BDGT_ADJ_DTL_T
+    
+    	Constraints on Table: FP_CASHIER_DOC_T
+    
+    	Constraints on Table: FP_CASHIER_ITM_IN_PROC_T
+    
+    	Constraints on Table: FP_CASH_RCPT_DOC_T
+    
+    	Constraints on Table: FP_CHECK_DTL_T
+    
+    	Constraints on Table: FP_COIN_DTL_T
+    
+    	Constraints on Table: FP_CPTL_AST_ACCT_GRP_DTL_T
+    
+    	Constraints on Table: FP_CPTL_AST_INFO_DTL_T
+    
+    	Constraints on Table: FP_CPTL_AST_INFO_T
+    
+    	Constraints on Table: FP_CR_CARD_DTL_T
+    
+    	Constraints on Table: FP_CR_CARD_TYP_T
+    
+    	Constraints on Table: FP_CR_CARD_VNDR_T
+    
+    	Constraints on Table: FP_CSH_DRWR_T
+    
+    	Constraints on Table: FP_CURRENCY_DTL_T
+    
+    	Constraints on Table: FP_CUST_CC_INFO_T
+    
+    	Constraints on Table: FP_DEPOSIT_DOC_T
+    
+    	Constraints on Table: FP_DEPOSIT_HDR_T
+    
+    	Constraints on Table: FP_DEP_CSH_RCPT_T
+    
+    	Constraints on Table: FP_DISTRIB_DOC_T
+    
+    	Constraints on Table: FP_DV_ACH_T
+    
+    	Constraints on Table: FP_DV_DIEM_T
+    
+    	Constraints on Table: FP_DV_DOC_T
+    
+    	Constraints on Table: FP_DV_EXP_TYP_T
+    
+    	Constraints on Table: FP_DV_MLG_T
+    
+    	Constraints on Table: FP_DV_NONEMP_EXP_T
+    
+    	Constraints on Table: FP_DV_NONEM_TRVL_T
+    
+    	Constraints on Table: FP_DV_NRA_TAX_T
+    
+    	Constraints on Table: FP_DV_PAYEE_DTL_T
+    
+    	Constraints on Table: FP_DV_PMT_REAS_T
+    
+    	Constraints on Table: FP_DV_PRECNF_REG_T
+    
+    	Constraints on Table: FP_DV_PRE_CONF_T
+    
+    	Constraints on Table: FP_DV_TRVL_CO_NM_T
+    
+    	Constraints on Table: FP_ELCTRNC_PMT_CLM_T
+    
+    	Constraints on Table: FP_ERROR_COR_DOC_T
+    
+    	Constraints on Table: FP_FND_TRNFR_DOC_T
+    
+    	Constraints on Table: FP_FSCL_YR_CTRL_T
+    
+    	Constraints on Table: FP_FUNC_CTRL_CD_T
+    
+    	Constraints on Table: FP_ICR_ADJ_DOC_T
+    
+    	Constraints on Table: FP_INC_CLS_T
+    
+    	Constraints on Table: FP_INTERIM1_CONS_MT
+    
+    	Constraints on Table: FP_INTERIM1_LEVEL_MT
+    
+    	Constraints on Table: FP_INTERIM1_OBJ_MT
+    
+    	Constraints on Table: FP_INTERIM2_CONS_MT
+    
+    	Constraints on Table: FP_INTERIM2_LEVEL_MT
+    
+    	Constraints on Table: FP_INTERIM2_OBJ_MT
+    
+    	Constraints on Table: FP_INT_BILL_DOC_T
+    
+    	Constraints on Table: FP_INT_BILL_ITM_T
+    
+    	Constraints on Table: FP_JRNL_VCHR_DOC_T
+    
+    	Constraints on Table: FP_JV_ACCT_LINES_T
+    
+    	Constraints on Table: FP_MOTD_T
+    
+    	Constraints on Table: FP_NCHK_DSBRSDOC_T
+    
+    	Constraints on Table: FP_NRA_TAX_PCT_T
+    
+    	Constraints on Table: FP_OFST_ACCT_T
+    
+    	Constraints on Table: FP_PRCRMNT_ACCT_LINES_T
+    
+    	Constraints on Table: FP_PRCRMNT_CARD_DFLT_T
+    
+    	Constraints on Table: FP_PRCRMNT_CARD_HLDR_T
+    
+    	Constraints on Table: FP_PRCRMNT_CARD_TRN_MT
+    
+    	Constraints on Table: FP_PRCRMNT_DOC_T
+    
+    	Constraints on Table: FP_PRCRMNT_TRN_DTL_T
+    
+    	Constraints on Table: FP_PRCRMNT_VNDR_T
+    
+    	Constraints on Table: FP_PRE_ENCUM_DOC_T
+    
+    	Constraints on Table: FP_RPT_CD_T
+    
+    	Constraints on Table: FP_SALES_TAX_T
+    
+    	Constraints on Table: FS_CLCTR_HDR_T
+    
+    	Constraints on Table: FS_DOC_HDRS_MSNG_IN_KEW_T
+    
+    	Constraints on Table: FS_DOC_HEADER_T
+    
+    	Constraints on Table: FS_HOME_ORIGIN_T
+    
+    	Constraints on Table: FS_OPTION_T
+    
+    	Constraints on Table: FS_ORIGIN_CODE_T
+    
+    	Constraints on Table: FS_PMT_DOC_LOC_T
+    
+    	Constraints on Table: FS_PMT_SRC_WIRE_TRNFR_T
+    
+    	Constraints on Table: FS_TAX_COUNTY_T
+    
+    	Constraints on Table: FS_TAX_POSTAL_CD_T
+    
+    	Constraints on Table: FS_TAX_REGION_RATE_T
+    
+    	Constraints on Table: FS_TAX_REGION_T
+    
+    	Constraints on Table: FS_TAX_REGION_TYPE_T
+    
+    	Constraints on Table: FS_TAX_STATE_T
+    
+    	Constraints on Table: FS_WIRE_CHRG_T
+    
+    	Constraints on Table: GL_ACCT_BALANCES_HIST_T
+    
+    	Constraints on Table: GL_ACCT_BALANCES_T
+    
+    	Constraints on Table: GL_BALANCE_HIST_T
+    
+    	Constraints on Table: GL_BALANCE_T
+    
+    	Constraints on Table: GL_COR_CHG_GRP_T
+    
+    	Constraints on Table: GL_COR_CHG_T
+    
+    	Constraints on Table: GL_COR_CRTA_T
+    
+    	Constraints on Table: GL_COR_DOC_T
+    
+    	Constraints on Table: GL_ENCUMBRANCE_HIST_T
+    
+    	Constraints on Table: GL_ENCUMBRANCE_T
+    
+    	Constraints on Table: GL_ENTRY_HIST_T
+    
+    	Constraints on Table: GL_ENTRY_T
+    
+    	Constraints on Table: GL_EXPEND_TRN_MT
+    
+    	Constraints on Table: GL_ID_BILL_T
+    
+    	Constraints on Table: GL_OFFSET_DEFN_T
+    
+    	Constraints on Table: GL_ORG_RVRSN_CTGRY_AMT_T
+    
+    	Constraints on Table: GL_ORG_RVRSN_UNIT_WRK_T
+    
+    	Constraints on Table: GL_PENDING_BALANCES_MT
+    
+    	Constraints on Table: GL_PENDING_ENTRY_MT
+    
+    	Constraints on Table: GL_PENDING_ENTRY_T
+    
+    	Constraints on Table: GL_REVERSAL_T
+    
+    	Constraints on Table: GL_SF_BALANCES_T
+    
+    	Constraints on Table: GL_SF_REBUILD_T
+    
+    	Constraints on Table: KC_BILL_FREQ_MAP_T
+    
+    	Constraints on Table: KRNS_ADHOC_RTE_ACTN_RECIP_T
+    
+    	Constraints on Table: KRNS_ATT_T
+    
+    	Constraints on Table: KRNS_DOC_HDR_T
+    
+    	Constraints on Table: KRNS_LOOKUP_RSLT_T
+    
+    	Constraints on Table: KRNS_LOOKUP_SEL_T
+    
+    	Constraints on Table: KRNS_MAINT_DOC_ATT_LST_T
+    
+    	Constraints on Table: KRNS_MAINT_DOC_ATT_T
+    
+    	Constraints on Table: KRNS_MAINT_DOC_T
+    
+    	Constraints on Table: KRNS_MAINT_LOCK_T
+    
+    	Constraints on Table: KRNS_NTE_T
+    
+    	Constraints on Table: KRNS_NTE_TYP_T
+    
+    	Constraints on Table: KRNS_PESSIMISTIC_LOCK_T
+    
+    	Constraints on Table: KRNS_SESN_DOC_T
+    
+    	Constraints on Table: KRSB_BAM_PARM_T
+    
+    	Constraints on Table: KRSB_BAM_T
+    
+    	Constraints on Table: KRSB_MSG_PYLD_T
+    
+    	Constraints on Table: KRSB_MSG_QUE_T
+    
+    	Constraints on Table: LD_A21_DETAIL_LN_T
+    
+    	Constraints on Table: LD_A21_DETAIL_T
+    
+    	Constraints on Table: LD_A21_DTL_BLD_T
+    
+    	Constraints on Table: LD_A21_DTL_LN_BLD_T
+    
+    	Constraints on Table: LD_A21_PRD_STAT_T
+    
+    	Constraints on Table: LD_A21_REPORT_T
+    
+    	Constraints on Table: LD_A21_RPT_EARN_PAY_T
+    
+    	Constraints on Table: LD_A21_RPT_POS_T
+    
+    	Constraints on Table: LD_A21_RPT_TYP_T
+    
+    	Constraints on Table: LD_BCNSTR_HDR_T
+    
+    	Constraints on Table: LD_BCNSTR_MONTH_T
+    
+    	Constraints on Table: LD_BCN_2PLG_LIST_MT
+    
+    	Constraints on Table: LD_BCN_ACCTSEL_T
+    
+    	Constraints on Table: LD_BCN_ACCT_BAL_T
+    
+    	Constraints on Table: LD_BCN_ACCT_DUMP_T
+    
+    	Constraints on Table: LD_BCN_ACCT_ORG_HIER_T
+    
+    	Constraints on Table: LD_BCN_ACCT_RPTS_T
+    
+    	Constraints on Table: LD_BCN_ACCT_SUMM_T
+    
+    	Constraints on Table: LD_BCN_ACTV_JOB_MT
+    
+    	Constraints on Table: LD_BCN_ADM_POST_T
+    
+    	Constraints on Table: LD_BCN_AF_LOAD01_MT
+    
+    	Constraints on Table: LD_BCN_AF_LOAD02_MT
+    
+    	Constraints on Table: LD_BCN_AF_LOAD_T
+    
+    	Constraints on Table: LD_BCN_AF_REASON_T
+    
+    	Constraints on Table: LD_BCN_AF_RSN_CD_T
+    
+    	Constraints on Table: LD_BCN_BAL_BY_ACCT_T
+    
+    	Constraints on Table: LD_BCN_BENEFITS_RECALC01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_ACCTBAL01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_CTRL_LIST01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_CTRL_LIST02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT03_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT04_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT05_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_EXSALTOT06_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_LEVLSUMM02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_LEVLSUMM03_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_MNTHSUMM01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_MNTHSUMM02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_OBJTSUMM01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_OBJTSUMM02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_POSLIST01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_POS_SEL01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_PULLUP01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALSUMM01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALSUMM02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALSUMM03_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALSUMM04_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALSUMM05_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALTOT01_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALTOT02_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALTOT03_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALTOT04_MT
+    
+    	Constraints on Table: LD_BCN_BUILD_SALTOT05_MT
+    
+    	Constraints on Table: LD_BCN_CSF_TRCKR_T
+    
+    	Constraints on Table: LD_BCN_CTRL_LIST_T
+    
+    	Constraints on Table: LD_BCN_DOC_PULLUP01_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PULLUP02_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PULLUP03_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PUSHDOWN01_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PUSHDOWN02_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PUSHDOWN03_MT
+    
+    	Constraints on Table: LD_BCN_DOC_PUSHDOWN04_MT
+    
+    	Constraints on Table: LD_BCN_DURATION_T
+    
+    	Constraints on Table: LD_BCN_FND_LOCK_T
+    
+    	Constraints on Table: LD_BCN_II_INIT_MT
+    
+    	Constraints on Table: LD_BCN_INCUMBENT_SEL_T
+    
+    	Constraints on Table: LD_BCN_INTINCBNT_T
+    
+    	Constraints on Table: LD_BCN_LCK_PYRT_ACCT01_MT
+    
+    	Constraints on Table: LD_BCN_LEVL_SUMM_T
+    
+    	Constraints on Table: LD_BCN_MNTH_SUMM_T
+    
+    	Constraints on Table: LD_BCN_OBJT_DUMP_T
+    
+    	Constraints on Table: LD_BCN_OBJT_SUMM_T
+    
+    	Constraints on Table: LD_BCN_OBJ_PICK_T
+    
+    	Constraints on Table: LD_BCN_ORG_RPTS_T
+    
+    	Constraints on Table: LD_BCN_PAYRT_HLDG_T
+    
+    	Constraints on Table: LD_BCN_POS_FND_T
+    
+    	Constraints on Table: LD_BCN_POS_INIT_MT
+    
+    	Constraints on Table: LD_BCN_POS_SEL_T
+    
+    	Constraints on Table: LD_BCN_POS_T
+    
+    	Constraints on Table: LD_BCN_PULLUP_T
+    
+    	Constraints on Table: LD_BCN_RQST_MT
+    
+    	Constraints on Table: LD_BCN_RSN_CD_PK_T
+    
+    	Constraints on Table: LD_BCN_SAL_FND_T
+    
+    	Constraints on Table: LD_BCN_SAL_SSN_T
+    
+    	Constraints on Table: LD_BCN_SLRY_TOT_T
+    
+    	Constraints on Table: LD_BCN_SUBFUND_PICK_T
+    
+    	Constraints on Table: LD_BCN_UPDT_RQST01_MT
+    
+    	Constraints on Table: LD_BCN_UPDT_RQST02_MT
+    
+    	Constraints on Table: LD_BENEFITS_CALC_T
+    
+    	Constraints on Table: LD_BENEFITS_TYPE_T
+    
+    	Constraints on Table: LD_CSFTRCKR_OVRD_T
+    
+    	Constraints on Table: LD_CSF_TRACKER_T
+    
+    	Constraints on Table: LD_ERROR_CERT_T
+    
+    	Constraints on Table: LD_EXP_TRNFR_DOC_T
+    
+    	Constraints on Table: LD_EXP_TRNFR_FRM_T
+    
+    	Constraints on Table: LD_EXP_TRNFR_TO_T
+    
+    	Constraints on Table: LD_JRNL_VCHR_DOC_T
+    
+    	Constraints on Table: LD_JRNL_VCHR_DTL_T
+    
+    	Constraints on Table: LD_JULY1_POS_FND_T
+    
+    	Constraints on Table: LD_LABOR_OBJ_T
+    
+    	Constraints on Table: LD_LBR_BFT_RT_CAT_T
+    
+    	Constraints on Table: LD_LBR_GL_ENTRY_T
+    
+    	Constraints on Table: LD_LBR_OBJ_BENE_T
+    
+    	Constraints on Table: LD_LDGR_BAL_HIST_T
+    
+    	Constraints on Table: LD_LDGR_BAL_T
+    
+    	Constraints on Table: LD_LDGR_ENTR_HIST_T
+    
+    	Constraints on Table: LD_LDGR_ENTR_T
+    
+    	Constraints on Table: LD_PNDBC_APPTFND_T
+    
+    	Constraints on Table: LD_PND_BCNSTR_GL_T
+    
+    	Constraints on Table: LD_PND_LDGR_ENTR_T
+    
+    	Constraints on Table: LD_POS_OBJ_GRP_T
+    
+    	Constraints on Table: PDP_ACCTG_CHG_CD_T
+    
+    	Constraints on Table: PDP_ACH_ACCT_NBR_T
+    
+    	Constraints on Table: PDP_ACH_BNK_T
+    
+    	Constraints on Table: PDP_ACH_TRANS_CD_T
+    
+    	Constraints on Table: PDP_ACH_TRANS_TYP_T
+    
+    	Constraints on Table: PDP_CUST_BNK_T
+    
+    	Constraints on Table: PDP_CUST_PRFL_T
+    
+    	Constraints on Table: PDP_DISB_NBR_RNG_T
+    
+    	Constraints on Table: PDP_DISB_TYP_CD_T
+    
+    	Constraints on Table: PDP_FIL_T
+    
+    	Constraints on Table: PDP_FMT_PROC_T
+    
+    	Constraints on Table: PDP_GL_PENDING_ENTRY_T
+    
+    	Constraints on Table: PDP_PAYEE_ACH_ACCT_T
+    
+    	Constraints on Table: PDP_PAYEE_TYP_T
+    
+    	Constraints on Table: PDP_PMT_ACCT_DTL_T
+    
+    	Constraints on Table: PDP_PMT_ACCT_HIST_T
+    
+    	Constraints on Table: PDP_PMT_CHG_CD_T
+    
+    	Constraints on Table: PDP_PMT_DTL_T
+    
+    	Constraints on Table: PDP_PMT_GRP_HIST_T
+    
+    	Constraints on Table: PDP_PMT_GRP_T
+    
+    	Constraints on Table: PDP_PMT_NTE_TXT_T
+    
+    	Constraints on Table: PDP_PMT_STAT_CD_T
+    
+    	Constraints on Table: PDP_PMT_TYP_T
+    
+    	Constraints on Table: PDP_PROC_SUM_T
+    
+    	Constraints on Table: PDP_PROC_T
+    
+    	Constraints on Table: PS_POSITION_DATA
+    
+    	Constraints on Table: PUR_ADDR_TYP_T
+    
+    	Constraints on Table: PUR_AP_CMP_PARM_T
+    
+    	Constraints on Table: PUR_AP_ITM_TYP_T
+    
+    	Constraints on Table: PUR_AP_ORG_PARM_T
+    
+    	Constraints on Table: PUR_AP_RECUR_PMT_FREQ_T
+    
+    	Constraints on Table: PUR_AP_RECUR_PMT_TYP_T
+    
+    	Constraints on Table: PUR_ASGN_CONTR_MGR_DTL_T
+    
+    	Constraints on Table: PUR_ASGN_CONTR_MGR_T
+    
+    	Constraints on Table: PUR_BILL_ADDR_T
+    
+    	Constraints on Table: PUR_BLK_RCVNG_T
+    
+    	Constraints on Table: PUR_CARI_T
+    
+    	Constraints on Table: PUR_CNTCT_TYP_T
+    
+    	Constraints on Table: PUR_COMM_CONTR_MGR_T
+    
+    	Constraints on Table: PUR_COMM_T
+    
+    	Constraints on Table: PUR_CONTR_MGR_T
+    
+    	Constraints on Table: PUR_CPTL_AST_SYS_ST_T
+    
+    	Constraints on Table: PUR_CPTL_AST_SYS_TYP_T
+    
+    	Constraints on Table: PUR_DFLT_PRNCPL_ADDR_T
+    
+    	Constraints on Table: PUR_DLVY_REQ_DT_REAS_T
+    
+    	Constraints on Table: PUR_FND_SRC_T
+    
+    	Constraints on Table: PUR_ITM_REAS_ADD_T
+    
+    	Constraints on Table: PUR_OWNR_CTGRY_T
+    
+    	Constraints on Table: PUR_OWNR_TYP_T
+    
+    	Constraints on Table: PUR_PHN_TYP_T
+    
+    	Constraints on Table: PUR_PMT_TERM_TYP_T
+    
+    	Constraints on Table: PUR_PO_ACCT_T
+    
+    	Constraints on Table: PUR_PO_CONTR_LANG_T
+    
+    	Constraints on Table: PUR_PO_CPTL_AST_ITM_AST_T
+    
+    	Constraints on Table: PUR_PO_CPTL_AST_ITM_T
+    
+    	Constraints on Table: PUR_PO_CPTL_AST_LOC_T
+    
+    	Constraints on Table: PUR_PO_CPTL_AST_SYS_T
+    
+    	Constraints on Table: PUR_PO_CST_SRC_T
+    
+    	Constraints on Table: PUR_PO_ITM_T
+    
+    	Constraints on Table: PUR_PO_ITM_USE_TAX_T
+    
+    	Constraints on Table: PUR_PO_QT_LANG_T
+    
+    	Constraints on Table: PUR_PO_QT_LST_T
+    
+    	Constraints on Table: PUR_PO_QT_LST_VNDR_T
+    
+    	Constraints on Table: PUR_PO_QT_STAT_T
+    
+    	Constraints on Table: PUR_PO_SNSTV_DTA_T
+    
+    	Constraints on Table: PUR_PO_T
+    
+    	Constraints on Table: PUR_PO_TRNS_MTHD_T
+    
+    	Constraints on Table: PUR_PO_VNDR_CHC_T
+    
+    	Constraints on Table: PUR_PO_VNDR_QT_T
+    
+    	Constraints on Table: PUR_PO_VNDR_STPLTN_T
+    
+    	Constraints on Table: PUR_RCVNG_ADDR_T
+    
+    	Constraints on Table: PUR_RCVNG_COR_ITM_T
+    
+    	Constraints on Table: PUR_RCVNG_COR_T
+    
+    	Constraints on Table: PUR_RCVNG_LN_ITM_T
+    
+    	Constraints on Table: PUR_RCVNG_LN_T
+    
+    	Constraints on Table: PUR_REQS_ACCT_T
+    
+    	Constraints on Table: PUR_REQS_CPTL_AST_ITM_AST_T
+    
+    	Constraints on Table: PUR_REQS_CPTL_AST_ITM_T
+    
+    	Constraints on Table: PUR_REQS_CPTL_AST_LOC_T
+    
+    	Constraints on Table: PUR_REQS_CPTL_AST_SYS_T
+    
+    	Constraints on Table: PUR_REQS_ITM_T
+    
+    	Constraints on Table: PUR_REQS_ITM_USE_TAX_T
+    
+    	Constraints on Table: PUR_REQS_SRC_T
+    
+    	Constraints on Table: PUR_REQS_T
+    
+    	Constraints on Table: PUR_SHP_PMT_TERM_T
+    
+    	Constraints on Table: PUR_SHP_SPCL_COND_T
+    
+    	Constraints on Table: PUR_SHP_TTL_T
+    
+    	Constraints on Table: PUR_SNSTV_DTA_ASGN_DTL_T
+    
+    	Constraints on Table: PUR_SNSTV_DTA_ASGN_T
+    
+    	Constraints on Table: PUR_SNSTV_DTA_T
+    
+    	Constraints on Table: PUR_SUPP_DVRST_T
+    
+    	Constraints on Table: PUR_THRSHLD_T
+    
+    	Constraints on Table: PUR_VNDR_ADDR_T
+    
+    	Constraints on Table: PUR_VNDR_ALIAS_T
+    
+    	Constraints on Table: PUR_VNDR_CHAP_3_STAT_T
+    
+    	Constraints on Table: PUR_VNDR_CHAP_4_STAT_T
+    
+    	Constraints on Table: PUR_VNDR_CNTCT_PHN_NBR_T
+    
+    	Constraints on Table: PUR_VNDR_CNTCT_T
+    
+    	Constraints on Table: PUR_VNDR_COMM_T
+    
+    	Constraints on Table: PUR_VNDR_CONTR_ORG_T
+    
+    	Constraints on Table: PUR_VNDR_CONTR_T
+    
+    	Constraints on Table: PUR_VNDR_CUST_NBR_T
+    
+    	Constraints on Table: PUR_VNDR_DFLT_ADDR_T
+    
+    	Constraints on Table: PUR_VNDR_DTL_T
+    
+    	Constraints on Table: PUR_VNDR_EXCL_MT
+    
+    	Constraints on Table: PUR_VNDR_EXCL_MTCH_T
+    
+    	Constraints on Table: PUR_VNDR_HDR_T
+    
+    	Constraints on Table: PUR_VNDR_INACTV_REAS_T
+    
+    	Constraints on Table: PUR_VNDR_PHN_NBR_T
+    
+    	Constraints on Table: PUR_VNDR_SHP_SPCL_COND_T
+    
+    	Constraints on Table: PUR_VNDR_STPLTN_T
+    
+    	Constraints on Table: PUR_VNDR_SUPP_DVRST_T
+    
+    	Constraints on Table: PUR_VNDR_TAX_CHG_T
+    
+    	Constraints on Table: PUR_VNDR_TYP_T
+    
+    	Constraints on Table: PUR_VNDR_W8_OWNRSHP_T
+    
+    	Constraints on Table: PUR_VNDR_W8_TYP_T
+    
+    	Constraints on Table: QRTZ_BLOB_TRIGGERS
+    
+    	Constraints on Table: QRTZ_CALENDARS
+    
+    	Constraints on Table: QRTZ_CRON_TRIGGERS
+    
+    	Constraints on Table: QRTZ_FIRED_TRIGGERS
+    
+    	Constraints on Table: QRTZ_JOB_DETAILS
+    
+    	Constraints on Table: QRTZ_JOB_LISTENERS
+    
+    	Constraints on Table: QRTZ_LOCKS
+    
+    	Constraints on Table: QRTZ_PAUSED_TRIGGER_GRPS
+    
+    	Constraints on Table: QRTZ_SCHEDULER_STATE
+    
+    	Constraints on Table: QRTZ_SIMPLE_TRIGGERS
+    
+    	Constraints on Table: QRTZ_TRIGGERS
+    
+    	Constraints on Table: QRTZ_TRIGGER_LISTENERS
+    
+    	Constraints on Table: SEC_SCRTY_ATTR_T
+    
+    	Constraints on Table: SEC_SCRTY_DEFN_DOC_TYP_T
+    
+    	Constraints on Table: SEC_SCRTY_DEFN_T
+    
+    	Constraints on Table: SEC_SCRTY_MDL_DEFN_T
+    
+    	Constraints on Table: SEC_SCRTY_MDL_MBR_T
+    
+    	Constraints on Table: SEC_SCRTY_MDL_T
+    
+    	Constraints on Table: SEC_SCRTY_PRNCPL_DEFN_T
+    
+    	Constraints on Table: SEC_SCRTY_PRNCPL_T
+    
+    	Constraints on Table: SH_ACCT_PERIOD_T
+    
+    	Constraints on Table: SH_BUILDING_T
+    
+    	Constraints on Table: SH_FNCTNL_FIELD_DESCR_T
+    
+    	Constraints on Table: SH_ROOM_T
+    
+    	Constraints on Table: SH_UNIV_DATE_T
+    
+    	Constraints on Table: SH_UOM_T
+    
+    	Constraints on Table: TEM_ACCOMM_TYP_T
+    
+    	Constraints on Table: TEM_ACCT_DOC_REL_T
+    
+    	Constraints on Table: TEM_ACCT_LINES_T
+    
+    	Constraints on Table: TEM_ADV_PMNT_RSN_T
+    
+    	Constraints on Table: TEM_AGENCY_SRVC_FEE_T
+    
+    	Constraints on Table: TEM_AGENCY_STAGING_T
+    
+    	Constraints on Table: TEM_AIRFARE_SRC_T
+    
+    	Constraints on Table: TEM_ATTENDEE_T
+    
+    	Constraints on Table: TEM_CC_IMP_EXP_CLR_DTL_T
+    
+    	Constraints on Table: TEM_CC_IMP_EXP_CLR_T
+    
+    	Constraints on Table: TEM_CLASS_SVC_T
+    
+    	Constraints on Table: TEM_CONT_REL_TYP_T
+    
+    	Constraints on Table: TEM_CORP_CARD_APP_DOC_T
+    
+    	Constraints on Table: TEM_CORP_CARD_PSEUDO_NUM_T
+    
+    	Constraints on Table: TEM_CREDIT_CARD_AGENCY_T
+    
+    	Constraints on Table: TEM_CREDIT_CARD_STAGING_T
+    
+    	Constraints on Table: TEM_CTS_CARD_APP_DOC_T
+    
+    	Constraints on Table: TEM_EM_CONT_T
+    
+    	Constraints on Table: TEM_ENT_DOC_T
+    
+    	Constraints on Table: TEM_ENT_PURPOSE_T
+    
+    	Constraints on Table: TEM_EXP_TYP_FIN_OBJ_CD_T
+    
+    	Constraints on Table: TEM_EXP_TYP_T
+    
+    	Constraints on Table: TEM_GRP_TRVLR_T
+    
+    	Constraints on Table: TEM_HELD_ENCUM_ENTRY_T
+    
+    	Constraints on Table: TEM_HIST_EXP_T
+    
+    	Constraints on Table: TEM_JOB_CLASS_T
+    
+    	Constraints on Table: TEM_MILEAGE_RT_T
+    
+    	Constraints on Table: TEM_PER_DIEM_EXP_T
+    
+    	Constraints on Table: TEM_PER_DIEM_MIE_BREAK_DOWN_T
+    
+    	Constraints on Table: TEM_PER_DIEM_REGION_T
+    
+    	Constraints on Table: TEM_PER_DIEM_T
+    
+    	Constraints on Table: TEM_PRI_DEST_T
+    
+    	Constraints on Table: TEM_PROFILE_ACCOUNT_T
+    
+    	Constraints on Table: TEM_PROFILE_ADDR_T
+    
+    	Constraints on Table: TEM_PROFILE_ARRANGER_T
+    
+    	Constraints on Table: TEM_PROFILE_EM_CONT_T
+    
+    	Constraints on Table: TEM_PROFILE_T
+    
+    	Constraints on Table: TEM_RELO_DOC_T
+    
+    	Constraints on Table: TEM_RELO_REASON_T
+    
+    	Constraints on Table: TEM_SPCL_CRCMSNCS_Q_T
+    
+    	Constraints on Table: TEM_SPCL_CRCMSNCS_T
+    
+    	Constraints on Table: TEM_TAX_RAM_DOC_T
+    
+    	Constraints on Table: TEM_TRANS_MD_DTL_T
+    
+    	Constraints on Table: TEM_TRANS_MD_T
+    
+    	Constraints on Table: TEM_TRAVELER_DTL_T
+    
+    	Constraints on Table: TEM_TRAVELER_TYP_T
+    
+    	Constraints on Table: TEM_TRIP_TYP_T
+    
+    	Constraints on Table: TEM_TRP_ACCT_INFO_T
+    
+    	Constraints on Table: TEM_TRVL_ADV_T
+    
+    	Constraints on Table: TEM_TRVL_ARRANGER_DOC_T
+    
+    	Constraints on Table: TEM_TRVL_AUTH_AMEND_DOC_T
+    
+    	Constraints on Table: TEM_TRVL_AUTH_CLOSE_DOC_T
+    
+    	Constraints on Table: TEM_TRVL_AUTH_DOC_T
+    
+    	Constraints on Table: TEM_TRVL_CARD_TYP_T
+    
+    	Constraints on Table: TEM_TRVL_EXP_T
+    
+    	Constraints on Table: TEM_TRVL_PMT_T
+    
+    	Constraints on Table: TEM_TRVL_REIMB_DOC_T
+    
+    

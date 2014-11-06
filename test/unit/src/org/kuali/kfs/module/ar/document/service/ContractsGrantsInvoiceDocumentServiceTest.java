@@ -27,6 +27,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -138,7 +139,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getDocumentNumber(), contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes(), new HashMap<String, KualiDecimal>(), new ArrayList<AwardAccountObjectCodeTotalBilled>());
 
         contractsGrantsInvoiceDocumentService.prorateBill(contractsGrantsInvoiceDocument);
 
@@ -244,7 +245,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         // setup various invoice detail collections on invoice document
-        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getDocumentNumber(), contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes(), new HashMap<String, KualiDecimal>(), new ArrayList<AwardAccountObjectCodeTotalBilled>());
 
         // set InvoiceDetailAccountObjectCodes
         InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_1 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();

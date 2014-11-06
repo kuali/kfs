@@ -96,7 +96,9 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.INV_DOCUMENT_TYPE);
             }
             if (StringUtils.equals(invoiceLookupFields.get(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME), ArConstants.INV_DOCUMENT_TYPE)) {
-                openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(CustomerInvoiceDocument.class, invoiceLookupFields, true));
+                if (!invoiceLookupFields.containsKey(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER)) {
+                    openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(CustomerInvoiceDocument.class, invoiceLookupFields, true));
+                }
             }
             if (!docTypeCriteriaSpecified) {
                 invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);

@@ -994,7 +994,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return true if the balance is a cost share, false otherwise
      */
     protected boolean isBalanceCostShare(Balance bal) {
-        // TODO i'm not entirely sure this logic is correct
         return !ObjectUtils.isNull(bal.getSubAccount()) && !ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) && StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE);
     }
 

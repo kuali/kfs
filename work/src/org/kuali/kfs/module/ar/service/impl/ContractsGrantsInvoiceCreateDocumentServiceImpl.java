@@ -535,21 +535,21 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         if (useTimeBasedBillingFrequency(document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
             if (firstFiscalPeriod) {
-                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balance.getContractsGrantsBeginningBalanceAmount()).add(balance.getAccountLineAnnualBalanceAmount());
-                invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(balance.getContractsGrantsBeginningBalanceAmount()).add(balance.getAccountLineAnnualBalanceAmount()));
+                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
+                invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount())));
                 if (!includePeriod13InPeriod01Calculations()) {
                     awardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
-                    invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(balance.getMonth13Amount()));
+                    invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).subtract(cleanAmount(balance.getMonth13Amount())));
                 }
             } else {
                 awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(calculateBalanceAmountWithoutLastBilledPeriod(award.getLastBilledDate(), balance));
-                invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), balance)));
+                invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), balance)));
             }
         }
         else {// For other billing frequencies
-            balanceAmount = balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount());
+            balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
             awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balanceAmount);
-            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount())));
+            invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()))));
         }
         return awardAccountCumulativeAmount;
     }

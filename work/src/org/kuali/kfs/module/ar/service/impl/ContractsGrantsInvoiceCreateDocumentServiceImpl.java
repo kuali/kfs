@@ -530,28 +530,32 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return the updated cumulative amount on the award account
      */
     protected KualiDecimal updateActualAmountsByBalance(ContractsGrantsInvoiceDocument document, Balance balance, ContractsAndGrantsBillingAward award, KualiDecimal awardAccountCumulativeAmount, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, final boolean firstFiscalPeriod) {
-        KualiDecimal balanceAmount;
-        final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(invoiceDetailAccountObjectCodes, balance, document.getDocumentNumber(), document.getInvoiceGeneralDetail().getProposalNumber());
+        final CostCategory category = getCostCategoryService().getCostCategoryForObjectCode(balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getObjectCode());
+        if (!ObjectUtils.isNull(category)) {
+            KualiDecimal balanceAmount;
+            final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(invoiceDetailAccountObjectCodes, balance, document.getDocumentNumber(), document.getInvoiceGeneralDetail().getProposalNumber(), category);
 
-        if (useTimeBasedBillingFrequency(document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
-            if (firstFiscalPeriod) {
-                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
-                invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount())));
-                if (!includePeriod13InPeriod01Calculations()) {
-                    awardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
-                    invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).subtract(cleanAmount(balance.getMonth13Amount())));
+            if (useTimeBasedBillingFrequency(document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
+                if (firstFiscalPeriod) {
+                    awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
+                    invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount())));
+                    if (!includePeriod13InPeriod01Calculations()) {
+                        awardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
+                        invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).subtract(cleanAmount(balance.getMonth13Amount())));
+                    }
+                } else {
+                    awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(calculateBalanceAmountWithoutLastBilledPeriod(award.getLastBilledDate(), balance));
+                    invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), balance)));
                 }
-            } else {
-                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(calculateBalanceAmountWithoutLastBilledPeriod(award.getLastBilledDate(), balance));
-                invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), balance)));
             }
+            else {// For other billing frequencies
+                balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
+                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balanceAmount);
+                invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()))));
+            }
+            return awardAccountCumulativeAmount;
         }
-        else {// For other billing frequencies
-            balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
-            awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balanceAmount);
-            invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()))));
-        }
-        return awardAccountCumulativeAmount;
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -926,15 +930,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param bal the balance to get the account object code from
      * @param documentNumber the document number of the CINV doc being created
      * @param proposalNumber the proposal number associated with the award on the CINV document we're currently building
+     * @param costCategory the cost category associated with the balance
      * @return the retrieved or constructed (if nothing was found in the database) InvoiceDetailAccountObjectCode object
      */
-    protected InvoiceDetailAccountObjectCode getInvoiceDetailAccountObjectCodeByBalanceAndCategory(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Balance bal, String documentNumber, final Long proposalNumber) {
+    protected InvoiceDetailAccountObjectCode getInvoiceDetailAccountObjectCodeByBalanceAndCategory(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Balance bal, String documentNumber, final Long proposalNumber, CostCategory category) {
         // Check if there is an existing invoice detail account object code existing (if there are more than one fiscal years)
         InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = lookupInvoiceDetailAccountObjectCode(invoiceDetailAccountObjectCodes, bal, proposalNumber);
 
         if (ObjectUtils.isNull(invoiceDetailAccountObjectCode)) {
-            CostCategory category = getCostCategoryService().getCostCategoryForObjectCode(bal.getUniversityFiscalYear(), bal.getChartOfAccountsCode(), bal.getObjectCode());
-
             if (!ObjectUtils.isNull(category)) {
                 invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
                 invoiceDetailAccountObjectCode.setDocumentNumber(documentNumber);

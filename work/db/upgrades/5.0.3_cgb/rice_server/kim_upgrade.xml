@@ -495,6 +495,14 @@
 			<column name="ROLE_ID" value="101" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSTP1402-RLPRM2" />
+			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-012" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1402-PRM1" />
+			<column name="ROLE_ID" value="62" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
 	</changeSet>
 	
 </databaseChangeLog>

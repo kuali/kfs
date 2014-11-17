@@ -877,14 +877,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // since there may be multiple accounts represented in the Invoice Detail Account Object Codes, only process the ones that match
             if (StringUtils.equals(invoiceDetailAccountObjectCode.getChartOfAccountsCode(), awdAcct.getChartOfAccountsCode()) &&
                     StringUtils.equals(invoiceDetailAccountObjectCode.getAccountNumber(), awdAcct.getAccountNumber())) {
-                if (!CollectionUtils.isEmpty(awardAccountObjectCodeTotalBilledList)) {
-                    for (AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled : awardAccountObjectCodeTotalBilledList) {
-                        if (invoiceDetailAccountObjectCode.getFinancialObjectCode().equalsIgnoreCase(awardAccountObjectCodeTotalBilled.getFinancialObjectCode())) {
-                            invoiceDetailAccountObjectCode.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled());
-                        }
-                    }
-                }
                 invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(invoiceDetailAccountObjectCode.getTotalBilled()));
+                invoiceDetailAccountObjectCode.setTotalBilled(invoiceDetailAccountObjectCode.getCumulativeExpenditures());
             }
         }
     }

@@ -529,7 +529,7 @@
 			<column name="PERM_ID" value="KFSTP1407-PRM" />
 			<column name="ROLE_ID" value="44" />
 			<column name="ACTV_IND" value="Y" />
-	</changeSet>
+		</insert>
 	</changeSet>
 	
 </databaseChangeLog>

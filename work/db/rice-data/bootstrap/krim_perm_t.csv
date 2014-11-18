@@ -431,3 +431,4 @@ CGPERMIRD,KFS-CGB-PERM-003,1,29,KFS-AR,Use Screen CG Transmit Contracts and Gran
 "KFSTP-1367-3","KFS-CGB-PERM-007","1","10","KFS-AR","Initiate Document DLTM","Controls the ability to initiate new maintenance documents for Dunning Letter Templates. Users who are required to create or maintain Dunning Letter Template records will need this permission in addition to the Create / Maintain Record(s) permission.","Y"
 "KFSTP-1367-7","KFS-CGB-PERM-008","1","29","KFS-AR","Use Screen AccountsReceivableDunningLetterTemplateUploadAction","Controls the ability to upload or download Dunning Letter Template files.","Y"
 "KFSTP1402-PRM1","KFS-CGB-PERM-009","1","16","KFS-AR","Edit Document CINV","Authorizes users to edit the CINV document.","Y"
+"KFSTP1407-PRM","KFSTP1407-PRM","1","10","KFS-AR","Initiate Document LCR","Authorizes users to initiate the LOC document.","Y"

@@ -195,6 +195,18 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
+			<column name="PARM_NM" value="INCLUDE_PERIOD_13_IN_BUDGET_AND_CURRENT_IND" />
+			<column name="OBJ_ID" value="KFS-CGB-PARM-016" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="N" />
+			<column name="PARM_DESC_TXT" value="If set to &quot;Y&quot;, Fiscal Period 13 balances will be included in addition to period 12 when the budget and current expenditure amounts of invoice detail and account detail lines on Contracts & Grants Invoice Documents are calculated in period 01." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
 	</changeSet>
 	
 	<changeSet author="KFSCGB" id="KFSTP-1273_REMOVE_RECEIVABLE_ALGO_PARAMETER">

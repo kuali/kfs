@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +29,7 @@ import org.kuali.kfs.module.ar.document.validation.impl.FinalBilledIndicatorVali
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -38,7 +37,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 /**
  * This class tests the final billed indicator process
  */
-@ConfigureContext(session = wklykins)
+@ConfigureContext(session = UserNameFixture.wklykins)
 public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
 
     @Override
@@ -53,9 +52,9 @@ public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
     public void testFinalInvoiceDocumentValidation() throws WorkflowException {
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
-        // need to switch to a user that is authorized to route doc, and route doc, so it goes to final
-        // and subsequent validation will pass
-        document.getDocumentHeader().getWorkflowDocument().switchPrincipal("2191506168");
+        // need to switch to a user that is authorized to route doc, and route doc, so it goes to final and subsequent validation will pass
+        // wcorbitt is the fund manager of proposal 11 - the proposal which the unit tests use here
+        document.getDocumentHeader().getWorkflowDocument().switchPrincipal(UserNameFixture.wcorbitt.getPerson().getPrincipalId());
         documentService.routeDocument(document, "route test doc", new ArrayList<AdHocRouteRecipient>());
 
         FinalBilledIndicatorDocument firDocument = (FinalBilledIndicatorDocument) documentService.getNewDocument(FinalBilledIndicatorDocument.class);

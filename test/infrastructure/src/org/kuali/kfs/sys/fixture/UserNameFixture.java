@@ -38,8 +38,8 @@ public enum UserNameFixture {
     cknotts,
     // Accounting Hierarchy Reviewer
     jrichard,
-    // Fund Manager
-    wklykins;
+    // Fund Managers
+    wklykins, wcorbitt;
 
     static {
         // Assert.assertEquals(KualiUser.SYSTEM_USER, kuluser.toString());

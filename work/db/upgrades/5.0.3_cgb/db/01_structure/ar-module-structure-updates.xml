@@ -526,7 +526,7 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="FILE_NM" type="VARCHAR(50)" />
-			<column name="ACCESS_RSTRC_IND" type="VARCHAR(1)" />
+			<column name="RSTRC_USE_BY_COA_ORG_IND" type="VARCHAR(1)" />
 			<column name="BILL_BY_COA_CD" type="VARCHAR(2)" />
 			<column name="BILL_BY_ORG_CD" type="VARCHAR(4)" />
 			<column name="UPLOAD_DT" type="DATETIME" />

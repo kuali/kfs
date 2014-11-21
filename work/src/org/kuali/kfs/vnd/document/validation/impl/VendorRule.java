@@ -1545,8 +1545,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     protected boolean validateW8Type(VendorDetail vDetail) {
-        boolean valid = false;
+        boolean valid = true;
         if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorOwnershipCode()) && ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+            valid = false;
             Map fieldValues = new HashMap();
             fieldValues.put("vendorOwnershipCode", vDetail.getVendorHeader().getVendorOwnershipCode());
             List<W8TypeOwnershipType> vendorW8OwnershipTypes = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatching(W8TypeOwnershipType.class, fieldValues));

@@ -1,17 +1,20 @@
-/**
- * Copyright 2005-2011 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.rice.kim.impl.jaxb;
 
@@ -44,7 +47,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 /**
  * Base class representing an unmarshalled &lt;roleMember&gt; element.
  * Refer to the static inner classes for more information about the specific contexts.
- * 
+ *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 @XmlTransient
@@ -55,50 +58,50 @@ public abstract class RoleMemberXmlDTO implements Serializable {
     @XmlElement(name="principalId")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     private String principalId;
-    
+
     @XmlElement(name="principalName")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     private String principalName;
-    
+
     @XmlElement(name="groupId")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     private String groupId;
-    
+
     @XmlElement(name="groupName")
     @XmlJavaTypeAdapter(NameAndNamespacePairValidatingAdapter.class)
     private NameAndNamespacePair groupName;
-    
+
     @XmlElement(name="roleIdAsMember")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     private String roleIdAsMember;
-    
+
     @XmlElement(name="roleNameAsMember")
     @XmlJavaTypeAdapter(NameAndNamespacePairValidatingAdapter.class)
     private NameAndNamespacePair roleNameAsMember;
-    
+
     @XmlElement(name="activeFromDate")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private DateTime activeFromDate;
-    
+
     @XmlElement(name="activeToDate")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private DateTime activeToDate;
-    
+
     @XmlElement(name="qualifications")
     @XmlJavaTypeAdapter(QualificationListAdapter.class)
     private Map<String, String> qualifications;
-    
+
     @XmlTransient
     private MemberType memberType;
-    
+
     /**
      * Constructs an empty RoleMemberXmlDTO instance.
      */
     public RoleMemberXmlDTO() {}
-    
+
     /**
      * Constructs a RoleMemberXmlDTO instance that is populated with the info from the given role member.
-     * 
+     *
      * @param roleMember The role member that this DTO should populate its data from.
      * @param populateMemberId If true, the member principal/group/role ID will get populated; otherwise, only
      * the member principal/group/role name and (if applicable) namespace will get populated.
@@ -112,7 +115,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         this.activeFromDate = roleMember.getActiveFromDate();
         this.activeToDate = roleMember.getActiveToDate();
         this.qualifications = (roleMember.getAttributes() != null) ? roleMember.getAttributes() : new HashMap<String, String>();
-        
+
         if (MemberType.PRINCIPAL.equals(memberType)) {
             if (populateMemberId) {
                 this.principalId = roleMember.getMemberId();
@@ -144,7 +147,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         } else {
             throw new IllegalArgumentException("Cannot construct a RoleMemberXmlDTO from a role member with an unrecognized member type code of \"" +
                     memberType + "\"");
-        }    
+        }
     }
 
     /**
@@ -275,22 +278,22 @@ public abstract class RoleMemberXmlDTO implements Serializable {
 
     /**
      * Retrieves the member type.
-     * 
+     *
      * <p>If the member type is null at the time that this method is invoked, an attempt will be made to set its
      * value based on any populated member principal/group/role ID/name information.
-     * 
+     *
      * @return the member type, or null if no membership identification information has been set on this member.
      * @throws IllegalStateException if the role member is populated simultaneously with multiple member ID/name information
      */
     public MemberType getMemberType() {
         if (memberType == null) {
             boolean foundMemberInfo = false;
-            
+
             if (StringUtils.isNotBlank(principalId) || StringUtils.isNotBlank(principalName)) {
                 memberType = MemberType.PRINCIPAL;
                 foundMemberInfo = true;
             }
-            
+
             if (StringUtils.isNotBlank(groupId) || groupName != null) {
                 if (foundMemberInfo) {
                     memberType = null;
@@ -299,7 +302,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
                 memberType = MemberType.GROUP;
                 foundMemberInfo = true;
             }
-            
+
             if (StringUtils.isNotBlank(roleIdAsMember) || roleNameAsMember != null) {
                 if (foundMemberInfo) {
                     memberType = null;
@@ -314,10 +317,10 @@ public abstract class RoleMemberXmlDTO implements Serializable {
 
     /**
      * Retrieves the role member's ID, based on the member type and any populated member principal/group/role IDs.
-     * 
+     *
      * <p>If the member type is null at the time that this method is invoked, an attempt will be made to set its
      * value based on any populated member principal/group/role ID/name information.
-     * 
+     *
      * @return The member's ID, or null if the member type is null or the associated member ID information is null.
      */
     public String getMemberId() {
@@ -330,13 +333,13 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Retrieves the role member's name, based on the member type and any populated member principal/group/role names.
-     * 
+     *
      * <p>If the member type is null at the time that this method is invoked, an attempt will be made to set its
      * value based on any populated member principal/group/role ID/name information.
-     * 
+     *
      * @return The member's name, or null if the member type is null or the associated member name information is null.
      */
     public String getMemberName() {
@@ -349,13 +352,13 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Retrieves the role member's namespace code, based on the member type and any populated member principal/group/role names.
-     * 
+     *
      * <p>If the member type is null at the time that this method is invoked, an attempt will be made to set its
      * value based on any populated member principal/group/role ID/name information.
-     * 
+     *
      * @return The member's namespace code, or null if the member type is null, the associated member name information is null,
      * or the role member is a principal.
      */
@@ -369,20 +372,20 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Retrieves the ID of the role that this member belongs to.
      * Subclasses are responsible for implementing this method so that it does so.
-     * 
+     *
      * @return The role ID of the role that this member belongs to.
      */
     public abstract String getRoleId();
-    
+
     // =======================================================================================================
-    
+
     /**
      * This class represents a &lt;roleMember&gt; element that is not a descendant of a &lt;role&gt; element.
-     * 
+     *
      * @author Kuali Rice Team (rice.collab@kuali.org)
      */
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -401,11 +404,11 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         @XmlElement(name="roleName")
         @XmlJavaTypeAdapter(NameAndNamespacePairValidatingAdapter.class)
         private NameAndNamespacePair roleNameAndNamespace;
-        
+
         public OutsideOfRole() {
             super();
         }
-        
+
         public OutsideOfRole(RoleMember roleMember, boolean populateMemberId) {
             super(roleMember, populateMemberId);
             this.roleId = roleMember.getRoleId();
@@ -415,7 +418,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
             }
             this.roleNameAndNamespace = new NameAndNamespacePair(tempRole.getNamespaceCode(), tempRole.getName());
         }
-        
+
         /**
          * @see org.kuali.rice.kim.impl.jaxb.RoleMemberXmlDTO#getRoleId()
          */
@@ -430,7 +433,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         public void setRoleId(String roleId) {
             this.roleId = roleId;
         }
-        
+
         /**
          * @return the roleNameAndNamespace
          */
@@ -447,7 +450,7 @@ public abstract class RoleMemberXmlDTO implements Serializable {
 
         /**
          * Retrieves the role name from the role-name-and-namespace combo.
-         * 
+         *
          * @return The name of the role that this member belongs to, or null if the role-name-and-namespace combo is null.
          */
         public String getRoleName() {
@@ -456,19 +459,19 @@ public abstract class RoleMemberXmlDTO implements Serializable {
 
         /**
          * Retrieves the role namespace code from the role-name-and-namespace combo.
-         * 
+         *
          * @return The namespace code of the role that this member belongs to, or null if the role-name-and-namespace combo is null.
          */
         public String getRoleNamespaceCode() {
             return (roleNameAndNamespace != null) ? roleNameAndNamespace.getNamespaceCode() : null;
         }
     }
-    
+
     // =======================================================================================================
-    
+
     /**
      * This class represents a &lt;roleMember&gt; element that is a descendant of a &lt;role&gt; element.
-     * 
+     *
      * @author Kuali Rice Team (rice.collab@kuali.org)
      */
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -479,25 +482,25 @@ public abstract class RoleMemberXmlDTO implements Serializable {
     public static class WithinRole extends RoleMemberXmlDTO {
 
         private static final long serialVersionUID = 1L;
-        
+
         @XmlTransient
         private String roleId;
 
         public WithinRole() {
             super();
         }
-        
+
         public WithinRole(RoleMember roleMember, boolean populateMemberId) {
             super(roleMember, populateMemberId);
             this.roleId = roleMember.getRoleId();
         }
-        
+
         void beforeUnmarshal(Unmarshaller unmarshaller, Object parent) {
             if (parent instanceof RoleMembersXmlDTO.WithinRole) {
                 this.roleId = ((RoleMembersXmlDTO.WithinRole)parent).getRoleId();
             }
         }
-        
+
         /**
          * @see org.kuali.rice.kim.impl.jaxb.RoleMemberXmlDTO#getRoleId()
          */
@@ -505,6 +508,6 @@ public abstract class RoleMemberXmlDTO implements Serializable {
         public String getRoleId() {
             return roleId;
         }
-        
+
     }
 }

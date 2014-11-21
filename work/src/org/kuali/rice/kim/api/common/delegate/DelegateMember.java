@@ -1,19 +1,34 @@
-/**
- * Copyright 2005-2012 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.rice.kim.api.common.delegate;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -26,17 +41,6 @@ import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
 import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.kim.api.KimConstants;
 import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
 
 @XmlRootElement(name = DelegateMember.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
@@ -220,6 +224,7 @@ public final class DelegateMember extends AbstractDataTransferObject
             return builder;
         }
 
+        @Override
         public DelegateMember build() {
             return new DelegateMember(this);
         }
@@ -236,6 +241,7 @@ public final class DelegateMember extends AbstractDataTransferObject
             this.delegationMemberId = delegationMemberId;
         }
 
+        @Override
         public String getDelegationId() {
             return delegationId;
         }
@@ -244,6 +250,7 @@ public final class DelegateMember extends AbstractDataTransferObject
             this.delegationId = delegationId;
         }
 
+        @Override
         public String getMemberId() {
             return memberId;
         }
@@ -252,6 +259,7 @@ public final class DelegateMember extends AbstractDataTransferObject
             this.memberId = memberId;
         }
 
+        @Override
         public String getRoleMemberId() {
             return roleMemberId;
         }
@@ -260,6 +268,7 @@ public final class DelegateMember extends AbstractDataTransferObject
             this.roleMemberId = roleMemberId;
         }
 
+        @Override
         public MemberType getType() {
             return type;
         }

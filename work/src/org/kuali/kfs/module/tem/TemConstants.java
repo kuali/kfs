@@ -96,6 +96,8 @@ public class TemConstants {
 
     public static final String NEW_TEM_PROFILE_DESCRIPTION_PREFIX = "New Traveler Profile for ";
 
+    public static final String INITIATOR_RESPONSIBILITY = "Initiator";
+
     // //////////////////////////////////////////////////////////////////////////////////////
     // Attributes used for the Reimbursement Expenses Totals //
     // //////////////////////////////////////////////////////////////////////////////////////

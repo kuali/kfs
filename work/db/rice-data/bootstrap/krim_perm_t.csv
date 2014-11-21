@@ -416,3 +416,7 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10828","KFS-PERM-121","1","30","KFS-CAM","Perform Custom Maintenance Document Function lastInventoryDateUpdateButton","Users who can view and click the lastInventoryDateUpdateButton.","Y"
 "KFS10834","KFS-PERM-122","1","31","KFS-FP","Use Transactional Document DV extractNow","Allows users to use the extractNow button on an approved but not yet extracted DV document. Note: If the permission is set to inactive, then no one can use the extractNow button.","Y"
 "KFS10838","KFS-PERM-123","1","31","KFS-PURAP","Edit Capital Asset Info","Users who can edit capital asset information","Y"
+"KFS10868","KFS-PERM-124","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorGIIN","Authorizes users to view the GIIN Code on the Vendor Maintenance Document and Inquiry.","Y"
+"KFS10869","KFS-PERM-125","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorDOB","Authorizes users to view the Vendor Date of Birth on the Vendor Maintenance Document and Inquiry.","Y"
+"KFS10874","KFS-PERM-126","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorGIIN","Authorizes users to modify the GIIN Code on a Vendor Maintenance Document.","Y"
+"KFS10875","KFS-PERM-127","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorDOB","Authorizes users to modify the Vendor Date of Birth on a Vendor Maintenance Document.","Y"

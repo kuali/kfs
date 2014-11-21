@@ -1465,7 +1465,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     protected boolean validateW8SignedDate(VendorDetail vDetail) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) && vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) {
-            if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_SIGNED_DATE_REQUIRED)) {
+            if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_DATA_REQUIRED_IND)) {
 
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 Date today = dateTimeService.getCurrentDate();
@@ -1531,11 +1531,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateCorpCitizen(VendorDetail vDetail) {
         boolean valid = true;
-
-        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) && vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) {
-            if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorCorpCitizenCode())) {
-                putFieldError(VendorPropertyConstants.VENDOR_CORP_CITIZEN_CODE, VendorKeyConstants.ERROR_VENDOR_CORP_CTZN_REQUIRED);
-                valid &= false;
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_DATA_REQUIRED_IND)) {
+            if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) && vDetail.getVendorHeader().getVendorW8BenReceivedIndicator()) {
+                if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorCorpCitizenCode())) {
+                    putFieldError(VendorPropertyConstants.VENDOR_CORP_CITIZEN_CODE, VendorKeyConstants.ERROR_VENDOR_CORP_CTZN_REQUIRED);
+                    valid &= false;
+                }
             }
         }
         return valid;
@@ -1543,19 +1544,21 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateW8Type(VendorDetail vDetail) {
         boolean valid = true;
-        if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorOwnershipCode()) && ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8TypeCode())) {
-            valid = false;
-            Map fieldValues = new HashMap();
-            fieldValues.put("vendorOwnershipCode", vDetail.getVendorHeader().getVendorOwnershipCode());
-            List<W8TypeOwnershipType> vendorW8OwnershipTypes = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatching(W8TypeOwnershipType.class, fieldValues));
-            for (W8TypeOwnershipType w8TypeOwnership : vendorW8OwnershipTypes) {
-                if (w8TypeOwnership.getW8TypeCode().equals(vDetail.getVendorHeader().getVendorW8TypeCode())) {
-                    valid = true;
-                    break;
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_DATA_REQUIRED_IND)) {
+            if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorOwnershipCode()) && ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+                valid = false;
+                Map fieldValues = new HashMap();
+                fieldValues.put("vendorOwnershipCode", vDetail.getVendorHeader().getVendorOwnershipCode());
+                List<W8TypeOwnershipType> vendorW8OwnershipTypes = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatching(W8TypeOwnershipType.class, fieldValues));
+                for (W8TypeOwnershipType w8TypeOwnership : vendorW8OwnershipTypes) {
+                    if (w8TypeOwnership.getW8TypeCode().equals(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+                        valid = true;
+                        break;
+                    }
                 }
-            }
-            if (!valid) {
-                putFieldError(VendorPropertyConstants.VENDOR_W8_TYPE_CODE, VendorKeyConstants.ERROR_VENDOR_W8_OWNERSHIP_INVALID);
+                if (!valid) {
+                    putFieldError(VendorPropertyConstants.VENDOR_W8_TYPE_CODE, VendorKeyConstants.ERROR_VENDOR_W8_OWNERSHIP_INVALID);
+                }
             }
         }
         return valid;

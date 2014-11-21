@@ -1204,7 +1204,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="DUN_LTR_TMPLT_DESC" size="45" type="VARCHAR"/>
         <column name="FILE_NM" size="50" type="VARCHAR"/>
-        <column default="N" name="ACCESS_RSTRC_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="RSTRC_USE_BY_COA_ORG_IND" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <column name="UPLOAD_DT" type="DATE"/>
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
@@ -1646,7 +1646,7 @@
         <column name="INV_TMPLT_DESC" size="45" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="FILE_NM" size="50" type="VARCHAR"/>
-        <column name="ACCESS_RSTRC_IND" size="1" type="VARCHAR"/>
+        <column name="RSTRC_USE_BY_COA_ORG_IND" size="1" type="VARCHAR"/>
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
         <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
         <column name="UPLOAD_DT" type="DATE"/>

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
@@ -77,7 +78,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
                 	}
                 }
             }
-            if (ObjectUtils.isNotNull(document.getTraveler())) {
+            if (ObjectUtils.isNotNull(document.getTraveler()) && !StringUtils.isBlank(document.getTraveler().getPrincipalId())) {
                 qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, document.getTraveler().getPrincipalId());
             }
         }

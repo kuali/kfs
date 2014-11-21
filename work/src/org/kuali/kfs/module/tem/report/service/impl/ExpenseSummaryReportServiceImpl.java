@@ -46,6 +46,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -87,7 +88,9 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     public ExpenseSummaryReport buildReport(TravelDocument travelDocument) {
         LOG.info("Building report objects");
         final ExpenseSummaryReport retval = new ExpenseSummaryReport();
-        retval.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
+        if (!ObjectUtils.isNull(travelDocument.getTraveler())) {
+            retval.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
+        }
 
         final String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiator = getPersonService().getPerson(initiatorId);

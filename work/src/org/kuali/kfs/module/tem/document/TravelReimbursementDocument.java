@@ -342,7 +342,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (!enabled) {
             return true;
         }
-        if (!getTraveler().getTravelerTypeCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)) {
+        if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.equals(getTraveler().getTravelerTypeCode(), TemConstants.EMP_TRAVELER_TYP_CD)) {
             return true;
         }
         if (getActualExpenses() != null && getActualExpenses().size() > 0) {

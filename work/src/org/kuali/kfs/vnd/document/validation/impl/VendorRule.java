@@ -1572,7 +1572,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 putFieldError(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR, VendorKeyConstants.ERROR_VENDOR_FOREIGN_REQUIRED);
                 valid &= false;
             }
-            if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorW8TypeCode())) {
+            if (StringUtils.isBlank(vDetail.getVendorHeader().getVendorW8TypeCode()) && SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.W8_DATA_REQUIRED_IND)) {
                 putFieldError(VendorPropertyConstants.VENDOR_W8_TYPE_CODE, VendorKeyConstants.ERROR_VENDOR_W8TYPE_REQUIRED);
                 valid &= false;
             }

@@ -27,7 +27,7 @@
 		<property name="lookupDefinition">
 			<ref bean="W8Type-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="W8TypeCode" />
+		<property name="titleAttribute" value="vendorW8TypeCode" />
 		<property name="objectLabel" value="W-8 Type" />
 		<property name="attributes">
 			<list>

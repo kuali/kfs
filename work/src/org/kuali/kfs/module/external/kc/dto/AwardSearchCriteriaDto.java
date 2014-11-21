@@ -12,7 +12,7 @@ public class AwardSearchCriteriaDto {
 	private String startDateLowerBound;
 	private String endDate;
 	private String endDateLowerBound;
-	private String billingFrequencyCode;
+	private String billingFrequency;
 	private String awardTotal;
 
 	public String getAwardId() {
@@ -63,11 +63,11 @@ public class AwardSearchCriteriaDto {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public String getBillingFrequencyCode() {
-		return billingFrequencyCode;
+	public String getBillingFrequency() {
+		return billingFrequency;
 	}
-	public void setBillingFrequencyCode(String billingFrequencyCode) {
-		this.billingFrequencyCode = billingFrequencyCode;
+	public void setBillingFrequency(String billingFrequency) {
+		this.billingFrequency = billingFrequency;
 	}
 	public String getAwardTotal() {
 		return awardTotal;

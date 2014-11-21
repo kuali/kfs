@@ -36,7 +36,7 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right" border="0" /><br/>
-Copyright 2005-2014 Kuali, Inc. All rights reserved. This software is licensed for use pursuant to the Affero General Public License, version 3. Portions of this software are copyrighted by other parties, including the parties listed below, and you should see the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a>.</span></p>
+Copyright 2014 Kuali, Inc. All rights reserved. This software is licensed for use pursuant to the Affero General Public License, version 3. Portions of this software are copyrighted by other parties, including the parties listed below, and you should see the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a>.</span></p>
 
 <h3><a name="Acknowledgements-ThirdPartyContributions"></a>Third Party Contributions</h3>
 

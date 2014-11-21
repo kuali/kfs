@@ -29,7 +29,7 @@ public class W8Type extends PersistableBusinessObjectBase implements MutableInac
     private String vendorW8TypeDescription;
     private boolean active;
 
-    private List<W8TypeOwnershipType> w8TypeOwnershipTypes;
+    protected List<W8TypeOwnershipType> w8TypeOwnershipTypes;
 
     /**
      * Default constructor.

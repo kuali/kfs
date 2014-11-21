@@ -98,6 +98,7 @@
 		<property name="inquirySections">
 			<list>
 				<ref bean="W8Type-inquirySectionDefinition" />
+				<ref bean="W8Type-inquirySectionDefinition-ownerships" />
 			</list>
 		</property>
 	</bean>
@@ -112,6 +113,41 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="W8Type-inquirySectionDefinition-ownerships"
+		parent="W8Type-inquirySectionDefinition-ownerships-parentBean" />
+	<bean id="W8Type-inquirySectionDefinition-ownerships-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		
+		<property name="inquiryFields">
+			<list>
+				<ref
+					bean="W8Type-inquiryCollectionDefinition-ownerships" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="W8Type-inquiryCollectionDefinition-ownerships" parent="W8Type-inquiryCollectionDefinition-ownerships-parentBean" />
+	<bean id="W8Type-inquiryCollectionDefinition-ownerships-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="w8TypeOwnershipTypes" />
+		<property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType" />
+		<property name="numberOfColumns" value="1" />
+		<property name="summaryTitle" value="W-8 Ownership" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode" />
 			</list>
 		</property>
 	</bean>

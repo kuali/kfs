@@ -912,6 +912,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter4StatusCode" />
 				
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignTaxId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxTypeCode" />

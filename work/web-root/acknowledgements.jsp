@@ -69,7 +69,7 @@ Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All righ
 
 <p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>)</p>
 
-<p>Portions Copyright (c) 2005-2014 Kuali, Inc. All Rights Reserved.</p>
+<p>Portions Copyright (c) 2005-2014 Kuali Foundation. All Rights Reserved.</p>
 
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
 

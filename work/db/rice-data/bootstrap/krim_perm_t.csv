@@ -420,3 +420,5 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10869","KFS-PERM-125","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorDOB","Authorizes users to view the Vendor Date of Birth on the Vendor Maintenance Document and Inquiry.","Y"
 "KFS10874","KFS-PERM-126","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorGIIN","Authorizes users to modify the GIIN Code on a Vendor Maintenance Document.","Y"
 "KFS10875","KFS-PERM-127","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorDOB","Authorizes users to modify the Vendor Date of Birth on a Vendor Maintenance Document.","Y"
+"KFS10884","KFS-PERM-128","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorForeignTaxId","Authorizes users to modify the Foreign Tax Id on a Vendor Maintenance Document.","Y"
+"KFS10885","KFS-PERM-129","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorForeignTaxId","Authorizes users to modify the Foreign Tax Id on a Vendor Maintenance Document.","Y"

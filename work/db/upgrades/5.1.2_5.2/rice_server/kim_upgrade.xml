@@ -4756,6 +4756,13 @@
 			<column name="PERM_ID" value="KFS10821"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS10890"/>
+			<column name="OBJ_ID" value="KFS-TEM-ROLE-PERM-371"/>
+			<column name="ROLE_ID" value="KFS10263"/>
+			<column name="PERM_ID" value="KFS10328"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
 		<insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFS10343"/>
 			<column name="OBJ_ID" value="KFS-TEM-RSP-000"/>

@@ -141,7 +141,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         criteria.setStartDateLowerBound(fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate"));
         criteria.setEndDate(fieldValues.get("awardEndingDate"));
         criteria.setEndDateLowerBound(fieldValues.get("rangeLowerBoundKeyPrefix_awardEndingDate"));
-        criteria.setBillingFrequencyCode(fieldValues.get("awardBillingFrequency"));
+        criteria.setBillingFrequency(fieldValues.get("awardBillingFrequency"));
         criteria.setAwardTotal(fieldValues.get("awardTotal"));
         try {
           result  = this.getWebService().searchAwards(criteria);

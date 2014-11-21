@@ -80,7 +80,7 @@
         <foreignkey field-ref="vendorW8TypeCode" />
     </reference-descriptor>
     <reference-descriptor name="chapter3Status" class-ref="org.kuali.kfs.vnd.businessobject.Chapter3Status" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="vendorChapter4StatusCode" />
+        <foreignkey field-ref="vendorChapter3StatusCode" />
     </reference-descriptor>
     <reference-descriptor name="chapter4Status" class-ref="org.kuali.kfs.vnd.businessobject.Chapter4Status" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorChapter4StatusCode" />

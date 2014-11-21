@@ -262,14 +262,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         valid &= validateOwnershipCategory(vendorDetail);
         valid &= validateVendorWithholdingTaxDates(vendorDetail);
         valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
-        valid &= validateGIINCode(vendorDetail);
-        valid &= validateW8SignedDate(vendorDetail);
-        valid &= validateW9SignedDate(vendorDetail);
-        valid &= validateDOBDate(vendorDetail);
-        valid &= validateW8Received(vendorDetail);
         valid &= validateW9Received(vendorDetail);
-        valid &= validateCorpCitizen(vendorDetail);
+        valid &= validateW9SignedDate(vendorDetail);
+        valid &= validateW8SignedDate(vendorDetail);
+        valid &= validateW8Received(vendorDetail);
         valid &= validateW8Type(vendorDetail);
+        valid &= validateCorpCitizen(vendorDetail);
+        valid &= validateGIINCode(vendorDetail);
+        valid &= validateDOBDate(vendorDetail);
         valid &= validateSearchAliases(vendorDetail);
         valid &= validateContracts(vendorDetail);
         return valid;
@@ -1451,8 +1451,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorGIIN())) {
             String giin = vDetail.getVendorHeader().getVendorGIIN();
-
-            if (!giin.matches(SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.GIIN_NUMBER_FORMAT))) {
+            String giinParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.GIIN_NUMBER_FORMAT);
+            if (!giin.matches(giinParm)) {
                 putFieldError(VendorPropertyConstants.VENDOR_GIIN_CODE, VendorKeyConstants.ERROR_VENDOR_GIIN_FORMAT_ERROR);
                 valid &= false;
             }
@@ -1473,11 +1473,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW8SignedDate())) {
 
                     Date signedDate = vDetail.getVendorHeader().getVendorW8SignedDate();
-                    if (ObjectUtils.isNotNull(signedDate)) {
-                        if (dateTimeService.dateDiff(signedDate, today, false) <= 0) {
-                            putFieldError(VendorPropertyConstants.VENDOR_W8SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
-                            valid &= false;
-                        }
+                    if (today.compareTo(signedDate) <= 0) {
+                        putFieldError(VendorPropertyConstants.VENDOR_W8SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
+                        valid &= false;
                     }
                 } else {
                     putFieldError(VendorPropertyConstants.VENDOR_W8SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8SINGED_DATE_REQUIRED);
@@ -1499,11 +1497,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(vDetail.getVendorHeader().getVendorW9SignedDate())) {
 
                     Date signedDate = vDetail.getVendorHeader().getVendorW9SignedDate();
-                    if (ObjectUtils.isNotNull(signedDate)) {
-                        if (dateTimeService.dateDiff(signedDate, today, false) <= 0) {
-                            putFieldError(VendorPropertyConstants.VENDOR_DOB, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
-                            valid &= false;
-                        }
+                    if (today.compareTo(signedDate) <= 0) {
+                        putFieldError(VendorPropertyConstants.VENDOR_W9SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
+                        valid &= false;
                     }
                 } else {
                     putFieldError(VendorPropertyConstants.VENDOR_W9SIGNED_DATE, VendorKeyConstants.ERROR_VENDOR_W9SINGED_DATE_REQUIRED);
@@ -1523,7 +1519,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             Date dobDate = vDetail.getVendorHeader().getVendorDOB();
             if (ObjectUtils.isNotNull(dobDate)) {
-                if (dateTimeService.dateDiff(dobDate, today, false) <= 0) {
+
+                if (today.compareTo(dobDate) <= 0) {
                     putFieldError(VendorPropertyConstants.VENDOR_DOB, VendorKeyConstants.ERROR_VENDOR_W8ANDW9_SIGNED_AFTER_TODAY);
                     valid &= false;
                 }

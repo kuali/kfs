@@ -230,6 +230,17 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the adjustedCumExpenditures attribute.
+     *
+     * @return Returns the adjustedCumExpenditures.
+     */
+    public KualiDecimal getAdjustedCumExpenditures() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        total = billedAmount.add(expenditureAmount);
+        return total;
+    }
+
+    /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {

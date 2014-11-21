@@ -553,9 +553,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balanceAmount);
                 invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()))));
             }
-            return awardAccountCumulativeAmount;
         }
-        return KualiDecimal.ZERO;
+        return awardAccountCumulativeAmount;
     }
 
     /**
@@ -568,25 +567,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     protected KualiDecimal updateBudgetAmountsByBalance(Balance balance, KualiDecimal awardAccountBudgetAmount, Map<String, KualiDecimal> budgetAmountsByCostCategory, final boolean firstFiscalPeriod) {
         KualiDecimal balanceAmount;
-        balanceAmount = balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount());
-        if (firstFiscalPeriod && !includePeriod13InPeriod01Calculations()) {
-            balanceAmount = balanceAmount.subtract(balance.getMonth13Amount()); // get rid of period 13 if we should not include in calculations
-        }
-        awardAccountBudgetAmount = awardAccountBudgetAmount.add(balanceAmount);
-
-        addToBudgetAmountsByCostCategory(budgetAmountsByCostCategory, balanceAmount, balance);
-        return awardAccountBudgetAmount;
-    }
-
-    /**
-     * Adds the budget balance amount for a balance to the cost category budget amounts Map
-     * @param budgetAmountsByCostCategory the Map of cost category codes to budget amounts
-     * @param balanceAmount the budget amount of the balance
-     * @param balance the balance to find the cost category from
-     */
-    protected void addToBudgetAmountsByCostCategory(Map<String, KualiDecimal> budgetAmountsByCostCategory, KualiDecimal balanceAmount, Balance balance) {
         CostCategory category = getCostCategoryService().getCostCategoryForObjectCode(balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getObjectCode());
         if (!ObjectUtils.isNull(category)) {
+            balanceAmount = balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount());
+            if (firstFiscalPeriod && !includePeriod13InPeriod01Calculations()) {
+                balanceAmount = balanceAmount.subtract(balance.getMonth13Amount()); // get rid of period 13 if we should not include in calculations
+            }
+            awardAccountBudgetAmount = awardAccountBudgetAmount.add(balanceAmount);
+
             KualiDecimal categoryBudgetAmount = budgetAmountsByCostCategory.get(category.getCategoryCode());
             if (categoryBudgetAmount == null) {
                 categoryBudgetAmount = KualiDecimal.ZERO;
@@ -596,6 +584,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         } else {
             LOG.warn("Could not find cost category for balance: "+balance.getUniversityFiscalYear()+" "+balance.getChartOfAccountsCode()+" "+balance.getAccountNumber()+" "+balance.getSubAccountNumber()+" "+balance.getObjectCode()+" "+balance.getSubObjectCode()+" "+balance.getBalanceTypeCode());
         }
+        return awardAccountBudgetAmount;
     }
 
     /**

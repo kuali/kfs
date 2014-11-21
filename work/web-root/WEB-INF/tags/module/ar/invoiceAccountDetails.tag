@@ -51,7 +51,7 @@
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.balanceAmount}"
 								property="document.accountDetails[${ctr}].balanceAmount" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.billedAmount}"
-								property="document.accountDetails[${ctr}].billedAmount" readOnly="true" /></td>
+								property="document.accountDetails[${ctr}].adjustedCumExpenditures" readOnly="true" /></td>
 					</tr>
 				</logic:iterate>
 				<c:if test="${fn:length(KualiForm.document.accountDetails) gt 1}">

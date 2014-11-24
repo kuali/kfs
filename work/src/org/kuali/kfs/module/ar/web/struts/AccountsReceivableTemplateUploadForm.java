@@ -27,7 +27,7 @@ public abstract class AccountsReceivableTemplateUploadForm extends KualiForm {
 
     protected FormFile uploadedFile;
     protected boolean active;
-    protected boolean accessRestricted;
+    protected boolean restrictUseByChartOrg;
     protected String fileName;
     private String htmlFormAction;
 
@@ -68,21 +68,21 @@ public abstract class AccountsReceivableTemplateUploadForm extends KualiForm {
     }
 
     /**
-     * Gets the accessRestricted attribute.
+     * Gets the restrictUseByChartOrg attribute.
      *
-     * @return Returns the accessRestricted.
+     * @return Returns the restrictUseByChartOrg.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isRestrictUseByChartOrg() {
+        return restrictUseByChartOrg;
     }
 
     /**
-     * Sets the accessRestricted attribute value.
+     * Sets the restrictUseByChartOrg attribute value.
      *
-     * @param accessRestricted The accessRestricted to set.
+     * @param restrictUseByChartOrg The restrictUseByChartOrg to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setRestrictUseByChartOrg(boolean restrictUseByChartOrg) {
+        this.restrictUseByChartOrg = restrictUseByChartOrg;
     }
 
     /**

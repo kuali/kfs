@@ -19,7 +19,7 @@
 			<list>
 				<ref bean="TemplateBase-filename" />
 				<ref bean="TemplateBase-active" />
-				<ref bean="TemplateBase-accessRestricted" />
+				<ref bean="TemplateBase-restrictUseByChartOrg" />
 				<ref bean="TemplateBase-billByChartOfAccountCode" />
 				<ref bean="TemplateBase-billedByOrganizationCode" />
 				<ref bean="TemplateBase-uploadDate" />
@@ -53,13 +53,13 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="TemplateBase-accessRestricted" parent="TemplateBase-accessRestricted-parentBean" />
+	<bean id="TemplateBase-restrictUseByChartOrg" parent="TemplateBase-restrictUseByChartOrg-parentBean" />
 
-	<bean id="TemplateBase-accessRestricted-parentBean" abstract="true"
+	<bean id="TemplateBase-restrictUseByChartOrg-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="accessRestricted" />
-		<property name="label" value="Access Restricted" />
-		<property name="shortLabel" value="Access Restricted" />
+		<property name="name" value="restrictUseByChartOrg" />
+		<property name="label" value="Restrict Use by Chart/Org" />
+		<property name="shortLabel" value="Restrict Use by Chart/Org" />
 	</bean>
 
 	<bean id="TemplateBase-billByChartOfAccountCode" parent="TemplateBase-billByChartOfAccountCode-parentBean" />

@@ -526,7 +526,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public KualiDecimal getBilledAmountTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getBilledAmount());
+            total = total.add(accountDetail.getAdjustedCumExpenditures());
         }
         return total;
     }

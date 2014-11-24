@@ -1273,7 +1273,7 @@
 		<field-descriptor name="dunningLetterTemplateCode" column="DUN_LTR_TMPLT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="dunningLetterTemplateDescription" column="DUN_LTR_TMPLT_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="filename" column="FILE_NM" jdbc-type="VARCHAR" locking="false" />
-		<field-descriptor name="accessRestricted" column="RSTRC_USE_BY_COA_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="restrictUseByChartOrg" column="RSTRC_USE_BY_COA_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="uploadDate" column="UPLOAD_DT" jdbc-type="TIMESTAMP" locking="false" />
 		<field-descriptor name="billByChartOfAccountCode" column="BILL_BY_COA_CD" jdbc-type="VARCHAR" />
@@ -1872,7 +1872,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="invoiceTemplateDescription" column="INV_TMPLT_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="filename" column="FILE_NM" jdbc-type="VARCHAR" locking="false" />
-		<field-descriptor name="accessRestricted" column="RSTRC_USE_BY_COA_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="restrictUseByChartOrg" column="RSTRC_USE_BY_COA_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="uploadDate" column="UPLOAD_DT" jdbc-type="TIMESTAMP" locking="false" />
 		<field-descriptor name="billByChartOfAccountCode" column="BILL_BY_COA_CD" jdbc-type="VARCHAR" />

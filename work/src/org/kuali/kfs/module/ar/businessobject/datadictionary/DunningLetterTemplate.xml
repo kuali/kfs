@@ -32,7 +32,7 @@
 				<ref bean="DunningLetterTemplate-dunningLetterTemplateDescription" />
 				<ref bean="TemplateBase-filename" />
 				<ref bean="TemplateBase-active" />
-				<ref bean="TemplateBase-accessRestricted" />
+				<ref bean="TemplateBase-restrictUseByChartOrg" />
 				<ref bean="TemplateBase-billByChartOfAccountCode" />
 				<ref bean="TemplateBase-billedByOrganizationCode" />
 				<ref bean="TemplateBase-uploadDate" />
@@ -104,7 +104,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateCode" />
 				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
+				<bean parent="FieldDefinition" p:attributeName="restrictUseByChartOrg" />
 			</list>
 		</property>
 	</bean>

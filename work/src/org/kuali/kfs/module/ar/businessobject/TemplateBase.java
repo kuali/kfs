@@ -31,7 +31,7 @@ public abstract class TemplateBase extends PersistableBusinessObjectBase impleme
     protected String billedByOrganizationCode;
     protected Chart billByChartOfAccount;
     protected Organization billedByOrganization;
-    protected boolean accessRestricted;
+    protected boolean restrictUseByChartOrg;
     protected String filename;
     protected Timestamp uploadDate;
 
@@ -76,12 +76,12 @@ public abstract class TemplateBase extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * Gets the accessRestricted attribute.
+     * Gets the restrictUseByChartOrg attribute.
      *
-     * @return Returns the accessRestricted.
+     * @return Returns the restrictUseByChartOrg.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isRestrictUseByChartOrg() {
+        return restrictUseByChartOrg;
     }
 
     /**
@@ -157,12 +157,12 @@ public abstract class TemplateBase extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * Sets the accessRestricted attribute value.
+     * Sets the restrictUseByChartOrg attribute value.
      *
-     * @param accessRestricted The accessRestricted to set.
+     * @param restrictUseByChartOrg The restrictUseByChartOrg to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setRestrictUseByChartOrg(boolean restrictUseByChartOrg) {
+        this.restrictUseByChartOrg = restrictUseByChartOrg;
     }
 
     /**

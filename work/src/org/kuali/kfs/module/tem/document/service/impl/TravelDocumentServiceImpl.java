@@ -1,17 +1,20 @@
 /*
- * Copyright 2010 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
@@ -32,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,6 +129,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -782,17 +787,21 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void routeToFiscalOfficer(final TravelDocument document, final String noteText) throws WorkflowException, Exception {
         // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
-
         final Note newNote = getDocumentService().createNoteFromDocument(document, noteText);
         document.addNote(newNote);
+        getNoteService().save(newNote);
 
-        document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        workflowDocument.returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
 
-        addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        final String messagePattern = configurationService.getPropertyValueAsString(TemKeyConstants.MESSAGE_DOCUMENT_TEM_RETURNED_TO_FISCAL_OFFICER);
+        final String annotation = MessageFormat.format(messagePattern, GlobalVariables.getUserSession().getPerson().getPrincipalName());
 
-        document.getFinancialSystemDocumentHeader().setApplicationDocumentStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
+        workflowDocument.adHocToPrincipal( ActionRequestType.FYI, KFSConstants.RouteLevelNames.ACCOUNT, annotation, workflowDocument.getInitiatorPrincipalId(), TemConstants.INITIATOR_RESPONSIBILITY, true);
 
-        getDocumentService().saveDocument(document);
+        document.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
+
+        document.getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
     }
 
     /**

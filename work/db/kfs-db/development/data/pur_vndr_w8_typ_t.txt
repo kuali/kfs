@@ -1,0 +1,6 @@
+vndr_w8_typ_cd|obj_id|ver_nbr|vndr_w8_typ_desc|actv_ind|
+01|KFSTP-1359-1|1.0|W-8BEN|Y|
+02|KFSTP-1359-2|1.0|W-8BEN-E|Y|
+03|KFSTP-1359-3|1.0|W-8ECI|Y|
+04|KFSTP-1359-4|1.0|W-8EXP|Y|
+05|KFSTP-1359-5|1.0|W-8IMY|Y|

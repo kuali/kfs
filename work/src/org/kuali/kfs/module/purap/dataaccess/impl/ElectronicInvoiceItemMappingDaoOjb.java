@@ -1,17 +1,20 @@
 /*
- * Copyright 2008-2009 The Kuali Foundation
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright 2005-2014 The Kuali Foundation
  * 
- * http://www.opensource.org/licenses/ecl2.php
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.kfs.module.purap.dataaccess.impl;
 
@@ -31,7 +34,8 @@ ElectronicInvoiceItemMappingDao {
   /**
    * Get list of all ElectronicInvoiceItemMappings
    */
-  public List getAll() {
+  @Override
+public List getAll() {
     LOG.debug("getAll() started");
     QueryByCriteria qbc = new QueryByCriteria(ElectronicInvoiceItemMapping.class);
     qbc.addOrderBy("id", true);
@@ -39,7 +43,8 @@ ElectronicInvoiceItemMappingDao {
     return l;
   }
 
-  public ElectronicInvoiceItemMapping getByUniqueKeys(Integer headerId, Integer detailId, String invoiceTypeCode) {
+  @Override
+public ElectronicInvoiceItemMapping getByUniqueKeys(Integer headerId, Integer detailId, String invoiceTypeCode) {
     LOG.debug("getByUniqueKeys() started");
     Criteria criteria = new Criteria();
     criteria.addEqualTo("vendorHeaderGeneratedId", headerId);
@@ -48,8 +53,9 @@ ElectronicInvoiceItemMappingDao {
     QueryByCriteria qbc = new QueryByCriteria(ElectronicInvoiceItemMapping.class,criteria);
     return (ElectronicInvoiceItemMapping)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
   }
-  
-  public List getAllItemTypes() {
+
+  @Override
+public List getAllItemTypes() {
     LOG.debug("getAllItemTypes() started");
 
     Criteria criteria = new Criteria();
@@ -57,11 +63,12 @@ ElectronicInvoiceItemMappingDao {
 
     QueryByCriteria qbc = new QueryByCriteria(ItemType.class,criteria);
     qbc.addOrderByAscending("code");
-    
+
     return (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
   }
-  
-  public ItemType getItemTypeByCode(String code) {
+
+  @Override
+public ItemType getItemTypeByCode(String code) {
   	LOG.debug("getItemTypeByCode() started");
   	Criteria criteria = new Criteria();
   	criteria.addEqualTo("code", code);
@@ -70,10 +77,11 @@ ElectronicInvoiceItemMappingDao {
   }
   /**
    * Get an ElectronicInvoiceItemMapping by primary key.
-   * 
+   *
    * @param id    the id to lookup
    */
-  public ElectronicInvoiceItemMapping getById(String id) {
+  @Override
+public ElectronicInvoiceItemMapping getById(String id) {
     LOG.debug("getById() started");
     Criteria crit = new Criteria();
     crit.addEqualTo("id", id);
@@ -83,27 +91,13 @@ ElectronicInvoiceItemMappingDao {
 
   /**
    * Delete a ElectronicInvoiceItemMapping.
-   * 
-   * @param row 
+   *
+   * @param row
    */
-  public void delete(ElectronicInvoiceItemMapping row) {
+  @Override
+public void delete(ElectronicInvoiceItemMapping row) {
     LOG.debug("delete() started");
     getPersistenceBrokerTemplate().delete(row);
   }
 
 }
-/*
- * Copyright 2007 The Kuali Foundation.
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl2.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */

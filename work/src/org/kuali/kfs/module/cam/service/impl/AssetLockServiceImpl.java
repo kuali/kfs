@@ -1,27 +1,23 @@
 /*
- * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
- * Copyright 2005-2014 The Kuali Foundation
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright 2009 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kfs.module.cam.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -112,13 +108,20 @@ public class AssetLockServiceImpl implements AssetLockService {
     }
 
 
-    /**
-     * @param assetLocks must be from the same documentNumber and have the same documentTypeName
-     * @return Return false without any of the asset being locked. Return true when all assets can be locked.
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
-     */
- 
-    public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks) {
+	/**
+	 * @param assetLocks
+	 *            All asset locks must be owned by the same documentNumber and having the same
+	 *            documentTypeName
+	 * @param ignoreLockingInfoForDeletion
+	 *            Indicate whether or not to ignore asset locking information
+	 *            when deleting existing asset locks granted to document. This
+	 *            will be used to update asset locks if locking info updated as
+	 *            well.
+	 * @return Return false without any of the asset being locked. Return true
+	 *         when all assets can be locked.
+	 * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
+	 */
+    public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks, boolean ignoreLockingInfoForDeletion) {
         if (assetLocks == null || assetLocks.isEmpty() || !assetLocks.iterator().hasNext()) {
             return true;
         }
@@ -140,7 +143,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         }
 
         for (AssetLock assetLock : assetLocks) {
-            deleteAssetLocks(documentNumber, assetLock.getLockingInformation());
+            deleteAssetLocks(documentNumber, ignoreLockingInfoForDeletion ? "" : assetLock.getLockingInformation());
         }
 
         getBusinessObjectService().save(assetLocks);
@@ -221,7 +224,7 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Generating error messages and doc links for blocking documents.
-     * 
+     *
      * @param blockingDocuments
      */
     protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments, String documentTypeName) {
@@ -257,7 +260,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
-  
+
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return false;
@@ -295,7 +298,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#getAssetLockingDocuments(java.util.List, java.lang.String,
      *      java.lang.String)
      */
-  
+
     public List<String> getAssetLockingDocuments(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         Collection blockingDocumentTypes = getBlockingDocumentTypes(documentTypeName);
         List<String> lockingDocumentNumbers = getCapitalAssetLockDao().getLockingDocumentNumbers(assetNumbers, blockingDocumentTypes, excludingDocumentNumber);

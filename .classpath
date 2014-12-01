@@ -35,61 +35,51 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-web-2.1.9.jar" sourcepath="build/rice-sources/rice-location-web-2.1.9-sources.jar" /><!-- rice API lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-core-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-core-service-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-edl-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-kew-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-kim-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-krms-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-client-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-ksb-client-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-server-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-ksb-server-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-impl-2.1.9.jar" sourcepath="build/rice-sources/rice-location-impl-2.1.9-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
@@ -374,11 +364,6 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="test/lib/connector-api-1.5.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="C:/java/projects/kfs-cntrb/build/drivers/mysql-connector-java-5.0.5-bin.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

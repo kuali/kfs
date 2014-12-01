@@ -1,17 +1,20 @@
-/**
- * Copyright 2005-2011 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.rice.kim.impl.jaxb;
 
@@ -40,11 +43,11 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * Helper class containing static methods for aiding in parsing role XML.
- * 
+ *
  * <p>All non-private methods are package-private so that only the KIM-parsing-related code can make use of them. (TODO: Is that necessary?)
- * 
+ *
  * <p>TODO: Should this be converted into a service instead?
- * 
+ *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 public final class RoleXmlUtil {
@@ -53,7 +56,7 @@ public final class RoleXmlUtil {
 
     /**
      * Performs the necessary validation on the new role, then saves it.
-     * 
+     *
      * @param newRole The role to persist.
      * @return The ID of the persisted role.
      * @throws IllegalArgumentException if newRole is null.
@@ -63,7 +66,7 @@ public final class RoleXmlUtil {
         if (newRole == null) {
             throw new IllegalArgumentException("Cannot persist a null role");
         }
-        
+
         // Validate the role and (if applicable) retrieve the ID from an existing matching role.
         validateAndPrepareRole(newRole);
 
@@ -80,36 +83,36 @@ public final class RoleXmlUtil {
 
         // Set a flag on the role to indicate that it has now been persisted so that the unmarshalling process will not save this role more than once.
         newRole.setAlreadyPersisted(true);
-        
+
         return role.getId();
     }
-    
+
     /**
      * Performs the necessary validation on the new role member, then saves it.
-     * 
+     *
      * @param newRoleMember The role member to save.
      * @return The ID of the persisted role member.
      * @throws IllegalArgumentException if newRoleMember is null.
      * @throws UnmarshalException if newRoleMember contains invalid data.
      */
     static String validateAndPersistNewRoleMember(RoleMemberXmlDTO newRoleMember) throws UnmarshalException {
-        
+
         if (newRoleMember == null) {
             throw new IllegalArgumentException("Cannot persist a null role member");
         }
-        
+
         // Validate role ID and role name/namespace.
         validateRoleIdAndRoleNameForMember(newRoleMember);
-        
+
         // Validate member type, member ID, and member name/namespace.
         validateMemberIdentity(newRoleMember);
-        
+
         // Validate the from/to dates, if defined.
         if (newRoleMember.getActiveFromDate() != null && newRoleMember.getActiveToDate() != null &&
                 newRoleMember.getActiveFromDate().compareTo(newRoleMember.getActiveToDate()) > 0) {
             throw new UnmarshalException("Cannot create a role member whose activeFromDate occurs after its activeToDate");
         }
-        
+
         // Define defaults as needed.
         if (newRoleMember.getQualifications() == null) {
             newRoleMember.setQualifications(new HashMap<String, String>());
@@ -123,13 +126,13 @@ public final class RoleXmlUtil {
 
         // Save the role member.
         RoleMemberContract newMember = KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
-        
+
         return newMember.getId();
     }
-    
+
     /**
      * Performs the necessary validation on the role permission, then saves it.
-     * 
+     *
      * @param newRolePermission The role permission to save.
      * @throws IllegalArgumentException if newRolePermission is null
      * @throws UnmarshalException if newRolePermission contains invalid data.
@@ -138,17 +141,17 @@ public final class RoleXmlUtil {
         if (newRolePermission == null) {
             throw new IllegalArgumentException("newRolePermission cannot be null");
         }
-        
+
         // Validate the role permission, and prepare its role ID if necessary.
         validateAndPrepareRolePermission(newRolePermission);
-        
+
         // Save the role permission.
         KimApiServiceLocator.getRoleService().assignPermissionToRole(newRolePermission.getPermissionId(), newRolePermission.getRoleId());
     }
-    
+
     /**
      * Removes any role members for a given role whose IDs are not listed in a given role member ID set.
-     * 
+     *
      * @param roleId The ID of the role containing the role members.
      * @param existingRoleMemberIds The IDs of the role members that should not be removed.
      * @throws IllegalArgumentException if roleId is blank or refers to a non-existent role, or if existingRoleMemberIds is null.
@@ -164,7 +167,7 @@ public final class RoleXmlUtil {
         if (role == null) {
             throw new IllegalArgumentException("Cannot remove role members for role with ID \"" + roleId + "\" because that role does not exist");
         }
-        
+
         // Remove any role members whose IDs are not in the set.
         List<RoleMember> roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(
                 QueryByCriteria.Builder.fromPredicates(equal("roleId", roleId))).getResults();
@@ -187,7 +190,7 @@ public final class RoleXmlUtil {
             }
         }
     }
-    
+
     /**
      * Validates a new role's name, namespace, KIM type, and description, and sets the role's ID if the name and namespace match an existing role.
      */
@@ -200,7 +203,7 @@ public final class RoleXmlUtil {
         } else if (StringUtils.isBlank(newRole.getRoleDescription())) {
             throw new UnmarshalException("Cannot create or override a role with a blank description");
         }
-        
+
         // Attempt to find an existing matching role, and assign its ID to the validated role if it exists.
         String matchingId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                 newRole.getNamespaceCode(), newRole.getRoleName());
@@ -208,7 +211,7 @@ public final class RoleXmlUtil {
             newRole.setRoleId(matchingId);
         }
     }
-    
+
     /**
      * Validates a new role member's role ID, role name, and role namespace.
      */
@@ -224,7 +227,7 @@ public final class RoleXmlUtil {
                     throw new UnmarshalException("Cannot create role member for role with name \"" + standaloneMember.getRoleName() + "\" and namespace \"" +
                             standaloneMember.getRoleNamespaceCode() + "\" because such a role does not exist");
                 }
-                
+
                 // If the role member defines its own role ID, verify that it's the same as the one from the existing role; otherwise, assign the member's role ID.
                 if (StringUtils.isBlank(standaloneMember.getRoleId())) {
                     standaloneMember.setRoleId(existingId);
@@ -239,13 +242,13 @@ public final class RoleXmlUtil {
                 throw new UnmarshalException("Cannot create role member for the role with ID \"" + standaloneMember.getRoleId() + "\" because that role does not exist");
             }
         }
-        
+
         // Ensure that a role ID was explicitly defined or was derived from a name + namespace combo.
         if (StringUtils.isBlank(newRoleMember.getRoleId())) {
             throw new UnmarshalException("Cannot create role member without providing the role ID or role name + namespace that the member belongs to");
         }
     }
-    
+
     /**
      * Validates a new role member's member type, member ID, member name, and (if applicable) member namespace code.
      */
@@ -255,7 +258,7 @@ public final class RoleXmlUtil {
         if (memberType == null) {
             throw new UnmarshalException("Cannot create a role member with no member principal/group/role identification information specified");
         }
-        
+
         // Ensure that a valid member ID was specified, if present.
         if (StringUtils.isNotBlank(newRoleMember.getMemberId())) {
             if (MemberType.PRINCIPAL.equals(memberType)) {
@@ -280,7 +283,7 @@ public final class RoleXmlUtil {
                 }
             }
         }
-        
+
         // Ensure that a valid member name (and namespace, if applicable) was specified, if present.
         if (StringUtils.isNotBlank(newRoleMember.getMemberName())) {
             if (MemberType.PRINCIPAL.equals(memberType)) {
@@ -335,19 +338,19 @@ public final class RoleXmlUtil {
                 }
             }
         }
-        
+
         // Ensure that a member ID was either explicitly defined or was derived from the member name (and namespace, if applicable).
         if (StringUtils.isBlank(newRoleMember.getMemberId())) {
             throw new RuntimeException("Cannot create a role member with no member principal/group/role identification information specified");
         }
-        
+
     }
-    
+
     /**
      * Validates a role permission's role and permission identification information, and assigns its role ID if needed.
      */
     private static void validateAndPrepareRolePermission(RolePermissionXmlDTO newRolePermission) throws UnmarshalException {
-        
+
         // If this is a standalone role permission, derive and validate its role information accordingly.
         if (newRolePermission instanceof RolePermissionXmlDTO.OutsideOfRole) {
             RolePermissionXmlDTO.OutsideOfRole standaloneRolePerm = (RolePermissionXmlDTO.OutsideOfRole) newRolePermission;
@@ -374,12 +377,12 @@ public final class RoleXmlUtil {
                         "\" because that role does not exist");
             }
         }
-        
+
         // Ensure that a role ID was explicitly defined or was derived from a name + namespace combo.
         if (StringUtils.isBlank(newRolePermission.getRoleId())) {
             throw new UnmarshalException("Cannot assign permission to role without providing the role ID or role name + namespace that the permission is assigned to");
         }
-        
+
         // If the permission is being identified by name and namespace, derive or validate its permission ID accordingly.
         if (newRolePermission.getPermissionNameAndNamespace() != null) {
             PermissionContract permission = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(
@@ -402,5 +405,5 @@ public final class RoleXmlUtil {
                     "\" because that permission does not exist");
         }
     }
-    
+
 }

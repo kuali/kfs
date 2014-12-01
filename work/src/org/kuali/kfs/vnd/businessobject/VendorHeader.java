@@ -1,17 +1,20 @@
 /*
- * Copyright 2007 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.kuali.kfs.vnd.businessobject;
@@ -19,8 +22,11 @@ package org.kuali.kfs.vnd.businessobject;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
@@ -29,7 +35,11 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.datadictionary.AttributeSecurity;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
@@ -71,6 +81,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     private Chapter4Status chapter4Status;
     private List<VendorSupplierDiversity> vendorSupplierDiversities;
     private List<VendorTaxChange> vendorTaxChanges;
+    protected CountryEbo vendorCountry;
 
     /**
      * Default constructor.
@@ -484,6 +495,35 @@ public class VendorHeader extends PersistableBusinessObjectBase {
      */
     public void setChapter4Status(Chapter4Status chapter4Status) {
         this.chapter4Status = chapter4Status;
+    }
+
+    public CountryEbo getVendorCountry() {
+        if ( StringUtils.isBlank(vendorCorpCitizenCode) ) {
+            vendorCountry = null;
+        } else {
+            if ( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCorpCitizenCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, vendorCorpCitizenCode);
+                    vendorCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return vendorCountry;
+    }
+
+    /**
+     * Sets the vendorCountry attribute.
+     *
+     * @param vendorCountry The vendorCountry to set.
+     * @deprecated
+     */
+    @Deprecated
+    public void setVendorCountry(CountryEbo vendorCountry) {
+        this.vendorCountry = vendorCountry;
     }
 
     /**

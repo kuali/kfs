@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
-	<!--
-		Copyright 2007-2008 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
 	<bean id="W8Type" parent="W8Type-parentBean" />
 
 	<bean id="W8Type-parentBean" abstract="true"
@@ -27,7 +33,7 @@
 		<property name="lookupDefinition">
 			<ref bean="W8Type-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="W8TypeCode" />
+		<property name="titleAttribute" value="vendorW8TypeCode" />
 		<property name="objectLabel" value="W-8 Type" />
 		<property name="attributes">
 			<list>
@@ -98,6 +104,7 @@
 		<property name="inquirySections">
 			<list>
 				<ref bean="W8Type-inquirySectionDefinition" />
+				<ref bean="W8Type-inquirySectionDefinition-ownerships" />
 			</list>
 		</property>
 	</bean>
@@ -112,6 +119,41 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorW8TypeDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="W8Type-inquirySectionDefinition-ownerships"
+		parent="W8Type-inquirySectionDefinition-ownerships-parentBean" />
+	<bean id="W8Type-inquirySectionDefinition-ownerships-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		
+		<property name="inquiryFields">
+			<list>
+				<ref
+					bean="W8Type-inquiryCollectionDefinition-ownerships" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="W8Type-inquiryCollectionDefinition-ownerships" parent="W8Type-inquiryCollectionDefinition-ownerships-parentBean" />
+	<bean id="W8Type-inquiryCollectionDefinition-ownerships-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="w8TypeOwnershipTypes" />
+		<property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType" />
+		<property name="numberOfColumns" value="1" />
+		<property name="summaryTitle" value="W-8 Ownership" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode" />
 			</list>
 		</property>
 	</bean>

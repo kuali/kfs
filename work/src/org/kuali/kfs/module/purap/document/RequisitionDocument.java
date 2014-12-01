@@ -1,17 +1,20 @@
 /*
- * Copyright 2006 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.kuali.kfs.module.purap.document;
@@ -65,7 +68,6 @@ import org.kuali.rice.core.web.format.DateViewDateObjectFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
@@ -133,10 +135,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public boolean isMissingAccountingLines() {
-        List<RequisitionItem> itemsWithMissingAccountingLines = getListOfItemsMissingAccountingLines(); 
+        List<RequisitionItem> itemsWithMissingAccountingLines = getListOfItemsMissingAccountingLines();
         return !(itemsWithMissingAccountingLines.isEmpty());
     }
-    
+
     public List<RequisitionItem> getListOfItemsMissingAccountingLines() {
         List<RequisitionItem> itemsWithMissingAccountingLines = new ArrayList<RequisitionItem>();
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
@@ -151,38 +153,38 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     protected boolean isSeparationOfDutiesReviewRequired() {
         try {
-            Set<Person> priorApprovers = this.getAllPriorApprovers();
+                Set<Person> priorApprovers = this.getAllPriorApprovers();
 
-            boolean noPriorApprover = (priorApprovers.size() == 0);
+                // If there are more than 1 prior approvers there is no need for SOD.
+                // If 1 approver exists, check that approver is not the initiator.
+                if (priorApprovers.size() > 0) {
+                    if (priorApprovers.size() > 1) {
+                        return false;
+                    } else {
+                        for (Person priorApprover : priorApprovers) {
+                            String initiatorPrincipalId = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                            if (!initiatorPrincipalId.equals(priorApprover.getPrincipalId())) {
+                                return false;
+                            }
+                        }
+                    }
+                }
 
-            // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
-            // then no need for separation of duties
-            if (priorApprovers.size() > 0) {
-                return false;
-            }
-
-            //If there was no prior approver, then we have to check the amounts to determine whether to route to separation of duties,
-            //as mentioned below.
-            if (noPriorApprover) {
+                // If there was no prior approver or if the initiator and the approver are the same person,
+                // then we have to check the amounts to determine whether to route to separation of duties.
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
                 KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
                 // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
                 KualiDecimal totalAmount = getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount();
                 if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
                     return false;
-                }
-                else {
+                } else {
                     return true;
                 }
+            } catch (WorkflowException we) {
+                LOG.error("Exception while attempting to retrieve all prior approvers from workflow: ", we);
             }
-
-        }
-        catch (WorkflowException we) {
-            LOG.error("Exception while attempting to retrieve all prior approvers from workflow: ", we);
-        }
-
-        return false;
-
+            return false;
     }
 
     public Set<Person> getAllPriorApprovers() throws WorkflowException {
@@ -249,7 +251,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(currentUser.getPrincipalId());
         Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
-        defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
+        defaultPrincipalAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
         if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
             if (defaultPrincipalAddress.getBuilding().isActive()) {
                 this.setDeliveryCampusCode(defaultPrincipalAddress.getCampusCode());
@@ -369,7 +371,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(vendorContract);
-        vendorContract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
+        vendorContract = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
         if (!(vendorContract != null && today.after(vendorContract.getVendorContractBeginningDate()) && today.before(vendorContract.getVendorContractEndDate()))) {
             activeContract = false;
         }

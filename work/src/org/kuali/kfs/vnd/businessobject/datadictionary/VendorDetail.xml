@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
-	<!--
-		Copyright 2007-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
 	<bean id="VendorDetail" parent="VendorDetail-parentBean" />
 
 	<bean id="VendorDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -100,6 +106,7 @@
 				<ref bean="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" />
 				<ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" />
 				<ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
+				<ref bean="VendorDetail-vendorCorpCitizenCodeForLookup" />
 				<ref bean="VendorDetail-activeIndicator" />
 				<ref bean="VendorDetail-taxableIndicator" />
 				<ref bean="VendorDetail-vendorParentName" />
@@ -150,6 +157,17 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="vendorHeader.vendorCountry" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorHeader.vendorCorpCitizenCode"
+								p:targetName="code" />
+						</list>
+					</property>
+					
+				</bean>
+				
 			</list>
 		</property>
 	</bean>
@@ -453,6 +471,17 @@
 		parent="VendorGenericAttributes-stateCode">
 		<property name="name" value="vendorStateForLookup" />
 	</bean>
+	
+	<bean id="VendorDetail-vendorCorpCitizenCodeForLookup" parent="VendorDetail-vendorCorpCitizenCodeForLookup-parentBean" />
+
+	<bean id="VendorDetail-vendorCorpCitizenCodeForLookup-parentBean" abstract="true"
+		parent="VendorGenericAttributes-countryCode">
+		<property name="name" value="vendorHeader.vendorCountry.name" />
+    	<property name="label" value="Country of Incorporation/Citizenship" />
+	</bean>
+	
+	
+	
 	<bean id="VendorDetail-vendorCreditCardIndicator" parent="VendorDetail-vendorCreditCardIndicator-parentBean" />
 
 	<bean id="VendorDetail-vendorCreditCardIndicator-parentBean"
@@ -896,29 +925,30 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorParentIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorParentName" />
+
 				<bean parent="InquirySubSectionHeaderDefinition"
 					p:attributeName="Corporate Information" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9ReceivedIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9SignedDate" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8BenReceivedIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8SignedDate" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8TypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorGIIN" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignTaxId" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDOB" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter3StatusCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter4StatusCode" />
-				
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxEndDate" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDebarredIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCategoryCode" />
+				
 				<bean parent="InquirySubSectionHeaderDefinition"
 					p:attributeName="Detail Information" />
 				<bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode" />
@@ -1462,10 +1492,12 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="vendorName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignTaxId" />
 				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorAddresses.vendorStateCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorCommodities.purchasingCommodityCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
@@ -1480,6 +1512,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCountry.name" />
 				<bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
 			</list>

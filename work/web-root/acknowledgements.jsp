@@ -1,17 +1,20 @@
 <%--
- Copyright 2006 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -33,7 +36,7 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right" border="0" /><br/>
-Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All rights reserved.  Kuali is licensed for use pursuant to the Educational Community License v. 2.0. Portions of Kuali are copyrighted by other parties, including the parties listed below. You should refer to the licenses directory for complete copyright and licensing information. Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a>.</span></p>
+Copyright 2014 Kuali, Inc. All rights reserved. This software is licensed for use pursuant to the Affero General Public License, version 3. Portions of this software are copyrighted by other parties, including the parties listed below, and you should see the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a>.</span></p>
 
 <h3><a name="Acknowledgements-ThirdPartyContributions"></a>Third Party Contributions</h3>
 
@@ -68,6 +71,8 @@ Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All righ
 <p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/x/OwC1Eg" title="Rice Acknowledgments" rel="nofollow">Licensing and Acknowledgments (2.0)</a></span>).</p>
 
 <p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>)</p>
+
+<p>Portions Copyright (c) 2005-2014 Kuali Foundation. All Rights Reserved.</p>
 
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
 

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -346,9 +347,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     protected Set<String> getUniqueTravelDocumentIds(List<GeneralLedgerPendingEntry> pendingEntries) {
         Set<String> travelDocIds = new HashSet<String>();
-        for (GeneralLedgerPendingEntry pendingEntry : pendingEntries) {
-            if (!StringUtils.isBlank(pendingEntry.getReferenceFinancialDocumentNumber())) {
-                travelDocIds.add(pendingEntry.getReferenceFinancialDocumentNumber());
+        if (!CollectionUtils.isEmpty(pendingEntries)) {
+            for (GeneralLedgerPendingEntry pendingEntry : pendingEntries) {
+                if (!StringUtils.isBlank(pendingEntry.getReferenceFinancialDocumentNumber())) {
+                    travelDocIds.add(pendingEntry.getReferenceFinancialDocumentNumber());
+                }
             }
         }
         return travelDocIds;

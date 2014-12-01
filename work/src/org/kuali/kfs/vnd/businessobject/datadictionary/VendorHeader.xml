@@ -238,7 +238,7 @@
     <property name="shortLabel" value="Foreign Tax Id." />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" p:maxLength="25"/>
+      <bean parent="AlphaNumericValidationPattern" p:maxLength="25"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="27"/>
@@ -314,18 +314,11 @@
   
   <bean id="VendorHeader-vendorCorpCitizenCode" parent="VendorHeader-vendorCorpCitizenCode-parentBean" />
 
-  <bean id="VendorHeader-vendorCorpCitizenCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorHeader-vendorCorpCitizenCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode-parentBean">
     <property name="name" value="vendorCorpCitizenCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country of Incorporation/Citizenship" />
     <property name="shortLabel" value="County of Incorp/Citizen" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   
   <bean id="VendorHeader-vendorW8TypeCode" parent="VendorHeader-vendorW8TypeCode-parentBean" />

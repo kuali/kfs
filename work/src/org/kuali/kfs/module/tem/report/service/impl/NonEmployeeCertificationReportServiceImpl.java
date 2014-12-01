@@ -75,7 +75,9 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_NON_EMPLOYEE_CERTIFICATION,report.getInstitution() ));
 
         report.setDocumentId(travelDocument.getTravelDocumentIdentifier().toString());
-        report.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
+        if (!ObjectUtils.isNull(travelDocument.getTraveler())) {
+            report.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
+        }
         report.setBeginDate(travelDocument.getTripBegin());
         report.setEndDate(travelDocument.getTripEnd());
         report.setEventId(travelDocument.getTravelDocumentIdentifier().toString());

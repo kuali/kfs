@@ -102,7 +102,9 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         report.setTotalExpense(document.getDocumentGrandTotal());
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION,report.getInstitution() ));
         report.setEntertainmentHostName(document.getHostName());
-        report.setEmployeeName(document.getTraveler().getFirstName()+" "+document.getTraveler().getLastName());
+        if (!ObjectUtils.isNull(document.getTraveler())) {
+            report.setEmployeeName(document.getTraveler().getFirstName()+" "+document.getTraveler().getLastName());
+        }
 
         report.setApprovingDepartment(getApprovingDepartment(document.getTraveler()));
 

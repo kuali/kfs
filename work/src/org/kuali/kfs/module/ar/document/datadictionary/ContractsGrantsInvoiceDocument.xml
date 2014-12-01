@@ -780,6 +780,11 @@
 	   			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode"/>
 			</list>
 		</property>
+		<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="FundsManager" value-ref="RoutingType-ContractsGrantsInvoiceDocument-FundsManager"/>
+    		</map>
+    	</property>
 	</bean>
 
 	<bean id="SearchingType-ContractsGrantsInvoiceDocument-proposalNumber"
@@ -799,5 +804,28 @@
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="true" />
 	</bean>
+	
+	<bean id="RoutingType-ContractsGrantsInvoiceDocument-FundsManager" parent="RoutingType-ContractsGrantsInvoiceDocument-FundsManager-parentBean"/>
+	<bean id="RoutingType-ContractsGrantsInvoiceDocument-FundsManager-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-proposalNumber" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-ContractsGrantsInvoiceDocument-FundsManager-proposalNumber" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="DocumentValuePathGroup-ContractsGrantsInvoiceDocument-FundsManager-proposalNumber" parent="DocumentValuePathGroup-ContractsGrantsInvoiceDocument-FundsManager-proposalNumber-parentBean"/>
+    <bean id="DocumentValuePathGroup-ContractsGrantsInvoiceDocument-FundsManager-proposalNumber-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>invoiceGeneralDetail.proposalNumber</value>
+    		</list>
+    	</property>
+    </bean>
 
 </beans>

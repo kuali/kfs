@@ -315,13 +315,13 @@
 	    <insert tableName="KRCR_PARM_T">
 	      <column name="NMSPC_CD" value="KFS-VND"/>
 	      <column name="CMPNT_CD" value="VendorDetail"/>
-	      <column name="PARM_NM" value="W8_SIGNED_DATE_REQUIRED_IND"/>
+	      <column name="PARM_NM" value="W8_DATA_REQUIRED_IND"/>
 	      <column name="APPL_ID" value="KFS"/>
 	      <column name="OBJ_ID" value="KFSTP-1359-1"/>
 	      <column name="VER_NBR" value="1"/>
 	      <column name="PARM_TYP_CD" value="CONFG"/>
 	      <column name="VAL" value="Y"/>
-	      <column name="PARM_DESC_TXT" value="Determines whether W-8 Signed Date is required on Vendor Maintenance Documents."/>
+	      <column name="PARM_DESC_TXT" value="Determines whether W-8 Signed Date, W-8 Type and Country of Incorporation/Citizenship is required on Vendor Maintenance Documents."/>
 	      <column name="EVAL_OPRTR_CD" value="A"/>
 	    </insert>
 
@@ -346,7 +346,7 @@
 	      <column name="OBJ_ID" value="KFSTP-1359-3"/>
 	      <column name="VER_NBR" value="1"/>
 	      <column name="PARM_TYP_CD" value="VALID"/>
-	      <column name="VAL" value="^[A-Z0-9]{6}[.][0-9A-Z]{5}[.][A-Z]{2}[.]\\d{3}$"/>
+	      <column name="VAL" value="^[A-NP-Z0-9]{6}[.][A-NP-Z0-9]{5}[.](LE|SL|ME|BR|SP)[.][0-9]{3}$"/>
 	      <column name="PARM_DESC_TXT" value="Java Regular expressions that describe the acceptable formats for GIIN numbers."/>
 	      <column name="EVAL_OPRTR_CD" value="A"/>
 	    </insert>

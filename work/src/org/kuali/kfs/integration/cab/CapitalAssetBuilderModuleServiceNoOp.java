@@ -178,4 +178,10 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
     public void reactivatePretagDetails(String campusTagNumber) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }
+
+    @Override
+    public boolean hasCAMSCapitalAssetObjectSubType(AccountingLine line) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
 }

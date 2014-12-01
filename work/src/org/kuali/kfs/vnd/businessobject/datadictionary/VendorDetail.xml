@@ -100,6 +100,7 @@
 				<ref bean="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" />
 				<ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" />
 				<ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
+				<ref bean="VendorDetail-vendorCorpCitizenCodeForLookup" />
 				<ref bean="VendorDetail-activeIndicator" />
 				<ref bean="VendorDetail-taxableIndicator" />
 				<ref bean="VendorDetail-vendorParentName" />
@@ -464,6 +465,17 @@
 		parent="VendorGenericAttributes-stateCode">
 		<property name="name" value="vendorStateForLookup" />
 	</bean>
+	
+	<bean id="VendorDetail-vendorCorpCitizenCodeForLookup" parent="VendorDetail-vendorCorpCitizenCodeForLookup-parentBean" />
+
+	<bean id="VendorDetail-vendorCorpCitizenCodeForLookup-parentBean" abstract="true"
+		parent="VendorGenericAttributes-countryCode">
+		<property name="name" value="vendorHeader.vendorCountry.name" />
+    	<property name="label" value="Country of Incorporation/Citizenship" />
+	</bean>
+	
+	
+	
 	<bean id="VendorDetail-vendorCreditCardIndicator" parent="VendorDetail-vendorCreditCardIndicator-parentBean" />
 
 	<bean id="VendorDetail-vendorCreditCardIndicator-parentBean"
@@ -1494,7 +1506,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCountry.name" />
 				<bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
 			</list>

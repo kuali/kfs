@@ -1025,7 +1025,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, creditCardNumber);
         List<ProcurementCardDefault> matchingPcardDefaults = (List<ProcurementCardDefault>)businessObjectService.findMatching(ProcurementCardDefault.class, fieldValues);
-        ProcurementCardDefault procurementCardDefault = matchingPcardDefaults.get(0);
+        ProcurementCardDefault procurementCardDefault = null;
+        if ( !matchingPcardDefaults.isEmpty() ) {
+            procurementCardDefault = matchingPcardDefaults.get(0);
+        }
+
         return procurementCardDefault;
     }
 

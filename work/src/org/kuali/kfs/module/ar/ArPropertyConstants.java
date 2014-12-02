@@ -137,6 +137,21 @@ public class ArPropertyConstants{
         public static final String CUSTOMER_ADDRESS_END_DATE = "customerAddressEndDate";
     }
 
+    // Customer Address
+    public static class CustomerAddressFields {
+        public static final String CUSTOMER_ADDRESS_NAME = "customerAddressName";
+        public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
+        public static final String CUSTOMER_LINE1_STREET_ADDRESS = "customerLine1StreetAddress";
+        public static final String CUSTOMER_LINE2_STREET_ADDRESS = "customerLine2StreetAddress";
+        public static final String CUSTOMER_CITY_NAME = "customerCityName";
+        public static final String CUSTOMER_COUNTRY_CODE = "customerCountryCode";
+        public static final String CUSTOMER_STATE_CODE = "customerStateCode";
+        public static final String CUSTOMER_ZIP_CODE = "customerZipCode";
+        public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";
+        public static final String CUSTOMER_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
+        public static final String CUSTOMER_EMAIL_ADDRESS = "customerEmailAddress";
+    }
+
     // CustomerCreditMemoDocument
     public static class CustomerCreditMemoDocumentFields {
         public static final String CREDIT_MEMO_ITEM_QUANTITY = "creditMemoItemQuantity";

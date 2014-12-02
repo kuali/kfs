@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
@@ -32,9 +34,13 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +52,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
     protected CustomerService customerService;
     protected DocumentService documentService;
+    protected DataDictionaryService dataDictionaryService;
     protected KualiModuleService kualiModuleService;
     protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
     protected WorkflowDocumentService workflowDocumentService;
@@ -55,7 +62,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         MaintenanceDocument doc = null;
         doc = (MaintenanceDocument) documentService.getNewDocument(maintenanceDocumentDictionaryService.getDocumentTypeName(Customer.class));
         // set a description to say that this application document has been created by the Agency Document
-        doc.getDocumentHeader().setDocumentDescription(description);
+        doc.getDocumentHeader().setDocumentDescription(truncateField(DocumentHeader.class, KFSPropertyConstants.DOCUMENT_DESCRIPTION, description));
         // to set the explanation to reference the agency number
         doc.getDocumentHeader().setExplanation(description + "(Agency Number - " + agency.getAgencyNumber() + " )");
         // refresh nonupdatable references and save the Customer Document
@@ -68,8 +75,8 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         // this step is done before so that the customer name is
         // in - should be uppercase for the Customer to be
         // identified.
-        customer.setCustomerName(agency.getReportingName().toUpperCase());
-        customer.setCustomerTypeCode(agency.getCustomerTypeCode());
+        customer.setCustomerName(truncateField(agency.getClass(), ArPropertyConstants.CustomerFields.CUSTOMER_NAME, agency.getReportingName().toUpperCase()));
+        customer.setCustomerTypeCode(truncateField(agency.getClass(), ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_CODE, agency.getCustomerTypeCode()));
 
         if (agency.isActive()) {
             customer.setActive(true);
@@ -89,17 +96,17 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         }
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
             CustomerAddress customerAddress = new CustomerAddress();
-            customerAddress.setCustomerAddressName(agencyAddress.getAgencyAddressName());
-            customerAddress.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
-            customerAddress.setCustomerLine1StreetAddress(agencyAddress.getAgencyLine1StreetAddress());
-            customerAddress.setCustomerLine2StreetAddress(agencyAddress.getAgencyLine2StreetAddress());
-            customerAddress.setCustomerCityName(agencyAddress.getAgencyCityName());
-            customerAddress.setCustomerCountryCode(agencyAddress.getAgencyCountryCode());
-            customerAddress.setCustomerStateCode(agencyAddress.getAgencyStateCode());
-            customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
-            customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
-            customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
-            customerAddress.setCustomerEmailAddress(agencyAddress.getAgencyContactEmailAddress());
+            customerAddress.setCustomerAddressName(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_ADDRESS_NAME, agencyAddress.getAgencyAddressName()));
+            customerAddress.setCustomerAddressTypeCode(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_ADDRESS_TYPE_CODE, agencyAddress.getCustomerAddressTypeCode()));
+            customerAddress.setCustomerLine1StreetAddress(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_LINE1_STREET_ADDRESS, agencyAddress.getAgencyLine1StreetAddress()));
+            customerAddress.setCustomerLine2StreetAddress(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_LINE2_STREET_ADDRESS, agencyAddress.getAgencyLine2StreetAddress()));
+            customerAddress.setCustomerCityName(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_CITY_NAME, agencyAddress.getAgencyCityName()));
+            customerAddress.setCustomerCountryCode(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_COUNTRY_CODE, agencyAddress.getAgencyCountryCode()));
+            customerAddress.setCustomerStateCode(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_STATE_CODE, agencyAddress.getAgencyStateCode()));
+            customerAddress.setCustomerZipCode(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_ZIP_CODE, agencyAddress.getAgencyZipCode()));
+            customerAddress.setCustomerAddressInternationalProvinceName(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, agencyAddress.getAgencyAddressInternationalProvinceName()));
+            customerAddress.setCustomerInternationalMailCode(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_INTERNATIONAL_MAIL_CODE, agencyAddress.getAgencyInternationalMailCode()));
+            customerAddress.setCustomerEmailAddress(truncateField(CustomerAddress.class, ArPropertyConstants.CustomerAddressFields.CUSTOMER_EMAIL_ADDRESS, agencyAddress.getAgencyContactEmailAddress()));
             customer.getCustomerAddresses().add(customerAddress);
         }
 
@@ -113,6 +120,21 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         documentAttributeIndexingQueue.indexDocument(doc.getDocumentNumber());
 
         return customerNumber;
+    }
+
+    /**
+     * Truncates the given value to the length set in the data dictionary for the given business object class and property name
+     * @param boClass the business object class the value is being set on
+     * @param targetPropertyName the name of the property on an object of that class where we're setting the value
+     * @param value the value to set
+     * @return the truncated value
+     */
+    protected String truncateField(Class<? extends BusinessObject> boClass, String targetPropertyName, String value) {
+        final Integer maxLength = getDataDictionaryService().getAttributeMaxLength(boClass, targetPropertyName);
+        if (StringUtils.isBlank(value) || ObjectUtils.isNull(maxLength) || maxLength.intValue() > value.length()) {
+            return value;
+        }
+        return value.substring(0, maxLength.intValue());
     }
 
     /**
@@ -175,5 +197,13 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
     public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
         this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 }

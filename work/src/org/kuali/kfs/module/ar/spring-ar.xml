@@ -1105,6 +1105,9 @@
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>

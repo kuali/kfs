@@ -28,7 +28,7 @@
 </head>
 
 <body onload="reload()">
-<c:set var="frameHeight" value="500"/>
+<c:set var="frameHeight" value="1000"/>
 <c:set var="channelUrl" value="${KualiForm.shopUrl}" />
 
 <iframe src="${channelUrl}"

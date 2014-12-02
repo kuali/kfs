@@ -482,6 +482,7 @@
 	<target name="resolve" description="--> retrieve dependencies with ivy">
 	    <ivy:retrieve conf="rice-lib" pattern="build/[conf]/[artifact](-[classifier])-[revision].[ext]"/>
 		<ivy:retrieve conf="rice-sources" pattern="build/[conf]/[artifact](-[revision])-[classifier].[ext]" type="source" />
+		<ivy:retrieve conf="rice-standalone"  pattern="build/external/appserver/rice-web(-[classifier])-[revision].[ext]"/>		
 		<ivy:retrieve conf="rice-war"  pattern="build/external/appserver/[artifact](-[classifier])-[revision].[ext]"/>
 		<ivy:retrieve conf="kfs-lib"  pattern="build/[conf]/[artifact](-[classifier])-[revision].[ext]"/>
 		<ivy:retrieve conf="kfs-help"  pattern="build/project/[artifact](-[classifier]).[ext]"/>

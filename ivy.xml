@@ -10,6 +10,7 @@
 		<conf name="kfs-lib" description="kfs dependency jars" />
 		<conf name="rice-lib" description="rice dependency jars" />
 		<conf name="rice-sources" description="rice source jars" />
+		<conf name="rice-standalone" description="rice standalone war" />		
 		<conf name="rice-war" description="rice war" />
 		<conf name="kfs-help" description="kfs help" />
 	</configurations>
@@ -380,8 +381,8 @@
 			transitive="false" conf="rice-sources->sources"/>
 
 		<!--  Rice war; move this to external/appserver -->
-		<dependency org="org.kuali.rice" name="rice-web" rev="&rice.version;"
-			transitive="false" conf="rice-war->default"/>
+		<dependency org="org.kuali.rice" name="rice-standalone" rev="&rice.version;"
+			transitive="false" conf="rice-standalone->default"/>
 		<dependency org="org.ow2.carol" name="carol" rev="3.0.6"
 			transitive="false" conf="rice-war->default" />
 		<dependency org="org.ow2.carol" name="carol-interceptors"

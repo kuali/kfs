@@ -90,7 +90,9 @@
 	</bean>
 
     <bean id="TravelExpenseTypeCode-financialObjectCode" parent="TravelExpenseTypeCode-financialObjectCode-parentBean"/>
-    <bean id="TravelExpenseTypeCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+    <bean id="TravelExpenseTypeCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" >
+	<property name="required" value="false"/>
+    </bean>
 
 
 	<!-- Business Object Inquiry Definition -->

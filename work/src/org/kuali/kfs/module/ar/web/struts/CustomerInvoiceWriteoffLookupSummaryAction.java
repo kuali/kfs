@@ -92,10 +92,12 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
 
         if (customerNoteMissingOrInvalid || !anyFound) {
             // only submit this if there's at least one invoiceNumber in the stack
+            String lookupResultsSequenceNumber = customerInvoiceWriteoffLookupSummaryForm.getLookupResultsSequenceNumber();
+            GlobalVariables.getUserSession().addObject(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, lookupResultsSequenceNumber);
             if (!anyFound) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
-            }
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }  
+	  return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         //  send the batch file off

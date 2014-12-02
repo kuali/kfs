@@ -11,7 +11,7 @@
 		<conf name="rice-lib" description="rice dependency jars" />
 		<conf name="rice-sources" description="rice source jars" />
 		<conf name="rice-standalone" description="rice standalone war" />		
-		<conf name="rice-war" description="rice war" />
+		<conf name="rice-external-lib" description="rice external dependency jars" />
 		<conf name="kfs-help" description="kfs help" />
 	</configurations>
 	<dependencies>
@@ -380,27 +380,29 @@
 		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
 			transitive="false" conf="rice-sources->sources"/>
 
-		<!--  Rice war; move this to external/appserver -->
+		<!--  Rice standalone war; rename to rice-web-version.war and move this to external/appserver -->
 		<dependency org="org.kuali.rice" name="rice-standalone" rev="&rice.version;"
 			transitive="false" conf="rice-standalone->default"/>
+
+		<!--  Other Rice dependent jars; move this to external/appserver -->
 		<dependency org="org.ow2.carol" name="carol" rev="3.0.6"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 		<dependency org="org.ow2.carol" name="carol-interceptors"
-			rev="1.0.1" transitive="false" conf="rice-war->default" />
+			rev="1.0.1" transitive="false" conf="rice-external-lib->default" />
 		<dependency org="commons-cli" name="commons-cli"
-			rev="1.0" transitive="false" conf="rice-war->default" />
+			rev="1.0" transitive="false" conf="rice-external-lib->default" />
 		<dependency org="javax.resource" name="connector-api"
-			rev="1.5" transitive="false" conf="rice-war->default" />
+			rev="1.5" transitive="false" conf="rice-external-lib->default" />
 		<dependency org="org.objectweb.howl" name="howl" rev="1.0.1-1"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 		<dependency org="org.ow2.jotm" name="jotm-core" rev="2.1.10"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 		<dependency org="javax.transaction" name="jta" rev="1.1"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 		<dependency org="p6spy" name="p6spy" rev="1.3-patched"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 		<dependency org="xapool" name="xapool" rev="1.5.0-patch4"
-			transitive="false" conf="rice-war->default" />
+			transitive="false" conf="rice-external-lib->default" />
 
 
 		<!-- KFS libs; put these in kfs-lib -->

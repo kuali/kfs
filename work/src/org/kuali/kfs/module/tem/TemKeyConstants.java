@@ -355,4 +355,7 @@ public class TemKeyConstants {
     public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "error.triptype.encumbrance.balanceType";
     public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "error.triptype.encumbrance.objectCode";
     public static final String ERROR_TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "error.triptype.autoTravelReimbursementLimit";
+
+    public static final String MESSAGE_DOCUMENT_TEM_RETURNED_TO_FISCAL_OFFICER = "message.document.tem.returned.to.fiscal.officer";
+
 }

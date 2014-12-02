@@ -100,7 +100,7 @@
         </addColumn>
         
         <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_W8_BEN_RCVD_IND" newColumnName="VNDR_W8_RCVD_IND" columnDataType="VARCHAR(1)"/>
-        <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_TAX_NBR" newColumnName="VNDR_US_TAX_NBR" columnDataType="VARCHAR(1)"/>
+        <renameColumn tableName="PUR_VNDR_HDR_T" oldColumnName="VNDR_TAX_NBR" newColumnName="VNDR_US_TAX_NBR" columnDataType="VARCHAR(255)"/>
   
  	</changeSet>
  	

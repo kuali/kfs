@@ -42,6 +42,19 @@
         <bean parent="CollectionDefinition" p:name="vendorSupplierDiversities" p:label="Supplier Diversities" p:shortLabel="Supplier Diversities"/>
       </list>
     </property>
+	<property name="relationships">
+		<list>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="vendorCountry" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorCorpCitizenCode"
+							p:targetName="code" />
+					</list>
+				</property>
+			</bean>
+		</list>
+	</property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -238,7 +251,7 @@
     <property name="shortLabel" value="Foreign Tax Id." />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" p:maxLength="25"/>
+      <bean parent="AnyCharacterValidation"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="27"/>

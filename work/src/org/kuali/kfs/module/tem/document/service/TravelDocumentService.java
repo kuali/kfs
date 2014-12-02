@@ -108,10 +108,13 @@ public interface TravelDocumentService {
 
 
     /**
+     * @deprecated This method is no longer called and will be removed in KFS 6.0.
+     *
      * This method will add fyi notes to initiator when document is cancelled, closed, etc.
      *
      * @param document
      */
+    @Deprecated
     void addAdHocFYIRecipient(final Document document);
 
     /**

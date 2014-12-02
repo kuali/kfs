@@ -348,6 +348,16 @@
         </update>
     </changeSet>
     
+    <changeSet id="KFSTP-1414" author="KFS53">
+   		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS10890"/>
+			<column name="OBJ_ID" value="KFS-TEM-ROLE-PERM-371"/>
+			<column name="ROLE_ID" value="KFS10263"/>
+			<column name="PERM_ID" value="KFS10328"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+    </changeSet>
+    
     <changeSet id="KFSTP-1359" author="KFS53">
     	<comment>Perms and assignments for 1042s enhancement</comment>
     	<insert tableName="KRIM_PERM_T">

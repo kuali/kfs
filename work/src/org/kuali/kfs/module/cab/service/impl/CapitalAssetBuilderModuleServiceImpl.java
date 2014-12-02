@@ -2191,13 +2191,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     businessObjectService.save(generalLedgerEntry);
                 }
 
-                //if all the capital assets have been processed then update the
-                //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
-                updateTransactionLedgerEntryAmount(generalLedgerEntry);
-
-                // release asset lock
+				// Release asset lock for the entire document if all transactions have been processed.
+                // Otherwise, release asset lock for the processed asset line only
                 if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
                     getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
+                }
+                else {
+                	getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), generalLedgerEntryAsset.getCapitalAssetBuilderLineNumber() == null? CamsConstants.defaultLockingInformation : generalLedgerEntryAsset.getCapitalAssetBuilderLineNumber().toString());
                 }
             }
         }
@@ -2524,35 +2524,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return true;
     }
 
-    /**
-     * Helper method to retrieve the capital assets on the document and check if they have all been
-     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount to on each gl entry line to the
-     * entry amount and mark activity indicator flag to "P" (processed).
-     *
-     * @param glEntry
-     * @return true if gl amounts and processed indicators are updated else return false.
-     */
-    protected boolean updateTransactionLedgerEntryAmount(GeneralLedgerEntry glEntry) {
-        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry.getDocumentNumber());
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            if (!capitalAsset.isCapitalAssetProcessedIndicator()) {
-                //there is a capital asset not yet processed..
-                return false;
-            }
-        }
-
-        List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
-
-        for (GeneralLedgerEntry glLine: glLines) {
-            glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
-            glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-        }
-
-        businessObjectService.save(glLines);
-
-        return true;
-
-    }
 
     /**
      * Activates PO Lines
@@ -2858,6 +2829,105 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return isValid;
     }
 
+
+     /**
+     * Check FP document eligibility by document type for CAB Extract batch.
+     *
+     * @param documentType
+     * @return
+     */
+    @Override
+    public boolean isDocumentEligibleForCABBatch(String documentType) {
+    	boolean eligible = true;
+        List<String> excludedDocTypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES) );
+        // check with the docTypeCodes system parameter
+        if (excludedDocTypeCodes.contains(documentType)) {
+            eligible = false;
+        }
+        return eligible;
+    }
+
+
+    @Override
+    public List<String> getBatchIncludedObjectSubTypes () {
+    	List<String> includedFinancialObjectSubTypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES) );
+    	return includedFinancialObjectSubTypeCodes;
+    }
+
+    @Override
+    public List<String> getBatchExcludedChartCodes () {
+    	List<String> excludedChartCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS) );
+    	return excludedChartCodes;
+    }
+
+    @Override
+    public List<String> getBatchExcludedSubFundCodes () {
+    	List<String> excludedSubFundCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS) );
+    	return excludedSubFundCodes;
+    }
+
+
+   /**
+    * Check FP document individual Capital Asset line eligibility for CAB Extract Batch
+    * @param assetLine
+    * @param postingYear
+    * @return
+    */
+    @Override
+	public boolean isAssetLineEligibleForCABBatch(
+			CapitalAssetInformation assetLine, Integer postingYear,
+			List<String> includedFinancialObjectSubTypeCodes,
+			List<String> excludedChartCodes, List<String> excludedSubFundCodes) {
+     	boolean eligible = true;
+
+        List<CapitalAssetAccountsGroupDetails> acctDetailLines = assetLine.getCapitalAssetAccountsGroupDetails();
+        for (CapitalAssetAccountsGroupDetails detailLine : acctDetailLines) {
+        	eligible = true;
+        	// This is clumsy since we're not persistent posting year
+        	ObjectCode objectCodeBO = retrieveFinancialObject(postingYear, detailLine);
+        	// check with the CAB-financialObjectSubTypeCodes system parameter
+        	if (ObjectUtils.isNotNull(objectCodeBO) && includedFinancialObjectSubTypeCodes != null && !includedFinancialObjectSubTypeCodes.contains(objectCodeBO.getFinancialObjectSubTypeCode())) {
+                eligible = false;
+            }
+
+            // check with the CAB-charOfAccountCode system parameter
+            if (eligible && excludedChartCodes != null && excludedChartCodes.contains(detailLine.getChartOfAccountsCode())) {
+            	eligible = false;
+            }
+
+            // check with the CAB-subFundCodes system parameter
+            if (eligible && excludedSubFundCodes != null && ObjectUtils.isNotNull(detailLine.getAccount()) && excludedSubFundCodes.contains(detailLine.getAccount().getSubFundGroupCode())) {
+                eligible = false;
+            }
+
+            // As long as one accounting line has capital asset transaction, it will be extract to CAB.
+            if (eligible) {
+            	break;
+            }
+        }
+        // If none of the accounting line eligible for CAB batch, CAB batch won't take the FP document into CAB
+        return eligible;
+    }
+
+    /**
+     * Retrieving Object BO from table
+     * @param postingYear
+     * @param acctDetailLine
+     * @return
+     */
+	protected ObjectCode retrieveFinancialObject(Integer postingYear,
+			CapitalAssetAccountsGroupDetails acctDetailLine) {
+		ObjectCode financialObject = null;
+		if (ObjectUtils.isNotNull(acctDetailLine)) {
+			Map<String, Object> primaryKeys = new HashMap<String, Object>();
+			primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,postingYear);
+			primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,acctDetailLine.getChartOfAccountsCode());
+			primaryKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,acctDetailLine.getFinancialObjectCode());
+			financialObject = businessObjectService.findByPrimaryKey(ObjectCode.class, primaryKeys);
+		}
+		return financialObject;
+	}
+
     /**
      *
      * @param capitalAccountingLines
@@ -3031,3 +3101,4 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     }
 }
+

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cam.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -109,13 +108,20 @@ public class AssetLockServiceImpl implements AssetLockService {
     }
 
 
-    /**
-     * @param assetLocks must be from the same documentNumber and have the same documentTypeName
-     * @return Return false without any of the asset being locked. Return true when all assets can be locked.
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
-     */
- 
-    public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks) {
+	/**
+	 * @param assetLocks
+	 *            All asset locks must be owned by the same documentNumber and having the same
+	 *            documentTypeName
+	 * @param ignoreLockingInfoForDeletion
+	 *            Indicate whether or not to ignore asset locking information
+	 *            when deleting existing asset locks granted to document. This
+	 *            will be used to update asset locks if locking info updated as
+	 *            well.
+	 * @return Return false without any of the asset being locked. Return true
+	 *         when all assets can be locked.
+	 * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
+	 */
+    public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks, boolean ignoreLockingInfoForDeletion) {
         if (assetLocks == null || assetLocks.isEmpty() || !assetLocks.iterator().hasNext()) {
             return true;
         }
@@ -137,7 +143,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         }
 
         for (AssetLock assetLock : assetLocks) {
-            deleteAssetLocks(documentNumber, assetLock.getLockingInformation());
+            deleteAssetLocks(documentNumber, ignoreLockingInfoForDeletion ? "" : assetLock.getLockingInformation());
         }
 
         getBusinessObjectService().save(assetLocks);
@@ -218,7 +224,7 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Generating error messages and doc links for blocking documents.
-     * 
+     *
      * @param blockingDocuments
      */
     protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments, String documentTypeName) {
@@ -254,7 +260,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
-  
+
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return false;
@@ -292,7 +298,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#getAssetLockingDocuments(java.util.List, java.lang.String,
      *      java.lang.String)
      */
-  
+
     public List<String> getAssetLockingDocuments(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         Collection blockingDocumentTypes = getBlockingDocumentTypes(documentTypeName);
         List<String> lockingDocumentNumbers = getCapitalAssetLockDao().getLockingDocumentNumbers(assetNumbers, blockingDocumentTypes, excludingDocumentNumber);

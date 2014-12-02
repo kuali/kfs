@@ -18,6 +18,8 @@ package org.kuali.kfs.fp.businessobject;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -41,6 +43,9 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
     protected String projectCode;
     protected String organizationReferenceId;
     protected KualiDecimal amount;
+
+    protected Chart chart;
+    protected Account account;
 
     protected CapitalAssetInformation capitalAssetInformation;
 
@@ -241,4 +246,32 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
         this.organizationReferenceId = organizationReferenceId;
     }
 
+    /**
+     * @return the chart
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * @param chart the chart to set
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * @return the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
+

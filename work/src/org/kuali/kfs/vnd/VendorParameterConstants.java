@@ -33,7 +33,7 @@ public class VendorParameterConstants {
     public static final String DEFAULT_PHONE_NUMBER_DIGITS = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     public static final String OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String EXCLUSION_AND_DEBARRED_VENDOR_TYPES = "EXCLUSION_AND_DEBARRED_VENDOR_TYPES";
-    public static final String W8_SIGNED_DATE_REQUIRED = "W8_SIGNED_DATE_REQUIRED_IND";
+    public static final String W8_DATA_REQUIRED_IND = "W8_DATA_REQUIRED_IND";
     public static final String W9_SIGNED_DATE_REQUIRED ="W9_SIGNED_DATE_REQUIRED_IND";
 
 }

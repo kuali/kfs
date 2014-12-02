@@ -144,4 +144,45 @@ public interface CapitalAssetBuilderModuleService {
     public void reactivatePretagDetails(String campusTagNumber);
 
     public boolean hasCAMSCapitalAssetObjectSubType(AccountingLine line);
+
+    /**
+     * Check FP document eligibility by document type for CAB Extract batch.
+     *
+     * @param documentType
+     * @return
+     */
+    public boolean isDocumentEligibleForCABBatch(String documentType);
+
+    /**
+     * Check FP document individual Capital Asset line eligibility for CAB Extract Batch
+     * @param assetInfoLine
+     * @param postingYear
+     * @return
+     */
+	public boolean isAssetLineEligibleForCABBatch(
+			CapitalAssetInformation assetInfoLine, Integer postingYear,
+			List<String> includedObjectSubTypeCodes,
+			List<String> excludedChartCodes, List<String> excludedSubFundCodes);
+
+    /**
+     * Get CAB Batch parameter value of allowed financial object sub types
+     *
+     * @return
+     */
+    public List<String> getBatchIncludedObjectSubTypes ();
+
+    /**
+     * Get CAB Batch parameter value of disallowed chart codes
+     *
+     * @return
+     */
+    public List<String> getBatchExcludedChartCodes ();
+
+    /**
+     * Get CAB Batch parameter value of disallowed sub fund codes
+     *
+    * @return
+    */
+    public List<String> getBatchExcludedSubFundCodes ();
+
 }

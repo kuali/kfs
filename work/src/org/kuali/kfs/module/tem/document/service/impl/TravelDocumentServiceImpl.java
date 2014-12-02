@@ -32,6 +32,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,6 +126,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -786,10 +788,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         document.addNote(newNote);
         getNoteService().save(newNote);
 
-        document.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
-        document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        workflowDocument.returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
 
-        addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        final String messagePattern = configurationService.getPropertyValueAsString(TemKeyConstants.MESSAGE_DOCUMENT_TEM_RETURNED_TO_FISCAL_OFFICER);
+        final String annotation = MessageFormat.format(messagePattern, GlobalVariables.getUserSession().getPerson().getPrincipalName());
+
+        workflowDocument.adHocToPrincipal( ActionRequestType.FYI, KFSConstants.RouteLevelNames.ACCOUNT, annotation, workflowDocument.getInitiatorPrincipalId(), TemConstants.INITIATOR_RESPONSIBILITY, true);
+
+        document.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
 
         document.getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
     }

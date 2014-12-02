@@ -68,7 +68,7 @@ public class CapitalAssetInformationAction extends CabActionBase {
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
-    private void prepareRecordsForDisplay(CapitalAssetInformationForm capitalAssetForm, GeneralLedgerEntry entry) {
+    protected void prepareRecordsForDisplay(CapitalAssetInformationForm capitalAssetForm, GeneralLedgerEntry entry) {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
 
         entry.setSelected(true);

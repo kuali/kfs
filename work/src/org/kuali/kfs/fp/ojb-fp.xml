@@ -2463,6 +2463,18 @@
     	<foreignkey field-ref="documentNumber"/>
     	<foreignkey field-ref="capitalAssetLineNumber"/>
     </reference-descriptor>
+
+    <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+    </reference-descriptor>
+ </class-descriptor>
+ 
+ <class-descriptor class="org.kuali.kfs.integration.cam.businessobject.Asset" table="CM_CPTLAST_T">
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.integration.cam.businessobject.Asset" table="CM_CPTLAST_T">

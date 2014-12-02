@@ -87,7 +87,9 @@
 	</bean>
 
     <bean id="capitalAssetManagementModuleService"  parent="capitalAssetManagementModuleService-parentBean"/>
-    <bean id="capitalAssetManagementModuleService-parentBean" class="org.kuali.kfs.module.cam.service.impl.CapitalAssetManagementModuleServiceImpl" abstract="true"/>
+    <bean id="capitalAssetManagementModuleService-parentBean" class="org.kuali.kfs.module.cam.service.impl.CapitalAssetManagementModuleServiceImpl" abstract="true">
+    	<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+    </bean>
 
 	<bean id="CamsConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.cam.CamsConstants" />

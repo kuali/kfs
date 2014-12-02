@@ -17,6 +17,7 @@ package org.kuali.kfs.integration.cab;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -173,6 +174,36 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;
     }
+
+
+    public boolean isDocumentEligibleForCABBatch(String documentType) {
+    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+     	return true;
+    }
+
+	public boolean isAssetLineEligibleForCABBatch(
+			CapitalAssetInformation assetInfoLine, Integer postingYear,
+			List<String> includedObjectSubTypeCodes,
+			List<String> excludedChartCodes, List<String> excludedSubFundCodes) {
+		LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+		return true;
+	}
+
+    public List<String> getBatchIncludedObjectSubTypes () {
+    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+    	return new ArrayList<String>();
+    }
+
+    public List<String> getBatchExcludedChartCodes () {
+    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+    	return new ArrayList<String>();
+    }
+
+    public List<String> getBatchExcludedSubFundCodes () {
+    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+    	return new ArrayList<String>();
+    }
+
 
     @Override
     public void reactivatePretagDetails(String campusTagNumber) {

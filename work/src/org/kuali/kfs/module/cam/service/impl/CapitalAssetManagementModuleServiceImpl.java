@@ -21,6 +21,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
+import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -42,20 +44,20 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetManagementModuleService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetManagementModuleServiceImpl.class);
 
+    protected CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+
     /**
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#storeAssetLocks(java.util.List, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     @Override
     public boolean storeAssetLocks(List<Long> capitalAssetNumbers, String documentNumber, String documentType, String lockingInformation) {
+        /* Asset locking information may take valid information about asset lock from original
+         * document. It should not be reset to another value.
+         * It's required to fix for PREQ/CM Individual Asset system locking issue.
+         */
         List<AssetLock> assetLocks = getAssetLockService().buildAssetLockHelper(capitalAssetNumbers, documentNumber, documentType, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
-        Integer lockingIndex = 1;
-        for (AssetLock assetLock : assetLocks) {
-            assetLock.setLockingInformation(lockingIndex.toString());
-            lockingIndex++;
-        }
-
-        return getAssetLockService().checkAndSetAssetLocks(assetLocks);
+        return getAssetLockService().checkAndSetAssetLocks(assetLocks, false);
     }
 
     /**
@@ -63,7 +65,6 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      */
     @Override
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
-        //getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
         getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation);
     }
 
@@ -91,31 +92,43 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     }
 
     /**
+     * Generate asset locks for FP document if it collects capital
+     * asset number(s) and has capital asset transactions eligible for CAB
+     * batch.
+     *
+     * Creating asset lock is based on each capital asset line rather
+     * than the whole FP document.
+     *
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#generateCapitalAssetLock(org.kuali.rice.krad.document.Document)
      */
     @Override
     public void generateCapitalAssetLock(Document document, String documentTypeName) {
-        List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
+        List<AssetLock> assetLocks = new ArrayList<AssetLock>();
+        StringBuilder capitalAssetToBeLocked = new StringBuilder();
 
-        String capitalAssetToBeLocked = "";
-        ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+        if (document instanceof CapitalAssetEditable) {
+            List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
+            if (capitalAssetBuilderModuleService.isDocumentEligibleForCABBatch(documentTypeName)) {
+                List<String> includedObjectSubTypeCodes = capitalAssetBuilderModuleService.getBatchIncludedObjectSubTypes();
+                List<String> excludedChartCodes = capitalAssetBuilderModuleService.getBatchExcludedChartCodes();
+                List<String> excludedSubFundCodes = capitalAssetBuilderModuleService.getBatchExcludedSubFundCodes();
 
-        for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
-            if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-                capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
-                if (capitalAssetToBeLocked.isEmpty()) {
-                    capitalAssetToBeLocked = capitalAssetToBeLocked.concat(capitalAssetInformation.getCapitalAssetNumber().toString());
+                for (CapitalAssetInformation assetLine : capitalAssets) {
+                    // Can skip asset locking if it's creating new asset instead
+                    Long capitalAssetNumber = assetLine.getCapitalAssetNumber();
+                    if (capitalAssetNumber != null) {
+                        if (capitalAssetBuilderModuleService.isAssetLineEligibleForCABBatch(assetLine, ((CapitalAssetInformationDocumentBase)document).getPostingYear(), includedObjectSubTypeCodes, excludedChartCodes, excludedSubFundCodes)) {
+                            AssetLock newLock = new AssetLock(document.getDocumentNumber(), capitalAssetNumber, assetLine.getCapitalAssetLineNumber() == null? CamsConstants.defaultLockingInformation : assetLine.getCapitalAssetLineNumber().toString(), documentTypeName);
+                            assetLocks.add(newLock);
+                            if (!capitalAssetToBeLocked.toString().isEmpty()) {
+                                capitalAssetToBeLocked.append(",");
+                            }
+                            capitalAssetToBeLocked.append(capitalAssetNumber.toString());
+                        }
+                    }
                 }
-                else {
-                    capitalAssetToBeLocked = capitalAssetToBeLocked.concat(",").concat(capitalAssetInformation.getCapitalAssetNumber().toString());
-                }
 
-            }
-        }
-
-        if (capitalAssetNumbers.size() > 0) {
-            if (document instanceof AccountingDocument) {
-                if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
+                if (!getAssetLockService().checkAndSetAssetLocks(assetLocks, true) ) {
                     throw new ValidationException("Asset " + capitalAssetToBeLocked.toString() + " is being locked by other documents.");
                 }
             }
@@ -193,18 +206,31 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
 
 
     /**
+     * Remove asset locks if document won't move towards Final status.
+     *
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteDocumentAssetLocks(org.kuali.rice.krad.document.Document)
      */
     @Override
     public void deleteDocumentAssetLocks(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        // remove all current locks
-        this.deleteAssetLocks(document.getDocumentNumber(), null);
-
-        // if document is not cancelled nor disapproved nor recalled regenerate them all again based on set
-        if (!workflowDocument.isCanceled() && !workflowDocument.isDisapproved() && !workflowDocument.isRecalled() && !workflowDocument.isFinal()) {
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
-            generateCapitalAssetLock(document, documentTypeName);
+        // remove all current locks owned by the document
+        if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isRecalled() || workflowDocument.isException()) {
+            this.deleteAssetLocks(document.getDocumentNumber(), null);
         }
+    }
+
+    /**
+     * @return the capitalAssetBuilderModuleService
+     */
+    public CapitalAssetBuilderModuleService getCapitalAssetBuilderModuleService() {
+        return capitalAssetBuilderModuleService;
+    }
+
+    /**
+     * @param capitalAssetBuilderModuleService the capitalAssetBuilderModuleService to set
+     */
+    public void setCapitalAssetBuilderModuleService(
+            CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 }

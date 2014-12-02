@@ -677,7 +677,7 @@ public class GlLineServiceImpl implements GlLineService {
 
     }
 
-    private List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
+    protected List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
         Integer sequenceNumber = capitalAccountingLines.size() + 1;
 
         //capital object code so we need to build the capital accounting line...

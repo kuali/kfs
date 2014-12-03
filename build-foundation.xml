@@ -403,6 +403,7 @@ are intended for use only by Kuali Foundation developers.
       		<replacefilter token="jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS" value="jdbc:oracle:thin:@localhost:1521:ORCL" />
       		<replacefilter token="jdbc:mysql://test.db.kfs.kuali.org:3306" value="jdbc:mysql://localhost:3306" />
 			<replacefilter token="license@kuali.org" value="" />
+			<replacefilter token="info@kuali.co" value="" />
 			<replacefilter token="@kuali.org" value="@localhost" />
       		<replacefilter token="../../development" value="../../demo" />
       		<replacefilter token="kfs-db/development" value="kfs-db/demo" />

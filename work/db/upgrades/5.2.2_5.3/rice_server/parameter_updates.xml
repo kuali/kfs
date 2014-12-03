@@ -1,0 +1,354 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	<changeSet author="KFS53" id="KFSTP1210_FS_DOC_HEADER_T">
+		<comment>
+			KFTP-1210 Parameters which control the run of the PopulateFinancialSystemDocumentHeadersFromKewJob
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
+			<column name="PARM_NM" value="POPULATION_LIMIT"/>
+			<column name="OBJ_ID" value="KFS-PARM-167"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="100000"/>
+			<column name="PARM_DESC_TXT" value="Determines the maximum number of documents that the PopulateFinancialSystemDocumentHeadersFromKewJob will handle in a given run.  Any non-numeric, zero, negative, or empty value will be treated as if the job should convert all available Financial System document header records."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
+			<column name="PARM_NM" value="BATCH_SIZE"/>
+			<column name="OBJ_ID" value="KFS-PARM-168"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="1000"/>
+			<column name="PARM_DESC_TXT" value="Determines the maximum number of document headers that the PopulateFinancialSystemDocumentHeadersFromKewJob will read at once.  Any non-numeric, zero, negative, or empty value will be treated as if the default value of 1000 has been chosen."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
+			<column name="PARM_NM" value="DOCUMENT_STATUSES_TO_POPULATE"/>
+			<column name="OBJ_ID" value="KFS-PARM-172"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="If a value is set, the PopulateFinancialSystemDocumentHeadersFromKewJob will only ppoulate a document if it has one of the given statuses.  Note that this may mean that a run of the population job may fall short of hitting the number of documents processed set by KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / POPULATION_LIMIT."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
+	<changeSet author="KFS54" id="KFSCNTRB1761_EXPIRATION_DATE_BACKDATING_FUND_GROUPS">
+        <comment>Adds parameter for KFSCNTRB-1761- Fund groups that allow backdating of the expiration date</comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-COA" />
+            <column name="CMPNT_CD" value="Account" />
+            <column name="PARM_NM" value="EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
+            <column name="OBJ_ID" value="KFS-PARM-169" />
+            <column name="PARM_TYP_CD" value="VALID" />
+            <column name="VAL" value="" />
+            <column name="PARM_DESC_TXT" value="Fund groups that allow backdating of the expiration date." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+            <column name="APPL_ID" value="KFS" />
+        </insert>
+    </changeSet>
+
+    <changeSet author="KFS53" id="KFSCNTRB_1536_AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND">
+        <comment>
+            If yes, commodity codes are automatically added to vendors when a REQS becomes a PO.
+        </comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-PURAP"/>
+            <column name="CMPNT_CD" value="Requisition"/>
+            <column name="PARM_NM" value="AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND"/>
+            <column name="OBJ_ID" value="KFS-PARM-171"/>
+            <column name="PARM_TYP_CD" value="CONFG"/>
+            <column name="VAL" value="Y"/>
+            <column name="PARM_DESC_TXT" value="If yes (Y), commodity codes are automatically added to vendors when a REQS becomes a PO."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+    </changeSet>
+	
+	<changeSet author="KFS53" id="KFSCNTRB-846_ERROR_CERT">
+		<comment>KFSCNTRB-846 Parameters that control the error certification tab requirements.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED"/>
+			<column name="OBJ_ID" value="KFS-PARM-173"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Defines the default number of fiscal periods that will require that the Error Certification tab be completed. If the fiscal period of the transaction exceeds the current fiscal period by more than the default, the Error Certification tab is required."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND"/>
+			<column name="OBJ_ID" value="KFS-PARM-174"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Specific sub-fund groups that are excepted from the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. If the account used on the TO side includes sub-funds specified in this parameter, the number of fiscal periods associated with the sub fund should be used instead of the default to determine whether or not the Error Certification tab is required. Format of list is sub fund 1=number of fiscal periods; sub fund 2=number of fiscal periods."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
+
+	<changeSet author="KFS53" id="KFSCNTRB-1156">
+		<comment>KFSCNTRB-1156 Calculate ICR Encumbrances add two new parameters and update parameter INDIRECT_COST_TYPES to have component Batch.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION"/>
+			<column name="OBJ_ID" value="KFS-PARM-175"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Identifies Origination Code to be used when creating ICR Transactions and transactions that should be excluded when calculating ICR encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES"/>
+			<column name="OBJ_ID" value="KFS-PARM-176"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<update tableName="KRCR_PARM_T">
+			<column name="CMPNT_CD" value="Batch" />
+			<where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'PosterIndirectCostRecoveryEntriesStep' and parm_nm = 'INDIRECT_COST_TYPES' and appl_id = 'KFS'</where>
+		</update>	 
+  	</changeSet>
+
+	<changeSet author="KFS53" id="KFSCNTRB-784">
+		<comment>
+			KFSCNTRB-784 Modify Scrubber Job to validate and update the object type code when files are received from external sources. 
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="ScrubberStep"/>
+			<column name="PARM_NM" value="OBJECT_TYPE_BYPASS_ORIGINATIONS"/>
+			<column name="OBJ_ID" value="KFS-PARM-177"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="01"/>
+			<column name="PARM_DESC_TXT" value="Origination Codes where the object type will not be updated to match the object type assigned to the object code."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
+
+    <changeSet author="KFSCNTRB-1020" id="KFSCNTRB-1020_KRCR_PARM_T">
+        <comment>
+            KFSCNTRB-1020, Component and parameters which control how the Current Account Balance queries for results.
+        </comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CASH_BUDGET_RECORD_LEVEL"/>
+            <column name="OBJ_ID" value="KFS-PARM-178"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Identifies accounts that will have Cash Expenditure Authority and Fund Balance calculated for it on the Current Account Balance Screen. All other Budget Record Level codes will calculate Budget Balance Available."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="INCOME_OBJECT_TYPE"/>
+            <column name="OBJ_ID" value="KFS-PARM-179"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Income object type codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="EXPENSE_OBJECT_TYPE"/>
+            <column name="OBJ_ID" value="KFS-PARM-180"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Expense object type codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="ENCUMBRANCE_BALANCE_TYPE"/>
+            <column name="OBJ_ID" value="KFS-PARM-181"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Encumbrance balance types."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CURRENT_ASSET_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFS-PARM-182"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Cash and other cash object codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CURRENT_LIABILITY_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFS-PARM-183"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Current liability object codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="FUND_BALANCE_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFS-PARM-184"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value=""/>
+            <column name="PARM_DESC_TXT" value="Fund Balance Object codes"/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+  	</changeSet>
+	
+	<changeSet author="KFS53" id="KKFSCNTRB-594">
+        <comment>Adds parameter for KKFSCNTRB-594 for Default chart code</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="DEFAULT_CHART_CODE"/>
+			<column name="OBJ_ID" value="KFS-PARM-185"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Used as the default chart when parameter DEFAULT_CHART_CODE_METHOD is 1 or 3. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="DEFAULT_CHART_CODE_METHOD"/>
+			<column name="OBJ_ID" value="KFS-PARM-186"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Leave blank if a default chart should not be set on transactional docs; 1: Use the chart code on transactional docs in parameter DEFAULT_CHART_CODE as the default; 2: Use the initiator's primary department chart code as the default on transactional docs; 3: Use the initiator's primary department code as the default on transactional docs, if there is none, use the chart code in DEFAULT_CHART_CODE. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+    </changeSet>
+
+    <changeSet author="KFSCNTRB-1459" id="KFSCNTRB-1459">
+        <comment>Adds parameter for KFSCNTRB-1459</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="Batch"/>
+			<column name="PARM_NM" value="ANNUAL_CLOSING_CHARTS"/>
+			<column name="OBJ_ID" value="KFS-PARM-188"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Charts that will be processed when year-end batch jobs Nominal Activity Closing, Balance Forward, and Encumbrance Forward are run. If no charts are specified, all charts will be processed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+    </changeSet>
+    
+    <changeSet author="KFSCNTRB-1681" id="KFSCNTRB-1681">
+		<comment>Adds parameter for KFSCNTRB-1681 allows Negative Accounting Lines on DV</comment>
+	    <insert tableName="KRCR_PARM_T">
+	      <column name="NMSPC_CD" value="KFS-FP"/>
+	      <column name="CMPNT_CD" value="DisbursementVoucher"/>
+	      <column name="PARM_NM" value="NEGATIVE_ACCOUNTING_LINES_IND"/>
+	      <column name="APPL_ID" value="KFS"/>
+	      <column name="OBJ_ID" value="KFS-PARM-189"/>
+	      <column name="VER_NBR" value="1"/>
+	      <column name="PARM_TYP_CD" value="CONFG"/>
+	      <column name="VAL" value="N"/>
+	      <column name="PARM_DESC_TXT" value="Flag to indicate whether or not negative accounting lines are allowed on the Disbursement Voucher (DV) document. A value of Y to will enable negative lines for DV, while a value of N will disable them."/>
+	      <column name="EVAL_OPRTR_CD" value="A"/>
+	    </insert>
+    </changeSet>
+
+    <changeSet author="KFS53" id="KFSCNTRB-1702">
+        <comment>Adds parameter for KFSCNTRB-1702 to add new type</comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="A=V;B=V,E,VSV,VRV;C=V,E,VSP;D=V;E=V;F=V,E,VRV;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;V=V;W=V;X=V;Z=E"/>
+            <where>nmspc_cd = 'KFS-FP' and cmpnt_cd = 'DisbursementVoucher' and parm_nm = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' and appl_id = 'KFS'</where>
+        </update>
+    </changeSet>
+    
+    <changeSet author="KFS53" id="KFSTP-1276">
+    	<comment>Changes the KFS-GL / Encumbrance / USE_ICR_ENCUMBRANCE_IND to have "N" as a default value and changes the component to batch.</comment>
+    	<update tableName="KRCR_PARM_T">
+            <column name="VAL" value="N"/>
+            <column name="CMPNT_CD" value="Batch"/>
+            <where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'Encumbrance' and parm_nm = 'USE_ICR_ENCUMBRANCE_IND' and appl_id = 'KFS'</where>
+        </update>
+    </changeSet>    
+   
+    <changeSet author="KFS53" id="KFSTP-1359">
+		<comment>Adds parameter for KFSTP-1359</comment>
+	    <insert tableName="KRCR_PARM_T">
+	      <column name="NMSPC_CD" value="KFS-VND"/>
+	      <column name="CMPNT_CD" value="VendorDetail"/>
+	      <column name="PARM_NM" value="W8_SIGNED_DATE_REQUIRED_IND"/>
+	      <column name="APPL_ID" value="KFS"/>
+	      <column name="OBJ_ID" value="KFSTP-1359-1"/>
+	      <column name="VER_NBR" value="1"/>
+	      <column name="PARM_TYP_CD" value="CONFG"/>
+	      <column name="VAL" value="Y"/>
+	      <column name="PARM_DESC_TXT" value="Determines whether W-8 Signed Date is required on Vendor Maintenance Documents."/>
+	      <column name="EVAL_OPRTR_CD" value="A"/>
+	    </insert>
+
+	    <insert tableName="KRCR_PARM_T">
+	      <column name="NMSPC_CD" value="KFS-VND"/>
+	      <column name="CMPNT_CD" value="VendorDetail"/>
+	      <column name="PARM_NM" value="W9_SIGNED_DATE_REQUIRED_IND"/>
+	      <column name="APPL_ID" value="KFS"/>
+	      <column name="OBJ_ID" value="KFSTP-1359-2"/>
+	      <column name="VER_NBR" value="1"/>
+	      <column name="PARM_TYP_CD" value="CONFG"/>
+	      <column name="VAL" value="Y"/>
+	      <column name="PARM_DESC_TXT" value="Determines whether W-9 Signed Date is required on Vendor Maintenance Documents."/>
+	      <column name="EVAL_OPRTR_CD" value="A"/>
+	    </insert>
+
+	    <insert tableName="KRCR_PARM_T">
+	      <column name="NMSPC_CD" value="KFS-VND"/>
+	      <column name="CMPNT_CD" value="VendorDetail"/>
+	      <column name="PARM_NM" value="GIIN_NUMBER_FORMAT"/>
+	      <column name="APPL_ID" value="KFS"/>
+	      <column name="OBJ_ID" value="KFSTP-1359-3"/>
+	      <column name="VER_NBR" value="1"/>
+	      <column name="PARM_TYP_CD" value="VALID"/>
+	      <column name="VAL" value="^[A-Z0-9]{6}[.][0-9A-Z]{5}[.][A-Z]{2}[.]\\d{3}$"/>
+	      <column name="PARM_DESC_TXT" value="Java Regular expressions that describe the acceptable formats for GIIN numbers."/>
+	      <column name="EVAL_OPRTR_CD" value="A"/>
+	    </insert>
+    </changeSet>
+</databaseChangeLog>

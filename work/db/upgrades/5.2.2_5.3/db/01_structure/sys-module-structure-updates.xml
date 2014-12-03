@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS53" id="KFSTP1210_FS_DOC_HEADER_T">
+		<comment>
+			KFSTP-1210 Add columns from FS_DOC_HEADER_T that will store information from KREW_DOC_HDR_T and create a table to hold the document numbers of cases
+			where FS_DOC_HEADER_T has a record but KREW_DOC_HDR_T does not
+			KFSTP-1262 document create date should be part of this work as well
+		</comment>
+		<addColumn tableName="FS_DOC_HEADER_T">
+			<column name="FDOC_HDR_STAT_CD" type="VARCHAR(1)" />
+			<column name="APP_DOC_STAT" type="VARCHAR(64)" />
+			<column name="INITR_PRNCPL_ID" type="VARCHAR(40)" />
+			<column name="FDOC_TYP_NM" type="VARCHAR(64)" />
+			<column name="FDOC_CRTE_DT" type="DATE"/>
+		</addColumn>
+		
+		<createIndex tableName="FS_DOC_HEADER_T" indexName="FS_DOC_HEADER_TI2">
+			<column name="FDOC_CRTE_DT" type="DATE"/>
+		</createIndex>
+		
+		<createTable tableName="FS_DOC_HDRS_MSNG_IN_KEW_T">
+			<column name="FDOC_NBR" type="VARCHAR(14)"/>
+		</createTable>
+		
+		<addPrimaryKey tableName="FS_DOC_HDRS_MSNG_IN_KEW_T" constraintName="FS_DOC_HDRS_MSNG_IN_KEW_TP1" columnNames="FDOC_NBR" />
+		
+	</changeSet>
+	
+</databaseChangeLog>

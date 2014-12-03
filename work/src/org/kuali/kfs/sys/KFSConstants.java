@@ -1526,4 +1526,12 @@ public class KFSConstants {
 
     public static final String ZERO = "0";
 
+    public static class BasicAccountingCategoryCodes {
+        public static final String ASSETS = "AS";
+        public static final String EXPENSES = "EX";
+        public static final String FUND_BALANCE = "FB";
+        public static final String INCOME = "IN";
+        public static final String LIABILITIES = "LI";
+    }
+
 }

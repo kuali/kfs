@@ -33,6 +33,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -1630,17 +1631,20 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     *
+     * Retrieve expense object types by the basic accounting category for expenses
      * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#retrieveExpenseObjectTypes()
      */
     @Override
     public Collection<String> retrieveExpenseObjectTypes() {
-        List<String> objectTypeCodes = new ArrayList<String>();
-        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
-        objectTypeCodes.add(systemOptions.getFinObjTypeExpendNotExpCode());
-        objectTypeCodes.add(systemOptions.getFinObjTypeExpNotExpendCode());
-        objectTypeCodes.add(systemOptions.getFinObjTypeExpenditureexpCd());
-        objectTypeCodes.add(systemOptions.getFinancialObjectTypeTransferExpenseCd());
+        List<String> objectTypeCodes = new ArrayList<>();
+
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(KFSPropertyConstants.BASIC_ACCOUNTING_CATEGORY_CODE, KFSConstants.BasicAccountingCategoryCodes.EXPENSES);
+
+        final Collection<ObjectType> objectTypes = getBusinessObjectService().findMatching(ObjectType.class, fieldValues);
+        for (ObjectType objectType : objectTypes) {
+            objectTypeCodes.add(objectType.getCode());
+        }
 
         return objectTypeCodes;
     }

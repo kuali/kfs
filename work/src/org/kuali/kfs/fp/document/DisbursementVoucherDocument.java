@@ -1574,8 +1574,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return title;
         }
 
+	Boolean addPaymentReasonToTitle = getParameterService().getParameterValueAsBoolean(this.getClass(), DisbursementVoucherConstants.ADD_PAYMENT_REASON_TO_DV_TITLE_PARM_NM, Boolean.TRUE);
+ 	Boolean addPayeeTaxRevToTitle = getParameterService().getParameterValueAsBoolean(this.getClass(), DisbursementVoucherConstants.ADD_PAYEE_TAX_REV_TO_DV_TITLE_PARM_NM, Boolean.TRUE);
+ 	Boolean addPaymentReasonTaxRevToTitle = getParameterService().getParameterValueAsBoolean(this.getClass(), DisbursementVoucherConstants.ADD_PAYMENT_REASON_TAX_REV_TO_DV_TITLE_PARM_NM, Boolean.TRUE);
+
+
         DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
-        if (title != null && title.contains(DisbursementVoucherConstants.DV_DOC_NAME)) {
+        if (title != null && title.contains(DisbursementVoucherConstants.DV_DOC_NAME) && addPaymentReasonToTitle ) {
             String paymentCodeAndDescription = StringUtils.EMPTY;
 
             if(StringUtils.isNotBlank(payee.getDisbVchrPaymentReasonCode())){
@@ -1588,27 +1593,38 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             title = title.replace(DisbursementVoucherConstants.DV_DOC_NAME, replaceTitle);
         }
 
-        Object[] indicators = new String[4];
-        indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
-        indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
-
-        String taxControlCode = this.getDisbVchrPayeeTaxControlCode();
-        if (StringUtils.equals(taxControlCode, DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || StringUtils.equals(taxControlCode,DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) {
-            indicators[2] =  AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW ;
-        }else{
-            indicators[2] =  AdHocPaymentIndicator.OTHER;
-        }
-
-        boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
-        indicators[3] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
-
-        for(Object indicator : indicators) {
+ 	List<String> indicatorsArr = new ArrayList<String>();
+        indicatorsArr.add(payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER);
+        indicatorsArr.add(payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER);
+ 
+	if (addPayeeTaxRevToTitle) {
+        	String taxControlCode = this.getDisbVchrPayeeTaxControlCode();
+        	if (StringUtils.equals(taxControlCode, DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || StringUtils.equals(taxControlCode,DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) {
+            		indicatorsArr.add(AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW);
+        	}else{
+            		indicatorsArr.add(AdHocPaymentIndicator.OTHER);
+                }
+        }             	
+	
+	if (addPaymentReasonTaxRevToTitle) {
+        	boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
+        	indicatorsArr.add( isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER);
+	}
+	boolean needIndicators = false;
+        StringBuilder titleWithIndicators = new StringBuilder();
+        titleWithIndicators.append(title);
+        titleWithIndicators.append(" [");
+        for(String indicator : indicatorsArr) {
+	    titleWithIndicators.append(String.format("%s:",indicator));
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String adHocPaymentIndicator = MessageFormat.format(" [{0}:{1}:{2}:{3}]", indicators);
-                return title + adHocPaymentIndicator;
+		needIndicators = true;
             }
         }
-
+	if(needIndicators){
+ 	   titleWithIndicators.replace(titleWithIndicators.length()-1, titleWithIndicators.length(), "]"); 
+           return titleWithIndicators.toString();
+        }
+  
         return title;
     }
 

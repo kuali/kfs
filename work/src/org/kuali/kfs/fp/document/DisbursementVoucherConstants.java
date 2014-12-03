@@ -266,6 +266,9 @@ public interface DisbursementVoucherConstants {
     }
 
     public static final String DV_DOC_NAME = "Disbursement Voucher";
-
+    public static final String ADD_PAYMENT_REASON_TO_DV_TITLE_PARM_NM = "ADD_PAYMENT_REASON_TO_DV_TITLE_IND";
+    public static final String ADD_PAYEE_TAX_REV_TO_DV_TITLE_PARM_NM = "ADD_PAYEE_TAX_REVIEW_FLAG_TO_DV_TITLE_IND";
+    public static final String ADD_PAYMENT_REASON_TAX_REV_TO_DV_TITLE_PARM_NM = "ADD_PAYMENT_REASON_TAX_REVIEW_FLAG_TO_DV_TITLE_IND";
+    
     public static final String DISBURSEMENT_VOUCHER_PAYMENT_SOURCE_EXTRACTION_SERVICE = "disbursementVoucherExtractService";
 }

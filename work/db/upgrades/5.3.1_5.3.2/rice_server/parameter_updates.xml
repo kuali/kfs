@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright 2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+    
+    <changeSet author="KFS532" id="KFSCNTRB-2122">
+        <comment>Add parameters for KFSCNTRB-2122</comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP" />
+            <column name="CMPNT_CD" value="DisbursementVoucher" />
+            <column name="PARM_NM" value="ADD_PAYMENT_REASON_TO_DV_TITLE_IND" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" value="KFSCNTRB-2122-1" />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="CONFG" />
+            <column name="VAL" value="Y" />
+            <column name="PARM_DESC_TXT" value="Set to Y if you want the Payment Reason to be added to the DV title." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP" />
+            <column name="CMPNT_CD" value="DisbursementVoucher" />
+            <column name="PARM_NM" value="ADD_PAYEE_TAX_REVIEW_FLAG_TO_DV_TITLE_IND" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" value="KFSCNTRB-2122-2" />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="CONFG" />
+            <column name="VAL" value="Y" />
+            <column name="PARM_DESC_TXT" value="Set to Y if you want the DV title to indicate if tax review is required based on the payee (T will display if tax review is required for the payee, otherwise displays N )." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP" />
+            <column name="CMPNT_CD" value="DisbursementVoucher" />
+            <column name="PARM_NM" value="ADD_PAYMENT_REASON_TAX_REVIEW_FLAG_TO_DV_TITLE_IND" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" value="KFSCNTRB-2122-3" />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="CONFG" />
+            <column name="VAL" value="Y" />
+            <column name="PARM_DESC_TXT" value="Set to Y if you want the DV title to indicate if tax review is required based on the payment reason (P will display if tax review is required for the payment reason, otherwise displays N)." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+    </changeSet>
+    
+</databaseChangeLog>

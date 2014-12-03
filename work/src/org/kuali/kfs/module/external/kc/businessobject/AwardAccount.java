@@ -117,8 +117,12 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
         this.getAward().setPrimeAgency(primeAgency);
 
         finalBilledIndicator = awardAccountDTO.isFinalBill();
-        currentLastBilledDate = new Date(awardAccountDTO.getLastBilledDate().getTime());
-        previousLastBilledDate = new Date(awardAccountDTO.getPreviousLastBilledDate().getTime());
+        currentLastBilledDate = (!ObjectUtils.isNull(awardAccountDTO.getLastBilledDate())) ?
+                new Date(awardAccountDTO.getLastBilledDate().getTime())
+                : null;
+        previousLastBilledDate = (!ObjectUtils.isNull(awardAccountDTO.getPreviousLastBilledDate())) ?
+                new Date(awardAccountDTO.getPreviousLastBilledDate().getTime())
+                : null;
         amountToDraw = awardAccountDTO.getAmountToDraw();
         letterOfCreditReviewIndicator = awardAccountDTO.isLetterOfCreditReviewIndicator();
     }

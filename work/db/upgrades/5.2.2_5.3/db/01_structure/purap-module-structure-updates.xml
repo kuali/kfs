@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFS53" id="KFSTP1292_DEPR_PURAP_STAT">
+		<comment>Deprecate the PurAP status codes and tables since those are held elsewhere now.</comment>
+		
+		<!-- vendor Credit Memo -->
+		<dropForeignKeyConstraint baseTableName="AP_CRDT_MEMO_T" constraintName="AP_CRDT_MEMO_TR7"/>
+		<dropIndex tableName="AP_CRDT_MEMO_T" indexName="AP_CRDT_MEMO_TI2"/>
+		<renameTable oldTableName="AP_CRDT_MEMO_STAT_T" newTableName="DEPR_AP_CRDT_MEMO_STAT_T"/>
+		<renameColumn tableName="AP_CRDT_MEMO_T" oldColumnName="CRDT_MEMO_STAT_CD" newColumnName="DEPR_CRDT_MEMO_STAT_CD" columnDataType="varchar(4)"/>
+		
+		<!-- payment request -->
+		<dropForeignKeyConstraint baseTableName="AP_PMT_RQST_T" constraintName="AP_PMT_RQST_TR2"/>
+		<dropIndex tableName="AP_PMT_RQST_T" indexName="AP_PMT_RQST_TI1"/>
+		<renameTable oldTableName="AP_PMT_RQST_STAT_T" newTableName="DEPR_AP_PMT_RQST_STAT_T"/>
+		<renameColumn tableName="AP_PMT_RQST_T" oldColumnName="PMT_RQST_STAT_CD" newColumnName="DEPR_PMT_RQST_STAT_CD" columnDataType="varchar(4)"/>
+		
+		<!-- PO view -->
+		<dropView viewName="PUR_PO_V"/>
+		<createView viewName="PUR_PO_V">
+SELECT P.AP_PUR_DOC_LNK_ID,
+             P.PO_ID,
+             P.PO_CUR_IND,
+             P.FDOC_NBR,
+             P.OBJ_ID,
+             P.RECUR_PMT_TYP_CD,
+             P.PO_VNDR_CHC_CD,
+             P.PO_END_DT,
+             E.TOTAL_ENCUMBRANCE,
+             SUMMATION.TOTAL_AMOUNT
+   FROM PUR_PO_T P,
+            PUR_PO_ITM_TOT_ENC_V E,
+            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR
+   AND P.FDOC_NBR = SUMMATION.FDOC_NBR
+		</createView>
+		<!-- purchase order -->
+		<dropForeignKeyConstraint baseTableName="PUR_PO_T" constraintName="PUR_PO_TR2"/>
+		<dropIndex tableName="PUR_PO_T" indexName="PUR_PO_TI3"/>
+		<renameTable oldTableName="PUR_PO_STAT_T" newTableName="DEPR_PUR_PO_STAT_T"/>
+		<renameColumn tableName="PUR_PO_T" oldColumnName="PO_STAT_CD" newColumnName="DEPR_PO_STAT_CD" columnDataType="varchar(4)"/>
+		
+		<!-- receiving lines -->
+		<dropForeignKeyConstraint baseTableName="PUR_RCVNG_LN_T" constraintName="PUR_RCVNG_LN_TR1"/>
+		<renameTable oldTableName="PUR_RCVNG_LN_STAT_T" newTableName="DEPR_PUR_RCVNG_LN_STAT_T"/>
+		<renameColumn tableName="PUR_RCVNG_LN_T" oldColumnName="RCVNG_LN_STAT_CD" newColumnName="DEPR_RCVNG_LN_STAT_CD" columnDataType="varchar(4)"/>
+		
+		<!-- requisition -->
+		<dropForeignKeyConstraint baseTableName="PUR_REQS_T" constraintName="PUR_REQS_TR2"/>
+		<dropIndex tableName="PUR_REQS_T" indexName="PUR_REQS_TI3"/>
+		<renameTable oldTableName="PUR_REQS_STAT_T" newTableName="DEPR_PUR_REQS_STAT_T"/>
+		<renameColumn tableName="PUR_REQS_T" oldColumnName="REQS_STAT_CD" newColumnName="DEPR_REQS_STAT_CD" columnDataType="varchar(4)"/>
+	</changeSet>
+	
+</databaseChangeLog>

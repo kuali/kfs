@@ -180,6 +180,7 @@ public class KFSPropertyConstants {
     public static final String BANK_NAME = "bankName";
     public static final String BANK_ROUTING_NUMBER = "bankRoutingNumber";
     public static final String BANK_SHORT_NAME = "bankShortName";
+    public static final String BASIC_ACCOUNTING_CATEGORY_CODE = "basicAccountingCategoryCode";
     public static final String BASE_BUDGET_ADJUSTMENT_AMOUNT = "baseBudgetAdjustmentAmount";
     public static final String BASE_SALARY = "baseSalary";
     public static final String BATCH_SEQUENCE_NUMBER = "batchSequenceNumber";

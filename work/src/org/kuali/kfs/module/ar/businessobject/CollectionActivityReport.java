@@ -22,47 +22,37 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class is used to generate the collection activity report
  */
-
 public class CollectionActivityReport extends TransientBusinessObjectBase {
-
     private String principalId;
     private Long proposalNumber;
     private String agencyNumber;
 
     private String invoiceNumber;
     private String agencyName;
+    private String chartOfAccountsCode;
     private String accountNumber;
 
     private String activityType;
     private String activityComment;
     private Date activityDate;
     private Date followupDate;
-    private boolean completed;
     private Date completedDate;
     private String userPrincipalId;
-
-    private String chartOfAccountsCode;
-
 
     private Person collector;
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
-    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;
     private Chart chart;
-
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -218,24 +208,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the userLookupRoleNamespaceCode attribute.
-     *
-     * @return Return the userLookupRoleNamespaceCode
-     */
-    public String getUserLookupRoleNamespaceCode() {
-        return userLookupRoleNamespaceCode;
-    }
-
-    /**
-     * Gets the userLookupRoleName attribute.
-     *
-     * @return Return the userLookupRoleName
-     */
-    public String getUserLookupRoleName() {
-        return userLookupRoleName;
-    }
-
-    /**
      * Gets the accountNumber attribute.
      *
      * @return Return the accountNumber
@@ -366,24 +338,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the completed attribute.
-     *
-     * @return Return the completed
-     */
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    /**
-     * Sets the completed attribute.
-     *
-     * @param completed The completed to set.
-     */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    /**
      * Gets the completedDate attribute.
      *
      * @return Return the completedDate
@@ -437,13 +391,11 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-    /**
-     * Gets the collectionActivityInquiryTitle attribute.
-     *
-     * @return Returns the collectionActivityInquiryTitle.
-     */
-    public String getCollectionActivityInquiryTitle() {
-        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(COLLECTION_ACTIVITY_TITLE_PROPERTY);
+    public String getUserLookupRoleNamespaceCode() {
+        return userLookupRoleNamespaceCode;
     }
 
+    public String getUserLookupRoleName() {
+        return userLookupRoleName;
+    }
 }

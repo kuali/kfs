@@ -19,6 +19,7 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Data holder class for Collection Activity Report.
@@ -58,7 +59,7 @@ public class CollectionActivityReportDetailDataHolder {
         this.activityType = cr.getActivityType();
         this.activityComment = cr.getActivityComment();
         this.completedDate = cr.getCompletedDate();
-        this.activityComplete = (cr.isCompleted()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
+        this.activityComplete = (!ObjectUtils.isNull(cr.getCompletedDate())) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
         this.userPrincipalId = cr.getUserPrincipalId();
     }
 

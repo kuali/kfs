@@ -1,3 +1,21 @@
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <data>
 <record><country_code>AFG</country_code><country_name>AFGHANISTAN</country_name><conus_ind>O</conus_ind><location_name>HERAT (NON-US FACILITIES, SEE FOOTNOTE 1)</location_name><time_zone>21</time_zone><linked_country_code></linked_country_code><linked_location_name></linked_location_name><dod_ind>no</dod_ind><eff_date>06/01/2011</eff_date><exp_date>12/31/2049</exp_date><start_date>01/01</start_date><end_date>12/31</end_date><lodging_rate>99</lodging_rate><local_meals>40</local_meals><meals_rate_only>32</meals_rate_only><proportional_meals_rate>22</proportional_meals_rate><incidentals>8</incidentals><footnote_ref></footnote_ref><footnote_rate></footnote_rate><max_per_diem>139</max_per_diem></record>
 <record><country_code>AFG</country_code><country_name>AFGHANISTAN</country_name><conus_ind>O</conus_ind><location_name>HERAT</location_name><time_zone>21</time_zone><linked_country_code></linked_country_code><linked_location_name></linked_location_name><dod_ind>yes</dod_ind><eff_date>06/01/2011</eff_date><exp_date>12/31/2049</exp_date><start_date>01/01</start_date><end_date>12/31</end_date><lodging_rate>0</lodging_rate><local_meals>28</local_meals><meals_rate_only>22</meals_rate_only><proportional_meals_rate>17</proportional_meals_rate><incidentals>6</incidentals><footnote_ref></footnote_ref><footnote_rate></footnote_rate><max_per_diem>28</max_per_diem></record>

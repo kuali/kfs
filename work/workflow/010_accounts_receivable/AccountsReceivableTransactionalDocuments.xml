@@ -122,7 +122,7 @@
 				AR
       		</parent>
 			<label>
-				Collection Activity
+				Contracts &amp; Grants Collection Activity
       		</label>
 			<docHandler>
 				${kfs.url}/arCollectionActivityDocument.do?methodToCall=docHandler

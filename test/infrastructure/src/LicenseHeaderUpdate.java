@@ -194,9 +194,6 @@ public class LicenseHeaderUpdate {
             if ( directory.getName().equals("META-INF") ) {
                 return false;
             }
-            if ( directory.getAbsolutePath().endsWith("org"+File.separator+"springframework") ) {
-                return false;
-            }
             if ( directory.getAbsolutePath().endsWith("kfs-db"+File.separator+"development") ) {
                 return false;
             }

@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,10 +25,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
@@ -44,24 +41,19 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
 
     private String invoiceNumber;
     private String agencyName;
+    private String chartOfAccountsCode;
     private String accountNumber;
 
     private String activityType;
     private String activityComment;
     private Date activityDate;
     private Date followupDate;
-    private boolean completed;
     private Date completedDate;
     private String userPrincipalId;
-
-    private String chartOfAccountsCode;
-
 
     private Person collector;
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
-    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
-    private String collectionActivityInquiryTitle;
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;
@@ -370,24 +362,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the completed attribute.
-     *
-     * @return Return the completed
-     */
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    /**
-     * Sets the completed attribute.
-     *
-     * @param completed The completed to set.
-     */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    /**
      * Gets the completedDate attribute.
      *
      * @return Return the completedDate
@@ -440,23 +414,4 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-
-    /**
-     * Gets the collectionActivityInquiryTitle attribute.
-     *
-     * @return Returns the collectionActivityInquiryTitle.
-     */
-    public String getCollectionActivityInquiryTitle() {
-        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(COLLECTION_ACTIVITY_TITLE_PROPERTY);
-    }
-
-    /**
-     * Sets the collectionActivityInquiryTitle attribute value.
-     *
-     * @param collectionActivityInquiryTitle The collectionActivityInquiryTitle to set.
-     */
-    public void setCollectionActivityInquiryTitle(String collectionActivityInquiryTitle) {
-        this.collectionActivityInquiryTitle = collectionActivityInquiryTitle;
-    }
-
 }

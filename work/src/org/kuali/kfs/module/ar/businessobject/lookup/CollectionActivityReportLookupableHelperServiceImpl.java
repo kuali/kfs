@@ -82,8 +82,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        // MJM get resultTable populated here
-        HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
         boolean hasReturnableRow = false;
 

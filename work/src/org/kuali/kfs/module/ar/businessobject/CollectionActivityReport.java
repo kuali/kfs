@@ -38,6 +38,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private String agencyName;
     private String chartOfAccountsCode;
     private String accountNumber;
+    private String customerNumber;
 
     private String activityType;
     private String activityComment;
@@ -53,6 +54,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private ContractsAndGrantsAgency agency;
     private Account account;
     private Chart chart;
+    private Customer customer;
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -151,6 +153,14 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
      */
     public void setAgencyName(String agencyName) {
         this.agencyName = agencyName;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     /**
@@ -264,6 +274,13 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
         this.chart = chart;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     /**
      * Gets the activityType attribute.

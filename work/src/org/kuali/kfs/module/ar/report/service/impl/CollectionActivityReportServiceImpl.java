@@ -79,6 +79,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER);
         String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.INVOICE_NUMBER);
         String accountNumber = (String)lookupFormFields.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        String customerNumber = (String)lookupFormFields.get(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
 
         // Getting final docs
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), "|"));
@@ -94,6 +95,10 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
 
         if (!StringUtils.isBlank(accountNumber)) {
             fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
+        }
+
+        if (!StringUtils.isBlank(customerNumber)) {
+            fieldValues.put(ArPropertyConstants.ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER+"."+ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         }
 
         // Filter Invoice docs according to criteria.

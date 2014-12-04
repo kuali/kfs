@@ -32,6 +32,7 @@
 				<ref bean="CollectionActivityReport-invoiceNumber"/>
 				<ref bean="CollectionActivityReport-chartOfAccountsCode"/>
  				<ref bean="CollectionActivityReport-accountNumber"/>
+ 				<ref bean="CollectionActivityReport-customerNumber"/>
  				<ref bean="CollectionActivityReport-activityType"/>
  				<ref bean="CollectionActivityReport-activityComment"/>
  				<ref bean="CollectionActivityReport-activityDate"/>
@@ -96,6 +97,14 @@
 								p:targetName="accountNumber" />						
 						</list>
 					</property>
+		</bean>
+		<bean parent="RelationshipDefinition">
+			<property name="objectAttributeName" value="customer"/>
+			<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber"/>
+				</list>
+			</property>
 		</bean>
       </list>
     </property>
@@ -197,6 +206,9 @@
 		<bean parent="TextControlDefinition" p:size="11" />
 	</property>
   </bean>
+  
+  	<bean id="CollectionActivityReport-customerNumber" parent="CollectionActivityReport-customerNumber-parentBean"/>
+  	<bean id="CollectionActivityReport-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber"/>
 
 	<bean id="CollectionActivityReport-agencyName" parent="CollectionActivityReport-agencyName-parentBean" />
 	<bean id="CollectionActivityReport-agencyName-parentBean" abstract="true"
@@ -296,6 +308,7 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="customerNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="collector.principalName" />

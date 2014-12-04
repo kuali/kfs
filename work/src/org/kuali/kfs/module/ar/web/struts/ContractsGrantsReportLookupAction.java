@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -76,6 +76,9 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
                 GlobalVariables.getUserSession().addObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY, new Integer(clickedSession + 1));
             }
             GlobalVariables.getUserSession().addObject(ArConstants.SORT_INDEX_SESSION_KEY, sortIndexParameter);
+        }
+        if (form instanceof ContractsGrantsReportLookupForm) {
+            ((ContractsGrantsReportLookupForm)form).setDisplayActionsForRow(shouldDisplayActionsForRow());
         }
         return super.execute(mapping, form, request, response);
     }
@@ -250,6 +253,14 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @return the class used during pdf generation to build search criteria against
      */
     public abstract Class<? extends BusinessObject> getPrintSearchCriteriaClass();
+
+    /**
+     * Always returns false, as most reports do not have actions associated
+     * @return true if the form should display actions per row, false otherwise
+     */
+    public boolean shouldDisplayActionsForRow() {
+        return false;
+    }
 
     /**
      * Generates the report title for generated reports.  If null, a report title will not be set

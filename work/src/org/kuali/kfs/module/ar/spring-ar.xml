@@ -2368,6 +2368,9 @@
 		<property name="collectionActivityReportService">
 			<ref bean="collectionActivityReportService"/>
 		</property>
+		<property name="configurationService">
+			<ref bean="configurationService"/>
+		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
 		</property>

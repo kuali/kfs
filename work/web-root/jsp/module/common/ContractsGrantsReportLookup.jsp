@@ -222,6 +222,19 @@
 							varTotals="totals"
 							excludedParams="methodToCall reqSearchResultsActualSize searchResultKey searchUsingOnlyPrimaryKeyValues actionUrlsExist"
 							requestURI="${KualiForm.htmlFormAction}.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&actionUrlsExist=${KualiForm.actionUrlsExist}">
+							
+							<c:if test="${KualiForm.displayActionsForRow}">					
+								<logic:present name="KualiForm" property="formKey">
+									<c:choose>
+										<c:when test="${row.actionUrls!=''}">
+											<display:column class="infocell" property="actionUrls" title="Actions" media="html" />
+										</c:when>
+										<c:otherwise>
+											<display:column class="infocell" title="Actions" media="html">&nbsp;</display:column>
+										</c:otherwise>
+									</c:choose>
+								</logic:present>
+							</c:if>
 
 							<%-- needed for total line display --%>
 							<c:set var="columnNums" value="" />

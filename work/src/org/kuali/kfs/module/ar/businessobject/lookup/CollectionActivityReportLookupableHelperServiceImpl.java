@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,13 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -53,6 +54,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class CollectionActivityReportLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
     protected CollectionActivityReportService collectionActivityReportService;
+    protected ConfigurationService configurationService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -83,12 +85,11 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        // MJM get resultTable populated here
-        HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
         boolean hasReturnableRow = false;
 
         Person user = GlobalVariables.getUserSession().getPerson();
+        List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
 
         // iterate through result list and wrap rows with return url and action urls
         for (Object aDisplayList : displayList) {
@@ -131,21 +132,12 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
                         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
-                    } else if (org.apache.commons.lang.StringUtils.equals(ArConstants.ACTIONS_LABEL, col.getColumnTitle())) {
-                        CollectionActivityReport collectionActivityReport = (CollectionActivityReport) element;
-                        String url = contractsGrantsReportHelperService.getInitiateCollectionActivityDocumentUrl(collectionActivityReport.getProposalNumber().toString(), collectionActivityReport.getInvoiceNumber());
-                        Map<String, String> fieldList = new HashMap<String, String>();
-                        fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
-                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                        col.setColumnAnchor(a);
                     } else if (StringUtils.isNotBlank(propValue)) {
                         col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                     }
                 }
 
-                ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
+                ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, getActionUrls(element, pkNames, businessObjectRestrictions));
                 if (element instanceof PersistableBusinessObject) {
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                 }
@@ -165,6 +157,29 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
         return displayList;
     }
 
+    /**
+     * Create action link to create new collection activity
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
+     */
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> actionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
+        final CollectionActivityReport collectionActivityReport = (CollectionActivityReport)businessObject;
+        String url = contractsGrantsReportHelperService.getInitiateCollectionActivityDocumentUrl(collectionActivityReport.getProposalNumber().toString(), collectionActivityReport.getInvoiceNumber());
+        Map<String, String> fieldList = new HashMap<String, String>();
+        final String proposalNumber = !ObjectUtils.isNull(collectionActivityReport.getProposalNumber())
+                ? collectionActivityReport.getProposalNumber().toString()
+                : KFSConstants.EMPTY_STRING;
+        fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
+        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+        a.setDisplayText(getConfigurationService().getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY));
+        actionUrls.add(a);
+
+        return actionUrls;
+    }
+
     public CollectionActivityReportService getCollectionActivityReportService() {
         return collectionActivityReportService;
     }
@@ -179,5 +194,13 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

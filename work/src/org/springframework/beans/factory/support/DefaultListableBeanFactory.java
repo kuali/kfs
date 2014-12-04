@@ -1,4 +1,22 @@
 /*
+ * The Kuali Financial System, a comprehensive financial management system for higher education.
+ * 
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/*
  * Copyright 2002-2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -147,7 +165,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     // JHK : performance fix for slow loading Spring context
 	private final Map<String,Set<String>> beanDefinitionsByParent = new ConcurrentHashMap<String, Set<String>>();
     // JHK : END performance fix for slow loading Spring context
-	
+
 	/**
 	 * Create a new DefaultListableBeanFactory.
 	 */
@@ -214,7 +232,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (System.getSecurityManager() != null) {
 				final BeanFactory target = this;
 				AccessController.doPrivileged(new PrivilegedAction<Object>() {
-					public Object run() {
+					@Override
+                    public Object run() {
 						((BeanFactoryAware) autowireCandidateResolver).setBeanFactory(target);
 						return null;
 					}
@@ -252,7 +271,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	// Implementation of ListableBeanFactory interface
 	//---------------------------------------------------------------------
 
-	public <T> T getBean(Class<T> requiredType) throws BeansException {
+	@Override
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
 		Assert.notNull(requiredType, "Required type must not be null");
 		String[] beanNames = getBeanNamesForType(requiredType);
 		if (beanNames.length > 1) {
@@ -284,11 +304,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return this.beanDefinitionMap.containsKey(beanName);
 	}
 
-	public int getBeanDefinitionCount() {
+	@Override
+    public int getBeanDefinitionCount() {
 		return this.beanDefinitionMap.size();
 	}
 
-	public String[] getBeanDefinitionNames() {
+	@Override
+    public String[] getBeanDefinitionNames() {
 		synchronized (this.beanDefinitionMap) {
 			if (this.frozenBeanDefinitionNames != null) {
 				return this.frozenBeanDefinitionNames;
@@ -299,11 +321,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 	}
 
-	public String[] getBeanNamesForType(Class type) {
+	@Override
+    public String[] getBeanNamesForType(Class type) {
 		return getBeanNamesForType(type, true, true);
 	}
 
-	public String[] getBeanNamesForType(Class type, boolean includeNonSingletons, boolean allowEagerInit) {
+	@Override
+    public String[] getBeanNamesForType(Class type, boolean includeNonSingletons, boolean allowEagerInit) {
 		List<String> result = new ArrayList<String>();
 
 		// Check all bean definitions.
@@ -391,11 +415,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return (factoryBeanName != null && isFactoryBean(factoryBeanName) && !containsSingleton(factoryBeanName));
 	}
 
-	public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
+	@Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
 		return getBeansOfType(type, true, true);
 	}
 
-	public <T> Map<String, T> getBeansOfType(Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)
+	@Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)
 			throws BeansException {
 
 		String[] beanNames = getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
@@ -425,7 +451,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return result;
 	}
 
-	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
+	@Override
+    public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
 		Set<String> beanNames = new LinkedHashSet<String>(getBeanDefinitionCount());
 		beanNames.addAll(Arrays.asList(getBeanDefinitionNames()));
 		beanNames.addAll(Arrays.asList(getSingletonNames()));
@@ -444,7 +471,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * found on the given class itself, as well as checking its raw bean class
 	 * if not found on the exposed bean reference (e.g. in case of a proxy).
 	 */
-	public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
+	@Override
+    public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
 		A ann = null;
 		Class beanType = getType(beanName);
 		if (beanType != null) {
@@ -467,7 +495,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	// Implementation of ConfigurableListableBeanFactory interface
 	//---------------------------------------------------------------------
 
-	public void registerResolvableDependency(Class<?> dependencyType, Object autowiredValue) {
+	@Override
+    public void registerResolvableDependency(Class<?> dependencyType, Object autowiredValue) {
 		Assert.notNull(dependencyType, "Type must not be null");
 		if (autowiredValue != null) {
 			Assert.isTrue((autowiredValue instanceof ObjectFactory || dependencyType.isInstance(autowiredValue)),
@@ -476,7 +505,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 	}
 
-	public boolean isAutowireCandidate(String beanName, DependencyDescriptor descriptor)
+	@Override
+    public boolean isAutowireCandidate(String beanName, DependencyDescriptor descriptor)
 			throws NoSuchBeanDefinitionException {
 
 		// Consider FactoryBeans as autowiring candidates.
@@ -536,14 +566,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return bd;
 	}
 
-	public void freezeConfiguration() {
+	@Override
+    public void freezeConfiguration() {
 		this.configurationFrozen = true;
 		synchronized (this.beanDefinitionMap) {
 			this.frozenBeanDefinitionNames = StringUtils.toStringArray(this.beanDefinitionNames);
 		}
 	}
 
-	public boolean isConfigurationFrozen() {
+	@Override
+    public boolean isConfigurationFrozen() {
 		return this.configurationFrozen;
 	}
 
@@ -557,7 +589,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return (this.configurationFrozen || super.isBeanEligibleForMetadataCaching(beanName));
 	}
 
-	public void preInstantiateSingletons() throws BeansException {
+	@Override
+    public void preInstantiateSingletons() throws BeansException {
 		if (this.logger.isInfoEnabled()) {
 			this.logger.info("Pre-instantiating singletons in " + this);
 		}
@@ -573,7 +606,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						boolean isEagerInit;
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
 							isEagerInit = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-								public Boolean run() {
+								@Override
+                                public Boolean run() {
 									return ((SmartFactoryBean) factory).isEagerInit();
 								}
 							}, getAccessControlContext());
@@ -599,7 +633,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	// Implementation of BeanDefinitionRegistry interface
 	//---------------------------------------------------------------------
 
-	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
+	@Override
+    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
 
 		Assert.hasText(beanName, "Bean name must not be empty");
@@ -645,7 +680,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 	}
 
-	public void removeBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
+	@Override
+    public void removeBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
 		Assert.hasText(beanName, "'beanName' must not be empty");
 
 		synchronized (this.beanDefinitionMap) {
@@ -717,7 +753,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
     // JHK : END performance fix for slow loading Spring context
 
-	
+
 	/**
 	 * Only allows alias overriding if bean definition overriding is allowed.
 	 */
@@ -731,7 +767,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	// Dependency resolution functionality
 	//---------------------------------------------------------------------
 
-	public Object resolveDependency(DependencyDescriptor descriptor, String beanName,
+	@Override
+    public Object resolveDependency(DependencyDescriptor descriptor, String beanName,
 			Set<String> autowiredBeanNames, TypeConverter typeConverter) throws BeansException  {
 
 		descriptor.initParameterNameDiscovery(getParameterNameDiscoverer());
@@ -1057,7 +1094,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			return Object.class;
 		}
 
-		public Object getObject() throws BeansException {
+		@Override
+        public Object getObject() throws BeansException {
 			return doResolveDependency(this.descriptor, this.type, this.beanName, null, null);
 		}
 	}
@@ -1072,7 +1110,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			super(descriptor, beanName);
 		}
 
-		public Object get() throws BeansException {
+		@Override
+        public Object get() throws BeansException {
 			return getObject();
 		}
 	}

@@ -39,7 +39,6 @@
  				<ref bean="CollectionActivityReport-completedDate" />
  				<ref bean="CollectionActivityReport-followupDate" />
  				<ref bean="CollectionActivityReport-userPrincipalId" />
- 				<ref bean="CollectionActivityReport-collectionActivityInquiryTitle"/>
 			</list>
 		</property>
 		    <property name="relationships">
@@ -177,7 +176,7 @@
 		</property>
 	</bean>
 	
- <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />
+  <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />
   <bean id="CollectionActivityReport-chartOfAccountsCode-parentBean"
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="control">
@@ -194,18 +193,16 @@
   </bean>
  
   <bean id="CollectionActivityReport-invoiceNumber" parent="CollectionActivityReport-invoiceNumber-parentBean"/>
-
   <bean id="CollectionActivityReport-invoiceNumber-parentBean" abstract="true" parent="CustomerInvoiceDocument-organizationInvoiceNumber">
     <property name="name" value="invoiceNumber"/>
-    <property name="label" value="Invoice Number"/>
-    <property name="shortLabel" value="Invoice Number"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Document Number"/>
     <property name="control">
 		<bean parent="TextControlDefinition" p:size="11" />
 	</property>
   </bean>
 
 	<bean id="CollectionActivityReport-agencyName" parent="CollectionActivityReport-agencyName-parentBean" />
-
 	<bean id="CollectionActivityReport-agencyName-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="agencyName" />
@@ -219,21 +216,8 @@
 			<bean parent="TextControlDefinition" p:size="50" />
 		</property>
 	</bean>
-
-	<bean id="CollectionActivityReport-collectionActivityInquiryTitle" parent="CollectionActivityReport-collectionActivityInquiryTitle-parentBean" />
 	
-	<bean id="CollectionActivityReport-collectionActivityInquiryTitle-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="collectionActivityInquiryTitle" />
-		<property name="label" value="Actions" />
-		<property name="shortLabel" value="Actions" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
-	</bean>
-	
-	<bean id="CollectionActivityReport-activityType" parent="CollectionActivityReport-activityType-parentBean"/>
-
+  <bean id="CollectionActivityReport-activityType" parent="CollectionActivityReport-activityType-parentBean"/>
   <bean id="CollectionActivityReport-activityType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityType"/>
     <property name="forceUppercase" value="true"/>
@@ -252,7 +236,6 @@
   </bean>
 
   <bean id="CollectionActivityReport-activityComment" parent="CollectionActivityReport-activityComment-parentBean"/>
-
   <bean id="CollectionActivityReport-activityComment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityComment"/>
     <property name="label" value="Collection Activity Comment"/>
@@ -267,7 +250,6 @@
   </bean>
 
   <bean id="CollectionActivityReport-activityDate" parent="CollectionActivityReport-activityDate-parentBean"/>
-
   <bean id="CollectionActivityReport-activityDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="shortLabel" value="Collection Activity Date"/>
     <property name="name" value="activityDate"/>
@@ -276,7 +258,6 @@
   </bean>
 
   <bean id="CollectionActivityReport-followupDate" parent="CollectionActivityReport-followupDate-parentBean"/>
-
   <bean id="CollectionActivityReport-followupDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="shortLabel" value="Follow-up Date"/>
     <property name="name" value="followupDate"/>
@@ -285,7 +266,6 @@
   </bean>
 
   <bean id="CollectionActivityReport-completed" parent="CollectionActivityReport-completed-parentBean"/>
-
   <bean id="CollectionActivityReport-completed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="completed"/>
     <property name="label" value="Completed"/>
@@ -293,7 +273,6 @@
   </bean>
 
   <bean id="CollectionActivityReport-completedDate" parent="CollectionActivityReport-completedDate-parentBean"/>
-
   <bean id="CollectionActivityReport-completedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="shortLabel" value="Completed Date"/>
     <property name="name" value="completedDate"/>
@@ -302,7 +281,6 @@
   </bean>
   
   <bean id="CollectionActivityReport-userPrincipalId" parent="CollectionActivityReport-userPrincipalId-parentBean"/>
-
   <bean id="CollectionActivityReport-userPrincipalId-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="shortLabel" value="User"/>
     <property name="name" value="userPrincipalId"/>
@@ -347,7 +325,6 @@
 				<bean parent="FieldDefinition" p:attributeName="completed"/>
 				<bean parent="FieldDefinition" p:attributeName="completedDate"/>
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
-				<bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>
 			</list>
 		</property>
 	</bean>

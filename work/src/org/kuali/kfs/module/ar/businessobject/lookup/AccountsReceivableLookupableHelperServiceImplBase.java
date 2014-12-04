@@ -58,5 +58,4 @@ public abstract class AccountsReceivableLookupableHelperServiceImplBase extends 
 
         return inquiryHref;
     }
-
 }

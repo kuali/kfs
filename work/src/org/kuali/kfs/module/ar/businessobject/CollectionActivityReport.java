@@ -58,7 +58,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
     private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
-    private String collectionActivityInquiryTitle;
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;
@@ -445,15 +444,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
      */
     public String getCollectionActivityInquiryTitle() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(COLLECTION_ACTIVITY_TITLE_PROPERTY);
-    }
-
-    /**
-     * Sets the collectionActivityInquiryTitle attribute value.
-     *
-     * @param collectionActivityInquiryTitle The collectionActivityInquiryTitle to set.
-     */
-    public void setCollectionActivityInquiryTitle(String collectionActivityInquiryTitle) {
-        this.collectionActivityInquiryTitle = collectionActivityInquiryTitle;
     }
 
 }

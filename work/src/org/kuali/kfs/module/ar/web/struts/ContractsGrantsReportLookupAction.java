@@ -74,6 +74,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
             }
             GlobalVariables.getUserSession().addObject(ArConstants.SORT_INDEX_SESSION_KEY, sortIndexParameter);
         }
+        ((ContractsGrantsReportLookupForm)form).setDisplayActionsForRow(shouldDisplayActionsForRow());
         return super.execute(mapping, form, request, response);
     }
 
@@ -254,6 +255,14 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @return String the title for the report
      */
     public abstract String generateReportTitle(LookupForm lookupForm);
+
+    /**
+     * Always returns false, as most reports do not have actions associated
+     * @return true if the form should display actions per row, false otherwise
+     */
+    public boolean shouldDisplayActionsForRow() {
+        return false;
+    }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
         if (contractsGrantsReportHelperService == null) {

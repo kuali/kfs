@@ -63,4 +63,13 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
     public Class<? extends BusinessObject> getPrintSearchCriteriaClass() {
         return CollectionActivityReport.class;
     }
+
+    /**
+     * Always returns true, as collection activity report rows always have actions
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#shouldDisplayActionsForRow()
+     */
+    @Override
+    public boolean shouldDisplayActionsForRow() {
+        return true;
+    }
 }

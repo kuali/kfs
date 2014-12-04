@@ -74,7 +74,9 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
             }
             GlobalVariables.getUserSession().addObject(ArConstants.SORT_INDEX_SESSION_KEY, sortIndexParameter);
         }
-        ((ContractsGrantsReportLookupForm)form).setDisplayActionsForRow(shouldDisplayActionsForRow());
+        if (form instanceof ContractsGrantsReportLookupForm) {
+            ((ContractsGrantsReportLookupForm)form).setDisplayActionsForRow(shouldDisplayActionsForRow());
+        }
         return super.execute(mapping, form, request, response);
     }
 

@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -967,24 +967,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Retrieves all balances between the beginning of the award and the current fiscal year for the given award accounts
-     * @param awardAccounts the award accounts to look up balances for
-     * @param awardBeginningYear the first year of the award
-     * @param currentYear the current year
-     * @param category the category to find balance codes within
-     * @return the retrieved balances
-     */
-    protected List<Balance> retrieveBalancesForAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, final Integer fiscalYear, CostCategory category) {
-        List<Balance> glBalances = new ArrayList<Balance>();
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
-            final List<Balance> matchingBalances = getCostCategoryService().getBalancesForCostCategory(fiscalYear, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), systemOptions.getActualFinancialBalanceTypeCd(), retrieveExpenseObjectTypes(), category);
-            glBalances.addAll(matchingBalances);
-        }
-        return glBalances;
-    }
-
-    /**
      * Determines if a balance represents a cost share or not
      * @param bal the balance to check
      * @return true if the balance is a cost share, false otherwise
@@ -1016,7 +998,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, systemOptions.getFinObjTypeExpenditureexp().getCode());
+        balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, retrieveExpenseObjectTypes());
         balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
         return (List<Balance>)getBusinessObjectService().findMatching(Balance.class, balanceKeys);
     }

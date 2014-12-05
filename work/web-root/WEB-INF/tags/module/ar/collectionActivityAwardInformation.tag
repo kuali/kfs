@@ -27,6 +27,8 @@
 	value="${DataDictionary['Customer'].attributes}" />
 <c:set var="cgInvoiceAttributes"
 	value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
+<c:set var="cgInvoiceDetail"
+	value="${DataDictionary['ContractsGrantsInvoiceDetail'].attributes}" />
 <c:set var="invoiceAccountDetailAttributes"
 	value="${DataDictionary['InvoiceAccountDetail'].attributes}" />
 <c:set var="invoiceGeneralDetailAttributes"
@@ -107,240 +109,162 @@
 				</td>
 			</tr>
 		</table>
-
-		<c:choose>
-			<c:when
-				test="${empty KualiForm.selectedProposalNumber}">
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${empty KualiForm.selectedInvoiceApplication}">
-						<div>
-							<br /> No Invoices Found
-						</div>
-					</c:when>
-					<c:otherwise>
-						<c:if test="${not readOnly}">
-							<table>
-								<tr>
-									<td colspan='2' class='tab-subhead'><label
-										for="selectedInvoiceDocumentNumber">Global Collection Events</label></td>
-								</tr>
-								<tr>
-									<c:if test="${not empty KualiForm.selectedProposalNumber}">
-										<td colspan='2'>
-											<table width='100%' cellpadding='0' cellspacing='0'
-												class='datatable' id="selectedInvoiceCollectionEventDetails">
-												<tr>
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.collectionEventCode}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.activityCode}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.activityDate}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.activityText}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.followup}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.followupDate}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.completed}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.completedDate}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.postedDate}" />
-													<kul:htmlAttributeHeaderCell
-														attributeEntry="${collectionEventAttributes.userPrincipalId}" />
-													<kul:htmlAttributeHeaderCell literalLabel="Invoices Selected" />
-													<kul:htmlAttributeHeaderCell literalLabel="Actions" />
-												</tr>
-												<tr>
-													<td></td>
-												</tr>
-												<ar:collectionEventDetails propertyName="document.globalCollectionEvent"
-													collectionEventAttributes="${collectionEventAttributes}" addLine="true"
-													readOnly="${readOnly}" rowHeading="add" cssClass="infoline"
-													actionMethod="addGlobalCollectionEvent"
-													actionAlt="Add"
-													actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-													includeMultipleInvoiceLookup="true" />
-											</table>
-										</td>
-									</c:if>
-								</tr>
-							</table>
-						</c:if>
+	</div>
+</kul:tab>
+<kul:tab tabTitle="Global Collection Events" defaultOpen="true"
+	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
+	<div class="tab-container" align="center">
+		<h3>New</h3>
+		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+			<tr>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${collectionEventAttributes.activityCode}" horizontal="true"/>
+				<td>
+					<div id="document.activityCode.div">
+						<c:choose>
+							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityCode}"
+									property="document.newCollectionEvent.activityCode" readOnly="${readOnly}" />
+								<c:if test="${not readOnly}">
+									&nbsp;
+									<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityType" fieldConversions="activityCode:document.newCollectionEvent.activityCode" />
+								</c:if>
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${collectionEventAttributes.activityDate}" horizontal="true"/>
+				<td>
+					<div id="document.activityDate.div">
+						<c:choose>
+							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
+									property="document.newCollectionEvent.activityDate" readOnly="${readOnly}" />				
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${collectionEventAttributes.activityText}" horizontal="true"/>
+				<td>
+					<div id="document.activityText.div">
+						<c:choose>
+							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
+									property="document.newCollectionEvent.activityText" readOnly="${readOnly}" expandedTextArea="true" />						
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${collectionEventAttributes.followupDate}" horizontal="true"/>
+				<td>
+					<div id="document.followupDate.div">
+						<c:choose>
+							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
+									property="document.newCollectionEvent.followupDate" readOnly="${readOnly}" />						
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${collectionEventAttributes.completedDate}" horizontal="true"/>
+				<td>
+					<div id="document.completedDate.div">
+						<c:choose>
+							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
+									property="document.newCollectionEvent.completedDate" readOnly="${readOnly}" />						
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</kul:tab>
+<kul:tab tabTitle="Edit List of Invoices" defaultOpen="true"
+	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
+	<div class="tab-container" align="center">
+		<c:if test="${not empty KualiForm.selectedProposalNumber}">
+			<table width="100%" cellpadding="0" cellspacing="0"
+				class="datatable">
+				<tr id='beta_zeta'>
+					<td>
 						<table width="100%" cellpadding="0" cellspacing="0"
 							class="datatable">
-							<tr id='beta_zeta'>
-								<td>
-									<table width="100%" cellpadding="0" cellspacing="0"
-										class="datatable">
-										<tr>
-											<td colspan='2' class='tab-subhead'><label
-												for="selectedInvoiceDocumentNumber">Invoices</label>
-												<c:if test="${not readOnly}">
-													<html:select property="selectedInvoiceDocumentNumber">
-														<c:forEach items="${KualiForm.cgInvoices}"
-															var="invoiceApplication">
-															<html:option value="${invoiceApplication.documentNumber}">
-																<c:out value="${invoiceApplication.documentNumber}" />
-															</html:option>
-														</c:forEach>
-													</html:select>
-													<c:if test="${!empty cgInvoices}">
-														<logic:iterate id="invoiceApplication" name="KualiForm"
-															property="cgInvoices" indexId="ctr">
-														</logic:iterate>
-													</c:if>
-													<html:image property="methodToCall.goToInvoice"
-														src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
-														alt="Go To Invoice" title="Go To Invoice"
-														styleClass="tinybutton" />
-												</c:if>
+							<tr>
+								<td colspan='2' class='tab-subhead'>
+									<table width="100%" cellpadding="0" cellspacing="0" border="0" class="datatable">
+										<tr>										
+											<td class='tab-subhead' width="50%" style="border: 0px">New</td>
+											<td class='tab-subhead' width="50%" style="text-align:right;border: 0px">Look Up / Add Multiple Invoices
+												<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"
+													lookupParameters="document.proposalNumber:proposalNumber,document.agencyNumber:agencyNumber,document.agencyName:agencyName,document.customerNumber:customerNumber,document.customerName:customerName"/>
 											</td>
 										</tr>
 										<tr>
-											<th colspan='2' class='tab-subhead'><c:out
-													value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />
-												&nbsp; <c:if
-													test="${!empty KualiForm.previousInvoiceDocumentNumber}">
-													<html:image property="methodToCall.goToPreviousInvoice"
-														src="${ConfigProperties.externalizable.images.url}tinybutton-prev.gif"
-														alt="Go To Previous Invoice"
-														title="Go To Previous Invoice" styleClass="tinybutton" />
-												</c:if> <c:if
-													test="${!empty KualiForm.previousInvoiceDocumentNumber && !empty KualiForm.nextInvoiceDocumentNumber}">|</c:if>
-												<c:if test="${!empty KualiForm.nextInvoiceDocumentNumber}">
-													<html:image property="methodToCall.goToNextInvoice"
-														src="${ConfigProperties.externalizable.images.url}tinybutton-next.gif"
-														alt="Go To Next Invoice" title="Go To Next Invoice"
-														styleClass="tinybutton" />
-												</c:if></th>
+							                <th align="right">Invoice Document Number:</th>
+							                <td align="left" valign="middle" class="datacell" style="width: 50%;" >
+							                   <kul:htmlControlAttribute
+							                       attributeEntry="${cgInvoiceDetail.documentNumber}"
+							                       property="document.newInvoiceDocumentNumber"
+							                       readOnly="false" />
+							                   <kul:lookup boClassName="org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo"  fieldConversions="documentTypeName:${ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE},documentId:${ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE}" />    
+							                </td>
 										</tr>
-										<tr>
-											<td colspan='2'>
-												<table width='100%' cellpadding='0' cellspacing='0'
-													class='datatable'>
-													<tr>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.organizationInvoiceNumber}" labelFor="document.organizationInvoiceNumber" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${invoiceAccountDetailAttributes.accountNumber}" labelFor="document.invoiceAccountDetailAttributes.accountNumber" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.billingDate}" labelFor="document.billingDate" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" labelFor="document.invoiceGeneralDetail.billingPeriod" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.sourceTotal}" labelFor="document.sourceTotal" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}" labelFor="invoiceGeneralDetail.billingFrequencyCode" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.paymentAmount}" labelFor="document.paymentAmount" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${arGenericAttributes.paymentDate}" labelFor="document.paymentDate" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.balanceDue}" labelFor="document.balanceDue" /></th>
-														<th><kul:htmlAttributeLabel attributeEntry="${cgInvoiceAttributes.age}" labelFor="document.age" /></th>
-													</tr>
-													<tr>
-														<td><a
-															href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.selectedInvoiceDocumentNumber}&command=displayDocSearchView"
-															target="blank"> <kul:htmlControlAttribute
-																	attributeEntry="${cgInvoiceAttributes.organizationInvoiceNumber}"
-																	property="selectedInvoiceDocumentNumber"
-																	readOnly="true" />
-														</a></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${invoiceAccountDetailAttributes.accountNumber}"
-																property="selectedInvoiceApplication.accountDetails[0].accountNumber"
-																readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.billingDate}"
-																property="selectedInvoiceApplication.billingDate"
-																readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}"
-																property="selectedInvoiceApplication.invoiceGeneralDetail.billingPeriod"
-																readOnly="true" /></td>
-														<td style="text-align: right;"><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.sourceTotal}"
-																property="selectedInvoiceTotalAmount" readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${invoiceGeneralDetailAttributes.billingFrequencyCode}"
-																property="selectedInvoiceApplication.invoiceGeneralDetail.billingFrequencyCode"
-																readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.paymentAmount}"
-																property="selectedInvoicePaymentAmount" readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${arGenericAttributes.paymentDate}"
-																property="selectedInvoicePaymentDate" readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.balanceDue}"
-																property="selectedInvoiceBalanceDue" readOnly="true" /></td>
-														<td><kul:htmlControlAttribute
-																attributeEntry="${cgInvoiceAttributes.age}"
-																property="selectedInvoiceApplication.age"
-																readOnly="true" /></td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-										<tr>
-											<td colspan='2' class='tab-subhead'><label
-												for="selectedInvoiceDocumentNumber">Collection Events</label></td>
-										</tr>
-										<tr>
-											<td colspan='2'>
-												<table width='100%' cellpadding='0' cellspacing='0'
-													class='datatable' id="selectedInvoiceCollectionEventDetails">
-													<tr>
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.collectionEventCode}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.activityCode}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.activityDate}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.activityText}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.followup}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.followupDate}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.completed}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.completedDate}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.postedDate}" />
-														<kul:htmlAttributeHeaderCell
-															attributeEntry="${collectionEventAttributes.userPrincipalId}" />
-														<kul:htmlAttributeHeaderCell literalLabel="Actions" />
-													</tr>
-													<c:if test="${!empty KualiForm.selectedInvoiceApplication}">
-														<c:if test="${not readOnly}">
-															<ar:collectionEventDetails propertyName="document.newCollectionEvent"
-																collectionEventAttributes="${collectionEventAttributes}" addLine="true"
-																readOnly="${readOnly}" rowHeading="add"
-																cssClass="infoline" actionMethod="addCollectionEvent"
-																actionAlt="Add Collection Event"
-																actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
-														</c:if>
-														<logic:iterate id="collectionEvent" name="KualiForm"
-															property="document.selectedInvoiceEvents" indexId="ctr">
-															<ar:collectionEventDetails
-																propertyName="document.selectedInvoiceEvents[${ctr}]"
-																collectionEventAttributes="${collectionEventAttributes}" addLine="false"
-																readOnly="${readOnly}" rowHeading="${ctr+1}"
-																cssClass="datacell"
-																actionMethod="editCollectionEvent.line${ctr}"
-																actionAlt="Edit Collection Event"
-																actionImage="${ConfigProperties.externalizable.images.url}tinybutton-save.gif" />
-														</logic:iterate>
-													</c:if>
-												</table>
-											</td>
-										</tr>
+										<c:if test="${not readOnly}">
+											<tr>
+												<th class="datacell" colspan="2">
+													<div align="center">
+														<html:image property="methodToCall.addInvoice"
+															src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
+															alt="Add Invoice" 
+															title="Add Invoice"
+															styleClass="tinybutton" />
+													</div>
+												</th>
+											</tr>
+										</c:if>
 									</table>
 								</td>
 							</tr>
 						</table>
-					</c:otherwise>
-				</c:choose>
-			</c:otherwise>
-		</c:choose>
+						<c:if test="${!empty KualiForm.document.invoices}">
+							<logic:iterate indexId="ctr" name="KualiForm" property="document.invoices" id="Invoice">
+								<ar:collectionActivityInvoiceDetail
+									invPropertyName="document.invoices[${ctr}]"
+									ctr="${ctr}" />
+							</logic:iterate>
+						</c:if>							
+					</td>
+				</tr>
+			</table>
+		</c:if>
 	</div>
 </kul:tab>

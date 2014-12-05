@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,9 @@ package org.kuali.kfs.module.ar.document.web.struts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletRequest;
@@ -40,9 +42,11 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCollectionEventEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -51,6 +55,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -259,6 +264,66 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
     }
 
     /**
+     * This method adds an invoice to the list.
+     *
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return forward action
+     * @throws Exception
+     */
+    public ActionForward addInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
+        CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
+
+        Map<String, String> criteria = new HashMap<String, String>();
+        if (StringUtils.isNotBlank(colActDoc.getNewInvoiceDocumentNumber())) {
+            criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, colActDoc.getNewInvoiceDocumentNumber());
+            ContractsGrantsInvoiceDocument cgInvoiceDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
+
+            if (ObjectUtils.isNotNull(cgInvoiceDocument) && isNewInvoice(colActDoc.getInvoices(), cgInvoiceDocument)) {
+                colActDoc.getInvoices().add(cgInvoiceDocument);
+                colActDoc.setNewInvoiceDocumentNumber(StringUtils.EMPTY);
+            } else {
+                // error - invalid invoice document number
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    private boolean isNewInvoice(List<ContractsGrantsInvoiceDocument> invoices, ContractsGrantsInvoiceDocument cgInvoiceDocument) {
+        for (ContractsGrantsInvoiceDocument invoice: invoices) {
+            if (StringUtils.equals(invoice.getDocumentNumber(), cgInvoiceDocument.getDocumentNumber())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This method deletes an invoice from the list.
+     *
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward deleteInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
+        CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
+
+        int indexOfLineToDelete = getLineToDelete(request);
+        colActDoc.getInvoices().remove(indexOfLineToDelete);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
      * This method adds a new collection event.
      *
      * @param mapping action mapping
@@ -347,6 +412,15 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
             String lookupResultsSequenceNumber = collectionActivityDocumentForm.getLookupResultsSequenceNumber();
             Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             if (ObjectUtils.isNotNull(selectedIds) && CollectionUtils.isNotEmpty(selectedIds)) {
+                for (String invoiceDocumentNumber: selectedIds) {
+                    Map<String, String> criteria = new HashMap<String, String>();
+                    criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
+                    ContractsGrantsInvoiceDocument cgInvoiceDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
+
+                    if (ObjectUtils.isNotNull(cgInvoiceDocument) && isNewInvoice(colActDoc.getInvoices(), cgInvoiceDocument)) {
+                        colActDoc.getInvoices().add(cgInvoiceDocument);
+                    }
+                }
                 colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
             }
         }

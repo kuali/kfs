@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,7 +44,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     protected ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService;
@@ -203,16 +202,9 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         ContractsGrantsAgingOpenInvoicesReport detail = (ContractsGrantsAgingOpenInvoicesReport) bo;
         Properties parameters = new Properties();
         ContractsGrantsInvoiceDocument cgInvoice = getBusinessObjectService().findBySinglePrimaryKey(ContractsGrantsInvoiceDocument.class, detail.getDocumentNumber());
+        final String proposalNumber = cgInvoice.getInvoiceGeneralDetail().getProposalNumber().toString();
 
-        String proposalNumber = cgInvoice.getInvoiceGeneralDetail().getProposalNumber().toString();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-        parameters.put("selectedProposalNumber", proposalNumber);
-        parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
-        parameters.put("command", "initiate");
-        parameters.put("docTypeName", "COLA");
-        lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
-
-        return lookupUrl;
+        return getContractsGrantsReportHelperService().getInitiateCollectionActivityDocumentUrl(proposalNumber, detail.getDocumentNumber());
     }
 
     public ContractsGrantsAgingOpenInvoicesReportService getContractsGrantsAgingOpenInvoicesReportService() {

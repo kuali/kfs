@@ -26,7 +26,7 @@
 	<bean id="CollectionActivityDocument-parentBean" abstract="true"
 		parent="TransactionalDocumentEntry">
 
-		<property name="documentTypeName" value="COLA" />
+		<property name="documentTypeName" value="CCA" />
 		<property name="documentClass"
 			value="org.kuali.kfs.module.ar.document.CollectionActivityDocument" />
 		<property name="businessRulesClass"

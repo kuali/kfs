@@ -99,9 +99,10 @@
 			<band height="44"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="0"
+						mode="Transparent"
+						x="112"
 						y="15"
-						width="55"
+						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -123,7 +124,7 @@
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="55"
+						x="153"
 						y="15"
 						width="55"
 						height="25"
@@ -138,9 +139,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
+						x="208"
 						y="15"
-						width="57"
+						width="50"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -153,9 +154,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="334"
+						x="420"
 						y="15"
-						width="55"
+						width="45"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -168,9 +169,10 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="389"
+						mode="Transparent"
+						x="0"
 						y="15"
-						width="65"
+						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -179,13 +181,13 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="8" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.activityComplete}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.agencyNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="452"
+						x="465"
 						y="15"
-						width="50"
+						width="45"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -198,9 +200,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="504"
+						x="510"
 						y="15"
-						width="69"
+						width="65"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -213,9 +215,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="167"
+						x="258"
 						y="15"
-						width="75"
+						width="70"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -228,7 +230,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="242"
+						x="328"
 						y="15"
 						width="92"
 						height="25"
@@ -240,6 +242,38 @@
 						<font fontName="SansSerif" size="8" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.activityComment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="40"
+						y="15"
+						width="35"
+						height="25"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField-26"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.proposalNumber}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="75"
+						y="15"
+						width="35"
+						height="25"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField-27"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.chartOfAccountsCode}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>
@@ -255,7 +289,8 @@
 						y="1"
 						width="575"
 						height="15"
-						key="subreport-1"/>
+						key="subreport-1"
+						isPrintInFirstWholeBand="true"/>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>

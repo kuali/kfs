@@ -216,8 +216,8 @@
 	<bean id="AwardAccount-award.awardNumber-parentBean" abstract="true"
 		parent="Award-awardNumber">
 		<property name="name" value="award.awardNumber" />
-		<property name="label" value="Award Number" />
-		<property name="shortLabel" value="Award Number" />
+		<property name="label" value="Award ID" />
+		<property name="shortLabel" value="Award ID" />
 	</bean>
 
 	<bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />

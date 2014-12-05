@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.report;
 import java.util.Date;
 
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
-import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Data holder class for Collection Activity Report.
@@ -35,9 +34,9 @@ public class CollectionActivityReportDetailDataHolder {
     private String invoiceNumber;
     private Date activityDate;
     private String agencyName;
-    private String activityComplete;
     private Date completedDate;
     private String userPrincipalId;
+    private String chartOfAccountsCode;
 
     /**
      * Default constructor.
@@ -58,8 +57,10 @@ public class CollectionActivityReportDetailDataHolder {
         this.activityType = cr.getActivityType();
         this.activityComment = cr.getActivityComment();
         this.completedDate = cr.getCompletedDate();
-        this.activityComplete = (cr.isCompleted()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
         this.userPrincipalId = cr.getUserPrincipalId();
+        this.chartOfAccountsCode = cr.getChartOfAccountsCode();
+        this.agencyNumber = cr.getAgencyNumber();
+        this.proposalNumber = cr.getProposalNumber();
     }
 
     /**
@@ -150,24 +151,6 @@ public class CollectionActivityReportDetailDataHolder {
      */
     public void setActivityDate(Date activityDate) {
         this.activityDate = activityDate;
-    }
-
-    /**
-     * Gets the activityComplete attribute.
-     *
-     * @return Returns the activityComplete.
-     */
-    public String getActivityComplete() {
-        return activityComplete;
-    }
-
-    /**
-     * Sets the activityComplete attribute.
-     *
-     * @param activityComplete The activityComplete to set.
-     */
-    public void setActivityComplete(String activityComplete) {
-        this.activityComplete = activityComplete;
     }
 
     /**
@@ -277,4 +260,24 @@ public class CollectionActivityReportDetailDataHolder {
     public void setAgencyName(String agencyName) {
         this.agencyName = agencyName;
     }
+
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     *
+     * @return Returns the chartOfAccountsCode
+     */
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     *
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
 }

@@ -29,8 +29,8 @@
 					url="${ConfigProperties.application.url}/arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CTRL" /></li>
 			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
-						title="Collection Activity"
-						url="${ConfigProperties.application.url}/arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=COLA" /></li>
+						title="Contracts & Grants Collection Activity"
+						url="${ConfigProperties.application.url}/arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CCA" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts Grants Invoice"
 						url="${ConfigProperties.application.url}/arContractsGrantsInvoiceLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>

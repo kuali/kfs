@@ -45,12 +45,14 @@
 	<field name="invoiceNumber" class="java.lang.String"/>
 	<field name="accountNumber" class="java.lang.String"/>
 	<field name="activityType" class="java.lang.String"/>
-	<field name="activityComplete" class="java.lang.String"/>
 	<field name="userPrincipalId" class="java.lang.String"/>
 	<field name="followupDate" class="java.util.Date"/>
 	<field name="activityDate" class="java.util.Date"/>
 	<field name="completedDate" class="java.util.Date"/>
 	<field name="activityComment" class="java.lang.String"/>
+	<field name="agencyNumber" class="java.lang.String"/>
+	<field name="chartOfAccountsCode" class="java.lang.String"/>
+	<field name="proposalNumber" class="java.lang.Long"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -72,7 +74,7 @@
 			<band height="15"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="0"
+						x="108"
 						y="0"
 						width="55"
 						height="11"
@@ -85,7 +87,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="55"
+						x="146"
 						y="0"
 						width="55"
 						height="11"
@@ -98,7 +100,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
+						x="197"
 						y="0"
 						width="57"
 						height="11"
@@ -111,9 +113,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="334"
+						x="416"
 						y="0"
-						width="55"
+						width="45"
 						height="11"
 						key="textField-20"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -124,7 +126,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="389"
+						x="0"
 						y="0"
 						width="65"
 						height="11"
@@ -133,13 +135,13 @@
 					<textElement textAlignment="Center">
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{activityComplete}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{agencyNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="452"
+						x="461"
 						y="0"
-						width="50"
+						width="45"
 						height="11"
 						key="textField-22"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -152,7 +154,7 @@
 					<reportElement
 						x="506"
 						y="0"
-						width="69"
+						width="65"
 						height="11"
 						key="textField-23"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -163,9 +165,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="167"
+						x="254"
 						y="0"
-						width="75"
+						width="70"
 						height="11"
 						key="textField-25"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -176,7 +178,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="242"
+						x="324"
 						y="0"
 						width="92"
 						height="11"
@@ -186,6 +188,32 @@
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{activityComment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="56"
+						y="0"
+						width="65"
+						height="11"
+						key="textField-27"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{chartOfAccountsCode}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="31"
+						y="0"
+						width="65"
+						height="11"
+						key="textField-28"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{proposalNumber}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

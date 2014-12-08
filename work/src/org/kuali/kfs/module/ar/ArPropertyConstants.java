@@ -88,7 +88,7 @@ public class ArPropertyConstants{
     }
 
     public static class ContractsGrantsInvoiceDocumentFields {
-        public static final String FINAL_BILL = "invoiceGeneralDetail.finalBill";
+        public static final String FINAL_BILL = "invoiceGeneralDetail.finalBillIndicator";
         public static final String PROPOSAL_NUMBER = "invoiceGeneralDetail.proposalNumber";
         public static final String REFERRAL_TYPE = "invoiceGeneralDetail.referralType";
     }

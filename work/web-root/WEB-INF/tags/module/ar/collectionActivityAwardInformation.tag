@@ -37,6 +37,8 @@
 	value="${DataDictionary['Agency'].attributes}" />
 <c:set var="collectionEventAttributes"
 	value="${DataDictionary['CollectionEvent'].attributes}" />
+<c:set var="contractsGrantsCollectionActivityAttributes"
+	value="${DataDictionary.CollectionActivityDocument.attributes}"/>
 
 <kul:tab tabTitle="Award Information" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
@@ -45,7 +47,7 @@
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					literalLabel="Proposal Number" horizontal="true" />
+					attributeEntry="${contractsGrantsCollectionActivityAttributes.proposalNumber}" useShortLabel="false" horizontal="true" />
 				<td>
 					<kul:htmlControlAttribute readOnly="true"
 						attributeEntry="${awardAttributes.proposalNumber}"

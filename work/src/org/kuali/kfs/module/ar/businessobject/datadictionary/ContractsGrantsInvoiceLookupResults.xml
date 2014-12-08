@@ -65,7 +65,10 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="ContractsGrantsInvoiceLookupResult-proposalNumber" parent="ContractsGrantsInvoiceLookupResult-proposalNumber-parentBean" />
-	<bean id="ContractsGrantsInvoiceLookupResult-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
+	<bean id="ContractsGrantsInvoiceLookupResult-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber"/>
+	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber" parent="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" />
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />

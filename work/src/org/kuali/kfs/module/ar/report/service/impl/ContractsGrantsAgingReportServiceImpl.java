@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -94,12 +94,26 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         String accountChartOfAccountsCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.ACCOUNT_CHART_CODE);
         String fundManager = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FUND_MANAGER);
         String proposalNumber = (String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-        String collectorPrincName = null;
+        String collectorPrincName = (String) fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+        String collectorPrincipalId = null;
 
-        if (fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME) != null) {
-            collectorPrincName = (String) fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+        List<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = new ArrayList<>();
+
+        if (!StringUtils.isBlank(collectorPrincName)) {
+            Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
+            if (ObjectUtils.isNull(collUser)) {
+                return contractsGrantsInvoiceDocs; // if the principal name is not a real user, then return no values
+            } else {
+                collectorPrincipalId = collUser.getPrincipalId();
+            }
         }
-        String collector = (String) fieldValues.get(KFSPropertyConstants.PRINCIPAL_ID);
+
+        if (!StringUtils.isBlank(fundManager)) {
+            final Person fundManagerUser = getPersonService().getPersonByPrincipalName(fundManager);
+            if (ObjectUtils.isNull(fundManagerUser)) {
+                return contractsGrantsInvoiceDocs; // the fund manager doesn't exist, so empty results
+            }
+        }
 
         String awardDocumentNumber = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.AWARD_DOCUMENT_NUMBER);
         String markedAsFinal = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.MARKED_AS_FINAL);
@@ -188,10 +202,9 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         final Set<Long> awardIds = lookupBillingAwards(awardDocumentNumber, awardEndFromDate, awardEndToDate, fundManager);
 
         // here put all criterias and find the docs
-        List<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = new ArrayList<>();
         contractsGrantsInvoiceDocs.addAll(getLookupService().findCollectionBySearch(ContractsGrantsInvoiceDocument.class, fieldValuesForInvoice));
 
-        filterContractsGrantsInvoiceDocumentsByAwardAndCollector(contractsGrantsInvoiceDocs, collectorPrincName, awardIds);
+        filterContractsGrantsInvoiceDocumentsByAwardAndCollector(contractsGrantsInvoiceDocs, collectorPrincipalId, awardIds);
 
         return contractsGrantsInvoiceDocs;
     }
@@ -202,15 +215,8 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
      * @param collectorPrincName the principal name of the collector
      * @param awardIds a Set of proposal numbers of awards which match given criteria
      */
-    protected void filterContractsGrantsInvoiceDocumentsByAwardAndCollector(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String collectorPrincName, Set<Long> awardIds) {
+    protected void filterContractsGrantsInvoiceDocumentsByAwardAndCollector(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String collectorPrincipalId, Set<Long> awardIds) {
         // filter by collector and user performing the search
-        String collectorPrincipalId = null;
-        if (!StringUtils.isBlank(collectorPrincName)) {
-            Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
-            if (ObjectUtils.isNotNull(collUser)) {
-                collectorPrincipalId = collUser.getPrincipalId();
-            }
-        }
         Person user = GlobalVariables.getUserSession().getPerson();
 
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {

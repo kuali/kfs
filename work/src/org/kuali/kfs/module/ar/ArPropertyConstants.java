@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -361,7 +361,7 @@ public class ArPropertyConstants{
         public static final String PDF_SORT_PROPERTY = "award.agency.agencyNumber";
         public static final String LIST_SORT_PROPERTY = "award.agency.reportingName";
         public static final String ACCOUNT_CHART_CODE = "accountChartOfAccountsCode";
-        public static final String FUND_MANAGER = "fundManager";
+        public static final String FUND_MANAGER = "lookupFundMgrPerson.principalName";
         public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
         public static final String AWARD_END_DATE = "awardEndDate";
         public static final String MARKED_AS_FINAL = "markedAsFinal";

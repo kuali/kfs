@@ -202,9 +202,15 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         ContractsGrantsAgingOpenInvoicesReport detail = (ContractsGrantsAgingOpenInvoicesReport) bo;
         Properties parameters = new Properties();
         ContractsGrantsInvoiceDocument cgInvoice = getBusinessObjectService().findBySinglePrimaryKey(ContractsGrantsInvoiceDocument.class, detail.getDocumentNumber());
-        final String proposalNumber = cgInvoice.getInvoiceGeneralDetail().getProposalNumber().toString();
+        final String proposalNumber = (!ObjectUtils.isNull(cgInvoice.getInvoiceGeneralDetail()) && !ObjectUtils.isNull(cgInvoice.getInvoiceGeneralDetail().getProposalNumber()))
+                ? cgInvoice.getInvoiceGeneralDetail().getProposalNumber().toString()
+                : null;
 
-        return getContractsGrantsReportHelperService().getInitiateCollectionActivityDocumentUrl(proposalNumber, detail.getDocumentNumber());
+        if (!StringUtils.isBlank(proposalNumber)) {
+            return getContractsGrantsReportHelperService().getInitiateCollectionActivityDocumentUrl(proposalNumber, detail.getDocumentNumber());
+        } else {
+            return KFSConstants.EMPTY_STRING;
+        }
     }
 
     public ContractsGrantsAgingOpenInvoicesReportService getContractsGrantsAgingOpenInvoicesReportService() {

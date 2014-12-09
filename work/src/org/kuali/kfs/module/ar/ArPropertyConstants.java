@@ -228,7 +228,7 @@ public class ArPropertyConstants{
         public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
     }
 
-    public static class CollectionActivityDocumentFields {
+    public static class ContractsGrantsCollectionActivityDocumentFields {
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
         public static final String ACTIVITY_DATE = "activityDate";

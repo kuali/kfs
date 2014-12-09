@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
+import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Form class for Collection Activity Document.
  */
-public class CollectionActivityDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
+public class ContractsGrantsCollectionActivityDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 
     protected String selectedInvoiceDocumentNumber;
     protected String selectedProposalNumber;
@@ -42,7 +42,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     protected String selectedCustomerNumber;
     protected String selectedCustomerName;
     protected ContractsGrantsInvoiceDocument selectedInvoiceApplication = null;
-    protected transient static volatile CollectionActivityDocumentService collectionActivityDocumentService;
+    protected transient static volatile ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
 
     // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
     protected String lookupResultsSequenceNumber;
@@ -60,13 +60,13 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      *
      * @return Returns the list of cgInvoices.
      */
-    public List<CollectionActivityInvoiceDetail> getInvoiceDetails() {
-        CollectionActivityDocument colActDoc = getCollectionActivityDocument();
+    public List<ContractsGrantsCollectionActivityInvoiceDetail> getInvoiceDetails() {
+        ContractsGrantsCollectionActivityDocument colActDoc = getCollectionActivityDocument();
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getInvoiceDetails())) {
             return colActDoc.getInvoiceDetails();
         }
         else {
-            return new ArrayList<CollectionActivityInvoiceDetail>();
+            return new ArrayList<ContractsGrantsCollectionActivityInvoiceDetail>();
         }
     }
 
@@ -183,8 +183,8 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      *
      * @return the collection activity document
      */
-    public CollectionActivityDocument getCollectionActivityDocument() {
-        return (CollectionActivityDocument) getDocument();
+    public ContractsGrantsCollectionActivityDocument getCollectionActivityDocument() {
+        return (ContractsGrantsCollectionActivityDocument) getDocument();
     }
 
     /**
@@ -195,10 +195,10 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
         return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_COLLECTION_ACTIVTY;
     }
 
-    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
-        if (collectionActivityDocumentService == null) {
-            collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+    public ContractsGrantsCollectionActivityDocumentService getCollectionActivityDocumentService() {
+        if (contractsGrantsCollectionActivityDocumentService == null) {
+            contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
         }
-        return collectionActivityDocumentService;
+        return contractsGrantsCollectionActivityDocumentService;
     }
 }

@@ -27,7 +27,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
  */
 public class ContractsGrantsAgingOpenInvoicesReport extends CustomerOpenItemReportDetail {
 
-    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
+    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.ContractsGrantsCollectionActivityDocumentConstants.TITLE_PROPERTY;
     private String collectionActivityInquiryTitle;
     private String finalInvoice;
     private String agencyNumber;

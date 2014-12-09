@@ -40,7 +40,7 @@
 <c:set var="collectionEventAttributes"
 	value="${DataDictionary['CollectionEvent'].attributes}" />
 <c:set var="contractsGrantsCollectionActivityAttributes"
-	value="${DataDictionary.CollectionActivityDocument.attributes}"/>
+	value="${DataDictionary.ContractsGrantsCollectionActivityDocument.attributes}"/>
 
 <kul:tab tabTitle="Award Information" defaultOpen="true" tabErrorKey="document.proposalNumber">
 	<div class="tab-container" align="center">
@@ -227,7 +227,7 @@
 			<c:if test="${!empty KualiForm.document.invoiceDetails}">
 				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetails" id="Invoice">
-						<ar:collectionActivityInvoiceDetail
+						<ar:contractsGrantsCollectionActivityInvoiceDetail
 							invPropertyName="document.invoiceDetails[${ctr}]"
 							ctr="${ctr}" readOnly="${readOnly}" />
 					</logic:iterate>

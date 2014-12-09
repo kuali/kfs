@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -51,7 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
-    protected CollectionActivityDocumentService collectionActivityDocumentService;
+    protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
@@ -91,7 +91,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail())) {
             cl.setBillingFrequency(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode());
         }
-        cl.setPaymentAmount(getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
+        cl.setPaymentAmount(getContractsGrantsCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
         cl.setBalanceDue(cl.getInvoiceAmount().subtract(cl.getPaymentAmount()));
         cl.setAge(contractsGrantsInvoiceDocument.getAge());
         return cl;
@@ -194,11 +194,11 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 
-    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
-        return collectionActivityDocumentService;
+    public ContractsGrantsCollectionActivityDocumentService getContractsGrantsCollectionActivityDocumentService() {
+        return contractsGrantsCollectionActivityDocumentService;
     }
 
-    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
-        this.collectionActivityDocumentService = collectionActivityDocumentService;
+    public void setContractsGrantsCollectionActivityDocumentService(ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService) {
+        this.contractsGrantsCollectionActivityDocumentService = contractsGrantsCollectionActivityDocumentService;
     }
 }

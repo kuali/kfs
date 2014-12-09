@@ -24,13 +24,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
-=======
-import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -88,149 +83,85 @@ public class ContractsGrantsCollectionActivityDocumentRuleTest extends KualiTest
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns true when all rules passed.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_True() {
-        collectionActivityDocument.setProposalNumber(11L);
-        collectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        collectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        collectionActivityDocument.setActivityText("testing activity comment");
-        List<CollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
+        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
+        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
+        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
+        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
+        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
         invoiceDetails.add(invoiceDetail);
-        collectionActivityDocument.setInvoiceDetails(invoiceDetails);
+        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
 
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
-=======
-    public void testValidateEvent_True() {
-        CollectionEvent event = new CollectionEvent();
-        event.setActivityCode(ACTIVITY_CODE);
-        event.setActivityText("Testing text");
-        event.setActivityDate(new Date(12333232323L));
-
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionEvent(event);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertTrue(result);
     }
 
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rules fail.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_False() {
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
-=======
-    public void testValidateEvent_False() {
-        CollectionEvent event = new CollectionEvent();
-        event.setActivityCode(ACTIVITY_CODE);
-        event.setActivityText("Testing text");
-        event.setActivityDate(new Date(12333232323L));
-        event.setFollowup(Boolean.TRUE);
-
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionEvent(event);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
     }
 
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_False_missing_ProposalNumber() {
-        collectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        collectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        collectionActivityDocument.setActivityText("testing activity comment");
-        List<CollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
+        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
+        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
+        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
+        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
         invoiceDetails.add(invoiceDetail);
-        collectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
+        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
-=======
-    public void testValidateEvents_True() {
-        CollectionEvent event = new CollectionEvent();
-        event.setActivityCode(ACTIVITY_CODE);
-        event.setActivityText("Testing text");
-        event.setActivityDate(new Date(12333232323L));
-
-        contractsGrantsCollectionActivityDocument.getCollectionEvents().add(event);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionEvents(contractsGrantsCollectionActivityDocument);
-        assertTrue(result);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
     }
 
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_False_missing_ActivityCode() {
-        collectionActivityDocument.setProposalNumber(11L);
-        collectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        collectionActivityDocument.setActivityText("testing activity comment");
-        List<CollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
+        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
+        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
+        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
+        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
         invoiceDetails.add(invoiceDetail);
-        collectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
-=======
-    public void testValidateEvents_False() {
-        CollectionEvent event = new CollectionEvent();
-        contractsGrantsCollectionActivityDocument.getCollectionEvents().add(event);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionEvents(contractsGrantsCollectionActivityDocument);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
+        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
     }
 
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_False_missing_ActivityDate() {
-        collectionActivityDocument.setProposalNumber(11L);
-        collectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        collectionActivityDocument.setActivityText("testing activity comment");
-        List<CollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
+        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
+        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
+        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
+        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
         invoiceDetails.add(invoiceDetail);
-        collectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
+        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
-=======
-    public void testProcessAddEventBusinessRules_True() {
-        CollectionEvent event = new CollectionEvent();
-        event.setActivityCode(ACTIVITY_CODE);
-        event.setActivityText("Testing text");
-        event.setActivityDate(new Date(12333232323L));
-
-        contractsGrantsCollectionActivityDocument.getCollectionEvents().add(event);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.processAddCollectionEventBusinessRules(contractsGrantsCollectionActivityDocument, event);
-        assertTrue(result);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
     }
 
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
-<<<<<<< HEAD:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/CollectionActivityDocumentRuleTest.java
     public void testValidateCollectionActivityDocument_False_missing_ActivityText() {
-        collectionActivityDocument.setProposalNumber(11L);
-        collectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        collectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        List<CollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
+        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
+        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
+        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
+        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
         invoiceDetails.add(invoiceDetail);
-        collectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
-=======
-    public void testProcessAddEventBusinessRules_False() {
-        CollectionEvent event = new CollectionEvent();
-        event.setActivityCode(ACTIVITY_CODE);
-        event.setActivityText("Testing text");
-        event.setActivityDate(new Date(12333232323L));
-        event.setCompleted(Boolean.TRUE);
-
-        contractsGrantsCollectionActivityDocument.getCollectionEvents().add(event);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.processAddCollectionEventBusinessRules(contractsGrantsCollectionActivityDocument, event);
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:test/unit/src/org/kuali/kfs/module/ar/document/validation/impl/ContractsGrantsCollectionActivityDocumentRuleTest.java
+        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
     }
 
@@ -238,11 +169,11 @@ public class ContractsGrantsCollectionActivityDocumentRuleTest extends KualiTest
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
     public void testValidateCollectionActivityDocument_False_missing_InvoiceDetails() {
-        collectionActivityDocument.setProposalNumber(11L);
-        collectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        collectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        collectionActivityDocument.setActivityText("testing activity comment");
-        boolean result = collectionActivityDocumentRule.validateCollectionActivityDocument(collectionActivityDocument);
+        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
+        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
+        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
+        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
+        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
         assertFalse(result);
     }
 

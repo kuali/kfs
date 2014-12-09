@@ -37,16 +37,11 @@
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
 		<property name="attributes">
 			<list>
-<<<<<<< HEAD:work/src/org/kuali/kfs/module/ar/document/datadictionary/CollectionActivityDocument.xml
-				<ref bean="CollectionActivityDocument-proposalNumber" />
-				<ref bean="CollectionActivityDocument-activityCode" />
-				<ref bean="CollectionActivityDocument-activityDate" />
-				<ref bean="CollectionActivityDocument-activityText" />
-				<ref bean="CollectionActivityDocument-selectedInvoiceDocumentNumberList" />
-=======
 				<ref bean="ContractsGrantsCollectionActivityDocument-proposalNumber" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityCode" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityDate" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityText" />
 				<ref bean="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" />
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:work/src/org/kuali/kfs/module/ar/document/datadictionary/ContractsGrantsCollectionActivityDocument.xml
 			</list>
 		</property>
 	<property name="workflowAttributes">
@@ -64,22 +59,17 @@
 		<property name="name" value="proposalNumber" />	
 	</bean>
 	
-<<<<<<< HEAD:work/src/org/kuali/kfs/module/ar/document/datadictionary/CollectionActivityDocument.xml
-	<bean id="CollectionActivityDocument-activityCode" parent="CollectionActivityDocument-activityCode-parentBean"/>
-  	<bean id="CollectionActivityDocument-activityCode-parentBean" abstract="true" parent="CollectionEvent-activityCode-parentBean"/>
+	<bean id="ContractsGrantsCollectionActivityDocument-activityCode" parent="ContractsGrantsCollectionActivityDocument-activityCode-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityCode-parentBean" abstract="true" parent="CollectionEvent-activityCode-parentBean"/>
 	
-	<bean id="CollectionActivityDocument-activityDate" parent="CollectionActivityDocument-activityDate-parentBean"/>
-  	<bean id="CollectionActivityDocument-activityDate-parentBean" abstract="true" parent="CollectionEvent-activityDate-parentBean"/>
+	<bean id="ContractsGrantsCollectionActivityDocument-activityDate" parent="ContractsGrantsCollectionActivityDocument-activityDate-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityDate-parentBean" abstract="true" parent="CollectionEvent-activityDate-parentBean"/>
 
-	<bean id="CollectionActivityDocument-activityText" parent="CollectionActivityDocument-activityText-parentBean"/>
-  	<bean id="CollectionActivityDocument-activityText-parentBean" abstract="true" parent="CollectionEvent-activityText-parentBean"/>
+	<bean id="ContractsGrantsCollectionActivityDocument-activityText" parent="ContractsGrantsCollectionActivityDocument-activityText-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityText-parentBean" abstract="true" parent="CollectionEvent-activityText-parentBean"/>
 	
-	<bean id="CollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="CollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />
-	<bean id="CollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" abstract="true" parent="AttributeDefinition">
-=======
 	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />
 	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" abstract="true" parent="AttributeDefinition">
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:work/src/org/kuali/kfs/module/ar/document/datadictionary/ContractsGrantsCollectionActivityDocument.xml
 		<property name="name" value="selectedInvoiceDocumentNumberList" />
 		<property name="label" value="Invoices Selected" />
 		<property name="shortLabel" value="Invoices Selected" />
@@ -89,59 +79,8 @@
 		</property>
 	</bean>
 	
-	<bean id="ContractsGrantsCollectionActivityDocument-validations" parent="ContractsGrantsCollectionActivityDocument-validations-parentBean" />
-	<bean id="ContractsGrantsCollectionActivityDocument-validations-parentBean" abstract="true" 
-		class="org.springframework.beans.factory.config.MapFactoryBean">
-		<property name="sourceMap">
-			<map>
-				<entry>
-					<key>
-<<<<<<< HEAD:work/src/org/kuali/kfs/module/ar/document/datadictionary/CollectionActivityDocument.xml
-=======
-						<value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent
-						</value>
-					</key>
-					<value>ContractsGrantsCollectionActivity-saveDocumentValidation</value>
-				</entry>
-				<entry>
-					<key>
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:work/src/org/kuali/kfs/module/ar/document/datadictionary/ContractsGrantsCollectionActivityDocument.xml
-						<value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent
-						</value>
-					</key>
-					<value>ContractsGrantsCollectionActivity-routeDocumentValidation</value>
-				</entry>
-<<<<<<< HEAD:work/src/org/kuali/kfs/module/ar/document/datadictionary/CollectionActivityDocument.xml
-=======
-				<entry>
-					<key>
-						<value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent
-						</value>
-					</key>
-					<value>ContractsGrantsCollectionActivity-approveDocumentValidation</value>
-				</entry>
-				<entry>
-					<key>
-						<value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent
-						</value>
-					</key>
-					<value>ContractsGrantsCollectionActivity-blanketApproveDocumentValidation</value>
-				</entry>
-				<entry>
-					<key>
-						<value>org.kuali.kfs.module.ar.document.validation.event.AddCollectionEventEvent
-						</value>
-					</key>
-					<value>ContractsGrantsCollectionActivity-addCollectionActivityDetailValidation</value>
-				</entry>
->>>>>>> KFSTP-1597: renames of collection activity stuff to contracts & grants collection activity:work/src/org/kuali/kfs/module/ar/document/datadictionary/ContractsGrantsCollectionActivityDocument.xml
-			</map>
-		</property>
-	</bean>	
-
   <!-- workflow attributes -->
   <bean id="ContractsGrantsCollectionActivityDocument-workflowAttributes" parent="ContractsGrantsCollectionActivityDocument-workflowAttributes-parentBean"/>
-  
   <bean id="ContractsGrantsCollectionActivityDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
   

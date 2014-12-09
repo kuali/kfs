@@ -125,7 +125,7 @@
 				Contracts &amp; Grants Collection Activity
       		</label>
 			<docHandler>
-				${kfs.url}/arCollectionActivityDocument.do?methodToCall=docHandler
+				${kfs.url}/arContractsGrantsCollectionActivityDocument.do?methodToCall=docHandler
       		</docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcollectionactivity.htm

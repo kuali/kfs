@@ -1184,7 +1184,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
- 	<class-descriptor class="org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument" table="AR_CLCTN_ACTVY_DOC_T">
+ 	<class-descriptor class="org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument" table="AR_CGB_CLCTN_ACTVY_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

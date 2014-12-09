@@ -1184,7 +1184,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
- 	<class-descriptor class="org.kuali.kfs.module.ar.document.CollectionActivityDocument" table="AR_CLCTN_ACTVY_DOC_T">
+ 	<class-descriptor class="org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument" table="AR_CGB_CLCTN_ACTVY_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1202,14 +1202,14 @@
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
 			<foreignkey field-ref="documentNumber" />
 		</reference-descriptor>
-		<collection-descriptor name="invoiceDetails" element-class-ref="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail"
+		<collection-descriptor name="invoiceDetails" element-class-ref="org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 			<orderby name="documentNumber" sort="ASC" />
 			<inverse-foreignkey field-ref="documentNumber" />
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail" table="AR_CGB_CLCTN_ACTVY_INV_DTL_T">
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail" table="AR_CGB_CLCTN_ACTVY_INV_DTL_T">
         <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
         <field-descriptor name="invoiceNumber" column="INV_FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

@@ -61,7 +61,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
     private Person collector;
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
-    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
+    private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.ContractsGrantsCollectionActivityDocumentConstants.TITLE_PROPERTY;
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;

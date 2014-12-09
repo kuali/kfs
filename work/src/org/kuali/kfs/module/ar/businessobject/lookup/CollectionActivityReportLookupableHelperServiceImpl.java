@@ -174,7 +174,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
         fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
         a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-        a.setDisplayText(getConfigurationService().getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY));
+        a.setDisplayText(getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsCollectionActivityDocumentConstants.TITLE_PROPERTY));
         actionUrls.add(a);
 
         return actionUrls;

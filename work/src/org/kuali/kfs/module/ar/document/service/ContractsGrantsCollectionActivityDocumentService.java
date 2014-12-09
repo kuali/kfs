@@ -23,21 +23,21 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Service class for Collection Activity Document.
  */
-public interface CollectionActivityDocumentService {
+public interface ContractsGrantsCollectionActivityDocumentService {
 
     /**
      * Creates and saves new collection events for the Collection Activity Document.
      *
      * @param colActDoc The Collection Activity Document object.
      */
-    public void createAndSaveCollectionEvents(CollectionActivityDocument colActDoc);
+    public void createAndSaveCollectionEvents(ContractsGrantsCollectionActivityDocument colActDoc);
 
     /**
      * Adds the new collection event for invoice.
@@ -47,7 +47,7 @@ public interface CollectionActivityDocumentService {
      * @param newCollectionEvent The collection event object to be added.
      * @throws WorkflowException
      */
-    public void addNewCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
+    public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
 
     /**
      * Edits the existing collection event.
@@ -57,14 +57,14 @@ public interface CollectionActivityDocumentService {
      * @param event The event object to be edited.
      * @throws WorkflowException
      */
-    public void editCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException;
+    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException;
 
     /**
-     * Retrieves the award information from proposal number of given CollectionActivityDocument object.
+     * Retrieves the award information from proposal number of given ContractsGrantsCollectionActivityDocument object.
      *
      * @param colActDoc The Collection Activity Document object with proposal number set.
      */
-    public void loadAwardInformationForCollectionActivityDocument(CollectionActivityDocument colActDoc);
+    public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc);
 
     /**
      * Retrieves the collection events based on the field values passed in. Results are furthered filtered

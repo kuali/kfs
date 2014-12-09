@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -60,7 +60,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected DateTimeService dateTimeService;
     protected PersonService personService;
-    protected CollectionActivityDocumentService collectionActivityDocumentService;
+    protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -103,7 +103,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
         fieldValues.put(ArPropertyConstants.CollectionEventFields.FOLLOW_UP, "true");
 
-        Collection<CollectionEvent> collectionEvents = getCollectionActivityDocumentService().retrieveCollectionEvents(fieldValues, null);
+        Collection<CollectionEvent> collectionEvents = getContractsGrantsCollectionActivityDocumentService().retrieveCollectionEvents(fieldValues, null);
 
         final String agencyNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 
@@ -313,12 +313,12 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
-    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
-        return collectionActivityDocumentService;
+    public ContractsGrantsCollectionActivityDocumentService getContractsGrantsCollectionActivityDocumentService() {
+        return contractsGrantsCollectionActivityDocumentService;
     }
 
-    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
-        this.collectionActivityDocumentService = collectionActivityDocumentService;
+    public void setContractsGrantsCollectionActivityDocumentService(ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService) {
+        this.contractsGrantsCollectionActivityDocumentService = contractsGrantsCollectionActivityDocumentService;
     }
 
     public DateTimeService getDateTimeService() {

@@ -50,15 +50,15 @@
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="CollectionActivityDocument"
-	htmlFormAction="arCollectionActivityDocument" renderMultipart="true"
+	documentTypeName="ContractsGrantsCollectionActivityDocument"
+	htmlFormAction="arContractsGrantsCollectionActivityDocument" renderMultipart="true"
 	showTabButtons="true">
 	
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<ar:collectionActivityAwardInformation readOnly="${readOnly}" />
+	<ar:contractsGrantsCollectionActivityAwardInformation readOnly="${readOnly}" />
 		
 	<kul:notes />
 

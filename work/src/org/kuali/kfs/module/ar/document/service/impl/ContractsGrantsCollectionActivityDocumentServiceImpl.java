@@ -28,14 +28,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -57,8 +57,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Implementation class for Collection Activity Document.
  */
-public class CollectionActivityDocumentServiceImpl implements CollectionActivityDocumentService {
-    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentServiceImpl.class);
+public class ContractsGrantsCollectionActivityDocumentServiceImpl implements ContractsGrantsCollectionActivityDocumentService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentServiceImpl.class);
 
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
@@ -127,13 +127,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#addNewEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void createAndSaveCollectionEvents(CollectionActivityDocument colActDoc) {
-        for (CollectionActivityInvoiceDetail invoiceDetail: colActDoc.getInvoiceDetails()) {
+    public void createAndSaveCollectionEvents(ContractsGrantsCollectionActivityDocument colActDoc) {
+        for (ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail: colActDoc.getInvoiceDetails()) {
             CollectionEvent newCollectionEvent = new CollectionEvent();
             final Timestamp now = dateTimeService.getCurrentTimestamp();
 
@@ -159,12 +159,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#addNewEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void addNewCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException {
+    public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException {
 
         final Timestamp now = dateTimeService.getCurrentTimestamp();
         newCollectionEvent.setPostedDate(now);
@@ -195,12 +195,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editCollectionEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#editCollectionEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void editCollectionEvent(String description, CollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException {
+    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException {
         event.setDocumentNumber(colActDoc.getDocumentNumber());
 
         colActDoc.populateDocumentForRouting();
@@ -221,12 +221,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#editCollectionEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#editCollectionEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
      */
     @Override
     @Transactional
-    public void loadAwardInformationForCollectionActivityDocument(CollectionActivityDocument colActDoc) {
+    public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc) {
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -247,7 +247,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveEvents(java.util.Map, java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrieveEvents(java.util.Map, java.lang.String)
      */
     @Override
     @Transactional
@@ -256,7 +256,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
      */
     @Override
     @Transactional
@@ -291,7 +291,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrievePaymentAmountByDocumentNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrievePaymentAmountByDocumentNumber(java.lang.String)
      */
     @Override
     @Transactional

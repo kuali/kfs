@@ -274,8 +274,8 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         String initiateUrl = KRADConstants.EMPTY_STRING;
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
-        parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, invoiceNumber);
+        parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, invoiceNumber);
         parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_COLLECTION_ACTIVTY);
         initiateUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);

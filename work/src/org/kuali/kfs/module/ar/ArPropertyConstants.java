@@ -231,14 +231,18 @@ public class ArPropertyConstants{
     public static class CollectionActivityDocumentFields {
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
+        public static final String ACTIVITY_DATE = "activityDate";
+        public static final String ACTIVITY_TEXT = "activityText";
+        public static final String INVOICE_DETAILS = "invoiceDetails";
     }
- // OrganizationOptions
+
+    // OrganizationOptions
     public static class OrganizationOptionsFields {
         public static final String ORGANIZATION_CHECK_PAYABLE_TO_NAME = "organizationCheckPayableToName";
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
 
- // SystemInformation (aka ProcessingOrg)
+    // SystemInformation (aka ProcessingOrg)
     public static class SystemInformationFields {
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
         public static final String FEIN_NUMBER = "feinNumber";

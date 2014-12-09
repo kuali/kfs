@@ -18,23 +18,16 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -67,13 +60,13 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      *
      * @return Returns the list of cgInvoices.
      */
-    public List<ContractsGrantsInvoiceDocument> getCgInvoices() {
+    public List<CollectionActivityInvoiceDetail> getInvoiceDetails() {
         CollectionActivityDocument colActDoc = getCollectionActivityDocument();
-        if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getInvoices())) {
-            return colActDoc.getInvoices();
+        if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getInvoiceDetails())) {
+            return colActDoc.getInvoiceDetails();
         }
         else {
-            return new ArrayList<ContractsGrantsInvoiceDocument>();
+            return new ArrayList<CollectionActivityInvoiceDetail>();
         }
     }
 
@@ -186,16 +179,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * This method retrieves a specific contracts grants invoice from the list, by array index
-     *
-     * @param index the index of the contracts grants invoice to retrieve
-     * @return a ContractsGrantsInvoiceDocument
-     */
-    public ContractsGrantsInvoiceDocument getInvoiceApplication(int index) {
-        return getCgInvoices().get(index);
-    }
-
-    /**
      * This method gets the collection activity document
      *
      * @return the collection activity document
@@ -205,167 +188,11 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * Gets the selectedInvoiceBalance attribute.
-     *
-     * @return Returns the selectedInvoiceBalance.
-     */
-    public KualiDecimal getSelectedInvoiceBalance() {
-        return getSelectedInvoiceApplication().getOpenAmount();
-    }
-
-    /**
-     * Gets the selectedInvoiceTotalAmount attribute.
-     *
-     * @return Returns the selectedInvoiceTotalAmount.
-     */
-    public KualiDecimal getSelectedInvoiceTotalAmount() {
-        return getSelectedInvoiceApplication().getSourceTotal();
-    }
-
-    /**
-     * Gets the selectedInvoicePaymentAmount attribute.
-     *
-     * @return Returns the selectedInvoicePaymentAmount.
-     */
-    public KualiDecimal getSelectedInvoicePaymentAmount() {
-        return getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(getSelectedInvoiceApplication().getDocumentNumber());
-    }
-
-    /**
-     * Gets the selectedProposalNumber attribute.
-     *
-     * @return Returns the selectedProposalNumber.
-     */
-    public Date getSelectedInvoicePaymentDate() {
-        return getCollectionActivityDocumentService().retrievePaymentDateByDocumentNumber(getSelectedInvoiceApplication().getDocumentNumber());
-    }
-
-    /**
-     * Gets the selectedInvoiceBalanceDue attribute.
-     *
-     * @return Returns the selectedInvoiceBalanceDue.
-     */
-    public KualiDecimal getSelectedInvoiceBalanceDue() {
-        return getSelectedInvoiceTotalAmount().subtract(getSelectedInvoicePaymentAmount());
-    }
-
-    /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
      */
     @Override
     protected String getDefaultDocumentTypeName() {
         return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_COLLECTION_ACTIVTY;
-    }
-
-    /**
-     * This method gets the previous invoice document number
-     *
-     * @return the previous invoice document number
-     */
-    public String getPreviousInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument previousInvoiceDocument = null;
-
-        ContractsGrantsInvoiceDocument selectedCGInvoiceDocument = getSelectedInvoiceApplication();
-        if (ObjectUtils.isNull(selectedCGInvoiceDocument) || getCgInvoices().size() < 2) {
-            previousInvoiceDocument = null;
-        }
-        else {
-            Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
-            ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = iterator.next();
-            String selectedInvoiceDocumentNumber = selectedCGInvoiceDocument.getDocumentNumber();
-            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(contractsGrantsInvoiceDocument.getDocumentNumber())) {
-                previousInvoiceDocument = null;
-            }
-            else {
-                while (iterator.hasNext()) {
-                    ContractsGrantsInvoiceDocument currentInvoiceDocument = iterator.next();
-                    String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
-                    if (null != currentInvoiceDocumentNumber && currentInvoiceDocumentNumber.equals(selectedCGInvoiceDocument.getDocumentNumber())) {
-                        previousInvoiceDocument = contractsGrantsInvoiceDocument;
-                    }
-                    else {
-                        contractsGrantsInvoiceDocument = currentInvoiceDocument;
-                    }
-                }
-            }
-        }
-
-        return null == previousInvoiceDocument ? "" : previousInvoiceDocument.getDocumentNumber();
-    }
-
-    /**
-     * This method gets the next invoice document number
-     *
-     * @return the next invoice document number
-     */
-    public String getNextInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument nextInvoiceDocument = null;
-
-        ContractsGrantsInvoiceDocument selectedInvoiceDocument = getSelectedInvoiceApplication();
-        if (ObjectUtils.isNull(selectedInvoiceDocument) || getCgInvoices().size() < 2) {
-            nextInvoiceDocument = null;
-        }
-        else {
-            Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
-            while (iterator.hasNext()) {
-                ContractsGrantsInvoiceDocument currentInvoiceDocument = iterator.next();
-                String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
-                if (currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
-                    if (iterator.hasNext()) {
-                        nextInvoiceDocument = iterator.next();
-                    }
-                    else {
-                        nextInvoiceDocument = null;
-                    }
-                }
-            }
-        }
-
-        return null == nextInvoiceDocument ? "" : nextInvoiceDocument.getDocumentNumber();
-    }
-
-    /**
-     * @return Returns the selected invoice application.
-     */
-    public ContractsGrantsInvoiceDocument getSelectedInvoiceApplication() {
-        String docNumber = getSelectedInvoiceDocumentNumber();
-        if (ObjectUtils.isNotNull(docNumber)) {
-            return getInvoiceApplicationsByDocumentNumber().get(docNumber);
-        }
-        else {
-            List<ContractsGrantsInvoiceDocument> i = getCgInvoices();
-            if (CollectionUtils.isEmpty(i)) {
-                return null;
-            }
-            else {
-                return getCgInvoices().get(0);
-            }
-        }
-    }
-
-    public Map<String, ContractsGrantsInvoiceDocument> getInvoiceApplicationsByDocumentNumber() {
-        Map<String, ContractsGrantsInvoiceDocument> m = new HashMap<String, ContractsGrantsInvoiceDocument>();
-        for (ContractsGrantsInvoiceDocument i : getCgInvoices()) {
-            m.put(i.getDocumentNumber(), i);
-        }
-        return m;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-
-        CollectionActivityDocument colActDoc = getCollectionActivityDocument();
-        // Set the proposal number for the document to be saved.
-        if (ObjectUtils.isNotNull(colActDoc)) {
-            if (ObjectUtils.isNotNull(this.getSelectedProposalNumber())) {
-                colActDoc.setProposalNumber(new Long(this.getSelectedProposalNumber()));
-            }
-            SpringContext.getBean(CollectionActivityDocumentService.class).loadAwardInformationForCollectionActivityDocument(colActDoc);
-        }
     }
 
     public CollectionActivityDocumentService getCollectionActivityDocumentService() {

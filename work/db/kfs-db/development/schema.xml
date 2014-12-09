@@ -789,6 +789,27 @@
             <index-column name="PRPSL_NBR"/>
         </index>
     </table>
+    <table name="AR_CGB_CLCTN_ACTVY_DOC_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="AGENCY_NM" size="50" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
+        <column name="CUST_NM" size="60" type="VARCHAR"/>
+        <column name="ACTVY_CD" size="4" type="VARCHAR"/>
+        <column name="ACTVY_DT" type="DATE"/>
+        <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
+        <column name="FLLW_UP_DT" type="DATE"/>
+        <column name="CMPLTD_DT" type="DATE"/>
+        <unique name="AR_CLCTN_ACTVTY_DOC_TP1">
+            <unique-column name="FDOC_NBR"/>
+        </unique>
+        <unique name="AR_CLCTN_ACTVY_DOC_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="AR_CGB_CLCTN_ACTVY_INV_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="INV_FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -815,24 +836,6 @@
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
         <unique name="AR_CGB_INV_DTL_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_CLCTN_ACTVY_DOC_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
-        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
-        <column name="AGENCY_NM" size="50" type="VARCHAR"/>
-        <column name="CUST_NBR" size="9" type="VARCHAR"/>
-        <column name="CUST_NM" size="60" type="VARCHAR"/>
-        <column name="ACTVY_CD" size="4" type="VARCHAR"/>
-        <column name="ACTVY_DT" type="DATE"/>
-        <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
-        <column name="FLLW_UP_DT" type="DATE"/>
-        <column name="CMPLTD_DT" type="DATE"/>
-        <unique name="AR_CLCTN_ACTVY_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

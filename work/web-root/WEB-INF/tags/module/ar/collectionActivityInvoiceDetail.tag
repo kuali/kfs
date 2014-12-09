@@ -20,6 +20,7 @@
 
 <%@ attribute name="invPropertyName" required="true" description="The invoice" %>
 <%@ attribute name="ctr" required="true" description="The invoice index" %>              
+<%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
               
 <c:set var="cgInvoiceAttributes" value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
 <c:set var="cgInvoiceDetail" value="${DataDictionary['ContractsGrantsInvoiceDetail'].attributes}" />
@@ -42,7 +43,7 @@
 <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
-    <td colspan="10" style="padding: 0px;">
+    <td colspan="2" style="padding: 0px;">
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
             <tr>
                 <td class="tab-subhead" style="border-right: none;">
@@ -77,7 +78,7 @@
 				<td>
 					<div id="document.invoices.invoiceDocumentNumber.div">
 						<kul:htmlControlAttribute attributeEntry="${cgInvoiceDetail.documentNumber}"
-							property="${invPropertyName}.documentNumber" readOnly="true" />
+							property="${invPropertyName}.invoiceNumber" readOnly="true" />
 					</div>
 				</td>									
 			</tr>
@@ -97,7 +98,7 @@
 				<td>
 					<div id="document.invoices.billingPeriod.div">
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}"
-							property="${invPropertyName}.invoiceGeneralDetail.billingPeriod" readOnly="true" />
+							property="${invPropertyName}.billingPeriod" readOnly="true" />
 					</div>
 				</td>									
 			</tr>

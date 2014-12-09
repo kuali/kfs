@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,6 +28,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
@@ -123,6 +124,38 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
+     */
+    @Override
+    @Transactional
+    public void createAndSaveCollectionEvents(CollectionActivityDocument colActDoc) {
+        for (CollectionActivityInvoiceDetail invoiceDetail: colActDoc.getInvoiceDetails()) {
+            CollectionEvent newCollectionEvent = new CollectionEvent();
+            final Timestamp now = dateTimeService.getCurrentTimestamp();
+
+            newCollectionEvent.setPostedDate(now);
+            newCollectionEvent.setActivityCode(colActDoc.getActivityCode());
+            newCollectionEvent.setActivityDate(colActDoc.getActivityDate());
+            newCollectionEvent.setActivityText(colActDoc.getActivityText());
+            newCollectionEvent.setFollowupDate(colActDoc.getFollowupDate());
+            newCollectionEvent.setCompletedDate(colActDoc.getCompletedDate());
+            newCollectionEvent.setDocumentNumber(colActDoc.getDocumentNumber());
+
+            if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
+                Person authorUniversal = GlobalVariables.getUserSession().getPerson();
+                newCollectionEvent.setUserPrincipalId(authorUniversal.getPrincipalId());
+                newCollectionEvent.setUser(authorUniversal);
+            }
+
+            ContractsGrantsInvoiceDocument invoice = invoiceDetail.getInvoiceDocument();
+            newCollectionEvent.setCollectionEventCode(invoice.getNextCollectionEventCode());
+            newCollectionEvent.setInvoiceNumber(invoice.getDocumentNumber());
+            businessObjectService.save(newCollectionEvent);
+        }
     }
 
     /**

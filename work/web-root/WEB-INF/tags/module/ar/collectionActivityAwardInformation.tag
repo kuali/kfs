@@ -53,11 +53,11 @@
 				<td>
 					<kul:htmlControlAttribute readOnly="true"
 						attributeEntry="${awardAttributes.proposalNumber}"
-						property="selectedProposalNumber" forceRequired="true" /> 
+						property="document.proposalNumber" forceRequired="true" /> 
 					<c:if test="${not readOnly}">
 						<kul:lookup
 							boClassName="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
-							fieldConversions="proposalNumber:selectedProposalNumber" />
+							fieldConversions="proposalNumber:document.proposalNumber" />
 					</c:if>
 				</td>
 			</tr>
@@ -111,7 +111,7 @@
 		</table>
 	</div>
 </kul:tab>
-<kul:tab tabTitle="Global Collection Events" defaultOpen="true"
+<kul:tab tabTitle="Global Collection Event" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
 	<div class="tab-container" align="center">
 		<h3>New</h3>
@@ -122,12 +122,12 @@
 				<td>
 					<div id="document.activityCode.div">
 						<c:choose>
-							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+							<c:when test="${not empty KualiForm.document.proposalNumber}">
 								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityCode}"
-									property="document.newCollectionEvent.activityCode" readOnly="${readOnly}" />
+									property="document.activityCode" readOnly="${readOnly}" />
 								<c:if test="${not readOnly}">
 									&nbsp;
-									<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityType" fieldConversions="activityCode:document.newCollectionEvent.activityCode" />
+									<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityType" fieldConversions="activityCode:document.activityCode" />
 								</c:if>
 							</c:when>
 							<c:otherwise>
@@ -143,9 +143,9 @@
 				<td>
 					<div id="document.activityDate.div">
 						<c:choose>
-							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+							<c:when test="${not empty KualiForm.document.proposalNumber}">
 								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
-									property="document.newCollectionEvent.activityDate" readOnly="${readOnly}" />				
+									property="document.activityDate" readOnly="${readOnly}" />				
 							</c:when>
 							<c:otherwise>
 								&nbsp;
@@ -160,9 +160,9 @@
 				<td>
 					<div id="document.activityText.div">
 						<c:choose>
-							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+							<c:when test="${not empty KualiForm.document.proposalNumber}">
 								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
-									property="document.newCollectionEvent.activityText" readOnly="${readOnly}" expandedTextArea="true" />						
+									property="document.activityText" readOnly="${readOnly}" expandedTextArea="true" />						
 							</c:when>
 							<c:otherwise>
 								&nbsp;
@@ -177,9 +177,9 @@
 				<td>
 					<div id="document.followupDate.div">
 						<c:choose>
-							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+							<c:when test="${not empty KualiForm.document.proposalNumber}">
 								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
-									property="document.newCollectionEvent.followupDate" readOnly="${readOnly}" />						
+									property="document.followupDate" readOnly="${readOnly}" />						
 							</c:when>
 							<c:otherwise>
 								&nbsp;
@@ -194,9 +194,9 @@
 				<td>
 					<div id="document.completedDate.div">
 						<c:choose>
-							<c:when test="${not empty KualiForm.selectedProposalNumber}">
+							<c:when test="${not empty KualiForm.document.proposalNumber}">
 								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
-									property="document.newCollectionEvent.completedDate" readOnly="${readOnly}" />						
+									property="document.completedDate" readOnly="${readOnly}" />						
 							</c:when>
 							<c:otherwise>
 								&nbsp;
@@ -211,60 +211,29 @@
 <kul:tab tabTitle="Edit List of Invoices" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
 	<div class="tab-container" align="center">
-		<c:if test="${not empty KualiForm.selectedProposalNumber}">
-			<table width="100%" cellpadding="0" cellspacing="0"
-				class="datatable">
-				<tr id='beta_zeta'>
-					<td>
-						<table width="100%" cellpadding="0" cellspacing="0"
-							class="datatable">
-							<tr>
-								<td colspan='2' class='tab-subhead'>
-									<table width="100%" cellpadding="0" cellspacing="0" border="0" class="datatable">
-										<tr>										
-											<td class='tab-subhead' width="50%" style="border: 0px">New</td>
-											<td class='tab-subhead' width="50%" style="text-align:right;border: 0px">Look Up / Add Multiple Invoices
-												<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"
-													lookupParameters="document.proposalNumber:proposalNumber,document.agencyNumber:agencyNumber,document.agencyName:agencyName,document.customerNumber:customerNumber,document.customerName:customerName"/>
-											</td>
-										</tr>
-										<tr>
-							                <th align="right">Invoice Document Number:</th>
-							                <td align="left" valign="middle" class="datacell" style="width: 50%;" >
-							                   <kul:htmlControlAttribute
-							                       attributeEntry="${cgInvoiceDetail.documentNumber}"
-							                       property="document.newInvoiceDocumentNumber"
-							                       readOnly="false" />
-							                   <kul:lookup boClassName="org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo"  fieldConversions="documentTypeName:${ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE},documentId:${ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE}" />    
-							                </td>
-										</tr>
-										<c:if test="${not readOnly}">
-											<tr>
-												<th class="datacell" colspan="2">
-													<div align="center">
-														<html:image property="methodToCall.addInvoice"
-															src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-															alt="Add Invoice" 
-															title="Add Invoice"
-															styleClass="tinybutton" />
-													</div>
-												</th>
-											</tr>
-										</c:if>
-									</table>
-								</td>
-							</tr>
-						</table>
-						<c:if test="${!empty KualiForm.document.invoices}">
-							<logic:iterate indexId="ctr" name="KualiForm" property="document.invoices" id="Invoice">
-								<ar:collectionActivityInvoiceDetail
-									invPropertyName="document.invoices[${ctr}]"
-									ctr="${ctr}" />
-							</logic:iterate>
-						</c:if>							
-					</td>
-				</tr>
-			</table>
+		<c:if test="${not empty KualiForm.document.proposalNumber}">
+			<c:if test="${not readOnly}">
+				<table width="100%" cellpadding="0" cellspacing="0"	class="datatable">
+					<tr>
+						<td colspan='2' class='tab-subhead'>New</td>
+					</tr>
+					<tr>
+						<th colspan='2'>Look Up / Add Multiple Invoices
+							<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"
+								lookupParameters="document.proposalNumber:proposalNumber,document.agencyNumber:agencyNumber,document.agencyName:agencyName,document.customerNumber:customerNumber,document.customerName:customerName"/>
+						</th>
+					</tr>
+				</table>
+			</c:if>
+			<c:if test="${!empty KualiForm.document.invoiceDetails}">
+				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetails" id="Invoice">
+						<ar:collectionActivityInvoiceDetail
+							invPropertyName="document.invoiceDetails[${ctr}]"
+							ctr="${ctr}" readOnly="${readOnly}" />
+					</logic:iterate>
+				</table>
+			</c:if>							
 		</c:if>
 	</div>
 </kul:tab>

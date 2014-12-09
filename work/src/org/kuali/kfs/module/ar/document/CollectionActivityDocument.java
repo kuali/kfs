@@ -18,30 +18,20 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.io.File;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
+import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -56,6 +46,11 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     private String agencyName;
     private String customerNumber;
     private String customerName;
+    private String activityCode;
+    private Date activityDate;
+    private String activityText;
+    private Date followupDate;
+    private Date completedDate;
     protected String selectedInvoiceDocumentNumber;
     protected String newInvoiceDocumentNumber;
 
@@ -65,7 +60,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     protected CollectionEvent globalCollectionEvent;
     private String selectedInvoiceDocumentNumberList;
 
-    private List<ContractsGrantsInvoiceDocument> invoices;
+    private List<CollectionActivityInvoiceDetail> invoiceDetails;
     private List<CollectionEvent> collectionEvents;
 
     /**
@@ -74,7 +69,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     public CollectionActivityDocument() {
         super();
         globalCollectionEvent = new CollectionEvent();
-        invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        invoiceDetails = new ArrayList<CollectionActivityInvoiceDetail>();
         collectionEvents = new ArrayList<CollectionEvent>();
     }
 
@@ -168,6 +163,46 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         this.customerName = customerName;
     }
 
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    public Date getActivityDate() {
+        return activityDate;
+    }
+
+    public void setActivityDate(Date activityDate) {
+        this.activityDate = activityDate;
+    }
+
+    public String getActivityText() {
+        return activityText;
+    }
+
+    public void setActivityText(String activityText) {
+        this.activityText = activityText;
+    }
+
+    public Date getFollowupDate() {
+        return followupDate;
+    }
+
+    public void setFollowupDate(Date followupDate) {
+        this.followupDate = followupDate;
+    }
+
+    public Date getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
+    }
+
     /**
      * Gets the customer attribute.
      *
@@ -220,21 +255,30 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the invoices attribute.
+     * Gets the invoiceDetails attribute.
      *
-     * @return Returns the invoices.
+     * @return Returns the invoiceDetails.
      */
-    public List<ContractsGrantsInvoiceDocument> getInvoices() {
-        return invoices;
+    public List<CollectionActivityInvoiceDetail> getInvoiceDetails() {
+        return invoiceDetails;
     }
 
     /**
-     * Sets the invoices attribute.
+     * Deletes the InvoiceDetail from list.
      *
-     * @param invoices The invoices to set.
+     * @param index The index of object to delete.
      */
-    public void setInvoices(List<ContractsGrantsInvoiceDocument> invoices) {
-        this.invoices = invoices;
+    public void deleteInvoiceDetail(int index) {
+        invoiceDetails.remove(index);
+    }
+
+    /**
+     * Sets the invoiceDetails attribute.
+     *
+     * @param invoiceDetails The invoices to set.
+     */
+    public void setInvoiceDetails(List<CollectionActivityInvoiceDetail> invoiceDetails) {
+        this.invoiceDetails = invoiceDetails;
     }
 
     /**
@@ -253,21 +297,6 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      */
     public void setCollectionEvents(List<CollectionEvent> collectionEvents) {
         this.collectionEvents = collectionEvents;
-    }
-
-    /**
-     * Sets the events from invoices list of this class.
-     */
-    public void setEventsFromCGInvoices() {
-        if (ObjectUtils.isNotNull(invoices) && !invoices.isEmpty()) {
-            collectionEvents = new ArrayList<CollectionEvent>();
-            for (ContractsGrantsInvoiceDocument invoice : invoices) {
-                List<CollectionEvent> invoiceEvents = invoice.getCollectionEvents();
-                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty()) {
-                    collectionEvents.addAll(invoiceEvents);
-                }
-            }
-        }
     }
 
     /**
@@ -323,38 +352,6 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * @return Returns the selected invoice application.
-     */
-    public ContractsGrantsInvoiceDocument getSelectedInvoiceApplication() {
-        String docNumber = getSelectedInvoiceDocumentNumber();
-        if (ObjectUtils.isNotNull(docNumber)) {
-            return getInvoiceApplicationsByDocumentNumber().get(docNumber);
-        }
-        else {
-            List<ContractsGrantsInvoiceDocument> i = invoices;
-            if (CollectionUtils.isEmpty(i)) {
-                return null;
-            }
-            else {
-                return invoices.get(0);
-            }
-        }
-    }
-
-    /**
-     * Gets the map of invoices with documentNumber as key.
-     *
-     * @return Returns the map of invoices with documentNumber as key.
-     */
-    public Map<String, ContractsGrantsInvoiceDocument> getInvoiceApplicationsByDocumentNumber() {
-        Map<String, ContractsGrantsInvoiceDocument> m = new HashMap<String, ContractsGrantsInvoiceDocument>();
-        for (ContractsGrantsInvoiceDocument i : invoices) {
-            m.put(i.getDocumentNumber(), i);
-        }
-        return m;
-    }
-
-    /**
      * Gets the events of selected invoice.
      *
      * @return Returns the events.
@@ -372,58 +369,26 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().isFinal()) {
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            this.setInvoiceListByProposalNumber(this.getProposalNumber());
-            this.setEventsFromCGInvoices();
-            if (ObjectUtils.isNotNull(collectionEvents) && !collectionEvents.isEmpty()) {
-                for (CollectionEvent event : collectionEvents) {
-                    if (ObjectUtils.isNull(event.getCollectionEventCode())) {
-                        event.setCollectionEventCode(event.getInvoiceDocument().getNextCollectionEventCode());
-                    }
-                    boService.save(event);
-                }
-            }
+    public List buildListOfDeletionAwareLists() {
+        List deletionAwareLists = super.buildListOfDeletionAwareLists();
+        if (invoiceDetails != null) {
+            deletionAwareLists.add(invoiceDetails);
         }
+        return deletionAwareLists;
     }
 
     /**
-     * Sets the invoices list for this class from given proposal number.
-     *
-     * @param proposalNumber The proposal number for which invoices list to be fetched.
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    public void setInvoiceListByProposalNumber(Long proposalNumber) {
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
-        // To retrieve the batch file directory name as "reports/ar"
-        ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(ArConstants.AR_NAMESPACE_CODE).getModuleConfiguration();
-
-        // Set destination folder path
-        String destinationFolderPath = StringUtils.EMPTY;
-        List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
-        if (CollectionUtils.isNotEmpty(batchDirectories)){
-            destinationFolderPath = batchDirectories.get(0);
-        }
-
-        String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-
-        String errOutputFile = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.EVT_CREATION_CLN_ACT_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
-
-        if (!CollectionUtils.isEmpty(cgInvoices)) {
-            setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
-        }
-        else {
-            LOG.error("There were no invoices retreived. Please refer to the log file " + ArConstants.BatchFileSystem.EVT_CREATION_CLN_ACT_ERROR_OUTPUT_FILE + ArConstants.BatchFileSystem.EXTENSION + " for more details.");
-            this.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>());
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            CollectionActivityDocumentService collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+            collectionActivityDocumentService.createAndSaveCollectionEvents(this);
         }
     }
 

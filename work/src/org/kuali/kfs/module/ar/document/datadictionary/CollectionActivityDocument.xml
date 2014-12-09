@@ -86,13 +86,6 @@
 			<map>
 				<entry>
 					<key>
-						<value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent
-						</value>
-					</key>
-					<value>CollectionActivity-saveDocumentValidation</value>
-				</entry>
-				<entry>
-					<key>
 						<value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent
 						</value>
 					</key>

@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.FileUtils;
@@ -53,17 +54,26 @@ public class LicenseHeaderUpdate {
 
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+    private static final List<String> blacklistedFiles = new ArrayList<String>();
+
     /**
      *
      * @param args
      */
     public static void main(String[] args) throws Exception {
+        setupBlackList();
         handleJavaStyleComments( args[0] );
         handleJSPStyleComments( args[0] );
         handleXMLStyleComments( args[0] );
         handlePropertyStyleComments( args[0] );
         handleSQLStyleComments( args[0] );
-        handleVelocityMacroStyleComments( args[0]);
+    }
+
+    public static void setupBlackList() {
+        blacklistedFiles.add("build"+File.separator+"project"+File.separator+"OJB-logging.properties");
+        blacklistedFiles.add("build"+File.separator+"project"+File.separator+"OJB.properties");
+        blacklistedFiles.add("work"+File.separator+"db"+File.separator+"kfs-db"+File.separator+"db-impex"+File.separator+"impex"+File.separator+"src"+File.separator+"org"+File.separator+"kuali"+File.separator+"core"+File.separator+"db"+File.separator+"torque"+File.separator+"KualiDatabase.java");
+        blacklistedFiles.add("work"+File.separator+"src"+File.separator+"org"+File.separator+"springframework"+File.separator+"beans"+File.separator+"factory"+File.separator+"support"+File.separator+"DefaultListableBeanFactory.java");
     }
 
     public static void handleJavaStyleComments( String baseDir ) throws Exception {
@@ -120,16 +130,6 @@ public class LicenseHeaderUpdate {
         sourceFileFilter = FileFilterUtils.makeFileOnly(sourceFileFilter);
 
         LicensableFileDirectoryWalker dw = new LicensableFileDirectoryWalker(sourceFileFilter, "--", "-- ", LINE_SEPARATOR);
-        Collection<String> results = dw.run( baseDir );
-        System.out.println( results );
-    }
-
-    public static void handleVelocityMacroStyleComments( String baseDir ) throws Exception {
-        IOFileFilter sourceFileFilter = FileFilterUtils.suffixFileFilter("vm");
-        sourceFileFilter = FileFilterUtils.makeSVNAware(sourceFileFilter);
-        sourceFileFilter = FileFilterUtils.makeFileOnly(sourceFileFilter);
-
-        LicensableFileDirectoryWalker dw = new LicensableFileDirectoryWalker(sourceFileFilter, "########################################", "## ", "########################################");
         Collection<String> results = dw.run( baseDir );
         System.out.println( results );
     }
@@ -194,34 +194,15 @@ public class LicenseHeaderUpdate {
             if ( directory.getName().equals("META-INF") ) {
                 return false;
             }
-            if ( directory.getAbsolutePath().endsWith("kfs-db"+File.separator+"development") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("org"+File.separator+"jetel") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"data") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"doc") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"org"+File.separator+"apache") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"sql"+File.separator+"base") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"sql"+File.separator+"db-init") ) {
-                return false;
-            }
-            if ( directory.getAbsolutePath().endsWith("impex"+File.separator+"src"+File.separator+"sql"+File.separator+"load") ) {
-                return false;
-            }
             return true;
         }
         @Override
         protected void handleFile(File file, int depth, @SuppressWarnings("rawtypes") Collection results) throws IOException {
+            if (isBlacklisted(file.getAbsolutePath())) {
+                System.err.println( "Found blacklisted file, skipping file: " + file.getAbsolutePath() );
+                results.add("FILE SKIPPED - BLACKLISTED: " + file.getAbsolutePath() );
+                return;
+            }
             System.out.println( "Handing File: " + file.getAbsolutePath() );
             BufferedReader r = new BufferedReader(new FileReader( file ) );
             String currentLine = null;
@@ -294,6 +275,14 @@ public class LicenseHeaderUpdate {
             Collection<String> results = new ArrayList<String>();
             walk( new File( projectDir ), results );
             return results;
+        }
+        protected boolean isBlacklisted(String file) {
+            for (String str : blacklistedFiles) {
+                if (file.endsWith(str)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

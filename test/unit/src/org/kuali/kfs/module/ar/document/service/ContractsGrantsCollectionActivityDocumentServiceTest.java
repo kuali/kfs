@@ -35,7 +35,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
@@ -54,9 +54,9 @@ import org.kuali.rice.krad.util.ErrorMessage;
  * Test file for Collection Activity Document Service.
  */
 @ConfigureContext(session = wklykins)
-public class CollectionActivityDocumentServiceTest extends KualiTestBase {
+public class ContractsGrantsCollectionActivityDocumentServiceTest extends KualiTestBase {
 
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentServiceTest.class);
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentServiceTest.class);
 
     private static final Long PROPOSAL_NUMBER = 80472L;
     private static final String AGENCY_NUMBER = "12851";
@@ -64,7 +64,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     private static final String CUSTOMER_NUMBER = "ART362";
 
     DocumentService documentService;
-    CollectionActivityDocumentService collectionActivityDocumentService;
+    ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
     ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
     /**
@@ -74,7 +74,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
         documentService = SpringContext.getBean(DocumentService.class);
-        collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+        contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
         contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
     }
 
@@ -84,7 +84,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         documentService = null;
-        collectionActivityDocumentService = null;
+        contractsGrantsCollectionActivityDocumentService = null;
         contractsGrantsInvoiceDocumentService = null;
         super.tearDown();
     }
@@ -95,13 +95,13 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
      * @throws WorkflowException
      */
     public void testAddNewEvent() throws WorkflowException {
-        CollectionActivityDocument collectionActivityDocument;
+        ContractsGrantsCollectionActivityDocument contractsGrantsCollectionActivityDocument;
         CollectionEvent newCollectionEvent = new CollectionEvent();
 
-        collectionActivityDocument = (CollectionActivityDocument) documentService.getNewDocument(CollectionActivityDocument.class);
+        contractsGrantsCollectionActivityDocument = (ContractsGrantsCollectionActivityDocument) documentService.getNewDocument(ContractsGrantsCollectionActivityDocument.class);
 
 
-        collectionActivityDocument.getDocumentHeader().setDocumentDescription("Collection Activity created for testing");
+        contractsGrantsCollectionActivityDocument.getDocumentHeader().setDocumentDescription("Collection Activity created for testing");
 
 
         // To create a basic invoice with test data
@@ -116,8 +116,8 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
 
         award.getActiveAwardAccounts().add(awardAccount_1);
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
-        collectionActivityDocument.setProposalNumber(award.getProposalNumber());
-        collectionActivityDocumentService.loadAwardInformationForCollectionActivityDocument(collectionActivityDocument);
+        contractsGrantsCollectionActivityDocument.setProposalNumber(award.getProposalNumber());
+        contractsGrantsCollectionActivityDocumentService.loadAwardInformationForCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
 
         // To add data for OrganizationOptions as fixture.
         OrganizationOptions organizationOptions = new OrganizationOptions();
@@ -159,7 +159,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             //collectionActivityDocument.setInvoiceDetails(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
         }
 
-        collectionActivityDocumentService.addNewCollectionEvent("Collection Activity created for testing", collectionActivityDocument, event);
+        contractsGrantsCollectionActivityDocumentService.addNewCollectionEvent("Collection Activity created for testing", contractsGrantsCollectionActivityDocument, event);
     }
 
     /**
@@ -168,7 +168,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
     public void testRetrieveEventsByCriteria() {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put("invoiceNumber", INVOICE_NUMBER);
-        Collection<CollectionEvent> events = collectionActivityDocumentService.retrieveCollectionEvents(fieldValues, null);
+        Collection<CollectionEvent> events = contractsGrantsCollectionActivityDocumentService.retrieveCollectionEvents(fieldValues, null);
         assertNotNull(events);
         for (CollectionEvent event : events) {
             assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());
@@ -182,7 +182,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
         // To create AWard as fixture.
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
         ARAwardFixture.CG_AWARD1.setAgencyFromFixture((Award) award);
-        ContractsAndGrantsBillingAward awd = collectionActivityDocumentService.retrieveAwardByProposalNumber(new Long(11));
+        ContractsAndGrantsBillingAward awd = contractsGrantsCollectionActivityDocumentService.retrieveAwardByProposalNumber(new Long(11));
         assertNotNull(awd);
         assertEquals(new String("11505"), award.getAgencyNumber());
     }

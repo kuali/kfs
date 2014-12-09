@@ -860,7 +860,7 @@
 	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
 	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
-		<property name="collectionActivityDocumentService" ref="collectionActivityDocumentService"/>
+		<property name="contractsGrantsCollectionActivityDocumentService" ref="contractsGrantsCollectionActivityDocumentService"/>
 		<property name="customerService" ref="customerService"/>
 	</bean>
 
@@ -1003,8 +1003,8 @@
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
-		<property name="collectionActivityDocumentService">
-			<ref bean="collectionActivityDocumentService" />
+		<property name="contractsGrantsCollectionActivityDocumentService">
+			<ref bean="contractsGrantsCollectionActivityDocumentService" />
 		</property>
 	</bean>
 
@@ -1481,8 +1481,8 @@
 		</property>
 	</bean>
 
-	<bean id="collectionActivityDocumentService" parent="collectionActivityDocumentService-parentBean" />
-	<bean id="collectionActivityDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CollectionActivityDocumentServiceImpl" abstract="true">
+	<bean id="contractsGrantsCollectionActivityDocumentService" parent="contractsGrantsCollectionActivityDocumentService-parentBean" />
+	<bean id="contractsGrantsCollectionActivityDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsCollectionActivityDocumentServiceImpl" abstract="true">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -2484,8 +2484,8 @@
 	
 	<bean id="collectionActivityInvoiceLookupableHelperService" parent="collectionActivityInvoiceLookupableHelperService-parentBean"/>
 	<bean id="collectionActivityInvoiceLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
-		<property name="collectionActivityDocumentService">
-			<ref bean="collectionActivityDocumentService"/>
+		<property name="contractsGrantsCollectionActivityDocumentService">
+			<ref bean="contractsGrantsCollectionActivityDocumentService"/>
 		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService"/>

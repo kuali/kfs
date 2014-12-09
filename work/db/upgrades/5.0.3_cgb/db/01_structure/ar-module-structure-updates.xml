@@ -153,12 +153,12 @@
 			<column name="IND_CST_IND" type="VARCHAR(1)" />
 			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>
-		<createTable tableName="AR_CLCTN_ACTVY_DOC_T">
+		<createTable tableName="AR_CGB_CLCTN_ACTVY_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
-				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVY_DOC_TP1" />
+				<constraints primaryKey="true" primaryKeyName="AR_CGB_CLCTN_ACTVY_DOC_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_ACTVY_DOC_TC0" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CGB_CLCTN_ACTVY_DOC_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />

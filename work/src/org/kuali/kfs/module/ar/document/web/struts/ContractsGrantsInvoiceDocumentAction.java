@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,7 +33,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.DocumentStatusCategory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -41,6 +45,29 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumentAction {
 
+    /**
+     * Overridden to recheck the suspension categories when the document is opened
+     * @see org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentAction#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        ContractsGrantsInvoiceDocumentForm cgInvoiceForm = (ContractsGrantsInvoiceDocumentForm)kualiDocumentFormBase;
+        final ContractsGrantsInvoiceDocument cgInvoice = cgInvoiceForm.getContractsGrantsInvoiceDocument();
+        if (shouldUpdateSuspensionCategories(cgInvoice)) {
+            updateSuspensionCategoriesOnDocument(cgInvoiceForm); // in memory CINV has had the suspension categories updated
+        }
+    }
+
+    /**
+     * Determines if the given c&g invoice should have its suspension categories updated or not
+     * @param cgInvoice the invoice to determine the suspension category updatability of
+     * @return true if suspension categories should be updated, false otherwise
+     */
+    protected boolean shouldUpdateSuspensionCategories(ContractsGrantsInvoiceDocument cgInvoice) {
+        final DocumentStatus documentStatus = DocumentStatus.fromCode(cgInvoice.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode());
+        return documentStatus.getCategory() != DocumentStatusCategory.SUCCESSFUL && documentStatus.getCategory() != DocumentStatusCategory.UNSUCCESSFUL && documentStatus != DocumentStatus.EXCEPTION;
+    }
 
     /**
      * Recalculates the Total Expenditures in the Invoice Detail section and also the New Total Billed using the Invoice Object

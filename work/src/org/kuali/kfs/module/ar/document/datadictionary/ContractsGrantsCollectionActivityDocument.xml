@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ContractsGrantsCollectionActivityDocument" parent="ContractsGrantsCollectionActivityDocument-parentBean" />
+
+	<bean id="ContractsGrantsCollectionActivityDocument-parentBean" abstract="true"
+		parent="TransactionalDocumentEntry">
+
+		<property name="documentTypeName" value="CCA" />
+		<property name="documentClass"
+			value="org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.module.ar.document.validation.impl.ContractsGrantsCollectionActivityDocumentRule" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
+		<property name="documentPresentationControllerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsCollectionActivityDocument-proposalNumber" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityCode" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityDate" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-activityText" />
+				<ref bean="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" />
+			</list>
+		</property>
+	<property name="workflowAttributes">
+    	<ref bean="ContractsGrantsCollectionActivityDocument-workflowAttributes"/>
+    </property>
+	</bean>
+	
+	<bean id="ContractsGrantsCollectionActivityDocument-proposalNumber" parent="ContractsGrantsCollectionActivityDocument-proposalNumber-parentBean" />
+
+	<bean id="ContractsGrantsCollectionActivityDocument-proposalNumber-parentBean"
+		abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
+		p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber" />	
+	</bean>
+	
+	<bean id="ContractsGrantsCollectionActivityDocument-activityCode" parent="ContractsGrantsCollectionActivityDocument-activityCode-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityCode-parentBean" abstract="true" parent="CollectionEvent-activityCode-parentBean"/>
+	
+	<bean id="ContractsGrantsCollectionActivityDocument-activityDate" parent="ContractsGrantsCollectionActivityDocument-activityDate-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityDate-parentBean" abstract="true" parent="CollectionEvent-activityDate-parentBean"/>
+
+	<bean id="ContractsGrantsCollectionActivityDocument-activityText" parent="ContractsGrantsCollectionActivityDocument-activityText-parentBean"/>
+  	<bean id="ContractsGrantsCollectionActivityDocument-activityText-parentBean" abstract="true" parent="CollectionEvent-activityText-parentBean"/>
+	
+	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />
+	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="selectedInvoiceDocumentNumberList" />
+		<property name="label" value="Invoices Selected" />
+		<property name="shortLabel" value="Invoices Selected" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
+  <!-- workflow attributes -->
+  <bean id="ContractsGrantsCollectionActivityDocument-workflowAttributes" parent="ContractsGrantsCollectionActivityDocument-workflowAttributes-parentBean"/>
+  <bean id="ContractsGrantsCollectionActivityDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+  </bean>
+  
+</beans>

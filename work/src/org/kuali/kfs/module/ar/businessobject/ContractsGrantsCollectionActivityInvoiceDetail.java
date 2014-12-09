@@ -32,7 +32,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a Collection Activity Invoice Detail object.
  */
-public class CollectionActivityInvoiceDetail extends PersistableBusinessObjectBase {
+public class ContractsGrantsCollectionActivityInvoiceDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String invoiceNumber;
@@ -88,7 +88,7 @@ public class CollectionActivityInvoiceDetail extends PersistableBusinessObjectBa
     public boolean equals(Object obj) {
         if (ObjectUtils.isNotNull(obj)) {
             if (this.getClass().equals(obj.getClass())) {
-                CollectionActivityInvoiceDetail other = (CollectionActivityInvoiceDetail) obj;
+                ContractsGrantsCollectionActivityInvoiceDetail other = (ContractsGrantsCollectionActivityInvoiceDetail) obj;
                 return (StringUtils.equalsIgnoreCase(this.documentNumber, other.documentNumber) &&
                         StringUtils.equalsIgnoreCase(this.invoiceNumber, other.invoiceNumber));
             }

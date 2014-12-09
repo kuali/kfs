@@ -101,8 +101,8 @@
 		<!-- Accounts Receivable Module Bean Definitions -->
 		<form-bean name="PaymentApplicationDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm" />
-		<form-bean name="CollectionActivityDocumentForm"
-			type="org.kuali.kfs.module.ar.document.web.struts.CollectionActivityDocumentForm" />
+		<form-bean name="ContractsGrantsCollectionActivityDocumentForm"
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsCollectionActivityDocumentForm" />
 		<form-bean name="CashControlDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.CashControlDocumentForm" />
 		<form-bean name="CustomerCreditMemoDocumentForm"

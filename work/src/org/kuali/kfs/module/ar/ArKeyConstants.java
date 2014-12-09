@@ -263,17 +263,16 @@ public class ArKeyConstants {
         public static final String ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION = "error.document.paymentApplication.missing.system.information";
     }
 
-    public static class CollectionActivityDocumentErrors {
-        public static final String ERROR_FOLLOW_UP_DATE_REQUIRED = "error.collectionActivity.followupDateRequired";
-        public static final String ERROR_COMPLETED_DATE_REQUIRED = "error.collectionActivity.completedDateRequired";
-        public static final String ERROR_INVOICE_REQUIRED = "error.collectionActivity.invoiceRequired";
-        public static final String SELECTED_INVOICES = "error.collectionActivity.selectedInvoiceDocumentNumberListRequired";
+    public static class ContractsGrantsCollectionActivityDocumentErrors {
+        public static final String ERROR_FOLLOW_UP_DATE_REQUIRED = "error.contractsGrantsCollectionActivity.followupDateRequired";
+        public static final String ERROR_COMPLETED_DATE_REQUIRED = "error.contractsGrantsCollectionActivity.completedDateRequired";
+        public static final String ERROR_INVOICE_REQUIRED = "error.contractsGrantsCollectionActivity.invoiceRequired";
     }
 
-    public static class CollectionActivityDocumentConstants {
+    public static class ContractsGrantsCollectionActivityDocumentConstants {
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
-        public static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = "message.inquiry.collectionActivity.title";
-        public static final String CREATED_BY_COLLECTION_ACTIVITY_DOC = "message.ar.createdByCollectionActivityDocument";
+        public static final String TITLE_PROPERTY = "message.inquiry.contractsGrantsCollectionActivity.title";
+        public static final String CREATED_BY_DOC = "message.ar.createdByCollectionActivityDocument";
     }
 
     // Contracts Grants Invoice constants and errors

@@ -30,7 +30,7 @@
 			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts & Grants Collection Activity"
-						url="${ConfigProperties.application.url}/arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CCA" /></li>
+						url="${ConfigProperties.application.url}/arContractsGrantsCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CCA" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts Grants Invoice"
 						url="${ConfigProperties.application.url}/arContractsGrantsInvoiceLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>

@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService;
@@ -47,7 +47,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsService {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected CustomerService customerService;
-    protected CollectionActivityDocumentService collectionActivityDocumentService;
+    protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ReferralToCollectionsService#getPopulatedReferralToCollectionsLookupResults(java.util.Collection)
@@ -149,7 +149,7 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
             rcDetail.setBillingDate(invoice.getBillingDate());
             rcDetail.setFinalDispositionCode(invoiceGeneralDetail.getFinalDispositionCode());
 
-            KualiDecimal paymentAmount = getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(invoice.getDocumentNumber());
+            KualiDecimal paymentAmount = getContractsGrantsCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(invoice.getDocumentNumber());
             rcDetail.setInvoiceBalance(invoice.getSourceTotal().subtract(paymentAmount));
 
             List<InvoiceAccountDetail> invAccDets = invoice.getAccountDetails();
@@ -180,11 +180,11 @@ public class ReferralToCollectionsServiceImpl implements ReferralToCollectionsSe
         this.customerService = customerService;
     }
 
-    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
-        return collectionActivityDocumentService;
+    public ContractsGrantsCollectionActivityDocumentService getContractsGrantsCollectionActivityDocumentService() {
+        return contractsGrantsCollectionActivityDocumentService;
     }
 
-    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
-        this.collectionActivityDocumentService = collectionActivityDocumentService;
+    public void setContractsGrantsCollectionActivityDocumentService(ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService) {
+        this.contractsGrantsCollectionActivityDocumentService = contractsGrantsCollectionActivityDocumentService;
     }
 }

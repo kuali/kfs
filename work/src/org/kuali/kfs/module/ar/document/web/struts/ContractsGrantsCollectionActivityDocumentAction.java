@@ -35,10 +35,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
-import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
+import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -51,22 +51,24 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+
+
 /**
  * Action file for Collection Activity Document.
  */
-public class CollectionActivityDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
+public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
     protected DocumentService documentService;
-    protected CollectionActivityDocumentService collectionActivityDocumentService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentAction.class);
+    protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentAction.class);
 
     /**
-     * Constructor for CollectionActivityDocumentAction class
+     * Constructor for ContractsGrantsCollectionActivityDocumentAction class
      */
-    public CollectionActivityDocumentAction() {
+    public ContractsGrantsCollectionActivityDocumentAction() {
         super();
         documentService = SpringContext.getBean(DocumentService.class);
-        collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+        contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
     }
 
     /**
@@ -110,8 +112,8 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward deleteInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
-        CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
+        ContractsGrantsCollectionActivityDocumentForm colActDocForm = (ContractsGrantsCollectionActivityDocumentForm) form;
+        ContractsGrantsCollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
 
         int indexOfLineToDelete = getLineToDelete(request);
         colActDoc.deleteInvoiceDetail(indexOfLineToDelete);
@@ -122,8 +124,8 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
-        CollectionActivityDocumentForm collectionActivityDocumentForm = (CollectionActivityDocumentForm) form;
-        CollectionActivityDocument colActDoc = collectionActivityDocumentForm.getCollectionActivityDocument();
+        ContractsGrantsCollectionActivityDocumentForm collectionActivityDocumentForm = (ContractsGrantsCollectionActivityDocumentForm) form;
+        ContractsGrantsCollectionActivityDocument colActDoc = collectionActivityDocumentForm.getCollectionActivityDocument();
         Collection<PersistableBusinessObject> rawValues = null;
 
         // If multiple asset lookup was used to select the assets, then....
@@ -137,7 +139,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
                     ContractsGrantsInvoiceDocument cgInvoiceDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
 
                     if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
-                        CollectionActivityInvoiceDetail invoiceDetail = new CollectionActivityInvoiceDetail();
+                        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
                         invoiceDetail.setBillingPeriod(cgInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
                         invoiceDetail.setBillingDate(cgInvoiceDocument.getBillingDate());
                         invoiceDetail.setInvoiceNumber(cgInvoiceDocument.getDocumentNumber());
@@ -152,7 +154,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         }
         if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, collectionActivityDocumentForm.getRefreshCaller())) {
             if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
-                ContractsAndGrantsBillingAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
+                ContractsAndGrantsBillingAward award = contractsGrantsCollectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
                 if (ObjectUtils.isNotNull(award)) {
                     colActDoc.setAgencyNumber(award.getAgencyNumber());
                     colActDoc.setAgencyName(award.getAgency().getFullName());
@@ -171,5 +173,4 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
 }

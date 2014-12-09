@@ -24,10 +24,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -37,9 +37,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Collection Activity Document class. This transactional document is used to store events related to customers.
  */
-public class CollectionActivityDocument extends FinancialSystemTransactionalDocumentBase {
+public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTransactionalDocumentBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocument.class);
 
     private Long proposalNumber;
     private String agencyNumber;
@@ -60,16 +60,16 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     protected CollectionEvent globalCollectionEvent;
     private String selectedInvoiceDocumentNumberList;
 
-    private List<CollectionActivityInvoiceDetail> invoiceDetails;
+    private List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails;
     private List<CollectionEvent> collectionEvents;
 
     /**
-     * Default constructor for CollectionActivityDocument.
+     * Default constructor for ContractsGrantsCollectionActivityDocument.
      */
-    public CollectionActivityDocument() {
+    public ContractsGrantsCollectionActivityDocument() {
         super();
         globalCollectionEvent = new CollectionEvent();
-        invoiceDetails = new ArrayList<CollectionActivityInvoiceDetail>();
+        invoiceDetails = new ArrayList<ContractsGrantsCollectionActivityInvoiceDetail>();
         collectionEvents = new ArrayList<CollectionEvent>();
     }
 
@@ -259,7 +259,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      *
      * @return Returns the invoiceDetails.
      */
-    public List<CollectionActivityInvoiceDetail> getInvoiceDetails() {
+    public List<ContractsGrantsCollectionActivityInvoiceDetail> getInvoiceDetails() {
         return invoiceDetails;
     }
 
@@ -277,7 +277,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      *
      * @param invoiceDetails The invoices to set.
      */
-    public void setInvoiceDetails(List<CollectionActivityInvoiceDetail> invoiceDetails) {
+    public void setInvoiceDetails(List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
     }
 
@@ -387,8 +387,8 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            CollectionActivityDocumentService collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
-            collectionActivityDocumentService.createAndSaveCollectionEvents(this);
+            ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
+            contractsGrantsCollectionActivityDocumentService.createAndSaveCollectionEvents(this);
         }
     }
 

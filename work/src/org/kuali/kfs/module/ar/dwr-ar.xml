@@ -50,8 +50,8 @@
 	    	<param name="beanName" value="customerAddressService" />
 	    	<include method="getPrimaryAddress" />
 	    </create>
-	    <create creator="spring" javascript="CollectionActivityDocumentService">
-	    	<param name="beanName" value="collectionActivityDocumentService" />
+	    <create creator="spring" javascript="ContractsGrantsCollectionActivityDocumentService">
+	    	<param name="beanName" value="contractsGrantsCollectionActivityDocumentService" />
 	    	<include method="retrieveAwardByProposalNumber" />
 	    </create>
 	</allow>

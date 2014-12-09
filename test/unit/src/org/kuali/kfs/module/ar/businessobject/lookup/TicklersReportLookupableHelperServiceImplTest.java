@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,7 +37,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
@@ -85,7 +85,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         ticklersReportLookupableHelperServiceImpl = new TicklersReportLookupableHelperServiceImpl();
         ticklersReportLookupableHelperServiceImpl.setBusinessObjectClass(TicklersReport.class);
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
-        ticklersReportLookupableHelperServiceImpl.setCollectionActivityDocumentService(SpringContext.getBean(CollectionActivityDocumentService.class));
+        ticklersReportLookupableHelperServiceImpl.setContractsGrantsCollectionActivityDocumentService(SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class));
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
         ticklersReportLookupForm = new TicklersReportLookupForm();
 

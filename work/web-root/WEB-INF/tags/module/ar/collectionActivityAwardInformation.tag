@@ -208,7 +208,7 @@
 	</div>
 </kul:tab>
 <kul:tab tabTitle="Edit List of Invoices" defaultOpen="true"
-	tabErrorKey="selectedInvoiceDocumentNumberList">
+	tabErrorKey="document.invoiceDetails">
 	<div class="tab-container" align="center">
 		<c:if test="${not empty KualiForm.document.proposalNumber}">
 			<c:if test="${not readOnly}">

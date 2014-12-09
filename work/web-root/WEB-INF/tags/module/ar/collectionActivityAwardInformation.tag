@@ -42,8 +42,7 @@
 <c:set var="contractsGrantsCollectionActivityAttributes"
 	value="${DataDictionary.CollectionActivityDocument.attributes}"/>
 
-<kul:tab tabTitle="Award Information" defaultOpen="true"
-	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
+<kul:tab tabTitle="Award Information" defaultOpen="true" tabErrorKey="document.proposalNumber">
 	<div class="tab-container" align="center">
 		<h3>Award Information</h3>
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
@@ -112,7 +111,7 @@
 	</div>
 </kul:tab>
 <kul:tab tabTitle="Global Collection Event" defaultOpen="true"
-	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
+	tabErrorKey="document.activityCode,document.activityDate,document.activityText,document.followupDate,document.completedDate">
 	<div class="tab-container" align="center">
 		<h3>New</h3>
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
@@ -209,7 +208,7 @@
 	</div>
 </kul:tab>
 <kul:tab tabTitle="Edit List of Invoices" defaultOpen="true"
-	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
+	tabErrorKey="selectedInvoiceDocumentNumberList">
 	<div class="tab-container" align="center">
 		<c:if test="${not empty KualiForm.document.proposalNumber}">
 			<c:if test="${not readOnly}">

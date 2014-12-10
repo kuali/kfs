@@ -32,9 +32,7 @@
         <ref bean="CollectionEvent-activityCode"/>
         <ref bean="CollectionEvent-activityDate"/>        
         <ref bean="CollectionEvent-activityText"/>
-        <ref bean="CollectionEvent-followup"/>
         <ref bean="CollectionEvent-followupDate"/>
-        <ref bean="CollectionEvent-completed"/>
         <ref bean="CollectionEvent-completedDate"/>
         <ref bean="CollectionEvent-postedDate"/>
         <ref bean="CollectionEvent-userPrincipalId"/>
@@ -136,14 +134,6 @@
       <bean parent="TextareaControlDefinition" p:rows="1" p:cols="32" p:expandedTextArea="true"/>
     </property>
   </bean>
-  
-  <bean id="CollectionEvent-followup" parent="CollectionEvent-followup-parentBean"/>
-
-  <bean id="CollectionEvent-followup-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="followup"/>
-    <property name="label" value="Do you want to follow-up?"/>
-    <property name="shortLabel" value="Do you want to follow-up?"/>
-  </bean>
 
   <bean id="CollectionEvent-followupDate" parent="CollectionEvent-followupDate-parentBean"/>
 
@@ -152,14 +142,6 @@
     <property name="name" value="followupDate"/>
     <property name="label" value="Follow-up Date"/>
     <property name="description" value="A free-form text field that identifies the next follow-up date."/>
-  </bean>
-
-  <bean id="CollectionEvent-completed" parent="CollectionEvent-completed-parentBean"/>
-
-  <bean id="CollectionEvent-completed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="completed"/>
-    <property name="label" value="Completed"/>
-    <property name="shortLabel" value="Completed"/>
   </bean>
 
   <bean id="CollectionEvent-completedDate" parent="CollectionEvent-completedDate-parentBean"/>

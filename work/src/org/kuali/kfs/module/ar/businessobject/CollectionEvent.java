@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,9 +42,7 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     private String activityCode;
     private Date activityDate;
     private String activityText;
-    private boolean followup;
     private Date followupDate;
-    private boolean completed;
     private Date completedDate;
     private Timestamp postedDate;
     private String userPrincipalId;
@@ -67,9 +65,7 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
         this.activityCode = event.activityCode;
         this.activityDate = event.activityDate;
         this.activityText = event.activityText;
-        this.followup = event.followup;
         this.followupDate = event.followupDate;
-        this.completed = event.completed;
         this.completedDate = event.completedDate;
         this.postedDate = event.postedDate;
         this.userPrincipalId = event.userPrincipalId;
@@ -185,24 +181,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the followup attribute.
-     *
-     * @return Returns the followup.
-     */
-    public boolean isFollowup() {
-        return followup;
-    }
-
-    /**
-     * Sets the followup attribute.
-     *
-     * @param followup The followup attribute to set.
-     */
-    public void setFollowup(boolean followup) {
-        this.followup = followup;
-    }
-
-    /**
      * Gets the followupDate attribute.
      *
      * @return Returns the followupDate.
@@ -218,24 +196,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
      */
     public void setFollowupDate(Date followupDate) {
         this.followupDate = followupDate;
-    }
-
-    /**
-     * Gets the completed attribute.
-     *
-     * @return Returns the completed attribute.
-     */
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    /**
-     * Sets the completed attribute.
-     *
-     * @param completed The completed attribute to set.
-     */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     /**

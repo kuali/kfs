@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail" parent="ContractsGrantsCollectionActivityInvoiceDetail-parentBean"/>
+
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail"/>
+    <property name="titleAttribute" value="invoiceNumber"/>
+    <property name="objectLabel" value="ContractsGrantsCollectionActivityInvoiceDetail"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ContractsGrantsCollectionActivityInvoiceDetail-documentNumber"/>
+        <ref bean="ContractsGrantsCollectionActivityInvoiceDetail-invoiceNumber"/>
+        <ref bean="ContractsGrantsCollectionActivityInvoiceDetail-billingDate"/>
+        <ref bean="ContractsGrantsCollectionActivityInvoiceDetail-billingPeriod"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-documentNumber" parent="ContractsGrantsCollectionActivityInvoiceDetail-documentNumber-parentBean" />
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-invoiceNumber" parent="ContractsGrantsCollectionActivityInvoiceDetail-invoiceNumber-parentBean" />
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-invoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+	<property name="maxLength" value="14"/>
+	<property name="name" value="invoiceNumber" />
+	<property name="label" value="Invoice Number" />
+	<property name="shortLabel" value="Invoice Number" />
+  </bean>
+ 
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-billingDate" parent="ContractsGrantsCollectionActivityInvoiceDetail-billingDate-parentBean" />
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-billingDate-parentBean" abstract="true" parent="ContractsGrantsInvoiceDocument-billingDate-parentBean" />
+
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-billingPeriod" parent="ContractsGrantsCollectionActivityInvoiceDetail-billingPeriod-parentBean" />
+  <bean id="ContractsGrantsCollectionActivityInvoiceDetail-billingPeriod-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingPeriod-parentBean" />
+ 
+</beans>

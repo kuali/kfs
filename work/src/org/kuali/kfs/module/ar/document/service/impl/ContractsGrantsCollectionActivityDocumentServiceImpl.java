@@ -28,13 +28,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -200,32 +199,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
      */
     @Override
     @Transactional
-    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException {
-        event.setDocumentNumber(colActDoc.getDocumentNumber());
-
-        colActDoc.populateDocumentForRouting();
-        colActDoc.prepareForSave();
-
-        documentService.prepareWorkflowDocument(colActDoc);
-
-        documentService.saveDocument(colActDoc);
-        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
-        documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
-
-        businessObjectService.save(event);
-
-        DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
-        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
-        queue.indexDocument(colActDoc.getDocumentNumber());
-
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#editCollectionEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
-     */
-    @Override
-    @Transactional
     public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc) {
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
@@ -268,26 +241,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
-    }
-
-    @Override
-    @Transactional
-    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber) {
-        List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) getInvoicePaidAppliedService().getInvoicePaidAppliedsForInvoice(documentNumber);
-        java.sql.Date paymentDate = null;
-        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
-            InvoicePaidApplied invPaidApp = invoicePaidApplieds.get(invoicePaidApplieds.size() - 1);
-            PaymentApplicationDocument referenceFinancialDocument;
-            try {
-                referenceFinancialDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(invPaidApp.getDocumentNumber());
-                paymentDate = referenceFinancialDocument.getFinancialSystemDocumentHeader().getDocumentFinalDate();
-            }
-            catch (WorkflowException ex) {
-                LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
-                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
-            }
-        }
-        return paymentDate;
     }
 
     /**

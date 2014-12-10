@@ -50,16 +50,6 @@ public interface ContractsGrantsCollectionActivityDocumentService {
     public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
 
     /**
-     * Edits the existing collection event.
-     *
-     * @param description The document description.
-     * @param colActDoc The Collection Activity Document object.
-     * @param event The event object to be edited.
-     * @throws WorkflowException
-     */
-    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException;
-
-    /**
      * Retrieves the award information from proposal number of given ContractsGrantsCollectionActivityDocument object.
      *
      * @param colActDoc The Collection Activity Document object with proposal number set.
@@ -83,14 +73,6 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @return Returns the award object.
      */
     public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber);
-
-    /**
-     * To retrieve the first payment date by given document number.
-     *
-     * @param documentNumber The invoice number of the document.
-     * @return Returns the first payment date.
-     */
-    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
 
     /**
      * To retrieve the payment amount by given document number.

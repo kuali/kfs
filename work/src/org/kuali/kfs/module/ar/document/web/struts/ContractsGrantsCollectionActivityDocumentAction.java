@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
 /**
@@ -60,7 +62,20 @@ public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSy
 
     protected DocumentService documentService;
     protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentAction.class);
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+
+        final ContractsGrantsCollectionActivityDocumentForm cgCollectionActivityForm = (ContractsGrantsCollectionActivityDocumentForm) kualiDocumentFormBase;
+        final ContractsGrantsCollectionActivityDocument document = cgCollectionActivityForm.getCollectionActivityDocument();
+        document.setActivityDate(new Date(System.currentTimeMillis()));
+    }
 
     /**
      * Constructor for ContractsGrantsCollectionActivityDocumentAction class

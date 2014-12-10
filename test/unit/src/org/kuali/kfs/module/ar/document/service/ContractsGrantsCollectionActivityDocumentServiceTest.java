@@ -142,7 +142,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceTest extends KualiT
         event.setDocumentNumber(cgInvoice.getDocumentNumber());
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
-        event.setFollowup(true);
         event.setActivityText("Activity Text");
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());

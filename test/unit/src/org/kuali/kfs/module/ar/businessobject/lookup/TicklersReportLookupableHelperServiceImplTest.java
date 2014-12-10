@@ -158,7 +158,6 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         event.setDocumentNumber(cgInvoice.getDocumentNumber());
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
-        event.setFollowup(true);
         event.setUser(user);
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());

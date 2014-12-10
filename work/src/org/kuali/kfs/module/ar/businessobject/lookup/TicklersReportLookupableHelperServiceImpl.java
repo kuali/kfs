@@ -175,7 +175,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                 if (ObjectUtils.isNotNull(event.getCollectionActivityType())) {
                     ticklerReport.setActivityDescription(event.getCollectionActivityType().getActivityDescription());
                 }
-                ticklerReport.setCompleted(event.isCompleted());
                 ticklerReport.setActivityDate(event.getActivityDate());
                 ticklerReport.setUser(event.getUser().getName());
                 displayList.add(ticklerReport);

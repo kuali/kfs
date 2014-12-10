@@ -283,9 +283,7 @@
 			<column name="ACTVY_CD" type="VARCHAR(4)" />
 			<column name="ACTVY_DT" type="DATETIME" />
 			<column name="ACTVY_TXT" type="VARCHAR(200)" />
-			<column name="FLLW_UP_IND" type="VARCHAR(1)" />
 			<column name="FLLW_UP_DT" type="DATETIME" />
-			<column name="CMPLTD_IND" type="VARCHAR(1)" />
 			<column name="CMPLTD_DT" type="DATETIME" />
 			<column name="POST_DT" type="DATETIME" />
 			<column name="FDOC_NBR" type="VARCHAR(14)" />

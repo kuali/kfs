@@ -100,12 +100,14 @@
   	<bean id="ContractsGrantsCollectionActivityDocument-followupDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
   		<property name="name" value="followupDate"/>
   		<property name="label" value="Follow-up Date"/>
+  		<property name="shortLabel" value="Follow-up Dt"/>
   	</bean>
   	
   	<bean id="ContractsGrantsCollectionActivityDocument-completedDate" parent="ContractsGrantsCollectionActivityDocument-completedDate-parentBean"/>
   	<bean id="ContractsGrantsCollectionActivityDocument-completedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
   		<property name="name" value="completedDate"/>
   		<property name="label" value="Completed Date"/>
+  		<property name="shortLabel" value="Cmpltd Dt"/>
   	</bean>
 	
 	<!-- workflow attributes -->

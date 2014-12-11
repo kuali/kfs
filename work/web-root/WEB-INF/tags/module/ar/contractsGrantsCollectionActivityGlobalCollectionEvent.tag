@@ -31,7 +31,7 @@
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityCode}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityCode}" horizontal="true" useShortLabel="false"/>
 				<td>
 					<div id="document.activityCode.div">
 						<c:choose>
@@ -52,7 +52,7 @@
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityDate}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityDate}" horizontal="true" useShortLabel="false"/>
 				<td>
 					<div id="document.activityDate.div">
 						<c:choose>
@@ -69,7 +69,7 @@
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityText}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.activityText}" horizontal="true" useShortLabel="false"/>
 				<td>
 					<div id="document.activityText.div">
 						<c:choose>
@@ -86,7 +86,7 @@
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${ContractsGrantsCollectionActivityAttributes.followupDate}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.followupDate}" horizontal="true" useShortLabel="false"/>
 				<td>
 					<div id="document.followupDate.div">
 						<c:choose>
@@ -103,7 +103,7 @@
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${ContractsGrantsCollectionActivityAttributes.completedDate}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.completedDate}" horizontal="true" useShortLabel="false"/>
 				<td>
 					<div id="document.completedDate.div">
 						<c:choose>

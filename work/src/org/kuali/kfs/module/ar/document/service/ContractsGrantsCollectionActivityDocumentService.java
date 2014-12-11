@@ -25,7 +25,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Service class for Collection Activity Document.
@@ -38,23 +37,6 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @param colActDoc The Collection Activity Document object.
      */
     public void createAndSaveCollectionEvents(ContractsGrantsCollectionActivityDocument colActDoc);
-
-    /**
-     * Adds the new collection event for invoice.
-     *
-     * @param description The document description.
-     * @param colActDoc The Collection Activity Document object.
-     * @param newCollectionEvent The collection event object to be added.
-     * @throws WorkflowException
-     */
-    public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
-
-    /**
-     * Retrieves the award information from proposal number of given ContractsGrantsCollectionActivityDocument object.
-     *
-     * @param colActDoc The Collection Activity Document object with proposal number set.
-     */
-    public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc);
 
     /**
      * Retrieves the collection events based on the field values passed in. Results are furthered filtered

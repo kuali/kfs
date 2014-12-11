@@ -20,35 +20,19 @@ package org.kuali.kfs.module.ar.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
-import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * Test file for Collection Activity Document Service.
@@ -87,78 +71,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceTest extends KualiT
         contractsGrantsCollectionActivityDocumentService = null;
         contractsGrantsInvoiceDocumentService = null;
         super.tearDown();
-    }
-
-    /**
-     * Tests the addNewEvent() method of service.
-     *
-     * @throws WorkflowException
-     */
-    public void testAddNewEvent() throws WorkflowException {
-        ContractsGrantsCollectionActivityDocument contractsGrantsCollectionActivityDocument;
-        CollectionEvent newCollectionEvent = new CollectionEvent();
-
-        contractsGrantsCollectionActivityDocument = (ContractsGrantsCollectionActivityDocument) documentService.getNewDocument(ContractsGrantsCollectionActivityDocument.class);
-
-
-        contractsGrantsCollectionActivityDocument.getDocumentHeader().setDocumentDescription("Collection Activity created for testing");
-
-
-        // To create a basic invoice with test data
-
-        String coaCode = "BL";
-        String orgCode = "SRS";
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
-        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        awardAccounts.add(awardAccount_1);
-        award.getActiveAwardAccounts().clear();
-
-        award.getActiveAwardAccounts().add(awardAccount_1);
-        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
-        contractsGrantsCollectionActivityDocument.setProposalNumber(award.getProposalNumber());
-        contractsGrantsCollectionActivityDocumentService.loadAwardInformationForCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
-
-        // To add data for OrganizationOptions as fixture.
-        OrganizationOptions organizationOptions = new OrganizationOptions();
-
-        organizationOptions.setChartOfAccountsCode(coaCode);
-        organizationOptions.setOrganizationCode(orgCode);
-        organizationOptions.setProcessingChartOfAccountCode(coaCode);
-        organizationOptions.setProcessingOrganizationCode(orgCode);
-        SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
-
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
-        cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
-            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
-            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
-        }
-        documentService.saveDocument(cgInvoice);
-
-        // to Add events
-        CollectionEvent event = new CollectionEvent();
-        event.setDocumentNumber(cgInvoice.getDocumentNumber());
-        event.setInvoiceNumber(cgInvoice.getDocumentNumber());
-        event.setActivityCode("TEST");
-        event.setActivityText("Activity Text");
-        Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        Date today = new Date(ts.getTime());
-        event.setFollowupDate(today);
-        event.setActivityDate(today);
-        SpringContext.getBean(BusinessObjectService.class).save(event);
-        cgInvoice.getCollectionEvents().add(event);
-
-        documentService.saveDocument(cgInvoice);
-
-
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(award.getProposalNumber());
-        if (CollectionUtils.isNotEmpty(cgInvoices)) {
-            //collectionActivityDocument.setInvoiceDetails(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
-        }
-
-        contractsGrantsCollectionActivityDocumentService.addNewCollectionEvent("Collection Activity created for testing", contractsGrantsCollectionActivityDocument, event);
     }
 
     /**

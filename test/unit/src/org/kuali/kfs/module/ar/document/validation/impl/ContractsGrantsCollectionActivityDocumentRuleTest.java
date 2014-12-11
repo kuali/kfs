@@ -123,51 +123,6 @@ public class ContractsGrantsCollectionActivityDocumentRuleTest extends KualiTest
     /**
      * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
      */
-    public void testValidateCollectionActivityDocument_False_missing_ActivityCode() {
-        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
-        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
-        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
-        invoiceDetails.add(invoiceDetail);
-        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
-        assertFalse(result);
-    }
-
-    /**
-     * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
-     */
-    public void testValidateCollectionActivityDocument_False_missing_ActivityDate() {
-        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
-        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        contractsGrantsCollectionActivityDocument.setActivityText("testing activity comment");
-        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
-        invoiceDetails.add(invoiceDetail);
-        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
-        assertFalse(result);
-    }
-
-    /**
-     * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
-     */
-    public void testValidateCollectionActivityDocument_False_missing_ActivityText() {
-        contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
-        contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);
-        contractsGrantsCollectionActivityDocument.setActivityDate(new Date(System.currentTimeMillis()));
-        List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails = new ArrayList<>();
-        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
-        invoiceDetails.add(invoiceDetail);
-        contractsGrantsCollectionActivityDocument.setInvoiceDetails(invoiceDetails);
-        boolean result = contractsGrantsCollectionActivityDocumentRule.validateCollectionActivityDocument(contractsGrantsCollectionActivityDocument);
-        assertFalse(result);
-    }
-
-    /**
-     * Tests the validateCollectionActivityDocument() method of service and returns false when the rule fails.
-     */
     public void testValidateCollectionActivityDocument_False_missing_InvoiceDetails() {
         contractsGrantsCollectionActivityDocument.setProposalNumber(11L);
         contractsGrantsCollectionActivityDocument.setActivityCode(ACTIVITY_CODE);

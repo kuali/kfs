@@ -22,9 +22,7 @@
 <%@ attribute name="ctr" required="true" description="The invoice index" %>              
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
               
-<c:set var="cgInvoiceAttributes" value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
-<c:set var="cgInvoiceDetail" value="${DataDictionary['ContractsGrantsInvoiceDetail'].attributes}" />
-<c:set var="invoiceGeneralDetailAttributes" value="${DataDictionary['InvoiceGeneralDetail'].attributes}" />
+<c:set var="ContractsGrantsCollectionActivityInvoiceDetail" value="${DataDictionary.ContractsGrantsCollectionActivityInvoiceDetail.attributes}" />
 
 <%-- generate unique tab key from invPropertyName --%>
 <c:set var="tabKey" value="${kfunc:generateTabKey(invPropertyName)}"/>
@@ -74,30 +72,31 @@
         
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
 			<tr>
-				<th align="right">Invoice Document Number:</th>
+				<kul:htmlAttributeHeaderCell width="50%"
+					attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.invoiceNumber}" horizontal="true"/>
 				<td>
 					<div id="document.invoices.invoiceDocumentNumber.div">
-						<kul:htmlControlAttribute attributeEntry="${cgInvoiceDetail.documentNumber}"
+						<kul:htmlControlAttribute attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.documentNumber}"
 							property="${invPropertyName}.invoiceNumber" readOnly="true" />
 					</div>
 				</td>									
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${cgInvoiceAttributes.billingDate}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.billingDate}" horizontal="true"/>
 				<td>
 					<div id="document.invoices.billingPeriod.div">
-						<kul:htmlControlAttribute attributeEntry="${cgInvoiceAttributes.billingDate}"
+						<kul:htmlControlAttribute attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.billingDate}"
 							property="${invPropertyName}.billingDate" readOnly="true" />
 					</div>
 				</td>									
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" horizontal="true"/>
+					attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.billingPeriod}" horizontal="true"/>
 				<td>
 					<div id="document.invoices.billingPeriod.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}"
+						<kul:htmlControlAttribute attributeEntry="${ContractsGrantsCollectionActivityInvoiceDetail.billingPeriod}"
 							property="${invPropertyName}.billingPeriod" readOnly="true" />
 					</div>
 				</td>									

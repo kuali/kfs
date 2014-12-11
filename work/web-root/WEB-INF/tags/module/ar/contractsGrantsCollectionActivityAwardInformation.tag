@@ -21,25 +21,7 @@
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
-<c:set var="arGenericAttributes"
-	value="${DataDictionary['ArGenericAttributes'].attributes}" />
-<c:set var="customerAttributes"
-	value="${DataDictionary['Customer'].attributes}" />
-<c:set var="cgInvoiceAttributes"
-	value="${DataDictionary['ContractsGrantsInvoiceDocument'].attributes}" />
-<c:set var="cgInvoiceDetail"
-	value="${DataDictionary['ContractsGrantsInvoiceDetail'].attributes}" />
-<c:set var="invoiceAccountDetailAttributes"
-	value="${DataDictionary['InvoiceAccountDetail'].attributes}" />
-<c:set var="invoiceGeneralDetailAttributes"
-	value="${DataDictionary['InvoiceGeneralDetail'].attributes}" />
-<c:set var="awardAttributes"
-	value="${DataDictionary['Award'].attributes}" />
-<c:set var="agencyAttributes"
-	value="${DataDictionary['Agency'].attributes}" />
-<c:set var="collectionEventAttributes"
-	value="${DataDictionary['CollectionEvent'].attributes}" />
-<c:set var="contractsGrantsCollectionActivityAttributes"
+<c:set var="ContractsGrantsCollectionActivityAttributes"
 	value="${DataDictionary.ContractsGrantsCollectionActivityDocument.attributes}"/>
 
 <kul:tab tabTitle="Award Information" defaultOpen="true" tabErrorKey="document.proposalNumber">
@@ -48,10 +30,10 @@
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
 				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${contractsGrantsCollectionActivityAttributes.proposalNumber}" useShortLabel="false" horizontal="true" />
+					attributeEntry="${ContractsGrantsCollectionActivityAttributes.proposalNumber}" useShortLabel="false" horizontal="true" />
 				<td>
 					<kul:htmlControlAttribute readOnly="true"
-						attributeEntry="${awardAttributes.proposalNumber}"
+						attributeEntry="${ContractsGrantsCollectionActivityAttributes.proposalNumber}"
 						property="document.proposalNumber" forceRequired="true" /> 
 					<c:if test="${not readOnly}">
 						<kul:lookup
@@ -67,7 +49,7 @@
 				<td>
 					<div id="document.agencyNumber.div">
 						<kul:htmlControlAttribute readOnly="true"
-							attributeEntry="${awardAttributes.agencyNumber}"
+							attributeEntry="${ContractsGrantsCollectionActivityAttributes.agencyNumber}"
 							property="document.agencyNumber" />
 					</div>
 				</td>
@@ -78,7 +60,7 @@
 				<td>
 					<div id="document.agencyName.div">
 						<kul:htmlControlAttribute readOnly="true"
-							attributeEntry="${agencyAttributes.fullName}"
+							attributeEntry="${ContractsGrantsCollectionActivityAttributes.agencyName}"
 							property="document.agencyName" />
 					</div>
 				</td>
@@ -90,7 +72,7 @@
 				<td>
 					<div id="document.customerNumber.div">
 						<kul:htmlControlAttribute readOnly="true"
-							attributeEntry="${customerAttributes.customerNumber}"
+							attributeEntry="${ContractsGrantsCollectionActivityAttributes.customerNumber}"
 							property="document.customerNumber" />
 					</div>
 				</td>
@@ -102,137 +84,11 @@
 				<td>
 					<div id="document.customerName.div">
 						<kul:htmlControlAttribute readOnly="true"
-							attributeEntry="${customerAttributes.customerName}"
+							attributeEntry="${ContractsGrantsCollectionActivityAttributes.customerName}"
 							property="document.customerName" />
 					</div>
 				</td>
 			</tr>
 		</table>
-	</div>
-</kul:tab>
-<kul:tab tabTitle="Global Collection Event" defaultOpen="true"
-	tabErrorKey="document.activityCode,document.activityDate,document.activityText,document.followupDate,document.completedDate">
-	<div class="tab-container" align="center">
-		<h3>New</h3>
-		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-			<tr>
-				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${collectionEventAttributes.activityCode}" horizontal="true"/>
-				<td>
-					<div id="document.activityCode.div">
-						<c:choose>
-							<c:when test="${not empty KualiForm.document.proposalNumber}">
-								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityCode}"
-									property="document.activityCode" readOnly="${readOnly}" />
-								<c:if test="${not readOnly}">
-									&nbsp;
-									<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityType" fieldConversions="activityCode:document.activityCode" />
-								</c:if>
-							</c:when>
-							<c:otherwise>
-								&nbsp;
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${collectionEventAttributes.activityDate}" horizontal="true"/>
-				<td>
-					<div id="document.activityDate.div">
-						<c:choose>
-							<c:when test="${not empty KualiForm.document.proposalNumber}">
-								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityDate}"
-									property="document.activityDate" readOnly="${readOnly}" />				
-							</c:when>
-							<c:otherwise>
-								&nbsp;
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${collectionEventAttributes.activityText}" horizontal="true"/>
-				<td>
-					<div id="document.activityText.div">
-						<c:choose>
-							<c:when test="${not empty KualiForm.document.proposalNumber}">
-								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.activityText}"
-									property="document.activityText" readOnly="${readOnly}" expandedTextArea="true" />						
-							</c:when>
-							<c:otherwise>
-								&nbsp;
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${collectionEventAttributes.followupDate}" horizontal="true"/>
-				<td>
-					<div id="document.followupDate.div">
-						<c:choose>
-							<c:when test="${not empty KualiForm.document.proposalNumber}">
-								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.followupDate}"
-									property="document.followupDate" readOnly="${readOnly}" />						
-							</c:when>
-							<c:otherwise>
-								&nbsp;
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<kul:htmlAttributeHeaderCell width="50%"
-					attributeEntry="${collectionEventAttributes.completedDate}" horizontal="true"/>
-				<td>
-					<div id="document.completedDate.div">
-						<c:choose>
-							<c:when test="${not empty KualiForm.document.proposalNumber}">
-								<kul:htmlControlAttribute attributeEntry="${collectionEventAttributes.completedDate}"
-									property="document.completedDate" readOnly="${readOnly}" />						
-							</c:when>
-							<c:otherwise>
-								&nbsp;
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</div>
-</kul:tab>
-<kul:tab tabTitle="Edit List of Invoices" defaultOpen="true"
-	tabErrorKey="document.invoiceDetails">
-	<div class="tab-container" align="center">
-		<c:if test="${not empty KualiForm.document.proposalNumber}">
-			<c:if test="${not readOnly}">
-				<table width="100%" cellpadding="0" cellspacing="0"	class="datatable">
-					<tr>
-						<td colspan='2' class='tab-subhead'>New</td>
-					</tr>
-					<tr>
-						<th colspan='2'>Look Up / Add Multiple Invoices
-							<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"
-								lookupParameters="document.proposalNumber:proposalNumber,document.agencyNumber:agencyNumber,document.agencyName:agencyName,document.customerNumber:customerNumber,document.customerName:customerName"/>
-						</th>
-					</tr>
-				</table>
-			</c:if>
-			<c:if test="${!empty KualiForm.document.invoiceDetails}">
-				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-					<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceDetails" id="Invoice">
-						<ar:contractsGrantsCollectionActivityInvoiceDetail
-							invPropertyName="document.invoiceDetails[${ctr}]"
-							ctr="${ctr}" readOnly="${readOnly}" />
-					</logic:iterate>
-				</table>
-			</c:if>							
-		</c:if>
 	</div>
 </kul:tab>

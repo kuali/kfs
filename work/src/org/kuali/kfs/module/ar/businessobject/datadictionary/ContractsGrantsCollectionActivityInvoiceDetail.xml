@@ -43,8 +43,8 @@
   <bean id="ContractsGrantsCollectionActivityInvoiceDetail-invoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
 	<property name="maxLength" value="14"/>
 	<property name="name" value="invoiceNumber" />
-	<property name="label" value="Invoice Number" />
-	<property name="shortLabel" value="Invoice Number" />
+	<property name="label" value="Invoice Document Number" />
+	<property name="shortLabel" value="Invoice Document Number" />
   </bean>
  
   <bean id="ContractsGrantsCollectionActivityInvoiceDetail-billingDate" parent="ContractsGrantsCollectionActivityInvoiceDetail-billingDate-parentBean" />

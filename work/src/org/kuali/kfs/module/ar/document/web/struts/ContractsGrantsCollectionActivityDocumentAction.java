@@ -72,6 +72,11 @@ public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSy
         final ContractsGrantsCollectionActivityDocumentForm cgCollectionActivityForm = (ContractsGrantsCollectionActivityDocumentForm) kualiDocumentFormBase;
         final ContractsGrantsCollectionActivityDocument document = cgCollectionActivityForm.getCollectionActivityDocument();
         document.setActivityDate(getDateTimeService().getCurrentSqlDate());
+
+        if (!StringUtils.isBlank(cgCollectionActivityForm.getSelectedProposalNumber())) {
+            document.setProposalNumber(Long.parseLong(cgCollectionActivityForm.getSelectedProposalNumber()));
+            refreshAward(document);
+        }
     }
 
     /**

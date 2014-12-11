@@ -218,15 +218,15 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
      */
     @Override
     public String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
-        final String correctedUpperBound = includeTime && !org.apache.commons.lang.StringUtils.isBlank(dateUpperBound) ? correctEndDateForTime(dateUpperBound) : dateUpperBound;
-        if (!org.apache.commons.lang.StringUtils.isBlank(dateLowerBound)) {
-            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+        final String correctedUpperBound = includeTime && StringUtils.hasText(dateUpperBound) ? correctEndDateForTime(dateUpperBound) : dateUpperBound;
+        if (StringUtils.hasText(dateLowerBound)) {
+            if (StringUtils.hasText(dateUpperBound)) {
                 return dateLowerBound+SearchOperator.BETWEEN.op()+correctedUpperBound;
             } else {
                 return SearchOperator.GREATER_THAN_EQUAL.op()+dateLowerBound;
             }
         } else {
-            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+            if (StringUtils.hasText(dateUpperBound)) {
                 return SearchOperator.LESS_THAN_EQUAL.op()+correctedUpperBound;
             }
         }
@@ -239,7 +239,7 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
      */
     @Override
     public Set<String> lookupPrincipalIds(String principalName) {
-        if (org.apache.commons.lang.StringUtils.isBlank(principalName)) {
+        if (!StringUtils.hasText(principalName)) {
             return new HashSet<String>();
         }
 
@@ -274,13 +274,25 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         String initiateUrl = KRADConstants.EMPTY_STRING;
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
-        parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        if (StringUtils.hasText(proposalNumber)) {
+            parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        }
         parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, invoiceNumber);
         parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_COLLECTION_ACTIVTY);
-        initiateUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
+        final String baseUrl = StringUtils.hasText(proposalNumber)
+                ? getBaseContractsGrantsCollectionActivityDocumentUrl()
+                : KFSConstants.EMPTY_STRING;
+        initiateUrl = UrlFactory.parameterizeUrl(baseUrl, parameters);
 
         return initiateUrl;
+    }
+
+    /**
+     * @return the base url for the contracts & grants collection activity document
+     */
+    protected String getBaseContractsGrantsCollectionActivityDocumentUrl() {
+        return ArConstants.MultipleValueReturnActions.CONTRACTS_GRANTS_COLLECTION_ACTIVITY_INVOICES;
     }
 
     public DataDictionaryService getDataDictionaryService() {

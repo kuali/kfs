@@ -48,8 +48,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
     private Date followupDate;
     private Date completedDate;
 
-    private String selectedInvoiceDocumentNumberList;
-
     private List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails;
 
     /**
@@ -253,13 +251,5 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
 
     public String getFinancialDocumentTypeCode() {
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
-    }
-
-    public String getSelectedInvoiceDocumentNumberList() {
-        return selectedInvoiceDocumentNumberList;
-    }
-
-    public void setSelectedInvoiceDocumentNumberList(String selectedInvoiceDocumentNumberList) {
-        this.selectedInvoiceDocumentNumberList = selectedInvoiceDocumentNumberList;
     }
 }

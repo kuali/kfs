@@ -47,7 +47,6 @@
 				<ref bean="ContractsGrantsCollectionActivityDocument-activityText" />
 				<ref bean="ContractsGrantsCollectionActivityDocument-followupDate"/>
 				<ref bean="ContractsGrantsCollectionActivityDocument-completedDate"/>
-				<ref bean="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" />
 			</list>
 		</property>
 	<property name="workflowAttributes">
@@ -96,17 +95,6 @@
 
 	<bean id="ContractsGrantsCollectionActivityDocument-activityText" parent="ContractsGrantsCollectionActivityDocument-activityText-parentBean"/>
   	<bean id="ContractsGrantsCollectionActivityDocument-activityText-parentBean" abstract="true" parent="CollectionEvent-activityText"/>
-	
-	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />
-	<bean id="ContractsGrantsCollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="selectedInvoiceDocumentNumberList" />
-		<property name="label" value="Invoices Selected" />
-		<property name="shortLabel" value="Invoices Selected" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
-	</bean>
 	
 	<bean id="ContractsGrantsCollectionActivityDocument-followupDate" parent="ContractsGrantsCollectionActivityDocument-followupDate-parentBean"/>
   	<bean id="ContractsGrantsCollectionActivityDocument-followupDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

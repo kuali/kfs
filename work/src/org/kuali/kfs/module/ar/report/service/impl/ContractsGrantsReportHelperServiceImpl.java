@@ -274,13 +274,25 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         String initiateUrl = KRADConstants.EMPTY_STRING;
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
-        parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        if (!org.apache.commons.lang.StringUtils.isBlank(proposalNumber)) {
+            parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, proposalNumber);
+        }
         parameters.put(ArPropertyConstants.ContractsGrantsCollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, invoiceNumber);
         parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.INITIATE_METHOD);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_COLLECTION_ACTIVTY);
-        initiateUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
+        final String baseUrl = !org.apache.commons.lang.StringUtils.isBlank(proposalNumber)
+                ? getBaseContractsGrantsCollectionActivityDocumentUrl()
+                : KFSConstants.EMPTY_STRING;
+        initiateUrl = UrlFactory.parameterizeUrl(baseUrl, parameters);
 
         return initiateUrl;
+    }
+
+    /**
+     * @return the base url for the contracts & grants collection activity document
+     */
+    protected String getBaseContractsGrantsCollectionActivityDocumentUrl() {
+        return ArConstants.MultipleValueReturnActions.CONTRACTS_GRANTS_COLLECTION_ACTIVITY_INVOICES;
     }
 
     public DataDictionaryService getDataDictionaryService() {

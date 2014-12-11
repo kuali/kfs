@@ -20,17 +20,16 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 /**
  * Form class for Collection Activity Document.
  */
 public class ContractsGrantsCollectionActivityDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
-    protected ContractsGrantsInvoiceDocument selectedInvoiceApplication = null;
-
     // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
     protected String lookupResultsSequenceNumber;
+    // a selected proposal number, if we are supposed to pre-fill the document
+    protected String selectedProposalNumber;
 
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
@@ -38,6 +37,14 @@ public class ContractsGrantsCollectionActivityDocumentForm extends FinancialSyst
 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    public String getSelectedProposalNumber() {
+        return selectedProposalNumber;
+    }
+
+    public void setSelectedProposalNumber(String selectedProposalNumber) {
+        this.selectedProposalNumber = selectedProposalNumber;
     }
 
     /**

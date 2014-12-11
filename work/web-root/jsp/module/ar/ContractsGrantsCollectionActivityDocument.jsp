@@ -18,34 +18,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script type='text/javascript'>
-	function toggle(id) {
-		var v = document.getElementById(id);
-		if ('none' != v.style.display) {
-			v.style.display = 'none';
-		} else {
-			v.style.display = '';
-		}
-	}
-</script>
-
-<c:if test="${!accountingLineScriptsLoaded}">
-	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
-	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
-	<script type='text/javascript'
-		src="dwr/interface/SubObjectCodeService.js"></script>
-	<script type='text/javascript'
-		src="dwr/interface/ProjectCodeService.js"></script>
-	<script type='text/javascript'
-		src="dwr/interface/OriginationCodeService.js"></script>
-	<script language="JavaScript" type="text/javascript"
-		src="scripts/sys/objectInfo.js"></script>
-	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
-</c:if>
-
 <c:set var="readOnly"
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -59,6 +31,8 @@
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<ar:contractsGrantsCollectionActivityAwardInformation readOnly="${readOnly}" />
+	<ar:contractsGrantsCollectionActivityGlobalCollectionEvent readOnly="${readOnly}"/>
+	<ar:contractsGrantsCollectionActivityInvoiceList readOnly="${readOnly}"/>
 		
 	<kul:notes />
 

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -52,7 +51,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
     private String selectedInvoiceDocumentNumberList;
 
     private List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails;
-    private List<CollectionEvent> collectionEvents;
 
     /**
      * Default constructor for ContractsGrantsCollectionActivityDocument.
@@ -60,7 +58,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
     public ContractsGrantsCollectionActivityDocument() {
         super();
         invoiceDetails = new ArrayList<ContractsGrantsCollectionActivityInvoiceDetail>();
-        collectionEvents = new ArrayList<CollectionEvent>();
     }
 
     /**
@@ -218,24 +215,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
      */
     public void setInvoiceDetails(List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
-    }
-
-    /**
-     * Gets the collectionEvents attribute.
-     *
-     * @return Returns the collectionEvents.
-     */
-    public List<CollectionEvent> getCollectionEvents() {
-        return collectionEvents;
-    }
-
-    /**
-     * Sets the collectionEvents attribute.
-     *
-     * @param events The collectionEvents to set.
-     */
-    public void setCollectionEvents(List<CollectionEvent> collectionEvents) {
-        this.collectionEvents = collectionEvents;
     }
 
     /**

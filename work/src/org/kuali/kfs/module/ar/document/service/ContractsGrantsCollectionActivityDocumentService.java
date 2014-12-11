@@ -25,7 +25,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Service class for Collection Activity Document.
@@ -38,33 +37,6 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @param colActDoc The Collection Activity Document object.
      */
     public void createAndSaveCollectionEvents(ContractsGrantsCollectionActivityDocument colActDoc);
-
-    /**
-     * Adds the new collection event for invoice.
-     *
-     * @param description The document description.
-     * @param colActDoc The Collection Activity Document object.
-     * @param newCollectionEvent The collection event object to be added.
-     * @throws WorkflowException
-     */
-    public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException;
-
-    /**
-     * Edits the existing collection event.
-     *
-     * @param description The document description.
-     * @param colActDoc The Collection Activity Document object.
-     * @param event The event object to be edited.
-     * @throws WorkflowException
-     */
-    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException;
-
-    /**
-     * Retrieves the award information from proposal number of given ContractsGrantsCollectionActivityDocument object.
-     *
-     * @param colActDoc The Collection Activity Document object with proposal number set.
-     */
-    public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc);
 
     /**
      * Retrieves the collection events based on the field values passed in. Results are furthered filtered
@@ -83,14 +55,6 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @return Returns the award object.
      */
     public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber);
-
-    /**
-     * To retrieve the first payment date by given document number.
-     *
-     * @param documentNumber The invoice number of the document.
-     * @return Returns the first payment date.
-     */
-    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
 
     /**
      * To retrieve the payment amount by given document number.

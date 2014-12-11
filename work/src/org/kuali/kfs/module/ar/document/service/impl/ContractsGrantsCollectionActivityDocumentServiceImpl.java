@@ -21,31 +21,22 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -159,94 +150,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#addNewEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
-     */
-    @Override
-    @Transactional
-    public void addNewCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent newCollectionEvent) throws WorkflowException {
-
-        final Timestamp now = dateTimeService.getCurrentTimestamp();
-        newCollectionEvent.setPostedDate(now);
-
-        if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
-            Person authorUniversal = GlobalVariables.getUserSession().getPerson();
-            newCollectionEvent.setUserPrincipalId(authorUniversal.getPrincipalId());
-            newCollectionEvent.setUser(authorUniversal);
-        }
-
-        ContractsGrantsInvoiceDocument invoice = newCollectionEvent.getInvoiceDocument();
-        newCollectionEvent.setDocumentNumber(colActDoc.getDocumentNumber());
-        newCollectionEvent.setCollectionEventCode(invoice.getNextCollectionEventCode());
-
-        colActDoc.getCollectionEvents().add(newCollectionEvent);
-
-        colActDoc.prepareForSave();
-
-        documentService.prepareWorkflowDocument(colActDoc);
-
-        businessObjectService.save(newCollectionEvent);
-        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
-        documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
-
-        DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
-        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
-        queue.indexDocument(colActDoc.getDocumentNumber());
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#editCollectionEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
-     */
-    @Override
-    @Transactional
-    public void editCollectionEvent(String description, ContractsGrantsCollectionActivityDocument colActDoc, CollectionEvent event) throws WorkflowException {
-        event.setDocumentNumber(colActDoc.getDocumentNumber());
-
-        colActDoc.populateDocumentForRouting();
-        colActDoc.prepareForSave();
-
-        documentService.prepareWorkflowDocument(colActDoc);
-
-        documentService.saveDocument(colActDoc);
-        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
-        documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
-
-        businessObjectService.save(event);
-
-        DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
-        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
-        queue.indexDocument(colActDoc.getDocumentNumber());
-
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#editCollectionEvent(java.lang.String,
-     *      org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.CollectionEvent)
-     */
-    @Override
-    @Transactional
-    public void loadAwardInformationForCollectionActivityDocument(ContractsGrantsCollectionActivityDocument colActDoc) {
-
-        if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
-
-            List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
-            if (CollectionUtils.isNotEmpty(invoices)) {
-                ContractsGrantsInvoiceDocument invoice = invoices.get(0);
-                if (ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward().getAgency())) {
-                    ContractsAndGrantsBillingAgency agency = invoice.getInvoiceGeneralDetail().getAward().getAgency();
-                    colActDoc.setAgencyNumber(agency.getAgencyNumber());
-                    colActDoc.setAgencyName(agency.getFullName());
-                }
-                colActDoc.setCustomerNumber(invoice.getCustomer().getCustomerNumber());
-                colActDoc.setCustomerName(invoice.getCustomer().getCustomerName());
-            }
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrieveEvents(java.util.Map, java.lang.String)
      */
     @Override
@@ -268,26 +171,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
-    }
-
-    @Override
-    @Transactional
-    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber) {
-        List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) getInvoicePaidAppliedService().getInvoicePaidAppliedsForInvoice(documentNumber);
-        java.sql.Date paymentDate = null;
-        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
-            InvoicePaidApplied invPaidApp = invoicePaidApplieds.get(invoicePaidApplieds.size() - 1);
-            PaymentApplicationDocument referenceFinancialDocument;
-            try {
-                referenceFinancialDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(invPaidApp.getDocumentNumber());
-                paymentDate = referenceFinancialDocument.getFinancialSystemDocumentHeader().getDocumentFinalDate();
-            }
-            catch (WorkflowException ex) {
-                LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
-                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
-            }
-        }
-        return paymentDate;
     }
 
     /**

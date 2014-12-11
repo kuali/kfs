@@ -18,14 +18,11 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,23 +42,23 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
  * Action file for Collection Activity Document.
  */
 public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
-
-    protected DocumentService documentService;
-    protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
+    protected static transient ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
+    protected static transient BusinessObjectService businessObjectService;
+    protected static transient SegmentedLookupResultsService segmentedLookupResultsService;
+    protected static transient DateTimeService dateTimeService;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentAction.class);
 
@@ -74,46 +71,7 @@ public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSy
 
         final ContractsGrantsCollectionActivityDocumentForm cgCollectionActivityForm = (ContractsGrantsCollectionActivityDocumentForm) kualiDocumentFormBase;
         final ContractsGrantsCollectionActivityDocument document = cgCollectionActivityForm.getCollectionActivityDocument();
-        document.setActivityDate(new Date(System.currentTimeMillis()));
-    }
-
-    /**
-     * Constructor for ContractsGrantsCollectionActivityDocumentAction class
-     */
-    public ContractsGrantsCollectionActivityDocumentAction() {
-        super();
-        documentService = SpringContext.getBean(DocumentService.class);
-        contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
-    }
-
-    /**
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
-     *      javax.servlet.ServletRequest, javax.servlet.ServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
-        return super.execute(mapping, form, request, response);
-    }
-
-    /**
-     * Get an error to display in the UI for a certain field.
-     *
-     * @param propertyName
-     * @param errorKey
-     */
-    protected void addFieldError(String errorPathToAdd, String propertyName, String errorKey) {
-        GlobalVariables.getMessageMap().addToErrorPath(errorPathToAdd);
-        GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathToAdd);
-    }
-
-    /**
-     * Get an error to display at the global level, for the whole document.
-     *
-     * @param errorKey
-     */
-    protected void addGlobalError(String errorKey) {
-        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
+        document.setActivityDate(getDateTimeService().getCurrentSqlDate());
     }
 
     /**
@@ -146,46 +104,85 @@ public class ContractsGrantsCollectionActivityDocumentAction extends FinancialSy
         // If multiple asset lookup was used to select the assets, then....
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, collectionActivityDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = collectionActivityDocumentForm.getLookupResultsSequenceNumber();
-            Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-            if (ObjectUtils.isNotNull(selectedIds) && CollectionUtils.isNotEmpty(selectedIds)) {
-                for (String invoiceDocumentNumber: selectedIds) {
-                    Map<String, String> criteria = new HashMap<String, String>();
-                    criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
-                    ContractsGrantsInvoiceDocument cgInvoiceDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
-
-                    if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
-                        ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
-                        invoiceDetail.setBillingPeriod(cgInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
-                        invoiceDetail.setBillingDate(cgInvoiceDocument.getBillingDate());
-                        invoiceDetail.setInvoiceNumber(cgInvoiceDocument.getDocumentNumber());
-                        invoiceDetail.setDocumentNumber(colActDoc.getDocumentNumber());
-                        if (!colActDoc.getInvoiceDetails().contains(invoiceDetail)) {
-                            colActDoc.getInvoiceDetails().add(invoiceDetail);
-                        }
-                    }
-                }
-                colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
-            }
+            refreshInvoices(colActDoc, lookupResultsSequenceNumber);
         }
         if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, collectionActivityDocumentForm.getRefreshCaller())) {
-            if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
-                ContractsAndGrantsBillingAward award = contractsGrantsCollectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
-                if (ObjectUtils.isNotNull(award)) {
-                    colActDoc.setAgencyNumber(award.getAgencyNumber());
-                    colActDoc.setAgencyName(award.getAgency().getFullName());
-                    if (ObjectUtils.isNotNull(award.getAgency().getCustomer())) {
-                        colActDoc.setCustomerNumber(award.getAgency().getCustomer().getCustomerNumber());
-                        colActDoc.setCustomerName(award.getAgency().getCustomer().getCustomerName());
-                    }
-                }
-                else {
-                    colActDoc.setAgencyNumber("Award not found");
-                    colActDoc.setAgencyName("");
-                    colActDoc.setCustomerNumber("");
-                    colActDoc.setCustomerName("");
-                }
-            }
+            refreshAward(colActDoc);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    /**
+     * Refreshes the multi-value lookup invoices
+     * @param colActDoc the documet the invoice information should appear on
+     * @param lookupResultsSequenceNumber the sequence number of the invoices returned from the lookup
+     * @throws Exception if the invoices from the lookup cannot be retrieved for some reason
+     */
+    protected void refreshInvoices(ContractsGrantsCollectionActivityDocument colActDoc, String lookupResultsSequenceNumber) throws Exception {
+        Set<String> selectedIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        if (ObjectUtils.isNotNull(selectedIds) && CollectionUtils.isNotEmpty(selectedIds)) {
+            for (String invoiceDocumentNumber: selectedIds) {
+                Map<String, String> criteria = new HashMap<String, String>();
+                criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
+                ContractsGrantsInvoiceDocument cgInvoiceDocument = getBusinessObjectService().findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
+
+                if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
+                    ContractsGrantsCollectionActivityInvoiceDetail invoiceDetail = new ContractsGrantsCollectionActivityInvoiceDetail();
+                    invoiceDetail.setBillingPeriod(cgInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
+                    invoiceDetail.setBillingDate(cgInvoiceDocument.getBillingDate());
+                    invoiceDetail.setInvoiceNumber(cgInvoiceDocument.getDocumentNumber());
+                    invoiceDetail.setDocumentNumber(colActDoc.getDocumentNumber());
+                    if (!colActDoc.getInvoiceDetails().contains(invoiceDetail)) {
+                        colActDoc.getInvoiceDetails().add(invoiceDetail);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Refreshes information on the C&G Collection Activity document related to the award
+     * @param colActDoc the collection activity document
+     */
+    protected void refreshAward(ContractsGrantsCollectionActivityDocument colActDoc) {
+        if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
+            ContractsAndGrantsBillingAward award = getContractsGrantsCollectionActivityDocumentService().retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
+            if (ObjectUtils.isNotNull(award)) {
+                colActDoc.setAgencyNumber(award.getAgencyNumber());
+                colActDoc.setAgencyName(award.getAgency().getFullName());
+                if (ObjectUtils.isNotNull(award.getAgency().getCustomer())) {
+                    colActDoc.setCustomerNumber(award.getAgency().getCustomer().getCustomerNumber());
+                    colActDoc.setCustomerName(award.getAgency().getCustomer().getCustomerName());
+                }
+            }
+            else {
+                colActDoc.setAgencyNumber("Award not found");
+                colActDoc.setAgencyName(KFSConstants.EMPTY_STRING);
+                colActDoc.setCustomerNumber(KFSConstants.EMPTY_STRING);
+                colActDoc.setCustomerName(KFSConstants.EMPTY_STRING);
+            }
+        }
+    }
+
+    public static ContractsGrantsCollectionActivityDocumentService getContractsGrantsCollectionActivityDocumentService() {
+        if (contractsGrantsCollectionActivityDocumentService == null) {
+            contractsGrantsCollectionActivityDocumentService = SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class);
+        }
+        return contractsGrantsCollectionActivityDocumentService;
+    }
+
+    public static SegmentedLookupResultsService getSegmentedLookupResultsService() {
+        if (segmentedLookupResultsService == null) {
+            segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
+        }
+        return segmentedLookupResultsService;
+    }
+
+    public static DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
 }

@@ -23,16 +23,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Collection Activity Document class. This transactional document is used to store events related to customers.
@@ -51,26 +47,17 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
     private String activityText;
     private Date followupDate;
     private Date completedDate;
-    protected String selectedInvoiceDocumentNumber;
-    protected String newInvoiceDocumentNumber;
 
-    protected transient ContractsAndGrantsBillingAward award;
-    protected transient Customer customer;
-    protected CollectionEvent newCollectionEvent;
-    protected CollectionEvent globalCollectionEvent;
     private String selectedInvoiceDocumentNumberList;
 
     private List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails;
-    private List<CollectionEvent> collectionEvents;
 
     /**
      * Default constructor for ContractsGrantsCollectionActivityDocument.
      */
     public ContractsGrantsCollectionActivityDocument() {
         super();
-        globalCollectionEvent = new CollectionEvent();
         invoiceDetails = new ArrayList<ContractsGrantsCollectionActivityInvoiceDetail>();
-        collectionEvents = new ArrayList<CollectionEvent>();
     }
 
     /**
@@ -204,57 +191,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
     }
 
     /**
-     * Gets the customer attribute.
-     *
-     * @return Returns the customer.
-     */
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    /**
-     * Sets the customer attribute.
-     *
-     * @param customer The customer to set.
-     */
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    /**
-     * Gets the award attribute.
-     *
-     * @return Returns the award.
-     */
-    public ContractsAndGrantsBillingAward getAward() {
-        return award;
-    }
-
-    /**
-     * Sets the award attribute.
-     *
-     * @param award The award to set.
-     */
-    public void setAward(ContractsAndGrantsBillingAward award) {
-        this.award = award;
-    }
-
-    /**
-     * @return Returns true if document is in final state.
-     */
-    public boolean isFinal() {
-        return isApproved();
-    }
-
-    /**
-     *
-     * @return Returns true if document is in Approved.
-     */
-    public boolean isApproved() {
-        return getDocumentHeader().getWorkflowDocument().isApproved();
-    }
-
-    /**
      * Gets the invoiceDetails attribute.
      *
      * @return Returns the invoiceDetails.
@@ -279,93 +215,6 @@ public class ContractsGrantsCollectionActivityDocument extends FinancialSystemTr
      */
     public void setInvoiceDetails(List<ContractsGrantsCollectionActivityInvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
-    }
-
-    /**
-     * Gets the collectionEvents attribute.
-     *
-     * @return Returns the collectionEvents.
-     */
-    public List<CollectionEvent> getCollectionEvents() {
-        return collectionEvents;
-    }
-
-    /**
-     * Sets the collectionEvents attribute.
-     *
-     * @param events The collectionEvents to set.
-     */
-    public void setCollectionEvents(List<CollectionEvent> collectionEvents) {
-        this.collectionEvents = collectionEvents;
-    }
-
-    /**
-     * Gets the newCollectionEvent attribute.
-     *
-     * @return Returns the newCollectionEvent.
-     */
-    public CollectionEvent getNewCollectionEvent() {
-        return newCollectionEvent;
-    }
-
-    /**
-     * Sets the newCollectionEvent attribute.
-     *
-     * @param newCollectionEvent The newCollectionEvent to set.
-     */
-    public void setNewCollectionEvent(CollectionEvent newCollectionEvent) {
-        this.newCollectionEvent = newCollectionEvent;
-    }
-
-    /**
-     * Gets the selectedInvoiceDocumentNumber attribute.
-     *
-     * @return Returns the selectedInvoiceDocumentNumber.
-     */
-    public String getSelectedInvoiceDocumentNumber() {
-        return selectedInvoiceDocumentNumber;
-    }
-
-    /**
-     * Sets the selectedInvoiceDocumentNumber attribute.
-     *
-     * @param selectedInvoiceDocumentNumber The selectedInvoiceDocumentNumber to set.
-     */
-    public void setSelectedInvoiceDocumentNumber(String selectedInvoiceDocumentNumber) {
-        this.selectedInvoiceDocumentNumber = selectedInvoiceDocumentNumber;
-    }
-
-    public String getNewInvoiceDocumentNumber() {
-        return newInvoiceDocumentNumber;
-    }
-
-    public void setNewInvoiceDocumentNumber(String newInvoiceDocumentNumber) {
-        this.newInvoiceDocumentNumber = newInvoiceDocumentNumber;
-    }
-
-    public CollectionEvent getGlobalCollectionEvent() {
-        return globalCollectionEvent;
-    }
-
-    public void setGlobalCollectionEvent(CollectionEvent globalCollectionEvent) {
-        this.globalCollectionEvent = globalCollectionEvent;
-    }
-
-    /**
-     * Gets the events of selected invoice.
-     *
-     * @return Returns the events.
-     */
-    public List<CollectionEvent> getSelectedInvoiceEvents() {
-        List<CollectionEvent> selectedEvents = new ArrayList<CollectionEvent>();
-        for (CollectionEvent event : collectionEvents) {
-            if (ObjectUtils.isNotNull(collectionEvents) && !collectionEvents.isEmpty()) {
-                if (event.getInvoiceNumber().equals(getSelectedInvoiceDocumentNumber())) {
-                    selectedEvents.add(event);
-                }
-            }
-        }
-        return selectedEvents;
     }
 
     /**

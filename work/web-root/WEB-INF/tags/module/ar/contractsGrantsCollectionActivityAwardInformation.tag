@@ -44,8 +44,7 @@
 			</tr>
 
 			<tr>
-				<kul:htmlAttributeHeaderCell literalLabel="Agency Number"
-					horizontal="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${ContractsGrantsCollectionActivityAttributes.agencyNumber}" useShortLabel="false" horizontal="true"/>
 				<td>
 					<div id="document.agencyNumber.div">
 						<kul:htmlControlAttribute readOnly="true"
@@ -55,8 +54,7 @@
 				</td>
 			</tr>
 			<tr>
-				<kul:htmlAttributeHeaderCell literalLabel="Agency Name"
-					horizontal="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${ContractsGrantsCollectionActivityAttributes.agencyName}" useShortLabel="false" horizontal="true"/>
 				<td>
 					<div id="document.agencyName.div">
 						<kul:htmlControlAttribute readOnly="true"
@@ -67,8 +65,7 @@
 			</tr>
 
 			<tr>
-				<kul:htmlAttributeHeaderCell literalLabel="Customer Number"
-					horizontal="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${ContractsGrantsCollectionActivityAttributes.customerNumber}" useShortLabel="false" horizontal="true"/>
 				<td>
 					<div id="document.customerNumber.div">
 						<kul:htmlControlAttribute readOnly="true"
@@ -79,8 +76,7 @@
 			</tr>
 
 			<tr>
-				<kul:htmlAttributeHeaderCell literalLabel="Customer Name"
-					horizontal="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${ContractsGrantsCollectionActivityAttributes.customerName}" useShortLabel="false" horizontal="true" />
 				<td>
 					<div id="document.customerName.div">
 						<kul:htmlControlAttribute readOnly="true"

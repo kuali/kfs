@@ -378,26 +378,11 @@ public class ArPropertyConstants{
         public static final String CG_ACCT_RESP_ID = "contractsAndGrantsAccountResponsibilityId";
     }
 
-    public static class ReferralToCollectionsFields {
-        public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
-        public static final String ACCOUNTS_RECEIVABLE_CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
-        public static final String REFERRAL_TO_COLLECTIONS_DETAILS = "referralToCollectionsDetails";
-    }
-
     // Collection Activity Report fields
     public static class CollectionActivityReportFields {
         public static final String COLLECTOR = "principalId";
         public static final String ACTIVITY_TYPE = "activityType";
         public static final String AGENCY_NUMBER = "agencyNumber";
-    }
-
-    // Referral To Collections Report fields
-    public static class ReferralToCollectionsReportFields {
-        public static final String COLLECTOR = "principalId";
-        public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String ACCOUNT_NUMBER = "accountNumber";
-        public static final String PDF_SORT_PROPERTY = "agencyNumber";
-        public static final String LIST_SORT_PROPERTY = "agencyNumber";
     }
 
     // Collection Status

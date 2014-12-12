@@ -160,12 +160,6 @@
 		<form-bean name="GenerateDunningLettersSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.GenerateDunningLettersSummaryForm" />
 
- 		<form-bean name="ReferralToCollectionsSummaryForm"
- 			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsSummaryForm" />
-
- 		<form-bean name="ReferralToCollectionsDocumentForm"
- 			type="org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentForm" />
-
 		<form-bean name="FinalBilledIndicatorDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.FinalBilledIndicatorDocumentForm" />
 
@@ -287,9 +281,6 @@
 		<form-bean name="CollectionActivityReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityReportForm" />
 			
-		<form-bean name="ReferralToCollectionsReportForm"
-			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsReportForm" />			
-
 		<!-- PDP Module Bean Definitions -->
 		<form-bean name="PdpFormatForm" type="org.kuali.kfs.pdp.web.struts.FormatForm" />
 
@@ -504,14 +495,6 @@
 			<forward name="basic" path="/jsp/module/common/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
-		<action path="/referralToCollectionsReportLookup" name="ReferralToCollectionsReportForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			input="/jsp/module/common/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsReportAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/common/ContractsGrantsReportLookup.jsp" />
-		</action>
-		
 		<action path="/contractsGrantsAgingReportLookup" name="ContractsGrantsAgingReportForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			input="/jsp/module/ar/ContractsGrantsAgingReportLookup.jsp"
@@ -592,22 +575,6 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/GenerateDunningLettersLookup.jsp" />
-		</action>
-
-		<action path="/arReferralToCollectionsLookup" name="MultipleValueLookupForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/ar/ReferralToCollectionsLookup.jsp" />
-		</action>
- 
- 		<action path="/arReferralToCollectionsSummary" name="ReferralToCollectionsSummaryForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsSummaryAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/ar/ReferralToCollectionsSummary.jsp" />
 		</action>
 
 		<action path="/arCustomerOpenItemReportLookup" name="CustomerOpenItemReportForm"

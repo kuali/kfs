@@ -325,10 +325,6 @@ public class ArKeyConstants {
         public static final String ERROR_PROCESSING_ORGANIZATION_CODE_REQUIRED = "error.document.processingOrganizationCode.required";
     }
 
-    public static class ReferralToCollectionsDocumentErrors {
-        public static final String ERROR_EMPTY_REQUIRED_FIELDS = "error.document.referralToCollections.emptyRequiredFields";
-    }
-
     public static class CollectionHierarchyDocumentErrors {
         public static final String ERROR_COLLINFO_SAME_AS_COLLHEAD = "error.document.collectorInformations.sameAsCollectorHead";
         public static final String ERROR_DUPLICATE_COLL_INFO = "error.document.collectorInformations.duplicate";

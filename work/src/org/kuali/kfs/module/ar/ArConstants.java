@@ -433,7 +433,6 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_COLLECTION_ACTIVTY = "CCA";
         public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
         public static final String LETTER_OF_CREDIT_REVIEW = "LCR";
-        public static final String REFERRAL_TO_COLLECTIONS = "RTCL";
     }
 
     // CG Invoice Document
@@ -500,7 +499,6 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_MILESTONE = "contractsGrantsMilestoneReportBuilderService";
         public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY = "contractsGrantsPaymentHistoryReportBuilderService";
         public static final String TICKLERS = "ticklersReportBuilderService";
-        public static final String REFERRAL_TO_COLLECTION = "referralToCollectionsReportBuilderService";
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
     }
     public static class Actions {
@@ -512,7 +510,6 @@ public class ArConstants{
     }
 
     public static class MultipleValueReturnActions {
-        public static final String REFERRAL_TO_COLLECTIONS = "arReferralToCollectionsSummary.do";
         public static final String CONTRACTS_GRANTS_COLLECTION_ACTIVITY_INVOICES = "arContractsGrantsCollectionActivityDocument.do";
         public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
         public static final String GENERATE_DUNNING_LETTERS_SUMMARY = "arGenerateDunningLettersSummary.do";

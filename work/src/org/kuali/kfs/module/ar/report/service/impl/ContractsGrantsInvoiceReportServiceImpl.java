@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -847,7 +847,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         CSVWriter csvWriter = new CSVWriter(new OutputStreamWriter(baos));
         try {
             csvWriter.writeNext(new String[] {getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.PROPOSAL_NUMBER),
-                    getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, ArPropertyConstants.ReferralToCollectionsFields.AWARD_DOCUMENT_NUMBER),
+                    getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.AWARD_DOCUMENT_NUMBER),
                     getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.ACCOUNT_DESCRIPTION),
                     getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
                     getDataDictionaryService().getAttributeLabel(ContractsGrantsLetterOfCreditReviewDetail.class, KFSPropertyConstants.ACCOUNT_NUMBER),

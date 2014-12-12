@@ -1219,51 +1219,7 @@
 			<foreignkey field-ref="invoiceNumber" />
 		</reference-descriptor>
     </class-descriptor>
-		
- 	<class-descriptor class="org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument" table="AR_RFRL_TO_CLCTNS_DOC_T">
-		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
-		<field-descriptor name="agencyFullName" column="AGENCY_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
-		<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="collectionStatusCode" column="CLCTN_STATUS_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"
-			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
-			<foreignkey field-ref="documentNumber" />
-		</reference-descriptor>
-		<collection-descriptor name="referralToCollectionsDetails" element-class-ref="org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="documentNumber" sort="ASC" />
-			<inverse-foreignkey field-ref="documentNumber" />
-		</collection-descriptor>
-	</class-descriptor>		
-
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail" table="AR_RFRL_TO_CLCTNS_DTL_T">
-        <field-descriptor name="docDetailId" column="RFRL_TO_CLCTNS_DTL_ID" jdbc-type="BIGINT" primarykey="true" index="true"
-            autoincrement="true" sequence-name="AR_RFRL_TO_CLCTNS_DTL_ID_SEQ" />
-        <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-        <field-descriptor name="invoiceNumber" column="INV_FDOC_NBR" jdbc-type="VARCHAR" />
-        <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
-        <field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" />
-        <field-descriptor name="chart" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-        <field-descriptor name="accountNumber" column="ACCT_NBR" jdbc-type="VARCHAR" />
-        <field-descriptor name="billingDate" column="BILL_DT" jdbc-type="DATE" />
-        <field-descriptor name="invoiceTotal" column="INV_TOTAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-        <field-descriptor name="invoiceBalance" column="INV_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-        <field-descriptor name="age" column="AGE_DAYS" jdbc-type="INTEGER" />
-        <field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <reference-descriptor name="invoiceDocument" class-ref="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="invoiceNumber" />
-		</reference-descriptor>
-    </class-descriptor>
-    
+		    
  	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.DunningCampaign" table="AR_DUN_CMPGN_DOC_T">
 		<field-descriptor name="campaignID" column="CMPGN_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="campaignDescription" column="CMPGN_DESC" jdbc-type="VARCHAR" />

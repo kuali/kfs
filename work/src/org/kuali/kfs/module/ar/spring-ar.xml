@@ -621,31 +621,6 @@
 		</property>
 	</bean>
 
-	<bean id="referralToCollectionsLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="accountService">
-			<ref bean="accountService" />
-		</property>
-		<property name="contractsAndGrantsModuleBillingService">
-			<ref bean="contractsAndGrantsModuleBillingService" />
-		</property>
-		<property name="contractsGrantsReportHelperService">
-			<ref bean="contractsGrantsReportHelperService"/>
-		</property>
-		<property name="referralToCollectionsService">
-			<ref bean="referralToCollectionsService"/>
-		</property>
-	</bean>
-
-	<bean id="referralToCollectionsLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="referralToCollectionsLookupableHelperService" />
-		</property>
-	</bean>
-
 	<bean id="letterOfCreditByLOCFundBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundBatchStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
@@ -857,13 +832,6 @@
 		<property name="optionsService" ref="optionsService" />
 	</bean>
 	
-	<bean id="referralToCollectionsService" parent="referralToCollectionsService-parentBean"/>
-	<bean id="referralToCollectionsService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsServiceImpl">
-		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
-		<property name="contractsGrantsCollectionActivityDocumentService" ref="contractsGrantsCollectionActivityDocumentService"/>
-		<property name="customerService" ref="customerService"/>
-	</bean>
-
 	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="contractsGrantsPaymentHistoryReportLookupableHelperService" />
@@ -2266,23 +2234,6 @@
 		</property>
 	</bean>
 
-	<bean id="refToCollReportInfo" parent="refToCollReportInfo-parentBean" />
-	<bean id="refToCollReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Referral To Collections Report" />
-		<property name="reportFileName" value="ar_ref_coll_report" />
-		<property name="reportsDirectory" value="${reports.directory}/ar/" />
-		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
-		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="reportTemplateName" value="ReferralToCollectionsReport" />
-		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="subReports">
-			<map>
- 				<entry key="referralToCollectionsReportDetails" value="ReferralToCollectionsReportDetails" />
-				<entry key="searchCriteria" value="SearchCriteria" />
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="systemInformationFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" /> 
 		<property name="parentClasses">
@@ -2463,25 +2414,6 @@
 		</property>
 	</bean>
 	
-	<bean id="referralToCollectionsReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsReportLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
-		<property name="contractsGrantsReportHelperService">
-			<ref bean="contractsGrantsReportHelperService"/>
-		</property>
-		<property name="financialSystemDocumentService">
-			<ref bean="financialSystemDocumentService"/>
-		</property>
-		<property name="personService">
-			<ref bean="personService"/>
-		</property>
-	</bean>
-
-	<bean id="referralToCollectionsReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="referralToCollectionsReportLookupableHelperService" />
-		</property>
-	</bean>
-	
 	<bean id="collectionActivityInvoiceLookupableHelperService" parent="collectionActivityInvoiceLookupableHelperService-parentBean"/>
 	<bean id="collectionActivityInvoiceLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="contractsGrantsCollectionActivityDocumentService">
@@ -2570,12 +2502,6 @@
 	<bean id="ticklersReportBuilderService" parent="ticklersReportBuilderService-parentBean"/>
 	<bean id="ticklersReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportBuilderServiceImpl">
 		<property name="reportInfo" ref="ticklersReportInfo"/>
-	</bean>
-	
-	<bean id="referralToCollectionsReportBuilderService" parent="referralToCollectionsReportBuilderService-parentBean"/>
-	<bean id="referralToCollectionsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportBuilderServiceImpl">
-		<property name="reportInfo" ref="refToCollReportInfo"/>
-		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="contractsGrantsSuspendedInvoiceDetailReportBuilderService" parent="contractsGrantsSuspendedInvoiceDetailReportBuilderService-parentBean"/>

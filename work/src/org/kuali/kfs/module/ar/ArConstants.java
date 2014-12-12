@@ -64,7 +64,6 @@ public class ArConstants{
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
 
     public static final String DUNNING_LETTER_GENERATION_CODE = "DUNNING_LETTER_GENERATION_CODE";
-    public static final String REFER_TO_COLLECTION_CODE = "REFER_TO_COLLECTION_CODE";
     public static final String FROM_EMAIL_ADDRESS = "FROM_EMAIL_ADDRESS";
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";

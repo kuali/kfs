@@ -1404,16 +1404,11 @@
 		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />	
 		<reference-descriptor name="finalDisposition" class-ref="org.kuali.kfs.module.ar.businessobject.FinalDisposition"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="finalDispositionCode" />
-		</reference-descriptor>
-		<reference-descriptor name="referralType" class-ref="org.kuali.kfs.module.ar.businessobject.ReferralType"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="referralTypeCode" />
-		</reference-descriptor>		
+		</reference-descriptor>	
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" table="AR_INV_DTL_ACCT_OBJ_CD_T">
@@ -1775,15 +1770,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="dispositionDescription" column="DISPOS_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ReferralType" table="AR_RFRL_TYP_T">
-		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="description" column="RFRL_TYP_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="outsideCollectionAgency" column="OUTSD_CLCTN_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	

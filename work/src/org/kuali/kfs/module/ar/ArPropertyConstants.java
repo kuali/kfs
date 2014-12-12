@@ -90,7 +90,6 @@ public class ArPropertyConstants{
     public static class ContractsGrantsInvoiceDocumentFields {
         public static final String FINAL_BILL = "invoiceGeneralDetail.finalBillIndicator";
         public static final String PROPOSAL_NUMBER = "invoiceGeneralDetail.proposalNumber";
-        public static final String REFERRAL_TYPE = "invoiceGeneralDetail.referralType";
     }
 
     // InvoiceRecurrence
@@ -388,13 +387,6 @@ public class ArPropertyConstants{
     // Collection Status
     public static class CollectionStatusFields {
         public static final String COLLECTION_STATUS_CODE = "statusCode";
-    }
-
-    // Referral Type
-    public static class ReferralTypeFields {
-        public static final String REFERRAL_TYPE_CODE = "referralTypeCode";
-        public static final String OUTSIDE_COLLECTION_AGENCY = "outsideCollectionAgency";
-        public static final String OUTSIDE_COLLECTION_AGENCY_IND = "outsideCollectionAgency";
     }
 
     // CustomerInvoiceDetail Fields

@@ -858,9 +858,7 @@
         <column name="ACTVY_CD" size="4" type="VARCHAR"/>
         <column name="ACTVY_DT" type="DATE"/>
         <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
-        <column name="FLLW_UP_IND" size="1" type="VARCHAR"/>
         <column name="FLLW_UP_DT" type="DATE"/>
-        <column name="CMPLTD_IND" size="1" type="VARCHAR"/>
         <column name="CMPLTD_DT" type="DATE"/>
         <column name="POST_DT" type="DATE"/>
         <column name="FDOC_NBR" size="14" type="VARCHAR"/>

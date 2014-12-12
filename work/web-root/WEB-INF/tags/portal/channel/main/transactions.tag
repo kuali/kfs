@@ -58,11 +58,6 @@
 			<li><portal:portalLink displayTitle="true"
 					title="Payment Application"
 					url="${ConfigProperties.application.url}/arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>
-			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
-				<li><portal:portalLink displayTitle="true"
-						title="Referral To Collections"
-						url="${ConfigProperties.application.url}/arReferralToCollectionsLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
-			</c:if>
 		</ul>
 	</c:if>
 

@@ -754,19 +754,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * This method retrieves CG invoice documents that match the given field values and excludes
-     * the given outside collection agency code
-     *
-     * @param fieldValues field values to use as criteria for the search
-     * @param outsideColAgencyCodeToExclude Outside collector Agency code to exclude
-     * @return a collection of invoices matching the given input
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude) {
-        return contractsGrantsInvoiceDocumentDao.getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(fieldValues, outsideColAgencyCodeToExclude);
-    }
-
-    /**
      * This method calculates the Budget and cumulative amount for Award Account
      *
      * @param awardAccount

@@ -777,32 +777,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				RTCL
-			</name>
-			<parent>
-				AR
-			</parent>
-			<label>
-				Referral To Collections
-			</label>
-			<docHandler>
-				${kfs.url}/arReferralToCollectionsDocument.do?methodToCall=docHandler
-			</docHandler>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Freferraltocollections.htm
-			</helpDefinitionURL>
-			<docSearchHelpURL>
-				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Freferraltocollections.htm
-			</docSearchHelpURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				INVW
 			</name>
 			<parent>

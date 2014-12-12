@@ -803,10 +803,7 @@
         <column name="ACTVY_TXT" size="200" type="VARCHAR"/>
         <column name="FLLW_UP_DT" type="DATE"/>
         <column name="CMPLTD_DT" type="DATE"/>
-        <unique name="AR_CLCTN_ACTVTY_DOC_TP1">
-            <unique-column name="FDOC_NBR"/>
-        </unique>
-        <unique name="AR_CLCTN_ACTVY_DOC_TC0">
+        <unique name="AR_CGB_CLCTN_ACTVY_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1534,7 +1531,6 @@
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
-        <column name="RFRL_TYP_CD" size="4" type="VARCHAR"/>
         <column name="FNL_DISPOS_CD" size="4" type="VARCHAR"/>
         <unique name="AR_INV_GNRL_DTL_TC0">
             <unique-column name="OBJ_ID"/>
@@ -2080,51 +2076,6 @@
         <column name="AR_PRN_INV_DESC" size="40" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="AR_PRN_INV_OPTN_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_RFRL_TO_CLCTNS_DOC_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
-        <column name="AGENCY_NM" size="50" type="VARCHAR"/>
-        <column name="CUST_NBR" size="9" type="VARCHAR"/>
-        <column name="CUST_NM" size="60" type="VARCHAR"/>
-        <column name="CUST_TYP_CD" size="4" type="VARCHAR"/>
-        <column name="CLCTN_STATUS_CD" size="4" type="VARCHAR"/>
-        <column name="RFRL_TYP_CD" size="4" type="VARCHAR"/>
-        <unique name="AR_RFRL_TO_CLCTNS_DOC_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_RFRL_TO_CLCTNS_DTL_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="RFRL_TO_CLCTNS_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="INV_FDOC_NBR" size="14" type="VARCHAR"/>
-        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
-        <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
-        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
-        <column name="ACCT_NBR" size="7" type="VARCHAR"/>
-        <column name="BILL_DT" type="DATE"/>
-        <column name="INV_TOTAL_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="INV_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="AGE_DAYS" size="4" type="DECIMAL"/>
-        <column name="FNL_DISPOS_CD" size="4" type="VARCHAR"/>
-        <unique name="AR_RFRL_TO_CLCTNS_DTL_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_RFRL_TYP_T">
-        <column name="RFRL_TYP_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="RFRL_TYP_DESC" size="40" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <column default="N" name="OUTSD_CLCTN_AGENCY_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_RFRL_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

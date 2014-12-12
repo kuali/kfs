@@ -498,7 +498,6 @@
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="RFRL_TYP_CD" type="VARCHAR(4)" />
 			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</createTable>
 		<createTable tableName="AR_INV_MLSTN_T">
@@ -653,20 +652,6 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-		</createTable>
-		<createTable tableName="AR_RFRL_TYP_T">
-			<column name="RFRL_TYP_CD" type="VARCHAR(4)">
-				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TYP_TP1" />
-			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_RFRL_TYP_TC0" />
-			</column>
-			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="RFRL_TYP_DESC" type="VARCHAR(40)" />
-			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-			<column name="OUTSD_CLCTN_AGENCY_IND" type="VARCHAR(1)" defaultValue="N" />
 		</createTable>
 		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>

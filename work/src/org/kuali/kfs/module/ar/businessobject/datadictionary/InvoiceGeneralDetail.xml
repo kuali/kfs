@@ -44,7 +44,6 @@
 				<ref bean="InvoiceGeneralDetail-letterOfCreditCreationType" />
 				<ref bean="InvoiceGeneralDetail-letterOfCreditFundCode" />
 				<ref bean="InvoiceGeneralDetail-letterOfCreditFundGroupCode" />        
-				<ref bean="InvoiceGeneralDetail-referralTypeCode" />
 				<ref bean="InvoiceGeneralDetail-finalDispositionCode" />
 			</list>
 		</property>
@@ -246,24 +245,6 @@
 			<bean parent="TextControlDefinition" p:size="17" />
 		</property>
 	</bean>  
-
-	<bean id="InvoiceGeneralDetail-referralTypeCode" parent="InvoiceGeneralDetail-referralTypeCode-parentBean" />
-
-	<bean id="InvoiceGeneralDetail-referralTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="referralTypeCode"/>
-	    <property name="label" value="Referral Type"/>
-	    <property name="shortLabel" value="Referral Type"/>
-	    <property name="maxLength" value="6"/>
-	    <property name="validationPattern">
-	      <ref bean="AnyCharacterValidation" />
-	    </property>
-	    <property name="required" value="false"/>
-	    <property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ReferralTypeValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
 
   	<bean id="InvoiceGeneralDetail-finalDispositionCode" parent="InvoiceGeneralDetail-finalDispositionCode-parentBean"/>
 

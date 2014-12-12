@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -55,12 +55,10 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundCode;
-    private String referralTypeCode;
     private String finalDispositionCode;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private ContractsAndGrantsBillingAward award;
-    private ReferralType referralType;
     private FinalDisposition finalDisposition;
 
     /**
@@ -437,14 +435,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
-    public String getReferralTypeCode() {
-        return referralTypeCode;
-    }
-
-    public void setReferralTypeCode(String referralTypeCode) {
-        this.referralTypeCode = referralTypeCode;
-    }
-
     public String getFinalDispositionCode() {
         return finalDispositionCode;
     }
@@ -488,24 +478,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public void setFinalDisposition(FinalDisposition finalDisposition) {
         this.finalDisposition = finalDisposition;
-    }
-
-    /**
-     * Gets the referralType attribute.
-     *
-     * @return Returns the referralType attribute.
-     */
-    public ReferralType getReferralType() {
-        return referralType;
-    }
-
-    /**
-     * Sets the referralType attribute.
-     *
-     * @param referralType The referralType to set.
-     */
-    public void setReferralType(ReferralType referralType) {
-        this.referralType = referralType;
     }
 
 }

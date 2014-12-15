@@ -867,16 +867,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_CLCTN_STATUS_T">
-        <column name="CLCTN_STATUS_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="STATUS_DESC" size="120" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_CLCTN_STATUS_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_CRDT_MEMO_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

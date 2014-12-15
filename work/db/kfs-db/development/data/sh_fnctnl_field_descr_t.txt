@@ -21,9 +21,6 @@ KFS-AR|org.kuali.kfs.module.ar.businessobject.CashControlDetail|documentNumber|5
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CashControlDetail|financialDocumentLineAmount|5D06BF993DA07808E0404F8189D80667|1.0|The dollar amount of the payment received.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CashControlDetail|referenceFinancialDocumentNumber|5D06BF993DA17808E0404F8189D80667|1.0|The Document Number of the source system.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CashControlDetail|status|5D06BF993DA27808E0404F8189D80667|1.0|Indicates the status of the document. It is system-generated and is based on the document's progress through the approval hierarchy.|Y|
-KFS-AR|org.kuali.kfs.module.ar.businessobject.CollectionStatus|active|5D06BF993DA37808E0404F8189D80667|1.0|The flag in a maintenance table that determines if a particular record (table row value) is available for use or not.? Typically, inactive values may not be used on transactions or assigned as attributes in other tables.|Y|
-KFS-AR|org.kuali.kfs.module.ar.businessobject.CollectionStatus|customerCollectionStatusCode|5D06BF993DA47808E0404F8189D80667|1.0|[INCOMPLETE]|Y|
-KFS-AR|org.kuali.kfs.module.ar.businessobject.CollectionStatus|customerCollectionStatusName|5D06BF993DA57808E0404F8189D80667|1.0|[INCOMPLETE]|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.Customer|customer800PhoneNumber|5D06BF993DA67808E0404F8189D80667|1.0|The toll free phone number for the customer.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.Customer|customerActiveIndicator|5D06BF993DA77808E0404F8189D80667|1.0|The flag in a maintenance table that determines if a particular record (table row value) is available for use or not.? Typically, inactive values may not be used on transactions or assigned as attributes in other tables.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.Customer|customerAddressChangeDate|5D06BF993DA87808E0404F8189D80667|1.0|The date an address was changed or updated.|Y|
@@ -129,7 +126,6 @@ KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode|organizati
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode|relatedStockNumber|5D06BF993E0D7808E0404F8189D80667|1.0|[INCOMPLETE]|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode|taxableIndicator|5D06BF993DFD7808E0404F8189D80667|1.0|[INCOMPLETE]|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult|age|5D06BF993E147808E0404F8189D80667|1.0|Lists the aging for each invoice.|Y|
-KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult|collectionStatus|5D06BF993E137808E0404F8189D80667|1.0|[INCOMPLETE]|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult|customerInvoiceNumber|5D06BF993E117808E0404F8189D80667|1.0|A unique, sequential, system-assigned number for a document.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult|customerName|5D06BF993E0F7808E0404F8189D80667|1.0|The name of the customer who is receiving goods or services from the institution.|Y|
 KFS-AR|org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult|customerNumber|5D06BF993E0E7808E0404F8189D80667|1.0|A unique number assigned to identify each vendor/organization as a customer.|Y|

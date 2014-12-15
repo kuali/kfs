@@ -96,6 +96,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -104,6 +105,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -730,12 +732,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @throws WorkflowException
      */
     public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalId, String annotation, String responsibility) throws WorkflowException {
-        boolean isActiveUser = this.isActiveUser(routePrincipalId);
-        if(!isActiveUser){
-            LOG.info("cannot send FYI to the inactive user: " + routePrincipalId + "; Annotation: " + annotation);
-            return;
-        }
         if (ObjectUtils.isNotNull(workflowDocument)) {
+            boolean isActiveUser = this.isActiveUser(routePrincipalId);
+            Map<String, String> permissionDetails = new HashMap<String, String>();
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD, KewApiConstants.ACTION_REQUEST_FYI_REQ);
+            boolean canReceiveAdHocRequest = KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(routePrincipalId, KewApiConstants.KEW_NAMESPACE, KewApiConstants.AD_HOC_REVIEW_PERMISSION, permissionDetails, new HashMap<String, String>());
+            if(!isActiveUser || !canReceiveAdHocRequest){
+                LOG.info("cannot send FYI to the inactive user: " + routePrincipalId + "; Annotation: " + annotation);
+                return;
+            }
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);

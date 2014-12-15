@@ -1568,7 +1568,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
         List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
 
-        //We don't want facade objects in our CapitalAssetInformations!
         SpringContext.getBean(CapitalAssetBuilderModuleService.class).filterNonCapitalAssets(currentCapitalAssetInformation);
 
         calfb.setCreatedAssetsControlAmount(KualiDecimal.ZERO);

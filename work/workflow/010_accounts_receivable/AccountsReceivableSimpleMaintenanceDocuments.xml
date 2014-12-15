@@ -242,26 +242,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				FDSP
-			</name>
-			<parent>
-				ARSM
-			</parent>
-			<label>
-				Final Disposition
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2FfinalDisposition.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				MILE
 			</name>
 			<parent>

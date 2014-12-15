@@ -55,11 +55,9 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundCode;
-    private String finalDispositionCode;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private ContractsAndGrantsBillingAward award;
-    private FinalDisposition finalDisposition;
 
     /**
      * Gets the comment attribute.
@@ -435,14 +433,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
-    public String getFinalDispositionCode() {
-        return finalDispositionCode;
-    }
-
-    public void setFinalDispositionCode(String finalDispositionCode) {
-        this.finalDispositionCode = finalDispositionCode;
-    }
-
     /**
      * Gets the award attribute.
      *
@@ -460,24 +450,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
-    }
-
-    /**
-     * Gets the finalDisposition attribute.
-     *
-     * @return Returns the finalDisposition attribute.
-     */
-    public FinalDisposition getFinalDisposition() {
-        return finalDisposition;
-    }
-
-    /**
-     * Sets the finalDisposition attribute.
-     *
-     * @param finalDisposition The finalDisposition to set.
-     */
-    public void setFinalDisposition(FinalDisposition finalDisposition) {
-        this.finalDisposition = finalDisposition;
     }
 
 }

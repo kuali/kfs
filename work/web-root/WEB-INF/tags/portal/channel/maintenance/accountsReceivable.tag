@@ -53,9 +53,6 @@
 			<li><portal:portalLink displayTitle="true" title="Dunning Letter Template"
 					url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
-			<li><portal:portalLink displayTitle="true" title="Final Disposition"
-					url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.FinalDisposition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
 		</c:if>
 		<li><portal:portalLink displayTitle="true"
 				title="Invoice Recurrence"

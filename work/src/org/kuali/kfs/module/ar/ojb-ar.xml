@@ -1404,11 +1404,6 @@
 		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="finalDispositionCode" column="FNL_DISPOS_CD" jdbc-type="VARCHAR" />	
-		<reference-descriptor name="finalDisposition" class-ref="org.kuali.kfs.module.ar.businessobject.FinalDisposition"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="finalDispositionCode" />
-		</reference-descriptor>	
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" table="AR_INV_DTL_ACCT_OBJ_CD_T">
@@ -1763,14 +1758,6 @@
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
 			<inverse-foreignkey field-ref="documentNumber" />
 		</collection-descriptor>
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.FinalDisposition" table="AR_FNL_DISPOS_T">
-		<field-descriptor name="dispositionCode" column="DISPOS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="dispositionDescription" column="DISPOS_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.Milestone" table="AR_MLSTN_T">

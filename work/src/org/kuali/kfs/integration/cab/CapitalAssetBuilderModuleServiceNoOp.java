@@ -218,4 +218,9 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;
     }
-}
+
+    @Override
+    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos){
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+    }
+ }

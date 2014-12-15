@@ -203,19 +203,6 @@
 			<column name="ACTVY_DESC" type="VARCHAR(120)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
-		<createTable tableName="AR_CLCTN_STATUS_T">
-			<column name="CLCTN_STATUS_CD" type="VARCHAR(4)">
-				<constraints primaryKey="true" primaryKeyName="AR_CLLCTN_STATUS_TP1" />
-			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CLCTN_STATUS_TC0" />
-			</column>
-			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="STATUS_DESC" type="VARCHAR(120)" />
-			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-		</createTable>
 		<createTable tableName="AR_DUN_CMPGN_DOC_T">
 			<column name="CMPGN_ID" type="VARCHAR(4)">
 				<constraints primaryKey="true" primaryKeyName="AR_DUN_CMPGN_DOC_TP1" />

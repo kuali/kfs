@@ -1,4 +1,4 @@
-########################################
+#
 # The Kuali Financial System, a comprehensive financial management system for higher education.
 # 
 # Copyright 2005-2014 The Kuali Foundation
@@ -15,7 +15,7 @@
 # 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-########################################
+#
 # DO NOT add comments before the blank line below, or they will disappear.
 
 # Control Variables for Testing Parts of Scripts

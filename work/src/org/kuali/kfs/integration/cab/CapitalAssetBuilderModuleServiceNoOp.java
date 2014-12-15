@@ -36,186 +36,191 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
 
     @Override
     public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public boolean doesDocumentFailAutomaticPurchaseOrderRules(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return Collections.emptyList();
     }
 
     @Override
     public String getCurrentPurchaseOrderDocumentNumber(String camsDocumentNumber) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public void notifyRouteStatusChange(DocumentHeader documentHeader) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 
     @Override
     public boolean validateAccountsPayableData(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation, int index) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateItemCapitalAssetWithErrors(String recurringPaymentTypeCode, ExternalPurApItem item, boolean apoCheck) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validatePurchasingData(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateUpdateCAMSView(AccountingDocument accountingDocumen) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean warningObjectLevelCapital(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
     public boolean isAssetTypeExisting(String assetTypeCode) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     //capital accounting lines validations called from fp documents side..
     @Override
     public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateTotalAmountMatch(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateCapitalAccountingLines(AccountingDocument accountingDocument) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean markProcessedGLEntryLine(String documentNumber) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
     @Override
     public boolean validateAssetTags(AccountingDocument accountingDocumen) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
     }
 
 
     public boolean isDocumentEligibleForCABBatch(String documentType) {
-    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-     	return true;
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return true;
     }
 
-	public boolean isAssetLineEligibleForCABBatch(
-			CapitalAssetInformation assetInfoLine, Integer postingYear,
-			List<String> includedObjectSubTypeCodes,
-			List<String> excludedChartCodes, List<String> excludedSubFundCodes) {
-		LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-		return true;
-	}
-
-    public List<String> getBatchIncludedObjectSubTypes () {
-    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-    	return new ArrayList<String>();
+    public boolean isAssetLineEligibleForCABBatch(
+            CapitalAssetInformation assetInfoLine, Integer postingYear,
+            List<String> includedObjectSubTypeCodes,
+            List<String> excludedChartCodes, List<String> excludedSubFundCodes) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return true;
     }
 
-    public List<String> getBatchExcludedChartCodes () {
-    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-    	return new ArrayList<String>();
+    public List<String> getBatchIncludedObjectSubTypes() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return new ArrayList<String>();
     }
 
-    public List<String> getBatchExcludedSubFundCodes () {
-    	LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-    	return new ArrayList<String>();
+    public List<String> getBatchExcludedChartCodes() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return new ArrayList<String>();
+    }
+
+    public List<String> getBatchExcludedSubFundCodes() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return new ArrayList<String>();
     }
 
 
     @Override
     public void reactivatePretagDetails(String campusTagNumber) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 
     @Override
     public boolean hasCAMSCapitalAssetObjectSubType(AccountingLine line) {
-        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return true;
+    }
+
+    @Override
+    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 }

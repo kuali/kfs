@@ -1245,16 +1245,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_FNL_DISPOS_T">
-        <column name="DISPOS_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="DISPOS_DESC" size="25" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_FNL_DISPOS_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_INV_ACCT_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
@@ -1531,7 +1521,6 @@
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
-        <column name="FNL_DISPOS_CD" size="4" type="VARCHAR"/>
         <unique name="AR_INV_GNRL_DTL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

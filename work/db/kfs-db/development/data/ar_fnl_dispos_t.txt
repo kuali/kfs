@@ -1,4 +1,0 @@
-dispos_cd|obj_id|ver_nbr|dispos_desc|actv_ind|
-DCCL|EDC0BE4713FC3031E040E00ABCD64EE1|1.0|Document closed - E|N|
-F111|EDC0BE4713FB3031E040E00ABCD64EE1|1.0|Invoice closed|Y|
-FD11|EDC0BE4713FA3031E040E00ABCD64EE1|1.0|Final Disposition Test|Y|

@@ -33,7 +33,6 @@
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerTypeCode"/>
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber"/>
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerTotal"/>
-        <ref bean="CustomerInvoiceWriteoffLookupResult-collectionStatus"/>
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerNote"/>
         <ref bean="CustomerInvoiceWriteoffLookupResult-age"/>
       </list>
@@ -94,19 +93,7 @@
     <property name="name" value="customerTotal"/>
     <property name="label" value="Customer Total"/>
     <property name="shortLabel" value="Customer Total"/>
-  </bean>  
-  
-  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus" parent="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean"/>
-
-  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="collectionStatus"/>
-    <property name="label" value="Collection Status"/>
-    <property name="shortLabel" value="Collection Status"/>
-    <property name="maxLength" value="25"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="27"/>
-    </property>    
-  </bean>    
+  </bean>   
   
   <bean id="CustomerInvoiceWriteoffLookupResult-age" parent="CustomerInvoiceWriteoffLookupResult-age-parentBean"/>
 
@@ -154,7 +141,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
         <bean parent="FieldDefinition" p:attributeName="customerName"/>
-        <bean parent="FieldDefinition" p:attributeName="collectionStatus"/>
 		<bean parent="FieldDefinition" p:attributeName="customerTotal"/>   
       </list>
     </property>

@@ -1149,14 +1149,6 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectionStatus" table="AR_CLCTN_STATUS_T">
-		<field-descriptor name="statusCode" column="CLCTN_STATUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="statusDescription" column="STATUS_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectionEvent" table="AR_CLCTN_EVNT_T">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"
 			autoincrement="true" sequence-name="AR_CLCTN_EVNT_ID_SEQ" />

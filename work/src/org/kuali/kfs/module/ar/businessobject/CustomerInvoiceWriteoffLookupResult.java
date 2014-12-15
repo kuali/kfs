@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,7 +33,6 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private String customerName;
     private String customerNumber;
     private String customerTypeCode;
-    private String collectionStatus;
     private String customerInvoiceNumber;
     private String customerNote;
     private Integer age;
@@ -44,13 +43,6 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
 
     public CustomerInvoiceWriteoffLookupResult(){
         customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-    }
-
-    public String getCollectionStatus() {
-        return collectionStatus;
-    }
-    public void setCollectionStatus(String collectionStatus) {
-        this.collectionStatus = collectionStatus;
     }
 
     public KualiDecimal getCustomerTotal() {

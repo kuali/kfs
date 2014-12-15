@@ -384,11 +384,6 @@ public class ArPropertyConstants{
         public static final String AGENCY_NUMBER = "agencyNumber";
     }
 
-    // Collection Status
-    public static class CollectionStatusFields {
-        public static final String COLLECTION_STATUS_CODE = "statusCode";
-    }
-
     // CustomerInvoiceDetail Fields
     public static class CustomerInvoiceDetailFields {
         public static final String BILLING_DATE = "customerInvoiceDocument.billingDate";

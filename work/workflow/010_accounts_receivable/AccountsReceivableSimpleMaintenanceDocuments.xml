@@ -102,26 +102,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				CSTS
-			</name>
-			<parent>
-				ARSM
-			</parent>
-			<label>
-				Collection Status
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fcollectionstatus.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				DLTM
 			</name>
 			<parent>

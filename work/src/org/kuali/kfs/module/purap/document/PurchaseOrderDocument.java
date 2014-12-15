@@ -739,7 +739,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD, KewApiConstants.ACTION_REQUEST_FYI_REQ);
             boolean canReceiveAdHocRequest = KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(routePrincipalId, KewApiConstants.KEW_NAMESPACE, KewApiConstants.AD_HOC_REVIEW_PERMISSION, permissionDetails, new HashMap<String, String>());
             if(!isActiveUser || !canReceiveAdHocRequest){
-                LOG.info("cannot send FYI to the inactive user: " + routePrincipalId + "; Annotation: " + annotation);
+                LOG.info("cannot send FYI to the user: " + routePrincipalId + "; Annotation: " + annotation);
                 return;
             }
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;

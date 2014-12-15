@@ -313,19 +313,6 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<createTable tableName="AR_FNL_DISPOS_T">
-			<column name="DISPOS_CD" type="VARCHAR(4)">
-				<constraints primaryKey="true" primaryKeyName="AR_FNL_DISPOS_TP1" />
-			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FNL_DISPOS_TC0" />
-			</column>
-			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="DISPOS_DESC" type="VARCHAR(25)" />
-			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-		</createTable>
 		<createTable tableName="AR_INV_ACCT_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_ACCT_DTL_TP1"/>
@@ -498,7 +485,6 @@
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="FNL_DISPOS_CD" type="VARCHAR(4)" />
 		</createTable>
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">

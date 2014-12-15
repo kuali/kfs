@@ -262,26 +262,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				RTYP
-			</name>
-			<parent>
-				ARSM
-			</parent>
-			<label>
-				Referral Type
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2FreferralType.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				MILE
 			</name>
 			<parent>

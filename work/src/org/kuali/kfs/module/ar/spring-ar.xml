@@ -742,6 +742,9 @@
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

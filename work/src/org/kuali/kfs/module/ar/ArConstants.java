@@ -629,4 +629,7 @@ public class ArConstants{
     public static final String FEDERAL_FUND_425_REPORT_ABBREVIATION = "FF425";
     public static final String FEDERAL_FUND_425A_REPORT_ABBREVIATION = "FF425A";
 
+    public static final String FROM_SUFFIX = " From";
+    public static final String TO_SUFFIX = " To";
+
 }

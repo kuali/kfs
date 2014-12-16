@@ -296,24 +296,14 @@ public class ArPropertyConstants{
     public static class ContractsGrantsInvoiceDocumentErrorLogLookupFields {
         public static final String ACCOUNTS = "accounts";
         public static final String AWARD_BEGINNING_DATE_FROM = "rangeLowerBoundKeyPrefix_awardBeginningDate";
-        public static final String AWARD_BEGINNING_DATE_FROM_LABEL = "Award Start Date From";
         public static final String AWARD_BEGINNING_DATE_TO = "awardBeginningDate";
-        public static final String AWARD_BEGINNING_DATE_TO_LABEL = "Award Start Date To";
         public static final String AWARD_ENDING_DATE_FROM = "rangeLowerBoundKeyPrefix_awardEndingDate";
-        public static final String AWARD_ENDING_DATE_FROM_LABEL = "Award Stop Date From";
         public static final String AWARD_ENDING_DATE_TO = "awardEndingDate";
-        public static final String AWARD_ENDING_DATE_TO_LABEL = "Award Stop Date To";
         public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";
-        public static final String AWARD_TOTAL_AMOUNT_LABEL = "Award Total Amount";
         public static final String CUMULATIVE_EXPENSES_AMOUNT = "cumulativeExpensesAmount";
-        public static final String CUMULATIVE_EXPENSES_AMOUNT_LABEL = "Cumulative Expenses Amount";
         public static final String ERROR_DATE_FROM = "rangeLowerBoundKeyPrefix_errorDate";
-        public static final String ERROR_DATE_FROM_LABEL = "Error Date From";
         public static final String ERROR_DATE_TO = "errorDate";
-        public static final String ERROR_DATE_TO_LABEL = "Error Date To";
         public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME = "primaryFundManagerPrincipalName";
-        public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME_LABEL = "Primary Fund Manager Principal Name";
-        public static final String PROPOSAL_NUMBER_LABEL = "Proposal Number";
     }
 
     public static class TransmitContractsAndGrantsInvoicesLookupFields {

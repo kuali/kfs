@@ -155,8 +155,8 @@
 	<bean id="ContractsGrantsInvoiceDocumentErrorLog-awardTotalAmount-parentBean" abstract="true"
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="awardTotalAmount" />
-		<property name="label" value="AwardTotal Amount" />
-		<property name="shortLabel" value="AwdTotal" />
+		<property name="label" value="Award Total Amount" />
+		<property name="shortLabel" value="Awd Total" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDocumentErrorLog-cumulativeExpensesAmount" parent="ContractsGrantsInvoiceDocumentErrorLog-cumulativeExpensesAmount-parentBean" />

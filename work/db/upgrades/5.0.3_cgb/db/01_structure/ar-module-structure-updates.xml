@@ -187,7 +187,7 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="BILL_DT" type="TIMESTAMP" />
+			<column name="BILL_DT" type="DATETIME" />
 			<column name="BILLNG_PRD" type="VARCHAR(50)" />
 		</createTable>
 		<createTable tableName="AR_CLCTN_ACTVY_TYP_T">
@@ -626,7 +626,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<modifySql dbms="mysql">
+		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>
 		</modifySql>
 	</changeSet>
@@ -663,6 +663,9 @@
 		<addColumn tableName="AR_ORG_OPTION_T">
 			<column name="CG_BILLER_IND" type="VARCHAR(1)" />
 		</addColumn>
+		<modifySql>
+		   	<replace replace="TIMESTAMP" with="DATE"/>
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_oracle" dbms="oracle">

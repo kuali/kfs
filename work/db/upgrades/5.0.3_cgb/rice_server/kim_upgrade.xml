@@ -38,7 +38,7 @@
 			<column name="ROLE_NM" value="CGB Collector" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="DESC_TXT"
-				value="This role defines the list of users that may be selected as Collectors on the Customer document." />
+				value="Users performing collection activities, identified as part of an AR billing or processing organization. Collectors have access to Contracts Grants Aging Report, Collection Activity Report, Tickler Report, Dunning Letter Distribution Report for their billing or processing organization, further restricted by customer name starting letter range." />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

@@ -708,6 +708,14 @@
 			<docSearchHelpURL>
 				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
 			</docSearchHelpURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
 			<active>
 				true
 			</active>
@@ -971,6 +979,14 @@
 			<docSearchHelpURL>
 				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
 			</docSearchHelpURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
 			<active>
 				true
 			</active>

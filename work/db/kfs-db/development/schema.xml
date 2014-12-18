@@ -812,7 +812,7 @@
         <column name="INV_FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="BILL_DT" type="TIMESTAMP"/>
+        <column name="BILL_DT" type="DATE"/>
         <column name="BILLNG_PRD" size="50" type="VARCHAR"/>
         <unique name="AR_CGB_CLCTN_ACTVY_INV_DTL_TC0">
             <unique-column name="OBJ_ID"/>

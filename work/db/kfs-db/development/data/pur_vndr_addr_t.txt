@@ -87,3 +87,4 @@ vndr_addr_gnrtd_id|obj_id|ver_nbr|vndr_hdr_gnrtd_id|vndr_dtl_asnd_id|vndr_addr_t
 4120.0|830E61147617C23CE0404F8189D82CFD|1.0|4117.0|0.0|PO|707 School of Economics Building|Institute for Advanced Res - 777 Guoding Rd|Shanghai||200433|CH|Shanghai University of Finance & Economics|||||Y|Y|
 4121.0|830E61147624C23CE0404F8189D82CFD|1.0|4118.0|0.0|PO|2922 River Road||Ithaca|NY|14850|US||||||Y|Y|
 4122.0|830E61147625C23CE0404F8189D82CFD|1.0|4119.0|0.0|PO|191 Lake St||Ithaca|NY|14850|US||||||Y|Y|
+4123.0|830E61147626C23CE0404F8189D82CFD|1.0|4120.0|0.0|PO|123 W. Duck Lane||Wildcat|VT|23412|US||||||Y|Y|

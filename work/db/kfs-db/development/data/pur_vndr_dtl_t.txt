@@ -65,3 +65,4 @@ vndr_hdr_gnrtd_id|vndr_dtl_asnd_id|obj_id|ver_nbr|vndr_parent_ind|vndr_nm|dobj_m
 4117.0|0.0|830E61147608C23CE0404F8189D82CFD|1.0|Y|Foreign PO Vendor|Y|||00N30|||||||||Wong Feng|||||||N|N|
 4118.0|0.0|830E61147612C23CE0404F8189D82CFD|1.0|Y|High Volume PO Vendor|Y|||00N30|||||||||Dell Marketing|||||||N|N|
 4119.0|0.0|830E61147613C23CE0404F8189D82CFD|1.0|Y|Cap Asset PO Vendor|Y|||00N30|||||||||VWR International|||||||N|N|
+4120.0|0.0|830E61147614C23CE0404F8189D82CFD|1.0|Y|Utopia Use Tax Vendor|Y||||||||||||||||||||N|

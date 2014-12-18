@@ -51,3 +51,4 @@ vndr_hdr_gnrtd_id|obj_id|ver_nbr|vndr_typ_cd|vndr_us_tax_nbr|vndr_tax_typ_cd|vnd
 4117.0|830E611475F9C23CE0404F8189D82CFD|1.0|PO|||ID|||||||Y||||||||||
 4118.0|830E61147603C23CE0404F8189D82CFD|1.0|PO|1bK3GD1nbZgc3lalnjPKpA==|FEIN|CP||||Y|||N||||||||||
 4119.0|830E61147604C23CE0404F8189D82CFD|1.0|PO|PL2y8YXOHf4c3lalnjPKpA==|FEIN|CP||||Y|||N||||||||||
+4120.0|830E61147605C23CE0404F8189D82CFD|1.0|PO|afQvCdjmHG0c3lalnjPKpA==|FEIN|ID|||||||||||||||||

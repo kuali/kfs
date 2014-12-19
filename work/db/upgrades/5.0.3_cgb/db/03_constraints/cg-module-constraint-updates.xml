@@ -30,29 +30,6 @@
 		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_TR1"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_FNDMGR_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR1"
-			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR2"
-			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR3"
-			referencedTableName="CA_ACCOUNT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR4"
-			referencedTableName="CA_SUB_ACCT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR5"
-			referencedTableName="CA_OBJECT_CODE_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR6"
-			referencedTableName="CA_SUB_OBJECT_CD_T"
-			baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD"
-			baseTableName="CG_AWD_INV_ACCT_T"
-			referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR7"
-			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
-			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
 		<addForeignKeyConstraint constraintName="CG_AWD_TR9"
 			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
 			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />

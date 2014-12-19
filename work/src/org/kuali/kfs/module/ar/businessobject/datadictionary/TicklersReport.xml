@@ -50,7 +50,6 @@
  				<ref bean="TicklersReport-invoiceAmount" />
  				<ref bean="TicklersReport-paymentAmount" />
  				<ref bean="TicklersReport-balanceDue" />
- 				<ref bean="TicklersReport-collectionActivityInquiryTitle"/>
 			</list>
 		</property>
 		    <property name="relationships">
@@ -308,18 +307,6 @@
 		<property name="label" value="Balance Due" />
 		<property name="shortLabel" value="Balance Due" />
 	</bean>
-
-	  <bean id="TicklersReport-collectionActivityInquiryTitle" parent="TicklersReport-collectionActivityInquiryTitle-parentBean" />
-	
-	<bean id="TicklersReport-collectionActivityInquiryTitle-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="collectionActivityInquiryTitle" />
-		<property name="label" value="Actions" />
-		<property name="shortLabel" value="Actions" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
-	</bean>
   
 	<!-- Business Object Lookup Definition -->
 	<bean id="TicklersReport-lookupDefinition"
@@ -360,7 +347,6 @@
 				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
 				<bean parent="FieldDefinition" p:attributeName="balanceDue" />
-				<bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>
 			</list>
 		</property>
 	</bean>

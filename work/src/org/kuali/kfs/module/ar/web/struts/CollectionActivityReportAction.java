@@ -68,9 +68,9 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
     }
 
     /**
-    +     * Always returns true, as collection activity report rows always have actions
-    +     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#shouldDisplayActionsForRow()
-    +     */
+     * Always returns true, as collection activity report rows always have actions
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#shouldDisplayActionsForRow()
+     */
     @Override
     public boolean shouldDisplayActionsForRow() {
         return true;

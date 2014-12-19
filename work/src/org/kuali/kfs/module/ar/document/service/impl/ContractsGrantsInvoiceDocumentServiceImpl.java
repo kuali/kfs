@@ -41,7 +41,6 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -146,29 +145,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
-        final List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = retrieveInvoiceAccountsForAward(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward());
+        final List<ContractsAndGrantsBillingAwardAccount> awardAccounts = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getActiveAwardAccounts();
 
         // To check if the Source accounting lines are existing. If they are do nothing
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
-            // To check if the invoice account section in award has a income account set.
-            boolean awardBillByInvoicingAccount = isAwardBillByInvoicingAccount(awardInvoiceAccounts);
-
-
-            // To check if award is set to bill by Contract Control Account.
-            final boolean awardBillByControlAccount = (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward()) && contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getInvoicingOptionCode().equalsIgnoreCase(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+            ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();
 
             final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
             final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
 
             // To retrieve the financial object code from the Organization Accounting Default.
             final OrganizationAccountingDefault organizationAccountingDefault = retrieveBillingOrganizationAccountingDefault(contractsGrantsInvoiceDocument.getBillByChartOfAccountCode(), contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
-            if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
-                if (awardBillByInvoicingAccount) {
-                    // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single source accounting line with award invoice account specified by the user.
-                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardInvoiceAccounts.get(0).getChartOfAccountsCode(), awardInvoiceAccounts.get(0).getAccountNumber(), awardInvoiceAccounts.get(0).getObjectCode(), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
+            if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(organizationAccountingDefault)) {
+                if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_ACCOUNT)) {
+                    // If its bill by Account , irrespective of it is by contract control account, there would be a single source accounting line with award account specified by the user.
+                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardAccounts.get(0).getChartOfAccountsCode(), awardAccounts.get(0).getAccountNumber(), organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode(), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
                     contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                 }
-                else if (awardBillByControlAccount) {
+                else if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                     // by control account
                     // If its bill by Contract Control Account there would be a single source accounting line.
                     CustomerInvoiceDetail cide = createSourceAccountingLinesByContractControlAccount(contractsGrantsInvoiceDocument, organizationAccountingDefault);
@@ -181,24 +175,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 }
             }
         }
-    }
-
-    /**
-     * Given a List of awardInvoiceAccounts for an award, determines if the document is billed by account or not (ie, one invoice per account)
-     * @param awardInvoiceAccounts the List of award invoice accounts for the document
-     * @return
-     */
-    protected boolean isAwardBillByInvoicingAccount(List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts) {
-        if (!CollectionUtils.isEmpty(awardInvoiceAccounts)) {
-            for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                if (awardInvoiceAccount.getAccountType().equals(ArConstants.INCOME_ACCOUNT)) {
-                    if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -307,21 +283,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         // Need to avoid hitting database in the loop. option would be to set the financial object code when the form loads and save it somewhere.
         OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         return organizationAccountingDefault;
-    }
-
-    /**
-     * Retrieves the CG Award Invoice Account Information associated with the given award
-     * @param award the award to find invoice account information for
-     * @return a List of invoice account information associated with the given award
-     */
-    protected List<ContractsGrantsAwardInvoiceAccountInformation> retrieveInvoiceAccountsForAward(final ContractsAndGrantsBillingAward award) {
-        if (ObjectUtils.isNotNull(award)) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-            map.put(KFSPropertyConstants.ACTIVE, true);
-            return kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
-        }
-        return new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
     }
 
     /**

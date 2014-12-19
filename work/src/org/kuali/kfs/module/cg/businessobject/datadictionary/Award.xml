@@ -124,9 +124,6 @@
 					p:label="Fund Managers" p:shortLabel="Fund Manager" p:elementLabel="Fund Manager" />
 				<bean parent="CollectionDefinition" p:name="awardAccounts"
 					p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account" />
-				<bean parent="CollectionDefinition" p:name="awardInvoiceAccounts"
-					p:label="Award Invoice Accounts" p:shortLabel="Invoice Accounts"
-					p:elementLabel="Invoice Account" />
 				<bean parent="CollectionDefinition" p:name="awardOrganizations"
 					p:label="Award Organizations" p:shortLabel="Organizations"
 					p:elementLabel="Organization" />
@@ -289,16 +286,6 @@
 		<property name="control">
       		<bean parent="TextControlDefinition" p:size="9"/>
     	</property>
-	</bean>
-
-	<bean id="Award-awardInvoiceAccounts.account.accountNumber"
-		parent="Award-awardInvoiceAccounts.account.accountNumber-parentBean" />
-
-	<bean id="Award-awardInvoiceAccounts.account.accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="name" value="awardInvoiceAccounts.account.accountNumber" />
-		<property name="label" value="Award Invoice Account Number" />
-		<property name="shortLabel" value="Inv Acct Num" />
 	</bean>
 
 	<bean id="Award-awardOrganizations.organization.organizationCode"
@@ -1109,7 +1096,6 @@
 				<ref bean="Award-inquirySectionDefinition-fundManagers" />
 				<ref bean="Award-inquirySectionDefinition-subcontractors" />
 				<ref bean="Award-inquirySectionDefinition-accounts" />
-				<ref bean="Award-inquirySectionDefinition-invoiceAccounts" />
 				<ref bean="Award-inquirySectionDefinition-milestoneSchedule" />
 				<ref bean="Award-inquirySectionDefinition-predeterminedBillingSchedule" />
 				<ref bean="Award-inquirySectionDefinition-notes" />
@@ -1348,44 +1334,6 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="Award-inquirySectionDefinition-invoiceAccounts" parent="Award-inquirySectionDefinition-invoiceAccounts-parentBean" />
-	<bean id="Award-inquirySectionDefinition-invoiceAccounts-parentBean"
-		parent="InquirySectionDefinition" abstract="true">
-		<property name="id" value="invoiceAccountsSection" />
-		<property name="title" value="Invoice Accounts" />
-		<property name="numberOfColumns" value="1" />
-		<property name="inquiryFields">
-			<list>
-				<bean parent="InquiryCollectionDefinition">
-					<property name="attributeName" value="awardInvoiceAccounts" />
-					<property name="businessObjectClass"
-						value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-							<bean parent="FieldDefinition" p:attributeName="objectCode" />
-							<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-							<bean parent="FieldDefinition" p:attributeName="accountType" />
-						</list>
-					</property>
-					<property name="summaryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-							<bean parent="FieldDefinition" p:attributeName="objectCode" />
-							<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-							<bean parent="FieldDefinition" p:attributeName="accountType" />
 						</list>
 					</property>
 				</bean>

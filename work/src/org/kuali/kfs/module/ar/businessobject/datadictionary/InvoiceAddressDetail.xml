@@ -73,103 +73,25 @@
 		</property>
 	</bean>
 	<bean id="InvoiceAddressDetail-customerAddressIdentifier" parent="InvoiceAddressDetail-customerAddressIdentifier-parentBean" />
+	<bean id="InvoiceAddressDetail-customerAddressIdentifier-parentBean" abstract="true" parent="CustomerAddress-customerAddressIdentifier"/>
 
-	<bean id="InvoiceAddressDetail-customerAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerAddressIdentifier" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Address Identifier" />
-		<property name="shortLabel" value="Identifier" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern">
-			<ref bean="NumericValidation" />
-		</property>
-		<property name="control">
-			<ref bean="HiddenControl" />
-		</property>
-	</bean>
 	<bean id="InvoiceAddressDetail-customerAddressTypeCode" parent="InvoiceAddressDetail-customerAddressTypeCode-parentBean" />
+	<bean id="InvoiceAddressDetail-customerAddressTypeCode-parentBean" abstract="true" parent="CustomerAddress-customerAddressTypeCode"/>
 
-	<bean id="InvoiceAddressDetail-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerAddressTypeCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Address Type" />
-		<property name="shortLabel" value="Type" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.common.businessobject.options.CustomerAddressTypeValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
 	<bean id="InvoiceAddressDetail-customerAddressName" parent="InvoiceAddressDetail-customerAddressName-parentBean" />
+	<bean id="InvoiceAddressDetail-customerAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName"/>
 
-	<bean id="InvoiceAddressDetail-customerAddressName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerAddressName" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Address Name" />
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="42" />
-		</property>
-	</bean>
 	<bean id="InvoiceAddressDetail-customerInvoiceTemplateCode" parent="InvoiceAddressDetail-customerInvoiceTemplateCode-parentBean" />
+	<bean id="InvoiceAddressDetail-customerInvoiceTemplateCode-parentBean" abstract="true" parent="CustomerAddress-customerInvoiceTemplateCode"/>
 
-	<bean id="InvoiceAddressDetail-customerInvoiceTemplateCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerInvoiceTemplateCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Template" />
-		<property name="shortLabel" value="InvTmplt" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTemplateWithBlanksValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
 	<bean id="InvoiceAddressDetail-invoiceTransmissionMethodCode" parent="InvoiceAddressDetail-invoiceTransmissionMethodCode-parentBean" />
-
-	<bean id="InvoiceAddressDetail-invoiceTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="invoiceTransmissionMethodCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Method of Invoice Transmission" />
-		<property name="shortLabel" value="InvTrnsMthd" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTransmissionMethodValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
+	<bean id="InvoiceAddressDetail-invoiceTransmissionMethodCode-parentBean" abstract="true" parent="CustomerAddress-invoiceTransmissionMethodCode"/>
 	
 	<bean id="InvoiceAddressDetail-customerEmailAddress" parent="InvoiceAddressDetail-customerEmailAddress-parentBean" />
+	<bean id="InvoiceAddressDetail-customerEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress"/>
 
-	<bean id="InvoiceAddressDetail-customerEmailAddress-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerEmailAddress" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Email Address" />
-		<property name="shortLabel" value="Email" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="EmailAddressValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="62" />
-		</property>
-	</bean>
 	
 	<bean id="InvoiceAddressDetail-initialTransmissionDate" parent="InvoiceAddressDetail-initialTransmissionDate-parentBean"/>
-	
 	<bean id="InvoiceAddressDetail-initialTransmissionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 	    <property name="shortLabel" value="Initial Transmission Date"/>
 	    <property name="name" value="initialTransmissionDate"/>
@@ -177,35 +99,26 @@
 	</bean>
 
 	<bean id="InvoiceAddressDetail-customerLine1StreetAddress" parent="InvoiceAddressDetail-customerLine1StreetAddress-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress"/>
 
 	<bean id="InvoiceAddressDetail-customerLine2StreetAddress" parent="InvoiceAddressDetail-customerLine2StreetAddress-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress"/>
 	
 	<bean id="InvoiceAddressDetail-customerCityName" parent="InvoiceAddressDetail-customerCityName-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName"/>
 
 	<bean id="InvoiceAddressDetail-customerStateCode" parent="InvoiceAddressDetail-customerStateCode-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode"/>
 
 	<bean id="InvoiceAddressDetail-customerZipCode" parent="InvoiceAddressDetail-customerZipCode-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode"/>
 
 	<bean id="InvoiceAddressDetail-customerCountryCode" parent="InvoiceAddressDetail-customerCountryCode-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode"/>
 
 	<bean id="InvoiceAddressDetail-customerAddressInternationalProvinceName" parent="InvoiceAddressDetail-customerAddressInternationalProvinceName-parentBean"/>
-
 	<bean id="InvoiceAddressDetail-customerAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName"/>
 
 	<bean id="InvoiceAddressDetail-customerInternationalMailCode" parent="InvoiceAddressDetail-customerInternationalMailCode-parentBean"/>
-
-	<bean id="InvoiceAddressDetail-customerInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode"/>
-	
+	<bean id="InvoiceAddressDetail-customerInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode"/>	
 </beans>

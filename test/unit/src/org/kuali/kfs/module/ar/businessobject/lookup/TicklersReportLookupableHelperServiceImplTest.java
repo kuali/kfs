@@ -50,6 +50,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -87,6 +88,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsCollectionActivityDocumentService(SpringContext.getBean(ContractsGrantsCollectionActivityDocumentService.class));
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
+        ticklersReportLookupableHelperServiceImpl.setConfigurationService(SpringContext.getBean(ConfigurationService.class));
         ticklersReportLookupForm = new TicklersReportLookupForm();
 
         fieldValues = new LinkedHashMap();

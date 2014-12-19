@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,7 +37,6 @@ public class CGPropertyConstants{
     public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTION_CODE = "invoicingOptionCode";
-    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String PROPOSAL_LOOKUPABLE = "proposalLookupable";
     public static final String PROJECT_TITLE = "projectTitle";
 
@@ -85,7 +84,6 @@ public class CGPropertyConstants{
         public static final String AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID = "contractsAndGrantsSection";
         public static final String AGENCY_CUSTOMER_SECTION_ID = "customerSection";
         public static final String AWARD_FUND_MANAGERS_SECTION_ID = "fundManagersSection";
-        public static final String AWARD_INVOICE_ACCOUNTS_SECTION_ID = "invoiceAccountsSection";
         public static final String AWARD_INVOICING_SECTION_ID = "invoicingSection";
         public static final String AWARD_MILESTONE_SCHEDULE_SECTION_ID = "milestoneScheduleSection";
         public static final String AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID = "predeterminedBillingScheduleSection";

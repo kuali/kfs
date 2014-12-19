@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,6 @@ import java.util.Map;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -48,7 +47,6 @@ import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocum
 import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
-import org.kuali.kfs.module.ar.fixture.ARAwardInvoiceAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerAddressFixture;
@@ -1344,21 +1342,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         // Use the same customer Invoice detail as Subfund
         customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2.createCustomerInvoiceDetail();
-
-
-        ContractsGrantsAwardInvoiceAccountInformation awdInvAcct = ARAwardInvoiceAccountFixture.AWD_INV_ACCT_1.createAwardInvoiceAccount();
-
-
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_1);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        ContractsAndGrantsBillingAward awardInvAward = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
-        awardInvAward.getActiveAwardInvoiceAccounts().clear();
-        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        inv_Gnrl_Dtl_1.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_AWARD.createAward());
 
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
@@ -1375,19 +1365,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         // 2. Invoicing by Account
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        awardInvAward = ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
-        awardInvAward.getActiveAwardInvoiceAccounts().clear();
-        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        inv_Gnrl_Dtl_1.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward());
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
         // 3. Invoicing by Contract Control Account. For this case the account number might be different so setting a different
         // invoice account detail here.
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        awardInvAward = ARAwardFixture.CG_AWARD_INV_CCA.createAward();
-        awardInvAward.getActiveAwardInvoiceAccounts().clear();
-        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
-        inv_Gnrl_Dtl_1.setAward(awardInvAward);
+        inv_Gnrl_Dtl_1.setAward(ARAwardFixture.CG_AWARD_INV_CCA.createAward());
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);

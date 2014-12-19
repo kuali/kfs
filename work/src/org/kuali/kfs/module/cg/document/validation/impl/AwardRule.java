@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,7 +32,6 @@ import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
-import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
@@ -256,54 +255,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                     putFieldError(collectionName, KFSKeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
                     return false;
                 }
-            }
-        }
-
-        if (line instanceof AwardInvoiceAccount) {
-            AwardInvoiceAccount newAwardInvoiceAccount = (AwardInvoiceAccount) line;
-            if (collectionName.equals(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS)) {
-                newAwardCopy = (Award) document.getNewMaintainableObject().getBusinessObject();
-                List<AwardInvoiceAccount> awardInvoiceAccounts = newAwardCopy.getAwardInvoiceAccounts();
-
-                // Check if there is already an Award Invoice Account of same type in the collection.
-                int arCount = 0;
-                int incomeCount = 0;
-                for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            arCount++;
-
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGConstants.AR_ACCOUNT)) {
-                                if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            incomeCount++;
-
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGConstants.INCOME_ACCOUNT)) {
-                                if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.AR_ACCOUNT);
-                    return false;
-                }
-                if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGConstants.INCOME_ACCOUNT);
-                    return false;
-                }
-
             }
         }
 

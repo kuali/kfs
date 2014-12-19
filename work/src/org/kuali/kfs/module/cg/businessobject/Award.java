@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,7 +34,6 @@ import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -104,7 +103,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardFundManager> awardFundManagers;
     private AwardFundManager awardPrimaryFundManager;
     private List<AwardAccount> awardAccounts;
-    private List<AwardInvoiceAccount> awardInvoiceAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
 
@@ -162,7 +160,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardAccounts = new ArrayList<AwardAccount>();
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
-        awardInvoiceAccounts = new ArrayList<AwardInvoiceAccount>();
     }
 
     /**
@@ -218,7 +215,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         managedLists.add(ObjectUtils.isNull(getAwardProjectDirectors()) ? new ArrayList() : new ArrayList(getAwardProjectDirectors()));
         managedLists.add(ObjectUtils.isNull(getAwardFundManagers()) ? new ArrayList() : new ArrayList(getAwardFundManagers()));
         managedLists.add(ObjectUtils.isNull(getAwardSubcontractors()) ? new ArrayList() : new ArrayList(getAwardSubcontractors()));
-        managedLists.add(ObjectUtils.isNull(getAwardInvoiceAccounts()) ? new ArrayList() : new ArrayList(getAwardInvoiceAccounts()));
         return managedLists;
     }
 
@@ -1677,24 +1673,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the awardInvoiceAccounts attribute.
-     *
-     * @return Returns the awardInvoiceAccounts.
-     */
-    public List<AwardInvoiceAccount> getAwardInvoiceAccounts() {
-        return awardInvoiceAccounts;
-    }
-
-    /**
-     * Sets the awardInvoiceAccounts attribute value.
-     *
-     * @param awardInvoiceAccounts The awardInvoiceAccounts to set.
-     */
-    public void setAwardInvoiceAccounts(List<AwardInvoiceAccount> awardInvoiceAccounts) {
-        this.awardInvoiceAccounts = awardInvoiceAccounts;
-    }
-
-    /**
      * Gets the lookupFundMgrPersonUniversalIdentifier attribute.
      *
      * @return Returns the lookupFundMgrPersonUniversalIdentifier.
@@ -1823,25 +1801,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setStopWorkReason(String stopWorkReason) {
         this.stopWorkReason = stopWorkReason;
     }
-
-    /**
-     * Gets the list of active award invoice accounts. The integration object is used here - as this would be referred only from AR
-     * module.
-     *
-     * @return Returns the active awardInvoiceAccounts.
-     */
-    @Override
-    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
-        List<ContractsGrantsAwardInvoiceAccountInformation> activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
-        for (AwardInvoiceAccount awardInvAccount : awardInvoiceAccounts) {
-            if (awardInvAccount.isActive()) {
-                activeAwardInvoiceAccounts.add(awardInvAccount);
-            }
-        }
-        return activeAwardInvoiceAccounts;
-
-    }
-
 
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.

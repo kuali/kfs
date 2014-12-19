@@ -965,6 +965,9 @@
 
 	<bean id="ticklersReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TicklersReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
+		<property name="configurationService">
+			<ref bean="configurationService"/>
+		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>

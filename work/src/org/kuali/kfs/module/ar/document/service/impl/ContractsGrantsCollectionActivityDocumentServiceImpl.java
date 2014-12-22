@@ -27,7 +27,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.dataaccess.CollectionEventDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
@@ -55,7 +54,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentTypeService documentTypeService;
-    protected CollectionEventDao collectionEventDao;
     protected InvoicePaidAppliedService invoicePaidAppliedService;
     protected KualiModuleService kualiModuleService;
 
@@ -150,15 +148,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrieveEvents(java.util.Map, java.lang.String)
-     */
-    @Override
-    @Transactional
-    public Collection<CollectionEvent> retrieveCollectionEvents(Map fieldValues, String documentNumberToExclude) {
-        return collectionEventDao.getMatchingEventsByCollection(fieldValues, documentNumberToExclude);
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
      */
     @Override
@@ -187,16 +176,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
             }
         }
         return paymentAmount;
-    }
-
-    @NonTransactional
-    public CollectionEventDao getCollectionEventDao() {
-        return collectionEventDao;
-    }
-
-    @NonTransactional
-    public void setCollectionEventDao(CollectionEventDao collectionEventDao) {
-        this.collectionEventDao = collectionEventDao;
     }
 
     @NonTransactional

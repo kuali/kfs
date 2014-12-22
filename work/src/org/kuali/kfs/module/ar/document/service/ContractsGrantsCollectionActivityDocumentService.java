@@ -18,7 +18,11 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -33,6 +37,16 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @param colActDoc The Collection Activity Document object.
      */
     public void createAndSaveCollectionEvents(ContractsGrantsCollectionActivityDocument colActDoc);
+
+    /**
+     * Retrieves the collection events based on the field values passed in. Results are furthered filtered
+     * by document number to exclude.
+     *
+     * @param fieldValues The fieldValues to filter out collection events.
+     * @param documentNumberToExclude Document number that will be filtered out of the results.
+     * @return Returns the collection of CollectionEvent which match the criteria.
+     */
+    public Collection<CollectionEvent> retrieveCollectionEvents(Map fieldValues, String documentNumberToExclude);
 
     /**
      * Retrieves the award by given proposal number.

@@ -20,8 +20,13 @@ package org.kuali.kfs.module.ar.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -66,6 +71,19 @@ public class ContractsGrantsCollectionActivityDocumentServiceTest extends KualiT
         contractsGrantsCollectionActivityDocumentService = null;
         contractsGrantsInvoiceDocumentService = null;
         super.tearDown();
+    }
+
+    /**
+     * Tests the retrieveEventsByCriteria() method of service.
+     */
+    public void testRetrieveEventsByCriteria() {
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("invoiceNumber", INVOICE_NUMBER);
+        Collection<CollectionEvent> events = contractsGrantsCollectionActivityDocumentService.retrieveCollectionEvents(fieldValues, null);
+        assertNotNull(events);
+        for (CollectionEvent event : events) {
+            assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());
+        }
     }
 
     /**

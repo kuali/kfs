@@ -247,6 +247,7 @@
 	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
 	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
 	<bean id="contractsGrantsInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.ContractsGrantsInvoiceDocumentDaoOjb" />
+	<bean id="collectionEventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CollectionEventDaoOjb" />
 	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
@@ -1466,6 +1467,9 @@
             <ref bean="businessObjectService" />
         </property>
    		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+		<property name="collectionEventDao">
+			<ref bean="collectionEventDao" />
+		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>

@@ -18,6 +18,8 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,7 +29,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
@@ -35,8 +36,8 @@ import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -62,23 +63,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
     protected DateTimeService dateTimeService;
     protected PersonService personService;
     protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
-
-    /**
-     * Validates the follow up date fields
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
-     */
-    @Override
-    public void validateSearchParameters(Map<String, String> fieldValues) {
-        super.validateSearchParameters(fieldValues);
-        if (!ObjectUtils.isNull(fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE))) {
-            final String dateFromFieldValues = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
-            validateDateField(dateFromFieldValues, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE+ArConstants.FROM_SUFFIX, getDateTimeService());
-        }
-        if (!ObjectUtils.isNull(fieldValues.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE))) {
-            final String dateToFieldValues = fieldValues.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
-            validateDateField(dateToFieldValues, ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE+ArConstants.TO_SUFFIX, getDateTimeService());
-        }
-    }
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -118,17 +102,10 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             fieldValues.put(ArPropertyConstants.COMPLETED, completed);
         }
 
-        fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_OPEN_INV_IND, KFSConstants.Booleans.TRUE);
-        fieldValues.put(ArPropertyConstants.CollectionEventFields.FOLLOW_UP, KFSConstants.Booleans.TRUE);
+        fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
+        fieldValues.put(ArPropertyConstants.CollectionEventFields.FOLLOW_UP, "true");
 
-        final String dateFromFieldValues = ObjectUtils.isNull(lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE)) ? KFSConstants.EMPTY_STRING : lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
-        final String dateToFieldValues = ObjectUtils.isNull(lookupFormFields.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE)) ? KFSConstants.EMPTY_STRING : lookupFormFields.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
-        final String followUpDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(dateFromFieldValues, dateToFieldValues, false);
-        if (!StringUtils.isBlank(followUpDateCriteria)) {
-            fieldValues.put(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE, followUpDateCriteria);
-        }
-
-        Collection<CollectionEvent> collectionEvents = getLookupService().findCollectionBySearchUnbounded(CollectionEvent.class, fieldValues);
+        Collection<CollectionEvent> collectionEvents = getContractsGrantsCollectionActivityDocumentService().retrieveCollectionEvents(fieldValues, null);
 
         final String agencyNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 
@@ -144,12 +121,24 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             }
 
             if (isValid) {
+                String dateFromFieldValues = ObjectUtils.isNull(lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE)) ? "" : lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
+                String dateToFieldValues = ObjectUtils.isNull(lookupFormFields.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE)) ? "" : lookupFormFields.get(ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
+
+                if (ObjectUtils.isNotNull(event.getFollowupDate())) {
+                    isValid = isEventFollowupDateFieldInRange(event, dateFromFieldValues, dateToFieldValues);
+                }
+                else {
+                    isValid = false;
+                }
+            }
+
+            if (isValid) {
                 // Check for customer collectors
                 if (StringUtils.isNotEmpty(collectorPrincName)) {
                     Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
                     if (ObjectUtils.isNotNull(collUser)) {
                         principalId = collUser.getPrincipalId();
-                        if (!StringUtils.isBlank(principalId)) {
+                        if (ObjectUtils.isNotNull(principalId) && !principalId.equals("")) {
                             isValid = contractsGrantsInvoiceDocumentService.canViewInvoice(event.getInvoiceDocument(), principalId);
                         }
                         else {
@@ -168,6 +157,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             }
 
             if (isValid) {
+
                 TicklersReport ticklerReport = new TicklersReport();
                 ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
                 ticklerReport.setProposalNumber(invoice.getInvoiceGeneralDetail().getProposalNumber());
@@ -278,6 +268,47 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         urls.add(a);
 
         return urls;
+    }
+
+    /**
+     * Filters out events with follow up dates not within the given date range
+     * @param event the event with a follow-up date
+     * @param dateFromFieldValues the beginning of the date range
+     * @param dateToFieldValues the end of the date range
+     * @return true if date field is within range, false otherwise.
+     */
+    protected boolean isEventFollowupDateFieldInRange(CollectionEvent event, String dateFromFieldValues, String dateToFieldValues) {
+        if (ObjectUtils.isNull(event.getFollowupDate())) {
+            return true; // we don't have a follow up date, so let's just bail without filtering out this event
+        }
+
+        // Clearing time field for date only comparison
+        final Date clearedFollowupDate = KfsDateUtils.clearTimeFields(event.getFollowupDate());
+
+        try {
+            // Both are blank or null
+            if (StringUtils.isBlank(dateToFieldValues)) {
+                if (StringUtils.isBlank(dateFromFieldValues)) {
+                    return true;
+                } else {
+                    final Date dateFrom = getDateTimeService().convertToSqlDate(dateFromFieldValues);
+                    return clearedFollowupDate.after(dateFrom) || clearedFollowupDate.equals(dateFrom);
+                }
+            } else {
+                if (StringUtils.isBlank(dateFromFieldValues)) {
+                    final Date dateTo = getDateTimeService().convertToSqlDate(dateToFieldValues);
+                    return clearedFollowupDate.before(dateTo) || clearedFollowupDate.equals(dateTo);
+                } else {
+                    final Date dateTo = getDateTimeService().convertToSqlDate(dateToFieldValues);
+                    final Date dateFrom = getDateTimeService().convertToSqlDate(dateFromFieldValues);
+                    return (clearedFollowupDate.after(dateFrom) || clearedFollowupDate.equals(dateFrom)) && (clearedFollowupDate.before(dateTo) || clearedFollowupDate.equals(dateTo));
+                }
+            }
+
+        }
+        catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public PersonService getPersonService() {

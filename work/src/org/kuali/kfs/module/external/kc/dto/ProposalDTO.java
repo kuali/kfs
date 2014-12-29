@@ -21,8 +21,28 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "proposalDTO", propOrder = {
+    "proposalNumber",
+    "requestedStartDateTotal",
+    "requestedEndDateTotal",
+    "proposalTotalAmount",
+    "totalDirectCostTotal",
+    "totalIndirectCostTotal",
+    "proposalLastUpdateDate",
+    "awardTypeCode",
+    "sponsorCode",
+    "statusCode",
+    "cfdaNumber",
+    "title",
+    "sponsorAwardNumber"
+})
 public class ProposalDTO implements Serializable {
 
 	private static final long serialVersionUID = -7622894652760586766L;

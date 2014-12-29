@@ -21,8 +21,48 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "awardDTO", propOrder = {
+    "awardId",
+    "awardNumber",
+    "proposal",
+    "awardStartDate",
+    "awardEndDate",
+    "awardTotalAmount",
+    "awardDocumentNumber",
+    "awardLastUpdateDate",
+    "awardDirectCostAmount",
+    "awardIndirectCostAmount",
+    "awardCreateTimestamp",
+    "proposalAwardTypeCode",
+    "awardStatusCode",
+    "sponsorCode",
+    "title",
+    "awardCommentText",
+    "sponsor",
+    "principalInvestigatorId",
+    "unitNumber",
+    "fundManagerId",
+    "additionalFormsRequired",
+    "autoApproveInvoice",
+    "stopWork",
+    "additionalFormsDescription",
+    "invoicingOption",
+    "invoicingOptionDescription",
+    "dunningCampaignId",
+    "stopWorkReason",
+    "minInvoiceAmount",
+    "methodOfPayment",
+    "invoiceBillingFrequency",
+    "excludedFromInvoicing",
+    "excludedFromInvoicingReason"
+})
 public class AwardDTO implements Serializable {
 
 	private static final long serialVersionUID = -7830094624716529740L;

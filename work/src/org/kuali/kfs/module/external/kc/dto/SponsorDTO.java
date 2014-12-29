@@ -20,6 +20,29 @@ package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "sponsorDTO", propOrder = {
+    "sponsorCode",
+    "acronym",
+    "sponsorName",
+    "sponsorTypeCode",
+    "customerTypeCode",
+    "customerNumber",
+    "sponsorTypeDescription",
+    "cageNumber",
+    "dodacNumber",
+    "dunAndBradstreetNumber",
+    "dunsPlusFourNumber",
+    "state",
+    "stateAgency",
+    "active",
+    "contactInformation",
+    "dunningCampaignId"
+})
 public class SponsorDTO implements Serializable {
 
 	private static final long serialVersionUID = -1928119075816128754L;

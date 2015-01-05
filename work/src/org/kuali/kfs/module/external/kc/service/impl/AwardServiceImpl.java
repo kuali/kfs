@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,11 +42,12 @@ import org.kuali.kfs.module.external.kc.dto.AwardSearchCriteriaDto;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
 import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -65,6 +66,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
 
     protected AccountDefaultsService accountDefaultsService;
     protected BillingFrequencyService billingFrequencyService;
+    protected ConfigurationService configurationService;
     protected ParameterService parameterService;
     protected PersonService personService;
 
@@ -115,7 +117,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
           result  = this.getWebService().getMatchingAwards(criteria);
         } catch (WebServiceException ex) {
             LOG.error(KcConstants.WEBSERVICE_UNREACHABLE, ex);
-            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, getConfigurationService().getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY));
         }
 
         if (result == null) {
@@ -149,7 +151,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         try {
           result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {
-            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, getConfigurationService().getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY));
         }
 
         if (result == null) {
@@ -249,6 +251,14 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
 
     public void setBillingFrequencyService(BillingFrequencyService billingFrequencyService) {
         this.billingFrequencyService = billingFrequencyService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
     public PersonService getPersonService() {

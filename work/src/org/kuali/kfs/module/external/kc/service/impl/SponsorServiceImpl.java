@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,10 +31,11 @@ import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.dto.SponsorCriteriaDto;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.SponsorWebSoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kra.external.sponsor.SponsorWebService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
@@ -48,6 +49,8 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class SponsorServiceImpl implements ExternalizableLookupableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SponsorServiceImpl.class);
+
+    protected ConfigurationService configurationService;
 
     protected SponsorWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -86,7 +89,7 @@ public class SponsorServiceImpl implements ExternalizableLookupableBusinessObjec
         try {
           result  = this.getWebService().getMatchingSponsors(criteria);
         } catch (WebServiceException ex) {
-            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, getConfigurationService().getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY));
         }
 
         if (result == null) {
@@ -103,6 +106,14 @@ public class SponsorServiceImpl implements ExternalizableLookupableBusinessObjec
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         return new ArrayList(findMatching(fieldValues));
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
  }

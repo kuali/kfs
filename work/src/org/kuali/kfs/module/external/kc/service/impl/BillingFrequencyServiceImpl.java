@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,10 +33,11 @@ import org.kuali.kfs.module.external.kc.businessobject.BillingFrequencyMapping;
 import org.kuali.kfs.module.external.kc.dto.FrequencyDto;
 import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.FrequencyWebSoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kra.external.frequency.FrequencyWebService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -51,7 +52,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class BillingFrequencyServiceImpl implements ExternalizableBusinessObjectService, BillingFrequencyService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BillingFrequencyServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
+    protected ConfigurationService configurationService;
 
     protected FrequencyWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -92,7 +94,7 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
                 result = this.getWebService().findMatching((String) fieldValues.get(KcConstants.BillingFrequencyService.FREQUENCY), (String) fieldValues.get(KcConstants.BillingFrequencyService.FREQUENCY_DESCRIPTION));
             }
         } catch (WebServiceException ex) {
-            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, getConfigurationService().getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY));
         }
 
         if (result == null) {
@@ -154,6 +156,14 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
  }

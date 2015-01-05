@@ -27,7 +27,6 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kra.external.awardpayment.AwardPaymentWebService;
 
 /**
@@ -41,7 +40,7 @@ import org.kuali.kra.external.awardpayment.AwardPaymentWebService;
 @WebServiceClient(name = KcConstants.Award.SOAP_SERVICE_NAME,
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/awardPaymentWebSoapService?wsdl",
                   targetNamespace = KcConstants.KC_NAMESPACE_URI)
-public class AwardPaymentWebSoapService extends KfsService {
+public class AwardPaymentWebSoapService extends KfsKcSoapService {
 
     public final static QName AwardPaymentWebServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.AwardPayment.SERVICE_PORT);
     static {

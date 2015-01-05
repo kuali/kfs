@@ -30,7 +30,6 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kra.external.Cfda.service.CfdaNumberService;
 
 /**
@@ -44,7 +43,7 @@ import org.kuali.kra.external.Cfda.service.CfdaNumberService;
 @WebServiceClient(name = KcConstants.Cfda.SOAP_SERVICE_NAME, 
                   wsdlLocation = "http://test.kc.kuali.org:80/kc-trunk/remoting/cfdaNumberSoapService?wsdl",
                   targetNamespace = KcConstants.KC_NAMESPACE_URI) 
-public class CfdaNumberSoapService extends KfsService {
+public class CfdaNumberSoapService extends KfsKcSoapService {
 
      public final static QName CfdaNumberServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Cfda.SERVICE_PORT);
      static {

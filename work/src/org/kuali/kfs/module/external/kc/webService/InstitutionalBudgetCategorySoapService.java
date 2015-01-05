@@ -27,7 +27,6 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kra.external.budget.service.BudgetCategoryService;
 
 
@@ -42,7 +41,7 @@ import org.kuali.kra.external.budget.service.BudgetCategoryService;
 @WebServiceClient(name = KcConstants.BudgetCategory.SOAP_SERVICE_NAME, 
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl",
                   targetNamespace = KcConstants.KC_NAMESPACE_URI) 
-public class InstitutionalBudgetCategorySoapService extends KfsService {
+public class InstitutionalBudgetCategorySoapService extends KfsKcSoapService {
 
     public final static QName BudgetCategoryServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SERVICE_PORT);
     static {

@@ -184,19 +184,27 @@
 	</bean>
 	
     <bean id="budgetCategoryService" parent="budgetCategoryService-parentBean"/>
-	<bean id="budgetCategoryService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl" abstract="true"/>
+	<bean id="budgetCategoryService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl" abstract="true">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 	
     <bean id="institutionalUnitService" parent="institutionalUnitService-parentBean"/>
-	<bean id="institutionalUnitService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl" abstract="true"/>
+	<bean id="institutionalUnitService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl" abstract="true">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 		 	  	  	
     <bean id="cfdaNumberService" parent="cfdaNumberService-parentBean"/>
-	<bean id="cfdaNumberService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl" abstract="true"/>
+	<bean id="cfdaNumberService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl" abstract="true">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 		 	  	  	
     <bean id="awardAccountService" parent="awardAccountService-parentBean"/>
   	<bean id="awardAccountService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl" abstract="true"/>
     
     <bean id="sponsorWebService" parent="sponsorWebService-parentBean"/>
-    <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true"/>
+    <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true">
+    	<property name="configurationService" ref="configurationService"/>
+    </bean>
     
     <bean id="sponsorAddressWebService" parent="sponsorAddressWebService-parentBean"/>
     <bean id="sponsorAddressWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorAddressServiceImpl" abstract="true">
@@ -207,22 +215,30 @@
     <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">
       <property name="accountDefaultsService" ref="accountDefaultsService"/>
       <property name="billingFrequencyService" ref="billingFrequencyService" />
+      <property name="configurationService" ref="configurationService"/>
       <property name="parameterService" ref="parameterService"/>
       <property name="personService" ref="personService" />
     </bean>
 
     <bean id="awardTypeWebService" parent="awardTypeWebService-parentBean"/>
-    <bean id="awardTypeWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardTypeServiceImpl" abstract="true"/>
+    <bean id="awardTypeWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardTypeServiceImpl" abstract="true">
+    	<property name="configurationService" ref="configurationService"/>
+    </bean>
     
     <bean id="letterOfCreditFundGroupService" parent="letterOfCreditFundGroupService-parentBean"/>
-    <bean id="letterOfCreditFundGroupService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.LetterOfCreditFundGroupServiceImpl" abstract="true"/>
+    <bean id="letterOfCreditFundGroupService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.LetterOfCreditFundGroupServiceImpl" abstract="true">
+    	<property name="configurationService" ref="configurationService"/>
+    </bean>
     
     <bean id="letterOfCreditFundService" parent="letterOfCreditFundService-parentBean"/>
-    <bean id="letterOfCreditFundService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.LetterOfCreditFundServiceImpl" abstract="true"/>
+    <bean id="letterOfCreditFundService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.LetterOfCreditFundServiceImpl" abstract="true">
+    	<property name="configurationService" ref="configurationService"/>
+    </bean>
     
     <bean id="billingFrequencyService" parent="billingFrequencyService-parentBean"/>
     <bean id="billingFrequencyService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BillingFrequencyServiceImpl" abstract="true" >
     	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="configurationService" ref="configurationService"/>
     </bean>
     
     <bean id="awardProjectDirectorService" parent="awardProjectDirectorService-parentBean"/>

@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.kuali.kfs.module.external.kc.service.KfsService;
+import org.kuali.kfs.module.external.kc.webService.KfsKcSoapService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -78,13 +78,13 @@ public class WebServicesImplTest extends KualiTestBase {
         
 
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-        provider.addIncludeFilter(new AssignableTypeFilter(KfsService.class));
+        provider.addIncludeFilter(new AssignableTypeFilter(KfsKcSoapService.class));
         Set<BeanDefinition> components = provider.findCandidateComponents(TEST_BASE_PACKAGE);
         for (BeanDefinition component : components) {
             String className = component.getBeanClassName();
-            Class<KfsService> kfsServiceClass = (Class<KfsService>) Class.forName(className);
+            Class<KfsKcSoapService> kfsServiceClass = (Class<KfsKcSoapService>) Class.forName(className);
             try {
-                KfsService kfsServiceInst = kfsServiceClass.newInstance();
+                KfsKcSoapService kfsServiceInst = kfsServiceClass.newInstance();
                 URL myWsdl = kfsServiceInst.getWsdl();
                 assertTrue(isValidfetchXML(myWsdl));
             }

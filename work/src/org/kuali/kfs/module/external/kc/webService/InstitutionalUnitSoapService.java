@@ -27,7 +27,6 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 
 /**
@@ -41,7 +40,7 @@ import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 @WebServiceClient(name = KcConstants.Unit.SOAP_SERVICE_NAME,
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl",
                   targetNamespace = KcConstants.KC_NAMESPACE_URI)
-public class InstitutionalUnitSoapService extends KfsService {
+public class InstitutionalUnitSoapService extends KfsKcSoapService {
 
     public final static QName InstitutionalUnitServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Unit.SERVICE_PORT);
     static {

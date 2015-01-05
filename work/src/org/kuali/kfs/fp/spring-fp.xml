@@ -83,6 +83,8 @@
     <bean id="fpModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
     	<property name="moduleConfiguration" ref="fpModuleConfiguration" />
     </bean>
+    
+    <bean id="capitalAssetInformationDao" parent="platformAwareDao" class="org.kuali.kfs.fp.document.dataaccess.impl.CapitalAssetInformationDaoOjb"/>
 
 	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.kfs.fp.document.dataaccess.impl.TravelMileageRateDaoOjb" />
 	

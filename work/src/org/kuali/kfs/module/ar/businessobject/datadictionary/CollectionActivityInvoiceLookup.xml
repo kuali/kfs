@@ -60,13 +60,17 @@
 	</bean>
 
 	<bean id="CollectionActivityInvoiceLookup-agencyNumber" parent="CollectionActivityInvoiceLookup-agencyNumber-parentBean" />
-	<bean id="CollectionActivityInvoiceLookup-agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber" />
+	<bean id="CollectionActivityInvoiceLookup-agencyNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
+		<property name="name" value="agencyNumber" />
+	</bean>
 
 	<bean id="CollectionActivityInvoiceLookup-agencyName" parent="CollectionActivityInvoiceLookup-agencyName-parentBean" />
 	<bean id="CollectionActivityInvoiceLookup-agencyName-parentBean" abstract="true"
-		parent="Agency-fullName">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="fullName">
 		<property name="name" value="agencyName" />
-		<property name="label" value="Agency Name" />
 	</bean>
 	
 	<bean id="CollectionActivityInvoiceLookup-customerName" parent="CollectionActivityInvoiceLookup-customerName-parentBean" />

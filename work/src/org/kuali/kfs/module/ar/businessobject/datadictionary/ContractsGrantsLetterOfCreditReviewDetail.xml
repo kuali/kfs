@@ -121,10 +121,10 @@
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" />
 
-	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber">
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="7"/>
-    	</property>
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
+		<property name="name" value="agencyNumber" />
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-customerNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-customerNumber-parentBean" />

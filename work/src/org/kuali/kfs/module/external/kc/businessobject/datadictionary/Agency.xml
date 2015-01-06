@@ -95,7 +95,7 @@
 	<bean id="Agency-fullName-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="fullName" />
-		<property name="label" value="Agency Full Name" />
+		<property name="label" value="Sponsor Full Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern">
@@ -135,8 +135,8 @@
 	<bean id="Agency-reportsToAgencyNumber-parentBean" abstract="true"
 		parent="Agency-agencyNumber">
 		<property name="name" value="reportsToAgencyNumber" />
-		<property name="label" value="Reports To Agency Number" />
-		<property name="shortLabel" value="Reports To Agency Number" />
+		<property name="label" value="Reports To Sponsor Number" />
+		<property name="shortLabel" value="Reports To Sponsor Number" />
 	</bean>
 	<bean id="Agency-dunsPlusFourNumber" parent="Agency-dunsPlusFourNumber-parentBean" />
 
@@ -218,7 +218,7 @@
 
 	<bean id="Agency-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Agency Lookup" />
+		<property name="title" value="Sponsor Lookup" />
 		<property name="lookupableID" value="sponsorLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

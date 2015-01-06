@@ -71,7 +71,11 @@
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber" parent="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" />
-	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
+	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
+		<property name="name" value="agencyNumber" />
+	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-accountNumber" parent="ContractsGrantsInvoiceLookupResult-accountNumber-parentBean" />
 	<bean id="ContractsGrantsInvoiceLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
@@ -81,9 +85,10 @@
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyFullName" parent="ContractsGrantsInvoiceLookupResult-agencyFullName-parentBean" />
-	<bean id="ContractsGrantsInvoiceLookupResult-agencyFullName-parentBean" abstract="true" parent="ArGenericAttributes-agencyFullName">
+	<bean id="ContractsGrantsInvoiceLookupResult-agencyFullName-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="fullName">
 		<property name="name" value="agencyFullName" />
-		<property name="label" value="Agency Full Name" />
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyReportingName" parent="ContractsGrantsInvoiceLookupResult-agencyReportingName-parentBean" />

@@ -135,17 +135,6 @@
 		parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
 		<property name="name" value="agencyNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Agency Number" />
-		<property name="shortLabel" value="AgencyNbr" />
-		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" p:exactLength="5" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
 	</bean>
 	
 	<bean id="ContractsGrantsAgingOpenInvoicesReport-finalInvoice" parent="ContractsGrantsAgingOpenInvoicesReport-finalInvoice-parentBean"/>
@@ -180,9 +169,9 @@
               <bean parent="FieldDefinition" p:attributeName="documentPaymentAmount"/>
               <bean parent="FieldDefinition" p:attributeName="unpaidUnappliedAmount"/>
               <bean parent="FieldDefinition" p:attributeName="finalInvoice"/>
-        <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+	          <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
+	          <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+	          <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
               <bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>
             </list>
           </property>

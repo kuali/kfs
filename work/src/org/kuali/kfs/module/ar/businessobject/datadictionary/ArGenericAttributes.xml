@@ -25,8 +25,6 @@
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ArGenericAttributes"/>
 		<property name="attributes">
 			<list>
-				<ref bean="ArGenericAttributes-agencyNumber"/>
-				<ref bean="ArGenericAttributes-agencyFullName"/>
 				<ref bean="ArGenericAttributes-letterOfCreditFundGroupCode"/>
 				<ref bean="ArGenericAttributes-letterOfCreditFundCode"/>
 				<ref bean="ArGenericAttributes-paymentDate" />
@@ -35,41 +33,6 @@
 	</bean>
 
   	<!-- CGB related attributes -->
-	<bean id="ArGenericAttributes-agencyNumber" parent="ArGenericAttributes-agencyNumber-parentBean" />
-
-	<bean id="ArGenericAttributes-agencyNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Agency Number" />
-		<property name="shortLabel" value="AgencyNbr" />
-		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" p:exactLength="5" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
-	</bean>
-
-	<bean id="ArGenericAttributes-agencyFullName" parent="ArGenericAttributes-agencyFullName-parentBean" />
-
-	<bean id="ArGenericAttributes-agencyFullName-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyFullName" />
-		<property name="label" value="Agency Full Name" />
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="52" />
-		</property>
-	</bean>
-
 	<bean id="ArGenericAttributes-letterOfCreditFundGroupCode"
 		parent="ArGenericAttributes-letterOfCreditFundGroupCode-parentBean" />
 

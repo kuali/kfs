@@ -169,16 +169,6 @@
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
 		<property name="name" value="agencyNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Agency Number" />
-		<property name="shortLabel" value="AgencyNbr" />
-		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" p:exactLength="5" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
 	</bean>
 	
   <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />

@@ -177,10 +177,6 @@
 	<bean id="GenerateDunningLettersLookupResult-agencyNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
 		<property name="name" value="agencyNumber" />
-		<property name="label" value="Agency Number" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="7"/>
-    	</property>
 	</bean>
 	
 	<bean id="GenerateDunningLettersLookupResult-invoiceDocumentNumber" parent="GenerateDunningLettersLookupResult-invoiceDocumentNumber-parentBean" />

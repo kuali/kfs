@@ -494,10 +494,12 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 for (Balance balance : glBalances) {
                     if (!isBalanceCostShare(balance)) {
                         if (balance.getBalanceTypeCode().equalsIgnoreCase(systemOptions.getBudgetCheckingBalanceTypeCd())) {
-                            awardAccountBudgetAmount = updateBudgetAmountsByBalance(balance, awardAccountBudgetAmount, budgetAmountsByCostCategory, firstFiscalPeriod);
+                            awardAccountBudgetAmount = addBalanceToAwardAccountBudgetAmount(balance, awardAccountBudgetAmount, firstFiscalPeriod);
+                            updateCategoryBudgetAmountsByBalance(balance, budgetAmountsByCostCategory, firstFiscalPeriod);
                         }
                         else if (balance.getBalanceTypeCode().equalsIgnoreCase(systemOptions.getActualFinancialBalanceTypeCd())) {
-                            awardAccountCumulativeAmount = updateActualAmountsByBalance(document, balance, award, awardAccountCumulativeAmount, invoiceDetailAccountObjectsCodes, firstFiscalPeriod);
+                            awardAccountCumulativeAmount = addBalanceToAwardAccountCumulativeAmount(document, balance, award, awardAccountCumulativeAmount, firstFiscalPeriod);
+                            updateCategoryActualAmountsByBalance(document, balance, award, invoiceDetailAccountObjectsCodes, firstFiscalPeriod);
                         }
                     }
                     invoiceAccountDetail.setBudgetAmount(awardAccountBudgetAmount);
@@ -524,61 +526,73 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Updates the appropriate amounts for the InvoiceDetailAccountObjectCode matching the given balance as well as summing the balance to the given awardAccountCumulativeAmount and returning that amount
+     * Updates the appropriate amounts for the InvoiceDetailAccountObjectCode matching the given balance
      * @param document the CINV document we're generating
      * @param balance the balance to update amounts by
      * @param award the award on the CINV document we're generating
-     * @param awardAccountCumulativeAmount the beginning cumulative expense amount for the award account of the balance
      * @param invoiceDetailAccountObjectsCodes the List of invoiceDetailObjectCodes to update one of
      * @param firstFiscalPeriod whether we're generating the CINV document in the fiscal fiscal period or not
-     * @return the updated cumulative amount on the award account
      */
-    protected KualiDecimal updateActualAmountsByBalance(ContractsGrantsInvoiceDocument document, Balance balance, ContractsAndGrantsBillingAward award, KualiDecimal awardAccountCumulativeAmount, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, final boolean firstFiscalPeriod) {
+    protected void updateCategoryActualAmountsByBalance(ContractsGrantsInvoiceDocument document, Balance balance, ContractsAndGrantsBillingAward award, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, boolean firstFiscalPeriod) {
         final CostCategory category = getCostCategoryService().getCostCategoryForObjectCode(balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getObjectCode());
         if (!ObjectUtils.isNull(category)) {
-            KualiDecimal balanceAmount;
             final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(invoiceDetailAccountObjectCodes, balance, document.getDocumentNumber(), document.getInvoiceGeneralDetail().getProposalNumber(), category);
 
             if (useTimeBasedBillingFrequency(document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
                 if (firstFiscalPeriod) {
-                    awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
                     invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount())));
                     if (!includePeriod13InPeriod01Calculations()) {
-                        awardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
                         invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).subtract(cleanAmount(balance.getMonth13Amount())));
                     }
                 } else {
-                    awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(calculateBalanceAmountWithoutLastBilledPeriod(award.getLastBilledDate(), balance));
                     invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(calculateBalanceAmountWithoutLastBilledPeriod(document.getInvoiceGeneralDetail().getLastBilledDate(), balance)));
                 }
             }
             else {// For other billing frequencies
-                balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
-                awardAccountCumulativeAmount = awardAccountCumulativeAmount.add(balanceAmount);
+                KualiDecimal balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
                 invoiceDetailAccountObjectCode.setCumulativeExpenditures(cleanAmount(invoiceDetailAccountObjectCode.getCumulativeExpenditures()).add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()))));
             }
         }
-        return awardAccountCumulativeAmount;
     }
 
     /**
-     * Updates the cost category budget amount (in the given Map, budgetAmountsByCostCategory) and the award account budget amount
+     * Sums the balance to the given awardAccountCumulativeAmount and returns that summed amount
+     * @param document the CINV document we're generating
+     * @param balance the balance to update amounts by
+     * @param award the award on the CINV document we're generating
+     * @param awardAccountCumulativeAmount the beginning cumulative expense amount for the award account of the balance
+     * @param firstFiscalPeriod whether we're generating the CINV document in the fiscal fiscal period or not
+     * @return the updated cumulative amount on the award account
+     */
+    protected KualiDecimal addBalanceToAwardAccountCumulativeAmount(ContractsGrantsInvoiceDocument document, Balance balance, ContractsAndGrantsBillingAward award, KualiDecimal awardAccountCumulativeAmount, boolean firstFiscalPeriod) {
+        if (useTimeBasedBillingFrequency(document.getInvoiceGeneralDetail().getBillingFrequencyCode())) {
+            if (firstFiscalPeriod) {
+                KualiDecimal newAwardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
+                if (!includePeriod13InPeriod01Calculations()) {
+                    newAwardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
+                }
+                return newAwardAccountCumulativeAmount;
+            } else {
+                return awardAccountCumulativeAmount.add(calculateBalanceAmountWithoutLastBilledPeriod(award.getLastBilledDate(), balance));
+            }
+        }
+        else {// For other billing frequencies
+            KualiDecimal balanceAmount = cleanAmount(balance.getContractsGrantsBeginningBalanceAmount()).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
+            return awardAccountCumulativeAmount.add(balanceAmount);
+        }
+    }
+
+    /**
+     * Updates the cost category budget amount (in the given Map, budgetAmountsByCostCategory) by the total amount of the balance
      * @param balance the balance to update the budget amounts by
-     * @param awardAccountBudgetAmount the beginning award account budget amount
      * @param budgetAmountsByCostCategory the Map of budget amounts sorted by cost category
      * @param firstFiscalPeriod whether this CINV is being generated in the first fiscal period or not
      * @return the updated award account budget amount
      */
-    protected KualiDecimal updateBudgetAmountsByBalance(Balance balance, KualiDecimal awardAccountBudgetAmount, Map<String, KualiDecimal> budgetAmountsByCostCategory, final boolean firstFiscalPeriod) {
-        KualiDecimal balanceAmount;
+    protected void updateCategoryBudgetAmountsByBalance(Balance balance, Map<String, KualiDecimal> budgetAmountsByCostCategory, boolean firstFiscalPeriod) {
         CostCategory category = getCostCategoryService().getCostCategoryForObjectCode(balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getObjectCode());
         if (!ObjectUtils.isNull(category)) {
-            balanceAmount = balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount());
-            if (firstFiscalPeriod && !includePeriod13InPeriod01Calculations()) {
-                balanceAmount = balanceAmount.subtract(balance.getMonth13Amount()); // get rid of period 13 if we should not include in calculations
-            }
-            awardAccountBudgetAmount = awardAccountBudgetAmount.add(balanceAmount);
-
+            final KualiDecimal balanceAmount = getBudgetBalanceAmount(balance, firstFiscalPeriod);
             KualiDecimal categoryBudgetAmount = budgetAmountsByCostCategory.get(category.getCategoryCode());
             if (categoryBudgetAmount == null) {
                 categoryBudgetAmount = KualiDecimal.ZERO;
@@ -588,7 +602,32 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         } else {
             LOG.warn("Could not find cost category for balance: "+balance.getUniversityFiscalYear()+" "+balance.getChartOfAccountsCode()+" "+balance.getAccountNumber()+" "+balance.getSubAccountNumber()+" "+balance.getObjectCode()+" "+balance.getSubObjectCode()+" "+balance.getBalanceTypeCode());
         }
-        return awardAccountBudgetAmount;
+    }
+
+    /**
+     * Adds the budget balance to the award account budget amount
+     * @param balance the balance to update the budget amounts by
+     * @param awardAccountBudgetAmount the beginning award account budget amount
+     * @param firstFiscalPeriod whether this CINV is being generated in the first fiscal period or not
+     * @return the updated award account budget amount
+     */
+    protected KualiDecimal addBalanceToAwardAccountBudgetAmount(Balance balance, KualiDecimal awardAccountBudgetAmount, boolean firstFiscalPeriod) {
+        final KualiDecimal balanceAmount = getBudgetBalanceAmount(balance, firstFiscalPeriod);
+        return awardAccountBudgetAmount.add(balanceAmount);
+    }
+
+    /**
+     * Determines the balance amount (cg + annual) from the given budget balance
+     * @param balance balance to find amount from
+     * @param firstFiscalPeriod whether the CINV is being created in the first fiscal period or not
+     * @return the total amount from the balance
+     */
+    protected KualiDecimal getBudgetBalanceAmount(Balance balance, boolean firstFiscalPeriod) {
+        KualiDecimal balanceAmount = balance.getContractsGrantsBeginningBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount());
+        if (firstFiscalPeriod && !includePeriod13InPeriod01Calculations()) {
+            balanceAmount = balanceAmount.subtract(balance.getMonth13Amount()); // get rid of period 13 if we should not include in calculations
+        }
+        return balanceAmount;
     }
 
     /**

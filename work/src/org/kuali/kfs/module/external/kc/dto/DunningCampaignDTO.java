@@ -18,8 +18,6 @@
  */
 package org.kuali.kfs.module.external.kc.dto;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -33,7 +31,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
     "campaignDescription",
     "campaignID"
 })
-public class DunningCampaignDTO implements AccountsReceivableDunningCampaign, MutableInactivatable, Serializable {
+public class DunningCampaignDTO implements AccountsReceivableDunningCampaign, MutableInactivatable {
     private String campaignID;
     private String campaignDescription;
     private boolean active;

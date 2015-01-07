@@ -32,10 +32,11 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
     "campaignID"
 })
 public class DunningCampaignDTO implements AccountsReceivableDunningCampaign, MutableInactivatable {
-
     private String campaignID;
     private String campaignDescription;
     private boolean active;
+
+    private static final long serialVersionUID = 977773213908477631L;
 
     @Override
     public void refresh() { }

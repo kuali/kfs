@@ -19,13 +19,12 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "proposalDTO", propOrder = {
@@ -50,9 +49,9 @@ public class ProposalDTO implements Serializable {
     private String proposalNumber;
     private Date requestedStartDateTotal;
     private Date requestedEndDateTotal;
-    private KualiDecimal proposalTotalAmount;
-    private KualiDecimal totalDirectCostTotal;
-    private KualiDecimal totalIndirectCostTotal;
+    private BigDecimal proposalTotalAmount;
+    private BigDecimal totalDirectCostTotal;
+    private BigDecimal totalIndirectCostTotal;
     private Date proposalLastUpdateDate;
     private Integer awardTypeCode;
     private String sponsorCode;
@@ -79,22 +78,22 @@ public class ProposalDTO implements Serializable {
 	public void setRequestedEndDateTotal(Date requestedEndDateTotal) {
 		this.requestedEndDateTotal = requestedEndDateTotal;
 	}
-	public KualiDecimal getProposalTotalAmount() {
+	public BigDecimal getProposalTotalAmount() {
 		return proposalTotalAmount;
 	}
-	public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
+	public void setProposalTotalAmount(BigDecimal proposalTotalAmount) {
 		this.proposalTotalAmount = proposalTotalAmount;
 	}
-	public KualiDecimal getTotalDirectCostTotal() {
+	public BigDecimal getTotalDirectCostTotal() {
 		return totalDirectCostTotal;
 	}
-	public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
+	public void setTotalDirectCostTotal(BigDecimal totalDirectCostTotal) {
 		this.totalDirectCostTotal = totalDirectCostTotal;
 	}
-	public KualiDecimal getTotalIndirectCostTotal() {
+	public BigDecimal getTotalIndirectCostTotal() {
 		return totalIndirectCostTotal;
 	}
-	public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
+	public void setTotalIndirectCostTotal(BigDecimal totalIndirectCostTotal) {
 		this.totalIndirectCostTotal = totalIndirectCostTotal;
 	}
 	public Date getProposalLastUpdateDate() {

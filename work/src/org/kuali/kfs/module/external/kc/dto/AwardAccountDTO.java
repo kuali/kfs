@@ -19,9 +19,8 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is the DTO to be sent over to the financial system
@@ -53,7 +52,7 @@ public class AwardAccountDTO implements Serializable {
     private boolean finalBill;
     private Date lastBilledDate;
     private Date previousLastBilledDate;
-    private KualiDecimal amountToDraw;
+    private BigDecimal amountToDraw;
     private boolean letterOfCreditReviewIndicator;
 
     public String getPrimeSponsorTypeCode() {
@@ -219,11 +218,11 @@ public class AwardAccountDTO implements Serializable {
 		this.previousLastBilledDate = previousLastBilledDate;
 	}
 
-	public KualiDecimal getAmountToDraw() {
+	public BigDecimal getAmountToDraw() {
 		return amountToDraw;
 	}
 
-	public void setAmountToDraw(KualiDecimal amountToDraw) {
+	public void setAmountToDraw(BigDecimal amountToDraw) {
 		this.amountToDraw = amountToDraw;
 	}
 

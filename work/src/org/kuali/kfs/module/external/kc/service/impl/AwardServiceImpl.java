@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -171,9 +172,9 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         award.setAwardNumber(kcAward.getAwardNumber());
         award.setAwardBeginningDate(kcAward.getAwardStartDate() == null ? null : new java.sql.Date(kcAward.getAwardStartDate().getDate()));
         award.setAwardEndingDate(kcAward.getAwardEndDate() == null ? null : new java.sql.Date(kcAward.getAwardEndDate().getDate()));
-        award.setAwardTotalAmount(kcAward.getAwardTotalAmount());
-        award.setAwardDirectCostAmount(kcAward.getAwardDirectCostAmount());
-        award.setAwardIndirectCostAmount(kcAward.getAwardIndirectCostAmount());
+        award.setAwardTotalAmount(new KualiDecimal(kcAward.getAwardTotalAmount()));
+        award.setAwardDirectCostAmount(new KualiDecimal(kcAward.getAwardDirectCostAmount()));
+        award.setAwardIndirectCostAmount(new KualiDecimal(kcAward.getAwardIndirectCostAmount()));
         award.setAwardDocumentNumber(kcAward.getAwardDocumentNumber());
         award.setAwardLastUpdateDate(kcAward.getAwardLastUpdateDate() == null ? null : new java.sql.Timestamp(kcAward.getAwardLastUpdateDate().getDate()));
         award.setAwardCreateTimestamp(kcAward.getAwardCreateTimestamp() == null ? null : new java.sql.Timestamp(kcAward.getAwardCreateTimestamp().getDate()));
@@ -188,7 +189,7 @@ public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectS
         }
         award.setAdditionalFormsRequiredIndicator(kcAward.isAdditionalFormsRequired());
         award.setAutoApproveIndicator(kcAward.isAutoApproveInvoice());
-        award.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
+        award.setMinInvoiceAmount(new KualiDecimal(kcAward.getMinInvoiceAmount()));
         award.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
         award.setStopWorkIndicator(kcAward.isStopWork());
         award.setStopWorkReason(kcAward.getStopWorkReason());

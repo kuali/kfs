@@ -285,4 +285,11 @@ public interface ContractsGrantsInvoiceDocumentService {
      * @return Returns the map of invoices based on key of proposal number.
      */
     public Map<Long, List<ContractsGrantsInvoiceDocument>> getInvoicesByAward(Collection<ContractsGrantsInvoiceDocument> invoices);
+
+    /**
+     * Recalculates the totals - based on the invoice detail account object codes which have categories - for all accounting lines on the given
+     * ContractsGrantsInvoiceDocument
+     * @param contractsGrantsInvoiceDocument a C&G Invoice with accounting lines to recalculate
+     */
+    public void recalculateSourceAccountingLineTotals(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 }

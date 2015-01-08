@@ -159,7 +159,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(organizationAccountingDefault)) {
                 if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_ACCOUNT)) {
                     // If its bill by Account , irrespective of it is by contract control account, there would be a single source accounting line with award account specified by the user.
-                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardAccounts.get(0).getChartOfAccountsCode(), awardAccounts.get(0).getAccountNumber(), organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode(), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
+                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardAccounts.get(0).getChartOfAccountsCode(), awardAccounts.get(0).getAccountNumber(), organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode(), contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getExpenditures(), new Integer(1));
                     contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                 }
                 else if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
@@ -187,28 +187,72 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     protected List<CustomerInvoiceDetail> createSourceAccountingLinesByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, final KualiDecimal totalMilestoneAmount, final KualiDecimal totalBillAmount, final OrganizationAccountingDefault organizationAccountingDefault) {
         List<CustomerInvoiceDetail> awardAccountingLines = new ArrayList<>();
-        for (InvoiceAccountDetail invAcctD : contractsGrantsInvoiceDocument.getAccountDetails()) {
-            String accountNumber = invAcctD.getAccountNumber();
-            String coaCode = invAcctD.getChartOfAccountsCode();
-            String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
-            Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To set a sequence number for the Accounting Lines
-            // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
-            // account if its Milestone/Predetermined Schedule.
-            KualiDecimal totalAmount = KualiDecimal.ZERO;
-            if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
-                totalAmount = totalMilestoneAmount;
-            }
-            else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
-                totalAmount = totalBillAmount;
-            }
-            else {
-                totalAmount = invAcctD.getExpenditureAmount();
-            }
+        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getAccountDetails())) {
+            final Map<String, KualiDecimal> accountExpenditureAmounts = getCategoryExpenditureAmountsForInvoiceAccountDetail(contractsGrantsInvoiceDocument);
+            for (InvoiceAccountDetail invAcctD : contractsGrantsInvoiceDocument.getAccountDetails()) {
+                String accountNumber = invAcctD.getAccountNumber();
+                String coaCode = invAcctD.getChartOfAccountsCode();
+                String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
+                Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To set a sequence number for the Accounting Lines
+                // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
+                // account if its Milestone/Predetermined Schedule.
+                KualiDecimal totalAmount;
+                if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
+                    totalAmount = totalMilestoneAmount;
+                }
+                else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
+                    totalAmount = totalBillAmount;
+                }
+                else {
+                    final String accountKey = getAccountKeyFromInvoiceAccountDetail(invAcctD);
+                    totalAmount = accountExpenditureAmounts.containsKey(accountKey)
+                            ? accountExpenditureAmounts.get(accountKey)
+                            : KualiDecimal.ZERO;
+                }
 
-            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
-            awardAccountingLines.add(cide);
+                CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
+                awardAccountingLines.add(cide);
+            }
         }
         return awardAccountingLines;
+    }
+
+    /**
+     * Totals the current expenditure amounts of any invoice detail account object codes on the document which have set categories by account numbers
+     * @param contractsGrantsInvoiceDocument the document holding invoice detail account object codes
+     * @return a Map where the key is the concatenation of chartOfAccountsCode-accountNumber and the value is the expenditure amount on that account
+     */
+    protected Map<String, KualiDecimal> getCategoryExpenditureAmountsForInvoiceAccountDetail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        Map<String, KualiDecimal> expenditureAmounts = new HashMap<>();
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes()) {
+            final String accountKey = getAccountKeyFromInvoiceDetailAccountObjectCode(invoiceDetailAccountObjectCode);
+            if (!StringUtils.isBlank(invoiceDetailAccountObjectCode.getCategoryCode())) {
+                KualiDecimal total = expenditureAmounts.get(accountKey);
+                if (ObjectUtils.isNull(total)) {
+                    total = KualiDecimal.ZERO;
+                }
+                expenditureAmounts.put(accountKey, total.add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
+            }
+        }
+        return expenditureAmounts;
+    }
+
+    /**
+     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given InvoiceDetailAccountObjectCode
+     * @param invoiceDetailAccountObjectCode an invoice detail account object code to concatenate the account primary key for
+     * @return the concatenated primary key for the account
+     */
+    protected String getAccountKeyFromInvoiceDetailAccountObjectCode(InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode) {
+        return StringUtils.join(new String[] { invoiceDetailAccountObjectCode.getChartOfAccountsCode(), invoiceDetailAccountObjectCode.getAccountNumber() }, "-");
+    }
+
+    /**
+     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given InvoiceDetailAccount
+     * @param invoiceAccountDetail the invoice account detail to concatenate the account primary key for
+     * @return the concatenated primary key for the account
+     */
+    protected String getAccountKeyFromInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
+        return StringUtils.join(new String[] { invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber() }, "-");
     }
 
     /**
@@ -228,7 +272,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
         String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), new Integer(1));
+        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getExpenditures(), new Integer(1));
         return cide;
     }
 
@@ -1808,6 +1852,37 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
         }
         return invoicesByAward;
+    }
+
+    /**
+     * If the document has only one CustomerInvoiceDetail, update the amount with the total expenditures from the cost categories; otherwise,
+     * split the amounts by account
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#recalculateSourceAccountingLineTotals(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     */
+    @Override
+    public void recalculateSourceAccountingLineTotals(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
+            if (contractsGrantsInvoiceDocument.getSourceAccountingLines().size() == 1) {
+                final CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)contractsGrantsInvoiceDocument.getSourceAccountingLine(0);
+                customerInvoiceDetail.setAmount(contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getExpenditures());
+            } else {
+                final Map<String, KualiDecimal> accountExpenditureAmounts = getCategoryExpenditureAmountsForInvoiceAccountDetail(contractsGrantsInvoiceDocument);
+                for (Object al : contractsGrantsInvoiceDocument.getSourceAccountingLines()) {
+                    final CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)al;
+                    final String accountKey = getAccountKeyFromCustomerInvoiceDetail(customerInvoiceDetail);
+                    customerInvoiceDetail.setAmount(accountExpenditureAmounts.get(accountKey));
+                }
+            }
+        }
+    }
+
+    /**
+     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given CustomerInvoiceDetail
+     * @param customerInvoiceDetailAccountObjectCode a customer invoice detail to concatenate the account primary key for
+     * @return the concatenated primary key for the account
+     */
+    protected String getAccountKeyFromCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+        return StringUtils.join(new String[] { customerInvoiceDetail.getChartOfAccountsCode(), customerInvoiceDetail.getAccountNumber() }, "-");
     }
 
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {

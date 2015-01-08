@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -39,11 +40,26 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for ContractsGrantsInvoiceDocument
  */
 public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumentAction {
+    protected static volatile ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected static volatile FinancialSystemDocumentService financialSystemDocumentService;
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final ContractsGrantsInvoiceDocumentForm cinvForm = (ContractsGrantsInvoiceDocumentForm)form;
+        if (!ObjectUtils.isNull(cinvForm.getContractsGrantsInvoiceDocument())) {
+            final ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = cinvForm.getContractsGrantsInvoiceDocument();
+            if (getFinancialSystemDocumentService().getPendingDocumentStatuses().contains(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode())) {
+                getContractsGrantsInvoiceDocumentService().recalculateSourceAccountingLineTotals(contractsGrantsInvoiceDocument);
+            }
+        }
+        return super.execute(mapping, form, request, response);
+    }
 
     /**
      * Overridden to recheck the suspension categories when the document is opened
@@ -245,6 +261,20 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         }
 
         return forward;
+    }
+
+    public static ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        if (contractsGrantsInvoiceDocumentService == null) {
+            contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        }
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public static FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        if (financialSystemDocumentService == null) {
+            financialSystemDocumentService = SpringContext.getBean(FinancialSystemDocumentService.class);
+        }
+        return financialSystemDocumentService;
     }
 
 }

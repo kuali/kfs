@@ -1583,8 +1583,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException {
-        // correct Invoice Details.
+        // correct Direct Cost Invoice Details.
         for (ContractsGrantsInvoiceDetail id : document.getDirectCostInvoiceDetails()) {
+            correctInvoiceDetail(id);
+        }
+
+        // correct Indirect Cost Invoice Details.
+        for (ContractsGrantsInvoiceDetail id : document.getIndirectCostInvoiceDetails()) {
             correctInvoiceDetail(id);
         }
 

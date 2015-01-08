@@ -19,9 +19,8 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AwardBillingUpdateDto implements Serializable {
 
@@ -35,7 +34,7 @@ public class AwardBillingUpdateDto implements Serializable {
 	private String locCreationType;
 
 	private boolean doAmountToDrawUpdate;
-	private KualiDecimal amountToDraw;
+	private BigDecimal amountToDraw;
 
 	private boolean doLocReviewUpdate;
 	private boolean locReviewIndicator;
@@ -79,10 +78,10 @@ public class AwardBillingUpdateDto implements Serializable {
 	public void setDoAmountToDrawUpdate(boolean doAmountToDrawUpdate) {
 		this.doAmountToDrawUpdate = doAmountToDrawUpdate;
 	}
-	public KualiDecimal getAmountToDraw() {
+	public BigDecimal getAmountToDraw() {
 		return amountToDraw;
 	}
-	public void setAmountToDraw(KualiDecimal amountToDraw) {
+	public void setAmountToDraw(BigDecimal amountToDraw) {
 		this.amountToDraw = amountToDraw;
 	}
 	public boolean isDoLocReviewUpdate() {

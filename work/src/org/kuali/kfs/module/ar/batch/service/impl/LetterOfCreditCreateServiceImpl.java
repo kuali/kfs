@@ -87,14 +87,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
      *
      * @param customerNumber
-     * @param locCreationType
-     * @param locValue
      * @param totalAmount
      * @param errorFile
      * @return
      */
     @Override
-    public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintWriter errorFile) throws IOException {
+    public String createCashControlDocuments(String customerNumber, KualiDecimal totalAmount, PrintWriter errorFile) throws IOException {
         String documentNumber = null;
 
         try {
@@ -109,7 +107,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
 
             cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-            
+
             // To create cash-control detail for the cash control document
             CashControlDetail cashControlDetail = new CashControlDetail();
             cashControlDetail.setCustomerNumber(customerNumber);// Assuming that the retrieved awards/invoices would have the same
@@ -140,27 +138,16 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * The method validates if there are any existing cash control documents for the same locValue and customer number combination.
      *
      * @param customerNumber
-     * @param locCreationType
-     * @param locValue
      * @param outputFileStream
      * @return
      */
     @Override
-    public boolean validateCashControlDocument(String customerNumber, String locCreationType, String locValue, PrintWriter errorFile) throws IOException {
+    public boolean validateCashControlDocument(String customerNumber, PrintWriter errorFile) throws IOException {
         boolean isExists = false;
 
         Map<String,String> fieldValues = new HashMap<String,String>();
 
-        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
-        if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
-            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, locValue);
-        }
-        else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
-            fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
-        }
-        else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
-            fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
-        }
+        fieldValues.put("cashControlDetails.customerNumber", customerNumber);
 
         CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocument(fieldValues);
         if (!ObjectUtils.isNull(cashControlDocument)) {
@@ -176,7 +163,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
             if (!CollectionUtils.isEmpty(cashControlDetails)) {
                 isExists = true;
-                String error = ArKeyConstants.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
+                String error = ArKeyConstants.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber;
                 errorFile.println(error);
             }
 
@@ -328,11 +315,11 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                     // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
                     // number combination.
 
-                    cashControlDocumentExists = validateCashControlDocument(customerNumber, locCreationType, locValue, errorFile);
+                    cashControlDocumentExists = validateCashControlDocument(customerNumber, errorFile);
 
                     if (!cashControlDocumentExists) {
                         // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, errorFile);
+                        createCashControlDocuments(customerNumber, totalAmount, errorFile);
                     }
                 }
             }
@@ -390,11 +377,11 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                     // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
                     // number combination.
 
-                    cashControlDocumentExists = validateCashControlDocument(customerNumber, locCreationType, locValue, errorFile);
+                    cashControlDocumentExists = validateCashControlDocument(customerNumber, errorFile);
 
                     if (!cashControlDocumentExists) {
                         // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, errorFile);
+                        createCashControlDocuments(customerNumber, totalAmount, errorFile);
                     }
                 }
             }

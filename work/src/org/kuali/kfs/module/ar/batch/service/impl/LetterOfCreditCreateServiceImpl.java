@@ -107,21 +107,9 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             String defaultProcessingOrgCode = parameterService.getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_ORG);
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(defaultProcessingChartCode);
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
-            if (ObjectUtils.isNotNull(locCreationType) && ObjectUtils.isNotNull(locValue)) {
-                cashControlDoc.setLetterOfCreditCreationType(locCreationType);
-                if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
-                    cashControlDoc.setLetterOfCreditFundCode(locValue);
-                }
-                else if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
-                    cashControlDoc.setLetterOfCreditFundGroupCode(locValue);
-                }
-            }
+
             cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-            cashControlDoc.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.LOC_WIRE);
-            // To set invoice document type to CG Invoice as we would be dealing only with CG Invoices.
-            cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-
+            
             // To create cash-control detail for the cash control document
             CashControlDetail cashControlDetail = new CashControlDetail();
             cashControlDetail.setCustomerNumber(customerNumber);// Assuming that the retrieved awards/invoices would have the same

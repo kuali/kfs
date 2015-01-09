@@ -928,10 +928,6 @@
         <column name="CUST_PMT_MEDIUM_CD" size="2" type="VARCHAR"/>
         <column name="AR_CSHCTRL_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BNK_CD" size="4" type="VARCHAR"/>
-        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
-        <column name="INV_DOC_TYP" size="4" type="VARCHAR"/>
-        <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
-        <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <foreign-key foreignTable="SH_ACCT_PERIOD_T" name="AR_CSH_CTRL_TR1">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>

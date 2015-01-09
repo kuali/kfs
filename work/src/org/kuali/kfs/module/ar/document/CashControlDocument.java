@@ -69,11 +69,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
     protected String referenceFinancialDocumentNumber;
-    protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
-    protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected Long proposalNumber;// When LOC Type = Award
-    protected String letterOfCreditFundGroupCode;// When LOC Type = LOC Fund
-    protected String letterOfCreditFundCode;// When LOC Type = LOC Fund Group
     protected Integer universityFiscalYear;
     protected String universityFiscalPeriodCode;
     protected String customerPaymentMediumCode;
@@ -463,7 +459,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             success &= cashControlDocumentService.createBankOffsetGLPEs(this, sequenceHelper);
         }
         // To include CG Invoices of Payment Medium Code LOC Wire.
-        else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER) || this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.LOC_WIRE)) {
+        else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER) ) {
             success &= cashControlDocumentService.createDistributionOfIncomeAndExpenseGLPEs(this, sequenceHelper);
         }
         else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CREDIT_CARD)) {
@@ -760,42 +756,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * Gets the invoiceDocumentType attribute.
-     *
-     * @return Returns the invoiceDocumentType.
-     */
-    public String getInvoiceDocumentType() {
-        return invoiceDocumentType;
-    }
-
-    /**
-     * Sets the invoiceDocumentType attribute value.
-     *
-     * @param invoiceDocumentType The invoiceDocumentType to set.
-     */
-    public void setInvoiceDocumentType(String invoiceDocumentType) {
-        this.invoiceDocumentType = invoiceDocumentType;
-    }
-
-    /**
-     * Gets the letterOfCreditCreationType attribute.
-     *
-     * @return Returns the letterOfCreditCreationType.
-     */
-    public String getLetterOfCreditCreationType() {
-        return letterOfCreditCreationType;
-    }
-
-    /**
-     * Sets the letterOfCreditCreationType attribute value.
-     *
-     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
-     */
-    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
-        this.letterOfCreditCreationType = letterOfCreditCreationType;
-    }
-
-    /**
      * Gets the proposalNumber attribute.
      *
      * @return Returns the proposalNumber.
@@ -811,42 +771,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-    /**
-     * Gets the letterOfCreditFundGroupCode attribute.
-     *
-     * @return Returns the letterOfCreditFundGroupCode.
-     */
-    public String getLetterOfCreditFundGroupCode() {
-        return letterOfCreditFundGroupCode;
-    }
-
-    /**
-     * Sets the letterOfCreditFundGroupCode attribute value.
-     *
-     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
-     */
-    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
-        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
-    }
-
-    /**
-     * Gets the letterOfCreditFundCode attribute.
-     *
-     * @return Returns the letterOfCreditFundCode.
-     */
-    public String getLetterOfCreditFundCode() {
-        return letterOfCreditFundCode;
-    }
-
-    /**
-     * Sets the letterOfCreditFundCode attribute value.
-     *
-     * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
-     */
-    public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
-        this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
 }

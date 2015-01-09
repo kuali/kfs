@@ -640,10 +640,6 @@
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 		</addColumn>
 		<addColumn tableName="AR_CSH_CTRL_T">
-			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
-			<column name="INV_DOC_TYP" type="VARCHAR(4)" />
-			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" />
 		</addColumn>
 		<addColumn tableName="AR_CUST_ADDR_T">

@@ -159,7 +159,6 @@ public class ArConstants{
         public static final String CASH = "CA";
         public static final String CHECK = "CK";
         public static final String WIRE_TRANSFER = "WT";
-        public static final String LOC_WIRE = "LW";
         public static final String CREDIT_CARD = "CR";
     }
 

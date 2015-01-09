@@ -106,8 +106,7 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
         accountsReceivableDocumentHeader.setProcessingChartOfAccountCode("UA");
         accountsReceivableDocumentHeader.setProcessingOrganizationCode("VPIT");
         cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-        cashControlDoc.setProposalNumber(new Long(locValue));
-        cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        cashControlDoc.setProposalNumber(1L);
 
         CashControlDetail cashControlDetail = new CashControlDetail();
         cashControlDetail.setFinancialDocumentLineAmount(new KualiDecimal("100"));

@@ -75,7 +75,7 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
 
         KualiDecimal totalAmount = new KualiDecimal(1000);
 
-        String documentNumber = leterOfCreditCreateService.createCashControlDocuments(null, null, null, totalAmount, outputFileStream);
+        String documentNumber = leterOfCreditCreateService.createCashControlDocuments(null, totalAmount, outputFileStream);
         // To check if both cash control document and payment application document has been created.
         CashControlDocument cashcontrolDocument = null;
         cashcontrolDocument = (CashControlDocument) documentService.getByDocumentHeaderId(documentNumber);
@@ -96,9 +96,6 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
 
         LetterOfCreditCreateService leterOfCreditCreateService = SpringContext.getBean(LetterOfCreditCreateService.class);
 
-        String locCreationType = "TEST";
-        String locValue = "1";
-
         File errOutPutFile = new File("testValidatecashControlDocument");
         PrintWriter outputFileStream = new PrintWriter(errOutPutFile);
 
@@ -109,7 +106,6 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
         accountsReceivableDocumentHeader.setProcessingChartOfAccountCode("UA");
         accountsReceivableDocumentHeader.setProcessingOrganizationCode("VPIT");
         cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-        cashControlDoc.setLetterOfCreditCreationType(locCreationType);
         cashControlDoc.setProposalNumber(new Long(locValue));
         cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
 
@@ -120,6 +116,6 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
         SpringContext.getBean(CashControlDocumentService.class).addNewCashControlDetail("JUNIT TEST", cashControlDoc, cashControlDetail);
         cashControlDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         SpringContext.getBean(DocumentService.class).saveDocument(cashControlDoc);
-        assertFalse(leterOfCreditCreateService.validateCashControlDocument(null, locCreationType, locValue, outputFileStream));
+        assertFalse(leterOfCreditCreateService.validateCashControlDocument(null, outputFileStream));
     }
 }

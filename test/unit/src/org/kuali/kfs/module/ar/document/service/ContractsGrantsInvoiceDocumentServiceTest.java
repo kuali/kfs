@@ -1214,12 +1214,17 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         InvoiceGeneralDetail inv_Gnrl_Dtl_Bill = InvoiceGeneralDetailFixture.INV_GNRL_DTL4.createInvoiceGeneralDetail();
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
 
-        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL8.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL9.createInvoiceDetail();
         List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
+
+        List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = new ArrayList<>();
+        invoiceDetailAccountObjectCodes.add(InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD4.createInvoiceDetailAccountObjectCode());
+        invoiceDetailAccountObjectCodes.add(InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD5.createInvoiceDetailAccountObjectCode());
+        contractsGrantsInvoiceDocument.setInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodes);
 
         KualiDecimal value1 = new KualiDecimal(5);
 
@@ -1231,17 +1236,18 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL4.createInvoiceAccountDetail();
         List<InvoiceAccountDetail> accountDetails = new ArrayList<InvoiceAccountDetail>();
         accountDetails.add(invoiceAccountDetail_1);
+        accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
 
         List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
-        InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
+        InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_3.createInvoiceMilestone();
         invoiceMilestones.add(invMilestone_1);
         contractsGrantsInvoiceDocument.setInvoiceMilestones(invoiceMilestones);
 
 
         List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
-        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
+        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_3.createInvoiceBill();
         invoiceBills.add(invBill_1);
         contractsGrantsInvoiceDocument.setInvoiceBills(invoiceBills);
 

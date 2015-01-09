@@ -204,7 +204,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                     totalAmount = totalBillAmount;
                 }
                 else {
-                    final String accountKey = getAccountKeyFromInvoiceAccountDetail(invAcctD);
+                    final String accountKey = StringUtils.join(new String[] { invAcctD.getChartOfAccountsCode(), invAcctD.getAccountNumber() }, "-");
                     totalAmount = accountExpenditureAmounts.containsKey(accountKey)
                             ? accountExpenditureAmounts.get(accountKey)
                             : KualiDecimal.ZERO;
@@ -225,7 +225,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected Map<String, KualiDecimal> getCategoryExpenditureAmountsForInvoiceAccountDetail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         Map<String, KualiDecimal> expenditureAmounts = new HashMap<>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes()) {
-            final String accountKey = getAccountKeyFromInvoiceDetailAccountObjectCode(invoiceDetailAccountObjectCode);
+            final String accountKey = StringUtils.join(new String[] { invoiceDetailAccountObjectCode.getChartOfAccountsCode(), invoiceDetailAccountObjectCode.getAccountNumber() }, "-");
             if (!StringUtils.isBlank(invoiceDetailAccountObjectCode.getCategoryCode())) {
                 KualiDecimal total = expenditureAmounts.get(accountKey);
                 if (ObjectUtils.isNull(total)) {
@@ -235,24 +235,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
         }
         return expenditureAmounts;
-    }
-
-    /**
-     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given InvoiceDetailAccountObjectCode
-     * @param invoiceDetailAccountObjectCode an invoice detail account object code to concatenate the account primary key for
-     * @return the concatenated primary key for the account
-     */
-    protected String getAccountKeyFromInvoiceDetailAccountObjectCode(InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode) {
-        return StringUtils.join(new String[] { invoiceDetailAccountObjectCode.getChartOfAccountsCode(), invoiceDetailAccountObjectCode.getAccountNumber() }, "-");
-    }
-
-    /**
-     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given InvoiceDetailAccount
-     * @param invoiceAccountDetail the invoice account detail to concatenate the account primary key for
-     * @return the concatenated primary key for the account
-     */
-    protected String getAccountKeyFromInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
-        return StringUtils.join(new String[] { invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber() }, "-");
     }
 
     /**
@@ -1869,20 +1851,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 final Map<String, KualiDecimal> accountExpenditureAmounts = getCategoryExpenditureAmountsForInvoiceAccountDetail(contractsGrantsInvoiceDocument);
                 for (Object al : contractsGrantsInvoiceDocument.getSourceAccountingLines()) {
                     final CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)al;
-                    final String accountKey = getAccountKeyFromCustomerInvoiceDetail(customerInvoiceDetail);
+                    final String accountKey = StringUtils.join(new String[] { customerInvoiceDetail.getChartOfAccountsCode(), customerInvoiceDetail.getAccountNumber() }, "-");
                     customerInvoiceDetail.setAmount(accountExpenditureAmounts.get(accountKey));
                 }
             }
         }
-    }
-
-    /**
-     * Builds a String in the form of the concatenation of chartOfAccountsCode-accountNumber for the given CustomerInvoiceDetail
-     * @param customerInvoiceDetailAccountObjectCode a customer invoice detail to concatenate the account primary key for
-     * @return the concatenated primary key for the account
-     */
-    protected String getAccountKeyFromCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        return StringUtils.join(new String[] { customerInvoiceDetail.getChartOfAccountsCode(), customerInvoiceDetail.getAccountNumber() }, "-");
     }
 
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {

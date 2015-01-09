@@ -180,11 +180,7 @@
 		<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="invoiceDocumentType" column="INV_DOC_TYP" jdbc-type="VARCHAR" />
-		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" />
-		<field-descriptor name="letterOfCreditFundGroupCode" column="LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="letterOfCreditFundCode" column="LTRCR_FND_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none"

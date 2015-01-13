@@ -400,7 +400,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         KualiDecimal newTotalBilled = KualiDecimal.ZERO;
 
-        Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
+        Map<String, String> fieldValuesForInvoice = new HashMap<>();
         fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber().toString());
         fieldValuesForInvoice.put(ArPropertyConstants.INVOICE_GENERAL_DETAIL+"."+ArPropertyConstants.BILLING_PERIOD, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
         fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, SearchOperator.NOT + contractsGrantsInvoiceDocument.getDocumentNumber());

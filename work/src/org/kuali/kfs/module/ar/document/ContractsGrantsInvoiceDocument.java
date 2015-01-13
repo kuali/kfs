@@ -114,7 +114,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         // To do a recalculate of current expenditures in invoice details section so that the totals get affected properly.
 
         // To be performed whenever the document is saved only for awards without Milestones or Bills
-        if (!this.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+        if (!StringUtils.equalsIgnoreCase(getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
             contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(this);
         }

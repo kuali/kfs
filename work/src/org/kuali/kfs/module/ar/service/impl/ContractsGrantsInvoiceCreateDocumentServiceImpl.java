@@ -1094,7 +1094,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         document.getInvoiceGeneralDetail().setNewTotalBilled(newTotalBilled);
     }
 
-    private KualiDecimal calculateMilestoneAmount(ContractsGrantsInvoiceDocument document) {
+    protected KualiDecimal calculateMilestoneAmount(ContractsGrantsInvoiceDocument document) {
         KualiDecimal totalMilestoneAmount = KualiDecimal.ZERO;
         // To calculate the total milestone amount.
         if (document.getInvoiceMilestones().size() > 0) {
@@ -1108,7 +1108,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return totalMilestoneAmount;
     }
 
-    private KualiDecimal calculateTotalBillAmount(ContractsGrantsInvoiceDocument document) {
+    protected KualiDecimal calculateTotalBillAmount(ContractsGrantsInvoiceDocument document) {
         KualiDecimal totalBillAmount = KualiDecimal.ZERO;
         // To calculate the total bill amount.
         if (document.getInvoiceBills().size() > 0) {
@@ -1122,7 +1122,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return totalBillAmount;
     }
 
-    private KualiDecimal calculateTotalExpenditureAmount(ContractsGrantsInvoiceDocument document) {
+    protected KualiDecimal calculateTotalExpenditureAmount(ContractsGrantsInvoiceDocument document) {
         Map<String, KualiDecimal> totalBilledByAccountNumberMap = new HashMap<String, KualiDecimal>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
             String key = invoiceDetailAccountObjectCode.getChartOfAccountsCode()+"-"+invoiceDetailAccountObjectCode.getAccountNumber();

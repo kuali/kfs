@@ -45,16 +45,15 @@ public interface ContractsGrantsInvoiceDocumentService {
     /**
      * This method creates Source Accounting lines enabling the creation of GLPEs in the document.
      *
-     * @param document the cash control document
+     * @param document the Contracts & Grants Invoice document
      * @throws WorkflowException
      */
     public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
 
     /**
-     * This method creates Source Accounting lines enabling the creation of GLPEs in the document.
+     * This method recalculates the new total billed amount on the Contracts & Grants Invoice document.
      *
-     * @param document the cash control document
-     * @throws WorkflowException
+     * @param document the Contracts & Grants Invoice document
      */
     public void recalculateNewTotalBilled(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
@@ -292,4 +291,11 @@ public interface ContractsGrantsInvoiceDocumentService {
      * @param contractsGrantsInvoiceDocument a C&G Invoice with accounting lines to recalculate
      */
     public void recalculateSourceAccountingLineTotals(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
+
+    /**
+     * Calculate and return the new total billed amount from any other invoices with the same award and billing period
+     * @param contractsGrantsInvoiceDocument invoice used to find other related invoices
+     * @return calculated new total billed amount
+     */
+    public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument document);
 }

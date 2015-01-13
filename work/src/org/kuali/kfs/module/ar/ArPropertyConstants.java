@@ -277,6 +277,7 @@ public class ArPropertyConstants{
     public static final String BILLS = "bills";
     public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String BILLING_FREQUENCY = "billingFrequency";
+    public static final String BILLING_PERIOD = "billingPeriod";
     public static final String INSTRUMENT_TYPE_CODE = "instrumentTypeCode";
     public static final String INVOICING_OPTION_DESCRIPTION = "invoicingOptionDescription";
     public static final String FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceEntries";

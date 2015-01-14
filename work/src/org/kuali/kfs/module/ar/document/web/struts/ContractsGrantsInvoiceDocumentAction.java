@@ -70,17 +70,22 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         super.loadDocument(kualiDocumentFormBase);
         ContractsGrantsInvoiceDocumentForm cgInvoiceForm = (ContractsGrantsInvoiceDocumentForm)kualiDocumentFormBase;
         final ContractsGrantsInvoiceDocument cgInvoice = cgInvoiceForm.getContractsGrantsInvoiceDocument();
-        if (shouldUpdateSuspensionCategories(cgInvoice)) {
+        if (shouldUpdateSuspensionCategoriesAndRecalculateNewTotalBilled(cgInvoice)) {
             updateSuspensionCategoriesOnDocument(cgInvoiceForm); // in memory CINV has had the suspension categories updated
+            if (!StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+                contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(cgInvoice);
+            }
         }
     }
 
     /**
-     * Determines if the given c&g invoice should have its suspension categories updated or not
+     * Determines if the given c&g invoice should have its suspension categories updated and new total billed
+     * recalculated or not
      * @param cgInvoice the invoice to determine the suspension category updatability of
-     * @return true if suspension categories should be updated, false otherwise
+     * @return true if suspension categories should be updated and new total bill should be recalculated, false otherwise
      */
-    protected boolean shouldUpdateSuspensionCategories(ContractsGrantsInvoiceDocument cgInvoice) {
+    protected boolean shouldUpdateSuspensionCategoriesAndRecalculateNewTotalBilled(ContractsGrantsInvoiceDocument cgInvoice) {
         final DocumentStatus documentStatus = DocumentStatus.fromCode(cgInvoice.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode());
         return documentStatus.getCategory() != DocumentStatusCategory.SUCCESSFUL && documentStatus.getCategory() != DocumentStatusCategory.UNSUCCESSFUL && documentStatus != DocumentStatus.EXCEPTION;
     }

@@ -1080,7 +1080,49 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
         }
 
-        // set totalBilled by Account Number in Account Details
+        KualiDecimal newTotalBilled = KualiDecimal.ZERO;
+        if (document.getInvoiceMilestones().size() > 0) {
+            newTotalBilled = calculateMilestoneAmount(document);
+        }
+        else if (document.getInvoiceBills().size() > 0) {
+            newTotalBilled = calculateTotalBillAmount(document);
+        }
+        else {
+            newTotalBilled = calculateTotalExpenditureAmount(document);
+            newTotalBilled = getContractsGrantsInvoiceDocumentService().getOtherNewTotalBilledForAwardPeriod(document);
+        }
+        document.getInvoiceGeneralDetail().setNewTotalBilled(newTotalBilled);
+    }
+
+    protected KualiDecimal calculateMilestoneAmount(ContractsGrantsInvoiceDocument document) {
+        KualiDecimal totalMilestoneAmount = KualiDecimal.ZERO;
+        // To calculate the total milestone amount.
+        if (document.getInvoiceMilestones().size() > 0) {
+            for (InvoiceMilestone milestone : document.getInvoiceMilestones()) {
+                if (milestone.getMilestoneAmount() != null) {
+                    totalMilestoneAmount = totalMilestoneAmount.add(milestone.getMilestoneAmount());
+                }
+            }
+        }
+        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+        return totalMilestoneAmount;
+    }
+
+    protected KualiDecimal calculateTotalBillAmount(ContractsGrantsInvoiceDocument document) {
+        KualiDecimal totalBillAmount = KualiDecimal.ZERO;
+        // To calculate the total bill amount.
+        if (document.getInvoiceBills().size() > 0) {
+            for (InvoiceBill bill : document.getInvoiceBills()) {
+                if (bill.getEstimatedAmount() != null) {
+                    totalBillAmount = totalBillAmount.add(bill.getEstimatedAmount());
+                }
+            }
+        }
+        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+        return totalBillAmount;
+    }
+
+    protected KualiDecimal calculateTotalExpenditureAmount(ContractsGrantsInvoiceDocument document) {
         Map<String, KualiDecimal> totalBilledByAccountNumberMap = new HashMap<String, KualiDecimal>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
             String key = invoiceDetailAccountObjectCode.getChartOfAccountsCode()+"-"+invoiceDetailAccountObjectCode.getAccountNumber();
@@ -1101,50 +1143,21 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             currentExpenditureAmount = invAcctD.getCumulativeAmount().subtract(invAcctD.getBilledAmount());
             invAcctD.setExpenditureAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
-                    currentExpenditureAmount = awardAccount.getAmountToDraw();
-                    invAcctD.setExpenditureAmount(currentExpenditureAmount);
+            if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
+                ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
+                if (ObjectUtils.isNotNull(award)) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                            currentExpenditureAmount = awardAccount.getAmountToDraw();
+                            invAcctD.setExpenditureAmount(currentExpenditureAmount);
+                        }
+                    }
                 }
             }
             totalExpendituredAmount = totalExpendituredAmount.add(currentExpenditureAmount);
         }
         totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
-
-
-        KualiDecimal totalMilestoneAmount = KualiDecimal.ZERO;
-        // To calculate the total milestone amount.
-        if (document.getInvoiceMilestones().size() > 0) {
-            for (InvoiceMilestone milestone : document.getInvoiceMilestones()) {
-                if (milestone.getMilestoneAmount() != null) {
-                    totalMilestoneAmount = totalMilestoneAmount.add(milestone.getMilestoneAmount());
-                }
-            }
-        }
-        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
-
-        KualiDecimal totalBillAmount = KualiDecimal.ZERO;
-        // To calculate the total bill amount.
-        if (document.getInvoiceBills().size() > 0) {
-            for (InvoiceBill bill : document.getInvoiceBills()) {
-                if (bill.getEstimatedAmount() != null) {
-                    totalBillAmount = totalBillAmount.add(bill.getEstimatedAmount());
-                }
-            }
-        }
-        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
-
-
-        // To set the New Total Billed Amount.
-        if (document.getInvoiceMilestones().size() > 0) {
-            document.getInvoiceGeneralDetail().setNewTotalBilled(totalMilestoneAmount);
-        }
-        else if (document.getInvoiceBills().size() > 0) {
-            document.getInvoiceGeneralDetail().setNewTotalBilled(totalBillAmount);
-        }
-        else {
-            document.getInvoiceGeneralDetail().setNewTotalBilled(totalExpendituredAmount);
-        }
+        return totalExpendituredAmount;
     }
 
     /**

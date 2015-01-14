@@ -86,6 +86,7 @@ import org.kuali.kfs.sys.util.FallbackMap;
 import org.kuali.kfs.sys.util.ReflectionMap;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -385,8 +386,36 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
         }
 
+        KualiDecimal newTotalBilled = totalCostInvoiceDetail.getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount());
+        newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(contractsGrantsInvoiceDocument));
+
         // set the General Detail Total to be billed - there would be only one value for Total Cost invoice Details.
-        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setNewTotalBilled(totalCostInvoiceDetail.getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount()));
+        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setNewTotalBilled(newTotalBilled);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getOtherNewTotalBilledForAwardPeriod(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     */
+    @Override
+    public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        KualiDecimal newTotalBilled = KualiDecimal.ZERO;
+
+        Map<String, String> fieldValuesForInvoice = new HashMap<>();
+        fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber().toString());
+        fieldValuesForInvoice.put(ArPropertyConstants.INVOICE_GENERAL_DETAIL+"."+ArPropertyConstants.BILLING_PERIOD, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
+        fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, SearchOperator.NOT + contractsGrantsInvoiceDocument.getDocumentNumber());
+        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader()) && StringUtils.isNotBlank(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber())) {
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, SearchOperator.NOT + contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
+        }
+
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(fieldValuesForInvoice);
+        for (ContractsGrantsInvoiceDocument cgInvoiceDocument: cgInvoiceDocuments) {
+            for (InvoiceAccountDetail invAcctD : cgInvoiceDocument.getAccountDetails()) {
+                newTotalBilled = newTotalBilled.add(invAcctD.getExpenditureAmount());
+            }
+        }
+
+        return newTotalBilled;
     }
 
     /**
@@ -400,7 +429,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
         return totalExpenditures;
     }
-
 
     /**
      * @param invoiceAccountDetails

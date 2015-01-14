@@ -298,4 +298,19 @@ public interface ContractsGrantsInvoiceDocumentService {
      * @return calculated new total billed amount
      */
     public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument document);
+
+    /**
+     * Determines if the given contracts and grants invoice document was (likely) created in batch (as opposed to the lookup screen or the LOC)
+     * @param document the contracts and grants invoice to test
+     * @return true if the document was likely created in batch, false otherwise
+     */
+    public boolean isDocumentBatchCreated(ContractsGrantsInvoiceDocument document);
+
+    /**
+     * Determines if the given contracts and grants invoice document passes routing validation.  Note: no error messages are returned; this simply
+     * checks if any error messages are created or not for the document
+     * @param document the contracts and grants invoice to check
+     * @return true if the c&g invoice passes validation with no errors, false otherwise
+     */
+    public boolean doesInvoicePassValidation(ContractsGrantsInvoiceDocument document);
 }

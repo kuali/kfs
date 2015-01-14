@@ -463,12 +463,13 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * @return
+     * @return true if this CINV should route to the fund managers, false if it should skip
      */
     private boolean isRequiresFundingManagerApproval() {
-        // if auto approve on the award is false or suspension exists, then we need to have funds manager approve.
+        final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        // if auto approve on the award is false or suspension exists or the award is auto-approve but fails to pass validation, then we need to have funds manager approve.
         boolean result;
-        result = !getInvoiceGeneralDetail().getAward().getAutoApproveIndicator() || !this.getInvoiceSuspensionCategories().isEmpty();
+        result =  !getInvoiceSuspensionCategories().isEmpty() || !getInvoiceGeneralDetail().getAward().getAutoApproveIndicator() || (contractsGrantsInvoiceDocumentService.isDocumentBatchCreated(this) && !contractsGrantsInvoiceDocumentService.doesInvoicePassValidation(this));
         return result;
     }
 

@@ -43,6 +43,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
@@ -97,6 +98,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setOptionsService(SpringContext.getBean(OptionsService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentDao(SpringContext.getBean(ContractsGrantsInvoiceDocumentDao.class));
 
         contractsGrantsInvoiceCreateDocumentServiceImpl.setAwardAccountObjectCodeTotalBilledDao(SpringContext.getBean(AwardAccountObjectCodeTotalBilledDao.class));
         contractsGrantsInvoiceCreateDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));

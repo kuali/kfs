@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -733,13 +733,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param explicitEntry
      */
     protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
-
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, this);
-        boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isInvoiceDetailReceivableDebit(customerInvoiceDetail), false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+    }
+
+    /**
+     * Determines if the given customer invoice detail should be a debit on the receivable glpe, or a credit
+     * @param customerInvoiceDetail the customer invoice detail to determine debitness of
+     * @return true if the detail represents a debit, false if it represents a credit
+     */
+    protected boolean isInvoiceDetailReceivableDebit(CustomerInvoiceDetail customerInvoiceDetail) {
+        final boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
+        return isDebit;
     }
 
     /**
@@ -753,11 +761,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
 
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
-        boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
 
         AccountsReceivablePendingEntryService service = SpringContext.getBean(AccountsReceivablePendingEntryService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isInvoiceDetailIncomeDebit(customerInvoiceDetail), false, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+    }
 
+    /**
+     * Determines if the given customer invoice detail should be a debit on the income glpe, or a credit
+     * @param customerInvoiceDetail the customer invoice detail to determine debitness of
+     * @return true if the detail represents a debit, false if it represents a credit
+     */
+    protected boolean isInvoiceDetailIncomeDebit(CustomerInvoiceDetail customerInvoiceDetail) {
+        final boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
+        return isDebit;
     }
 
     /**

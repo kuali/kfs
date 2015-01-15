@@ -71,11 +71,11 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         ContractsGrantsInvoiceDocumentForm cgInvoiceForm = (ContractsGrantsInvoiceDocumentForm)kualiDocumentFormBase;
         final ContractsGrantsInvoiceDocument cgInvoice = cgInvoiceForm.getContractsGrantsInvoiceDocument();
         if (shouldUpdateSuspensionCategoriesAndRecalculateNewTotalBilled(cgInvoice)) {
-            updateSuspensionCategoriesOnDocument(cgInvoiceForm); // in memory CINV has had the suspension categories updated
             if (!StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
                 ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
                 contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(cgInvoice);
             }
+            updateSuspensionCategoriesOnDocument(cgInvoiceForm); // in memory CINV has had the suspension categories updated
         }
     }
 

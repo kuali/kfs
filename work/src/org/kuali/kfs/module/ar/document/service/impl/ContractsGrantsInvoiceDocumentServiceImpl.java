@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +45,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -77,9 +79,11 @@ import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
+import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.FallbackMap;
@@ -91,10 +95,13 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -103,6 +110,7 @@ import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -128,7 +136,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected IdentityService identityService;
     protected KualiModuleService kualiModuleService;
+    protected KualiRuleService kualiRuleService;
     protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
@@ -1891,6 +1901,60 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
     }
 
+    /**
+     * Checks the KFS-AR / ContractsGrantsInvoiceDocumentBatchStep / User parameter, or, if no value is found for that parameter, the KFS system user to see if they are the
+     * initiator of the document.  If the KFS-AR / ContractsGrantsInvoiceDocumentBatchStep / User parameter is set to a value of a principal who creates CINVs outside of batch
+     * - well, okay, that's an interesting business process, that also means that the results of this method may be incorrect.  But you can always override, right?
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isDocumentBatchCreated(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     */
+    @Override
+    public boolean isDocumentBatchCreated(ContractsGrantsInvoiceDocument document) {
+        if (document.getInvoiceGeneralDetail().getAward().getAutoApproveIndicator()) {
+            final Principal batchJobInitiatorPrincipal = getContractsGrantsInvoiceBatchCreationUserPrincipal();
+            return StringUtils.equalsIgnoreCase(document.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), batchJobInitiatorPrincipal.getPrincipalId());
+        }
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#doesInvoicePassValidation(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     */
+    @Override
+    public boolean doesInvoicePassValidation(final ContractsGrantsInvoiceDocument document) {
+        try {
+            final Boolean result = GlobalVariables.doInNewGlobalVariables(new UserSession(getContractsGrantsInvoiceBatchCreationUserPrincipal().getPrincipalName()), new Callable<Boolean>() {
+                /**
+                 * Checks if the given document passes rule validation with no errors
+                 * @see java.util.concurrent.Callable#call()
+                 */
+                @Override
+                public Boolean call() throws Exception {
+                    final AttributedRouteDocumentEvent routeEvent = new AttributedRouteDocumentEvent(document);
+                    getKualiRuleService().applyRules(routeEvent);
+                    return Boolean.valueOf(!GlobalVariables.getMessageMap().hasErrors());
+                }
+
+            });
+            return result.booleanValue();
+        } catch (Exception e) {
+            // validation actually caused an exception?  Um, let's log that, and maybe we'll say we didn't pass validation here, okay?
+            LOG.error("Running validation on Contracts & Grants Invoice "+document.getDocumentNumber()+" caused an exception", e);
+            return false;
+        }
+    }
+
+    /**
+     * Determines the user who creates CINV documents via the batch job
+     * @return the principal for the user who creates CINV documents via the batch job
+     */
+    protected Principal getContractsGrantsInvoiceBatchCreationUserPrincipal() {
+        final String batchJobInitiatorPrincipalName = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocumentBatchStep.class, Job.STEP_USER_PARM_NM, KFSConstants.SYSTEM_USER);
+        final Principal batchJobInitiatorPrincipal = getIdentityService().getPrincipalByPrincipalName(batchJobInitiatorPrincipalName);
+        return ObjectUtils.isNull(batchJobInitiatorPrincipal)
+                ? getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER)
+                : batchJobInitiatorPrincipal;
+    }
+
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
     }
@@ -2083,5 +2147,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 }

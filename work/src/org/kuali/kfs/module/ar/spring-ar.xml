@@ -425,8 +425,14 @@
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService"/>
 		</property>
+		<property name="identityService">
+			<ref bean="identityService"/>
+		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />

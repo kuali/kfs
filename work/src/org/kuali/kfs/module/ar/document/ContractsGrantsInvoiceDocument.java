@@ -28,6 +28,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -535,4 +536,23 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         }
         return total;
     }
+
+    /**
+     * The CINV's rule is that if an invoice detail is positive, it's a debit, and if it's negative, it's a credit
+     * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#isInvoiceDetailReceivableDebit(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
+     */
+    @Override
+    protected boolean isInvoiceDetailReceivableDebit(CustomerInvoiceDetail customerInvoiceDetail) {
+        return customerInvoiceDetail.getAmount().isZero() || customerInvoiceDetail.getAmount().isPositive();
+    }
+
+    /**
+     * If the invoice detail is negative, then return debit here, otherwise it's a credit
+     * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#isInvoiceDetailIncomeDebit(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
+     */
+    @Override
+    protected boolean isInvoiceDetailIncomeDebit(CustomerInvoiceDetail customerInvoiceDetail) {
+        return customerInvoiceDetail.getAmount().isZero() || customerInvoiceDetail.getAmount().isNegative();
+    }
+
 }

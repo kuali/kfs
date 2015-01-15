@@ -167,7 +167,6 @@
 		<property name="label" value="Total Previously Billed" />
 		<property name="shortLabel" value="Total Previously Billed" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
-		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 
 	<bean id="InvoiceGeneralDetail-costShareAmount" parent="InvoiceGeneralDetail-costShareAmount-parentBean" />

@@ -268,6 +268,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             if (controlAccountSet.size() != 0) {
                 for (Account controlAccount : controlAccountSet) {
                     Account tmpCtrlAcct = null;
+                    tmpAcctList.clear();
 
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                         if (!awardAccount.isFinalBilledIndicator()) {

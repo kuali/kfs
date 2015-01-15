@@ -547,12 +547,12 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Returns the opposite of what the receivable debit method returns
+     * If the invoice detail is negative, then return debit here, otherwise it's a credit
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#isInvoiceDetailIncomeDebit(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     @Override
     protected boolean isInvoiceDetailIncomeDebit(CustomerInvoiceDetail customerInvoiceDetail) {
-        return !isInvoiceDetailReceivableDebit(customerInvoiceDetail);
+        return customerInvoiceDetail.getAmount().isZero() || customerInvoiceDetail.getAmount().isNegative();
     }
 
 }

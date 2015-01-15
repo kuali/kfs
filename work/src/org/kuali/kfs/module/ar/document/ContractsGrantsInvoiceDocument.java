@@ -46,6 +46,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Contracts Grants Invoice document extending Customer Invoice document.
@@ -469,7 +470,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         // if auto approve on the award is false or suspension exists or the award is auto-approve but fails to pass validation, then we need to have funds manager approve.
         boolean result;
-        result =  !getInvoiceSuspensionCategories().isEmpty() || !getInvoiceGeneralDetail().getAward().getAutoApproveIndicator() || (contractsGrantsInvoiceDocumentService.isDocumentBatchCreated(this) && !contractsGrantsInvoiceDocumentService.doesInvoicePassValidation(this));
+        result =  !CollectionUtils.isEmpty(getInvoiceSuspensionCategories()) || !getInvoiceGeneralDetail().getAward().getAutoApproveIndicator() || (contractsGrantsInvoiceDocumentService.isDocumentBatchCreated(this) && !contractsGrantsInvoiceDocumentService.doesInvoicePassValidation(this));
         return result;
     }
 

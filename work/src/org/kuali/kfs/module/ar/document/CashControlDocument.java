@@ -458,7 +458,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             success &= cashControlDocumentService.createCashReceiptGLPEs(this, sequenceHelper);
             success &= cashControlDocumentService.createBankOffsetGLPEs(this, sequenceHelper);
         }
-        // To include CG Invoices of Payment Medium Code LOC Wire.
         else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER) ) {
             success &= cashControlDocumentService.createDistributionOfIncomeAndExpenseGLPEs(this, sequenceHelper);
         }

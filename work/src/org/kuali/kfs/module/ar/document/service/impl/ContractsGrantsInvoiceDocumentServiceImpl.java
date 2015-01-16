@@ -396,6 +396,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
         }
 
+        if (contractsGrantsInvoiceDocument.isCorrectionDocument()) {
+            contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber()));
+        }
+
         KualiDecimal newTotalBilled = totalCostInvoiceDetail.getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount());
         newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(contractsGrantsInvoiceDocument));
 
@@ -413,9 +417,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         Map<String, String> fieldValuesForInvoice = new HashMap<>();
         fieldValuesForInvoice.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber().toString());
         fieldValuesForInvoice.put(ArPropertyConstants.INVOICE_GENERAL_DETAIL+"."+ArPropertyConstants.BILLING_PERIOD, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
-        fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, SearchOperator.NOT + contractsGrantsInvoiceDocument.getDocumentNumber());
+        String docNumberCriteriaString = SearchOperator.NOT + contractsGrantsInvoiceDocument.getDocumentNumber();
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader()) && StringUtils.isNotBlank(contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber())) {
-            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, SearchOperator.NOT + contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
+            docNumberCriteriaString += SearchOperator.NOT + contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
+        }
+        fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, docNumberCriteriaString);
+
+        if (contractsGrantsInvoiceDocument.isCorrectionDocument()) {
+            fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, SearchOperator.NOT + KFSConstants.DocumentStatusCodes.PROCESSED + SearchOperator.NOT + KFSConstants.DocumentStatusCodes.APPROVED);
         }
 
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(fieldValuesForInvoice);

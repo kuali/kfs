@@ -66,6 +66,7 @@ public class CGKeyConstants {
         public static final String ERROR_AGENCY_PRIMARY_ADDRESS_MUST_HAVE_FUTURE_END_DATE = "error.document.agency.primaryAddressMustHaveFutureEndDate";
         public static final String ERROR_AGENCY_CUSTOMER_TYPE_CODE_REQUIRED_WHEN_AGENCY_CUSTOMER_NEW = "error.document.agency.customerTypeCodeisRequiredWhenNewCustomer";
         public static final String ERROR_AGECNY_CUSTOMER_NUMBER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING = "error.document.agency.customerNumberRequiredWhenExistingCustomer";
+        public static final String ERROR_AGENCY_ACTUAL_CUSTOMER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING = "error.document.agency.actualCustomerRequiredWhenExistingCustomer";
 
 
     }

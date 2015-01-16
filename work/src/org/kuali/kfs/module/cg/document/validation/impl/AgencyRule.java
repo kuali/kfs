@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -344,11 +345,10 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method validates that a customer type is selected when the create new customer
-     *  option is selected.
-     *
-     * @param agency
-     * @return
+     * This method validates that a customer type is selected when the create new customer option is selected, and that if existing customer option
+     * is selected that customer number is filled in with an existing customer.
+     * @param agency agency record to verify
+     * @return true if agency passes verification, false otherwise
      */
     public boolean validateCustomerType(Agency agency) {
         boolean isValid = true;
@@ -364,6 +364,12 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
             if (StringUtils.isBlank(agency.getCustomerNumber())) {
                 putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_NUMBER, CGKeyConstants.AgencyConstants.ERROR_AGECNY_CUSTOMER_NUMBER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING);
                 isValid = false;
+            } else {
+                final AccountsReceivableCustomer customer = agency.getCustomer();
+                if (ObjectUtils.isNull(customer)) {
+                    putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_NUMBER, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ACTUAL_CUSTOMER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING, new String[] { agency.getCustomerNumber() });
+                    isValid = false;
+                }
             }
         }
 

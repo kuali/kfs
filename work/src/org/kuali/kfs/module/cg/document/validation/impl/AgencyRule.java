@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -344,21 +345,31 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method validates that a customer type is selected when the create new customer
-     *  option is selected.
-     *
-     * @param agency
-     * @return
+     * This method validates that a customer type is selected when the create new customer option is selected, and that if existing customer option
+     * is selected that customer number is filled in with an existing customer.
+     * @param agency agency record to verify
+     * @return true if agency passes verification, false otherwise
      */
     public boolean validateCustomerType(Agency agency) {
         boolean isValid = true;
 
         // Only validate if new customer create option is selected
-        if ( CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreationOptionCode()) ){
+        if ( StringUtils.equalsIgnoreCase(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE, agency.getCustomerCreationOptionCode()) ){
             // Customer Type must be filled-in
             if( StringUtils.isEmpty(agency.getCustomerTypeCode()) ){
                 putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_TYPE_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_CUSTOMER_TYPE_CODE_REQUIRED_WHEN_AGENCY_CUSTOMER_NEW);
                 isValid &= false;
+            }
+        } else if (StringUtils.equalsIgnoreCase(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE, agency.getCustomerCreationOptionCode())) {
+            if (StringUtils.isBlank(agency.getCustomerNumber())) {
+                putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_NUMBER, CGKeyConstants.AgencyConstants.ERROR_AGECNY_CUSTOMER_NUMBER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING);
+                isValid = false;
+            } else {
+                final AccountsReceivableCustomer customer = agency.getCustomer();
+                if (ObjectUtils.isNull(customer) || !customer.isActive()) {
+                    putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_NUMBER, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ACTUAL_CUSTOMER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING, new String[] { agency.getCustomerNumber() });
+                    isValid = false;
+                }
             }
         }
 

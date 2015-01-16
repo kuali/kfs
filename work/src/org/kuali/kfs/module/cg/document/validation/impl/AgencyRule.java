@@ -366,7 +366,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                 isValid = false;
             } else {
                 final AccountsReceivableCustomer customer = agency.getCustomer();
-                if (ObjectUtils.isNull(customer)) {
+                if (ObjectUtils.isNull(customer) || !customer.isActive()) {
                     putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_NUMBER, CGKeyConstants.AgencyConstants.ERROR_AGENCY_ACTUAL_CUSTOMER_REQUIRED_WHEN_AGENCY_CUSTOMER_EXISTING, new String[] { agency.getCustomerNumber() });
                     isValid = false;
                 }

@@ -155,14 +155,6 @@ public interface ContractsGrantsInvoiceDocumentService {
     public List<String> getProcessingFromBillingCodes(String coaCode, String orgCode);
 
     /**
-     * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.
-     *
-     * @param proposalNumber
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber);
-
-    /**
      * Determine if the collectorPrincipalId can view the invoice, leverages role qualifiers
      * on the CGB Collector role to perform the check.
      *

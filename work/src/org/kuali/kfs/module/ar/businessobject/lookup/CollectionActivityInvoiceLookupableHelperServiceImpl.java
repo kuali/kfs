@@ -28,7 +28,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -52,7 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
     protected ContractsGrantsCollectionActivityDocumentService contractsGrantsCollectionActivityDocumentService;
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    //protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -67,7 +66,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         Long proposalNumber = new Long((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = getContractsGrantsCollectionActivityDocumentService().retrieveCollectionActivityEligibleContractsGrantsInvoicesByProposalNumber(proposalNumber);
 
         for (ContractsGrantsInvoiceDocument invoiceDocument : cgInvoices) {
             results.add(convert(invoiceDocument));
@@ -176,14 +175,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         }
 
         return displayList;
-    }
-
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

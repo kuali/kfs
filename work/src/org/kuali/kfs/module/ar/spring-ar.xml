@@ -1462,6 +1462,9 @@
 
 	<bean id="contractsGrantsCollectionActivityDocumentService" parent="contractsGrantsCollectionActivityDocumentService-parentBean" />
 	<bean id="contractsGrantsCollectionActivityDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsCollectionActivityDocumentServiceImpl" abstract="true">
+	<property name="contractsGrantsInvoiceDocumentDao">
+			<ref bean="contractsGrantsInvoiceDocumentDao" />
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -2426,9 +2429,6 @@
 	<bean id="collectionActivityInvoiceLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="contractsGrantsCollectionActivityDocumentService">
 			<ref bean="contractsGrantsCollectionActivityDocumentService"/>
-		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService"/>
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>

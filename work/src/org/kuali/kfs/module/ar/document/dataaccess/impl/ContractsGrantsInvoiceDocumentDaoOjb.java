@@ -66,12 +66,12 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
         Criteria criteria = new Criteria();
         criteria.addEqualTo(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
 
-        Set<String> successfulDocumentStatuses = new HashSet<String>();
+        Set<String> successfulDocumentStatuses = new HashSet<>();
         for (DocumentStatus docStatus : DocumentStatus.getStatusesForCategory(DocumentStatusCategory.SUCCESSFUL)) {
             successfulDocumentStatuses.add(docStatus.getCode());
         }
 
-        Set<String> unsuccessfulDocumentStatuses = new HashSet<String>();
+        Set<String> unsuccessfulDocumentStatuses = new HashSet<>();
         for (DocumentStatus docStatus : DocumentStatus.getStatusesForCategory(DocumentStatusCategory.UNSUCCESSFUL)) {
             unsuccessfulDocumentStatuses.add(docStatus.getCode());
         }

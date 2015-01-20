@@ -26,6 +26,38 @@
 
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+	      <name>
+	        KFST
+	      </name>
+	      <parent>
+	        KFS
+	      </parent>
+	      <label>
+	        FinancialSystemTransactionalDocument
+	      </label>
+	      <docSearchHelpURL>
+	        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ffinancialtransactions.htm
+	      </docSearchHelpURL>
+	      <active>
+	        true
+	      </active>
+	      <security>
+	        <securityAttribute name="SensitiveDataSecurityAttribute" />
+	      </security>
+	      <routingVersion>
+	        2
+	      </routingVersion>
+	      <routePaths>
+	        <routePath>
+	          <start name="AdHoc"/>
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="AdHoc"/>
+	      </routeNodes>
+	    </documentType>
+		
 		<!-- Added from AccountsReceivableSimpleMaintenanceDocuments.xml -->
 		<documentType>
 			<name>

@@ -19,16 +19,19 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -47,9 +50,11 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Implementation class for Collection Activity Document.
  */
+@Transactional
 public class ContractsGrantsCollectionActivityDocumentServiceImpl implements ContractsGrantsCollectionActivityDocumentService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentServiceImpl.class);
 
+    protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
@@ -178,6 +183,44 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
         return paymentAmount;
     }
 
+    /**
+     * This method retrieves all collection activity eligible contracts and grants invoices associated with the given proposal number. All
+     * contracts and grants invoices retrieved will meet the following criteria:
+     * <ul>
+     * <li>Must not be fully paid</li>
+     * <li>Must not error correct another CINV</li>
+     * <li>Must not be error corrected by another CINV</li>
+     * <li>Must be final or processed</li>
+     * </ul>
+     *
+     * @param proposalNumber
+     * @return a Collection of collection activity eligible contracts and grants invoices associated with the given proposal number
+     */
+    @Override
+    public Collection<ContractsGrantsInvoiceDocument> retrieveCollectionActivityEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber) {
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getCollectionEligibleContractsGrantsInvoicesByProposalNumber(proposalNumber);
+        if (CollectionUtils.isEmpty(cgInvoices)) {
+            return cgInvoices;
+        }
+        Collection<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        for (ContractsGrantsInvoiceDocument invoice : cgInvoices) {
+            if (!isFullyPaid(invoice)) {
+                filteredInvoices.add(invoice);
+            }
+        }
+        return filteredInvoices;
+    }
+
+    /**
+     * Determines if a contracts and grants invoice is fully paid or not
+     * @param contractsGrantsInvoiceDocument the contracts and grants invoice to check
+     * @return true if the document is fully paid, false otherwise
+     */
+    protected boolean isFullyPaid(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        final KualiDecimal openAmount = contractsGrantsInvoiceDocument.getOpenAmount();
+        return !ObjectUtils.isNull(openAmount) && openAmount.equals(KualiDecimal.ZERO);
+    }
+
     @NonTransactional
     public InvoicePaidAppliedService getInvoicePaidAppliedService() {
         return invoicePaidAppliedService;
@@ -186,5 +229,13 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     @NonTransactional
     public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
         this.invoicePaidAppliedService = invoicePaidAppliedService;
+    }
+
+    public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
+        return contractsGrantsInvoiceDocumentDao;
+    }
+
+    public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
+        this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
     }
 }

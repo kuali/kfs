@@ -18,8 +18,11 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.document.ContractsGrantsCollectionActivityDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -49,4 +52,13 @@ public interface ContractsGrantsCollectionActivityDocumentService {
      * @return Returns the total payment amount.
      */
     public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber);
+
+
+    /**
+     * To retrieve the list of collection activity eligible ContractsGrantsInvoiceDocument from proposal number.
+     *
+     * @param proposalNumber
+     * @return
+     */
+    public Collection<ContractsGrantsInvoiceDocument> retrieveCollectionActivityEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber);
 }

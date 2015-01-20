@@ -1072,19 +1072,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * This method retrieves all invoices with open and with final status based on proposal number
-     *
-     * @param proposalNumber
-     * @param outputFileStream
-     * @return
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByProposalNumber(proposalNumber);
-        return cgInvoices;
-    }
-
-    /**
      * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
      */
     @Override

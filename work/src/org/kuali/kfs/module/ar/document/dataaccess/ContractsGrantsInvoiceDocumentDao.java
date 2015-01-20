@@ -45,11 +45,16 @@ public interface ContractsGrantsInvoiceDocumentDao {
     public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues);
 
     /**
-     * This method retrieves all Invoice Documents that match the given field values, excluding any error corrected documents
+     * This method retrieves all contracts & grants invoices associated with the given proposal number which meet the following criteria
+     * <ul>
+     * <li>Must not error correct another CINV</li>
+     * <li>Must not be error corrected by another CINV</li>
+     * <li>Must be final or processed</li>
+     * </ul>
      *
      * @param fieldValues for search criteria.
      * @param excludedInvoiceNumbers Collection of invoice numbers to exclude from the result set.
      * @return Returns the invoices which matches the given field values.
      */
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByProposalNumber(Long proposalNumber);
+    public Collection<ContractsGrantsInvoiceDocument> getCollectionEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber);
 }

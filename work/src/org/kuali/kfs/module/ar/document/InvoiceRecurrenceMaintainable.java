@@ -92,6 +92,11 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
         ((InvoiceRecurrence)getBusinessObject()).setCustomerInvoiceDocument( getBusinessObjectService().findBySinglePrimaryKey(CustomerInvoiceDocument.class, ((InvoiceRecurrence)getBusinessObject()).getInvoiceNumber() ));
     }
 
+    /**
+     * Overridden to null out the customer invoice document - BusinessObjectService#linkAndSave (the linking part specifically) gets fairly tripped
+     * up by the document hanging around
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#saveBusinessObject()
+     */
     @Override
     public void saveBusinessObject() {
         InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence)getBusinessObject();

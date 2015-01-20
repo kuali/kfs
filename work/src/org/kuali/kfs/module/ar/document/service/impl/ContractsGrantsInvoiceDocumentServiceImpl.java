@@ -1643,7 +1643,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         }
         else {
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber()));
-            document.getInvoiceGeneralDetail().setNewTotalBilled(KualiDecimal.ZERO);
+            KualiDecimal newTotalBilled = document.getTotalCostInvoiceDetail().getExpenditures().add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+            newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(document));
+            document.getInvoiceGeneralDetail().setNewTotalBilled(newTotalBilled);
         }
 
         for (InvoiceAddressDetail invoiceAddressDetail: document.getInvoiceAddressDetails()) {

@@ -396,9 +396,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
         }
 
-        if (contractsGrantsInvoiceDocument.isCorrectionDocument()) {
-            contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber()));
-        }
+        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber()));
 
         KualiDecimal newTotalBilled = totalCostInvoiceDetail.getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount());
         newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(contractsGrantsInvoiceDocument));
@@ -422,10 +420,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             docNumberCriteriaString += SearchOperator.NOT + contractsGrantsInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
         }
         fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, docNumberCriteriaString);
-
-        if (contractsGrantsInvoiceDocument.isCorrectionDocument()) {
-            fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, SearchOperator.NOT + KFSConstants.DocumentStatusCodes.PROCESSED + SearchOperator.NOT + KFSConstants.DocumentStatusCodes.APPROVED);
-        }
+        fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, SearchOperator.NOT + KFSConstants.DocumentStatusCodes.PROCESSED + SearchOperator.NOT + KFSConstants.DocumentStatusCodes.APPROVED);
 
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(fieldValuesForInvoice);
         for (ContractsGrantsInvoiceDocument cgInvoiceDocument: cgInvoiceDocuments) {

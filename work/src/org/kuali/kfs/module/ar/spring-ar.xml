@@ -454,7 +454,7 @@
 		
 		<property name="suspensionCategories">
       		<list>
-				<ref bean="newTotalBilledAmountExceedsAwardTotalSuspensionCategory" />
+				<ref bean="totalAmountBilledToDateExceedsAwardTotalSuspensionCategory" />
 				<ref bean="invoiceAmountLessThanInvoiceMinimumSuspensionCategory" />
 				<ref bean="reportsRequiredSuspensionCategory" />
 				<ref bean="customerPrimaryAddressSuspensionCategory" />
@@ -470,8 +470,8 @@
 		</property>
 	</bean>
 
-	<bean id="newTotalBilledAmountExceedsAwardTotalSuspensionCategory"  parent="newTotalBilledAmountExceedsAwardTotalSuspensionCategory-parentBean"/>
-	<bean id="newTotalBilledAmountExceedsAwardTotalSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.NewTotalBilledAmountExceedsAwardTotalSuspensionCategory" abstract="true">
+	<bean id="totalAmountBilledToDateExceedsAwardTotalSuspensionCategory"  parent="totalAmountBilledToDateExceedsAwardTotalSuspensionCategory-parentBean"/>
+	<bean id="totalAmountBilledToDateExceedsAwardTotalSuspensionCategory-parentBean" class="org.kuali.kfs.module.ar.document.validation.impl.TotalAmountBilledToDateExceedsAwardTotalSuspensionCategory" abstract="true">
 		<property name="code">
 			<value>1</value>
 		</property>

@@ -503,8 +503,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             updateCategoryActualAmountsByBalance(document, balance, award, invoiceDetailAccountObjectsCodes, firstFiscalPeriod);
                         }
                     }
-                    invoiceAccountDetail.setBudgetAmount(awardAccountBudgetAmount);
-                    invoiceAccountDetail.setCumulativeAmount(awardAccountCumulativeAmount);
+                    invoiceAccountDetail.setTotalBudget(awardAccountBudgetAmount);
+                    invoiceAccountDetail.setCumulativeExpenditures(awardAccountCumulativeAmount);
                 }
                 invoiceAccountDetails.add(invoiceAccountDetail);
                 if (awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
@@ -771,29 +771,29 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             invDetail.setCostCategory(category);
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first
-            invDetail.setCumulative(KualiDecimal.ZERO);
-            invDetail.setExpenditures(KualiDecimal.ZERO);
-            invDetail.setBilled(KualiDecimal.ZERO);
+            invDetail.setCumulativeExpenditures(KualiDecimal.ZERO);
+            invDetail.setInvoiceAmount(KualiDecimal.ZERO);
+            invDetail.setTotalPreviouslyBilled(KualiDecimal.ZERO);
 
             List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodesForCategory = invoiceDetailAccountObjectCodesMap.get(category.getCategoryCode());
             if (!CollectionUtils.isEmpty(invoiceDetailAccountObjectCodesForCategory)) {
                 for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodesForCategory) {
-                    invDetail.setCumulative(invDetail.getCumulative().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
-                    invDetail.setExpenditures(invDetail.getExpenditures().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
+                    invDetail.setCumulativeExpenditures(invDetail.getCumulativeExpenditures().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
+                    invDetail.setInvoiceAmount(invDetail.getInvoiceAmount().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
                 }
             }
             List<AwardAccountObjectCodeTotalBilled> billedForCategory = billedsMap.get(category.getCategoryCode());
             if (!CollectionUtils.isEmpty(billedForCategory)) {
                 for (AwardAccountObjectCodeTotalBilled accountObjectCodeTotalBilled : billedForCategory) {
-                    invDetail.setBilled(invDetail.getBilled().add(accountObjectCodeTotalBilled.getTotalBilled())); // this adds up all the total billed based on object code into categories; sum for this category.
+                    invDetail.setTotalPreviouslyBilled(invDetail.getTotalPreviouslyBilled().add(accountObjectCodeTotalBilled.getTotalBilled())); // this adds up all the total billed based on object code into categories; sum for this category.
                 }
             }
 
             // calculate the rest using billed to date
             if (!ObjectUtils.isNull(budgetAmountsByCostCategory.get(category.getCategoryCode()))) {
-                invDetail.setBudget(budgetAmountsByCostCategory.get(category.getCategoryCode()));
+                invDetail.setTotalBudget(budgetAmountsByCostCategory.get(category.getCategoryCode()));
             } else {
-                invDetail.setBudget(KualiDecimal.ZERO);
+                invDetail.setTotalBudget(KualiDecimal.ZERO);
             }
             invoiceDetails.add(invDetail);
         }
@@ -865,13 +865,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         // set the billed to Date Field
         // To check if award has milestones
         if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
+            invoiceGeneralDetail.setTotalPreviouslyBilled(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
         }
         else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequencyCode(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
+            invoiceGeneralDetail.setTotalPreviouslyBilled(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
         }
         else {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
+            invoiceGeneralDetail.setTotalPreviouslyBilled(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
         }
     }
 
@@ -1092,7 +1092,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             newTotalBilled = calculateTotalExpenditureAmount(document);
             newTotalBilled = getContractsGrantsInvoiceDocumentService().getOtherNewTotalBilledForAwardPeriod(document);
         }
-        document.getInvoiceGeneralDetail().setNewTotalBilled(newTotalBilled);
+        document.getInvoiceGeneralDetail().setTotalAmountBilledToDate(newTotalBilled);
     }
 
     protected KualiDecimal calculateMilestoneAmount(ContractsGrantsInvoiceDocument document) {
@@ -1105,7 +1105,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
             }
         }
-        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getTotalPreviouslyBilled());
         return totalMilestoneAmount;
     }
 
@@ -1119,7 +1119,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
             }
         }
-        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getTotalPreviouslyBilled());
         return totalBillAmount;
     }
 
@@ -1136,13 +1136,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (InvoiceAccountDetail invAcctD : document.getAccountDetails()) {
             KualiDecimal currentExpenditureAmount = KualiDecimal.ZERO;
             if (!ObjectUtils.isNull(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()))) {
-                invAcctD.setBilledAmount(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()));
+                invAcctD.setTotalAmountBilledToDate(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()));
             } else {
-                invAcctD.setBilledAmount(KualiDecimal.ZERO);
+                invAcctD.setTotalAmountBilledToDate(KualiDecimal.ZERO);
             }
 
-            currentExpenditureAmount = invAcctD.getCumulativeAmount().subtract(invAcctD.getBilledAmount());
-            invAcctD.setExpenditureAmount(currentExpenditureAmount);
+            currentExpenditureAmount = invAcctD.getCumulativeExpenditures().subtract(invAcctD.getTotalAmountBilledToDate());
+            invAcctD.setInvoiceAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
             if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
                 ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
@@ -1150,14 +1150,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                             currentExpenditureAmount = awardAccount.getAmountToDraw();
-                            invAcctD.setExpenditureAmount(currentExpenditureAmount);
+                            invAcctD.setInvoiceAmount(currentExpenditureAmount);
                         }
                     }
                 }
             }
             totalExpendituredAmount = totalExpendituredAmount.add(currentExpenditureAmount);
         }
-        totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
+        totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getTotalPreviouslyBilled());
         return totalExpendituredAmount;
     }
 

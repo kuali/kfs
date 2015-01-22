@@ -45,8 +45,8 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String billingPeriod;
     private String instrumentTypeCode;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
-    private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
-    private KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalAmountBilledToDate = KualiDecimal.ZERO;
+    private KualiDecimal totalPreviouslyBilled = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
     private String dunningLetterTemplateAssigned;
@@ -215,22 +215,22 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the newTotalBilled attribute.
+     * Gets the totalAmountBilledToDate attribute.
      *
-     * @return Returns the newTotalBilled.
+     * @return Returns the totalAmountBilledToDate.
      */
-    public KualiDecimal getNewTotalBilled() {
-        return newTotalBilled;
+    public KualiDecimal getTotalAmountBilledToDate() {
+        return totalAmountBilledToDate;
     }
 
 
     /**
-     * Sets the newTotalBilled attribute value.
+     * Sets the totalAmountBilledToDate attribute value.
      *
-     * @param newTotalBilled The newTotalBilled to set.
+     * @param totalAmountBilledToDate The totalAmountBilledToDate to set.
      */
-    public void setNewTotalBilled(KualiDecimal newTotalBilled) {
-        this.newTotalBilled = newTotalBilled;
+    public void setTotalAmountBilledToDate(KualiDecimal newTotalBilled) {
+        this.totalAmountBilledToDate = newTotalBilled;
     }
 
     /**
@@ -240,7 +240,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public KualiDecimal getAmountRemainingToBill() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = getAwardTotal().subtract(getNewTotalBilled());
+        total = getAwardTotal().subtract(getTotalAmountBilledToDate());
         return total;
     }
 
@@ -277,11 +277,11 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(this.awardTotal)) {
             m.put("awardTotal", this.awardTotal.toString());
         }
-        if (ObjectUtils.isNotNull(this.newTotalBilled)) {
-            m.put("newTotalBilled", this.newTotalBilled.toString());
+        if (ObjectUtils.isNotNull(this.totalAmountBilledToDate)) {
+            m.put("totalAmountBilledToDate", this.totalAmountBilledToDate.toString());
         }
-        if (ObjectUtils.isNotNull(this.billedToDateAmount)) {
-            m.put("billedToDateAmount", this.billedToDateAmount.toString());
+        if (ObjectUtils.isNotNull(this.totalPreviouslyBilled)) {
+            m.put("totalPreviouslyBilled", this.totalPreviouslyBilled.toString());
         }
         if (ObjectUtils.isNotNull(this.costShareAmount)) {
             m.put("costShareAmount", this.costShareAmount.toString());
@@ -293,21 +293,21 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the billedToDateAmount attribute.
+     * Gets the totalPreviouslyBilled attribute.
      *
-     * @return Returns the billedToDateAmount.
+     * @return Returns the totalPreviouslyBilled.
      */
-    public KualiDecimal getBilledToDateAmount() {
-        return billedToDateAmount;
+    public KualiDecimal getTotalPreviouslyBilled() {
+        return totalPreviouslyBilled;
     }
 
     /**
-     * Sets the billedToDateAmount attribute value.
+     * Sets the totalPreviouslyBilled attribute value.
      *
-     * @param billedToDateAmount The billedToDateAmount to set.
+     * @param totalPreviouslyBilled The totalPreviouslyBilled to set.
      */
-    public void setBilledToDateAmount(KualiDecimal billedToDateAmount) {
-        this.billedToDateAmount = billedToDateAmount;
+    public void setTotalPreviouslyBilled(KualiDecimal billedToDateAmount) {
+        this.totalPreviouslyBilled = billedToDateAmount;
     }
 
     /**

@@ -35,13 +35,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 				<ref bean="ContractsGrantsInvoiceDetail-invoiceDetailIdentifier" />
 				<ref bean="ContractsGrantsInvoiceDetail-documentNumber" />
 				<ref bean="ContractsGrantsInvoiceDetail-categoryCode" />
-				<ref bean="ContractsGrantsInvoiceDetail-budget" />
-				<ref bean="ContractsGrantsInvoiceDetail-expenditures" />
-				<ref bean="ContractsGrantsInvoiceDetail-cumulative" />
-				<ref bean="ContractsGrantsInvoiceDetail-balance" />
-				<ref bean="ContractsGrantsInvoiceDetail-billed" />
-				<ref bean="ContractsGrantsInvoiceDetail-adjustedCumExpenditures" />
-				<ref bean="ContractsGrantsInvoiceDetail-adjustedBalance" />
+				<ref bean="ContractsGrantsInvoiceDetail-totalBudget" />
+				<ref bean="ContractsGrantsInvoiceDetail-invoiceAmount" />
+				<ref bean="ContractsGrantsInvoiceDetail-cumulativeExpenditures" />
+				<ref bean="ContractsGrantsInvoiceDetail-budgetRemaining" />
+				<ref bean="ContractsGrantsInvoiceDetail-totalPreviouslyBilled" />
+				<ref bean="ContractsGrantsInvoiceDetail-totalAmountBilledToDate" />
+				<ref bean="ContractsGrantsInvoiceDetail-amountRemainingToBill" />
 				<ref bean="ContractsGrantsInvoiceDetail-costCategory.categoryName"/>
 			</list>
 		</property>
@@ -84,57 +84,57 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-budget" parent="ContractsGrantsInvoiceDetail-budget-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-budget-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="budget" />
+	<bean id="ContractsGrantsInvoiceDetail-totalBudget" parent="ContractsGrantsInvoiceDetail-totalBudget-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-totalBudget-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalBudget" />
 		<property name="required" value="false" />
 		<property name="label" value="Total Budget" />
 		<property name="shortLabel" value="Total Budget" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-expenditures" parent="ContractsGrantsInvoiceDetail-expenditures-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-expenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="expenditures" />
+	<bean id="ContractsGrantsInvoiceDetail-invoiceAmount" parent="ContractsGrantsInvoiceDetail-invoiceAmount-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-invoiceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="invoiceAmount" />
 		<property name="required" value="false" />
 		<property name="label" value="Invoice Amount" />
 		<property name="shortLabel" value="Invoice Amount" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-cumulative" parent="ContractsGrantsInvoiceDetail-cumulative-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-cumulative-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="cumulative" />
+	<bean id="ContractsGrantsInvoiceDetail-cumulativeExpenditures" parent="ContractsGrantsInvoiceDetail-cumulativeExpenditures-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-cumulativeExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="cumulativeExpenditures" />
 		<property name="required" value="false" />
 		<property name="label" value="Cumulative Expenditures" />
 		<property name="shortLabel" value="Cumulative Expenditures" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-balance" parent="ContractsGrantsInvoiceDetail-balance-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-balance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="balance" />
+	<bean id="ContractsGrantsInvoiceDetail-budgetRemaining" parent="ContractsGrantsInvoiceDetail-budgetRemaining-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-budgetRemaining-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="budgetRemaining" />
 		<property name="required" value="false" />
 		<property name="label" value="Budget Remaining" />
 		<property name="shortLabel" value="Budget Remaining" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-billed" parent="ContractsGrantsInvoiceDetail-billed-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-billed-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="billed" />
+	<bean id="ContractsGrantsInvoiceDetail-totalPreviouslyBilled" parent="ContractsGrantsInvoiceDetail-totalPreviouslyBilled-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-totalPreviouslyBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalPreviouslyBilled" />
 		<property name="required" value="false" />
 		<property name="label" value="Total Previously Billed" />
 		<property name="shortLabel" value="Total Previously Billed" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-adjustedCumExpenditures" parent="ContractsGrantsInvoiceDetail-adjustedCumExpenditures-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-adjustedCumExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="adjustedCumExpenditures" />
+	<bean id="ContractsGrantsInvoiceDetail-totalAmountBilledToDate" parent="ContractsGrantsInvoiceDetail-totalAmountBilledToDate-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-totalAmountBilledToDate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalAmountBilledToDate" />
 		<property name="required" value="false" />
 		<property name="label" value="Total Amount Billed To Date" />
 		<property name="shortLabel" value="Total Amount Billed To Date" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceDetail-adjustedBalance" parent="ContractsGrantsInvoiceDetail-adjustedBalance-parentBean" />
-	<bean id="ContractsGrantsInvoiceDetail-adjustedBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="adjustedBalance" />
+	<bean id="ContractsGrantsInvoiceDetail-amountRemainingToBill" parent="ContractsGrantsInvoiceDetail-amountRemainingToBill-parentBean" />
+	<bean id="ContractsGrantsInvoiceDetail-amountRemainingToBill-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountRemainingToBill" />
 		<property name="required" value="false" />
 		<property name="label" value="Amount Remaining To Bill" />
 		<property name="shortLabel" value="Amount Remaining To Bill" />

@@ -37,10 +37,10 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
     private String accountNumber;
     private String contractControlAccountNumber;
-    private KualiDecimal budgetAmount = KualiDecimal.ZERO;
-    private KualiDecimal expenditureAmount = KualiDecimal.ZERO;
-    private KualiDecimal cumulativeAmount = KualiDecimal.ZERO;
-    private KualiDecimal billedAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalBudget = KualiDecimal.ZERO;
+    private KualiDecimal invoiceAmount = KualiDecimal.ZERO;
+    private KualiDecimal cumulativeExpenditures = KualiDecimal.ZERO;
+    private KualiDecimal totalAmountBilledToDate = KualiDecimal.ZERO;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
 
@@ -140,59 +140,59 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the budgetAmount attribute.
+     * Gets the totalBudget attribute.
      *
-     * @return Returns the budgetAmount.
+     * @return Returns the totalBudget.
      */
-    public KualiDecimal getBudgetAmount() {
-        return budgetAmount;
+    public KualiDecimal getTotalBudget() {
+        return totalBudget;
     }
 
     /**
-     * Sets the budgetAmount attribute value.
+     * Sets the totalBudget attribute value.
      *
-     * @param budgetAmount The budgetAmount to set.
+     * @param totalBudget The totalBudget to set.
      */
 
-    public void setBudgetAmount(KualiDecimal budgetAmount) {
-        this.budgetAmount = budgetAmount;
+    public void setTotalBudget(KualiDecimal budgetAmount) {
+        this.totalBudget = budgetAmount;
     }
 
     /**
-     * Gets the expenditureAmount attribute.
+     * Gets the invoiceAmount attribute.
      *
-     * @return Returns the expenditureAmount.
+     * @return Returns the invoiceAmount.
      */
-    public KualiDecimal getExpenditureAmount() {
-        return expenditureAmount;
+    public KualiDecimal getInvoiceAmount() {
+        return invoiceAmount;
     }
 
     /**
-     * Sets the expenditureAmount attribute value.
+     * Sets the invoiceAmount attribute value.
      *
-     * @param expenditureAmount The expenditureAmount to set.
+     * @param invoiceAmount The invoiceAmount to set.
      */
-    public void setExpenditureAmount(KualiDecimal expenditureAmount) {
-        this.expenditureAmount = expenditureAmount;
+    public void setInvoiceAmount(KualiDecimal expenditureAmount) {
+        this.invoiceAmount = expenditureAmount;
     }
 
     /**
-     * Gets the cumulativeAmount attribute.
+     * Gets the cumulativeExpenditures attribute.
      *
-     * @return Returns the cumulativeAmount.
+     * @return Returns the cumulativeExpenditures.
      */
-    public KualiDecimal getCumulativeAmount() {
-        return cumulativeAmount;
+    public KualiDecimal getCumulativeExpenditures() {
+        return cumulativeExpenditures;
     }
 
     /**
-     * Sets the cumulativeAmount attribute value.
+     * Sets the cumulativeExpenditures attribute value.
      *
-     * @param cumulativeAmount The cumulativeAmount to set.
+     * @param cumulativeExpenditures The cumulativeExpenditures to set.
      */
 
-    public void setCumulativeAmount(KualiDecimal cumulativeAmount) {
-        this.cumulativeAmount = cumulativeAmount;
+    public void setCumulativeExpenditures(KualiDecimal cumulativeAmount) {
+        this.cumulativeExpenditures = cumulativeAmount;
     }
 
     /**
@@ -200,9 +200,9 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
      *
      * @return Returns the balanceAmount.
      */
-    public KualiDecimal getBalanceAmount() {
+    public KualiDecimal getBudgetRemaining() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = getBudgetAmount().subtract(getCumulativeAmount());
+        total = getTotalBudget().subtract(getCumulativeExpenditures());
         return total;
     }
 
@@ -224,12 +224,12 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         this.invoiceDocument = invoiceDocument;
     }
 
-    public KualiDecimal getBilledAmount() {
-        return billedAmount;
+    public KualiDecimal getTotalAmountBilledToDate() {
+        return totalAmountBilledToDate;
     }
 
-    public void setBilledAmount(KualiDecimal billedAmount) {
-        this.billedAmount = billedAmount;
+    public void setTotalAmountBilledToDate(KualiDecimal billedAmount) {
+        this.totalAmountBilledToDate = billedAmount;
     }
 
     /**
@@ -239,7 +239,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
      */
     public KualiDecimal getAdjustedCumExpenditures() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = billedAmount.add(expenditureAmount);
+        total = totalAmountBilledToDate.add(invoiceAmount);
         return total;
     }
 

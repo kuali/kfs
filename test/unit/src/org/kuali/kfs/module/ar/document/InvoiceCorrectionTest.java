@@ -180,7 +180,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         while (iterator.hasNext() || correctedIterator.hasNext()) {
             ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
             ContractsGrantsInvoiceDetail cid = (ContractsGrantsInvoiceDetail) correctedIterator.next();
-            assertTrue(id.getExpenditures().equals(cid.getExpenditures().negated()));
+            assertTrue(id.getInvoiceAmount().equals(cid.getInvoiceAmount().negated()));
         }
     }
 
@@ -227,7 +227,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         while (iterator.hasNext() || correctedIterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
             InvoiceAccountDetail cid = (InvoiceAccountDetail) correctedIterator.next();
-            assertTrue(id.getExpenditureAmount().equals(cid.getExpenditureAmount().negated()));
+            assertTrue(id.getInvoiceAmount().equals(cid.getInvoiceAmount().negated()));
         }
     }
 

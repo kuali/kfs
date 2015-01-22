@@ -83,7 +83,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
     }
 
     public KualiDecimal getCurrentTotal() {
-        return getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDateAmount());
+        return getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getTotalAmountBilledToDate().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getTotalPreviouslyBilled());
     }
 
     public boolean isShowTransmissionDateButton() {

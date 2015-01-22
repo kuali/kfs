@@ -24,14 +24,14 @@ import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 /**
  * Suspension Category that checks to see if the amount to bill with amount already billed is greater than the award total amount.
  */
-public class NewTotalBilledAmountExceedsAwardTotalSuspensionCategory extends SuspensionCategoryBase {
+public class TotalAmountBilledToDateExceedsAwardTotalSuspensionCategory extends SuspensionCategoryBase {
 
     /**
      * @see org.kuali.kfs.module.ar.document.validation.SuspensionCategory#shouldSuspend(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getAwardTotalAmount());
+        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().isGreaterThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getAwardTotalAmount());
     }
 
 }

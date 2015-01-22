@@ -66,10 +66,10 @@ public enum ContractsGrantsInvoiceDetailFixture {
         invoiceDetail.setDocumentNumber(this.documentNumber);
         invoiceDetail.setCategoryCode(this.categoryCode);
         invoiceDetail.refreshReferenceObject(ArPropertyConstants.COST_CATEGORY);
-        invoiceDetail.setBudget(this.budget);
-        invoiceDetail.setExpenditures(this.expenditures);
-        invoiceDetail.setCumulative(this.cumulative);
-        invoiceDetail.setBilled(this.billed);
+        invoiceDetail.setTotalBudget(this.budget);
+        invoiceDetail.setInvoiceAmount(this.expenditures);
+        invoiceDetail.setCumulativeExpenditures(this.cumulative);
+        invoiceDetail.setTotalPreviouslyBilled(this.billed);
         invoiceDetail.setIndirectCostIndicator(this.indirectCostIndicator);
 
         return invoiceDetail;

@@ -131,8 +131,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         KualiDecimal value1 = new KualiDecimal(5);
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setInvoiceAmount(value1);
+        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).setInvoiceAmount(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
@@ -146,16 +146,16 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentService.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(value1, contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getExpenditures());
-        assertEquals(value2, contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).getExpenditures());
+        assertEquals(value1, contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getInvoiceAmount());
+        assertEquals(value2, contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).getInvoiceAmount());
 
         // change the award total, it should now prorate
         contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setAwardTotal(new KualiDecimal(4));
 
         contractsGrantsInvoiceDocumentService.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getExpenditures());
-        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).getExpenditures());
+        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getInvoiceAmount());
+        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).getInvoiceAmount());
     }
 
     /**
@@ -166,8 +166,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
         KualiDecimal value1 = new KualiDecimal(2.23);
         KualiDecimal value2 = new KualiDecimal(5.43);
-        invoiceDetail_1.setExpenditures(value1);
-        invoiceDetail_2.setExpenditures(value2);
+        invoiceDetail_1.setInvoiceAmount(value1);
+        invoiceDetail_2.setInvoiceAmount(value2);
         List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
@@ -183,8 +183,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
 
-        invoiceAccountDetail_1.setExpenditureAmount(new KualiDecimal(4.50));
-        invoiceAccountDetail_2.setExpenditureAmount(new KualiDecimal(5.50));
+        invoiceAccountDetail_1.setInvoiceAmount(new KualiDecimal(4.50));
+        invoiceAccountDetail_2.setInvoiceAmount(new KualiDecimal(5.50));
 
         List<InvoiceAccountDetail> invoiceAccountDetails = new ArrayList<InvoiceAccountDetail>();
         invoiceAccountDetails.add(invoiceAccountDetail_1);
@@ -205,8 +205,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentServiceImpl.recalculateAccountDetails(invoiceAccountDetails, invoiceDetailAccountObjectCodes);
 
-        assert (invoiceAccountDetails.get(0).getExpenditureAmount().compareTo(value1) == 0);
-        assert (invoiceAccountDetails.get(1).getExpenditureAmount().compareTo(value2) == 0);
+        assert (invoiceAccountDetails.get(0).getInvoiceAmount().compareTo(value1) == 0);
+        assert (invoiceAccountDetails.get(1).getInvoiceAmount().compareTo(value2) == 0);
     }
 
     /**
@@ -230,8 +230,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
         ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
 
-        invoiceDetail_1.setExpenditures(value1);
-        invoiceDetail_2.setExpenditures(value2);
+        invoiceDetail_1.setInvoiceAmount(value1);
+        invoiceDetail_2.setInvoiceAmount(value2);
 
         List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
@@ -261,25 +261,25 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
 
-        KualiDecimal originalTotalBilledValue = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled();
+        KualiDecimal originalTotalBilledValue = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate();
 
-        contractsGrantsInvoiceDocumentServiceImpl.recalculateNewTotalBilled(contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceDocumentServiceImpl.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
 
         // assert newTotalBilled hasn't changed
-        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().compareTo((originalTotalBilledValue)) == 0);
+        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().compareTo((originalTotalBilledValue)) == 0);
 
         // making values in account detail different. This simulates that the user have changed
         // the current expenditure amount and will cause recalucation.
         value1 = new KualiDecimal(10.22);
         value2 = new KualiDecimal(8.44);
 
-        invoiceDetails.get(0).setExpenditures(value1);
-        invoiceDetails.get(1).setExpenditures(value1);
+        invoiceDetails.get(0).setInvoiceAmount(value1);
+        invoiceDetails.get(1).setInvoiceAmount(value1);
 
-        contractsGrantsInvoiceDocumentServiceImpl.recalculateNewTotalBilled(contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceDocumentServiceImpl.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
 
         // assert new value
-        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().compareTo(new KualiDecimal(18.66)) == 0);
+        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().compareTo(new KualiDecimal(18.66)) == 0);
     }
 
     /**
@@ -1231,8 +1231,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         KualiDecimal value1 = new KualiDecimal(5);
 
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setInvoiceAmount(value1);
+        contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(1).setInvoiceAmount(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL3.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL4.createInvoiceAccountDetail();

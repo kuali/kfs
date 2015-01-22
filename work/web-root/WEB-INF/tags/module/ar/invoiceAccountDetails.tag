@@ -30,11 +30,11 @@
 				<tr>
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.chartOfAccountsCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.budgetAmount}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.expenditureAmount}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.cumulativeAmount}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.balanceAmount}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.billedAmount}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.totalBudget}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.invoiceAmount}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.cumulativeExpenditures}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.budgetRemaining}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAccountDetailsAttributes.totalAmountBilledToDate}" useShortLabel="false" />
 				</tr>
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.accountDetails" id="accountDetail">
 					<tr>
@@ -45,26 +45,26 @@
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.accountNumber}"
 									property="document.accountDetails[${ctr}].accountNumber" readOnly="true" />
 						</a></td>						
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.budgetAmount}"
-								property="document.accountDetails[${ctr}].budgetAmount" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.expenditureAmount}"
-								property="document.accountDetails[${ctr}].expenditureAmount" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.cumulativeAmount}"
-								property="document.accountDetails[${ctr}].cumulativeAmount" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.balanceAmount}"
-								property="document.accountDetails[${ctr}].balanceAmount" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.billedAmount}"
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.totalBudget}"
+								property="document.accountDetails[${ctr}].totalBudget" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.invoiceAmount}"
+								property="document.accountDetails[${ctr}].invoiceAmount" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.cumulativeExpenditures}"
+								property="document.accountDetails[${ctr}].cumulativeExpenditures" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.budgetRemaining}"
+								property="document.accountDetails[${ctr}].budgetRemaining" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAccountDetailsAttributes.totalAmountBilledToDate}"
 								property="document.accountDetails[${ctr}].adjustedCumExpenditures" readOnly="true" /></td>
 					</tr>
 				</logic:iterate>
 				<c:if test="${fn:length(KualiForm.document.accountDetails) gt 1}">
 					<tr>
 						<td colspan="2"><b>Totals</b></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.budgetAmountTotal}" property="document.budgetAmountTotal" readOnly="true"/> </td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.expenditureAmountTotal}" property="document.expenditureAmountTotal" readOnly="true"/> </td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.cumulativeAmountTotal}" property="document.cumulativeAmountTotal" readOnly="true"/> </td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.balanceAmountTotal}" property="document.balanceAmountTotal" readOnly="true"/> </td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.billedAmountTotal}" property="document.billedAmountTotal" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.totalBudgetAmount}" property="document.totalBudgetAmount" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.totalInvoiceAmount}" property="document.totalInvoiceAmount" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.totalCumulativeExpenditures}" property="document.totalCumulativeExpenditures" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.totalBudgetRemaining}" property="document.totalBudgetRemaining" readOnly="true"/> </td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsInvoiceDocumentAttributes.totalAmountBilledToDate}" property="document.totalAmountBilledToDate" readOnly="true"/> </td>
 					</tr>
 				</c:if>
 			</table>

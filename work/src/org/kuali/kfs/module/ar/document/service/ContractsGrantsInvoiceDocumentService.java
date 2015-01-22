@@ -55,7 +55,7 @@ public interface ContractsGrantsInvoiceDocumentService {
      *
      * @param document the Contracts & Grants Invoice document
      */
-    public void recalculateNewTotalBilled(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
+    public void recalculateTotalAmountBilledToDate(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
      * Recalculates the Total Expenditures for the Invoice due to reaching limit of the total award.

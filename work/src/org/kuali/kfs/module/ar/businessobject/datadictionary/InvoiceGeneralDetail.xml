@@ -34,9 +34,9 @@
 				<ref bean="InvoiceGeneralDetail-billingPeriod" />
 				<ref bean="InvoiceGeneralDetail-instrumentTypeCode" />
 				<ref bean="InvoiceGeneralDetail-awardTotal" />
-				<ref bean="InvoiceGeneralDetail-newTotalBilled" />
+				<ref bean="InvoiceGeneralDetail-totalAmountBilledToDate" />
 				<ref bean="InvoiceGeneralDetail-amountRemainingToBill" />
-				<ref bean="InvoiceGeneralDetail-billedToDateAmount" />
+				<ref bean="InvoiceGeneralDetail-totalPreviouslyBilled" />
 				<ref bean="InvoiceGeneralDetail-costShareAmount" />
 				<ref bean="InvoiceGeneralDetail-lastBilledDate" />
 				<ref bean="InvoiceGeneralDetail-dunningLetterTemplateSentDate" />
@@ -144,10 +144,10 @@
 		<property name="shortLabel" value="Award Total" />
 	</bean>
 
-	<bean id="InvoiceGeneralDetail-newTotalBilled" parent="InvoiceGeneralDetail-newTotalBilled-parentBean" />
+	<bean id="InvoiceGeneralDetail-totalAmountBilledToDate" parent="InvoiceGeneralDetail-totalAmountBilledToDate-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-newTotalBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="newTotalBilled" />
+	<bean id="InvoiceGeneralDetail-totalAmountBilledToDate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalAmountBilledToDate" />
 		<property name="label" value="Total Amount Billed To Date" />
 		<property name="shortLabel" value="Total Amount Billed To Date" />
 	</bean>
@@ -160,10 +160,10 @@
 		<property name="shortLabel" value="Amount Remaining To Bill" />
 	</bean>
 
-	<bean id="InvoiceGeneralDetail-billedToDateAmount" parent="InvoiceGeneralDetail-billedToDateAmount-parentBean" />
+	<bean id="InvoiceGeneralDetail-totalPreviouslyBilled" parent="InvoiceGeneralDetail-totalPreviouslyBilled-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-billedToDateAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="billedToDateAmount" />
+	<bean id="InvoiceGeneralDetail-totalPreviouslyBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalPreviouslyBilled" />
 		<property name="label" value="Total Previously Billed" />
 		<property name="shortLabel" value="Total Previously Billed" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />

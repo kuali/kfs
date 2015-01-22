@@ -37,7 +37,7 @@ public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends Suspe
         if (invoiceMinimumAmount == null) {
             return false; // if no minimum specified, then no limit
         }
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isLessThan(invoiceMinimumAmount);
+        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().isLessThan(invoiceMinimumAmount);
     }
 
 }

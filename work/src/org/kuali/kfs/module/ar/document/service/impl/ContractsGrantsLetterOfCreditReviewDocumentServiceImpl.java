@@ -18,13 +18,10 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
@@ -35,20 +32,16 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditRev
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements ContractsGrantsLetterOfCreditReviewDocumentService {
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
-    protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected KualiModuleService kualiModuleService;
-    protected UniversityDateService universityDateService;
     protected OptionsService optionsService;
 
     /**
@@ -95,39 +88,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
     }
 
     /**
-     * Looks up a Collection of Balances for a given award Account
-     * @param awardAccount award account to find balances for
-     * @param fiscalYear the fiscal year to find balances for
-     * @param objectTypeCodeList the selection of object type codes the balance may have
-     */
-    protected Collection<Balance> retrieveBalancesForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, Integer fiscalYear, List<String> objectTypeCodeList) {
-
-        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
-
-        Map<String, Object> balanceKeys = new HashMap<String, Object>();
-        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, systemOptions.getActualFinancialBalanceTypeCd());
-        balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
-        return getBusinessObjectService().findMatching(Balance.class, balanceKeys);
-    }
-
-    /**
-     * Retrieves the SystemOptions for the given fiscal year and pulls the income/cash and expense/expenditure object types
-     * from that business object
-     * @param fiscalYear the fiscal year to find income and expense object types for
-     * @return a List of the object type codes for the income and expense object types for the given fiscal year
-     */
-    protected List<String> getTransferIncomeAndExpenseObjectTypesForFiscalYear(Integer fiscalYear) {
-        final SystemOptions systemOptions = optionsService.getCurrentYearOptions();
-        List<String> expenseTypes = new ArrayList<>();
-        expenseTypes.add(systemOptions.getFinancialObjectTypeTransferExpenseCd());
-        expenseTypes.add(systemOptions.getFinancialObjectTypeTransferIncomeCd());
-        return expenseTypes;
-    }
-
-    /**
      * This method retrieves the amount available to draw for the award accounts
      *
      * @param awardTotalAmount
@@ -164,14 +124,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
         this.awardAccountObjectCodeTotalBilledDao = awardAccountObjectCodeTotalBilledDao;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
@@ -194,14 +146,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
 
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
-    }
-
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
     }
 
     public OptionsService getOptionsService() {

@@ -224,7 +224,7 @@
     </property>
     <property name="required" value="false"/>
     <property name="control">
-		<bean parent="SelectControlDefinition"
+		<bean parent="MultiselectControlDefinition"
 			p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CollectionActivityTypeValuesFinder"
 			p:includeKeyInLabel="false" />
 	</property>
@@ -297,6 +297,7 @@
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="activityType"/>
 				<bean parent="FieldDefinition" p:attributeName="collector.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				

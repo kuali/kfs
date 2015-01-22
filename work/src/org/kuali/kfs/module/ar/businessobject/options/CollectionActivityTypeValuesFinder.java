@@ -39,7 +39,7 @@ public class CollectionActivityTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<CollectionActivityType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(CollectionActivityType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        //3keyValues.add(new ConcreteKeyValue("", ""));
         for (CollectionActivityType element : boList) {
             if (element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getActivityCode(), element.getActivityDescription()));

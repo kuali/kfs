@@ -146,12 +146,12 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INV_BDGT_AMT" type="DECIMAL(19,2)"/>
-			<column name="INV_EXPND_AMT" type="DECIMAL(19,2)" />
-			<column name="INV_CUM_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_BDGT_AMT" type="DECIMAL(19,2)"/>
+			<column name="INV_AMT" type="DECIMAL(19,2)" />
+			<column name="CUM_EXPND_AMT" type="DECIMAL(19,2)" />
 			<column name="CTGRY_CD" type="VARCHAR(4)" />
 			<column name="IND_CST_IND" type="VARCHAR(1)" />
-			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_PREV_BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_CGB_CLCTN_ACTVY_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -320,11 +320,11 @@
 				<constraints nullable="false" />
 			</column>			
 			<column name="CONTR_CTRLACCT_NBR" type="VARCHAR(7)"/>
-			<column name="BDGT_AMT" type="DECIMAL(19,2)" />
-			<column name="EXP_AMT" type="DECIMAL(19,2)" />
-			<column name="CUM_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_BDGT_AMT" type="DECIMAL(19,2)" />
+			<column name="INV_AMT" type="DECIMAL(19,2)" />
+			<column name="CUM_EXPND_AMT" type="DECIMAL(19,2)" />
 			<column name="CNTRCT_CNTRL_ACCT_NBR" type="VARCHAR(7)"/>
-			<column name="BILLED_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_PREV_BILLED_AMT" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_INV_ADDR_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -459,9 +459,9 @@
 			<column name="INSTRMNT_TYP_CD" type="VARCHAR(4)" />
 			<column name="FNL_BILL_IND" type="VARCHAR(1)" />
 			<column name="AWD_TOT_AMT" type="DECIMAL(19,2)" />
-			<column name="NEW_TOT_BILLED_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_AMT_BILLED_TO_DT" type="DECIMAL(19,2)" />
 			<column name="BILLNG_PRD" type="VARCHAR(50)" />
-			<column name="BILLED_TO_DT_AMT" type="DECIMAL(19,2)" />
+			<column name="TOT_PREV_BILLED_AMT" type="DECIMAL(19,2)" />
 			<column name="COST_SHR_AMT" type="DECIMAL(19,2)" />
 			<column name="LST_BILLED_DT" type="DATETIME" />
 			<column name="COMMENT_TXT" type="VARCHAR(255)" />

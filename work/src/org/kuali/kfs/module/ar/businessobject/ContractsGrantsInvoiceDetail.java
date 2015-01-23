@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -114,8 +114,8 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
      *
      * @param totalBudget The totalBudget to set.
      */
-    public void setTotalBudget(KualiDecimal budget) {
-        this.totalBudget = budget;
+    public void setTotalBudget(KualiDecimal totalBudget) {
+        this.totalBudget = totalBudget;
     }
 
     /**
@@ -132,8 +132,8 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
      *
      * @param invoiceAmount The invoiceAmount to set.
      */
-    public void setInvoiceAmount(KualiDecimal expenditures) {
-        this.invoiceAmount = expenditures;
+    public void setInvoiceAmount(KualiDecimal invoiceAmount) {
+        this.invoiceAmount = invoiceAmount;
     }
 
     /**
@@ -150,14 +150,12 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
      *
      * @param cumulativeExpenditures The cumulativeExpenditures to set.
      */
-    public void setCumulativeExpenditures(KualiDecimal cumulative) {
-        this.cumulativeExpenditures = cumulative;
+    public void setCumulativeExpenditures(KualiDecimal cumulativeExpenditures) {
+        this.cumulativeExpenditures = cumulativeExpenditures;
     }
 
     /**
-     * Gets the balance attribute.
-     *
-     * @return Returns the balance.
+     * @return Returns the budget remaining.
      */
     public KualiDecimal getBudgetRemaining() {
         // Balance = Budget-Cumulative
@@ -180,8 +178,8 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
      *
      * @param totalPreviouslyBilled The totalPreviouslyBilled to set.
      */
-    public void setTotalPreviouslyBilled(KualiDecimal billed) {
-        this.totalPreviouslyBilled = billed;
+    public void setTotalPreviouslyBilled(KualiDecimal totalPreviouslyBilled) {
+        this.totalPreviouslyBilled = totalPreviouslyBilled;
     }
 
 
@@ -232,9 +230,7 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the adjustedCumExpenditures attribute.
-     *
-     * @return Returns the adjustedCumExpenditures.
+     * @return the calculated total amount billed to date (the total previously billed minus the invoice amount)
      */
     public KualiDecimal getTotalAmountBilledToDate() {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -243,13 +239,11 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the adjustedBalance attribute.
-     *
-     * @return Returns the adjustedBalance.
+     * @return the calculated amount remaining to bill (the total budget minus the amount billed to date)
      */
     public KualiDecimal getAmountRemainingToBill() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = totalBudget.subtract(this.getTotalAmountBilledToDate());
+        total = totalBudget.subtract(getTotalAmountBilledToDate());
         return total;
     }
 
@@ -277,8 +271,8 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         if (ObjectUtils.isNotNull(this.totalPreviouslyBilled)) {
             m.put("totalPreviouslyBilled", this.totalPreviouslyBilled.toString());
         }
-        m.put("adjustedCumExpenditures", getTotalAmountBilledToDate().toString());
-        m.put("adjustedBalance", getAmountRemainingToBill().toString());
+        m.put("totalAmountBilledToDate", getTotalAmountBilledToDate().toString());
+        m.put("amountRemainingToBill", getAmountRemainingToBill().toString());
         return m;
     }
 

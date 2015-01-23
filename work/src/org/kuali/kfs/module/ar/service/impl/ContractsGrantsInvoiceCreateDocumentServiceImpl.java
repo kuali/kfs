@@ -1081,18 +1081,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
         }
 
-        KualiDecimal newTotalBilled = KualiDecimal.ZERO;
+        KualiDecimal totalAmountBilledToDate = KualiDecimal.ZERO;
         if (document.getInvoiceMilestones().size() > 0) {
-            newTotalBilled = calculateMilestoneAmount(document);
+            totalAmountBilledToDate = calculateMilestoneAmount(document);
         }
         else if (document.getInvoiceBills().size() > 0) {
-            newTotalBilled = calculateTotalBillAmount(document);
+            totalAmountBilledToDate = calculateTotalBillAmount(document);
         }
         else {
-            newTotalBilled = calculateTotalExpenditureAmount(document);
-            newTotalBilled = getContractsGrantsInvoiceDocumentService().getOtherNewTotalBilledForAwardPeriod(document);
+            totalAmountBilledToDate = calculateTotalExpenditureAmount(document).add(getContractsGrantsInvoiceDocumentService().getOtherTotalBilledForAwardPeriod(document));
         }
-        document.getInvoiceGeneralDetail().setTotalAmountBilledToDate(newTotalBilled);
+        document.getInvoiceGeneralDetail().setTotalAmountBilledToDate(totalAmountBilledToDate);
     }
 
     protected KualiDecimal calculateMilestoneAmount(ContractsGrantsInvoiceDocument document) {
@@ -1136,12 +1135,12 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (InvoiceAccountDetail invAcctD : document.getAccountDetails()) {
             KualiDecimal currentExpenditureAmount = KualiDecimal.ZERO;
             if (!ObjectUtils.isNull(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()))) {
-                invAcctD.setTotalAmountBilledToDate(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()));
+                invAcctD.setTotalPreviouslyBilled(totalBilledByAccountNumberMap.get(invAcctD.getChartOfAccountsCode()+"-"+invAcctD.getAccountNumber()));
             } else {
-                invAcctD.setTotalAmountBilledToDate(KualiDecimal.ZERO);
+                invAcctD.setTotalPreviouslyBilled(KualiDecimal.ZERO);
             }
 
-            currentExpenditureAmount = invAcctD.getCumulativeExpenditures().subtract(invAcctD.getTotalAmountBilledToDate());
+            currentExpenditureAmount = invAcctD.getCumulativeExpenditures().subtract(invAcctD.getTotalPreviouslyBilled());
             invAcctD.setInvoiceAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
             if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {

@@ -66,7 +66,7 @@ public enum InvoiceAccountDetailFixture {
         invoiceAccountDetail.setTotalBudget(this.budgetAmount);
         invoiceAccountDetail.setInvoiceAmount(this.expenditureAmount);
         invoiceAccountDetail.setCumulativeExpenditures(this.cumulativeAmount);
-        invoiceAccountDetail.setTotalAmountBilledToDate(this.billedAmount);
+        invoiceAccountDetail.setTotalPreviouslyBilled(this.billedAmount);
 
         return invoiceAccountDetail;
     }

@@ -285,11 +285,11 @@ public interface ContractsGrantsInvoiceDocumentService {
     public void recalculateSourceAccountingLineTotals(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
-     * Calculate and return the new total billed amount from any other invoices with the same award and billing period
+     * Calculate and return the total billed amount from any other invoices with the same award and billing period
      * @param contractsGrantsInvoiceDocument invoice used to find other related invoices
      * @return calculated new total billed amount
      */
-    public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument document);
+    public KualiDecimal getOtherTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument document);
 
     /**
      * Determines if the given contracts and grants invoice document was (likely) created in batch (as opposed to the lookup screen or the LOC)

@@ -229,14 +229,14 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      *
      * @param totalAmountBilledToDate The totalAmountBilledToDate to set.
      */
-    public void setTotalAmountBilledToDate(KualiDecimal newTotalBilled) {
-        this.totalAmountBilledToDate = newTotalBilled;
+    public void setTotalAmountBilledToDate(KualiDecimal totalAmountBilledToDate) {
+        this.totalAmountBilledToDate = totalAmountBilledToDate;
     }
 
     /**
      * Gets the amountRemainingToBill attribute.
      *
-     * @return Returns the amountRemainingToBill.
+     * @return the calculated amountRemainingToBill (the award total minus the amount billed to date)
      */
     public KualiDecimal getAmountRemainingToBill() {
         KualiDecimal total = KualiDecimal.ZERO;

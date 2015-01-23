@@ -399,7 +399,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setTotalPreviouslyBilled(getAwardBilledToDateAmountByProposalNumber(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getProposalNumber()));
 
         KualiDecimal newTotalBilled = totalCostInvoiceDetail.getInvoiceAmount().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalPreviouslyBilled());
-        newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(contractsGrantsInvoiceDocument));
+        newTotalBilled = newTotalBilled.add(getOtherTotalBilledForAwardPeriod(contractsGrantsInvoiceDocument));
 
         // set the General Detail Total to be billed - there would be only one value for Total Cost invoice Details.
         contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setTotalAmountBilledToDate(newTotalBilled);
@@ -409,7 +409,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getOtherNewTotalBilledForAwardPeriod(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
-    public KualiDecimal getOtherNewTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+    public KualiDecimal getOtherTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         KualiDecimal newTotalBilled = KualiDecimal.ZERO;
 
         Map<String, String> fieldValuesForInvoice = new HashMap<>();
@@ -1205,13 +1205,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, document.getDirectCostInvoiceDetails().get(i).getInvoiceDetailIdentifier());
                 parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+KFSPropertyConstants.DOCUMENT_NUMBER, document.getDirectCostInvoiceDetails().get(i).getDocumentNumber());
                 parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.CATEGORY, document.getDirectCostInvoiceDetails().get(i).getCostCategory().getCategoryName());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+KFSPropertyConstants.BUDGET, document.getDirectCostInvoiceDetails().get(i).getTotalBudget());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.EXPENDITURE, document.getDirectCostInvoiceDetails().get(i).getInvoiceAmount());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.CUMULATIVE, document.getDirectCostInvoiceDetails().get(i).getCumulativeExpenditures());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.BALANCE, document.getDirectCostInvoiceDetails().get(i).getBudgetRemaining());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.BILLED, document.getDirectCostInvoiceDetails().get(i).getTotalPreviouslyBilled());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.ADJUSTED_CUMULATIVE_EXPENDITURES, document.getDirectCostInvoiceDetails().get(i).getTotalAmountBilledToDate());
-                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.ADJUSTED_BALANCE, firstInvoiceDetail.getAmountRemainingToBill());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.TOTAL_BUDGET, document.getDirectCostInvoiceDetails().get(i).getTotalBudget());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.INVOICE_AMOUNT, document.getDirectCostInvoiceDetails().get(i).getInvoiceAmount());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.CUMULATIVE_EXPENDITURES, document.getDirectCostInvoiceDetails().get(i).getCumulativeExpenditures());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.BUDGET_REMAINING, document.getDirectCostInvoiceDetails().get(i).getBudgetRemaining());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.TOTAL_PREVIOUSLY_BILLED, document.getDirectCostInvoiceDetails().get(i).getTotalPreviouslyBilled());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.TOTAL_AMOUNT_BILLED_TO_DATE, document.getDirectCostInvoiceDetails().get(i).getTotalAmountBilledToDate());
+                parameterMap.put(ArPropertyConstants.INVOICE_DETAIL+"[" + i + "]."+ArPropertyConstants.AMOUNT_REMAINING_TO_BILL, firstInvoiceDetail.getAmountRemainingToBill());
             }
         }
         ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
@@ -1219,40 +1219,40 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalDirectCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalDirectCostInvoiceDetail.getDocumentNumber());
             parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORY, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_DIRECT_SUBTOTAL_LABEL));
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalDirectCostInvoiceDetail.getTotalBudget());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalDirectCostInvoiceDetail.getInvoiceAmount());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalDirectCostInvoiceDetail.getCumulativeExpenditures());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BALANCE, totalDirectCostInvoiceDetail.getBudgetRemaining());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BILLED, totalDirectCostInvoiceDetail.getTotalPreviouslyBilled());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_CUMULATIVE_EXPENDITURES, totalDirectCostInvoiceDetail.getTotalAmountBilledToDate());
-            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_BALANCE, totalDirectCostInvoiceDetail.getAmountRemainingToBill());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_BUDGET, totalDirectCostInvoiceDetail.getTotalBudget());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_AMOUNT, totalDirectCostInvoiceDetail.getInvoiceAmount());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE_EXPENDITURES, totalDirectCostInvoiceDetail.getCumulativeExpenditures());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BUDGET_REMAINING, totalDirectCostInvoiceDetail.getBudgetRemaining());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_PREVIOUSLY_BILLED, totalDirectCostInvoiceDetail.getTotalPreviouslyBilled());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_AMOUNT_BILLED_TO_DATE, totalDirectCostInvoiceDetail.getTotalAmountBilledToDate());
+            parameterMap.put(ArPropertyConstants.DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.AMOUNT_REMAINING_TO_BILL, totalDirectCostInvoiceDetail.getAmountRemainingToBill());
         }
         ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = document.getTotalIndirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)) {
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalInDirectCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalInDirectCostInvoiceDetail.getDocumentNumber());
             parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_INDIRECT_SUBTOTAL_LABEL));
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalInDirectCostInvoiceDetail.getTotalBudget());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalInDirectCostInvoiceDetail.getInvoiceAmount());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalInDirectCostInvoiceDetail.getCumulativeExpenditures());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BALANCE, totalInDirectCostInvoiceDetail.getBudgetRemaining());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BILLED, totalInDirectCostInvoiceDetail.getTotalPreviouslyBilled());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_CUMULATIVE_EXPENDITURES, totalInDirectCostInvoiceDetail.getTotalAmountBilledToDate());
-            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_BALANCE, totalInDirectCostInvoiceDetail.getAmountRemainingToBill());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_BUDGET, totalInDirectCostInvoiceDetail.getTotalBudget());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_AMOUNT, totalInDirectCostInvoiceDetail.getInvoiceAmount());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE_EXPENDITURES, totalInDirectCostInvoiceDetail.getCumulativeExpenditures());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.BUDGET_REMAINING, totalInDirectCostInvoiceDetail.getBudgetRemaining());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_PREVIOUSLY_BILLED, totalInDirectCostInvoiceDetail.getTotalPreviouslyBilled());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_AMOUNT_BILLED_TO_DATE, totalInDirectCostInvoiceDetail.getTotalAmountBilledToDate());
+            parameterMap.put(ArPropertyConstants.IN_DIRECT_COST_INVOICE_DETAIL+"."+ArPropertyConstants.AMOUNT_REMAINING_TO_BILL, totalInDirectCostInvoiceDetail.getAmountRemainingToBill());
         }
         ContractsGrantsInvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_DETAIL_IDENTIFIER, totalCostInvoiceDetail.getInvoiceDetailIdentifier());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+KFSPropertyConstants.DOCUMENT_NUMBER, totalCostInvoiceDetail.getDocumentNumber());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CATEGORIES, getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_DETAILS_TOTAL_LABEL));
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+KFSPropertyConstants.BUDGET, totalCostInvoiceDetail.getTotalBudget());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.EXPENDITURE, totalCostInvoiceDetail.getInvoiceAmount());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE, totalCostInvoiceDetail.getCumulativeExpenditures());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.BALANCE, totalCostInvoiceDetail.getBudgetRemaining());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.BILLED, totalCostInvoiceDetail.getTotalPreviouslyBilled());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_BUDGET, totalCostInvoiceDetail.getTotalBudget());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.INVOICE_AMOUNT, totalCostInvoiceDetail.getInvoiceAmount());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.CUMULATIVE_EXPENDITURES, totalCostInvoiceDetail.getCumulativeExpenditures());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.BUDGET_REMAINING, totalCostInvoiceDetail.getBudgetRemaining());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_PREVIOUSLY_BILLED, totalCostInvoiceDetail.getTotalPreviouslyBilled());
             parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.ESTIMATED_COST, totalCostInvoiceDetail.getTotalPreviouslyBilled().add(totalCostInvoiceDetail.getInvoiceAmount()));
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_CUMULATIVE_EXPENDITURES, totalCostInvoiceDetail.getTotalAmountBilledToDate());
-            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.ADJUSTED_BALANCE, totalCostInvoiceDetail.getAmountRemainingToBill());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.TOTAL_AMOUNT_BILLED_TO_DATE, totalCostInvoiceDetail.getTotalAmountBilledToDate());
+            parameterMap.put(ArPropertyConstants.TOTAL_INVOICE_DETAIL+"."+ArPropertyConstants.AMOUNT_REMAINING_TO_BILL, totalCostInvoiceDetail.getAmountRemainingToBill());
         }
 
         if (ObjectUtils.isNotNull(award)) {
@@ -1644,7 +1644,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         else {
             document.getInvoiceGeneralDetail().setTotalPreviouslyBilled(getAwardBilledToDateAmountByProposalNumber(document.getInvoiceGeneralDetail().getProposalNumber()));
             KualiDecimal newTotalBilled = document.getTotalCostInvoiceDetail().getInvoiceAmount().add(document.getInvoiceGeneralDetail().getTotalPreviouslyBilled());
-            newTotalBilled = newTotalBilled.add(getOtherNewTotalBilledForAwardPeriod(document));
+            newTotalBilled = newTotalBilled.add(getOtherTotalBilledForAwardPeriod(document));
             document.getInvoiceGeneralDetail().setTotalAmountBilledToDate(newTotalBilled);
         }
 
@@ -1669,7 +1669,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @param invoiceAccountDetail the invoice account detail to error correct
      */
     protected void correctInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
-        invoiceAccountDetail.setTotalAmountBilledToDate(invoiceAccountDetail.getInvoiceAmount());
+        invoiceAccountDetail.setTotalPreviouslyBilled(invoiceAccountDetail.getInvoiceAmount());
         invoiceAccountDetail.setCumulativeExpenditures(invoiceAccountDetail.getCumulativeExpenditures().subtract(invoiceAccountDetail.getInvoiceAmount()));
         invoiceAccountDetail.setInvoiceAmount(invoiceAccountDetail.getInvoiceAmount().negated());
         invoiceAccountDetail.setInvoiceDocument(null);

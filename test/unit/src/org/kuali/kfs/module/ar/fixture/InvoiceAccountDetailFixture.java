@@ -63,10 +63,10 @@ public enum InvoiceAccountDetailFixture {
         invoiceAccountDetail.setChartOfAccountsCode(this.chartOfAccountsCode);
         invoiceAccountDetail.setAccountNumber(this.accountNumber);
         invoiceAccountDetail.setContractControlAccountNumber(this.contractControlAccountNumber);
-        invoiceAccountDetail.setBudgetAmount(this.budgetAmount);
-        invoiceAccountDetail.setExpenditureAmount(this.expenditureAmount);
-        invoiceAccountDetail.setCumulativeAmount(this.cumulativeAmount);
-        invoiceAccountDetail.setBilledAmount(this.billedAmount);
+        invoiceAccountDetail.setTotalBudget(this.budgetAmount);
+        invoiceAccountDetail.setInvoiceAmount(this.expenditureAmount);
+        invoiceAccountDetail.setCumulativeExpenditures(this.cumulativeAmount);
+        invoiceAccountDetail.setTotalPreviouslyBilled(this.billedAmount);
 
         return invoiceAccountDetail;
     }

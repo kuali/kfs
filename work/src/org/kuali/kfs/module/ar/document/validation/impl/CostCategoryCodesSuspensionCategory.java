@@ -43,11 +43,11 @@ public class CostCategoryCodesSuspensionCategory extends SuspensionCategoryBase 
         if (!StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
                 !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, billingFrequencyCode)) {
             ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
-            KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
+            KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulativeExpenditures();
             KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
 
             for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
-                accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
+                accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeExpenditures());
             }
 
             return !categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure);

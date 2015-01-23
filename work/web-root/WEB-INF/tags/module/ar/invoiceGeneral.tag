@@ -66,12 +66,12 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.totalPreviouslyBilled}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billedToDateAmount.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" property="document.invoiceGeneralDetail.billedToDateAmount"
+					<div id="document.totalPreviouslyBilled.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.totalPreviouslyBilled}" property="document.invoiceGeneralDetail.totalPreviouslyBilled"
 							readOnly="true" />
 					</div>
 				</td>
@@ -90,19 +90,19 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.newTotalBilled}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.totalAmountBilledToDate}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.newTotalBilled.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.newTotalBilled}"
-							property="document.invoiceGeneralDetail.newTotalBilled" readOnly="true" />
+					<div id="document.totalAmountBilledToDate.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.totalAmountBilledToDate}"
+							property="document.invoiceGeneralDetail.totalAmountBilledToDate" readOnly="true" />
 						&nbsp;&nbsp;&nbsp;
 						<c:if test="${!empty KualiForm.document.invoiceGeneralDetail.proposalNumber && KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
 							<c:if test="${empty KualiForm.document.invoiceMilestones}">
 								<c:if test="${empty KualiForm.document.invoiceBills}">
 									<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_calculate.gif" styleClass="tinybutton"
-										property="methodToCall.recalculateNewTotalBilled" title="relcalculate" alt="recalculate" />
+										property="methodToCall.recalculateTotalAmountBilledToDate" title="relcalculate" alt="recalculate" />
 								</c:if>
 							</c:if>
 						</c:if>

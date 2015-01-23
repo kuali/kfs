@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,10 +37,10 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
     private String accountNumber;
     private String contractControlAccountNumber;
-    private KualiDecimal budgetAmount = KualiDecimal.ZERO;
-    private KualiDecimal expenditureAmount = KualiDecimal.ZERO;
-    private KualiDecimal cumulativeAmount = KualiDecimal.ZERO;
-    private KualiDecimal billedAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalBudget = KualiDecimal.ZERO;
+    private KualiDecimal invoiceAmount = KualiDecimal.ZERO;
+    private KualiDecimal cumulativeExpenditures = KualiDecimal.ZERO;
+    private KualiDecimal totalPreviouslyBilled = KualiDecimal.ZERO;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
 
@@ -140,75 +140,71 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the budgetAmount attribute.
+     * Gets the totalBudget attribute.
      *
-     * @return Returns the budgetAmount.
+     * @return Returns the totalBudget.
      */
-    public KualiDecimal getBudgetAmount() {
-        return budgetAmount;
+    public KualiDecimal getTotalBudget() {
+        return totalBudget;
     }
 
     /**
-     * Sets the budgetAmount attribute value.
+     * Sets the totalBudget attribute value.
      *
-     * @param budgetAmount The budgetAmount to set.
+     * @param totalBudget The totalBudget to set.
      */
 
-    public void setBudgetAmount(KualiDecimal budgetAmount) {
-        this.budgetAmount = budgetAmount;
+    public void setTotalBudget(KualiDecimal totalBudget) {
+        this.totalBudget = totalBudget;
     }
 
     /**
-     * Gets the expenditureAmount attribute.
+     * Gets the invoiceAmount attribute.
      *
-     * @return Returns the expenditureAmount.
+     * @return Returns the invoiceAmount.
      */
-    public KualiDecimal getExpenditureAmount() {
-        return expenditureAmount;
+    public KualiDecimal getInvoiceAmount() {
+        return invoiceAmount;
     }
 
     /**
-     * Sets the expenditureAmount attribute value.
+     * Sets the invoiceAmount attribute value.
      *
-     * @param expenditureAmount The expenditureAmount to set.
+     * @param invoiceAmount The invoiceAmount to set.
      */
-    public void setExpenditureAmount(KualiDecimal expenditureAmount) {
-        this.expenditureAmount = expenditureAmount;
+    public void setInvoiceAmount(KualiDecimal invoiceAmount) {
+        this.invoiceAmount = invoiceAmount;
     }
 
     /**
-     * Gets the cumulativeAmount attribute.
+     * Gets the cumulativeExpenditures attribute.
      *
-     * @return Returns the cumulativeAmount.
+     * @return Returns the cumulativeExpenditures.
      */
-    public KualiDecimal getCumulativeAmount() {
-        return cumulativeAmount;
+    public KualiDecimal getCumulativeExpenditures() {
+        return cumulativeExpenditures;
     }
 
     /**
-     * Sets the cumulativeAmount attribute value.
+     * Sets the cumulativeExpenditures attribute value.
      *
-     * @param cumulativeAmount The cumulativeAmount to set.
+     * @param cumulativeExpenditures The cumulativeExpenditures to set.
      */
 
-    public void setCumulativeAmount(KualiDecimal cumulativeAmount) {
-        this.cumulativeAmount = cumulativeAmount;
+    public void setCumulativeExpenditures(KualiDecimal cumulativeExpenditures) {
+        this.cumulativeExpenditures = cumulativeExpenditures;
     }
 
     /**
-     * Gets the balanceAmount attribute.
-     *
-     * @return Returns the balanceAmount.
+     * @return the calculated budget remaining (the total budget minus the cumulative expenditures).
      */
-    public KualiDecimal getBalanceAmount() {
+    public KualiDecimal getBudgetRemaining() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = getBudgetAmount().subtract(getCumulativeAmount());
+        total = getTotalBudget().subtract(getCumulativeExpenditures());
         return total;
     }
 
     /**
-     * Gets the invoiceDocument attribute.
-     *
      * @return Returns the invoiceDocument.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
@@ -224,12 +220,12 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         this.invoiceDocument = invoiceDocument;
     }
 
-    public KualiDecimal getBilledAmount() {
-        return billedAmount;
+    public KualiDecimal getTotalPreviouslyBilled() {
+        return totalPreviouslyBilled;
     }
 
-    public void setBilledAmount(KualiDecimal billedAmount) {
-        this.billedAmount = billedAmount;
+    public void setTotalPreviouslyBilled(KualiDecimal totalPreviouslyBilled) {
+        this.totalPreviouslyBilled = totalPreviouslyBilled;
     }
 
     /**
@@ -237,9 +233,9 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
      *
      * @return Returns the adjustedCumExpenditures.
      */
-    public KualiDecimal getAdjustedCumExpenditures() {
+    public KualiDecimal getTotalAmountBilledToDate() {
         KualiDecimal total = KualiDecimal.ZERO;
-        total = billedAmount.add(expenditureAmount);
+        total = totalPreviouslyBilled.add(invoiceAmount);
         return total;
     }
 

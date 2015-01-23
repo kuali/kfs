@@ -72,10 +72,10 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         super.loadDocument(kualiDocumentFormBase);
         ContractsGrantsInvoiceDocumentForm cgInvoiceForm = (ContractsGrantsInvoiceDocumentForm)kualiDocumentFormBase;
         final ContractsGrantsInvoiceDocument cgInvoice = cgInvoiceForm.getContractsGrantsInvoiceDocument();
-        if (shouldUpdateSuspensionCategoriesAndRecalculateNewTotalBilled(cgInvoice)) {
+        if (shouldUpdateSuspensionCategoriesAndRecalculateTotalAmountBilledToDate(cgInvoice)) {
             if (!StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(cgInvoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
                 ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-                contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(cgInvoice);
+                contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(cgInvoice);
             }
             updateSuspensionCategoriesOnDocument(cgInvoiceForm); // in memory CINV has had the suspension categories updated
         }
@@ -87,7 +87,7 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
      * @param cgInvoice the invoice to determine the suspension category updatability of
      * @return true if suspension categories should be updated and new total bill should be recalculated, false otherwise
      */
-    protected boolean shouldUpdateSuspensionCategoriesAndRecalculateNewTotalBilled(ContractsGrantsInvoiceDocument cgInvoice) {
+    protected boolean shouldUpdateSuspensionCategoriesAndRecalculateTotalAmountBilledToDate(ContractsGrantsInvoiceDocument cgInvoice) {
         final DocumentStatus documentStatus = DocumentStatus.fromCode(cgInvoice.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode());
         return documentStatus.getCategory() != DocumentStatusCategory.SUCCESSFUL && documentStatus.getCategory() != DocumentStatusCategory.UNSUCCESSFUL && documentStatus != DocumentStatus.EXCEPTION;
     }
@@ -103,11 +103,11 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
      * @return
      * @throws Exception
      */
-    public ActionForward recalculateNewTotalBilled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward recalculateTotalAmountBilledToDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsInvoiceDocumentForm contractsGrantsInvoiceDocumentForm = (ContractsGrantsInvoiceDocumentForm) form;
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = contractsGrantsInvoiceDocumentForm.getContractsGrantsInvoiceDocument();
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(contractsGrantsInvoiceDocument);
+        contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

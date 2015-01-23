@@ -118,7 +118,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         // To be performed whenever the document is saved only for awards without Milestones or Bills
         if (!StringUtils.equalsIgnoreCase(getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-            contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(this);
+            contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(this);
         }
     }
 
@@ -495,44 +495,44 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         return accountsReceivableDocumentHeader.getCustomerNumber();
     }
 
-    public KualiDecimal getBudgetAmountTotal() {
+    public KualiDecimal getTotalBudgetAmount() {
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getBudgetAmount());
+            total = total.add(accountDetail.getTotalBudget());
         }
 
         return total;
     }
 
-    public KualiDecimal getExpenditureAmountTotal() {
+    public KualiDecimal getTotalInvoiceAmount() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getExpenditureAmount());
+            total = total.add(accountDetail.getInvoiceAmount());
         }
         return total;
     }
 
-    public KualiDecimal getCumulativeAmountTotal() {
+    public KualiDecimal getTotalCumulativeExpenditures() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getCumulativeAmount());
+            total = total.add(accountDetail.getCumulativeExpenditures());
         }
         return total;
     }
 
-    public KualiDecimal getBalanceAmountTotal() {
+    public KualiDecimal getTotalBudgetRemaining() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getBalanceAmount());
+            total = total.add(accountDetail.getBudgetRemaining());
         }
         return total;
     }
 
-    public KualiDecimal getBilledAmountTotal() {
+    public KualiDecimal getTotalAmountBilledToDate() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (InvoiceAccountDetail accountDetail : accountDetails) {
-            total = total.add(accountDetail.getAdjustedCumExpenditures());
+            total = total.add(accountDetail.getTotalAmountBilledToDate());
         }
         return total;
     }

@@ -76,8 +76,8 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setBillingPeriod(billingPeriod);
         invoiceGeneralDetail.setInstrumentTypeCode(instrumentTypeCode);
         invoiceGeneralDetail.setAwardTotal(awardTotal);
-        invoiceGeneralDetail.setNewTotalBilled(newTotalBilled);
-        invoiceGeneralDetail.setBilledToDateAmount(billedToDateAmount);
+        invoiceGeneralDetail.setTotalAmountBilledToDate(newTotalBilled);
+        invoiceGeneralDetail.setTotalPreviouslyBilled(billedToDateAmount);
         invoiceGeneralDetail.setCostShareAmount(costShareAmount);
         invoiceGeneralDetail.setLastBilledDate(lastBilledDate);
         invoiceGeneralDetail.setProposalNumber(proposalNumber);

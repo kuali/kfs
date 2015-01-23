@@ -36,7 +36,7 @@ public class LetterOfCreditRemainingAmountSuspensionCategory extends SuspensionC
         String billingFrequencyCode = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getBillingFrequencyCode();
 
         if (StringUtils.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE, billingFrequencyCode) &&
-                (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled()))) {
+                (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate()))) {
             return true;
         }
 

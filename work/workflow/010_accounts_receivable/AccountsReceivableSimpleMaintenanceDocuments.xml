@@ -42,6 +42,26 @@
 		</documentType>
 		<documentType>
 			<name>
+				CVNT
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collection Event
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%collectionevent.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
 				IICO
       </name>
 			<parent>

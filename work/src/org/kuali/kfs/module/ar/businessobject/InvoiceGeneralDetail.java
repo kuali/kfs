@@ -306,8 +306,8 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      *
      * @param totalPreviouslyBilled The totalPreviouslyBilled to set.
      */
-    public void setTotalPreviouslyBilled(KualiDecimal billedToDateAmount) {
-        this.totalPreviouslyBilled = billedToDateAmount;
+    public void setTotalPreviouslyBilled(KualiDecimal totalPreviouslyBilled) {
+        this.totalPreviouslyBilled = totalPreviouslyBilled;
     }
 
     /**

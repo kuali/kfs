@@ -267,7 +267,7 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         if (ObjectUtils.isNotNull(this.cumulativeExpenditures)) {
             m.put("cumulativeExpenditures", this.cumulativeExpenditures.toString());
         }
-        m.put("balance", getBudgetRemaining().toString());
+        m.put("budgetRemaining", getBudgetRemaining().toString());
         if (ObjectUtils.isNotNull(this.totalPreviouslyBilled)) {
             m.put("totalPreviouslyBilled", this.totalPreviouslyBilled.toString());
         }

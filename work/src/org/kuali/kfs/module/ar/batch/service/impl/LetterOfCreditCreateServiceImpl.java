@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -405,7 +405,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, PrintWriter errorFile) throws IOException {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFund, ArConstants.LOC_BY_LOC_FUND);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFund, ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.LETTER_OF_CREDIT_FUND_CODE, ArConstants.LOC_BY_LOC_FUND);
 
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND, locFund);
@@ -421,13 +421,14 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     /**
      * Retrieves ContractsAndGrantsInvoiceDocument documents which are open and which have the given letter of credit fund and letter of credit creation type (either fund or fund group)
      * @param locFund the code of the fund or fund group
+     * @param locFundKey the key (fund or fund group) for the locFund value
      * @param creationType whether to search by fund or fund group
      * @return a Collection of matching letter of credit created contracts and grants invoices
      */
-    protected Collection<ContractsGrantsInvoiceDocument> retrieveLetterOfCreditInvoices(String locFund, final String creationType) {
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveLetterOfCreditInvoices(String locFund, String locFundKey, final String creationType) {
         Map<String, String> fieldValues = new HashMap<>();
-        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_CREATION_TYPE, creationType);
-        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.LETTER_OF_CREDIT_CREATION_TYPE, creationType);
+        fieldValues.put(locFundKey, locFund);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         return cgInvoices;
@@ -441,7 +442,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, PrintWriter errorFile) throws IOException {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFundGroup, ArConstants.LOC_BY_LOC_FUND_GRP);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices(locFundGroup, ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.LETTER_OF_CREDIT_FUND_GROUP_CODE, ArConstants.LOC_BY_LOC_FUND_GRP);
 
         final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
         String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND_GRP, locFundGroup);

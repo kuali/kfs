@@ -22,6 +22,12 @@
 
   <bean id="CollectionEvent-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CollectionEvent"/>
+    <property name="inquiryDefinition">
+			<ref bean="CollectionEvent-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="CollectionEvent-lookupDefinition" />
+		</property>
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="CollectionEvent"/>
     <property name="attributes">
@@ -175,5 +181,71 @@
       	<bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
+
+<bean id="CollectionEvent-inquiryDefinition" parent="CollectionEvent-inquiryDefinition-parentBean" />
+
+	<bean id="CollectionEvent-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Collection Event Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="CollectionEvent-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CollectionEvent-inquirySectionDefinition" parent="CollectionEvent-inquirySectionDefinition-parentBean" />
+	<bean id="CollectionEvent-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Collection Event" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="collectionEventCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="activityCode" />
+				<bean parent="FieldDefinition" p:attributeName="activityDate" />
+				<bean parent="FieldDefinition" p:attributeName="followupDate" />
+				<bean parent="FieldDefinition" p:attributeName="completedDate" />
+				<bean parent="FieldDefinition" p:attributeName="postedDate" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CollectionEvent-lookupDefinition" parent="CollectionEvent-lookupDefinition-parentBean" />
+
+	<bean id="CollectionEvent-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Collection Event" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="collectionEventCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="activityCode" />
+				<bean parent="FieldDefinition" p:attributeName="activityDate" />
+				<bean parent="FieldDefinition" p:attributeName="followupDate" />
+				<bean parent="FieldDefinition" p:attributeName="completedDate" />
+				<bean parent="FieldDefinition" p:attributeName="postedDate" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="collectionEventCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="activityCode" />
+				<bean parent="FieldDefinition" p:attributeName="activityDate" />
+				<bean parent="FieldDefinition" p:attributeName="followupDate" />
+				<bean parent="FieldDefinition" p:attributeName="completedDate" />
+				<bean parent="FieldDefinition" p:attributeName="postedDate" />
+			</list>	
+		</property>
+	</bean>
 
 </beans>

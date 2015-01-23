@@ -88,6 +88,9 @@ public class ArPropertyConstants{
     }
 
     public static class ContractsGrantsInvoiceDocumentFields {
+        public static final String LETTER_OF_CREDIT_CREATION_TYPE = "invoiceGeneralDetail.letterOfCreditCreationType";
+        public static final String LETTER_OF_CREDIT_FUND_CODE = "invoiceGeneralDetail.letterOfCreditFundCode";
+        public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "invoiceGeneralDetail.letterOfCreditFundGroupCode";
         public static final String FINAL_BILL = "invoiceGeneralDetail.finalBillIndicator";
         public static final String PROPOSAL_NUMBER = "invoiceGeneralDetail.proposalNumber";
     }
@@ -555,7 +558,6 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
-    public static final String LETTER_OF_CREDIT_CREATION_TYPE ="letterOfCreditCreationType" ;
     public static final String HEADER_REVIEW_DETAILS = "headerReviewDetails";
     public static final String ACCOUNT_REVIEW_DETAILS = "accountReviewDetails";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";

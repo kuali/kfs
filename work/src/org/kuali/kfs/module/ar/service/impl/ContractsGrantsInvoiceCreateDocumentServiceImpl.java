@@ -21,6 +21,8 @@ package org.kuali.kfs.module.ar.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -507,7 +509,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     invoiceAccountDetail.setCumulativeExpenditures(awardAccountCumulativeAmount);
                 }
                 invoiceAccountDetails.add(invoiceAccountDetail);
-                if (awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                if (StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                     distributeAmountAmongAllAccountObjectCodes(document, awardAccount, invoiceDetailAccountObjectsCodes);
                 }
                 else {
@@ -882,19 +884,110 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param invoiceDetailAccountObjectsCodes the List of invoice detail account object codes we're attempting to generate
      */
     protected void distributeAmountAmongAllAccountObjectCodes(ContractsGrantsInvoiceDocument document, ContractsAndGrantsBillingAwardAccount awdAcct, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectsCodes) {
-        KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
+        final List<InvoiceDetailAccountObjectCode> locRedistributionInvoiceDetailAccountObjectCodes = filterInvoiceAccountObjectCodesByDocumentAndAccount(document, awdAcct, invoiceDetailAccountObjectsCodes);
+        final KualiDecimal realTotal = sumInvoiceDetailAccountObjectCodes(locRedistributionInvoiceDetailAccountObjectCodes);
+        final Map<String, List<InvoiceDetailAccountObjectCode>> locRedistributionAccountObjectCodesByCategory = mapInvoiceDetailAccountObjectCodesByCategoryCode(locRedistributionInvoiceDetailAccountObjectCodes);
+        // HERE JAMES! THE CURRENT EXPENDITURES IS NOT RIGHT!
+        final Map<String, BigDecimal> percentagesByCategory = calculatePercentagesByCategory(locRedistributionAccountObjectCodesByCategory, realTotal);
+        final Map<String, KualiDecimal> amountsByCategory = calculateAmountsByCategory(percentagesByCategory, awdAcct.getAmountToDraw());
+        redistributeAmountsToInvoiceAccountCategories(locRedistributionAccountObjectCodesByCategory, amountsByCategory);
+    }
 
+    /**
+     * Filters the given list of invoice detail account object codes by the given document and account
+     * @param document the document which owns the invoice detail account object codes
+     * @param awdAcct the award account to find invoice detail account object codes for
+     * @param invoiceDetailAccountObjectsCodes the original list of invoice detail account object codes
+     * @return a list of invoice detail account object codes associated with the given document and the given account
+     */
+    protected List<InvoiceDetailAccountObjectCode> filterInvoiceAccountObjectCodesByDocumentAndAccount(ContractsGrantsInvoiceDocument document, ContractsAndGrantsBillingAwardAccount awdAcct, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectsCodes) {
         List<InvoiceDetailAccountObjectCode> locRedistributionInvoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectsCodes) {
-            if (invoiceDetailAccountObjectCode.getDocumentNumber().equals(document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getInvoiceGeneralDetail().getProposalNumber()) && invoiceDetailAccountObjectCode.getAccountNumber().equals(awdAcct.getAccountNumber()) && invoiceDetailAccountObjectCode.getChartOfAccountsCode().equals(awdAcct.getChartOfAccountsCode())) {
+            if (StringUtils.equals(invoiceDetailAccountObjectCode.getDocumentNumber(), document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getInvoiceGeneralDetail().getProposalNumber()) && StringUtils.equals(invoiceDetailAccountObjectCode.getAccountNumber(), awdAcct.getAccountNumber()) && StringUtils.equals(invoiceDetailAccountObjectCode.getChartOfAccountsCode(), awdAcct.getChartOfAccountsCode())) {
                 locRedistributionInvoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode);
             }
         }
-        amountToDrawForObjectCodes = awdAcct.getAmountToDraw().divide(new KualiDecimal(locRedistributionInvoiceDetailAccountObjectCodes.size()));
+        return locRedistributionInvoiceDetailAccountObjectCodes;
+    }
 
-        // Now to set the divided value equally to all the object code rows.
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : locRedistributionInvoiceDetailAccountObjectCodes) {
-            invoiceDetailAccountObjectCode.setCurrentExpenditures(amountToDrawForObjectCodes);
+    /**
+     * Sums the current expenditures of the given invoice detail account object codes
+     * @param invoiceDetailAccountObjectCodes invoice detail account object codes to total the current expenditures of
+     * @return the total of the current expenditures
+     */
+    protected KualiDecimal sumInvoiceDetailAccountObjectCodes(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            total = total.add(invoiceDetailAccountObjectCode.getCumulativeExpenditures());
+        }
+        return total;
+    }
+
+    /**
+     * Calculates the percentage of the given total each list of invoice detail account object codes represents
+     * @param invoiceDetailAccountObjectCodesByCategory a Map of invoice detail account object codes mapped by category
+     * @param total the total of all of the invoice detail account object codes
+     * @return A Map keyed by category where the value is the percentage of the total that category represents
+     */
+    protected Map<String, BigDecimal> calculatePercentagesByCategory(Map<String, List<InvoiceDetailAccountObjectCode>> invoiceDetailAccountObjectCodesByCategory, KualiDecimal total) {
+        Map<String, BigDecimal> percentagesByCategory = new HashMap<>();
+        for (String categoryCode : invoiceDetailAccountObjectCodesByCategory.keySet()) {
+            percentagesByCategory.put(categoryCode, calculatePercentageByInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodesByCategory.get(categoryCode), total));
+        }
+        return percentagesByCategory;
+    }
+
+    /**
+     * Finds the percentage that the given total is of the sum of the current expenditures of the given invoiceDetailAccountObjectCodes
+     * @param invoiceDetailAccountObjectCodes a List of invoice detail account object codes to sum
+     * @param total the total of all of the invoice detail account object codes for that account
+     * @return the percentage of the total of the given List of invoice detail account object code current expenditures are of the given total
+     */
+    protected BigDecimal calculatePercentageByInvoiceDetailAccountObjectCodes(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, KualiDecimal total) {
+        final KualiDecimal currentExpenditureTotal = sumInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodes);
+        return currentExpenditureTotal.bigDecimalValue().divide(total.bigDecimalValue(), 10, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Given a Map of category keys mapping percentage values and an amount, find what amount each percentage would be
+     * @param percentagesByCategory a map of category code keys mapping percentage values
+     * @param amount the amount to split by percentages
+     * @return a Map of amounts keyed by category codes
+     */
+    protected Map<String, KualiDecimal> calculateAmountsByCategory(Map<String, BigDecimal> percentagesByCategory, KualiDecimal amount) {
+        final BigDecimal bigDecimalAmount = amount.bigDecimalValue().setScale(2, RoundingMode.HALF_UP);
+        Map<String, KualiDecimal> amountsByCategory = new HashMap<>();
+        for (String categoryCode : percentagesByCategory.keySet()) {
+            amountsByCategory.put(categoryCode, new KualiDecimal(bigDecimalAmount.multiply(percentagesByCategory.get(categoryCode))));
+        }
+        return amountsByCategory;
+    }
+
+    /**
+     * Redistributes the given amounts mapped by category to each of the invoice detail account object codes mapped by category code
+     * @param redistributionAccountObjectCodesByCategory invoice detail account object codes mapped by category code
+     * @param amountsByCategory amounts mapped by category code
+     */
+    protected void redistributeAmountsToInvoiceAccountCategories(Map<String, List<InvoiceDetailAccountObjectCode>> redistributionAccountObjectCodesByCategory, Map<String, KualiDecimal> amountsByCategory) {
+        for (String categoryCode : redistributionAccountObjectCodesByCategory.keySet()) {
+            final List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = redistributionAccountObjectCodesByCategory.get(categoryCode);
+            if (invoiceDetailAccountObjectCodes.size() == 1) {
+                invoiceDetailAccountObjectCodes.get(0).setCurrentExpenditures(amountsByCategory.get(categoryCode));
+            } else {
+                splitOutRedistribution(invoiceDetailAccountObjectCodes, amountsByCategory.get(categoryCode));
+            }
+        }
+    }
+
+    /**
+     * Splits an amount evenly over the given List of invoice detail account object codes
+     * @param invoiceDetailAccountObjectCodes a List of invoice detail account object codes to divvy an amount equally among
+     * @param amount the amount to divvy
+     */
+    protected void splitOutRedistribution(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, KualiDecimal amount) {
+        final KualiDecimal amountEach = new KualiDecimal(amount.bigDecimalValue().divide(new BigDecimal(invoiceDetailAccountObjectCodes.size()), 2, RoundingMode.HALF_UP));
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            invoiceDetailAccountObjectCode.setCurrentExpenditures(amountEach);
         }
     }
 
@@ -1147,7 +1240,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
                 if (ObjectUtils.isNotNull(award)) {
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                        if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                             currentExpenditureAmount = awardAccount.getAmountToDraw();
                             invAcctD.setInvoiceAmount(currentExpenditureAmount);
                         }

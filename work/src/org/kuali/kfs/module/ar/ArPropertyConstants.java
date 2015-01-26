@@ -222,6 +222,7 @@ public class ArPropertyConstants{
 
     // Collection Event bo fields
     public static class CollectionEventFields {
+        public static final String ID = "id";
         public static final String INVOICE_DOCUMENT_PROPOSAL_NUMBER = "invoiceDocument.invoiceGeneralDetails.proposalNumber";
         public static final String INVOICE_DOCUMENT_OPEN_INV_IND = "invoiceDocument." + ArPropertyConstants.OPEN_INVOICE_IND;
         public static final String FOLLOW_UP = "followup";

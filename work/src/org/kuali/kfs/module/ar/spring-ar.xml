@@ -712,6 +712,16 @@
 		</property>
 	</bean>
 
+	<bean id="collectionsReportLookupableHelperService" abstract="true" parent="collectionsReportLookupableHelperService-parentBean"/>
+	<bean id="collectionsReportLookupableHelperService-parentBean" abstract="true" parent="contractsGrantsLookupableHelperService">
+		<property name="configurationService">
+			<ref bean="configurationService"/>
+		</property>
+		<property name="identityManagementService">
+			<ref bean="identityManagementService"/>
+		</property>		
+	</bean>
+
 	<bean id="contractsGrantsInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
 		<property name="financialSystemDocumentService">
@@ -969,10 +979,7 @@
 	</bean>
 
 	<bean id="ticklersReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TicklersReportLookupableHelperServiceImpl"
-		scope="prototype" parent="contractsGrantsLookupableHelperService">
-		<property name="configurationService">
-			<ref bean="configurationService"/>
-		</property>
+		scope="prototype" parent="collectionsReportLookupableHelperService">
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
@@ -2326,15 +2333,9 @@
 		</property>
 	</bean>
 	
-	<bean id="collectionActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityReportLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="collectionActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityReportLookupableHelperServiceImpl" scope="prototype" parent="collectionsReportLookupableHelperService">
 		<property name="collectionActivityReportService">
 			<ref bean="collectionActivityReportService"/>
-		</property>
-		<property name="configurationService">
-			<ref bean="configurationService"/>
-		</property>
-		<property name="contractsGrantsReportHelperService">
-			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
 	</bean>
 

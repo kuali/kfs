@@ -211,6 +211,8 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
+        collectionActivityReport.setEventId(collectionEvent.getId());
+
         // account no
         collectionActivityReport.setInvoiceNumber(collectionEvent.getInvoiceNumber());
         collectionActivityReport.setActivityDate(collectionEvent.getActivityDate());

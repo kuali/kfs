@@ -20,19 +20,18 @@
 
 <c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDocument.attributes}" />
 
-<kul:tabTop tabTitle="Contracts Grants LOC Review Initiation" defaultOpen="true" tabErrorKey="*">
+<kul:tabTop tabTitle="Contracts Grants LOC Review Initiation" defaultOpen="true" tabErrorKey="${ArConstants.LETTER_OF_CREDIT_REVIEW_INIT_SECTION},document.letterOfCreditFundGroupCode,document.letterOfCreditFundCode">
 	<div class="tab-container" align=center>
 		<h3>Contracts Grants LOC Review Initiation</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section">
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}" forceRequired="true" />
+						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"/>
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 50%;"><kul:htmlControlAttribute
-						attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}" property="document.letterOfCreditFundGroupCode" readOnly="false"
-						forceRequired="true" /></td>
+						attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}" property="document.letterOfCreditFundGroupCode" readOnly="false"/></td>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">

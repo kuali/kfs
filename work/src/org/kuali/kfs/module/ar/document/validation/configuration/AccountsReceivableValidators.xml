@@ -308,6 +308,8 @@
 	<bean id="ContractsGrantsInvoice-documentValidation"
 		class="org.kuali.kfs.module.ar.document.validation.impl.ContractsGrantsInvoiceDocumentValidation"
 		abstract="true" />
+		
+	<bean id="ContractsGrantsInvoice-invoiceDetailAccountObjectCode-financialObjectCodesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.ContractsGrantsInvoiceDocumentInvoiceDetailAccountObjectCodeFinancialObjectCodesValidation" abstract="true"/>
 
 
 </beans>

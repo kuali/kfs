@@ -40,6 +40,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ContractsGrantsInvoice-invoiceDetailAccountObjectCode-financialObjectCodesValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean>

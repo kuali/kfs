@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +37,7 @@ import java.util.concurrent.Callable;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -75,6 +77,7 @@ import org.kuali.kfs.module.ar.document.validation.SuspensionCategory;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.PdfFormattingMap;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
+import org.kuali.kfs.module.ar.service.CostCategoryService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -133,6 +136,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
+    protected CostCategoryService costCategoryService;
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
@@ -688,7 +692,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             final KualiDecimal oneCent = new KualiDecimal(0.01);
 
             int size = contractsGrantsInvoiceDocument.getAccountDetails().size();
-            KualiDecimal amount = new KualiDecimal(invoiceDetail.getInvoiceAmount().bigDecimalValue().divide(new BigDecimal(size), 10, BigDecimal.ROUND_DOWN));
+            KualiDecimal amount = new KualiDecimal(invoiceDetail.getInvoiceAmount().bigDecimalValue().divide(new BigDecimal(size), 2, RoundingMode.HALF_UP));
             KualiDecimal remainder = invoiceDetail.getInvoiceAmount().subtract(amount.multiply(new KualiDecimal(size)));
 
             for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
@@ -700,7 +704,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 invoiceDetailAccountObjectCode.setChartOfAccountsCode(invoiceAccountDetail.getChartOfAccountsCode());
                 invoiceDetailAccountObjectCode.setCumulativeExpenditures(KualiDecimal.ZERO); // it's 0.00 that's why we are in this section to begin with.
                 invoiceDetailAccountObjectCode.setTotalBilled(KualiDecimal.ZERO); // this is also 0.00 because it has never been billed before
-                // object code information is not stored on InvoiceAccountDetail objects
+                final ObjectCodeCurrent objectCode = getCostCategoryService().findObjectCodeForChartAndCategory(invoiceAccountDetail.getChartOfAccountsCode(), categoryCode);
+                if (!ObjectUtils.isNull(objectCode)) {
+                    invoiceDetailAccountObjectCode.setFinancialObjectCode(objectCode.getFinancialObjectCode());
+                }
 
                 // tack on or remove one penny until the remainder is 0 - take a penny, leave a penny!
                 if (remainder.isGreaterThan(KualiDecimal.ZERO)) {
@@ -2156,5 +2163,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
+    }
+
+    public CostCategoryService getCostCategoryService() {
+        return costCategoryService;
+    }
+
+    public void setCostCategoryService(CostCategoryService costCategoryService) {
+        this.costCategoryService = costCategoryService;
     }
 }

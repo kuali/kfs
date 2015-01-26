@@ -823,12 +823,12 @@
         <column name="INV_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="INV_BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="INV_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="INV_CUM_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="INV_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="CUM_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CTGRY_CD" size="4" type="VARCHAR"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
-        <column name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_PREV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CGB_INV_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1239,11 +1239,11 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CONTR_CTRLACCT_NBR" size="7" type="VARCHAR"/>
-        <column name="BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="EXP_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="CUM_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="INV_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="CUM_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CNTRCT_CNTRL_ACCT_NBR" size="7" type="VARCHAR"/>
-        <column name="BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_PREV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ACCT_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1494,9 +1494,9 @@
         <column name="INSTRMNT_TYP_CD" size="4" type="VARCHAR"/>
         <column name="FNL_BILL_IND" size="1" type="VARCHAR"/>
         <column name="AWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="NEW_TOT_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_AMT_BILLED_TO_DT" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLNG_PRD" size="50" type="VARCHAR"/>
-        <column name="BILLED_TO_DT_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_PREV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="COST_SHR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="LST_BILLED_DT" type="DATE"/>
         <column name="COMMENT_TXT" size="255" type="VARCHAR"/>

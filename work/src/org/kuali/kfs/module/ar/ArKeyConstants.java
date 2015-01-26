@@ -402,6 +402,9 @@ public class ArKeyConstants {
 
      public static final String LOC_REVIEW_CREATION_TYPE = "message.locreview.creation.type";
 
+     public static final String ERROR_LOC_REVIEW_FUND_OR_FUND_GROUP_REQUIRED = "error.locreview.fund.or.fund.group.required";
+     public static final String ERROR_LOC_REVIEW_ONLY_ONE_FUND_OR_FUND_GROUP = "error.locreview.only.one.fund.or.fund.group";
+
      // Final Billed Indicator Validation error messages
      public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_FINAL = "error.final.billed.indicator.invoice.not.final";
      public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_MARKED_FINAL_BILL = "error.final.billed.indicator.invoice.not.marked.final.bill";

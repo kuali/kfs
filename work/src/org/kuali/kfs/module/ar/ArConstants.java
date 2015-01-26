@@ -631,4 +631,5 @@ public class ArConstants{
     public static final String FROM_SUFFIX = " From";
     public static final String TO_SUFFIX = " To";
 
+    public static final String LETTER_OF_CREDIT_REVIEW_INIT_SECTION = "letterOfCreditReviewInitSection";
 }

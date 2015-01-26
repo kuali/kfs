@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -96,8 +96,10 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 
-        if (StringUtils.isEmpty(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode()) || StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode())) {
-            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
+        if (StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundCode()) && StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode())) {
+            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_REVIEW_INIT_SECTION, ArKeyConstants.ERROR_LOC_REVIEW_FUND_OR_FUND_GROUP_REQUIRED);
+        } else if (!StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundCode()) && !StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode())) {
+            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_REVIEW_INIT_SECTION, ArKeyConstants.ERROR_LOC_REVIEW_ONLY_ONE_FUND_OR_FUND_GROUP);
         }
         else {
             ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(contractsGrantsLetterOfCreditReviewDocument.getDocumentNumber());

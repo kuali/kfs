@@ -28,7 +28,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
@@ -37,7 +36,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsCollectionActivit
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -56,8 +54,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Helper class for Tickler Reports.
  */
-public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    protected ConfigurationService configurationService;
+public class TicklersReportLookupableHelperServiceImpl extends CollectionsReportLookupableHelperServiceImplBase {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected DateTimeService dateTimeService;
     protected PersonService personService;
@@ -169,6 +166,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
             if (isValid) {
                 TicklersReport ticklerReport = new TicklersReport();
+                ticklerReport.setEventId(event.getId());
                 ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
                 ticklerReport.setProposalNumber(invoice.getInvoiceGeneralDetail().getProposalNumber());
                 ticklerReport.setActivityCode(event.getActivityCode());
@@ -259,41 +257,12 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         lookupForm.setHasReturnableRow(hasReturnableRow);
     }
 
-    /**
-     * Builds link for
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
-     */
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> urls = super.getCustomActionUrls(businessObject, pkNames);
-
-        TicklersReport ticklersReport = (TicklersReport) businessObject;
-        String url = getContractsGrantsReportHelperService().getInitiateCollectionActivityDocumentUrl(ticklersReport.getProposalNumber().toString(), ticklersReport.getInvoiceNumber());
-        Map<String, String> fieldList = new HashMap<String, String>();
-        fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, ticklersReport.getProposalNumber().toString());
-        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-        a.setHref(url);
-        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-        a.setDisplayText(getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsCollectionActivityDocumentConstants.TITLE_PROPERTY));
-        urls.add(a);
-
-        return urls;
-    }
-
     public PersonService getPersonService() {
         return personService;
     }
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
     }
 
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -319,4 +288,5 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
 }

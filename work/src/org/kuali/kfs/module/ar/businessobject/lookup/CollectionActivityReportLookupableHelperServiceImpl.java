@@ -25,14 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -52,10 +48,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * LookupableHelperService class for Collection Activity Report.
  */
-public class CollectionActivityReportLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
+public class CollectionActivityReportLookupableHelperServiceImpl extends CollectionsReportLookupableHelperServiceImplBase {
     protected CollectionActivityReportService collectionActivityReportService;
-    protected ConfigurationService configurationService;
-    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -157,29 +151,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
         return displayList;
     }
 
-    /**
-     * Create action link to create new collection activity
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
-     */
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> actionUrls = super.getCustomActionUrls(businessObject, pkNames);
-
-        final CollectionActivityReport collectionActivityReport = (CollectionActivityReport)businessObject;
-        String url = contractsGrantsReportHelperService.getInitiateCollectionActivityDocumentUrl(collectionActivityReport.getProposalNumber().toString(), collectionActivityReport.getInvoiceNumber());
-        Map<String, String> fieldList = new HashMap<String, String>();
-        final String proposalNumber = !ObjectUtils.isNull(collectionActivityReport.getProposalNumber())
-                ? collectionActivityReport.getProposalNumber().toString()
-                : KFSConstants.EMPTY_STRING;
-        fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-        a.setDisplayText(getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsCollectionActivityDocumentConstants.TITLE_PROPERTY));
-        actionUrls.add(a);
-
-        return actionUrls;
-    }
-
     public CollectionActivityReportService getCollectionActivityReportService() {
         return collectionActivityReportService;
     }
@@ -188,19 +159,4 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends Account
         this.collectionActivityReportService = collectionActivityReportService;
     }
 
-    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
-        return contractsGrantsReportHelperService;
-    }
-
-    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
-        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
 }

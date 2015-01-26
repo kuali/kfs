@@ -32,8 +32,9 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 /**
  * The transient class for Ticklers Report.
  */
-public class TicklersReport extends TransientBusinessObjectBase {
+public class TicklersReport extends TransientBusinessObjectBase implements CollectionsReport {
 
+    private Long eventId;
     private String principalId;
     private Date followupDate;
     private String activityCode;
@@ -57,6 +58,15 @@ public class TicklersReport extends TransientBusinessObjectBase {
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
     private ContractsAndGrantsBillingAward award;
     private ContractsAndGrantsBillingAgency agency;
+
+    @Override
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
 
     /**
      * Gets the principalId attribute.
@@ -154,6 +164,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @return Returns the proposal number.
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -208,6 +219,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @return Returns the invoice number.
      */
+    @Override
     public String getInvoiceNumber() {
         return invoiceNumber;
     }

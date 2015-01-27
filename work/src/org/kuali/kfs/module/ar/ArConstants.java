@@ -290,7 +290,7 @@ public class ArConstants{
 
     public static class BatchFileSystem {
 
-        static final public String EXTENSION = ".log";
+        static final public String EXTENSION = ".txt";
 
         static final public String CGINVOICE_BATCH_VALIDATION_ERROR_OUTPUT_FILE = "cgin_batch_validation_err";
         static final public String CGINVOICE_BATCH_CREATION_ERROR_OUTPUT_FILE = "cgin_batch_create_doc_err";

@@ -40,12 +40,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ContractsGrantsInvoice-invoiceDetailAccountObjectCode-financialObjectCodesValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean>
 	
 	<bean id="ContractsGrantsInvoice-saveDocumentValidation"
-		parent="ContractsGrantsInvoice-routeDocumentValidation-parentBean"
+		parent="ContractsGrantsInvoice-saveDocumentValidation-parentBean"
 		scope="prototype" />
 
 	<bean id="ContractsGrantsInvoice-saveDocumentValidation-parentBean"
@@ -62,6 +63,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ContractsGrantsInvoice-invoiceDetailAccountObjectCode-financialObjectCodesValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean>

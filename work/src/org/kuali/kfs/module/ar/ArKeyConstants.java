@@ -288,6 +288,7 @@ public class ArKeyConstants {
         public static final String ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE = "error.document.contractsGrantsInvoice.email.address.required";
         public static final String ERROR_TRANSMISSION_CODE_REQUIRED = "error.document.contractsGrantsInvoice.transmission.code.required";
         public static final String ERROR_TEMPLATE_REQUIRED = "error.document.contractsGrantsInvoice.template.code.required";
+        public static final String ERROR_INVOICE_DETAIL_ACCOUNT_OBJECT_CODE_FINANCIAL_OBJECT_CODE_REQUIRED = "error.document.contractsGrantsInvoice.invoiceDetailAccountObjectCode.financialObjectCode.required";
     }
 
     // contracts and grants invoice create document constants

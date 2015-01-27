@@ -416,6 +416,9 @@
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
 		</property>
+		<property name="costCategoryService">
+			<ref bean="costCategoryService" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
@@ -2559,6 +2562,7 @@
 	<bean id="costCategoryService" parent="costCategoryService-parentBean"/>
 	<bean id="costCategoryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.CostCategoryServiceImpl">
 		<property name="costCategoryDao" ref="costCategoryDao"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />

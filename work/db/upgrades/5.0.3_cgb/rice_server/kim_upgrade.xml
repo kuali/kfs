@@ -533,6 +533,69 @@
 			<column name="ROLE_ID" value="44" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSTP1808-PRM1" />
+			<column name="OBJ_ID" value="KFSTP1808-PRM1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="10" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Initiate Document CVNT" />
+			<column name="DESC_TXT" value="Authorizes users to initiate the CVNT Document." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT1" />
+			<column name="OBJ_ID" value="KFSTP1808-PRMATT1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1808-PRM1" />
+			<column name="KIM_TYP_ID" value="3" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="CVNT" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSTP1808-RLPRM1" />
+			<column name="OBJ_ID" value="KFSTP1808-RLPRM1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1808-PRM1" />
+			<column name="ROLE_ID" value="2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="OBJ_ID" value="KFSTP1808-PRM2" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="42" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Create / Maintain Record(s) CVNT TRUE" />
+			<column name="DESC_TXT" value="Users allowed to maintain existing (but not create new) records using the Collection Event document." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT2" />
+			<column name="OBJ_ID" value="KFSTP1808-PRMATT2" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="KIM_TYP_ID" value="56" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="CVNT" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT3" />
+			<column name="OBJ_ID" value="KFSTP1808-PRMATT3" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="KIM_TYP_ID" value="56" />
+			<column name="KIM_ATTR_DEFN_ID" value="7" />
+			<column name="ATTR_VAL" value="TRUE" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSTP1808-RLPRM2" />
+			<column name="OBJ_ID" value="KFSTP1808-RLPRM2" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="ROLE_ID" value="2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>		
 	</changeSet>
 	
 </databaseChangeLog>

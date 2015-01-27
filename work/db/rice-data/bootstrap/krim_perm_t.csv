@@ -432,4 +432,5 @@ CGPERMIRD,KFS-CGB-PERM-003,1,29,KFS-AR,Use Screen CG Transmit Contracts & Grants
 "KFSTP-1367-7","KFS-CGB-PERM-008","1","29","KFS-AR","Use Screen AccountsReceivableDunningLetterTemplateUploadAction","Controls the ability to upload or download Dunning Letter Template files.","Y"
 "KFSTP1402-PRM1","KFS-CGB-PERM-009","1","16","KFS-AR","Edit Document CINV","Authorizes users to edit the CINV document.","Y"
 "KFSTP1407-PRM","KFSTP1407-PRM","1","10","KFS-AR","Initiate Document LCR","Authorizes users to initiate the LOC document.","Y"
-
+"KFSTP1808-PRM1","KFSTP1808-PRM1",1,"10","KFS-AR","Initiate Document CVNT","Authorizes users to initiate the CVNT Document.","Y"
+"KFSTP1808-PRM2","KFSTP1808-PRM2",1,"42","KFS-AR","Create / Maintain Record(s) CVNT TRUE","Users allowed to maintain existing (but not create new) records using the Collection Event document.","Y"

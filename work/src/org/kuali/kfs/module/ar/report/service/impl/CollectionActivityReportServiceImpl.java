@@ -81,6 +81,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER);
         String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.INVOICE_NUMBER);
         String accountNumber = (String)lookupFormFields.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        String activityType = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACTIVITY_TYPE);
 
         // Getting final docs
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), "|"));
@@ -97,6 +98,8 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         if (!StringUtils.isBlank(accountNumber)) {
             fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
         }
+
+
 
         // Filter Invoice docs according to criteria.
         Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
@@ -134,10 +137,12 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 final String accountNum = (!CollectionUtils.isEmpty(details) && !ObjectUtils.isNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
                 if (CollectionUtils.isNotEmpty(events)) {
                     for (CollectionEvent event : events) {
-                        CollectionActivityReport collectionActivityReport = new CollectionActivityReport();
-                        collectionActivityReport.setAccountNumber(accountNum);
-                        convertEventToCollectionActivityReport(collectionActivityReport, event);
-                        displayList.add(collectionActivityReport);
+                        if (StringUtils.isBlank(activityType) || StringUtils.equals(event.getActivityCode(), activityType)) {
+                            CollectionActivityReport collectionActivityReport = new CollectionActivityReport();
+                            collectionActivityReport.setAccountNumber(accountNum);
+                            convertEventToCollectionActivityReport(collectionActivityReport, event);
+                            displayList.add(collectionActivityReport);
+                        }
                     }
                 }
             }

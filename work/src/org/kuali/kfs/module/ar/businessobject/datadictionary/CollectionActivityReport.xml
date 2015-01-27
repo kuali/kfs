@@ -224,7 +224,7 @@
     </property>
     <property name="required" value="false"/>
     <property name="control">
-		<bean parent="MultiselectControlDefinition"
+		<bean parent="SelectControlDefinition"
 			p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CollectionActivityTypeValuesFinder"
 			p:includeKeyInLabel="false" />
 	</property>

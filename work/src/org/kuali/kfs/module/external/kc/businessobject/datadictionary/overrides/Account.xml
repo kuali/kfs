@@ -30,7 +30,7 @@
 			    </property>
   				<property name="insertAfter">
   					<list>
-			        <bean parent="InquirySectionDefinition" p:title="Contracts and Grants">
+			        <bean parent="InquirySectionDefinition" p:title="Contracts & Grants">
 			          <property name="inquiryFields">
 			            <list>
 			              <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>

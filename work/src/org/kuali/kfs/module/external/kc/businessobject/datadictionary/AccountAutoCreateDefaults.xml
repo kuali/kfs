@@ -268,7 +268,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:title="CG Account Defaults Contracts and Grants">
+				<bean parent="InquirySectionDefinition" p:title="CG Account Defaults Contracts & Grants">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId" />

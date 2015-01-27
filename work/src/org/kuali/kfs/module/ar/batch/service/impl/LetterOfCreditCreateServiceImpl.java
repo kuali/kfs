@@ -31,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -51,18 +49,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Defines a service class for creating Cash Control documents from the LOC Review Document.
@@ -423,7 +409,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param locFund the code of the fund or fund group
      * @param locFundKey the key (fund or fund group) for the locFund value
      * @param creationType whether to search by fund or fund group
-     * @return a Collection of matching letter of credit created contracts and grants invoices
+     * @return a Collection of matching letter of credit created Contracts & Grants Invoices
      */
     protected Collection<ContractsGrantsInvoiceDocument> retrieveLetterOfCreditInvoices(String locFund, String locFundKey, final String creationType) {
         Map<String, String> fieldValues = new HashMap<>();
@@ -476,7 +462,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             isInvalid = false;
             // if the invoices are not final yet - then the LOC cannot be created
             if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                line = "Contracts & Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
                 invalidGroup.add(line);
                 isInvalid = true;
             }

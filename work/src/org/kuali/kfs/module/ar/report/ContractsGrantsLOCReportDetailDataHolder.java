@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
- * This class defines a data holder object for report generation services for Contracts Grants LOC Draw Details Report Detail.
+ * This class defines a data holder object for report generation services for Contracts & Grants LOC Draw Details Report Detail.
  */
 public class ContractsGrantsLOCReportDetailDataHolder {
     private String documentNumber;
@@ -129,7 +129,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Gets the amountAvailableToDraw attribute.
-     * 
+     *
      * @return Returns the amountAvailableToDraw.
      */
     public BigDecimal getAmountAvailableToDraw() {
@@ -138,7 +138,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Sets the amountAvailableToDraw attribute value.
-     * 
+     *
      * @param amountAvailableToDraw The amountAvailableToDraw to set.
      */
     public void setAmountAvailableToDraw(BigDecimal amountAvailableToDraw) {
@@ -147,7 +147,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Gets the claimOnCashBalance attribute.
-     * 
+     *
      * @return Returns the claimOnCashBalance.
      */
     public BigDecimal getClaimOnCashBalance() {
@@ -156,7 +156,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Sets the claimOnCashBalance attribute value.
-     * 
+     *
      * @param claimOnCashBalance The claimOnCashBalance to set.
      */
     public void setClaimOnCashBalance(BigDecimal claimOnCashBalance) {
@@ -165,7 +165,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Gets the amountToDraw attribute.
-     * 
+     *
      * @return Returns the amountToDraw.
      */
     public BigDecimal getAmountToDraw() {
@@ -174,7 +174,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Sets the amountToDraw attribute value.
-     * 
+     *
      * @param amountToDraw The amountToDraw to set.
      */
     public void setAmountToDraw(BigDecimal amountToDraw) {
@@ -183,7 +183,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Gets the fundsNotDrawn attribute.
-     * 
+     *
      * @return Returns the fundsNotDrawn.
      */
     public BigDecimal getFundsNotDrawn() {
@@ -192,7 +192,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Sets the fundsNotDrawn attribute value.
-     * 
+     *
      * @param fundsNotDrawn The fundsNotDrawn to set.
      */
     public void setFundsNotDrawn(BigDecimal fundsNotDrawn) {
@@ -201,7 +201,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -210,7 +210,7 @@ public class ContractsGrantsLOCReportDetailDataHolder {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {

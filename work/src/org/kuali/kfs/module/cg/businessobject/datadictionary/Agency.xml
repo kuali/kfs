@@ -497,7 +497,7 @@
 	<bean id="Agency-inquirySectionDefinition-contractsAndGrants" parent="Agency-inquirySectionDefinition-contractsAndGrants-parentBean" />
 	<bean id="Agency-inquirySectionDefinition-contractsAndGrants-parentBean" parent="InquirySectionDefinition" abstract="true">
 		<property name="id" value="contractsAndGrantsSection" />
-		<property name="title" value="Contracts and Grants" />
+		<property name="title" value="Contracts & Grants" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>

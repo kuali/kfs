@@ -29,7 +29,7 @@
 			<ref bean="ContractsGrantsLOCReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="ContractsGrantsLOCReportInquiryTitle" />
-		<property name="objectLabel" value="Contracts and Grants LOC Report" />
+		<property name="objectLabel" value="Contracts & Grants LOC Report" />
 
 		<property name="attributes">
 			<list>

@@ -274,7 +274,7 @@ public class ArKeyConstants {
         public static final String CREATED_BY_DOC = "message.ar.createdByCollectionActivityDocument";
     }
 
-    // Contracts Grants Invoice constants and errors
+    // Contracts & Grants Invoice constants and errors
     public static class ContractsGrantsInvoiceConstants {
         public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoice.batchSent";
         public static final String WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.less.than.eligible.for.billing";
@@ -291,7 +291,7 @@ public class ArKeyConstants {
         public static final String ERROR_INVOICE_DETAIL_ACCOUNT_OBJECT_CODE_FINANCIAL_OBJECT_CODE_REQUIRED = "error.document.contractsGrantsInvoice.invoiceDetailAccountObjectCode.financialObjectCode.required";
     }
 
-    // contracts and grants invoice create document constants
+    // contracts & grants invoice create document constants
     public static class ContractsGrantsInvoiceCreateDocumentConstants {
         public static final String NO_ORGANIZATION_ON_AWARD = "error.invoice.create.document.no.organization.on.award";
         public static final String NON_BILLABLE = "error.invoice.create.document.non.billable";

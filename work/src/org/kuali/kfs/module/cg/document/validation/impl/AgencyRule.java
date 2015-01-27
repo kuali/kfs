@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -35,12 +34,6 @@ import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Rules for processing Agency instances.
@@ -85,7 +78,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
         success &= checkAgencyReportsTo(document);
 
-        // Only do further custom Contracts and Grants Billing validations for route document, if the enhancements are active
+        // Only do further custom Contracts & Grants Billing validations for route document, if the enhancements are active
         if (contractsGrantsBillingEnhancementActive) {
             // There must be at least one primary Agency Address in Agency
             success &= checkPrimary(newAgency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class);

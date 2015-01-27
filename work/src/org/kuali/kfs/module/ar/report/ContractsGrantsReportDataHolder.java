@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +26,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSConstants;
 
 /**
- * Defines a data holder class for all Contracts and Grants Reports. *
+ * Defines a data holder class for all Contracts & Grants Reports. *
  */
 public class ContractsGrantsReportDataHolder {
 
@@ -50,7 +50,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Sets the details attribute value.
-     * 
+     *
      * @param details The details to set.
      */
     public void setDetails(List details) {
@@ -59,7 +59,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Gets the details attribute.
-     * 
+     *
      * @return Returns the details.
      */
     public List getDetails() {
@@ -68,7 +68,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Sets the reportData attribute value.
-     * 
+     *
      * @param reportData The reportData to set.
      */
     public void setReportData(Map<String, Object> reportData) {
@@ -77,7 +77,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Gets the reportData attribute.
-     * 
+     *
      * @return Returns the reportData.
      */
     public Map<String, Object> getReportData() {
@@ -91,7 +91,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Gets the searchCriteria attribute.
-     * 
+     *
      * @return Returns the searchCriteria.
      */
     public List<ContractsGrantsReportSearchCriteriaDataHolder> getSearchCriteria() {
@@ -100,7 +100,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Sets the searchCriteria attribute value.
-     * 
+     *
      * @param searchCriteria The searchCriteria to set.
      */
     public void setSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria) {
@@ -109,7 +109,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Gets the reportTitle attribute.
-     * 
+     *
      * @return Returns the reportTitle.
      */
     public String getReportTitle() {
@@ -118,7 +118,7 @@ public class ContractsGrantsReportDataHolder {
 
     /**
      * Sets the reportTitle attribute value.
-     * 
+     *
      * @param reportTitle The reportTitle to set.
      */
     public void setReportTitle(String reportTitle) {

@@ -20,9 +20,9 @@
 
 <c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDocument.attributes}" />
 
-<kul:tabTop tabTitle="Contracts Grants LOC Review Initiation" defaultOpen="true" tabErrorKey="${ArConstants.LETTER_OF_CREDIT_REVIEW_INIT_SECTION},document.letterOfCreditFundGroupCode,document.letterOfCreditFundCode">
+<kul:tabTop tabTitle="Contracts & Grants LOC Review Initiation" defaultOpen="true" tabErrorKey="${ArConstants.LETTER_OF_CREDIT_REVIEW_INIT_SECTION},document.letterOfCreditFundGroupCode,document.letterOfCreditFundCode">
 	<div class="tab-container" align=center>
-		<h3>Contracts Grants LOC Review Initiation</h3>
+		<h3>Contracts & Grants LOC Review Initiation</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section">
 			<tr>
 				<th align=right valign=middle class="bord-l-b">

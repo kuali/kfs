@@ -36,7 +36,7 @@
   <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
   <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Contracts And Grants"/>
+    <property name="title" value="Contracts & Grants"/>
     <property name="maintainableItems">
       <list>
         <dd:maintField attributeName="contractControlFinCoaCode"/>

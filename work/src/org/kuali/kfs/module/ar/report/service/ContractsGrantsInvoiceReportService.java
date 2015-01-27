@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,15 +29,13 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 
-import com.lowagie.text.DocumentException;
-
 /**
- * This interface defines the methods required for the report generation process for Contracts and Grants.
+ * This interface defines the methods required for the report generation process for Contracts & Grants.
  */
 public interface ContractsGrantsInvoiceReportService {
 
     /**
-     * This method is used to generate pdf reports for Contracts and Grants LOC review document.
+     * This method is used to generate pdf reports for Contracts & Grants LOC review document.
      *
      * @param document
      * @return Byte array is returned so a file is not created on the server.
@@ -45,7 +43,7 @@ public interface ContractsGrantsInvoiceReportService {
     public byte[] generateLOCReviewAsPdf(ContractsGrantsLetterOfCreditReviewDocument document);
 
     /**
-     * This method generates the federal financial forms (425 and 425A) for Contracts and Grants.
+     * This method generates the federal financial forms (425 and 425A) for Contracts & Grants.
      *
      * @param award
      * @param period
@@ -79,7 +77,7 @@ public interface ContractsGrantsInvoiceReportService {
     public byte[] combineInvoicePdfEnvelopes(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException;
 
     /**
-     * This method is used to generate CSV file for Contracts and Grants LOC review document.
+     * This method is used to generate CSV file for Contracts & Grants LOC review document.
      *
      * @param contractsGrantsLOCReviewDocument
      * @return Byte array is returned so a file is not created on the server.
@@ -87,7 +85,7 @@ public interface ContractsGrantsInvoiceReportService {
     public byte[] convertLetterOfCreditReviewToCSV(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument);
 
     /**
-     * This helper method returns a list of award lookup results based on the contracts grants invoice lookup
+     * This helper method returns a list of award lookup results based on the contracts & grants invoice lookup
      * @param awards a Collection of CGB Awards to populate Contracts & Grants Invoice lookup results from
      * @return a Collection of lookup results for the C&G Invoice lookup
      */

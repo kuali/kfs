@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.service.AccountService;
@@ -91,38 +89,9 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.FallbackMap;
 import org.kuali.kfs.sys.util.ReflectionMap;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.search.SearchOperator;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.bo.Attachment;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.service.AttachmentService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.lowagie.text.DocumentException;
 
 /**
- * This class implements the services required for Contracts and Grants Invoice Document.
+ * This class implements the services required for Contracts & Grants Invoice Document.
  */
 @Transactional
 public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrantsInvoiceDocumentService {
@@ -193,8 +162,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * Generates the source accounting lines for a contracts and grants invoice from the award accounts associated with an award (in the form of the pre-generated invoice account details)
-     * @param contractsGrantsInvoiceDocument the contracts and grants invoice to create invoice details for
+     * Generates the source accounting lines for a Contracts & Grants Invoice from the award accounts associated with an award (in the form of the pre-generated invoice account details)
+     * @param contractsGrantsInvoiceDocument the Contracts & Grants Invoice to create invoice details for
      * @param totalMilestoneAmount the total amount of the utilized milestones, if the billing is by milestone
      * @param totalBillAmount the total amount of the utilized pre-determined bills, if the billing system is by predetermined bills
      * @param organizationAccountingDefault the
@@ -254,7 +223,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     /**
      * Creates source accounting lines using the contract control account to populate
-     * @param contractsGrantsInvoiceDocument the contracts and grants invoice to add lines to
+     * @param contractsGrantsInvoiceDocument the Contracts & Grants Invoice to add lines to
      * @param organizationAccountingDefault the organization accounting default associated with the invoice
      */
     protected CustomerInvoiceDetail createSourceAccountingLinesByContractControlAccount(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, final OrganizationAccountingDefault organizationAccountingDefault) {
@@ -561,7 +530,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * If any of the current expenditures for the cost categories on the Contracts Grants Invoice Document have changed,
+     * If any of the current expenditures for the cost categories on the Contracts & Grants Invoice Document have changed,
      * recalculate the Object Code amounts.
      *
      * @param contractsGrantsInvoiceDocument document containing cost categories to review
@@ -682,7 +651,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail) {
         String categoryCode = invoiceDetail.getCategoryCode();
         if (StringUtils.isBlank(categoryCode)) {
-            throw new IllegalArgumentException("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
+            throw new IllegalArgumentException("Category Code can not be null during recalculation of account object code for Contracts & Grants Invoice Document.");
         }
         // get the category that matches this category code.
         final CostCategory category = businessObjectService.findBySinglePrimaryKey(CostCategory.class, categoryCode);
@@ -733,7 +702,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
             }
         }
         else {
-            LOG.error("Category Code cannot be found from the category list during recalculation of account object code for Contracts and Grants Invoice Document.");
+            LOG.error("Category Code cannot be found from the category list during recalculation of account object code for Contracts & Grants Invoice Document.");
         }
     }
 
@@ -1079,7 +1048,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
+     * This method generates the attached invoices for the agency addresses in the Contracts & Grants Invoice Document.
      */
     @Override
     public void generateInvoicesForInvoiceAddresses(ContractsGrantsInvoiceDocument document) {
@@ -1595,7 +1564,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
-     * Corrects the Contracts and Grants Invoice Document.
+     * Corrects the Contracts & Grants Invoice Document.
      *
      * @throws WorkflowException
      */

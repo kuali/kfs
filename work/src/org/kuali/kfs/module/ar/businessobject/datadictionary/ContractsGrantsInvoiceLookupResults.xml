@@ -24,7 +24,7 @@
 
 	<bean id="ContractsGrantsInvoiceLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult" />
-		<property name="objectLabel" value="Contracts and Grants Invoice Lookup Result" />
+		<property name="objectLabel" value="Contracts & Grants Invoice Lookup Result" />
 		<property name="lookupDefinition">
 			<ref bean="ContractsGrantsInvoiceLookupResult-lookupDefinition" />
 		</property>
@@ -148,7 +148,7 @@
 	<bean id="ContractsGrantsInvoiceLookupResult-lookupDefinition" parent="ContractsGrantsInvoiceLookupResult-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsInvoiceLookupResult-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Contracts Grants Invoice Lookup" />
+		<property name="title" value="Contracts & Grants Invoice Lookup" />
 		<property name="lookupableID" value="contractsGrantsInvoiceLookupResultLookupable" />
 
 		<property name="defaultSort">

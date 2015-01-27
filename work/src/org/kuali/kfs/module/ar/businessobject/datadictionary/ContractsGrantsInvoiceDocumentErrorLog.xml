@@ -230,7 +230,7 @@
 
   	<bean id="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition" parent="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition-parentBean"/>
   	<bean id="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    	<property name="title" value="Contracts Grants Invoice Document Error Log Report"/>
+    	<property name="title" value="Contracts & Grants Invoice Document Error Log Report"/>
     	<property name="lookupableID" value="contractsGrantsInvoiceDocumentErrorLogLookupable" />
     
     	<property name="lookupFields">

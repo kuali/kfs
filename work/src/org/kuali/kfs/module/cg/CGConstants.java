@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Constants specific to the Contracts and Grants module.
+ * Constants specific to the Contracts & Grants module.
  */
 public class CGConstants{
 

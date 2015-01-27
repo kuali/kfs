@@ -27,12 +27,9 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Invoice Document for Contracts and Grants
+ * Invoice Document for Contracts & Grants
  */
 public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 

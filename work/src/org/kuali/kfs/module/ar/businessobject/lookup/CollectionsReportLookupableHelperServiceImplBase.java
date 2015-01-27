@@ -66,7 +66,7 @@ public abstract class CollectionsReportLookupableHelperServiceImplBase extends C
         Map<String, String> qualificationDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.COLLECTION_EVENT);
 
-        if (getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null)) {
+        if (getBusinessObjectAuthorizationService().canMaintain(new CollectionEvent(), GlobalVariables.getUserSession().getPerson(), ArConstants.ArDocumentTypeCodes.COLLECTION_EVENT)) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CollectionEvent.class.getName());
             parameters.put(KFSConstants.OVERRIDE_KEYS, ArPropertyConstants.CollectionEventFields.ID);

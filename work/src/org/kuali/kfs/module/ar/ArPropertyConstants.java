@@ -375,6 +375,7 @@ public class ArPropertyConstants{
         public static final String COLLECTOR = "principalId";
         public static final String ACTIVITY_TYPE = "activityType";
         public static final String AGENCY_NUMBER = "agencyNumber";
+
     }
 
     // CustomerInvoiceDetail Fields

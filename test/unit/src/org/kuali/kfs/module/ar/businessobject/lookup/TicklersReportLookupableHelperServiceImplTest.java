@@ -147,7 +147,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, CHART_OF_ACCOUNTS_CODE, ORGANIZATION_CODE, errorMessages);
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, CHART_OF_ACCOUNTS_CODE, ORGANIZATION_CODE, errorMessages, null, null);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");

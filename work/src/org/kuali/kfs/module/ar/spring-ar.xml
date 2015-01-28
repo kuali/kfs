@@ -2524,6 +2524,7 @@
 	<bean id="contractsGrantsLetterOfCreditReviewDocumentService" parent="contractsGrantsLetterOfCreditReviewDocumentService-parentBean"/>
 	<bean id="contractsGrantsLetterOfCreditReviewDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsLetterOfCreditReviewDocumentServiceImpl">
 		<property name="awardAccountObjectCodeTotalBilledDao" ref="awardAccountObjectCodeTotalBilledDao"/>
+		<property name="contractsGrantsInvoiceCreateDocumentService" ref="contractsGrantsInvoiceCreateDocumentService"/>
 	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 	    <property name="contractsAndGrantsModuleBillingService" ref="contractsAndGrantsModuleBillingService"/>
 	    <property name="kualiModuleService" ref="kualiModuleService"/>

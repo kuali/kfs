@@ -190,6 +190,7 @@
 		<property name="label" value="hidden Amount To Draw" />
 		<property name="shortLabel" value="hidden Amount To Draw" />
 		<property name="required" value="false" />
+		<property name="control" ref="HiddenControl"/>
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount" parent="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount-parentBean" />

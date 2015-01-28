@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -274,7 +273,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 for (ContractsAndGrantsBillingAward award : validAwards) {
 
                     // To set the amount to draw for the award accounts as a whole.
-                    getContractsGrantsLetterOfCreditReviewDocumentService().setAwardAccountToDraw(award.getActiveAwardAccounts(), award);
+                    final Map<String, KualiDecimal> awardAccountAmountsToDraw = getContractsGrantsLetterOfCreditReviewDocumentService().calculateAwardAccountAmountsToDraw(award, award.getActiveAwardAccounts());
 
                     KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
                     KualiDecimal amountAvailableToDraw = KualiDecimal.ZERO;
@@ -301,13 +300,14 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        final String awardAccountKey = getContractsGrantsLetterOfCreditReviewDocumentService().getAwardAccountKey(awardAccount);
                         locReviewDtl = new ContractsGrantsLetterOfCreditReviewDetail();
                         locReviewDtl.setDocumentNumber(this.documentNumber);
                         locReviewDtl.setProposalNumber(award.getProposalNumber());
                         locReviewDtl.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
                         locReviewDtl.setAccountNumber(awardAccount.getAccountNumber());
                         locReviewDtl.setAccountExpirationDate(awardAccount.getAccount().getAccountExpirationDate());
-                        locReviewDtl.setClaimOnCashBalance(awardAccount.getAmountToDraw().negated());
+                        locReviewDtl.setClaimOnCashBalance(awardAccountAmountsToDraw.get(awardAccountKey).negated());
                         totalClaimOnCashBalance = totalClaimOnCashBalance.add(locReviewDtl.getClaimOnCashBalance());
                         locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, systemOption.getBudgetCheckingBalanceTypeCd(), award.getAwardBeginningDate()));
                         totalAwardBudgetAmount = totalAwardBudgetAmount.add(locReviewDtl.getAwardBudgetAmount());
@@ -317,8 +317,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                         else {
                             locReviewDtl.setAccountDescription(ArConstants.ACCOUNT);
                         }
-                        locReviewDtl.setAmountToDraw(awardAccount.getAmountToDraw());
-                        locReviewDtl.setHiddenAmountToDraw(awardAccount.getAmountToDraw());
+                        locReviewDtl.setAmountToDraw(awardAccountAmountsToDraw.get(awardAccountKey));
+                        locReviewDtl.setHiddenAmountToDraw(awardAccountAmountsToDraw.get(awardAccountKey));
                         totalAmountToDraw = totalAmountToDraw.add(locReviewDtl.getAmountToDraw());
                         accountReviewDetails.add(locReviewDtl);
 
@@ -349,8 +349,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
      */
     @Override
     public void prepareForSave() {
-
-
         super.prepareForSave();
 
         // 1. compare the hiddenamountodraw and amount to draw field.
@@ -404,24 +402,17 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         // 2. create invoices. - independent whether the amounts were changed or not.
 
         // To get the list of awards from the proposal Number set.
-
-        Iterator<Long> iterator = proposalNumberSet.iterator();
-
-        while (iterator.hasNext()) {
+        for (Long proposalNumber : proposalNumberSet) {
             KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
-            Long proposalNumber = iterator.next();
             for (ContractsGrantsLetterOfCreditReviewDetail detail : getAccountReviewDetails()) {// To identify the header row
                 if (ObjectUtils.isNotNull(detail.getAccountDescription()) && detail.getProposalNumber().equals(proposalNumber)) {
                     totalAmountToDraw = totalAmountToDraw.add(detail.getAmountToDraw());
-
                 }
             }
-
 
             for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {// To identify the header row
                 if (ObjectUtils.isNotNull(detail.getAgencyNumber()) && ObjectUtils.isNull(detail.getAccountDescription()) && detail.getProposalNumber().equals(proposalNumber)) {
                     detail.setAmountToDraw(totalAmountToDraw);
-
                 }
             }
         }
@@ -434,75 +425,10 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
-        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
-
-
-        Set<Long> proposalNumberSet = new HashSet<Long>();
-
         super.doRouteStatusChange(statusChangeEvent);
-        // performed only when document is in final state
+        // performed only when document is in processed state
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-
-            // 1. compare the hiddenamountodraw and amount to draw field.
-            for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {
-                // Adding the awards to a set, to get unique values.
-                proposalNumberSet.add(detail.getProposalNumber());
-
-            }
-
-            // 2. create invoices. - independent whether the amounts were changed or not.
-
-            // To get the list of awards from the proposal Number set.
-
-            Iterator<Long> iterator = proposalNumberSet.iterator();
-
-            while (iterator.hasNext()) {
-
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put(KFSPropertyConstants.PROPOSAL_NUMBER, iterator.next());
-                ContractsAndGrantsBillingAward awd = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
-                awards.add(awd);
-            }
-            // To set the loc Creation Type to award based on the LOC Review document being retrieved.
-
-            for (ContractsAndGrantsBillingAward award : awards) {
-                if (ObjectUtils.isNotNull(this.getLetterOfCreditFundCode())) {
-
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
-                }
-                else {
-
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND_GRP);
-                }
-
-            }
-            contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC);
-
-            //To route the invoices automatically as the initator would be system user after a wait time.
-            try {
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            contractsGrantsInvoiceCreateDocumentService.routeContractsGrantsInvoiceDocuments();
-
-            // The next important step is to set the locReviewIndicator to false and amount to Draw fields in award Account to zero.
-            // This should not affect any further invoicing.
-            for (ContractsAndGrantsBillingAward award : awards) {
-                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    Map<String, Object> criteria = new HashMap<String, Object>();
-                    criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-                    criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);
-                }
-                SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
-            }
+            getContractsGrantsLetterOfCreditReviewDocumentService().generateContractsGrantsInvoiceDocuments(this);
         }
     }
 

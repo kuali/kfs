@@ -178,7 +178,7 @@
 					</c:when>
 					<c:otherwise>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
-								property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="false" /></td>
+								property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="${readOnly}" /></td>
 					</c:otherwise>
 				</c:choose>
 				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}"

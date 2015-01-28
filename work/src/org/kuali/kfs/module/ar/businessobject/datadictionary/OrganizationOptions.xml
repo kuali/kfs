@@ -343,9 +343,9 @@
 
   <bean id="OrganizationOptions-cgBillerIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="cgBillerIndicator"/>
-    <property name="label" value="Contract and Grant Biller?"/>
-    <property name="shortLabel" value="Contract and Grant Biller?"/>
-	</bean>
+    <property name="label" value="Contracts &amp; Grants Biller?"/>
+    <property name="shortLabel" value="Contracts &amp; Grants Biller?"/>
+  </bean>
 
   
   <bean id="OrganizationOptions-universityName" parent="OrganizationOptions-universityName-parentBean"/>

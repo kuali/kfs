@@ -32,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Invoice Document for Contracts and Grants
+ * Invoice Document for Contracts & Grants
  */
 public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 

@@ -56,7 +56,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Contracts Grants LOC Review Document.
+ * Contracts & Grants LOC Review Document.
  */
 public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystemTransactionalDocumentBase {
     private static final Logger LOG = Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocument.class);
@@ -258,7 +258,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         List<ContractsAndGrantsBillingAward> awards = getContractsGrantsLetterOfCreditReviewDocumentService().getActiveAwardsByCriteria(criteria);
 
         if (CollectionUtils.isEmpty(awards)) {
-            GlobalVariables.getMessageMap().putErrorForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_NO_AWARDS_RETRIEVED);
+            GlobalVariables.getMessageMap().putErrorForSectionId("Contracts & Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_NO_AWARDS_RETRIEVED);
         }
         else {
 
@@ -267,7 +267,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             validAwards = (List<ContractsAndGrantsBillingAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC.getCode());
 
             if (CollectionUtils.isEmpty(validAwards)) {
-                GlobalVariables.getMessageMap().putWarningForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_AWARDS_INVALID);
+                GlobalVariables.getMessageMap().putWarningForSectionId("Contracts & Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_AWARDS_INVALID);
                 valid = false;
             }
             else {

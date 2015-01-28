@@ -18,10 +18,10 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:page headerTitle="Contracts Grants Invoice Summary"
+<kul:page headerTitle="Contracts & Grants Invoice Summary"
 	transactionalDocument="false" showDocumentInfo="false"
 	htmlFormAction="arContractsGrantsInvoiceSummary"
-	docTitle="Contracts Grants Invoice Summary">
+	docTitle="Contracts & Grants Invoice Summary">
 
 	<div id="globalbuttons" class="globalbuttons">
 		<c:if test="${KualiForm.awardInvoiced}">

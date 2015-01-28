@@ -378,7 +378,7 @@ public class ArConstants{
         public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
         public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
         public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
-        public static final String OPEN_INVOCE_REPORT_NAME = "Contracts And Grants Open Invoices Report";
+        public static final String OPEN_INVOCE_REPORT_NAME = "Contracts & Grants Open Invoices Report";
 
 
         public static final String AGENCY_SHORT_NAME = "Agency Short Name";
@@ -432,7 +432,7 @@ public class ArConstants{
 
     // CG Invoice Document
     public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
-    public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts and Grants Invoice";
+    public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts & Grants Invoice";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
     public static final String BILL_SECTION = "Bills";

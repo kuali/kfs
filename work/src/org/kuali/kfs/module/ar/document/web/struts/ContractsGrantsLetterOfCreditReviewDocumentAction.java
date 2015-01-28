@@ -58,7 +58,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 /**
- * Action class for Contracts Grants LetterOfCredit Review Document.
+ * Action class for Contracts & Grants LetterOfCredit Review Document.
  */
 public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocumentAction.class);
@@ -83,7 +83,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
 
     /**
      * Handles continue request. This request comes from the initial screen which gives Letter of Credit Fund Group and other
-     * details Based on that, the contracts grants LetterOfCredit Review document is initially populated.
+     * details Based on that, the Contracts & Grants LetterOfCredit Review document is initially populated.
      *
      * @param mapping An ActionMapping
      * @param form An ActionForm

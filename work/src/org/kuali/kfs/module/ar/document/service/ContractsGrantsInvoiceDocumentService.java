@@ -38,7 +38,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
- * This class defines all the service methods for Contracts and Grants invoice Document.
+ * This class defines all the service methods for Contracts & Grants invoice Document.
  */
 public interface ContractsGrantsInvoiceDocumentService {
 
@@ -182,7 +182,7 @@ public interface ContractsGrantsInvoiceDocumentService {
     public void updateBillsAndMilestones(boolean billed, List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
 
     /**
-     * This method generates the attached invoices for the invoice addresses in the Contracts and Grants Invoice Document.
+     * This method generates the attached invoices for the invoice addresses in the Contracts & Grants Invoice Document.
      *
      * @param document
      */
@@ -197,7 +197,7 @@ public interface ContractsGrantsInvoiceDocumentService {
     public void updateUnfinalizationToAwardAccount(List<InvoiceAccountDetail> accountDetails,Long proposalNumber);
 
     /**
-     * Corrects the Contracts and Grants Invoice Document.
+     * Corrects the Contracts & Grants Invoice Document.
      *
      * @param document
      * @throws WorkflowException
@@ -205,7 +205,7 @@ public interface ContractsGrantsInvoiceDocumentService {
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException;
 
     /**
-     * Determines if a Contracts and Grants cost category contains a given object code
+     * Determines if a Contracts & Grants cost category contains a given object code
      * @param category the cost category which may contain an object code
      * @param chartOfAccountsCode the chart of the object code to check
      * @param objectCode the object code to check
@@ -292,16 +292,16 @@ public interface ContractsGrantsInvoiceDocumentService {
     public KualiDecimal getOtherTotalBilledForAwardPeriod(ContractsGrantsInvoiceDocument document);
 
     /**
-     * Determines if the given contracts and grants invoice document was (likely) created in batch (as opposed to the lookup screen or the LOC)
-     * @param document the contracts and grants invoice to test
+     * Determines if the given Contracts & Grants Invoice Document was (likely) created in batch (as opposed to the lookup screen or the LOC)
+     * @param document the Contracts & Grants Invoice to test
      * @return true if the document was likely created in batch, false otherwise
      */
     public boolean isDocumentBatchCreated(ContractsGrantsInvoiceDocument document);
 
     /**
-     * Determines if the given contracts and grants invoice document passes routing validation.  Note: no error messages are returned; this simply
+     * Determines if the given Contracts & Grants Invoice Document passes routing validation.  Note: no error messages are returned; this simply
      * checks if any error messages are created or not for the document
-     * @param document the contracts and grants invoice to check
+     * @param document the Contracts & Grants Invoice to check
      * @return true if the c&g invoice passes validation with no errors, false otherwise
      */
     public boolean doesInvoicePassValidation(ContractsGrantsInvoiceDocument document);

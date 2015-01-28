@@ -42,7 +42,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * This class is used to get the services for PDF generation and other services for Contracts Grants Aging open Invoices report
+ * This class is used to get the services for PDF generation and other services for Contracts & Grants Aging open Invoices report
  */
 public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements ContractsGrantsAgingOpenInvoicesReportService {
     protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
@@ -88,7 +88,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
     }
 
     /**
-     * This method populates ContractsGrantsAgingOpenInvoicesReportDetails (Contracts Grants Open Invoices Report)
+     * This method populates ContractsGrantsAgingOpenInvoicesReportDetails (Contracts & Grants Open Invoices Report)
      *
      * @param urlParameters
      */

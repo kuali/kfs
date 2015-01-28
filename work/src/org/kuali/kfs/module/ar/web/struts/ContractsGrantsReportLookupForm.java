@@ -26,7 +26,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
- * Base implementation for Form class for Contracts Grants Report Lookups.
+ * Base implementation for Form class for Contracts & Grants Report Lookups.
  */
 public class ContractsGrantsReportLookupForm extends LookupForm {
 

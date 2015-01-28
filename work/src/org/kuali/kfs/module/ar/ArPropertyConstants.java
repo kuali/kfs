@@ -272,7 +272,7 @@ public class ArPropertyConstants{
         public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_SUSPENSION_CATEGORY_CODE = "invoiceSuspensionCategories." + SUSPENSION_CATEGORY_CODE;
     }
 
-    // Contracts and Grants Invoicing
+    // Contracts & Grants Invoicing
     public static final String ACCOUNT_DETAILS_ACCOUNT_NUMBER = "accountDetails.accountNumber";
     public static final String INVOICE_DOCUMENT_NUMBER = "invoiceDocumentNumber";
     public static final String REPORT_OPTION = "reportOption";
@@ -351,7 +351,7 @@ public class ArPropertyConstants{
         public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
     }
 
-    // Contracts And Grants Aging Report
+    // Contracts & Grants Aging Report
     public static class ContractsGrantsAgingReportFields {
         public static final String REPORT_RUN_DATE = "reportRunDate";
         public static final String PDF_SORT_PROPERTY = "award.agency.agencyNumber";

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -47,10 +48,9 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.CollectionUtils;
 
 /**
- * Contracts Grants Invoice document extending Customer Invoice document.
+ * Contracts & Grants Invoice document extending Customer Invoice document.
  */
 
 public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {

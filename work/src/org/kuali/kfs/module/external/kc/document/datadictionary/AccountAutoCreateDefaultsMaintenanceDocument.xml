@@ -119,7 +119,7 @@
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants" parent="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Contracts And Grants"/>
+    <property name="title" value="Contracts &amp; Grants"/>
     <property name="maintainableItems">
       <list>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>

@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
- * Defines a data holder class for the Contracts and Grants Invoice Report.
+ * Defines a data holder class for the Contracts & Grants Invoice Report.
  */
 public class ContractsGrantsInvoiceReportDetailDataHolder {
     private Long proposalNumber;
@@ -46,7 +46,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
     public Long getProposalNumber() {
@@ -55,7 +55,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -64,7 +64,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -73,7 +73,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -82,7 +82,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the invoiceType attribute.
-     * 
+     *
      * @return Returns the invoiceType
      */
     public String getInvoiceType() {
@@ -91,7 +91,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the invoiceType attribute value.
-     * 
+     *
      * @param invoiceType The invoiceType to set.
      */
     public void setInvoiceType(String invoiceType) {
@@ -100,7 +100,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the invoiceDate attribute.
-     * 
+     *
      * @return Returns the invoiceDate
      */
     public Date getInvoiceDate() {
@@ -109,7 +109,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the invoiceDate attribute value.
-     * 
+     *
      * @param invoiceDate The invoiceDate to set.
      */
     public void setInvoiceDate(Date invoiceDate) {
@@ -118,7 +118,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the invoiceDueDate attribute.
-     * 
+     *
      * @return Returns the invoiceDueDate
      */
     public Date getInvoiceDueDate() {
@@ -127,7 +127,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the invoiceDueDate attribute value.
-     * 
+     *
      * @param invoiceDueDate The invoiceDueDate to set.
      */
     public void setInvoiceDueDate(Date invoiceDueDate) {
@@ -136,7 +136,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the openInvoiceIndicator attribute.
-     * 
+     *
      * @return Returns the openInvoiceIndicator
      */
     public String getOpenInvoiceIndicator() {
@@ -145,7 +145,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the openInvoiceIndicator attribute value.
-     * 
+     *
      * @param openInvoiceIndicator The openInvoiceIndicator to set.
      */
     public void setOpenInvoiceIndicator(String openInvoiceIndicator) {
@@ -154,7 +154,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber
      */
     public String getCustomerNumber() {
@@ -163,7 +163,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -172,7 +172,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName
      */
     public String getCustomerName() {
@@ -181,7 +181,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the customerName attribute value.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -190,7 +190,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the sortedFieldValue attribute.
-     * 
+     *
      * @return Returns the sortedFieldValue
      */
     public String getSortedFieldValue() {
@@ -199,7 +199,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the sortedFieldValue attribute value.
-     * 
+     *
      * @param sortedFieldValue The sortedFieldValue to set.
      */
     public void setSortedFieldValue(String sortedFieldValue) {
@@ -208,7 +208,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the invoiceAmount attribute.
-     * 
+     *
      * @return Returns the invoiceAmount
      */
     public BigDecimal getInvoiceAmount() {
@@ -217,7 +217,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the invoiceAmount attribute value.
-     * 
+     *
      * @param invoiceAmount The invoiceAmount to set.
      */
     public void setInvoiceAmount(BigDecimal invoiceAmount) {
@@ -226,7 +226,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the paymentAmount attribute.
-     * 
+     *
      * @return Returns the paymentAmount
      */
     public BigDecimal getPaymentAmount() {
@@ -235,7 +235,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the paymentAmount attribute value.
-     * 
+     *
      * @param paymentAmount The paymentAmount to set.
      */
     public void setPaymentAmount(BigDecimal paymentAmount) {
@@ -244,7 +244,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the remainingAmount attribute.
-     * 
+     *
      * @return Returns the remainingAmount
      */
     public BigDecimal getRemainingAmount() {
@@ -253,7 +253,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the remainingAmount attribute value.
-     * 
+     *
      * @param remainingAmount The remainingAmount to set.
      */
     public void setRemainingAmount(BigDecimal remainingAmount) {
@@ -262,7 +262,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the ageInDays attribute.
-     * 
+     *
      * @return Returns the ageInDays
      */
     public Long getAgeInDays() {
@@ -271,7 +271,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the ageInDays attribute value.
-     * 
+     *
      * @param ageInDays The ageInDays to set.
      */
     public void setAgeInDays(Long ageInDays) {
@@ -280,7 +280,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the invoiceSubTotal attribute.
-     * 
+     *
      * @return Returns the invoiceSubTotal
      */
     public BigDecimal getInvoiceSubTotal() {
@@ -289,7 +289,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the invoiceSubTotal attribute value.
-     * 
+     *
      * @param invoiceSubTotal The invoiceSubTotal to set.
      */
     public void setInvoiceSubTotal(BigDecimal invoiceSubTotal) {
@@ -298,7 +298,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the paymentSubTotal attribute.
-     * 
+     *
      * @return Returns the paymentSubTotal
      */
     public BigDecimal getPaymentSubTotal() {
@@ -307,7 +307,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the paymentSubTotal attribute value.
-     * 
+     *
      * @param paymentSubTotal The paymentSubTotal to set.
      */
     public void setPaymentSubTotal(BigDecimal paymentSubTotal) {
@@ -316,7 +316,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the remainingSubTotal attribute.
-     * 
+     *
      * @return Returns the remainingSubTotal
      */
     public BigDecimal getRemainingSubTotal() {
@@ -325,7 +325,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the remainingSubTotal attribute value.
-     * 
+     *
      * @param remainingSubTotal The remainingSubTotal to set.
      */
     public void setRemainingSubTotal(BigDecimal remainingSubTotal) {
@@ -334,7 +334,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Gets the displaySubtotal attribute.
-     * 
+     *
      * @return Returns the displaySubtotal
      */
     public boolean isDisplaySubtotal() {
@@ -343,7 +343,7 @@ public class ContractsGrantsInvoiceReportDetailDataHolder {
 
     /**
      * Sets the displaySubtotal attribute value.
-     * 
+     *
      * @param displaySubtotal The displaySubtotal to set.
      */
     public void setDisplaySubtotal(boolean displaySubtotal) {

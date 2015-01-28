@@ -303,7 +303,7 @@
 		class="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationIsFullBalanceAppliedValidation"
 		abstract="true" />
 
-	<!-- Contracts Grants Invoice Document. adding it here as CGIn will be part 
+	<!-- Contracts & Grants Invoice Document. adding it here as CGIn will be part 
 		of AR module soon. -->
 	<bean id="ContractsGrantsInvoice-documentValidation"
 		class="org.kuali.kfs.module.ar.document.validation.impl.ContractsGrantsInvoiceDocumentValidation"

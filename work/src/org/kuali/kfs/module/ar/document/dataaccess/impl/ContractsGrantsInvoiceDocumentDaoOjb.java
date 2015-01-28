@@ -61,7 +61,7 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
     @Override
     public Collection<ContractsGrantsInvoiceDocument> getCollectionEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber) {
         if (proposalNumber == null) {
-            throw new IllegalArgumentException("Cannot find contracts and grants invoices for blank proposal number");
+            throw new IllegalArgumentException("Cannot find Contracts & Grants Invoices for blank proposal number");
         }
         Criteria criteria = new Criteria();
         criteria.addEqualTo(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);

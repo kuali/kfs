@@ -54,7 +54,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * This Action Class defines all the core methods for Contracts and Grants Lookup.
+ * This Action Class defines all the core methods for Contracts & Grants Lookup.
  */
 public abstract class ContractsGrantsReportLookupAction extends KualiLookupAction {
 

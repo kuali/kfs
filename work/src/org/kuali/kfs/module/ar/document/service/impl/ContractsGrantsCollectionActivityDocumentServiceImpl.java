@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.CollectionEvent;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsCollectionActivityInvoiceDetail;
@@ -46,6 +45,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Implementation class for Collection Activity Document.
@@ -184,8 +184,8 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     }
 
     /**
-     * This method retrieves all collection activity eligible contracts and grants invoices associated with the given proposal number. All
-     * contracts and grants invoices retrieved will meet the following criteria:
+     * This method retrieves all collection activity eligible Contracts & Grants Invoices associated with the given proposal number. All
+     * Contracts & Grants Invoices retrieved will meet the following criteria:
      * <ul>
      * <li>Must not be fully paid</li>
      * <li>Must not error correct another CINV</li>
@@ -194,7 +194,7 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
      * </ul>
      *
      * @param proposalNumber
-     * @return a Collection of collection activity eligible contracts and grants invoices associated with the given proposal number
+     * @return a Collection of collection activity eligible Contracts & Grants Invoices associated with the given proposal number
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveCollectionActivityEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber) {
@@ -212,8 +212,8 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     }
 
     /**
-     * Determines if a contracts and grants invoice is fully paid or not
-     * @param contractsGrantsInvoiceDocument the contracts and grants invoice to check
+     * Determines if a Contracts & Grants Invoice is fully paid or not
+     * @param contractsGrantsInvoiceDocument the Contracts & Grants Invoice to check
      * @return true if the document is fully paid, false otherwise
      */
     protected boolean isFullyPaid(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {

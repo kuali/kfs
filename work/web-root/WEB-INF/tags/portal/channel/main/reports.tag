@@ -72,7 +72,7 @@
 	</c:if>
 	<c:if
 		test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true' && ConfigProperties.contracts.grants.billing.enabled == 'true'}">
-		<strong>Contracts and Grants</strong>
+		<strong>Contracts & Grants</strong>
 		</br>
 		<ul class="chan">
 			<li><portal:portalLink displayTitle="true"

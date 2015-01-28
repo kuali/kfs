@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,7 +96,7 @@ import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * This class implements the methods for report generation services for Contracts and Grants.
+ * This class implements the methods for report generation services for Contracts & Grants.
  */
 public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsInvoiceReportService {
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportServiceImpl.class);
@@ -126,7 +127,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     }
 
     /**
-     * this method generated the actual pdf for the Contracts and Grants LOC Review Document.
+     * this method generated the actual pdf for the Contracts & Grants LOC Review Document.
      *
      * @param os
      * @param LOCDocument

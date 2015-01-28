@@ -32,10 +32,10 @@
 						title="Contracts & Grants Collection Activity"
 						url="${ConfigProperties.application.url}/arContractsGrantsCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CCA" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Contracts Grants Invoice"
+						title="Contracts & Grants Invoice"
 						url="${ConfigProperties.application.url}/arContractsGrantsInvoiceLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Contracts Grants LOC Review"
+						title="Contracts & Grants LOC Review"
 						url="${ConfigProperties.application.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=LCR" /></li>			
 			</c:if>
 			<li><portal:portalLink displayTitle="true"

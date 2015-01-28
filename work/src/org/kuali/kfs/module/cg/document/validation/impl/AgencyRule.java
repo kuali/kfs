@@ -85,7 +85,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
         success &= checkAgencyReportsTo(document);
 
-        // Only do further custom Contracts and Grants Billing validations for route document, if the enhancements are active
+        // Only do further custom Contracts & Grants Billing validations for route document, if the enhancements are active
         if (contractsGrantsBillingEnhancementActive) {
             // There must be at least one primary Agency Address in Agency
             success &= checkPrimary(newAgency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class);

@@ -161,13 +161,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD, awd.getProposalNumber().toString());
                     errorMessages.add(errorMessage);
                 } else {
-                    if (invOpt.equals(ArConstants.INV_ACCOUNT)) { // case 1: create Contracts Grants Invoice by accounts
+                    if (invOpt.equals(ArConstants.INV_ACCOUNT)) { // case 1: create Contracts & Grants Invoice by accounts
                         createInvoicesByAccounts(awd, errorMessages);
                     }
-                    else if (invOpt.equals(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts Grants Invoices by contractControlAccounts
+                    else if (invOpt.equals(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts & Grants Invoices by contractControlAccounts
                         createInvoicesByContractControlAccounts(awd, errorMessages);
                     }
-                    // case 3: create Contracts Grants Invoice by award
+                    // case 3: create Contracts & Grants Invoice by award
                     else if (invOpt.equals(ArConstants.INV_AWARD)) {
                         createInvoicesByAward(awd, errorMessages);
                     }
@@ -181,8 +181,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Generates and saves a single contracts and grants invoice document based on the given award
-     * @param awd the award to generate a contracts and grants invoice document for
+     * Generates and saves a single Contracts & Grants Invoice Document based on the given award
+     * @param awd the award to generate a Contracts & Grants Invoice Document for
      * @param errLines a holder for error messages
      */
     protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
@@ -230,8 +230,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * Generates and saves contracts and grants invoice documents based on the given award's contract control accounts
-     * @param awd the award with contract control accounts to build contracts and grants invoice documents from
+     * Generates and saves Contracts & Grants Invoice Documents based on the given award's contract control accounts
+     * @param awd the award with contract control accounts to build Contracts & Grants Invoice Documents from
      * @param errLines a holder for error messages
      */
     protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
@@ -295,8 +295,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Generates and saves contracts and grants invoice documens based on the award accounts of the passed in award
-     * @param awd the award to build contracts and grants invoice documents from the award accounts on
+     * Generates and saves Contracts & Grants Invoice Documents based on the award accounts of the passed in award
+     * @param awd the award to build Contracts & Grants Invoice Documents from the award accounts on
      * @param errLines a holder for error messages
      */
     protected void createInvoicesByAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
@@ -320,7 +320,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Generates and then saves a contracts and grants invoice document
+     * Generates and then saves a Contracts & Grants Invoice Document
      * @param awd the award for the document
      * @param validAwardAccounts the award accounts which should appear on the document
      * @param coaCode the chart code for the document
@@ -390,7 +390,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }
 
-                    LOG.info("Created Contracts and Grants invoice document " + cgInvoiceDocument.getDocumentNumber());
+                    LOG.info("Created Contracts & Grants Invoice Document " + cgInvoiceDocument.getDocumentNumber());
                 }
                 catch (WorkflowException ex) {
                     LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);
@@ -948,7 +948,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * @return a Collection of all active contracts and grants billing categories
+     * @return a Collection of all active Contracts & Grants billing categories
      */
     protected Collection<CostCategory> retrieveAllBillingCategories() {
         Map<String, Object> criteria = new HashMap<String, Object>();
@@ -1052,7 +1052,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * This method helps in setting up basic values for Contracts Grants Invoice Document
+     * This method helps in setting up basic values for Contracts & Grants Invoice Document
      */
     protected void populateContractsGrantsInvoiceDocument(ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
         if (ObjectUtils.isNotNull(award.getAgency())) {
@@ -1389,8 +1389,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
             outputFileStream.printf("\r\n");
         } catch (IOException ioe) {
-            LOG.error("Could not write errors in contracts and grants invoice document creation process to file" + ioe.getMessage());
-            throw new RuntimeException("Could not write errors in contracts and grants invoice document creation process to file", ioe);
+            LOG.error("Could not write errors in Contracts & Grants Invoice Document creation process to file" + ioe.getMessage());
+            throw new RuntimeException("Could not write errors in Contracts & Grants Invoice Document creation process to file", ioe);
         } finally {
             if (outputFileStream != null) {
                 outputFileStream.close();
@@ -1463,7 +1463,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * This method retrieves all the contracts grants invoice documents with a status of Saved and
+     * This method retrieves all the Contracts & Grants Invoice Documents with a status of Saved and
      * routes them to the next step in the routing path.
      *
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
@@ -1483,7 +1483,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 ContractsGrantsInvoiceDocument cgInvoicDoc = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(cgInvoiceDocId);
                 // To route documents only if the user in the session is same as the initiator.
                 if (LOG.isInfoEnabled()) {
-                    LOG.info("Routing Contracts Grants Invoice document # " + cgInvoiceDocId + ".");
+                    LOG.info("Routing Contracts & Grants Invoice document # " + cgInvoiceDocId + ".");
                 }
                 documentService.prepareWorkflowDocument(cgInvoicDoc);
 
@@ -1497,9 +1497,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Returns a list of all saved but not yet routed contracts grants invoice documents, using the KualiWorkflowInfo service.
+     * Returns a list of all saved but not yet routed Contracts & Grants Invoice Documents, using the KualiWorkflowInfo service.
      *
-     * @return a list of contracts grants invoice documents to route
+     * @return a list of Contracts & Grants Invoice Documents to route
      */
     protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(DocumentStatus statusCode, String initiatorPrincipalId) {
         List<String> documentIds = new ArrayList<String>();

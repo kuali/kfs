@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Methods needed for Contracts & Grants modules to interact with an Accounts Receivable module to perform Contracts & Grants Billing

@@ -29,6 +29,8 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 
+import com.lowagie.text.DocumentException;
+
 /**
  * This interface defines the methods required for the report generation process for Contracts & Grants.
  */

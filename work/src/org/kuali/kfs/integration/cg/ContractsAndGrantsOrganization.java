@@ -20,6 +20,7 @@ package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * This interface defines all the necessary methods to define a Contracts & Grants organization object.

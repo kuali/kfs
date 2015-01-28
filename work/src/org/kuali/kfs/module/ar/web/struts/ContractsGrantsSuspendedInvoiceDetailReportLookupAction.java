@@ -20,6 +20,8 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Action Class for Contracts & Grants Suspended Invoice Detail Report Lookup.

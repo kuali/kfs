@@ -24,6 +24,8 @@ import java.util.Set;
 
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Interface of services which want to help out with building Contracts & Grants Report Services

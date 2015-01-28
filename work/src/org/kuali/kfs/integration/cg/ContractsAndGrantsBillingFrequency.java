@@ -18,6 +18,9 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+
 
 /**
  * This interface defines all the necessary methods to define a Contracts & Grants billing frequency object.

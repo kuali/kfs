@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Milestone to be used for Milestone Schedule under Contracts & Grants

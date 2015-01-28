@@ -18,6 +18,9 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+
 
 /**
  * Methods which return information needed about Contracts & Grants agencies by other modules.

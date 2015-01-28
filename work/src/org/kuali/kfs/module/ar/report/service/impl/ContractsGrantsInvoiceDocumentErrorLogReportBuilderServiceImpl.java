@@ -24,6 +24,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErro
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService to help build the Contracts & Grants Invoice Document Error Log Report

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Form class for Contracts & Grants Invoice Summary.

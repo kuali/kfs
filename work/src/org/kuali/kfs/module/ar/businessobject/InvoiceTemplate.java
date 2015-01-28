@@ -18,6 +18,8 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 
 /**
  * Defines Invoice Template used for generation of Contracts & Grants Invoice PDFs.

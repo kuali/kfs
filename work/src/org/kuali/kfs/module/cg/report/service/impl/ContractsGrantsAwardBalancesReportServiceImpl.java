@@ -25,12 +25,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.kuali.kfs.module.cg.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.cg.report.service.ContractsGrantsAwardBalancesReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Service implementation class for Contracts & Grants Award Balances Report

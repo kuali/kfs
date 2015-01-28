@@ -19,6 +19,9 @@
 
 package org.kuali.kfs.integration.cg;
 
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+
 
 
 /**

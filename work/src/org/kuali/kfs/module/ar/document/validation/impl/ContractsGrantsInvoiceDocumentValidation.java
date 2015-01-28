@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -25,6 +26,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Document level validation for Contracts & Grants Invoice Document.

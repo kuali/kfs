@@ -21,6 +21,8 @@ package org.kuali.kfs.module.ar.batch.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 
 
 /**

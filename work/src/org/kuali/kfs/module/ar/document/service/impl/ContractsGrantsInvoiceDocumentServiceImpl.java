@@ -508,22 +508,25 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 BigDecimal percentage = amountEligibleForBilling.bigDecimalValue().divide(totalCost.bigDecimalValue(), 10, BigDecimal.ROUND_HALF_DOWN);
                 KualiDecimal amountToBill = new KualiDecimal(0); // use to check if rounding has left a few cents off
 
+                ContractsGrantsInvoiceDetail largestCostCategory = null;
+                BigDecimal largestAmount = BigDecimal.ZERO;
                 for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetails()) {
                     BigDecimal newValue = invD.getInvoiceAmount().bigDecimalValue().multiply(percentage);
                     KualiDecimal newKualiDecimalValue = new KualiDecimal(newValue.setScale(2, BigDecimal.ROUND_DOWN));
                     invD.setInvoiceAmount(newKualiDecimalValue);
                     amountToBill = amountToBill.add(newKualiDecimalValue);
+                    if (newValue.compareTo(largestAmount) > 0) {
+                        largestAmount = newKualiDecimalValue.bigDecimalValue();
+                        largestCostCategory = invD;
+                    }
                 }
-                // There will be some amount left, since we are rounding down. Display warning for user to manually
-                // correct/distribute where they want to put the remainder
                 if (!amountToBill.equals(amountEligibleForBilling)) {
                     KualiDecimal remaining = amountEligibleForBilling.subtract(amountToBill);
-                    LOG.info("Amount Set for Billing does not match Total Amount Eligible For Billing.  There is " + remaining.toString() + " remaining for billing.");
-                    if (remaining.isPositive()) {
-                        GlobalVariables.getMessageMap().putWarning(ArConstants.PRORATE_WARNING, ArKeyConstants.ContractsGrantsInvoiceConstants.WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING, amountToBill.toString(), remaining.toString());
+                    if (ObjectUtils.isNull(largestCostCategory) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getInvoiceDetails())) {
+                        largestCostCategory = contractsGrantsInvoiceDocument.getInvoiceDetails().get(0);
                     }
-                    else {
-                        GlobalVariables.getMessageMap().putWarning(ArConstants.PRORATE_WARNING, ArKeyConstants.ContractsGrantsInvoiceConstants.WARNING_PRORATE_VALUE_IS_MORE_THAN_ELIGIBLE_FOR_BILLING, amountToBill.toString(), remaining.abs().toString());
+                    if (ObjectUtils.isNotNull(largestCostCategory)) {
+                        largestCostCategory.setInvoiceAmount(largestCostCategory.getInvoiceAmount().add(remaining));
                     }
                 }
                 recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);

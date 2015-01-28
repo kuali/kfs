@@ -18,8 +18,7 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.awt.Font;
-import java.awt.Rectangle;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,7 +84,9 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.AcroFields;
 import com.lowagie.text.pdf.PdfCopyFields;
 import com.lowagie.text.pdf.PdfPCell;

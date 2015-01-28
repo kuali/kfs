@@ -18,10 +18,11 @@
  */
 package org.kuali.kfs.module.ar;
 
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import com.lowagie.text.Font;
 
 
 public class ArConstants{

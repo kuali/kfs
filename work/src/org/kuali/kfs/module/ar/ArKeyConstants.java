@@ -277,8 +277,6 @@ public class ArKeyConstants {
     // Contracts Grants Invoice constants and errors
     public static class ContractsGrantsInvoiceConstants {
         public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoice.batchSent";
-        public static final String WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.less.than.eligible.for.billing";
-        public static final String WARNING_PRORATE_VALUE_IS_MORE_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.more.than.eligible.for.billing";
         public static final String ERROR_NO_AWARDS_RETRIEVED = "error.document.no.awards.retrieved";
         public static final String ERROR_AWARDS_INVALID = "error.document.awards.invalid";
         public static final String ERROR_SOME_AWARDS_INVALID = "error.document.some.awards.invalid";

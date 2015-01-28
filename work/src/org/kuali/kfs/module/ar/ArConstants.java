@@ -393,8 +393,6 @@ public class ArConstants{
     public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
     public static final String CHECK_LIMIT_DAYS = "CHECK_LIMIT_DAYS";
 
-    public static final String PRORATE_WARNING = "document.prorateWarning";
-
     public static final String AWARD_TOTAL = "awardTotal";
     public static final String AWARD_FUND_MANAGER = "awardFundManager";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";

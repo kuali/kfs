@@ -42,6 +42,7 @@
 		<property name="workflowAttributes">
 			<ref bean="CollectionEventMaintenanceDocument-workflowAttributes" />
 		</property>
+		<property name="allowsNewOrCopy" value="false" />
 	</bean>
 
 	<bean id="CollectionEventMaintenanceDocument-EditCollectionEvent" parent="CollectionEventMaintenanceDocument-EditCollectionEvent-parentBean" />

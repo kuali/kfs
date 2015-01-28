@@ -21,6 +21,8 @@ package org.kuali.kfs.module.ar.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -57,6 +59,7 @@ import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.CostCategory;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -134,9 +137,12 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
+    /**
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#createCGInvoiceDocumentsByAwards(java.util.Collection, org.kuali.kfs.module.ar.ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType)
+     */
     @Override
     public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType creationProcessTypeCode) {
-        List<ErrorMessage> errorMessages = createInvoices(awards);
+        List<ErrorMessage> errorMessages = createInvoices(awards, null, null);
 
         if (!CollectionUtils.isEmpty(errorMessages)) {
             storeCreationErrors(errorMessages, creationProcessTypeCode.getCode());
@@ -146,11 +152,27 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#createCGInvoiceDocumentsByAwards(java.util.Collection, java.util.List, java.lang.String)
+     */
+    @Override
+    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
+        List<ErrorMessage> errorMessages = createInvoices(awards, accountDetails, locCreationType);
+
+        if (!CollectionUtils.isEmpty(errorMessages)) {
+            storeCreationErrors(errorMessages, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC.getCode());
+        }
+
+        return errorMessages;
+    }
+
+    /**
      * This method iterates through awards and create cgInvoice documents
      * @param awards used to create cgInvoice documents
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      * @return List of error messages (if any)
      */
-    protected List<ErrorMessage> createInvoices(Collection<ContractsAndGrantsBillingAward> awards) {
+    protected List<ErrorMessage> createInvoices(Collection<ContractsAndGrantsBillingAward> awards, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
         if (ObjectUtils.isNotNull(awards) && awards.size() > 0) {
@@ -162,14 +184,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorMessages.add(errorMessage);
                 } else {
                     if (invOpt.equals(ArConstants.INV_ACCOUNT)) { // case 1: create Contracts & Grants Invoice by accounts
-                        createInvoicesByAccounts(awd, errorMessages);
+                        createInvoicesByAccounts(awd, errorMessages, accountDetails, locCreationType);
                     }
                     else if (invOpt.equals(ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts & Grants Invoices by contractControlAccounts
-                        createInvoicesByContractControlAccounts(awd, errorMessages);
+                        createInvoicesByContractControlAccounts(awd, errorMessages, accountDetails, locCreationType);
                     }
                     // case 3: create Contracts & Grants Invoice by award
                     else if (invOpt.equals(ArConstants.INV_AWARD)) {
-                        createInvoicesByAward(awd, errorMessages);
+                        createInvoicesByAward(awd, errorMessages, accountDetails, locCreationType);
                     }
                 }
             }
@@ -184,8 +206,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * Generates and saves a single Contracts & Grants Invoice Document based on the given award
      * @param awd the award to generate a Contracts & Grants Invoice Document for
      * @param errLines a holder for error messages
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      */
-    protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
+    protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         // Check if awardaccounts has the same control account
         int accountNum = awd.getActiveAwardAccounts().size();
         Collection<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
@@ -223,7 +247,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NOT_ALL_BILLABLE_ACCOUNTS, awd.getProposalNumber().toString());
                     errorMessages.add(errorMessage);
                 }
-                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(awd.getActiveAwardAccounts(), awd), coaCode, orgCode, errorMessages);
+                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(awd.getActiveAwardAccounts(), awd), coaCode, orgCode, errorMessages, accountDetails, locCreationType);
             }
         }
     }
@@ -233,8 +257,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * Generates and saves Contracts & Grants Invoice Documents based on the given award's contract control accounts
      * @param awd the award with contract control accounts to build Contracts & Grants Invoice Documents from
      * @param errLines a holder for error messages
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      */
-    protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
+    protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         List<ContractsAndGrantsBillingAwardAccount> tmpAcctList = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         List<Account> controlAccounts = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
         List<Account> controlAccountsTemp = getContractsGrantsInvoiceDocumentService().getContractControlAccounts(awd);
@@ -284,7 +310,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                         final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.CONTROL_ACCOUNT_NON_BILLABLE, controlAccount.getAccountNumber(), awd.getProposalNumber().toString());
                         errorMessages.add(errorMessage);
                     }
-                    generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages);
+                    generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages, accountDetails, locCreationType);
                 }
             }
             else {
@@ -298,8 +324,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * Generates and saves Contracts & Grants Invoice Documents based on the award accounts of the passed in award
      * @param awd the award to build Contracts & Grants Invoice Documents from the award accounts on
      * @param errLines a holder for error messages
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      */
-    protected void createInvoicesByAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
+    protected void createInvoicesByAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         List<ContractsAndGrantsBillingAwardAccount> tmpAcctList = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
@@ -314,7 +342,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorMessages.add(errorMessage);
                 }
 
-                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages);
+                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages, accountDetails, locCreationType);
             }
         }
     }
@@ -326,9 +354,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param coaCode the chart code for the document
      * @param orgCode the organization code for the document
      * @param errLines a List of error messages, to be appended to if there are errors in document generation
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      */
-    protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<ErrorMessage> errorMessages) {
-        ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errorMessages);
+    protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
+        ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errorMessages, accountDetails, locCreationType);
         if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
             // Saving the document
             try {
@@ -342,12 +372,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * This method retrieves create a ContractsGrantsInvoiceDocument by Award * @param awd
-     *
-     * @return ContractsGrantsInvoiceDocument
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#createCGInvoiceDocumentByAwardInfo(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward, java.util.List, java.lang.String, java.lang.String, java.util.List, java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> accounts, String chartOfAccountsCode, String organizationCode, List<ErrorMessage> errorMessages) {
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> accounts, String chartOfAccountsCode, String organizationCode, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument = null;
         if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty()) {
             if (chartOfAccountsCode != null && organizationCode != null) {
@@ -384,7 +412,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
-                    populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
+                    populateInvoiceFromAward(awd, accounts, cgInvoiceDocument, accountDetails, locCreationType);
                     contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument);
                     if (ObjectUtils.isNotNull(cgInvoiceDocument.getInvoiceGeneralDetail().getAward())) {
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
@@ -414,10 +442,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param award The associated award that the invoice will be linked to.
      * @param awardAccounts
      * @param document
+     * @param accountDetails letter of credit details if we're creating via loc
+     * @param locCreationType letter of credit creation type if we're creating via loc
      */
-    protected void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
+    protected void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         if (ObjectUtils.isNotNull(award)) {
-
             // Invoice General Detail section
             InvoiceGeneralDetail invoiceGeneralDetail = new InvoiceGeneralDetail();
             invoiceGeneralDetail.setDocumentNumber(document.getDocumentNumber());
@@ -487,6 +516,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             balanceTypeCodeList.add(systemOptions.getActualFinancialBalanceTypeCd());
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
                 InvoiceAccountDetail invoiceAccountDetail = buildInvoiceAccountDetailForAwardAccount(award, awardAccount, document.getDocumentNumber(), document.getInvoiceGeneralDetail());
+                final ContractsGrantsLetterOfCreditReviewDetail locReviewDetail = retrieveMatchingLetterOfCreditReviewDetail(awardAccount, accountDetails);
 
                 List<Balance> glBalances = retrieveBalances(fiscalYear, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), balanceTypeCodeList);
                 KualiDecimal awardAccountBudgetAmount = KualiDecimal.ZERO;
@@ -507,8 +537,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     invoiceAccountDetail.setCumulativeExpenditures(awardAccountCumulativeAmount);
                 }
                 invoiceAccountDetails.add(invoiceAccountDetail);
-                if (awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
-                    distributeAmountAmongAllAccountObjectCodes(document, awardAccount, invoiceDetailAccountObjectsCodes);
+                if (!ObjectUtils.isNull(locReviewDetail) && !locReviewDetail.getClaimOnCashBalance().negated().equals(locReviewDetail.getAmountToDraw()) && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                    distributeAmountAmongAllAccountObjectCodes(document, awardAccount, invoiceDetailAccountObjectsCodes, locReviewDetail);
                 }
                 else {
                     updateInvoiceDetailAccountObjectCodesByBilledAmount(awardAccount, invoiceDetailAccountObjectsCodes);
@@ -522,8 +552,26 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 document.getInvoiceDetails().addAll(invoiceDetails);
             }
             // Set some basic values to invoice Document
-            populateContractsGrantsInvoiceDocument(award, document);
+            populateContractsGrantsInvoiceDocument(award, document, accountDetails, locCreationType);
         }
+    }
+
+    /**
+     * Finds a letter of credit review detail which matches the given award account, or null if one could not be found
+     * @param awardAccount the award account to find a matching contracts grants letter of credit review detail for
+     * @param accountDetails a List of contracts grants letter of credit review details
+     * @return the matching contracts grants review detail, or null if one could not be found
+     */
+    protected ContractsGrantsLetterOfCreditReviewDetail retrieveMatchingLetterOfCreditReviewDetail(ContractsAndGrantsBillingAwardAccount awardAccount, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails) {
+        if (CollectionUtils.isEmpty(accountDetails)) {
+            return null;
+        }
+        for (ContractsGrantsLetterOfCreditReviewDetail reviewDetail : accountDetails) {
+            if (reviewDetail.getProposalNumber().equals(awardAccount.getProposalNumber()) && StringUtils.equals(reviewDetail.getChartOfAccountsCode(), awardAccount.getChartOfAccountsCode()) && StringUtils.equals(reviewDetail.getAccountNumber(), awardAccount.getAccountNumber())) {
+                return reviewDetail;
+            }
+        }
+        return null;
     }
 
     /**
@@ -880,21 +928,151 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param document the CINV document we're creating
      * @param awdAcct the C&G Award Account
      * @param invoiceDetailAccountObjectsCodes the List of invoice detail account object codes we're attempting to generate
+     * @param locReviewDetail the contracts grants letter of credit review detail which is related to the given award account
      */
-    protected void distributeAmountAmongAllAccountObjectCodes(ContractsGrantsInvoiceDocument document, ContractsAndGrantsBillingAwardAccount awdAcct, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectsCodes) {
-        KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
+    protected void distributeAmountAmongAllAccountObjectCodes(ContractsGrantsInvoiceDocument document, ContractsAndGrantsBillingAwardAccount awdAcct, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectsCodes, ContractsGrantsLetterOfCreditReviewDetail locReviewDetail) {
+        final List<InvoiceDetailAccountObjectCode> locRedistributionInvoiceDetailAccountObjectCodes = filterInvoiceAccountObjectCodesByDocumentAndAccount(document, awdAcct, invoiceDetailAccountObjectsCodes);
+        final Map<String, List<InvoiceDetailAccountObjectCode>> locRedistributionAccountObjectCodesByCategory = mapInvoiceDetailAccountObjectCodesByCategoryCode(locRedistributionInvoiceDetailAccountObjectCodes);
+        final Map<String, BigDecimal> percentagesByCategory = calculatePercentagesByCategory(locRedistributionAccountObjectCodesByCategory, locReviewDetail.getClaimOnCashBalance().negated());
+        final Map<String, KualiDecimal> amountsByCategory = calculateAmountsByCategory(percentagesByCategory, locReviewDetail.getAmountToDraw());
+        redistributeAmountsToInvoiceAccountCategories(locRedistributionAccountObjectCodesByCategory, amountsByCategory);
+        takeAPennyLeaveAPennyCGBStyle(locRedistributionInvoiceDetailAccountObjectCodes, locReviewDetail.getAmountToDraw());
+    }
 
+    /**
+     * Filters the given list of invoice detail account object codes by the given document and account
+     * @param document the document which owns the invoice detail account object codes
+     * @param awdAcct the award account to find invoice detail account object codes for
+     * @param invoiceDetailAccountObjectsCodes the original list of invoice detail account object codes
+     * @return a list of invoice detail account object codes associated with the given document and the given account
+     */
+    protected List<InvoiceDetailAccountObjectCode> filterInvoiceAccountObjectCodesByDocumentAndAccount(ContractsGrantsInvoiceDocument document, ContractsAndGrantsBillingAwardAccount awdAcct, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectsCodes) {
         List<InvoiceDetailAccountObjectCode> locRedistributionInvoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectsCodes) {
-            if (invoiceDetailAccountObjectCode.getDocumentNumber().equals(document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getInvoiceGeneralDetail().getProposalNumber()) && invoiceDetailAccountObjectCode.getAccountNumber().equals(awdAcct.getAccountNumber()) && invoiceDetailAccountObjectCode.getChartOfAccountsCode().equals(awdAcct.getChartOfAccountsCode())) {
+            if (StringUtils.equals(invoiceDetailAccountObjectCode.getDocumentNumber(), document.getDocumentNumber()) && invoiceDetailAccountObjectCode.getProposalNumber().equals(document.getInvoiceGeneralDetail().getProposalNumber()) && StringUtils.equals(invoiceDetailAccountObjectCode.getAccountNumber(), awdAcct.getAccountNumber()) && StringUtils.equals(invoiceDetailAccountObjectCode.getChartOfAccountsCode(), awdAcct.getChartOfAccountsCode())) {
                 locRedistributionInvoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode);
             }
         }
-        amountToDrawForObjectCodes = awdAcct.getAmountToDraw().divide(new KualiDecimal(locRedistributionInvoiceDetailAccountObjectCodes.size()));
+        return locRedistributionInvoiceDetailAccountObjectCodes;
+    }
 
-        // Now to set the divided value equally to all the object code rows.
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : locRedistributionInvoiceDetailAccountObjectCodes) {
-            invoiceDetailAccountObjectCode.setCurrentExpenditures(amountToDrawForObjectCodes);
+    /**
+     * Sums the current expenditures of the given invoice detail account object codes
+     * @param invoiceDetailAccountObjectCodes invoice detail account object codes to total the current expenditures of
+     * @return the total of the current expenditures
+     */
+    protected InvoiceDetailAccountObjectCode sumInvoiceDetailAccountObjectCodes(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+        InvoiceDetailAccountObjectCode total = new InvoiceDetailAccountObjectCode();
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            total.setCumulativeExpenditures(total.getCumulativeExpenditures().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
+            total.setCurrentExpenditures(total.getCurrentExpenditures().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
+            total.setTotalBilled(total.getTotalBilled().add(invoiceDetailAccountObjectCode.getTotalBilled()));
+        }
+        return total;
+    }
+
+    /**
+     * Calculates the percentage of the given total each list of invoice detail account object codes represents
+     * @param invoiceDetailAccountObjectCodesByCategory a Map of invoice detail account object codes mapped by category
+     * @param total the total of all of the invoice detail account object codes
+     * @return A Map keyed by category where the value is the percentage of the total that category represents
+     */
+    protected Map<String, BigDecimal> calculatePercentagesByCategory(Map<String, List<InvoiceDetailAccountObjectCode>> invoiceDetailAccountObjectCodesByCategory, KualiDecimal total) {
+        Map<String, BigDecimal> percentagesByCategory = new HashMap<>();
+        for (String categoryCode : invoiceDetailAccountObjectCodesByCategory.keySet()) {
+            if (total.equals(KualiDecimal.ZERO)) {
+                percentagesByCategory.put(categoryCode, BigDecimal.ZERO);
+            } else {
+                percentagesByCategory.put(categoryCode, calculatePercentageByInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodesByCategory.get(categoryCode), total));
+            }
+        }
+        return percentagesByCategory;
+    }
+
+    /**
+     * Finds the percentage that the given total is of the sum of the current expenditures of the given invoiceDetailAccountObjectCodes
+     * @param invoiceDetailAccountObjectCodes a List of invoice detail account object codes to sum
+     * @param total the total of all of the invoice detail account object codes for that account
+     * @return the percentage of the total of the given List of invoice detail account object code current expenditures are of the given total
+     */
+    protected BigDecimal calculatePercentageByInvoiceDetailAccountObjectCodes(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, KualiDecimal total) {
+        final KualiDecimal cumulativeExpenditureTotal = sumInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodes).getCumulativeExpenditures();
+        return cumulativeExpenditureTotal.bigDecimalValue().divide(total.bigDecimalValue(), 10, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Given a Map of category keys mapping percentage values and an amount, find what amount each percentage would be
+     * @param percentagesByCategory a map of category code keys mapping percentage values
+     * @param amount the amount to split by percentages
+     * @return a Map of amounts keyed by category codes
+     */
+    protected Map<String, KualiDecimal> calculateAmountsByCategory(Map<String, BigDecimal> percentagesByCategory, KualiDecimal amount) {
+        final BigDecimal bigDecimalAmount = amount.bigDecimalValue().setScale(2, RoundingMode.HALF_UP);
+        Map<String, KualiDecimal> amountsByCategory = new HashMap<>();
+        for (String categoryCode : percentagesByCategory.keySet()) {
+            amountsByCategory.put(categoryCode, new KualiDecimal(bigDecimalAmount.multiply(percentagesByCategory.get(categoryCode))));
+        }
+        return amountsByCategory;
+    }
+
+    /**
+     * Redistributes the given amounts mapped by category to each of the invoice detail account object codes mapped by category code
+     * @param redistributionAccountObjectCodesByCategory invoice detail account object codes mapped by category code
+     * @param amountsByCategory amounts mapped by category code
+     */
+    protected void redistributeAmountsToInvoiceAccountCategories(Map<String, List<InvoiceDetailAccountObjectCode>> redistributionAccountObjectCodesByCategory, Map<String, KualiDecimal> amountsByCategory) {
+        for (String categoryCode : redistributionAccountObjectCodesByCategory.keySet()) {
+            final List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = redistributionAccountObjectCodesByCategory.get(categoryCode);
+            if (invoiceDetailAccountObjectCodes.size() == 1) {
+                invoiceDetailAccountObjectCodes.get(0).setCurrentExpenditures(amountsByCategory.get(categoryCode));
+            } else {
+                splitOutRedistribution(invoiceDetailAccountObjectCodes, amountsByCategory.get(categoryCode));
+            }
+        }
+    }
+
+    /**
+     * If the total of current expenditures within the list of InvoiceDetailAccountObjectCode business objects does not meet the amount to target,
+     * steal or give a penny from one of those business objects so that it does
+     * @param invoiceDetailAccountObjectCodes a List of InvoiceDetailAccountObjectCode business objects
+     * @param amountToTarget the amount which the sum of those objects should equal
+     */
+    protected void takeAPennyLeaveAPennyCGBStyle(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, KualiDecimal amountToTarget) {
+        if (!CollectionUtils.isEmpty(invoiceDetailAccountObjectCodes)) {
+            final KualiDecimal currentExpenditureTotal = sumInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodes).getCurrentExpenditures();
+            if (!currentExpenditureTotal.equals(amountToTarget)) {
+                final KualiDecimal difference = currentExpenditureTotal.subtract(amountToTarget);
+                InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = findFirstPositiveCurrentExpenditureInvoiceDetailAccountObjectCode(invoiceDetailAccountObjectCodes);
+                if (invoiceDetailAccountObjectCode != null) {
+                    invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCurrentExpenditures().subtract(difference));
+                }
+            }
+        }
+    }
+
+    /**
+     * Given a list of invoice detail account object codes, return the first one with a positive currentExpenditure field
+     * @param invoiceDetailAccountObjectCodes the list of InvoiceDetailAccountObjectCodes to find the first one with a positive currentExpenditure
+     * @return the first invoice detail account object code with a positive currentExpenditure or null if nothing could be found
+     */
+    protected InvoiceDetailAccountObjectCode findFirstPositiveCurrentExpenditureInvoiceDetailAccountObjectCode(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            if (!ObjectUtils.isNull(invoiceDetailAccountObjectCode.getCurrentExpenditures()) && invoiceDetailAccountObjectCode.getCurrentExpenditures().isPositive()) {
+                return invoiceDetailAccountObjectCode;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Splits an amount evenly over the given List of invoice detail account object codes
+     * @param invoiceDetailAccountObjectCodes a List of invoice detail account object codes to divvy an amount equally among
+     * @param amount the amount to divvy
+     */
+    protected void splitOutRedistribution(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, KualiDecimal amount) {
+        final KualiDecimal amountEach = new KualiDecimal(amount.bigDecimalValue().divide(new BigDecimal(invoiceDetailAccountObjectCodes.size()), 2, RoundingMode.HALF_UP));
+        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
+            invoiceDetailAccountObjectCode.setCurrentExpenditures(amountEach);
         }
     }
 
@@ -1054,7 +1232,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method helps in setting up basic values for Contracts & Grants Invoice Document
      */
-    protected void populateContractsGrantsInvoiceDocument(ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
+    protected void populateContractsGrantsInvoiceDocument(ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document, List<ContractsGrantsLetterOfCreditReviewDetail> locReviewDetails, String locCreationType) {
         if (ObjectUtils.isNotNull(award.getAgency())) {
             if (ObjectUtils.isNotNull(document.getAccountsReceivableDocumentHeader())) {
                 document.getAccountsReceivableDocumentHeader().setCustomerNumber(award.getAgency().getCustomerNumber());
@@ -1069,7 +1247,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         // To set LOC creation type and appropriate values from award.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditCreationType())) {
-            document.getInvoiceGeneralDetail().setLetterOfCreditCreationType(award.getLetterOfCreditCreationType());
+            document.getInvoiceGeneralDetail().setLetterOfCreditCreationType(locCreationType);
         }
         // To set up values for Letter of Credit Fund and Fund Group irrespective of the LOC Creation type.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode())) {
@@ -1089,7 +1267,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             totalAmountBilledToDate = calculateTotalBillAmount(document);
         }
         else {
-            totalAmountBilledToDate = calculateTotalExpenditureAmount(document).add(getContractsGrantsInvoiceDocumentService().getOtherTotalBilledForAwardPeriod(document));
+            totalAmountBilledToDate = calculateTotalExpenditureAmount(document, locReviewDetails).add(getContractsGrantsInvoiceDocumentService().getOtherTotalBilledForAwardPeriod(document));
         }
         document.getInvoiceGeneralDetail().setTotalAmountBilledToDate(totalAmountBilledToDate);
     }
@@ -1122,7 +1300,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return totalBillAmount;
     }
 
-    protected KualiDecimal calculateTotalExpenditureAmount(ContractsGrantsInvoiceDocument document) {
+    protected KualiDecimal calculateTotalExpenditureAmount(ContractsGrantsInvoiceDocument document, List<ContractsGrantsLetterOfCreditReviewDetail> locReviewDetails) {
         Map<String, KualiDecimal> totalBilledByAccountNumberMap = new HashMap<String, KualiDecimal>();
         for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
             String key = invoiceDetailAccountObjectCode.getChartOfAccountsCode()+"-"+invoiceDetailAccountObjectCode.getAccountNumber();
@@ -1143,12 +1321,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             currentExpenditureAmount = invAcctD.getCumulativeExpenditures().subtract(invAcctD.getTotalPreviouslyBilled());
             invAcctD.setInvoiceAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
-            if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
+            if (!ObjectUtils.isNull(document.getInvoiceGeneralDetail())) {
                 ContractsAndGrantsBillingAward award = document.getInvoiceGeneralDetail().getAward();
-                if (ObjectUtils.isNotNull(award)) {
+                if (ObjectUtils.isNotNull(award) && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(locReviewDetails)) {
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        if (StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
-                            currentExpenditureAmount = awardAccount.getAmountToDraw();
+                        final ContractsGrantsLetterOfCreditReviewDetail locReviewDetail = retrieveMatchingLetterOfCreditReviewDetail(awardAccount, locReviewDetails);
+                        if (!ObjectUtils.isNull(locReviewDetail) && StringUtils.equals(awardAccount.getChartOfAccountsCode(), invAcctD.getChartOfAccountsCode()) && StringUtils.equals(awardAccount.getAccountNumber(), invAcctD.getAccountNumber())) {
+                            currentExpenditureAmount = locReviewDetail.getAmountToDraw();
                             invAcctD.setInvoiceAmount(currentExpenditureAmount);
                         }
                     }

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -31,12 +32,18 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public interface ContractsGrantsLetterOfCreditReviewDocumentService {
 
     /**
-     * This method retrieves the amount to draw for the award accounts
-     *
-     * @param awardAccounts
-     * @param award
+     * Calculates the amount to draw for the award accounts, placing the amounts in a Map keyed by chart of accounts code-account number
+     * @param award the award to find amounts to draw for
+     * @param awardAccounts the award accounts to find amounts to draw for
      */
-    public void setAwardAccountToDraw(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award);
+    public Map<String, KualiDecimal> calculateAwardAccountAmountsToDraw(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
+
+    /**
+     * Generates a key, which will be used in the map returned by calculateAwardAccountAmountsToDraw, for the given award account
+     * @param awardAccount an award account to generate a key for
+     * @return the key
+     */
+    public String getAwardAccountKey(ContractsAndGrantsBillingAwardAccount awardAccount);
 
     /**
      * This method retrieves the amount available to draw for the award accounts
@@ -54,4 +61,10 @@ public interface ContractsGrantsLetterOfCreditReviewDocumentService {
      * @return
      */
     public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria);
+
+    /**
+     * Generates contracts grants invoices for the given letter of credit review document
+     * @param locReviewDoc the contracts grants letter of credit review document to generate contracts grants invoices for
+     */
+    public void generateContractsGrantsInvoiceDocuments(ContractsGrantsLetterOfCreditReviewDocument locReviewDoc);
 }

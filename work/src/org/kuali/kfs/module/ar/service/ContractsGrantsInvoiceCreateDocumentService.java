@@ -25,6 +25,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.krad.util.ErrorMessage;
 
@@ -54,7 +55,17 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
     public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType creationProcessTypeCode);
 
     /**
-     * Looks for Contracts & Grants Invoice Documents with a status of Saved, meaning they have been created and saved to "inbox", but
+     * Looks for Contracts & Grants Invoice Document with a status of Saved, meaning they have been created and saved to "inbox", but
+     * This method is called by the C&G LOC Review document to generate contracts grants invoice documents
+     * @param awards Collection of Awards used to create Contracts Grants Invoice Documents
+     * @param accountDetails the account details to create the awards
+     * @param locCreationType whether loc documents should be created by fund or fund group
+     * @return List<ErrorMessage> of error messages that can be displayed to the user (empty if successful)
+     */
+    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType);
+
+    /**
+     * Looks for Contracts Grants Invoice Document with a status of Saved, meaning they have been created and saved to "inbox", but
      * have not yet been routed.
      */
     public void routeContractsGrantsInvoiceDocuments();
@@ -67,9 +78,11 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @param coaCode chart code used to create CG Invoice Document
      * @param orgCode org code used to create CG Invoice Document
      * @param errorMessages a List of error messages the process can append to
+     * @param accountDetails the account details to create the awards
+     * @param locCreationType whether loc documents should be created by fund or fund group
      * @return ContractsGrantsInvoiceDocument
      */
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode, List<ErrorMessage> errorMessages);
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType);
 
     /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.

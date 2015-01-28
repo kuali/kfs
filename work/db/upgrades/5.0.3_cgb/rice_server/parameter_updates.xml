@@ -228,4 +228,19 @@
 			<where>nmspc_cd = 'KFS-AR' and cmpnt_cd = 'CustomerInvoice' and parm_nm = 'GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND'</where>
 		</delete>
 	</changeSet>
+	
+	<changeSet author="KFSCGB" id="KFSTP-1721">
+		<update tableName="KRCR_PARM_T">
+			<column name="PARM_DESC_TXT" value="This is the value of the fund group or sub-fund group that the institution uses for Contracts &amp; Grants accounts. Used in conjunction with FUND_GROUP_DENOTES_CG_IND." />
+			<where>PARM_NM = 'CG_DENOTING_VALUE'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the Contracts &amp; Grants module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<where>PARM_NM = 'CG_DENOTING_VALUE' AND NMSPC_CD ='KFS-CG'</where>
+		</update>
+		<update tableName="KRCR_NMSPC_T">
+			<column name="NM" value="Contracts &amp; Grants" />
+			<where>NMSPC_CD = 'KFS-CG'</where>
+		</update>
+	</changeSet>
 </databaseChangeLog>

@@ -236,7 +236,7 @@
 		</update>
 		<update tableName="KRCR_PARM_T">
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the Contracts &amp; Grants module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
-			<where>PARM_NM = 'CG_DENOTING_VALUE' AND NMSPC_CD ='KFS-CG'</where>
+			<where>PARM_NM = 'OLTP_LOCKOUT_ACTIVE_IND' AND NMSPC_CD ='KFS-CG'</where>
 		</update>
 		<update tableName="KRCR_NMSPC_T">
 			<column name="NM" value="Contracts &amp; Grants" />

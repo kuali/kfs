@@ -43,7 +43,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
   <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Contracts & Grants"/>
+    <property name="title" value="Contracts &amp; Grants"/>
     <property name="maintainableItems">
       <list>
         <dd:maintField attributeName="contractControlFinCoaCode"/>

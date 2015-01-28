@@ -960,7 +960,7 @@
 				AR
 			</parent>
 			<label>
-				Contracts & Grants Invoice
+				Contracts &amp; Grants Invoice
 			</label>
 			<docHandler>
 				${kfs.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
@@ -1020,7 +1020,7 @@
 				AR
 			</parent>
 			<label>
-				Contracts & Grants Letter of Credit Review
+				Contracts &amp; Grants Letter of Credit Review
 			</label>
 			<docHandler>
 				${kfs.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler

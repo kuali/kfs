@@ -25,7 +25,7 @@
     <property name="lookupDefinition">
       <ref bean="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Contracts & Grants Aging Open Invoices Report"/>
+    <property name="objectLabel" value="Contracts &amp; Grants Aging Open Invoices Report"/>
     <property name="attributes">
       <list>
 	<ref bean="ContractsGrantsAgingOpenInvoicesReport-documentType"/>          
@@ -153,7 +153,7 @@
   <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition" parent="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean"/>
 
   <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Contracts & Grants Aging Open Invoices Report Inquiry"/>
+    <property name="title" value="Contracts &amp; Grants Aging Open Invoices Report Inquiry"/>
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
@@ -183,7 +183,7 @@
 <!-- Business Object Lookup Definition -->
   <bean id="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition" parent="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition-parentBean"/>
   <bean id="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Contracts & Grants Aging Open Invoices Report"/>
+    <property name="title" value="Contracts &amp; Grants Aging Open Invoices Report"/>
     <property name="lookupableID" value="arContractsGrantsAgingOpenInvoicesReportLookupable"/>
     
     <property name="lookupFields">

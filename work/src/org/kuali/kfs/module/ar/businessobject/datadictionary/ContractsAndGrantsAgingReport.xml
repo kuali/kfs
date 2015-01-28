@@ -30,7 +30,7 @@
 		<property name="lookupDefinition">
 			<ref bean="ContractsAndGrantsAgingReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="Contracts & Grants Aging Report" />
+		<property name="objectLabel" value="Contracts &amp; Grants Aging Report" />
 		<property name="attributes">
 			<list>
 				<ref bean="ContractsAndGrantsAgingReport-reportOption" />
@@ -519,7 +519,7 @@
 		parent="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" />
 
   	<bean id="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-	    <property name="title" value="Contracts & Grants Aging Report"/>
+	    <property name="title" value="Contracts &amp; Grants Aging Report"/>
 	    <property name="lookupableID" value="arContractsAndGrantsAgingReportLookupable"/>
 	    <property name="lookupFields">
 		    <list>

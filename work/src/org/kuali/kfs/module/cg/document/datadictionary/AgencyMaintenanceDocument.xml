@@ -119,7 +119,7 @@
 	<bean id="AgencyMaintenanceDocument-ContractsAndGrants-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="contractsAndGrantsSection" />
-		<property name="title" value="Contracts & Grants" />
+		<property name="title" value="Contracts &amp; Grants" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="cageNumber" />

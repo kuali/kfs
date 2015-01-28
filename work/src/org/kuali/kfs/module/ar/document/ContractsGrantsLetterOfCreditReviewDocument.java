@@ -33,7 +33,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -370,24 +369,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.FUNDS_NOT_DRAWN, ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
                 detail.setFundsNotDrawn(KualiDecimal.ZERO);
                 detail.setAmountToDraw(detail.getHiddenAmountToDraw().subtract(detail.getFundsNotDrawn()));
-            }
-
-            if (detail.getHiddenAmountToDraw().compareTo(detail.getAmountToDraw()) != 0) {
-                // This means the amount to Draw field has been changed,so
-
-                // a. set locreview indicator to yes in award account
-                // b.then set amounts to draw in award account
-                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    // set the amount to Draw in the award Account
-                    Map<String, Object> criteria = new HashMap<String, Object>();
-                    criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-                    criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                    if (detail.getAccountNumber().equals(awardAccount.getAccountNumber())) {
-                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, detail.getAmountToDraw());
-                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, true);
-                    }
-                }
             }
         }
 

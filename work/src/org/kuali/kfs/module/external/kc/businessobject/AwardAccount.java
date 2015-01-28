@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.external.kc.dto.AwardAccountDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -50,8 +49,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     private boolean finalBilledIndicator;
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
-    private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
-    private boolean letterOfCreditReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
 
     private Account account;
     private Chart chartOfAccounts;
@@ -126,8 +123,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
         previousLastBilledDate = (!ObjectUtils.isNull(awardAccountDTO.getPreviousLastBilledDate())) ?
                 new Date(awardAccountDTO.getPreviousLastBilledDate().getTime())
                 : null;
-        amountToDraw = awardAccountDTO.getAmountToDraw();
-        letterOfCreditReviewIndicator = awardAccountDTO.isLetterOfCreditReviewIndicator();
     }
 
     /**
@@ -353,15 +348,5 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     @Override
     public boolean isFinalBilledIndicator() {
         return finalBilledIndicator;
-    }
-
-    @Override
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    @Override
-    public boolean isLetterOfCreditReviewIndicator() {
-        return letterOfCreditReviewIndicator;
     }
 }

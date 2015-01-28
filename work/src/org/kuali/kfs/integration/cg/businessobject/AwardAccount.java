@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,7 +25,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,54 +41,11 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
     private boolean finalBilledIndicator;
-    private KualiDecimal amountToDraw = KualiDecimal.ZERO;
-    private boolean letterOfCreditReviewIndicator;
     private boolean active = true;
 
     private Account account;
     private Chart chartOfAccounts;
     private Person projectDirector;
-
-    /**
-     * Gets the amountToDraw attribute.
-     *
-     * @return Returns the amountToDraw.
-     */
-
-    @Override
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    /**
-     * Sets the amountToDraw attribute value.
-     *
-     * @param amountToDraw The amountToDraw to set.
-     */
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
-        this.amountToDraw = amountToDraw;
-    }
-
-    /**
-     * Gets the letterOfCreditReviewIndicator attribute.
-     *
-     * @return Returns the letterOfCreditReviewIndicator.
-     */
-
-    @Override
-    public boolean isLetterOfCreditReviewIndicator() {
-        return letterOfCreditReviewIndicator;
-    }
-
-    /**
-     * Sets the letterOfCreditReviewIndicator attribute value.
-     *
-     * @param letterOfCreditReviewIndicator The letterOfCreditReviewIndicator to set.
-     */
-    public void setLetterOfCreditReviewIndicator(boolean letterOfCreditReviewIndicator) {
-        this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
-    }
-
 
     /**
      * Gets the finalBilledIndicator attribute.

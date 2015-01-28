@@ -425,6 +425,7 @@ public class ArConstants{
     public static final String FINAL = "F";
 
     public static class ArDocumentTypeCodes {
+        public static final String COLLECTION_EVENT = "CVNT";
         public static final String CONTRACTS_GRANTS_COLLECTION_ACTIVTY = "CCA";
         public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
         public static final String LETTER_OF_CREDIT_REVIEW = "LCR";

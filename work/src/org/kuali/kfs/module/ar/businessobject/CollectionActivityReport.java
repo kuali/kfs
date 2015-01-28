@@ -33,8 +33,9 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
  * This class is used to generate the collection activity report
  */
 
-public class CollectionActivityReport extends TransientBusinessObjectBase {
+public class CollectionActivityReport extends TransientBusinessObjectBase implements CollectionsReport {
 
+    private Long eventId;
     private String principalId;
     private Long proposalNumber;
     private String agencyNumber;
@@ -69,6 +70,15 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
         return m;
     }
 
+    @Override
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
     /**
      * Gets the principalId attribute.
      *
@@ -92,6 +102,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
      *
      * @return Return the proposalNumber.
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -128,6 +139,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
      *
      * @return Return the invoiceNumber.
      */
+    @Override
     public String getInvoiceNumber() {
         return invoiceNumber;
     }

@@ -32,7 +32,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -42,6 +42,7 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -197,9 +198,14 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = updateSuspensionCategoriesOnDocument(form);
+        final String buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        final String question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
-        SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsInvoiceDocument, DocumentSystemSaveEvent.class);
+        if (StringUtils.equals(question, KRADConstants.DOCUMENT_CANCEL_QUESTION) && StringUtils.equals(buttonClicked, ConfirmationQuestion.YES)) {
+            final ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = updateSuspensionCategoriesOnDocument(form);
+            contractsGrantsInvoiceDocument.clearAnyGeneralLedgerPendingEntries();
+            SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsInvoiceDocument, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
 
         return super.cancel(mapping, form, request, response);
     }

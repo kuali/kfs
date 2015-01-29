@@ -18,10 +18,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -30,6 +26,10 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 /**
  * Collection Event class.
@@ -51,26 +51,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     private transient Person user;
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private CollectionActivityType collectionActivityType;
-
-    public CollectionEvent() {
-        super();
-    }
-
-
-    public CollectionEvent(CollectionEvent event) {
-        super();
-        this.id = event.id;
-        this.collectionEventCode = event.collectionEventCode;
-        this.invoiceNumber = event.invoiceNumber;
-        this.activityCode = event.activityCode;
-        this.activityDate = event.activityDate;
-        this.activityText = event.activityText;
-        this.followupDate = event.followupDate;
-        this.completedDate = event.completedDate;
-        this.postedDate = event.postedDate;
-        this.userPrincipalId = event.userPrincipalId;
-        this.documentNumber = event.documentNumber;
-    }
 
     /**
      * Gets the id attribute.

@@ -81,7 +81,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String letterOfCreditFundCode;
     private String grantDescriptionCode;
     private String agencyNumber;
-    private String letterOfCreditCreationType; // To create LOC
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
@@ -698,28 +697,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     public void setAgencyNumber(String agencyNumber) {
         this.agencyNumber = agencyNumber;
     }
-
-
-    /**
-     * Gets the letterOfCreditCreationType attribute.
-     *
-     * @return Returns the letterOfCreditCreationType.
-     */
-    @Override
-    public String getLetterOfCreditCreationType() {
-        return letterOfCreditCreationType;
-    }
-
-
-    /**
-     * Sets the letterOfCreditCreationType attribute value.
-     *
-     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
-     */
-    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
-        this.letterOfCreditCreationType = letterOfCreditCreationType;
-    }
-
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.

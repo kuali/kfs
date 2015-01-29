@@ -230,13 +230,6 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getAgencyNumber();
 
     /**
-     * Gets the letterOfCreditCreationType attribute.
-     *
-     * @return Returns the letterOfCreditCreationType.
-     */
-    public String getLetterOfCreditCreationType();
-
-    /**
      * Gets the federalPassThroughAgencyNumber attribute.
      *
      * @return Returns the federalPassThroughAgencyNumber.

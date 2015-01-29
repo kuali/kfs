@@ -79,7 +79,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String awardStatusCode;
     private String letterOfCreditFundCode;
     private String grantDescriptionCode;
-    private String letterOfCreditCreationType;
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
@@ -484,15 +483,6 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     public void setGrantDescriptionCode(String grantDescriptionCode) {
         this.grantDescriptionCode = grantDescriptionCode;
-    }
-
-    @Override
-    public String getLetterOfCreditCreationType() {
-        return letterOfCreditCreationType;
-    }
-
-    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
-        this.letterOfCreditCreationType = letterOfCreditCreationType;
     }
 
     @Override

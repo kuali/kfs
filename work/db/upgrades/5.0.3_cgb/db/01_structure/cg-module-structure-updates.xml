@@ -156,8 +156,6 @@
 		</addColumn>
 		<addColumn tableName="CG_AWD_ACCT_T">
 			<column name="FNL_BILLED_IND" type="VARCHAR(1)" />
-			<column name="AMT_TO_DRW" type="DECIMAL(19,2)" />
-			<column name="LTRCR_RVW_IND" type="VARCHAR(1)" />
 			<column name="CURR_LST_BILLED_DT" type="DATETIME" />
 			<column name="PREV_LST_BILLED_DT" type="DATETIME" />
 		</addColumn>
@@ -172,7 +170,6 @@
 			<column name="AUTO_APPROVE_IND" type="VARCHAR(1)" />
 			<column name="FUNDING_EXP_DT" type="DATETIME" />
 			<column name="INV_OPT_CD" type="VARCHAR(1)" />
-			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="EXCL_FRM_INV_REASON_TXT" type="VARCHAR(255)" />
 			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />
 			<column name="CMPGN_ID" type="VARCHAR(4)" />

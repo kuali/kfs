@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,8 +22,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Do nothing implementation of the ContractsAndGrantsModuleBillingService interface
@@ -68,35 +66,6 @@ public class ContractsAndGrantsModuleBillingServiceNoOp implements ContractsAndG
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
 
     }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setLOCCreationTypeToAward(java.lang.Long,
-     *      java.lang.String)
-     */
-    @Override
-    public void setLOCCreationTypeToAward(Long proposalNumber, String locCreationType) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setAmountToDrawToAwardAccount(java.util.Map,
-     *      org.kuali.rice.core.api.util.type.KualiDecimal)
-     */
-    @Override
-    public void setAmountToDrawToAwardAccount(Map<String, Object> criteria, KualiDecimal amountToDraw) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setLOCReviewIndicatorToAwardAccount(java.util.Map,
-     *      boolean)
-     */
-    @Override
-    public void setLOCReviewIndicatorToAwardAccount(Map<String, Object> criteria, boolean locReviewIndicator) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setFinalBilledToAwardAccount(java.util.Map, boolean)

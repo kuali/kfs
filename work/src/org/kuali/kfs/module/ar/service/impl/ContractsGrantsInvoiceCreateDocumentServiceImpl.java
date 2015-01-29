@@ -1246,7 +1246,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         document.setOpenInvoiceIndicator(true);
 
         // To set LOC creation type and appropriate values from award.
-        if (StringUtils.isNotEmpty(award.getLetterOfCreditCreationType())) {
+        if (!StringUtils.isBlank(locCreationType)) {
             document.getInvoiceGeneralDetail().setLetterOfCreditCreationType(locCreationType);
         }
         // To set up values for Letter of Credit Fund and Fund Group irrespective of the LOC Creation type.

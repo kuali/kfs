@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,8 +20,6 @@ package org.kuali.kfs.integration.cg;
 
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Module service specific to those methods needed to support Contracts & Grants Billing.
@@ -65,30 +63,6 @@ public interface ContractsAndGrantsModuleBillingService {
      * @param lastBilledDate
      */
     public void setLastBilledDateToAward(Long proposalNumber, java.sql.Date lastBilledDate);
-
-    /**
-     * This method sets value of LOC Creation Type to Award
-     *
-     * @param proposalNumber
-     * @param locCreationType
-     */
-    public void setLOCCreationTypeToAward(Long proposalNumber, String locCreationType);
-
-    /**
-     * This method sets amount to draw to award Account.
-     *
-     * @param criteria
-     * @param amountToDraw
-     */
-    public void setAmountToDrawToAwardAccount(Map<String, Object> criteria, KualiDecimal amountToDraw);
-
-    /**
-     * This method sets loc review indicator to award Account.
-     *
-     * @param criteria
-     * @param locReviewIndicator
-     */
-    public void setLOCReviewIndicatorToAwardAccount(Map<String, Object> criteria, boolean locReviewIndicator);
 
     /**
      * This method sets final billed to award Account.

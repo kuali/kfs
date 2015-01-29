@@ -28,7 +28,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -49,8 +48,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private boolean finalBilledIndicator;
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
-    private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
-    private boolean letterOfCreditReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
 
     private Account account;
     private Chart chartOfAccounts;
@@ -243,8 +240,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         m.put("finalBilledIndicator", this.finalBilledIndicator);
         m.put("currentLastBilledDate", this.currentLastBilledDate);
         m.put("previousLastBilledDate", this.previousLastBilledDate);
-        m.put("amountToDraw", this.amountToDraw);
-        m.put("letterOfCreditReviewIndicator", this.letterOfCreditReviewIndicator);
         return m;
     }
 
@@ -278,46 +273,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     @Override
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * Gets the letterOfCreditReviewIndicator attribute.
-     *
-     * @return Returns the letterOfCreditReviewIndicator.
-     */
-
-    @Override
-    public boolean isLetterOfCreditReviewIndicator() {
-        return letterOfCreditReviewIndicator;
-    }
-
-    /**
-     * Sets the letterOfCreditReviewIndicator attribute value.
-     *
-     * @param letterOfCreditReviewIndicator The letterOfCreditReviewIndicator to set.
-     */
-    public void setLetterOfCreditReviewIndicator(boolean letterOfCreditReviewIndicator) {
-        this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
-    }
-
-    /**
-     * Gets the amountToDraw attribute.
-     *
-     * @return Returns the amountToDraw.
-     */
-
-    @Override
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    /**
-     * Sets the amountToDraw attribute value.
-     *
-     * @param amountToDraw The amountToDraw to set.
-     */
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
-        this.amountToDraw = amountToDraw;
     }
 
     /**

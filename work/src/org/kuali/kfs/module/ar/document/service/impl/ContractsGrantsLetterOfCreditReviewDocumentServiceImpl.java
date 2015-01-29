@@ -144,20 +144,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentServiceImpl implements C
         }
 
         getContractsGrantsInvoiceCreateDocumentService().routeContractsGrantsInvoiceDocuments();
-
-        // The next important step is to set the locReviewIndicator to false and amount to Draw fields in award Account to zero.
-        // This should not affect any further invoicing.
-        for (ContractsAndGrantsBillingAward award : awards) {
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                Map<String, Object> criteria = new HashMap<String, Object>();
-                criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-                criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-                criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);
-                SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);
-            }
-            SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
-        }
     }
 
     /**

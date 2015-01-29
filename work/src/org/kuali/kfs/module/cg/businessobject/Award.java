@@ -88,7 +88,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String letterOfCreditFundCode;
     private String grantDescriptionCode;
     private String agencyNumber;
-    private String letterOfCreditCreationType; // To create LOC
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
@@ -1711,27 +1710,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
         this.lookupFundMgrPerson = lookupFundMgrPerson;
     }
-
-    /**
-     * Gets the letterOfCreditCreationType attribute.
-     *
-     * @return Returns the letterOfCreditCreationType.
-     */
-
-    @Override
-    public String getLetterOfCreditCreationType() {
-        return letterOfCreditCreationType;
-    }
-
-    /**
-     * Sets the letterOfCreditCreationType attribute value.
-     *
-     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
-     */
-    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
-        this.letterOfCreditCreationType = letterOfCreditCreationType;
-    }
-
 
     /**
      * Gets the fundingExpirationDate attribute.

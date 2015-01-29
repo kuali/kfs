@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -59,13 +60,20 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
 
     @Override
     public boolean validateBillingFrequency(ContractsAndGrantsBillingAward award) {
+        return validateBillingFrequency(award, award.getLastBilledDate());
+    }
 
+    @Override
+    public boolean validateBillingFrequency(ContractsAndGrantsBillingAward award, ContractsAndGrantsBillingAwardAccount awardAccount) {
+        return validateBillingFrequency(award, awardAccount.getCurrentLastBilledDate());
+    }
+
+    protected boolean validateBillingFrequency(ContractsAndGrantsBillingAward award, Date lastBilledDate) {
         // first we need to get the period itself to check these things
         boolean isValid = true;
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-
 
         Date[] pair = getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
         Date previousAccountingPeriodEndDate = pair[1];
@@ -76,12 +84,11 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
             isValid = false;
         }
         else {
-            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, award.getLastBilledDate(), award.getBillingFrequency().getGracePeriodDays());
+            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, lastBilledDate, award.getBillingFrequency().getGracePeriodDays());
         }
 
         return isValid;
     }
-
 
     /**
      * This method checks if a given moment of time is within an accounting period, or its billing frequency grace period.

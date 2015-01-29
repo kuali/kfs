@@ -448,6 +448,22 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         assertTrue("invalidGroup should contain our initial award with the error message we're expecting.", invalidGroup.get(awards.get(0)).get(0).equals(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS)));
     }
 
+    public void testPerformAwardValidationOneValidOneInvalidAwardAccounts() {
+        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_2.createAwardAccount();
+        awardAccount_2.setCurrentLastBilledDate(new Date(System.currentTimeMillis()));
+        awardAccount_2.refreshReferenceObject("account");
+        ((Award)awards.get(0)).getAwardAccounts().add(awardAccount_2);
+
+        Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
+        List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
+
+        contractsGrantsInvoiceCreateDocumentServiceImpl.performAwardValidation(awards, invalidGroup, qualifiedAwards);
+
+        assertTrue("invalidGroup should be empty", invalidGroup.size() == 0);
+        assertTrue("qualifiedAwards should contain one award.", qualifiedAwards.size() == 1);
+    }
+
     public void testPerformAwardValidationAgencyHasNoMatchingCustomer() {
         List<ContractsAndGrantsBillingAward> awards = setupAwards();
         ((Award)awards.get(0)).getAgency().setCustomerNumber(null);

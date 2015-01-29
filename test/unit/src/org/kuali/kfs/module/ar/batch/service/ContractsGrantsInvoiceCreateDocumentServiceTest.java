@@ -22,6 +22,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.wklykins;
 
 import java.io.File;
+import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateTestBase;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -401,6 +403,33 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
         String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
         errorMessage = MessageFormat.format(errorMessage, award2.getActiveAwardAccounts().get(0).getAccountNumber(), award.getProposalNumber().toString());
+
+        assertTrue("errorMessages should not be empty.", errorMessages.size() == 1);
+        assertTrue("errorMessages should contain the error we're expecting.", messagesContainsExpectedError(errorMessages, errorMessage));
+
+        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
+        assertTrue("one error should be persisted", persistedErrors.size() == 1);
+        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
+            assertTrue("process type should be manual", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL.getCode()));
+            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
+        }
+    }
+
+    @ConfigureContext(session = wklykins)
+    public void testManualCreateCGInvoiceDocumentsByAccountOneBillableOneNonBillable() {
+        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        Award award = ((Award)awards.get(0));
+        award.setInvoicingOptionCode(ArConstants.INV_ACCOUNT);
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_2.createAwardAccount();
+        awardAccount_2.setCurrentLastBilledDate(new Date(System.currentTimeMillis()));
+        awardAccount_2.refreshReferenceObject("account");
+        award.getAwardAccounts().add(awardAccount_2);
+
+        errorMessages = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
+
+        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
+        errorMessage = MessageFormat.format(errorMessage, awardAccount_2.getAccountNumber(), award.getProposalNumber().toString());
 
         assertTrue("errorMessages should not be empty.", errorMessages.size() == 1);
         assertTrue("errorMessages should contain the error we're expecting.", messagesContainsExpectedError(errorMessages, errorMessage));

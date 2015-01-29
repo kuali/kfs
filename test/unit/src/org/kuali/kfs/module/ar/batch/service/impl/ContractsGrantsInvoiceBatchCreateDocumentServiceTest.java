@@ -22,6 +22,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,9 +35,11 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceBatchCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateTestBase;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -150,6 +153,34 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
 
         String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
         errorMessage = MessageFormat.format(errorMessage, award2.getActiveAwardAccounts().get(0).getAccountNumber(), award.getProposalNumber().toString());
+
+        File errors = new File(errorOutputFile);
+        assertTrue("errors should be written", errors.exists());
+        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
+        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
+
+        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
+        assertTrue("one error should be persisted", persistedErrors.size() == 1);
+        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
+            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
+            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
+        }
+    }
+
+    public void testBatchCreateCGInvoiceDocumentsByAccountOneBillableOneNonBillable() throws WorkflowException, IOException {
+        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        Award award = ((Award)awards.get(0));
+        award.setInvoicingOptionCode(ArConstants.INV_ACCOUNT);
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_2.createAwardAccount();
+        awardAccount_2.setCurrentLastBilledDate(new Date(System.currentTimeMillis()));
+        awardAccount_2.refreshReferenceObject("account");
+        award.getAwardAccounts().add(awardAccount_2);
+
+        contractsGrantsInvoiceBatchCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
+
+        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
+        errorMessage = MessageFormat.format(errorMessage, awardAccount_2.getAccountNumber(), award.getProposalNumber().toString());
 
         File errors = new File(errorOutputFile);
         assertTrue("errors should be written", errors.exists());

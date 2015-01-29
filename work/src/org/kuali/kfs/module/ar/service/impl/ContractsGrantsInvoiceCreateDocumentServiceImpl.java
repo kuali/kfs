@@ -1803,7 +1803,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             final Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
                 if (!invalidAccounts.contains(awardAccount.getAccount())) {
-                    validAwardAccounts.add(awardAccount);
+                    if (verifyBillingFrequencyService.validateBillingFrequency(award, awardAccount)) {
+                        validAwardAccounts.add(awardAccount);
+                    }
                 }
             }
 

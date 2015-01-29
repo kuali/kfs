@@ -164,15 +164,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
             ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();
 
-            final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
-            final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
-
             // To retrieve the financial object code from the Organization Accounting Default.
             final OrganizationAccountingDefault organizationAccountingDefault = retrieveBillingOrganizationAccountingDefault(contractsGrantsInvoiceDocument.getBillByChartOfAccountCode(), contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
             if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(organizationAccountingDefault)) {
                 if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_ACCOUNT)) {
                     // If its bill by Account , irrespective of it is by contract control account, there would be a single source accounting line with award account specified by the user.
-                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardAccounts.get(0).getChartOfAccountsCode(), awardAccounts.get(0).getAccountNumber(), organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode(), contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getInvoiceAmount(), new Integer(1));
+                    CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), awardAccounts.get(0).getChartOfAccountsCode(), awardAccounts.get(0).getAccountNumber(), organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode(), getAccountingLineAmountForDocument(contractsGrantsInvoiceDocument), new Integer(1));
                     contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                 }
                 else if (StringUtils.equalsIgnoreCase(award.getInvoicingOptionCode(), ArConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
@@ -183,7 +180,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 }
                 else {
                     // by award
-                    List<CustomerInvoiceDetail> awardAccountingLines = createSourceAccountingLinesByAward(contractsGrantsInvoiceDocument, totalMilestoneAmount, totalBillAmount, organizationAccountingDefault);
+                    List<CustomerInvoiceDetail> awardAccountingLines = createSourceAccountingLinesByAward(contractsGrantsInvoiceDocument, organizationAccountingDefault);
                     contractsGrantsInvoiceDocument.getSourceAccountingLines().addAll(awardAccountingLines);
                 }
             }
@@ -191,14 +188,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     }
 
     /**
+     * Determines the total amount for the given document, based on billing frequency of the award
+     * @param invoice the contracts & grants invoice to find a total amount for
+     * @return the total amount of the document
+     */
+    protected KualiDecimal getAccountingLineAmountForDocument(ContractsGrantsInvoiceDocument invoice) {
+        if (StringUtils.equals(invoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            return getBillAmountTotal(invoice);
+        } else if (StringUtils.equals(invoice.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+            return getInvoiceMilestoneTotal(invoice);
+        } else {
+            return invoice.getTotalCostInvoiceDetail().getInvoiceAmount();
+        }
+    }
+
+    /**
      * Generates the source accounting lines for a Contracts & Grants Invoice from the award accounts associated with an award (in the form of the pre-generated invoice account details)
      * @param contractsGrantsInvoiceDocument the Contracts & Grants Invoice to create invoice details for
-     * @param totalMilestoneAmount the total amount of the utilized milestones, if the billing is by milestone
-     * @param totalBillAmount the total amount of the utilized pre-determined bills, if the billing system is by predetermined bills
      * @param organizationAccountingDefault the
      * @return a List of generated accounting lines
      */
-    protected List<CustomerInvoiceDetail> createSourceAccountingLinesByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, final KualiDecimal totalMilestoneAmount, final KualiDecimal totalBillAmount, final OrganizationAccountingDefault organizationAccountingDefault) {
+    protected List<CustomerInvoiceDetail> createSourceAccountingLinesByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, final OrganizationAccountingDefault organizationAccountingDefault) {
         List<CustomerInvoiceDetail> awardAccountingLines = new ArrayList<>();
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getAccountDetails())) {
             final Map<String, KualiDecimal> accountExpenditureAmounts = getCategoryExpenditureAmountsForInvoiceAccountDetail(contractsGrantsInvoiceDocument);
@@ -209,12 +219,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
                 Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To set a sequence number for the Accounting Lines
                 // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
                 // account if its Milestone/Predetermined Schedule.
-                KualiDecimal totalAmount;
-                if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
-                    totalAmount = totalMilestoneAmount;
+                KualiDecimal totalAmount = KualiDecimal.ZERO;
+                if (StringUtils.equalsIgnoreCase(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+                    final KualiDecimal totalMilestoneAmount = getInvoiceMilestoneTotal(contractsGrantsInvoiceDocument);
+                    if (totalMilestoneAmount != KualiDecimal.ZERO) {
+                        totalAmount = totalMilestoneAmount;
+                    }
                 }
-                else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
-                    totalAmount = totalBillAmount;
+                else if (StringUtils.equalsIgnoreCase(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+                    final KualiDecimal totalBillAmount = getBillAmountTotal(contractsGrantsInvoiceDocument);
+                    if (totalBillAmount != KualiDecimal.ZERO) {
+                        totalAmount = totalBillAmount;
+                    }
                 }
                 else {
                     final String accountKey = StringUtils.join(new String[] { invAcctD.getChartOfAccountsCode(), invAcctD.getAccountNumber() }, "-");
@@ -267,7 +283,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
         String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getInvoiceAmount(), new Integer(1));
+        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, getAccountingLineAmountForDocument(contractsGrantsInvoiceDocument), new Integer(1));
         return cide;
     }
 

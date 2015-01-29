@@ -36,12 +36,33 @@
         <ref bean="CollectionEvent-collectionEventCode"/>
         <ref bean="CollectionEvent-invoiceNumber"/>
         <ref bean="CollectionEvent-activityCode"/>
-        <ref bean="CollectionEvent-activityDate"/>        
+        <ref bean="CollectionEvent-activityType.activityDescription"/>
+        <ref bean="CollectionEvent-activityDate"/>
         <ref bean="CollectionEvent-activityText"/>
         <ref bean="CollectionEvent-followupDate"/>
         <ref bean="CollectionEvent-completedDate"/>
         <ref bean="CollectionEvent-postedDate"/>
+        <ref bean="CollectionEvent-user.principalName"/>
         <ref bean="CollectionEvent-userPrincipalId"/>
+        <ref bean="CollectionEvent-completed"/>
+      </list>
+    </property>
+
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="user">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="userPrincipalId" p:targetName="principalId" />
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="user.principalName" p:targetName="principalName" />
+              <bean parent="SupportAttributeDefinition" p:sourceName="user.name" p:targetName="name" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -95,14 +116,22 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
-  
+
+  <bean id="CollectionEvent-activityType.activityDescription"
+        parent="CollectionEvent-activityType.activityDescription-parentBean" />
+
+  <bean id="CollectionEvent-activityType.activityDescription-parentBean"
+        abstract="true" parent="CollectionActivityType-activityDescription">
+    <property name="name" value="collectionActivityType.activityDescription" />
+  </bean>
+
   <bean id="CollectionEvent-activityCode" parent="CollectionEvent-activityCode-parentBean"/>
 
   <bean id="CollectionEvent-activityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Collection Activity Type Code"/>
-    <property name="shortLabel" value="Collection Activity Type Code"/>
+    <property name="label" value="Collection Activity Type"/>
+    <property name="shortLabel" value="Collection Activity Type"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
@@ -182,7 +211,24 @@
     </property>
   </bean>
 
-<bean id="CollectionEvent-inquiryDefinition" parent="CollectionEvent-inquiryDefinition-parentBean" />
+  <bean id="CollectionEvent-completed" parent="CollectionEvent-completed-parentBean"/>
+
+  <bean id="CollectionEvent-completed-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="completed"/>
+    <property name="label" value="Completed"/>
+    <property name="description" value="A radio control to determine whether to search for completed events."/>
+
+  </bean>
+
+  <bean id="CollectionEvent-user.principalName" parent="CollectionEvent-user.principalName-parentBean" />
+
+  <bean id="CollectionEvent-user.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" >
+    <property name="name" value="user.principalName" />
+    <property name="label" value="Initiator"/>
+    <property name="shortLabel" value="Initiator" />
+  </bean>
+
+  <bean id="CollectionEvent-inquiryDefinition" parent="CollectionEvent-inquiryDefinition-parentBean" />
 
 	<bean id="CollectionEvent-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
@@ -217,7 +263,7 @@
 
 	<bean id="CollectionEvent-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Collection Event" />
+		<property name="title" value="Collection Event Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
@@ -232,14 +278,16 @@
 				<bean parent="FieldDefinition" p:attributeName="followupDate" />
 				<bean parent="FieldDefinition" p:attributeName="completedDate" />
 				<bean parent="FieldDefinition" p:attributeName="postedDate" />
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-			</list>
+				<bean parent="FieldDefinition" p:attributeName="user.principalName" />
+        <bean parent="FieldDefinition" p:attributeName="completed" />
+
+      </list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="collectionEventCode" />
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
-				<bean parent="FieldDefinition" p:attributeName="activityCode" />
+				<bean parent="FieldDefinition" p:attributeName="collectionActivityType.activityDescription" />
 				<bean parent="FieldDefinition" p:attributeName="activityDate" />
 				<bean parent="FieldDefinition" p:attributeName="followupDate" />
 				<bean parent="FieldDefinition" p:attributeName="completedDate" />

@@ -59,7 +59,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="followupDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="completedDate" p:required="true" />				
 				<bean parent="MaintainableFieldDefinition" p:name="postedDate" p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="user.name" p:unconditionallyReadOnly="true" />
 				
 			</list>
 		</property>

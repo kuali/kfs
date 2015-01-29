@@ -18,18 +18,19 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 /**
  * Collection Event class.
@@ -47,6 +48,7 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     private Timestamp postedDate;
     private String userPrincipalId;
     private String documentNumber;
+    private boolean completed;
 
     private transient Person user;
     private ContractsGrantsInvoiceDocument invoiceDocument;
@@ -334,6 +336,10 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
      */
     public void setCollectionActivityType(CollectionActivityType collectionActivityType) {
         this.collectionActivityType = collectionActivityType;
+    }
+
+    public boolean isCompleted() {
+        return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().after(getCompletedDate());
     }
 
     /**

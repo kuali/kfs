@@ -413,7 +413,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
                     populateInvoiceFromAward(awd, accounts, cgInvoiceDocument, accountDetails, locCreationType);
-                    contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument);
+                    contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument, accounts);
                     if (ObjectUtils.isNotNull(cgInvoiceDocument.getInvoiceGeneralDetail().getAward())) {
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }

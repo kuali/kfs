@@ -46,9 +46,9 @@ public interface ContractsGrantsInvoiceDocumentService {
      * This method creates Source Accounting lines enabling the creation of GLPEs in the document.
      *
      * @param document the Contracts & Grants Invoice document
-     * @throws WorkflowException
+     * @param awardAccounts award accounts to populate as accounting lines
      */
-    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
+    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
     /**
      * This method recalculates the new total billed amount on the Contracts & Grants Invoice document.

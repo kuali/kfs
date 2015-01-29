@@ -44,7 +44,6 @@
         <ref bean="CollectionEvent-postedDate"/>
         <ref bean="CollectionEvent-user.principalName"/>
         <ref bean="CollectionEvent-userPrincipalId"/>
-        <ref bean="CollectionEvent-completed"/>
       </list>
     </property>
 
@@ -211,15 +210,6 @@
     </property>
   </bean>
 
-  <bean id="CollectionEvent-completed" parent="CollectionEvent-completed-parentBean"/>
-
-  <bean id="CollectionEvent-completed-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="completed"/>
-    <property name="label" value="Completed"/>
-    <property name="description" value="A radio control to determine whether to search for completed events."/>
-
-  </bean>
-
   <bean id="CollectionEvent-user.principalName" parent="CollectionEvent-user.principalName-parentBean" />
 
   <bean id="CollectionEvent-user.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" >
@@ -279,7 +269,6 @@
 				<bean parent="FieldDefinition" p:attributeName="completedDate" />
 				<bean parent="FieldDefinition" p:attributeName="postedDate" />
 				<bean parent="FieldDefinition" p:attributeName="user.principalName" />
-        <bean parent="FieldDefinition" p:attributeName="completed" />
 
       </list>
 		</property>

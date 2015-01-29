@@ -48,31 +48,10 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     private Timestamp postedDate;
     private String userPrincipalId;
     private String documentNumber;
-    private boolean completed;
 
     private transient Person user;
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private CollectionActivityType collectionActivityType;
-
-    public CollectionEvent() {
-        super();
-    }
-
-
-    public CollectionEvent(CollectionEvent event) {
-        super();
-        this.id = event.id;
-        this.collectionEventCode = event.collectionEventCode;
-        this.invoiceNumber = event.invoiceNumber;
-        this.activityCode = event.activityCode;
-        this.activityDate = event.activityDate;
-        this.activityText = event.activityText;
-        this.followupDate = event.followupDate;
-        this.completedDate = event.completedDate;
-        this.postedDate = event.postedDate;
-        this.userPrincipalId = event.userPrincipalId;
-        this.documentNumber = event.documentNumber;
-    }
 
     /**
      * Gets the id attribute.
@@ -336,10 +315,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
      */
     public void setCollectionActivityType(CollectionActivityType collectionActivityType) {
         this.collectionActivityType = collectionActivityType;
-    }
-
-    public boolean isCompleted() {
-        return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().after(getCompletedDate());
     }
 
     /**

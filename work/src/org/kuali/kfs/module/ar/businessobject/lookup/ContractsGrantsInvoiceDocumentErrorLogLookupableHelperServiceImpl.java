@@ -38,7 +38,6 @@ import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -47,7 +46,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl extends AccountsReceivableLookupableHelperServiceImplBase {
 
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
-    protected DataDictionaryService dataDictionaryService;
     protected DateTimeService dateTimeService;
 
     /**
@@ -216,15 +214,6 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
-    }
-
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     public DateTimeService getDateTimeService() {

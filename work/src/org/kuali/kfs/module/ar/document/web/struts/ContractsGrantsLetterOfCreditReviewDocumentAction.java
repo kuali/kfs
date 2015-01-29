@@ -40,7 +40,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocum
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -170,23 +169,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
     public ActionForward export(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsLetterOfCreditReviewDocumentForm locForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) locForm.getDocument();
-        String docId = document.getDocumentNumber();
-        String fundCode = document.getLetterOfCreditFundCode();
-        String groupCode = document.getLetterOfCreditFundGroupCode();
-        if (StringUtils.isEmpty(groupCode) || StringUtils.isBlank(groupCode)) {
-            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
-            document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
-            Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
-            if (document.populateContractsGrantsLOCReviewDetails(contractsGrantsInvoiceDocumentErrorLogs)) {
-                saveDocumentAndNote(document, contractsGrantsInvoiceDocumentErrorLogs);
-            } else {
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
-        }
 
         ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
         byte[] report = reportService.convertLetterOfCreditReviewToCSV(document);
@@ -194,7 +176,10 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
             throw new RuntimeException("Error: non-existent file or directory provided");
         }
 
-        WebUtils.saveMimeInputStreamAsFile(response, KFSConstants.ReportGeneration.CSV_MIME_TYPE, new ByteArrayInputStream(report), "CSV-Export-" + document.getDocumentNumber() + "-" + document.getLetterOfCreditFundGroupCode() + KFSConstants.ReportGeneration.CSV_FILE_EXTENSION, report.length);
+        final String fundforFile = !StringUtils.isBlank(document.getLetterOfCreditFundGroupCode())
+                ? document.getLetterOfCreditFundGroupCode()
+                : document.getLetterOfCreditFundCode();
+        WebUtils.saveMimeInputStreamAsFile(response, KFSConstants.ReportGeneration.CSV_MIME_TYPE, new ByteArrayInputStream(report), "CSV-Export-" + document.getDocumentNumber() + "-" + fundforFile + KFSConstants.ReportGeneration.CSV_FILE_EXTENSION, report.length);
         return null;
     }
 
@@ -212,26 +197,9 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         String basePath = getApplicationBaseUrl();
         ContractsGrantsLetterOfCreditReviewDocumentForm locForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
         ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) locForm.getDocument();
-        String docId = document.getDocumentNumber();
-        String fundCode = document.getLetterOfCreditFundCode();
-        String groupCode = document.getLetterOfCreditFundGroupCode();
-        if (StringUtils.isEmpty(groupCode) || StringUtils.isBlank(groupCode)) {
-            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
-            document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
-            Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
-            if (document.populateContractsGrantsLOCReviewDetails(contractsGrantsInvoiceDocumentErrorLogs)) {
-                saveDocumentAndNote(document, contractsGrantsInvoiceDocumentErrorLogs);
-            } else {
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
-        }
 
-        String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, ArConstants.PRINT_INVOICE_PDF_METHOD);
-        String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, docId, KFSConstants.DOC_HANDLER_METHOD);
+        String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, document.getDocumentNumber(), ArConstants.PRINT_INVOICE_PDF_METHOD);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, document.getDocumentNumber(), KFSConstants.DOC_HANDLER_METHOD);
 
         request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printInvoicePDFUrl);
         request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayInvoiceTabbedPageUrl);

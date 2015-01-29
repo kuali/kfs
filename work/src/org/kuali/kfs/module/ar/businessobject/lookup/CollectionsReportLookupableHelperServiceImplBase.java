@@ -66,7 +66,10 @@ public abstract class CollectionsReportLookupableHelperServiceImplBase extends C
         Map<String, String> qualificationDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.COLLECTION_EVENT);
 
-        if (getBusinessObjectAuthorizationService().canMaintain(new CollectionEvent(), GlobalVariables.getUserSession().getPerson(), ArConstants.ArDocumentTypeCodes.COLLECTION_EVENT)) {
+        Map<String, Long> primaryKeys = new HashMap<>();
+        primaryKeys.put(ArPropertyConstants.CollectionEventFields.ID, collectionsReport.getEventId());
+        CollectionEvent event = getBusinessObjectService().findByPrimaryKey(CollectionEvent.class, primaryKeys);
+        if (getBusinessObjectAuthorizationService().canMaintain(event, GlobalVariables.getUserSession().getPerson(), ArConstants.ArDocumentTypeCodes.COLLECTION_EVENT)) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CollectionEvent.class.getName());
             parameters.put(KFSConstants.OVERRIDE_KEYS, ArPropertyConstants.CollectionEventFields.ID);
@@ -97,6 +100,5 @@ public abstract class CollectionsReportLookupableHelperServiceImplBase extends C
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;
     }
-
 
 }

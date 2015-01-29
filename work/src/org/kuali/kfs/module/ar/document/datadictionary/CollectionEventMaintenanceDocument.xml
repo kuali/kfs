@@ -38,7 +38,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="CVNT" />
-		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CollectionEventMaintenanceDocumentAuthorizer" />
 		<property name="workflowAttributes">
 			<ref bean="CollectionEventMaintenanceDocument-workflowAttributes" />
 		</property>

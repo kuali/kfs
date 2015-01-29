@@ -1906,7 +1906,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
             if (contractsGrantsInvoiceDocument.getSourceAccountingLines().size() == 1) {
                 final CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)contractsGrantsInvoiceDocument.getSourceAccountingLine(0);
-                customerInvoiceDetail.setAmount(contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail().getInvoiceAmount());
+                customerInvoiceDetail.setAmount(getAccountingLineAmountForDocument(contractsGrantsInvoiceDocument));
             } else {
                 final Map<String, KualiDecimal> accountExpenditureAmounts = getCategoryExpenditureAmountsForInvoiceAccountDetail(contractsGrantsInvoiceDocument);
                 for (Object al : contractsGrantsInvoiceDocument.getSourceAccountingLines()) {

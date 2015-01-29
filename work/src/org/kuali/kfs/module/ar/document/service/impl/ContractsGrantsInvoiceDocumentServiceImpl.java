@@ -159,9 +159,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLines(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
-    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
-        final List<ContractsAndGrantsBillingAwardAccount> awardAccounts = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getActiveAwardAccounts();
-
+    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         // To check if the Source accounting lines are existing. If they are do nothing
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
             ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward();

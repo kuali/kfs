@@ -1398,12 +1398,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // To clear source accounting lines every time to check all combinations.
         contractsGrantsInvoiceDocument.getSourceAccountingLines().clear();
 
-        try {
-            contractsGrantsInvoiceDocumentService.createSourceAccountingLines(contractsGrantsInvoiceDocument);
-        }
-        catch (WorkflowException ex) {
-            throw new RuntimeException("Call to createSourceAccountingLinesAndGLPEs failed with WorkflowException.");
-        }
+        contractsGrantsInvoiceDocumentService.createSourceAccountingLines(contractsGrantsInvoiceDocument, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getActiveAwardAccounts());
 
         CustomerInvoiceDetail invoiceDetail = (CustomerInvoiceDetail) contractsGrantsInvoiceDocument.getSourceAccountingLine(0);
 

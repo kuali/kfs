@@ -4010,8 +4010,6 @@
         <column name="PERSON_UNVL_ID" size="40" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="FNL_BILLED_IND" size="1" type="VARCHAR"/>
-        <column name="AMT_TO_DRW" scale="2" size="19" type="DECIMAL"/>
-        <column name="LTRCR_RVW_IND" size="1" type="VARCHAR"/>
         <column name="CURR_LST_BILLED_DT" type="DATE"/>
         <column name="PREV_LST_BILLED_DT" type="DATE"/>
         <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_ACCT_TR1">
@@ -4177,7 +4175,6 @@
         <column name="AUTO_APPROVE_IND" size="1" type="VARCHAR"/>
         <column name="FUNDING_EXP_DT" type="DATE"/>
         <column name="INV_OPT_CD" size="1" type="VARCHAR"/>
-        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="EXCL_FRM_INV_REASON_TXT" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR_IND" size="1" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>

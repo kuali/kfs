@@ -26,8 +26,6 @@
         $0.person_unvl_id := replace(nvl($person_unvl_id, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
         $0.fnl_billed_ind := replace(nvl($fnl_billed_ind, ""), "~!~", "|" );
-        $0.amt_to_drw := $amt_to_drw;
-        $0.ltrcr_rvw_ind := replace(nvl($ltrcr_rvw_ind, ""), "~!~", "|" );
         $0.curr_lst_billed_dt := $curr_lst_billed_dt;
         $0.prev_lst_billed_dt := $prev_lst_billed_dt;
    }

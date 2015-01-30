@@ -7,8 +7,6 @@
   <Field name="person_unvl_id"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="fnl_billed_ind"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="amt_to_drw"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="ltrcr_rvw_ind"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="curr_lst_billed_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="prev_lst_billed_dt"              type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
 </Record>

@@ -111,11 +111,7 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
         }
 
         final String completed = (String) lookupFormFields.get(ArPropertyConstants.COMPLETED);
-        if (!StringUtils.isBlank(completed)) {
-            fieldValues.put(ArPropertyConstants.COMPLETED, completed);
-        }
 
-        fieldValues.put(ArPropertyConstants.CollectionEventFields.INVOICE_DOCUMENT_OPEN_INV_IND, KFSConstants.Booleans.TRUE);
         fieldValues.put(ArPropertyConstants.CollectionEventFields.FOLLOW_UP, KFSConstants.Booleans.TRUE);
 
         final String dateFromFieldValues = ObjectUtils.isNull(lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE)) ? KFSConstants.EMPTY_STRING : lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE).toString();
@@ -134,7 +130,21 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
             // Check for followup date range
             boolean isValid = true;
 
-            if (!StringUtils.isBlank(agencyNumber)) {
+            if (StringUtils.isNotBlank(completed)) {
+                if(StringUtils.equalsIgnoreCase(completed, "Y")) {
+                    isValid = event.isCompleted();
+                } else if (StringUtils.equalsIgnoreCase(completed,"N")) {
+                    isValid = !event.isCompleted();
+                }
+
+            }
+
+           ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
+//            if (!invoice.isOpenInvoiceIndicator()) {
+//                isValid = false;
+//            }
+
+            if (!StringUtils.isBlank(agencyNumber) && isValid) {
                 if (ObjectUtils.isNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) || !StringUtils.equals(agencyNumber, event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgencyNumber())) {
                     isValid = false;
                 }
@@ -167,7 +177,7 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
             if (isValid) {
                 TicklersReport ticklerReport = new TicklersReport();
                 ticklerReport.setEventId(event.getId());
-                ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
+
                 ticklerReport.setProposalNumber(invoice.getInvoiceGeneralDetail().getProposalNumber());
                 ticklerReport.setActivityCode(event.getActivityCode());
                 if (ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward()) && ObjectUtils.isNotNull(invoice.getInvoiceGeneralDetail().getAward().getAgency())) {
@@ -186,6 +196,7 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
                     ticklerReport.setActivityDescription(event.getCollectionActivityType().getActivityDescription());
                 }
                 ticklerReport.setActivityDate(event.getActivityDate());
+                ticklerReport.setCompletedDate(event.getCompletedDate());
                 ticklerReport.setUser(event.getUser().getName());
                 displayList.add(ticklerReport);
             }

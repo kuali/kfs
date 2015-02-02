@@ -39,6 +39,7 @@
 				<ref bean="TicklersReport-activityCode" />
 				<ref bean="TicklersReport-agencyNumber"/>
 				<ref bean="TicklersReport-completed"/>
+        <ref bean="TicklersReport-completedDate"/>
 				<ref bean="TicklersReport-proposalNumber" />
 				<ref bean="TicklersReport-invoiceNumber" />
 				<ref bean="TicklersReport-accountNumber" />
@@ -123,6 +124,16 @@
 		<property name="label" value="Follow-up Date" />
 		<property name="shortLabel" value="Follow-up Date" />
 	</bean>
+
+  <bean id="TicklersReport-completedDate"
+        parent="TicklersReport-completedDate-parentBean" />
+  <bean
+          id="TicklersReport-completedDate-parentBean"
+          abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="completedDate" />
+    <property name="label" value="Completed Date" />
+    <property name="shortLabel" value="Completed Date" />
+  </bean>
 	
 	<bean id="TicklersReport-activityDate"
 		parent="TicklersReport-activityDate-parentBean" />
@@ -332,6 +343,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activityDescription" />
 				<bean parent="FieldDefinition" p:attributeName="activityText" />
 				<bean parent="FieldDefinition" p:attributeName="followupDate" />
+        <bean parent="FieldDefinition" p:attributeName="completedDate" />
 				<bean parent="FieldDefinition" p:attributeName="user" />
 				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />

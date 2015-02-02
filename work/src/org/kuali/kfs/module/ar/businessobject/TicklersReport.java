@@ -41,6 +41,7 @@ public class TicklersReport extends TransientBusinessObjectBase implements Colle
     private Long proposalNumber;
     private String agencyNumber;
     private boolean completed;
+    private Date completedDate;
 
     private String invoiceNumber;
     private String accountNumber;
@@ -429,6 +430,14 @@ public class TicklersReport extends TransientBusinessObjectBase implements Colle
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Date getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
     }
 
     /**

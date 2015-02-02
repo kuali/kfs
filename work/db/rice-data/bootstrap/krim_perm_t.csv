@@ -434,4 +434,3 @@ CGPERMIRD,KFS-CGB-PERM-003,1,29,KFS-AR,Use Screen CG Transmit Contracts & Grants
 "KFSTP1808-PRM1","KFSTP1808-PRM1",1,"10","KFS-AR","Initiate Document CVNT","Authorizes users to initiate the CVNT Document.","Y"
 "KFSTP1808-PRM2","KFSTP1808-PRM2",1,"42","KFS-AR","Create / Maintain Record(s) CVNT TRUE","Users allowed to maintain existing (but not create new) records using the Collection Event document.","Y"
 "KFSTP1842-PM1","KFSTP1842-PM1","1","16","KFS-AR","Edit Document CINV PreRoute","Authorizes users to edit a Contracts & Grants Invoice before it is routed.","Y"
-"KFSTP1842-PM2","KFSTP1842-PM2","1","16","KFS-AR","Edit Document CINV R","Authorizes users to edit a Contracts & Grants Invoice when it is enroute.","Y"

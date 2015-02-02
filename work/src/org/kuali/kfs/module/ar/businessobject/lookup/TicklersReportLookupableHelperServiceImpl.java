@@ -131,9 +131,9 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
             boolean isValid = true;
 
             if (StringUtils.isNotBlank(completed)) {
-                if(StringUtils.equalsIgnoreCase(completed, "Y")) {
+                if(StringUtils.equalsIgnoreCase(completed, KRADConstants.YES_INDICATOR_VALUE)) {
                     isValid = event.isCompleted();
-                } else if (StringUtils.equalsIgnoreCase(completed,"N")) {
+                } else if (StringUtils.equalsIgnoreCase(completed,KRADConstants.NO_INDICATOR_VALUE)) {
                     isValid = !event.isCompleted();
                 }
 

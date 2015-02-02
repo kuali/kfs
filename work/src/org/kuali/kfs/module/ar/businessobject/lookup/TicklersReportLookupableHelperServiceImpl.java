@@ -140,9 +140,9 @@ public class TicklersReportLookupableHelperServiceImpl extends CollectionsReport
             }
 
            ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
-//            if (!invoice.isOpenInvoiceIndicator()) {
-//                isValid = false;
-//            }
+            if (!invoice.isOpenInvoiceIndicator()) {
+                isValid = false;
+            }
 
             if (!StringUtils.isBlank(agencyNumber) && isValid) {
                 if (ObjectUtils.isNull(event.getInvoiceDocument().getInvoiceGeneralDetail().getAward()) || !StringUtils.equals(agencyNumber, event.getInvoiceDocument().getInvoiceGeneralDetail().getAward().getAgencyNumber())) {

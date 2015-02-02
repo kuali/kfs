@@ -325,8 +325,7 @@
 	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="letterOfCreditByLOCFundBatchStep" />
-				<ref bean="letterOfCreditByLOCFundGroupBatchStep" />
+				<ref bean="letterOfCreditCreateDocumentsStep" />
 				<ref bean="letterOfCreditRouteDocumentsStep" />
 			</list>
 		</property>
@@ -629,21 +628,14 @@
 		</property>
 	</bean>
 
-	<bean id="letterOfCreditByLOCFundBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundBatchStep" parent="step">
+	<bean id="letterOfCreditCreateDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditCreateDocumentsStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
-	<bean id="letterOfCreditByLOCFundGroupBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundGroupBatchStep" parent="step">
-		<property name="letterOfCreditCreateService">
-			<ref bean="letterOfCreditCreateService" />
-		</property>
-		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
-	</bean>
-	
-		<bean id="letterOfCreditRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditRouteDocumentsStep" parent="step">
+	<bean id="letterOfCreditRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditRouteDocumentsStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
 		</property>
@@ -702,6 +694,9 @@
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
+		</property>
+		<property name="paymentApplicationDocumentService">
+			<ref bean="paymentApplicationDocumentService" />
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />

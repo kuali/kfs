@@ -18,10 +18,6 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 
@@ -29,27 +25,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * Service interface for implementing methods to retrieve and validate awards to create Contracts & Grants Invoice Documents.
  */
 public interface LetterOfCreditCreateService {
-
-    /**
-     * This method creates cashcontrol documents and payment application based on the loc creation type and loc value passed.
-     *
-     * @param customerNumber customer number used to create the cash control document
-     * @param totalAmount amount to set on the new cash control doc
-     * @param errorFile used to write out error messages
-     * @return documentNumber for the newly created cash control document
-     * @throws IOException if writing to the given error file has problems
-     */
-    public String createCashControlDocuments(String customerNumber, KualiDecimal totalAmount, PrintWriter errorFile) throws IOException;
-
-    /**
-     * The method validates if there are any existing cash control documents for the same locValue and customer number combination.
-     *
-     * @param customerNumber customer number used to search for existing documents
-     * @param errorFile used to write out error messages
-     * @return true if there is an existing cash control document, false otherwise
-     * @throws IOException if writing to the given error file has problems
-     */
-    public boolean validateCashControlDocument(String customerNumber, PrintWriter errorFile) throws IOException;
 
     /**
      * This method retrieves all the cash control and payment application docs with a status of 'I' and routes them to the next step in the
@@ -60,17 +35,10 @@ public interface LetterOfCreditCreateService {
     public boolean routeLOCDocuments();
 
     /**
-     * Processes Letters of Credit sorted by Fund
+     * Processes Letters of Credit
      *
      * @param batchFileDirectoryName the directory to write the report out to
      */
-    public void processLettersOfCreditByFund(String batchFileDirectoryName);
-
-    /**
-     * Processes Letters of Credit sorted by Fund Group
-     *
-     * @param batchFileDirectoryName the directory to write the report out to
-     */
-    public void processLettersOfCreditByFundGroup(String batchFileDirectoryName);
+    public void processLettersOfCredit(String batchFileDirectoryName);
 
 }

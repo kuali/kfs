@@ -1734,14 +1734,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         document.addNote(note);
     }
 
-    /**
-     * Defers to the DAO to lookup C&G invoices, limited by the given Map of criteria
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues) {
-        return getContractsGrantsInvoiceDocumentDao().getMatchingInvoicesByCollection(fieldValues);
-    }
-
     @Override
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
         List<String> errorString = new ArrayList<String>();

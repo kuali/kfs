@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 /**
  * This step of LetterOFCreditJob would create cash control documents and payment application document for CG Invoices per LOC fund
  */
-public class LetterOfCreditByLOCFundBatchStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditByLOCFundBatchStep.class);
+public class LetterOfCreditCreateDocumentsStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditCreateDocumentsStep.class);
 
     protected LetterOfCreditCreateService letterOfCreditCreateService;
     protected String batchFileDirectoryName;
@@ -40,7 +40,7 @@ public class LetterOfCreditByLOCFundBatchStep extends AbstractStep {
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) {
-        getLetterOfCreditCreateService().processLettersOfCreditByFund(batchFileDirectoryName);
+        getLetterOfCreditCreateService().processLettersOfCredit(batchFileDirectoryName);
         return true;
     }
 

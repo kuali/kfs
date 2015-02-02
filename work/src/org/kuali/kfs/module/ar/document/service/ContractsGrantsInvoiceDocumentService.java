@@ -240,15 +240,6 @@ public interface ContractsGrantsInvoiceDocumentService {
     public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
-     * This method retrieves all Invoice Documents that match the given field values, excluding the given
-     * invoice numbers.
-     *
-     * @param fieldValues for search criteria.
-     * @return Returns the invoices which matches the given field values.
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues);
-
-    /**
      * Determines whether the given ContractsGrantsInvoiceDocument is "effective" or not: if it is disapproved, cancelled, or error corrected then it is NOT effective,
      * and in all other cases, it is effective
      * @param invoiceDocument the invoice document to check

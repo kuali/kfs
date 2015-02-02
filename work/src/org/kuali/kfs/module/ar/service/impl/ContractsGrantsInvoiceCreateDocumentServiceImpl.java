@@ -1800,11 +1800,28 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected List<ContractsAndGrantsBillingAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
         if (!award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getBillingFrequencyCode().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-            final Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
+            Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
+
+            Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
+            final boolean firstFiscalPeriod = isFirstFiscalPeriod();
+            final Integer fiscalYear = firstFiscalPeriod && useTimeBasedBillingFrequency(award.getBillingFrequencyCode()) ? currentYear - 1 : currentYear;
+
+            final SystemOptions systemOptions = optionsService.getOptions(fiscalYear);
+
+            List<String> balanceTypeCodeList = new ArrayList<String>();
+            balanceTypeCodeList.add(systemOptions.getBudgetCheckingBalanceTypeCd());
+            balanceTypeCodeList.add(systemOptions.getActualFinancialBalanceTypeCd());
+
+
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-                if (!invalidAccounts.contains(awardAccount.getAccount())) {
-                    if (verifyBillingFrequencyService.validateBillingFrequency(award, awardAccount)) {
-                        validAwardAccounts.add(awardAccount);
+                //we only want account with specific balances here.
+                List<Balance> glBalances = retrieveBalances(fiscalYear, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), balanceTypeCodeList);
+
+                if (!glBalances.isEmpty()) {
+                    if (!invalidAccounts.contains(awardAccount.getAccount())) {
+                        if (verifyBillingFrequencyService.validateBillingFrequency(award, awardAccount)) {
+                            validAwardAccounts.add(awardAccount);
+                        }
                     }
                 }
             }

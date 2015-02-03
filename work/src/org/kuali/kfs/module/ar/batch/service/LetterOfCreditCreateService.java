@@ -18,6 +18,11 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
+import java.io.PrintWriter;
+
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+
 
 
 
@@ -40,5 +45,22 @@ public interface LetterOfCreditCreateService {
      * @param batchFileDirectoryName the directory to write the report out to
      */
     public void processLettersOfCredit(String batchFileDirectoryName);
+
+    /**
+     * Creates a cash control detail and payment application document for the invoice.
+     *
+     * @param cgInvoice invoice used to create cash control detail and payment app doc
+     * @param cashControlDoc CashControlDocument that cash control details are added to
+     * @param errorFile used for writing error log messages
+     */
+    public void processLetterOfCreditInvoice(ContractsGrantsInvoiceDocument cgInvoice, CashControlDocument cashControlDoc, PrintWriter errorFile);
+
+    /**
+     * This method creates, saves and returns the initial cash control document when processing letter of credit invoices.
+     *
+     * @param errorFile used for writing error log messages
+     * @return initial CashControlDocument
+     */
+    public CashControlDocument createCashControlDocument(PrintWriter errorFile);
 
 }

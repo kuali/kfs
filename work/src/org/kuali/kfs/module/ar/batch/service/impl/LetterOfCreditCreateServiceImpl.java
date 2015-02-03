@@ -206,8 +206,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#processLetterOfCreditInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument, org.kuali.kfs.module.ar.document.CashControlDocument, java.io.PrintWriter)
+     */
+    @Override
     @Transactional
-    protected void processLetterOfCreditInvoice(ContractsGrantsInvoiceDocument cgInvoice, CashControlDocument cashControlDoc, PrintWriter errorFile) {
+    public void processLetterOfCreditInvoice(ContractsGrantsInvoiceDocument cgInvoice, CashControlDocument cashControlDoc, PrintWriter errorFile) {
         CashControlDetail cashControlDetail = createCashControlDetail(cgInvoice);
         try {
             cashControlDocumentService.addNewCashControlDetail(configService.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDoc, cashControlDetail);
@@ -225,12 +229,11 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     }
 
     /**
-     * This method creates, saves and returns the initial cash control document.
-     *
-     * @param errorFile
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#createCashControlDocument(java.io.PrintWriter)
      */
+    @Override
     @Transactional
-    protected CashControlDocument createCashControlDocument(PrintWriter errorFile) {
+    public CashControlDocument createCashControlDocument(PrintWriter errorFile) {
         CashControlDocument cashControlDoc = null;
 
         try {

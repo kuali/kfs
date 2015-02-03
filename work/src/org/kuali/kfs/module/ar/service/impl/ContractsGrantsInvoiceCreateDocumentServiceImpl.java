@@ -360,13 +360,23 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errorMessages, accountDetails, locCreationType);
         if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
-            // Saving the document
-            try {
-                documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);
-            }
-            catch (WorkflowException ex) {
-                LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);
-                throw new RuntimeException("Error creating cgin documents: " + ex.getMessage(), ex);
+            if ( !KualiDecimal.ZERO.equals(cgInvoiceDocument.getTotalInvoiceAmount())) {
+                // Saving the document
+                try {
+                    documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);
+                } catch (WorkflowException ex) {
+                    LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);
+                    throw new RuntimeException("Error creating cgin documents: " + ex.getMessage(), ex);
+                }
+            } else {
+                ErrorMessage errorMessage;
+                if (!awd.getActiveAwardAccounts().isEmpty()) {
+                     errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE, awd.getActiveAwardAccounts().get(0).getAccountNumber(), awd.getProposalNumber().toString());
+                } else {
+                    errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE, null, awd.getProposalNumber().toString());
+
+                }
+                errorMessages.add(errorMessage);
             }
         }
     }
@@ -1802,26 +1812,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
             Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
 
-            Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
-            final boolean firstFiscalPeriod = isFirstFiscalPeriod();
-            final Integer fiscalYear = firstFiscalPeriod && useTimeBasedBillingFrequency(award.getBillingFrequencyCode()) ? currentYear - 1 : currentYear;
-
-            final SystemOptions systemOptions = optionsService.getOptions(fiscalYear);
-
-            List<String> balanceTypeCodeList = new ArrayList<String>();
-            balanceTypeCodeList.add(systemOptions.getBudgetCheckingBalanceTypeCd());
-            balanceTypeCodeList.add(systemOptions.getActualFinancialBalanceTypeCd());
-
-
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-                //we only want account with specific balances here.
-                List<Balance> glBalances = retrieveBalances(fiscalYear, awardAccount.getChartOfAccountsCode(), awardAccount.getAccountNumber(), balanceTypeCodeList);
-
-                if (!glBalances.isEmpty()) {
-                    if (!invalidAccounts.contains(awardAccount.getAccount())) {
-                        if (verifyBillingFrequencyService.validateBillingFrequency(award, awardAccount)) {
-                            validAwardAccounts.add(awardAccount);
-                        }
+                if (!invalidAccounts.contains(awardAccount.getAccount())) {
+                    if (verifyBillingFrequencyService.validateBillingFrequency(award, awardAccount)) {
+                        validAwardAccounts.add(awardAccount);
                     }
                 }
             }

@@ -23,10 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -40,13 +38,12 @@ import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
-import org.kuali.kfs.module.ar.document.dataaccess.CashControlDocumentDao;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
@@ -64,12 +61,9 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Defines a service class for creating Cash Control documents from the LOC Review Document.
  */
-@Transactional
+@NonTransactional
 public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditCreateServiceImpl.class);
-    public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
-    protected CashControlDetailDao cashControlDetailDao;
-    protected CashControlDocumentDao cashControlDocumentDao;
     protected CashControlDocumentService cashControlDocumentService;
     protected ConfigurationService configService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
@@ -89,6 +83,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      */
     @Override
+    @Transactional
     public boolean routeLOCDocuments() {
         Collection<CashControlDocument> cashControlDocuments = null;
         Collection<PaymentApplicationDocument> payAppDocuments = null;
@@ -187,17 +182,19 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         try {
             errorFile = new PrintWriter(errOutPutFile);
             Collection<ContractsGrantsInvoiceDocument> cgInvoices = retrieveLetterOfCreditInvoices();
-            List<CashControlDetail> cashControlDetails = new ArrayList<>();
-            for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                if (cgInvoice.getOpenAmount().isGreaterThan(KualiDecimal.ZERO)) {
-                    String errorString = configService.getPropertyValueAsString(ArKeyConstants.LOC_CREATION_ERROR_INVOICE_PAID);
-                    errorFile.println(MessageFormat.format(errorString, cgInvoice.getDocumentNumber()));
-                    cashControlDetails.add(createCashControlDetail(cgInvoice));
+            if (CollectionUtils.isNotEmpty(cgInvoices)) {
+                CashControlDocument cashControlDoc = createCashControlDocument(errorFile);
+                for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                    if (cgInvoice.getOpenAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                        processLetterOfCreditInvoice(cgInvoice, cashControlDoc, errorFile);
+                    } else {
+                        String errorString = configService.getPropertyValueAsString(ArKeyConstants.LOC_CREATION_ERROR_INVOICE_PAID);
+                        errorFile.println(MessageFormat.format(errorString, cgInvoice.getDocumentNumber()));
+                    }
                 }
-            }
-
-            if (CollectionUtils.isNotEmpty(cashControlDetails)) {
-                createCashControlDocument(cashControlDetails, errorFile);
+            } else {
+                String errorString = configService.getPropertyValueAsString(ArKeyConstants.LOC_CREATION_ERROR_NO_INVOICES_TO_PROCESS);
+                errorFile.println(errorString);
             }
         } catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
@@ -210,14 +207,33 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     }
 
     /**
-     * This method creates the cash control document (and subsequently the payment application documents)
-     * based on the cash control details created from the open, approved loc invoices.
-     *
-     * @param cashControlDetails
-     * @param totalAmount
-     * @param errorFile
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#processLetterOfCreditInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument, org.kuali.kfs.module.ar.document.CashControlDocument, java.io.PrintWriter)
      */
-    protected void createCashControlDocument(List<CashControlDetail> cashControlDetails, PrintWriter errorFile) {
+    @Override
+    @Transactional
+    public void processLetterOfCreditInvoice(ContractsGrantsInvoiceDocument cgInvoice, CashControlDocument cashControlDoc, PrintWriter errorFile) {
+        CashControlDetail cashControlDetail = createCashControlDetail(cgInvoice);
+        try {
+            cashControlDocumentService.addNewCashControlDetail(configService.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDoc, cashControlDetail);
+            String payAppDocNumber = cashControlDetail.getReferenceFinancialDocumentNumber();
+            PaymentApplicationDocument payAppDoc;
+            payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocNumber);
+            payAppDoc = paymentApplicationDocumentService.createInvoicePaidAppliedsForEntireInvoiceDocument(cgInvoice, payAppDoc);
+            documentService.saveDocument(payAppDoc);
+        } catch (WorkflowException ex) {
+            String error = "Error creating Cash Control Detail/Payment Application Document, Cash Control doc # " + cashControlDoc.getDocumentNumber();
+            errorFile.println(error);
+            LOG.error(error + " " + ex.getMessage());
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#createCashControlDocument(java.io.PrintWriter)
+     */
+    @Override
+    @Transactional
+    public CashControlDocument createCashControlDocument(PrintWriter errorFile) {
         CashControlDocument cashControlDoc = null;
 
         try {
@@ -225,36 +241,28 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             cashControlDoc.getDocumentHeader().setDocumentDescription(configService.getPropertyValueAsString(ArKeyConstants.CASH_CTRL_DOC_CREATED_BY_BATCH));
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
             accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
-            // To get default processing chart code and org code from Paramters
             String defaultProcessingChartCode = parameterService.getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_CHART);
             String defaultProcessingOrgCode = parameterService.getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_ORG);
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(defaultProcessingChartCode);
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
-
             cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
             cashControlDoc.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
-
-            for (CashControlDetail cashControlDetail: cashControlDetails) {
-                cashControlDetail.setReferenceFinancialDocumentNumber(cashControlDoc.getDocumentNumber());
-                cashControlDocumentService.addNewCashControlDetail(configService.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDoc, cashControlDetail);
-            }
-
             documentService.saveDocument(cashControlDoc);
         } catch (WorkflowException ex) {
-            String error = "Error Creating Cash Control/Payment Application Documents";
+            String error = "Error creating Cash Control Document, Cash Control doc # " + (ObjectUtils.isNotNull(cashControlDoc)?cashControlDoc.getDocumentNumber():null);
             errorFile.println(error);
-            LOG.error("Error Cash Control/Payment Application Documents, Cash Control doc # " + (ObjectUtils.isNotNull(cashControlDoc)?cashControlDoc.getDocumentNumber():null) + " " + ex.getMessage());
+            LOG.error(error + " " + ex.getMessage());
             throw new RuntimeException(ex.getMessage(), ex);
         }
+
+        return cashControlDoc;
     }
 
 
     /**
      * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
      *
-     * @param customerNumber
-     * @param totalAmount
-     * @param errorFile
+     * @param contractsGrantsInvoiceDocument
      * @return
      */
     protected CashControlDetail createCashControlDetail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
@@ -315,42 +323,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      */
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
-    }
-
-    /**
-     * Gets the cashControlDocumentDao attribute.
-     *
-     * @return Returns the cashControlDocumentDao.
-     */
-    public CashControlDocumentDao getCashControlDocumentDao() {
-        return cashControlDocumentDao;
-    }
-
-    /**
-     * Sets the cashControlDocumentDao attribute value.
-     *
-     * @param cashControlDocumentDao The cashControlDocumentDao to set.
-     */
-    public void setCashControlDocumentDao(CashControlDocumentDao cashControlDocumentDao) {
-        this.cashControlDocumentDao = cashControlDocumentDao;
-    }
-
-    /**
-     * Gets the cashControlDetailDao attribute.
-     *
-     * @return Returns the cashControlDetailDao.
-     */
-    public CashControlDetailDao getCashControlDetailDao() {
-        return cashControlDetailDao;
-    }
-
-    /**
-     * Sets the cashControlDetailDao attribute value.
-     *
-     * @param cashControlDetailDao The cashControlDetailDao to set.
-     */
-    public void setCashControlDetailDao(CashControlDetailDao cashControlDetailDao) {
-        this.cashControlDetailDao = cashControlDetailDao;
     }
 
     public WorkflowDocumentService getWorkflowDocumentService() {

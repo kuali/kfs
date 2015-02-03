@@ -54,6 +54,25 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         }
     }
 
+    /**
+     * CINVs created by the Letter of Credit process should be forever read only
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean canEdit(Document document) {
+        final boolean canEdit = super.canEdit(document);
+        if (canEdit) {
+            final ContractsGrantsInvoiceDocument contractsGrantsInvoice = (ContractsGrantsInvoiceDocument)document;
+            if (StringUtils.equalsIgnoreCase(contractsGrantsInvoice.getInvoiceGeneralDetail().getAward().getBillingFrequencyCode(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                return false;
+            }
+        }
+
+        return canEdit;
+    }
+
+
+
     public boolean canProrate(ContractsGrantsInvoiceDocument document) {
         return canEdit(document) &&
                 getParameterService().getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_PRORATE_BILL_IND) &&

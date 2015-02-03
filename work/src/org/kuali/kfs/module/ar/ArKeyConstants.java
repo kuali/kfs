@@ -88,6 +88,7 @@ public class ArKeyConstants {
     static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
     static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";
     static final public String LOC_CREATION_ERROR_INVOICE_PAID = "error.loc.invoice.paid";
+    static final public String LOC_CREATION_ERROR_NO_INVOICES_TO_PROCESS = "error.loc.no.invoices.to.process";
     static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "error.cginvoice.award.not.eligible.invoice";
     static final public String CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES = "error.cginvoice.award.not.valid.milestones";
     static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "error.cginvoice.award.not.valid.bills";

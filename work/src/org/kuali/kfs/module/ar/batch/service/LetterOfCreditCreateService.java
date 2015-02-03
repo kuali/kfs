@@ -23,24 +23,22 @@ import java.io.PrintWriter;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 
-
-
-
 /**
- * Service interface for implementing methods to retrieve and validate awards to create Contracts & Grants Invoice Documents.
+ * Service interface for implementing methods to create and route cash control documents and payment application documents
+ * for letter of credit Contracts & Grants Invoice Documents.
  */
 public interface LetterOfCreditCreateService {
 
     /**
-     * This method retrieves all the cash control and payment application docs with a status of 'I' and routes them to the next step in the
-     * routing path.
+     * This method routes the cash control document created by processing letters of credit invoices.
      *
-     * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
+     * @param cashControlDocument
+     * @param errorFile used for writing error log messages
      */
-    public boolean routeLOCDocuments();
+    public void routeCashControlDocument(CashControlDocument cashControlDocument, PrintWriter errorFile);
 
     /**
-     * Processes Letters of Credit
+     * Processes Letters of Credit Contracts & Grants Invoices
      *
      * @param batchFileDirectoryName the directory to write the report out to
      */

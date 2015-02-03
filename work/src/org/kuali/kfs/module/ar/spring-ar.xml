@@ -325,8 +325,7 @@
 	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="letterOfCreditCreateDocumentsStep" />
-				<ref bean="letterOfCreditRouteDocumentsStep" />
+				<ref bean="letterOfCreditCreateAndRouteDocumentsStep" />
 			</list>
 		</property>
 	</bean>
@@ -628,17 +627,11 @@
 		</property>
 	</bean>
 
-	<bean id="letterOfCreditCreateDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditCreateDocumentsStep" parent="step">
+	<bean id="letterOfCreditCreateAndRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditCreateAndRouteDocumentsStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
-	</bean>
-
-	<bean id="letterOfCreditRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditRouteDocumentsStep" parent="step">
-		<property name="letterOfCreditCreateService">
-			<ref bean="letterOfCreditCreateService" />
-		</property>
 	</bean>
 
 	<bean id="upcomingMilestoneNotificationStep" class="org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep" parent="step">

@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -49,11 +48,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,93 +73,26 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected PaymentApplicationDocumentService paymentApplicationDocumentService;
 
     /**
-     * This method retrieves all the cash control and payment application docs with a status of 'I' and routes them to the next step in the
-     * routing path.
-     *
-     * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
-     *
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#routeCashControlDocument(org.kuali.kfs.module.ar.document.CashControlDocument, java.io.PrintWriter)
      */
     @Override
     @Transactional
-    public boolean routeLOCDocuments() {
-        Collection<CashControlDocument> cashControlDocuments = null;
-        Collection<PaymentApplicationDocument> payAppDocuments = null;
+    public void routeCashControlDocument(CashControlDocument cashControlDocument, PrintWriter errorFile) {
         try {
-            cashControlDocuments = retrieveCashControlDocumentsToRoute(DocumentStatus.SAVED);
-            payAppDocuments = retrievePayAppDocumentsToRoute(DocumentStatus.SAVED);
-        }
-        catch (WorkflowException e1) {
-            LOG.error("Error retrieving LOC documents for routing: " + e1.getMessage(), e1);
-            throw new RuntimeException(e1.getMessage(), e1);
-        }
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Cash control Documents to Route: " + cashControlDocuments.size());
-            LOG.info("Payment Application Documents to Route: " + payAppDocuments.size());
-        }
-        //1. Cash control documents
-        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        for (CashControlDocument cashControlDoc : cashControlDocuments) {
-            try {
-                //To route documents only if the user in the session is same as the initiator.
-                if(StringUtils.equals(cashControlDoc.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), currentUserPrincipalId)) {
-                    if (LOG.isInfoEnabled()) {
-                        LOG.info("Routing Cash control document # " + cashControlDoc.getDocumentNumber() + ".");
-                    }
-                    documentService.prepareWorkflowDocument(cashControlDoc);
-
-                    // calling workflow service to bypass business rule checks
-                    workflowDocumentService.route(cashControlDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-                }
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Routing Cash control document # " + cashControlDocument.getDocumentNumber() + ".");
             }
-            catch (WorkflowException e) {
-                LOG.error("Error routing document # " + cashControlDoc.getDocumentNumber() + " " + e.getMessage());
-                throw new RuntimeException(e.getMessage(), e);
-            }
+            documentService.prepareWorkflowDocument(cashControlDocument);
+
+            // calling workflow service to bypass business rule checks
+            workflowDocumentService.route(cashControlDocument.getDocumentHeader().getWorkflowDocument(), "", null);
         }
-
-        //1. Payment Application documents
-        for (PaymentApplicationDocument payAppDoc : payAppDocuments) {
-            try {
-                //To route documents only if the user in the session is same as the initiator.
-                if(StringUtils.equals(payAppDoc.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), currentUserPrincipalId)) {
-                    if (LOG.isInfoEnabled()) {
-                        LOG.info("Routing PAyment Application document # " + payAppDoc.getDocumentNumber() + ".");
-                    }
-                    documentService.prepareWorkflowDocument(payAppDoc);
-
-                    // calling workflow service to bypass business rule checks
-                    workflowDocumentService.route(payAppDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-                }
-            }
-            catch (WorkflowException e) {
-                LOG.error("Error routing document # " + payAppDoc.getDocumentNumber() + " " + e.getMessage());
-                throw new RuntimeException(e.getMessage(), e);
-            }
+        catch (WorkflowException e) {
+            final String errorString = "Error routing document # " + cashControlDocument.getDocumentNumber();
+            errorFile.println(errorString);
+            LOG.error(errorString + " " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
-
-        return true;
-    }
-
-    /**
-     * Returns a list of all initiated but not yet routed documents, using the FinancialSystemDocumentService service.
-     *
-     * @return a list of documents to route
-     */
-    protected Collection<CashControlDocument> retrieveCashControlDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException {
-        final Collection<CashControlDocument> cashControlDocuments = getFinancialSystemDocumentService().findByWorkflowStatusCode(CashControlDocument.class, statusCode);
-        return cashControlDocuments;
-    }
-
-
-    /**
-     * Returns a list of all initiated but not yet routed documents, using the FinancialSystemDocumentService service.
-     *
-     * @return a list of documents to route
-     */
-    protected Collection<PaymentApplicationDocument> retrievePayAppDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException {
-        final Collection<PaymentApplicationDocument> paymentApplicationDocuments = getFinancialSystemDocumentService().findByWorkflowStatusCode(PaymentApplicationDocument.class, statusCode);
-        return paymentApplicationDocuments;
     }
 
     /**
@@ -192,6 +122,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                         errorFile.println(MessageFormat.format(errorString, cgInvoice.getDocumentNumber()));
                     }
                 }
+                routeCashControlDocument(cashControlDoc, errorFile);
             } else {
                 String errorString = configService.getPropertyValueAsString(ArKeyConstants.LOC_CREATION_ERROR_NO_INVOICES_TO_PROCESS);
                 errorFile.println(errorString);
@@ -220,6 +151,13 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocNumber);
             payAppDoc = paymentApplicationDocumentService.createInvoicePaidAppliedsForEntireInvoiceDocument(cgInvoice, payAppDoc);
             documentService.saveDocument(payAppDoc);
+
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Routing Payment Application document # " + payAppDoc.getDocumentNumber() + ".");
+            }
+            documentService.prepareWorkflowDocument(payAppDoc);
+            // calling workflow service to bypass business rule checks
+            workflowDocumentService.route(payAppDoc.getDocumentHeader().getWorkflowDocument(), "", null);
         } catch (WorkflowException ex) {
             String error = "Error creating Cash Control Detail/Payment Application Document, Cash Control doc # " + cashControlDoc.getDocumentNumber();
             errorFile.println(error);

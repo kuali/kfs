@@ -529,6 +529,7 @@ public class ArPropertyConstants{
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
     public static final String AMOUNT_REMAINING_TO_BILL = "amountRemainingToBill";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
+    public static final String APPLIED_INDICATOR = "appliedIndicator";
     public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
     public static final String BILLED = "billed";
     public static final String BILLINGS = "billings"; // er, a town in Montana?
@@ -568,12 +569,16 @@ public class ArPropertyConstants{
     public static final String OBJECT_CONSOLIDATIONS = "objectConsolidations";
     public static final String OBJECT_LEVEL = "objectLevel";
     public static final String OBJECT_LEVELS = "objectLevels";
+    public static final String PAYMENT_AMOUNT = "paymentAmount";
+    public static final String PAYMENT_DATE = "paymentDate";
+    public static final String PAYMENT_NUMBER = "paymentNumber";
     public static final String PAYMENTS = "payments";
     public static final String PRINT_PDF_URL = "printPDFUrl";
     public static final String PRINT_LABEL = "printLabel";
     public static final String RECEIVABLES = "receivables";
     public static final String REIMBURSEMENT_FLAG = "reimbursementFlag";
     public static final String REMAINING_AMOUNT = "remainingAmount";
+    public static final String REVERSED_INDICATOR = "reversedIndicator";
     public static final String START_DATE = "startDate";
     public static final String SYSTEM_INFORMATION = "systemInformation";
     public static final String TOTAL_AMOUNT_BILLED_TO_DATE = "totalAmountBilledToDate";

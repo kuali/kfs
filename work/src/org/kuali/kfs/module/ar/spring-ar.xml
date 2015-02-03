@@ -668,12 +668,6 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="cashControlDetailDao">
-			<ref bean="cashControlDetailDao" />
-		</property>
-		<property name="cashControlDocumentDao">
-			<ref bean="cashControlDocumentDao" />
-		</property>
 		<property name="cashControlDocumentService">
 			<ref bean="cashControlDocumentService" />
 		</property>

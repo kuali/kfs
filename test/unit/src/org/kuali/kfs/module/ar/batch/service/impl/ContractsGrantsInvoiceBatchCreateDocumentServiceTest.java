@@ -61,7 +61,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
     }
 
     public void testBatchCreateCGInvoiceDocumentsByAwardsOneValid() {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ContractsAndGrantsBillingAward> awards = setupBillableAwards();
 
         contractsGrantsInvoiceBatchCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
 
@@ -168,7 +168,7 @@ public class ContractsGrantsInvoiceBatchCreateDocumentServiceTest extends Contra
     }
 
     public void testBatchCreateCGInvoiceDocumentsByAccountOneBillableOneNonBillable() throws WorkflowException, IOException {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ContractsAndGrantsBillingAward> awards = setupBillableAwards();
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         Award award = ((Award)awards.get(0));
         award.setInvoicingOptionCode(ArConstants.INV_ACCOUNT);

@@ -313,7 +313,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByAwardsOneValid() {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ContractsAndGrantsBillingAward> awards = setupBillableAwards();
 
         List<ErrorMessage> errorMessages = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
 
@@ -417,7 +417,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGr
 
     @ConfigureContext(session = wklykins)
     public void testManualCreateCGInvoiceDocumentsByAccountOneBillableOneNonBillable() {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
+        List<ContractsAndGrantsBillingAward> awards = setupBillableAwards();
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
         Award award = ((Award)awards.get(0));
         award.setInvoicingOptionCode(ArConstants.INV_ACCOUNT);

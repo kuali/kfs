@@ -109,6 +109,26 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         return awards;
     }
 
+    protected List<ContractsAndGrantsBillingAward> setupBillableAwards() {
+        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
+
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.createAward();
+        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.setAgencyFromFixture((Award) award);
+        award.getActiveAwardAccounts().clear();
+        AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_4.createAwardAccount();
+        awardAccount_1.refreshReferenceObject("account");
+        List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        ((Award)award).setAwardAccounts(awardAccounts);
+        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.setAwardOrganizationFromFixture((Award) award);
+        AwardFundManager awardFundManager = ARAwardFundManagerFixture.AWD_FND_MGR1.createAwardFundManager();
+        ((Award)award).getAwardFundManagers().add(awardFundManager);
+        ((Award)award).setAwardPrimaryFundManager(ARAwardFundManagerFixture.AWD_FND_MGR1.createAwardFundManager());
+        awards.add(award);
+
+        return awards;
+    }
+
     protected void setupBills(ContractsGrantsInvoiceDocument document) {
         List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
         InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_2.createInvoiceBill();

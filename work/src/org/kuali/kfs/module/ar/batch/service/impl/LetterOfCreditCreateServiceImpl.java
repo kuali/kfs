@@ -42,6 +42,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -67,6 +68,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected KualiModuleService kualiModuleService;
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
@@ -150,6 +152,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             PaymentApplicationDocument payAppDoc;
             payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocNumber);
             payAppDoc = paymentApplicationDocumentService.createInvoicePaidAppliedsForEntireInvoiceDocument(cgInvoice, payAppDoc);
+            getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(payAppDoc);
             documentService.saveDocument(payAppDoc);
 
             if (LOG.isInfoEnabled()) {
@@ -293,6 +296,14 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return generalLedgerPendingEntryService;
+    }
+
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
     public KualiModuleService getKualiModuleService() {

@@ -346,6 +346,7 @@
         <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
         <property name="optionsService" ref="optionsService"/>
         <property name="noteService" ref="noteService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />

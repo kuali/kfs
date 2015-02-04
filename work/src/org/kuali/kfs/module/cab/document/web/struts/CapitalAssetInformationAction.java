@@ -85,7 +85,7 @@ public class CapitalAssetInformationAction extends CabActionBase {
         // to render and subsequent processing to occur successfully.
         if (capitalAssetInformation.isEmpty()) {
             glLineService.setupCapitalAssetInformation(entry);
-            capitalAssetInformation = SpringContext.getBean(GlLineService.class).findCapitalAssetInformationForGLLine(entry);
+            capitalAssetInformation = glLineService.findCapitalAssetInformationForGLLine(entry);
         }
 
         capitalAssetForm.setCapitalAssetInformation(capitalAssetInformation);

@@ -20,7 +20,7 @@
 
 <channel:portalChannelTop channelTitle="Administrative Transactions" />
 <div class="body">
-	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">
+	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true' && ConfigProperties.contracts.grants.billing.enabled == 'true'}">
   		<strong>Accounts Receivable</strong></br>
   		<ul class="chan">	
 			<li><portal:portalLink displayTitle="true" title="Generate Dunning Letters" url="${ConfigProperties.application.url}/arGenerateDunningLettersLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.GenerateDunningLettersLookupResult&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

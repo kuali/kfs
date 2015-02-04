@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- *
+ * 
  * Copyright 2005-2014 The Kuali Foundation
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,6 +30,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
+import org.kuali.kfs.fp.document.dataaccess.CapitalAssetInformationDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -65,6 +66,7 @@ import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
@@ -76,6 +78,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected ParameterService parameterService;
     protected ParameterEvaluatorService parameterEvaluatorService;
     protected DocumentHeaderService documentHeaderService;
+    protected CapitalAssetInformationDao capitalAssetInformationDao;
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
@@ -236,24 +239,24 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
-	    // Unfortunately, when no organization reference id is input, the General Ledger Entry's organizationReferenceId is
- 	    // set to "" while the groupAccountLine's organizationReferenceId is set to null. These are equivalent for the
- 	    // present concerns.
- 	    boolean isOrganizationReferenceIdEqual;
- 	    if (StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
- 	        isOrganizationReferenceIdEqual = true;
- 	    } else if (StringUtils.isBlank(groupAccountLine.getOrganizationReferenceId()) && StringUtils.isBlank(entry.getOrganizationReferenceId())){
- 	        isOrganizationReferenceIdEqual = true;
- 	    } else {
- 	        isOrganizationReferenceIdEqual = false;
- 	    }
- 	    if (isOrganizationReferenceIdEqual && 
- 	        	StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
- 	                StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
- 	                StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
- 	                StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) ){
-
-		matchingAssets.add(capitalAsset);
+             // Unfortunately, when no organization reference id is input, the General Ledger Entry's organizationReferenceId is
+             // set to "" while the groupAccountLine's organizationReferenceId is set to null. These are equivalent for the
+             // present concerns.
+            boolean isOrganizationReferenceIdEqual;
+            if (StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else if (StringUtils.isBlank(groupAccountLine.getOrganizationReferenceId()) &&
+                    StringUtils.isBlank(entry.getOrganizationReferenceId())){
+                isOrganizationReferenceIdEqual = true;
+            } else {
+                isOrganizationReferenceIdEqual = false;
+            }
+            if (isOrganizationReferenceIdEqual && 
+                    StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
+                    StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
+                    StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
+                    StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) ){
+                matchingAssets.add(capitalAsset);
                 break;
             }
         }
@@ -300,6 +303,12 @@ public class GlLineServiceImpl implements GlLineService {
         if ( !StringUtils.equals( entry.getChartOfAccountsCode(), accountingDetails.getChartOfAccountsCode() ) ) {
             return false;
         }
+        /*
+        if ( entry.getTransactionLedgerEntryAmount().compareTo(accountingDetails.getAmount()) == 0 ) {
+            return false;
+        }
+        */
+
         // account for blank equaling null
         if ( !StringUtils.equals( entry.getOrganizationReferenceId(), accountingDetails.getOrganizationReferenceId() ) ) {
             if ( StringUtils.isBlank( entry.getOrganizationReferenceId() )
@@ -677,20 +686,15 @@ public class GlLineServiceImpl implements GlLineService {
      * @param entry
      */
     @Override
+    @Transactional
     public void setupCapitalAssetInformation(GeneralLedgerEntry entry) {
         List<CapitalAccountingLines> capitalAccountingLines;
 
-        // get all related entries and create capital asset record for each
-        Collection<GeneralLedgerEntry> glEntries = findAllGeneralLedgerEntry(entry.getDocumentNumber());
-        int nextCapitalAssetLineNumber = 1;
-        for (GeneralLedgerEntry glEntry: glEntries) {
-            capitalAccountingLines = new ArrayList<CapitalAccountingLines>();  
-            createCapitalAccountingLine(capitalAccountingLines, glEntry, null);
-            createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
-            nextCapitalAssetLineNumber++;
-        }
+        int nextCapitalAssetLineNumber = capitalAssetInformationDao.getNextCapitalAssetLineNumber(entry.getDocumentNumber());
+        capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        createCapitalAccountingLine(capitalAccountingLines, entry, null);
+        createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
     }
-
 
     protected List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
         Integer sequenceNumber = capitalAccountingLines.size() + 1;
@@ -829,5 +833,9 @@ public class GlLineServiceImpl implements GlLineService {
 
     public void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
         this.documentHeaderService = documentHeaderService;
+    }
+
+    public void setCapitalAssetInformationDao(CapitalAssetInformationDao dao){
+        this.capitalAssetInformationDao = dao;
     }
 }

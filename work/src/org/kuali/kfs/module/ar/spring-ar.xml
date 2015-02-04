@@ -676,6 +676,9 @@
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService" />
 		</property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>

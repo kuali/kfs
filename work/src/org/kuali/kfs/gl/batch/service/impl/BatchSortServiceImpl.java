@@ -46,9 +46,6 @@ public class BatchSortServiceImpl implements BatchSortService {
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         List<String> lineList = new ArrayList();
         BufferedReader inputBufferedReader = new BufferedReader(inputFile);

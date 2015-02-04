@@ -1,5 +1,7 @@
 .classpath
 .metadata
+*.iml
+*.idea
 /build/rice-sources
 /build/drivers/*.jar
 /build/external/appserver/*.jar

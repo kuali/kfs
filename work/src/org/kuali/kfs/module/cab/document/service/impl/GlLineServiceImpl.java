@@ -236,11 +236,24 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
-            if (groupAccountLine.getDocumentNumber().equals(entry.getDocumentNumber()) &&
-                    groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) &&
-                    groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) &&
-                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
-                matchingAssets.add(capitalAsset);
+	    // Unfortunately, when no organization reference id is input, the General Ledger Entry's organizationReferenceId is
+ 	    // set to "" while the groupAccountLine's organizationReferenceId is set to null. These are equivalent for the
+ 	    // present concerns.
+ 	    boolean isOrganizationReferenceIdEqual;
+ 	    if (StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
+ 	        isOrganizationReferenceIdEqual = true;
+ 	    } else if (StringUtils.isBlank(groupAccountLine.getOrganizationReferenceId()) && StringUtils.isBlank(entry.getOrganizationReferenceId())){
+ 	        isOrganizationReferenceIdEqual = true;
+ 	    } else {
+ 	        isOrganizationReferenceIdEqual = false;
+ 	    }
+ 	    if (isOrganizationReferenceIdEqual && 
+ 	        	StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
+ 	                StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
+ 	                StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
+ 	                StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) ){
+
+		matchingAssets.add(capitalAsset);
                 break;
             }
         }

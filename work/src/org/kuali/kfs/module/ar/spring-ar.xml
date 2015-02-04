@@ -842,7 +842,11 @@
 	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl"
-		scope="prototype" parent="contractsGrantsLookupableHelperService"/>
+		scope="prototype" parent="contractsGrantsLookupableHelperService">
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="financialSystemDocumentService" ref="financialSystemDocumentService"/>
+	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportInfo" parent="contractsGrantsPaymentHistoryReportInfo-parentBean" />
 	<bean id="contractsGrantsPaymentHistoryReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">

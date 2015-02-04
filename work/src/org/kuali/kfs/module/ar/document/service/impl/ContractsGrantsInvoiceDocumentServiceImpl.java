@@ -1682,7 +1682,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @param invoiceDetail the invoice detail to error correct
      */
     protected void correctInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail) {
-        invoiceDetail.setTotalPreviouslyBilled(invoiceDetail.getInvoiceAmount());
+        invoiceDetail.setTotalPreviouslyBilled(invoiceDetail.getTotalPreviouslyBilled().add(invoiceDetail.getInvoiceAmount()));
         invoiceDetail.setCumulativeExpenditures(invoiceDetail.getCumulativeExpenditures().subtract(invoiceDetail.getInvoiceAmount()));
         invoiceDetail.setInvoiceAmount(invoiceDetail.getInvoiceAmount().negated());
         invoiceDetail.setInvoiceDocument(null);
@@ -1693,7 +1693,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      * @param invoiceAccountDetail the invoice account detail to error correct
      */
     protected void correctInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
-        invoiceAccountDetail.setTotalPreviouslyBilled(invoiceAccountDetail.getInvoiceAmount());
+        invoiceAccountDetail.setTotalPreviouslyBilled(invoiceAccountDetail.getTotalPreviouslyBilled().add(invoiceAccountDetail.getInvoiceAmount()));
         invoiceAccountDetail.setCumulativeExpenditures(invoiceAccountDetail.getCumulativeExpenditures().subtract(invoiceAccountDetail.getInvoiceAmount()));
         invoiceAccountDetail.setInvoiceAmount(invoiceAccountDetail.getInvoiceAmount().negated());
         invoiceAccountDetail.setInvoiceDocument(null);

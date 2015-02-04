@@ -342,10 +342,11 @@
 		<property name="documentDao" ref="documentDao" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
-        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-        <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
-        <property name="optionsService" ref="optionsService"/>
-        <property name="noteService" ref="noteService"/>
+    <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+    <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
+    <property name="optionsService" ref="optionsService"/>
+    <property name="noteService" ref="noteService"/>
+    <property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />

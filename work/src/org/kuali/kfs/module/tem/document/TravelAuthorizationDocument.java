@@ -22,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,8 +37,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -536,8 +533,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
 
-        setGLPEFiscalYearAndFiscalPeriod(explicitEntry);
-
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
         if (postable instanceof AccountingLine) {
             final AccountingLine accountingLine = (AccountingLine)postable;
@@ -547,37 +542,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             }
         }
         customizeExpenseExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
-    }
-
-    private void setGLPEFiscalYearAndFiscalPeriod(GeneralLedgerPendingEntry explicitEntry) {
-        try {
-            AccountingPeriod accountingPeriod = null;
-            final java.sql.Date tripEnd = new java.sql.Date(getTripEnd().getTime());
-            final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
-            final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
-            if (tripEndFiscalYear == null) {
-                LOG.info("Could not set fiscal year for  "+ getDocumentNumber() + " because the fiscal year for the trip end does not yet exist.");
-            }
-            else {
-
-                if (currentFiscalYear.equals(tripEndFiscalYear)) {
-                    accountingPeriod = getAccountingPeriodService().getByDate(tripEnd);
-                }
-                else {
-                    final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
-                    accountingPeriod = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
-                }
-                if (accountingPeriod != null) {
-                    final OffsetDefinition offsetDefinition = getOffsetDefinitionService().getByPrimaryId(tripEndFiscalYear, explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
-                    if (offsetDefinition != null) {
-                        explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
-                        explicitEntry.setUniversityFiscalPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
-                    }
-                }
-            }
-        } catch(ParseException pe) {
-            LOG.error("Error while parsing date" + pe);
-        }
     }
 
     /**

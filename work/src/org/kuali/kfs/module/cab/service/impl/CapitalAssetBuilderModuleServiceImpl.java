@@ -2477,7 +2477,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Helper method to retrieve the capital assets on the document and check if they have all been
-     * marked as unprocessed.  If so, reset TransactionSumbitGlEntryAmount to on each gl entry line,
+     * marked as unprocessed.  If so, reset TransactionSumbitGlEntryAmount on each gl entry line,
      * and mark activity indicator flag to "N" (new)
      *
      * @param glEntry

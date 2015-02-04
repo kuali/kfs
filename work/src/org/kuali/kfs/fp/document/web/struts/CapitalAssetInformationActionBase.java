@@ -1311,6 +1311,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
+     *
+     * Finds a Capital Asset Information that matches the given capitalAccountingLine.
+     *
      * @param capitalAccountingLine
      * @param capitalAssetInformation
      * @return return existingCapitalAsset
@@ -1430,6 +1433,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
     /**
      *
+     * Checks to see if all the capital assets' distributed amount is the same as
+     * the capital accounting lines (there is only one lines, of course).
      * @param kadfb
      * @param capitalAssetsInformation
      * @return true if accounting line amount equals to capital asset amount, else false.
@@ -1447,6 +1452,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
     /**
      *
+     * Returns the amount of the group accounting line from the capital asset information that
+     * matches the capital accounting lines (only one lines, of course). If none exists, zero is returned.
      *
      * @param capitalAsset
      * @param capitalAccountingLine
@@ -1585,6 +1592,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             } else {
                    CapitalAssetInformation existingCapitalAsset = getCapitalAssetCreated(capitalAccountingLine, currentCapitalAssetInformation);
                    if (ObjectUtils.isNotNull(existingCapitalAsset)) {
+                       // There is a CapitalAssetInformation matching the current accounting line.
                        capitalAccountingLine.setSelectLine(true);
                    } else {
                        capitalAccountingLine.setAccountLinePercent(null);
@@ -1593,6 +1601,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
 
             if (capitalAccountingLineAmountDistributed(capitalAccountingLine, currentCapitalAssetInformation)) {
+                // all the money from this accounting line is distributed among the assets
                 capitalAccountingLine.setAmountDistributed(true);
             } else {
                 capitalAccountingLine.setAmountDistributed(false);

@@ -71,9 +71,7 @@ function getElementValue(name) {
 
 /** executes a function on all tabs.  The function will be passed a document & partial tab name. */
 function doToAllTabs(func) {	
-	// get the target node
-	var targetElement = document.getElementsByTagName('body')[0];
-	NodeIterator.iterate(func, targetElement);
+	NodeIterator.invoke(func);
 	
 	return false;
 }

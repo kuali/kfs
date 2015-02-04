@@ -515,7 +515,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         //pre-populate the AR DocHeader so it will be bypassed in the CRM populate CRM details
         arCreditMemoDoc.setAccountsReceivableDocumentHeader(createAccountsReceivableDocumentHeader(arCreditMemoDoc.getDocumentNumber(), reimbursement.getTraveler().getCustomerNumber()));
-        arCreditMemoDoc.getFinancialSystemDocumentHeader().setDocumentDescription("Travel Advance - "+reimbursement.getTravelDocumentIdentifier()+" - "+ reimbursement.getTraveler().getFirstName() +" "+ reimbursement.getTraveler().getLastName());
+       final int documentDescriptionMaxLength = dataDictionaryService.getAttributeMaxLength(arCreditMemoDoc.getFinancialSystemDocumentHeader().getClass(), KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+ 	        String fullDocumentDescription = "Travel Advance - "+reimbursement.getTravelDocumentIdentifier()+" - "+ reimbursement.getTraveler().getFirstName() +" "+ reimbursement.getTraveler().getLastName();
+ 	        arCreditMemoDoc.getFinancialSystemDocumentHeader().setDocumentDescription(fullDocumentDescription.substring(0, documentDescriptionMaxLength-1));
         arCreditMemoDoc.getFinancialSystemDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
 
         //populate detail of CRM doc by invoice number and the amount to credit

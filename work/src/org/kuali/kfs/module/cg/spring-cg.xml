@@ -62,6 +62,7 @@
 			<list>
 				<value>closeJob</value>
 				<value>cfdaJob</value>
+				<value>moveAgencyAndAwardMaintDocNotesToBusinessObjectsJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -348,7 +349,27 @@
 			<ref bean="documentTypeService" />
 		</property>
 	</bean>
+	
+	<bean id="moveAgencyAndAwardMaintDocNotesToBusinessObjectsJob" parent="moveAgencyAndAwardMaintDocNotesToBusinessObjectsJob-parentBean"/>
+	<bean id="moveAgencyAndAwardMaintDocNotesToBusinessObjectsJob-parentBean" abstract="true" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="moveAgencyAndAwardMaintDocNotesToBusinessObjectsStep" />
+			</list>
+		</property>
+	</bean>
        
+    <bean id="moveAgencyAndAwardMaintDocNotesToBusinessObjectsStep" parent="moveAgencyAndAwardMaintDocNotesToBusinessObjectsStep-parentBean"/>
+    <bean id="moveAgencyAndAwardMaintDocNotesToBusinessObjectsStep-parentBean" abstract="true" parent="step" class="org.kuali.kfs.module.cg.batch.MoveAgencyAndAwardMaintDocNotesToBusinessObjectsStep">
+    	<property name="maintenanceDocumentNotesMigrationService" ref="maintenanceDocumentNotesMigrationService"/>
+    </bean>
+    
+    <bean id="maintenanceDocumentNotesMigrationService" parent="maintenanceDocumentNotesMigrationService-parentBean"/>
+    <bean id="maintenanceDocumentNotesMigrationService-parentBean" abstract="true" class="org.kuali.kfs.module.cg.batch.service.impl.MaintenanceDocumentNotesMigrationServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService"/>
+    	<property name="identityService" ref="identityService"/>
+    	<property name="noteService" ref="noteService"/>
+    </bean>
 
 	<import resource="spring-cg-bus-exports.xml"/>
 </beans>

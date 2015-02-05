@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
    - The Kuali Financial System, a comprehensive financial management system for higher education.
    - 
@@ -20,10 +19,21 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-	
-	<include file="02_data/ar-module-data-updates.xml"/>
-	<include file="02_data/cg-module-data-updates.xml"/>
-	<include file="02_data/kc-module-data-updates.xml"/>
-		
+
+	<changeSet author="KFSCGB" id="KFSTI-1240_AR_BOOTSTRAP_DATA">
+		<insert tableName="AR_INV_TRNS_MTHD_T">
+			<column name="INV_TRNS_MTHD_CD" value="EMAIL"/>
+			<column name="OBJ_ID" value="EDC0BE4713F43031E040E00ABCD64EE1"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="INV_TRNS_MTHD_DESC" value="Through Email"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="AR_INV_TRNS_MTHD_T">
+			<column name="INV_TRNS_MTHD_CD" value="MAIL"/>
+			<column name="OBJ_ID" value="EDC0BE4713F58031E040E00ABCD64EE2"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="INV_TRNS_MTHD_DESC" value="Through Mail"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+	</changeSet>
 </databaseChangeLog>
-	

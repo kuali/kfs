@@ -132,7 +132,7 @@
 			<tr>
 				<td><kul:htmlAttributeLabel attributeEntryName="DataDictionary.BatchJobStatus.attributes.status" /></td>
 				<td>${job.status}&nbsp;</td>
-				<td colspan="2"><portal:portalLink displayTitle="true" title="Batch File lookup (to retrieve logs and reports)" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></td>
+				<td colspan="2"><portal:portalLink displayTitle="true" title="Batch File lookup (to retrieve logs and reports)" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></td>
 			</tr>
 		</table>
 	  </div>		

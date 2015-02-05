@@ -273,7 +273,6 @@
 			<column name="FLLW_UP_DT" type="DATETIME" />
 			<column name="CMPLTD_DT" type="DATETIME" />
 			<column name="POST_DT" type="DATETIME" />
-			<column name="FDOC_NBR" type="VARCHAR(14)" />
 			<column name="USR_PRNCPL_ID" type="VARCHAR(40)" />
 		</createTable>
 		<createTable tableName="AR_FNL_BILLED_IND_ENTRY_T">

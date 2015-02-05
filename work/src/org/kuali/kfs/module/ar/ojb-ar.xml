@@ -1153,7 +1153,6 @@
 		<field-descriptor name="completedDate" column="CMPLTD_DT" jdbc-type="DATE" />
 		<field-descriptor name="postedDate" column="POST_DT" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="userPrincipalId" column="USR_PRNCPL_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<reference-descriptor name="collectionActivityType" class-ref="org.kuali.kfs.module.ar.businessobject.CollectionActivityType"

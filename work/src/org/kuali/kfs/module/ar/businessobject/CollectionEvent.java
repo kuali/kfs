@@ -47,7 +47,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
     private Date completedDate;
     private Timestamp postedDate;
     private String userPrincipalId;
-    private String documentNumber;
     private boolean completed;
 
     private transient Person user;
@@ -232,24 +231,6 @@ public class CollectionEvent extends PersistableBusinessObjectBase {
      */
     public void setUserPrincipalId(String userPrincipalId) {
         this.userPrincipalId = userPrincipalId;
-    }
-
-    /**
-     * Gets the documentNumber attribute.
-     *
-     * @return Returns the documentNumber.
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute.
-     *
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
     }
 
     /**

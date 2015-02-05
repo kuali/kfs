@@ -25,7 +25,8 @@
 
 	<!-- SYS Module -->
   	<bean id="attachmentMailService" class="org.kuali.kfs.sys.service.impl.AttachmentDevelopmentMailServiceImpl">
-  		<property name="mailer" ref="attachmentMailer" />
+  		<property name="attachmentMailer" ref="attachmentMailer" />
+  		<property name="mailer" ref="mailer" />
   		<property name="batchMailingList" value="${mailing.list.batch}" />
   	</bean>
 

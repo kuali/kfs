@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService
  */
-@Transactional
 public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilestoneNotificationService {
     protected AREmailService arEmailService;
     protected DateTimeService dateTimeService;
@@ -51,6 +50,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
      * @see org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService#sendNotificationsForMilestones()
      */
     @Override
+    @Transactional
     public void sendNotificationsForMilestones() {
         int limitDays = new Integer(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.CHECK_LIMIT_DAYS));
         final Date expectedCompletionLimitDate = DateUtils.addDays(dateTimeService.getCurrentDate(), limitDays);

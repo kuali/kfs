@@ -50,7 +50,6 @@ import org.springframework.util.CollectionUtils;
 /**
  * Implementation class for Collection Activity Document.
  */
-@Transactional
 public class ContractsGrantsCollectionActivityDocumentServiceImpl implements ContractsGrantsCollectionActivityDocumentService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsCollectionActivityDocumentServiceImpl.class);
 
@@ -196,6 +195,7 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
      * @return a Collection of collection activity eligible Contracts & Grants Invoices associated with the given proposal number
      */
     @Override
+    @Transactional
     public Collection<ContractsGrantsInvoiceDocument> retrieveCollectionActivityEligibleContractsGrantsInvoicesByProposalNumber(Long proposalNumber) {
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getCollectionEligibleContractsGrantsInvoicesByProposalNumber(proposalNumber);
         if (CollectionUtils.isEmpty(cgInvoices)) {
@@ -229,11 +229,11 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
     public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
         this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
-
+    @NonTransactional
     public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
         return contractsGrantsInvoiceDocumentDao;
     }
-
+    @NonTransactional
     public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
         this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
     }

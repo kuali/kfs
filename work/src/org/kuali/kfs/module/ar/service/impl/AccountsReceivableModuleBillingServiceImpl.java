@@ -166,25 +166,19 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
 
     public String getDefaultDunningCampaignCode() {
         String parameterDunningCampaignCode = "";
-        if (getParameterService().parameterExists(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER)) {
-            parameterDunningCampaignCode = getParameterService().getParameterValueAsString(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-        }
+        parameterDunningCampaignCode = getParameterService().getParameterValueAsString(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
         return parameterDunningCampaignCode;
     }
 
     public String getDefaultBillingFrequency() {
         String parameterDefaultBilling = "";
-        if (getParameterService().parameterExists(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER)) {
-            parameterDefaultBilling = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
-        }
+        parameterDefaultBilling = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
         return parameterDefaultBilling;
     }
 
     public String getDefaultInvoicingOption() {
         String parameterDefaultInvoicingOption = "";
-        if (getParameterService().parameterExists(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER)) {
-            parameterDefaultInvoicingOption = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-        }
+        parameterDefaultInvoicingOption = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
         return parameterDefaultInvoicingOption;
     }
 

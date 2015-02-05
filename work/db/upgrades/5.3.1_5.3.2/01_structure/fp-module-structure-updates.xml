@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+    <changeSet author="KFS532" id="KFSCNTRB-2142_FS_DOC_HEADER_T_NEW_INDEXES">
+        <comment>
+            KFSCNTRB-2142: Additional indexes on FS_DOC_HEADER_T for fields APP_DOC_STAT and FDOC_TYP_NM
+        </comment>
+        
+        <createIndex tableName="FS_DOC_HEADER_T" indexName="FS_DOC_HEADER_TI3">
+            <column name="APP_DOC_STAT" type="VARCHAR2"/>
+        </createIndex>
+
+        <createIndex tableName="FS_DOC_HEADER_T" indexName="FS_DOC_HEADER_TI4">
+            <column name="FDOC_TYP_NM" type="VARCHAR2"/>
+        </createIndex>
+    </changeSet>
+	
+</databaseChangeLog>

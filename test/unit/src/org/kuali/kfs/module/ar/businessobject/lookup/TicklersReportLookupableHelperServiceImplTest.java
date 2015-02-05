@@ -157,7 +157,6 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
 
         // to Add events
         CollectionEvent event = new CollectionEvent();
-        event.setDocumentNumber(cgInvoice.getDocumentNumber());
         event.setInvoiceNumber(cgInvoice.getDocumentNumber());
         event.setActivityCode("TEST");
         event.setUser(user);

@@ -360,7 +360,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<ErrorMessage> errorMessages, List<ContractsGrantsLetterOfCreditReviewDetail> accountDetails, String locCreationType) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errorMessages, accountDetails, locCreationType);
         if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
-            if ( !KualiDecimal.ZERO.equals(cgInvoiceDocument.getTotalInvoiceAmount())) {
+            if ( !KualiDecimal.ZERO.equals(cgInvoiceDocument.getTotalInvoiceAmount()) ||
+                    StringUtils.equalsIgnoreCase(awd.getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) ||
+                    StringUtils.equalsIgnoreCase(awd.getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
                 // Saving the document
                 try {
                     documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);

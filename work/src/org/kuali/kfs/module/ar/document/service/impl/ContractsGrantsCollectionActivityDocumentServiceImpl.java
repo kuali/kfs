@@ -137,7 +137,6 @@ public class ContractsGrantsCollectionActivityDocumentServiceImpl implements Con
             newCollectionEvent.setActivityText(colActDoc.getActivityText());
             newCollectionEvent.setFollowupDate(colActDoc.getFollowupDate());
             newCollectionEvent.setCompletedDate(colActDoc.getCompletedDate());
-            newCollectionEvent.setDocumentNumber(colActDoc.getDocumentNumber());
 
             if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
                 Person authorUniversal = GlobalVariables.getUserSession().getPerson();

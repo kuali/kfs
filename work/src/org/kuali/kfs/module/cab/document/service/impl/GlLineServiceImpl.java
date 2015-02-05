@@ -52,6 +52,7 @@ import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
@@ -85,6 +86,7 @@ public class GlLineServiceImpl implements GlLineService {
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
     @Override
+    @NonTransactional
     public Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException {
         // initiate a new document
         MaintenanceDocument document = (MaintenanceDocument) documentService.getNewDocument(DocumentTypeName.ASSET_ADD_GLOBAL);
@@ -189,6 +191,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
     @Override
+    @NonTransactional
     public CapitalAssetInformation findCapitalAssetInformation(String documentNumber, Integer capitalAssetLineNumber) {
         Map<String, String> primaryKeys = new HashMap<String, String>(2);
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, documentNumber);
@@ -199,6 +202,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     @Override
+    @NonTransactional
     public List<CapitalAssetInformation> findAllCapitalAssetInformation(String documentNumber) {
         Map<String, String> primaryKeys = new HashMap<String, String>(1);
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, documentNumber);
@@ -212,6 +216,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformationForGLLine(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
     @Override
+    @NonTransactional
     public List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
@@ -263,6 +268,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     @Override
+    @NonTransactional
     public long findUnprocessedCapitalAssetInformation( String documentNumber ) {
         Map<String, String> fieldValues = new HashMap<String, String>(2);
         fieldValues.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, documentNumber);
@@ -272,6 +278,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     @Override
+    @NonTransactional
     public Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntries( Collection<GeneralLedgerEntry> allGLEntries, CapitalAssetAccountsGroupDetails accountingDetails ) {
         Collection<GeneralLedgerEntry> matchingGLEntries = new ArrayList<GeneralLedgerEntry>();
 
@@ -343,6 +350,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     @Override
+    @NonTransactional
     public Collection<GeneralLedgerEntry> findAllGeneralLedgerEntry(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>(1);
         fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, documentNumber);
@@ -402,6 +410,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetPaymentDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry, java.lang.Integer)
      */
     @Override
+    @NonTransactional
     public Document createAssetPaymentDocument(GeneralLedgerEntry primaryGlEntry, Integer capitalAssetLineNumber) throws WorkflowException {
         // Find out the GL Entry
         // initiate a new document
@@ -802,34 +811,35 @@ public class GlLineServiceImpl implements GlLineService {
 
         return ++nextAccountingLineNumber;
     }
-
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    @NonTransactional
     public void setAssetGlobalService(AssetGlobalService assetGlobalService) {
         this.assetGlobalService = assetGlobalService;
     }
-
+    @NonTransactional
     public void setObjectTypeService(ObjectTypeService objectTypeService) {
         this.objectTypeService = objectTypeService;
     }
-
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
+    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
+    @NonTransactional
     public void setParameterEvaluatorService(ParameterEvaluatorService parameterEvaluatorService) {
         this.parameterEvaluatorService = parameterEvaluatorService;
     }
-
+    @NonTransactional
     public void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
         this.documentHeaderService = documentHeaderService;
     }
+    @NonTransactional
     public void setCapitalAssetInformationDao(CapitalAssetInformationDao dao) {
         this.capitalAssetInformationDao = dao;
     }

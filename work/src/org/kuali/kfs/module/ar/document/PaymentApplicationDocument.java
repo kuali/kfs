@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -48,6 +49,7 @@ import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -559,6 +561,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         ObjectCode objectCode = null;
         if (ObjectUtils.isNotNull(receivableInvoiceDetail) && ObjectUtils.isNotNull(receivableInvoiceDetail.getFinancialObjectCode())) {
             objectCode = receivableInvoiceDetail.getObjectCode();
+            if (ObjectUtils.isNull(objectCode)) {
+                Map<String, Object> fieldKeys = new HashMap<>();
+                fieldKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, receivableInvoiceDetail.getChartOfAccountsCode());
+                fieldKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, receivableInvoiceDetail.getFinancialObjectCode());
+                objectCode = getBusinessObjectService().findByPrimaryKey(ObjectCodeCurrent.class, fieldKeys);
+            }
         }
         return objectCode;
     }

@@ -18,34 +18,38 @@
  */
 package org.kuali.kfs.module.ar.service.impl;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AccountsReceivableModuleBillingServiceImpl implements AccountsReceivableModuleBillingService {
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected KualiModuleService kualiModuleService;
     protected ConfigurationService configurationService;
+    protected ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long) This
@@ -160,6 +164,30 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
         return getConfigurationService().getPropertyValueAsBoolean(KFSConstants.CONTRACTS_GRANTS_BILLING_ENABLED);
     }
 
+    public String getDefaultDunningCampaignCode() {
+        String parameterDunningCampaignCode = "";
+        if (getParameterService().parameterExists(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER)) {
+            parameterDunningCampaignCode = getParameterService().getParameterValueAsString(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
+        }
+        return parameterDunningCampaignCode;
+    }
+
+    public String getDefaultBillingFrequency() {
+        String parameterDefaultBilling = "";
+        if (getParameterService().parameterExists(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER)) {
+            parameterDefaultBilling = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
+        }
+        return parameterDefaultBilling;
+    }
+
+    public String getDefaultInvoicingOption() {
+        String parameterDefaultInvoicingOption = "";
+        if (getParameterService().parameterExists(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER)) {
+            parameterDefaultInvoicingOption = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
+        }
+        return parameterDefaultInvoicingOption;
+    }
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -190,5 +218,13 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

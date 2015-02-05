@@ -49,8 +49,6 @@ public class CGConstants{
     public static final String ORG_REVIEW_NODE_NAME = "Org Review";
     public static final String ORG_REVIEW_TEMPLATE_NAME = "KualiResearchOrgReviewTemplate";
 
-    public static final String DEFAULT_BILLING_FREQUENCY_PARAMETER = "DEFAULT_BILLING_FREQUENCY";
-    public static final String DEFAULT_DUNNING_CAMPAIGN_PARAMETER = "DEFAULT_DUNNING_CAMPAIGN";
 
     // Agency
     public static final String AGENCY_USE_EXISTING_CUSTOMER = "Use Existing Customer";
@@ -84,7 +82,6 @@ public class CGConstants{
 
     // Award Invoice
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
-    public static final String DEFAULT_INVOICING_OPTION_PARAMETER = "DEFAULT_INVOICING_OPTION";
 
     //
     public static final String DOCUMENT_STATUS_FINAL = "F";

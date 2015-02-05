@@ -268,6 +268,11 @@ public class ArConstants{
     public static final String INCLUDE_ZERO_BALANCE_YES = "Yes";
     public static final String INCLUDE_ZERO_BALANCE_NO = "No";
 
+    public static final String DEFAULT_DUNNING_CAMPAIGN_PARAMETER = "DEFAULT_DUNNING_CAMPAIGN";
+    public static final String DEFAULT_BILLING_FREQUENCY_PARAMETER = "DEFAULT_BILLING_FREQUENCY";
+    public static final String DEFAULT_INVOICING_OPTION_PARAMETER = "DEFAULT_INVOICING_OPTION";
+
+
     public enum ArNotificationSelectionField{
         CHART("CHART"), ORGANIZATION("ORG"), ACCOUNT("ACCOUNT");
 
@@ -360,6 +365,7 @@ public class ArConstants{
     public static class DunningLetters {
         public static final String DYS_PST_DUE_FINAL_PARM = "DUNNING_LETTERS_FINAL_DAYS_PAST_DUE";
         public static final String DYS_PST_DUE_STATE_AGENCY_FINAL_PARM = "DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE";
+
         public static final String DYS_PST_DUE_CURRENT = "Current";
         public static final String DYS_PST_DUE_31_60 = "31-60";
         public static final String DYS_PST_DUE_61_90 = "61-90";

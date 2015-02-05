@@ -71,6 +71,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardMaintainableImpl.class);
 
+    private static volatile AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     /**
      * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
      * hand before any submit that causes a redisplay.
@@ -111,16 +112,16 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         super.processAfterNew(document, parameters);
 
         // Retrieving Default Invoicing Option
-        String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
+        String defaultInvoiceParm = getAccountsReceivableModuleBillingService().getDefaultInvoicingOption();
 
         // Retrieving Default Billing Schedule
-        String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
+        String defaultBillingScheduleParm = getAccountsReceivableModuleBillingService().getDefaultBillingFrequency();
 
         // Set Invoicing Option
         getAward().setInvoicingOptionCode(defaultInvoiceParm);
 
         // Set Billing Schedule
-        if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
+        if (StringUtils.isNotBlank(defaultBillingScheduleParm)) {
             getAward().setBillingFrequencyCode(defaultBillingScheduleParm);
         }
         else {
@@ -488,5 +489,12 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> locks = super.generateMaintenanceLocks();
         return locks;
+    }
+
+    public static AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        if (accountsReceivableModuleBillingService == null) {
+            accountsReceivableModuleBillingService = SpringContext.getBean(AccountsReceivableModuleBillingService.class);
+        }
+        return accountsReceivableModuleBillingService;
     }
 }

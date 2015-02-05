@@ -101,6 +101,24 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
     }
 
     @Override
+    public String getDefaultDunningCampaignCode() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    @Override
+    public String getDefaultBillingFrequency() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    @Override
+    public String getDefaultInvoicingOption() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    @Override
     public boolean hasActiveMilestones(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
@@ -111,4 +129,6 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
+
+
 }

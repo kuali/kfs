@@ -420,7 +420,10 @@ public class ArPropertyConstants{
     public static class MilestoneFields {
         public static final String MILESTONE_IDENTIFIER = "milestoneIdentifier";
         public static final String MILESTONE_NUMBER = "milestoneNumber";
+        public static final String MILESTONE_DESCRIPTION = "milestoneDescription";
         public static final String MILESTONE_AMOUNT = "milestoneAmount";
+        public static final String MILESTONE_ACTUAL_COMPLETION_DATE = "milestoneActualCompletionDate";
+        public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
     }
 
     public static class FederalFormReportFields {
@@ -563,7 +566,6 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String HEADER_REVIEW_DETAILS = "headerReviewDetails";
     public static final String ACCOUNT_REVIEW_DETAILS = "accountReviewDetails";
-    public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
     public static final String OBJECT_CODES = "objectCodes";
     public static final String OBJECT_CONSOLIDATION = "objectConsolidation";
     public static final String OBJECT_CONSOLIDATIONS = "objectConsolidations";

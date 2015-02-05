@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -114,11 +114,11 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
             lookupCriteria.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
-        final String lowerBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
-        final String upperBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
+        final String lowerBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE);
+        final String upperBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE);
         final String milestoneExpectedCompletionDate = getContractsGrantsReportHelperService().fixDateCriteria(lowerBoundMilestoneExpectedCompletionDate, upperBoundMilestoneExpectedCompletionDate, false);
         if (!StringUtils.isBlank(milestoneExpectedCompletionDate)) {
-            lookupCriteria.put(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE, milestoneExpectedCompletionDate);
+            lookupCriteria.put(ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE, milestoneExpectedCompletionDate);
         }
 
         final String billed = (String)lookupFormFields.get(ArPropertyConstants.BILLED);
@@ -239,11 +239,11 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
     public void validateSearchParameters(Map<String, String> fieldValues) {
         super.validateSearchParameters(fieldValues);
 
-        final String lowerBoundMilestoneExpectedCompletionDate = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
-        validateDateField(lowerBoundMilestoneExpectedCompletionDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE, getDateTimeService());
+        final String lowerBoundMilestoneExpectedCompletionDate = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE);
+        validateDateField(lowerBoundMilestoneExpectedCompletionDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE, getDateTimeService());
 
-        final String upperBoundMilestoneExpectedCompletionDate = fieldValues.get(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
-        validateDateField(upperBoundMilestoneExpectedCompletionDate, ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE, getDateTimeService());
+        final String upperBoundMilestoneExpectedCompletionDate = fieldValues.get(ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE);
+        validateDateField(upperBoundMilestoneExpectedCompletionDate, ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE, getDateTimeService());
     }
 
     public DateTimeService getDateTimeService() {

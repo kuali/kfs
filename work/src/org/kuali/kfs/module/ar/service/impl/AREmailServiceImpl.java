@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,6 +36,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -281,21 +282,17 @@ public class AREmailServiceImpl implements AREmailService {
         message.getToAddresses().add(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
         StringBuffer body = new StringBuffer();
 
-
         String messageKey = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_1);
-        body.append(MessageFormat.format(messageKey, new Object[] { null }));
-
-        body.append(award.getProposalNumber() + ".\n\n");
+        body.append(messageKey + "\n\n");
 
         for (Milestone milestone : milestones) {
+            String proposalNumber = dataDictionaryService.getAttributeLabel(Milestone.class, KFSPropertyConstants.PROPOSAL_NUMBER);
+            String milestoneNumber = dataDictionaryService.getAttributeLabel(Milestone.class, ArPropertyConstants.MilestoneFields.MILESTONE_NUMBER);
+            String milestoneDescription = dataDictionaryService.getAttributeLabel(Milestone.class, ArPropertyConstants.MilestoneFields.MILESTONE_DESCRIPTION);
+            String milestoneAmount = dataDictionaryService.getAttributeLabel(Milestone.class, ArPropertyConstants.MilestoneFields.MILESTONE_AMOUNT);
+            String milestoneExpectedCompletionDate = dataDictionaryService.getAttributeLabel(Milestone.class, ArPropertyConstants.MilestoneFields.MILESTONE_EXPECTED_COMPLETION_DATE);
 
-            String milestoneNumber = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneNumber");
-            String milestoneDescription = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneDescription");
-            String milestoneAmount = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneAmount");
-            String milestoneExpectedCompletionDate = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneExpectedCompletionDate");
-            String milestoneActualCompletionDate = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneActualCompletionDate");
-
-
+            body.append(proposalNumber + ": " + milestone.getProposalNumber() + " \n");
             body.append(milestoneNumber + ": " + milestone.getMilestoneNumber() + " \n");
             body.append(milestoneDescription + ": " + milestone.getMilestoneDescription() + " \n");
             body.append(milestoneAmount + ": " + milestone.getMilestoneAmount() + " \n");

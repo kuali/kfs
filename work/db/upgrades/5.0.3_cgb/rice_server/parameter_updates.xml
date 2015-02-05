@@ -163,8 +163,8 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Agency" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="DunningCampaign" />
 			<column name="PARM_NM" value="DEFAULT_DUNNING_CAMPAIGN" />
 			<column name="OBJ_ID" value="KFS-CGB-PARM-013" />
 			<column name="VER_NBR" value="1" />
@@ -176,8 +176,8 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Award" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
 			<column name="PARM_NM" value="DEFAULT_BILLING_FREQUENCY" />
 			<column name="OBJ_ID" value="KFS-CGB-PARM-014" />
 			<column name="VER_NBR" value="1" />
@@ -189,8 +189,8 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Award" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
 			<column name="PARM_NM" value="DEFAULT_INVOICING_OPTION" />
 			<column name="OBJ_ID" value="KFS-CGB-PARM-015" />
 			<column name="VER_NBR" value="1" />

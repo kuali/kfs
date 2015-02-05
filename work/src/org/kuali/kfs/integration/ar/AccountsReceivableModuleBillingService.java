@@ -125,4 +125,28 @@ public interface AccountsReceivableModuleBillingService {
      * @return true if Contracts & Grants Billing enhancement is enabled
      */
     public boolean isContractsGrantsBillingEnhancementActive();
+
+    /**
+     * Gets the Default Dunning Campaign code
+     *
+     * @return Default Dunning Campaign code
+     */
+
+    public String getDefaultDunningCampaignCode();
+
+
+    /**
+     * Gets the Default Billing Frequency code
+     *
+     * @return Default Billing Frequency code
+     */
+    public String getDefaultBillingFrequency();
+
+    /**
+     * Gets the Default Invoicing Option code
+     *
+     * @return Default Invoicing Option code
+     */
+    public String getDefaultInvoicingOption();
+
 }

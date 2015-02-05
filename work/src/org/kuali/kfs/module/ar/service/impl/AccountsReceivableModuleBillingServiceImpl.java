@@ -165,21 +165,15 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
     }
 
     public String getDefaultDunningCampaignCode() {
-        String parameterDunningCampaignCode = "";
-        parameterDunningCampaignCode = getParameterService().getParameterValueAsString(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-        return parameterDunningCampaignCode;
+        return getParameterService().getParameterValueAsString(DunningCampaign.class, ArConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER,"");
     }
 
     public String getDefaultBillingFrequency() {
-        String parameterDefaultBilling = "";
-        parameterDefaultBilling = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
-        return parameterDefaultBilling;
+        return getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER,"");
     }
 
     public String getDefaultInvoicingOption() {
-        String parameterDefaultInvoicingOption = "";
-        parameterDefaultInvoicingOption = getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-        return parameterDefaultInvoicingOption;
+        return getParameterService().getParameterValueAsString(ContractsGrantsInvoiceDocument.class, ArConstants.DEFAULT_INVOICING_OPTION_PARAMETER,"");
     }
 
     public BusinessObjectService getBusinessObjectService() {

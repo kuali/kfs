@@ -386,7 +386,7 @@
 			<column name="ROLE_PERM_ID" value="KFS10939" />
 			<column name="OBJ_ID" value="KFS-ROLE-PERM-376" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" valueNumeric="KFS10906" />
+			<column name="ROLE_ID" value="KFS10906" />
 			<column name="PERM_ID" value="KFS10911" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -413,7 +413,7 @@
 			<column name="ROLE_PERM_ID" value="KFS10940" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-007" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" valueNumeric="3" />
+			<column name="ROLE_ID" value="3" />
 			<column name="PERM_ID" value="KFS10912" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -440,7 +440,7 @@
 			<column name="ROLE_PERM_ID" value="KFS10941" />
 			<column name="OBJ_ID" value="KFS-ROLE-PERM-378" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" valueNumeric="3" />
+			<column name="ROLE_ID" value="3" />
 			<column name="PERM_ID" value="KFS10913" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -467,7 +467,7 @@
 			<column name="ROLE_PERM_ID" value="KFS10942" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-010" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" valueNumeric="3" />
+			<column name="ROLE_ID" value="3" />
 			<column name="PERM_ID" value="KFS10914" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

@@ -858,7 +858,6 @@
         <column name="FLLW_UP_DT" type="DATE"/>
         <column name="CMPLTD_DT" type="DATE"/>
         <column name="POST_DT" type="DATE"/>
-        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
         <column name="USR_PRNCPL_ID" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CLCTN_EVNT_TR1">
             <reference foreign="FDOC_NBR" local="INV_NBR"/>

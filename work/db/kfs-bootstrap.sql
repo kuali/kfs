@@ -282,11 +282,11 @@ DELETE FROM ca_account_type_t
 
 /*  Disbursement Voucher Data  */
 
--- create new DV document location    
-INSERT INTO fp_dv_doc_loc_t
-(DV_DOC_LOC_CD,OBJ_ID,VER_NBR,DV_DOC_LOC_NM,DV_DOC_LOC_ADDR,ROW_ACTV_IND)
+-- create new PMT document location    
+INSERT INTO fs_pmt_doc_loc_t
+(PMT_DOC_LOC_CD,OBJ_ID,VER_NBR,PMT_DOC_LOC_NM,PMT_DOC_LOC_ADDR,ROW_ACTV_IND)
 VALUES
-('01',sys_guid(),1,'Kuali Default DV Doc Loc',NULL,'Y')
+('01',sys_guid(),1,'Kuali Default PMT Doc Loc',NULL,'Y')
 /
 
 -- clear out references to exact object codes

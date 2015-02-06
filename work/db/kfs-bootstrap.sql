@@ -17,6 +17,20 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+/* Disable constraints */
+DECLARE 
+   CURSOR constraint_cursor IS 
+      SELECT table_name, constraint_name 
+         FROM user_constraints 
+         WHERE constraint_type = 'R'
+           AND status <> 'DISABLED';
+BEGIN 
+   FOR r IN constraint_cursor LOOP
+      execute immediate 'ALTER TABLE '||r.table_name||' DISABLE CONSTRAINT '||r.constraint_name; 
+   END LOOP; 
+END;
+/
+
 /*  Clear out tables we don't need rows in  */
 /*  Leave all rice tables - if they're all in the same database, then we don't want to wipe out Rice data */
 
@@ -28,23 +42,11 @@ DECLARE
 	  'AP_CRDT_MEMO_STAT_T'
 	, 'AP_ELCTRNC_INV_RJT_REAS_TYP_T'
 	, 'AP_PMT_RQST_STAT_T'
-	, 'AR_BILL_T'
-	, 'AR_CLCTN_ACTVY_TYP_T'
-	, 'AR_CST_CTGRY_T'
-	, 'AR_CST_CTGRY_FIN_OBJ_CD_T'
-	, 'AR_CST_CTGRY_FIN_OBJ_LEVEL_T'
-	, 'AR_CST_CTGRY_FIN_CONSOLDTN_T'
 	, 'AR_CUST_ADDR_TYP_T'
 	, 'AR_CUST_PRCS_TYP_T'
 	, 'AR_CUST_TYP_T'
-	, 'AR_DUN_CMPGN_DOC_T'
-	, 'AR_DUN_LTR_DIST_T'
-	, 'AR_DUN_LTR_TMPLT_T'
-	, 'AR_INV_TMPLT_T'
-	, 'AR_MLSTN_SCHDL_T'
-	, 'AR_MLSTN_T'
+	, 'AR_INV_TRNS_MTHD_T'
 	, 'AR_PMT_MEDIUM_T'
-	, 'AR_PRDTRMND_BILL_SCHDL_T'
 	, 'CA_ACCOUNT_TYPE_T'
 	, 'CA_ACCTG_CTGRY_T'
 	, 'CA_ACCT_SF_T'
@@ -68,14 +70,11 @@ DECLARE
 	, 'CA_SUB_FUND_GRP_T'
 	, 'CA_UBO_FUNC_T'
 	, 'CB_AST_TRN_TYP_T'
-	, 'CG_AGENCY_ADDR_T'
 	, 'CG_AGENCY_TYP_T'
-	, 'CG_AWD_FNDMGR_T'
 	, 'CG_AWD_STAT_T'
+	, 'CG_BILL_FREQ_T'
 	, 'CG_CFDA_REF_T'
 	, 'CG_GRANT_DESC_T'
-	, 'CG_INSTRMNT_TYP_T'
-	, 'CG_LTRCR_FND_T'	
 	, 'CG_LTRCR_FNDGRP_T'
 	, 'CG_PRPSL_AWD_TYP_T'
 	, 'CG_PRPSL_PURPOSE_T'
@@ -105,6 +104,7 @@ DECLARE
 	, 'FS_OPTION_T'
 	, 'FS_ORIGIN_CODE_T'
 	, 'FS_TAX_REGION_TYPE_T'
+	, 'KC_BILL_FREQ_MAP_T'
 	, 'LD_A21_PRD_STAT_T'
 	, 'LD_BCN_AF_RSN_CD_T'
 	, 'LD_BCN_DURATION_T'
@@ -184,8 +184,6 @@ DECLARE
 	, 'TEM_PRI_DEST_T'
 	, 'TEM_PER_DIEM_REGION_T'
 	, 'TEM_PER_DIEM_T'
-	
-	
 );
 BEGIN
   FOR rec IN tables_to_empty LOOP

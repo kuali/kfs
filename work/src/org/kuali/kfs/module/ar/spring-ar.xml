@@ -172,22 +172,25 @@
 			<ref bean="systemInformationService" />
 		</property>
     </bean>
-    
-    <bean id="accountsReceivableModuleBillingService" parent="accountsReceivableModuleBillingService-parentBean"/>
-    <bean id="accountsReceivableModuleBillingService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleBillingServiceImpl" abstract="true">
-    	<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-    </bean>
+
+  <bean id="accountsReceivableModuleBillingService" parent="accountsReceivableModuleBillingService-parentBean"/>
+  <bean id="accountsReceivableModuleBillingService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleBillingServiceImpl" abstract="true">
+    <property name="businessObjectService">
+      <ref bean="businessObjectService" />
+    </property>
+    <property name="contractsGrantsInvoiceDocumentService">
+      <ref bean="contractsGrantsInvoiceDocumentService" />
+    </property>
+    <property name="configurationService">
+      <ref bean="kualiConfigurationService" />
+    </property>
+    <property name="kualiModuleService">
+      <ref bean="kualiModuleService" />
+    </property>
+    <property name="parameterService">
+      <ref bean="parameterService" />
+    </property>
+  </bean>
 
 	<bean id="ArConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.ar.ArConstants" />

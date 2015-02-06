@@ -23,8 +23,8 @@
 	
 	<changeSet author="KFSCGB" id="KFS_CGB_NEW_KIM_DATA">
 		<insert tableName="KRIM_TYP_T">
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1"/>
-			<column name="OBJ_ID" value="KFS-CGB-TYP-001"/>
+			<column name="KIM_TYP_ID" value="KFS10897"/>
+			<column name="OBJ_ID" value="KFS-TYP-009"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="Collector" />
@@ -32,19 +32,19 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ROLE_T">
-			<column name="ROLE_ID" value="KFSCGBPII1" />
-			<column name="OBJ_ID" value="KFS-CGB-ROLE-001" />
+			<column name="ROLE_ID" value="KFS10905" />
+			<column name="OBJ_ID" value="KFS-ROLE-017" />
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_NM" value="CGB Collector" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="DESC_TXT"
 				value="Users performing collection activities, identified as part of an AR billing or processing organization. Collectors have access to Contracts &amp; Grants Aging Report, Collection Activity Report, Tickler Report, Dunning Letter Distribution Report for their billing or processing organization, further restricted by customer name starting letter range." />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF1" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-001"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10891" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-005"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="billingChartOfAccountsCode" />
@@ -52,8 +52,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF2" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-002"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10892" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-006"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="billingOrganizationCode" />
@@ -61,8 +61,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF3" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-003"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10893" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-007"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="processingChartOfAccountsCode" />
@@ -70,8 +70,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF4" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-004"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10894" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-008"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="processingOrganizationCode" />
@@ -79,8 +79,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF5" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-005"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10895" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-009"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="customerNameStartingLetter" />
@@ -88,8 +88,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF6" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DEFN-006"/>
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10896" />
+			<column name="OBJ_ID" value="KFS-ATTR-DEFN-010"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="customerNameEndingLetter" />
@@ -97,62 +97,62 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR1" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-001"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10899" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-012"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="a" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF1" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10891" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR2" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-002"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10900" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-013"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="b" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF2" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10892" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR3" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-003"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10901" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-014"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="c" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF3" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10893" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR4" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-004"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10902" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-015"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="d" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF4" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10894" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR5" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-005"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10903" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-016"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="e" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF5" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10895" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR6" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-ATTR-006"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFS10904" />
+			<column name="OBJ_ID" value="KFS-TYP-ATTR-017"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="f" />
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF6" />
+			<column name="KIM_TYP_ID" value="KFS10897" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFS10896" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="1110" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-001" />
+			<column name="PERM_ID" value="KFS10907" />
+			<column name="OBJ_ID" value="KFS-PERM-130" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -161,10 +161,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG01" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-001" />
+			<column name="ATTR_DATA_ID" value="KFS10919" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-235" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="1110" />
+			<column name="PERM_ID" value="KFS10907" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="CINV" />
@@ -173,13 +173,13 @@
 			<column name="ROLE_PERM_ID" value="KFSCG01" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-001" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="1110" />
-			<column name="ROLE_ID" value="101" />
+			<column name="PERM_ID" value="KFS10907" />
+			<column name="ROLE_ID" value="KFS10906" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="CGPERMFFR" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-002" />
+			<column name="PERM_ID" value="KFS10908" />
+			<column name="OBJ_ID" value="KFS-PERM-131" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -189,10 +189,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="CGPRMTRFFR" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-002" />
+			<column name="ATTR_DATA_ID" value="KFS10920" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-236" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="CGPERMFFR" />
+			<column name="PERM_ID" value="KFS10908" />
 			<column name="KIM_TYP_ID" value="12" />
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
 			<column name="ATTR_VAL"
@@ -202,13 +202,13 @@
 			<column name="ROLE_PERM_ID" value="CGRLPRMFFR" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-002" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="CGPERMFFR" />
+			<column name="PERM_ID" value="KFS10908" />
 			<column name="ROLE_ID" value="38" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="CGPERMIRD" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-003" />
+			<column name="PERM_ID" value="KFS10909" />
+			<column name="OBJ_ID" value="KFS-PERM-132" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -217,10 +217,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="CGPRMTRIRD" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-003" />
+			<column name="ATTR_DATA_ID" value="KFS10921" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-237" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="CGPERMIRD" />
+			<column name="PERM_ID" value="KFS10909" />
 			<column name="KIM_TYP_ID" value="12" />
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
 			<column name="ATTR_VAL"
@@ -230,13 +230,13 @@
 			<column name="ROLE_PERM_ID" value="CGRLPRMIRD" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-003" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="CGPERMIRD" />
+			<column name="PERM_ID" value="KFS10909" />
 			<column name="ROLE_ID" value="38" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_T">
-			<column name="KIM_TYP_ID" value="KFSCG20111101" />
-			<column name="OBJ_ID" value="KFS-CGB-TYP-002" />
+			<column name="KIM_TYP_ID" value="KFS10898" />
+			<column name="OBJ_ID" value="KFS-TYP-010" />
 			<column name="VER_NBR" value="1" />
 			<column name="NM" value="Derived Role: Funds Manager" />
 			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}fundsManagerDerivedRoleTypeService" />
@@ -244,14 +244,14 @@
 			<column name="NMSPC_CD" value="KFS-AR" />
 		</insert>
 		<insert tableName="KRIM_ROLE_T">
-			<column name="ROLE_ID" value="101" />
-			<column name="OBJ_ID" value="KFS-CGB-ROLE-002" />
+			<column name="ROLE_ID" value="KFS10906" />
+			<column name="OBJ_ID" value="KFS-ROLE-018" />
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_NM" value="Funds Manager" />
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="DESC_TXT"
 				value="This role derives its members from the funds manager listed on the Award Document" />
-			<column name="KIM_TYP_ID" value="KFSCG20111101" />
+			<column name="KIM_TYP_ID" value="KFS10898" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_RSP_T">
@@ -268,7 +268,7 @@
 			<column name="ROLE_RSP_ID" value="KFS1127" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-RSP-001" />
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="101" />
+			<column name="ROLE_ID" value="KFS10906" />
 			<column name="RSP_ID" value="169" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -287,7 +287,7 @@
 			<column name="ROLE_PERM_ID" value="KFSCG08" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-004" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="1110" />
+			<column name="PERM_ID" value="KFS10907" />
 			<column name="ROLE_ID" value="62" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -328,8 +328,8 @@
 			<column name="ATTR_VAL" value="FALSE" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFS10839" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-004" />
+			<column name="PERM_ID" value="KFS10910" />
+			<column name="OBJ_ID" value="KFS-PERM-133" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -338,10 +338,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFS10841" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-004" />
+			<column name="ATTR_DATA_ID" value="KFS10922" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-238" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFS10839" />
+			<column name="PERM_ID" value="KFS10910" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="ITM" />
@@ -350,13 +350,13 @@
 			<column name="ROLE_PERM_ID" value="KFS10843" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-005" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFS10839" />
+			<column name="PERM_ID" value="KFS10910" />
 			<column name="ROLE_ID" value="2" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP1368-PRM1" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-005" />
+			<column name="PERM_ID" value="KFS10911" />
+			<column name="OBJ_ID" value="KFS-PERM-134" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="31" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -365,19 +365,19 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1368-ATTR1" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-005" />
+			<column name="ATTR_DATA_ID" value="KFS10923" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-239" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSTP1368-PRM1" />
+			<column name="PERM_ID" value="KFS10911" />
 			<column name="KIM_TYP_ID" valueNumeric="14" />
 			<column name="KIM_ATTR_DEFN_ID" valueNumeric="13" />
 			<column name="ATTR_VAL" value="CINV" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1368-ATTR2" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-006" />
+			<column name="ATTR_DATA_ID" value="KFS10924" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-240" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSTP1368-PRM1" />
+			<column name="PERM_ID" value="KFS10911" />
 			<column name="KIM_TYP_ID" valueNumeric="14" />
 			<column name="KIM_ATTR_DEFN_ID" valueNumeric="10" />
 			<column name="ATTR_VAL" value="modifyTransmissionDate" />
@@ -386,13 +386,13 @@
 			<column name="ROLE_PERM_ID" value="KFSTP1368-RLPRM1" />
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-006" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" valueNumeric="101" />
-			<column name="PERM_ID" value="KFSTP1368-PRM1" />
+			<column name="ROLE_ID" valueNumeric="KFS10906" />
+			<column name="PERM_ID" value="KFS10911" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP-1367-1" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-006" />
+			<column name="PERM_ID" value="KFS10912" />
+			<column name="OBJ_ID" value="KFS-PERM-135" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="42" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -401,10 +401,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP-1367-2" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-007" />
+			<column name="ATTR_DATA_ID" value="KFS10925" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-241" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSTP-1367-1" />
+			<column name="PERM_ID" value="KFS10912" />
 			<column name="KIM_TYP_ID" valueNumeric="56" />
 			<column name="KIM_ATTR_DEFN_ID" valueNumeric="13" />
 			<column name="ATTR_VAL" value="DLTM" />
@@ -414,12 +414,12 @@
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-007" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" valueNumeric="3" />
-			<column name="PERM_ID" value="KFSTP-1367-1" />
+			<column name="PERM_ID" value="KFS10912" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP-1367-3" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-007" />
+			<column name="PERM_ID" value="KFS10913" />
+			<column name="OBJ_ID" value="KFS-PERM-136" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -428,10 +428,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP-1367-4" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-008" />
+			<column name="ATTR_DATA_ID" value="KFS10926" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-242" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSTP-1367-3" />
+			<column name="PERM_ID" value="KFS10913" />
 			<column name="KIM_TYP_ID" valueNumeric="3" />
 			<column name="KIM_ATTR_DEFN_ID" valueNumeric="13" />
 			<column name="ATTR_VAL" value="DLTM" />
@@ -441,12 +441,12 @@
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-008" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" valueNumeric="3" />
-			<column name="PERM_ID" value="KFSTP-1367-3" />
+			<column name="PERM_ID" value="KFS10913" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP-1367-7" />
-			<column name="OBJ_ID" value="KFS-CGB-PERM-008" />
+			<column name="PERM_ID" value="KFS10914" />
+			<column name="OBJ_ID" value="KFS-PERM-137" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="29" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -455,10 +455,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP-1367-8" />
-			<column name="OBJ_ID" value="KFS-CGB-ATTR-DATA-009" />
+			<column name="ATTR_DATA_ID" value="KFS10927" />
+			<column name="OBJ_ID" value=KFS-PERM-ATTR-DATA-243" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSTP-1367-7" />
+			<column name="PERM_ID" value="KFS10914" />
 			<column name="KIM_TYP_ID" valueNumeric="12" />
 			<column name="KIM_ATTR_DEFN_ID" valueNumeric="2" />
 			<column name="ATTR_VAL" value="org.kuali.kfs.module.ar.web.struts.AccountsReceivableDunningLetterTemplateUploadAction" />
@@ -468,12 +468,12 @@
 			<column name="OBJ_ID" value="KFS-CGB-ROLE-PERM-010" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" valueNumeric="3" />
-			<column name="PERM_ID" value="KFSTP-1367-7" />
+			<column name="PERM_ID" value="KFS10914" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP1407-PRM" />
-			<column name="OBJ_ID" value="KFSTP1407-PRM" />
+			<column name="PERM_ID" value="KFS10915" />
+			<column name="OBJ_ID" value="KFS-PERM-138" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -482,10 +482,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1407-PRMATT" />
-			<column name="OBJ_ID" value="KFSTP1407-PRMATT" />
+			<column name="ATTR_DATA_ID" value="KFS10928" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-244" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1407-PRM" />
+			<column name="PERM_ID" value="KFS10915" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="LCR" />
@@ -494,13 +494,13 @@
 			<column name="ROLE_PERM_ID" value="KFSTP1407-RLPRM" />
 			<column name="OBJ_ID" value="KFSTP1407-RLPRM" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1407-PRM" />
+			<column name="PERM_ID" value="KFS10915" />
 			<column name="ROLE_ID" value="44" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP1808-PRM1" />
-			<column name="OBJ_ID" value="KFSTP1808-PRM1" />
+			<column name="PERM_ID" value="KFS10916" />
+			<column name="OBJ_ID" value="KFS-PERM-139" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -509,10 +509,10 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT1" />
-			<column name="OBJ_ID" value="KFSTP1808-PRMATT1" />
+			<column name="ATTR_DATA_ID" value="KFS10929" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-245" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1808-PRM1" />
+			<column name="PERM_ID" value="KFS10916" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="CVNT" />
@@ -521,13 +521,13 @@
 			<column name="ROLE_PERM_ID" value="KFSTP1808-RLPRM1" />
 			<column name="OBJ_ID" value="KFSTP1808-RLPRM1" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1808-PRM1" />
+			<column name="PERM_ID" value="KFS10916" />
 			<column name="ROLE_ID" value="2" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP1808-PRM2" />
-			<column name="OBJ_ID" value="KFSTP1808-PRM2" />
+			<column name="PERM_ID" value="KFS10917" />
+			<column name="OBJ_ID" value="KFS-PERM-140" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="42" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -536,19 +536,19 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT2" />
-			<column name="OBJ_ID" value="KFSTP1808-PRMATT2" />
+			<column name="ATTR_DATA_ID" value="KFS10930" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-246" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="PERM_ID" value="KFS10917" />
 			<column name="KIM_TYP_ID" value="56" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="CVNT" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1808-PRMATT3" />
-			<column name="OBJ_ID" value="KFSTP1808-PRMATT3" />
+			<column name="ATTR_DATA_ID" value="KFS10931" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-247" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="PERM_ID" value="KFS10917" />
 			<column name="KIM_TYP_ID" value="56" />
 			<column name="KIM_ATTR_DEFN_ID" value="7" />
 			<column name="ATTR_VAL" value="TRUE" />
@@ -557,13 +557,13 @@
 			<column name="ROLE_PERM_ID" value="KFSTP1808-RLPRM2" />
 			<column name="OBJ_ID" value="KFSTP1808-RLPRM2" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1808-PRM2" />
+			<column name="PERM_ID" value="KFS10917" />
 			<column name="ROLE_ID" value="2" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSTP1842-PM1" />
-			<column name="OBJ_ID" value="KFSTP1842-PM1" />
+			<column name="PERM_ID" value="KFS10918" />
+			<column name="OBJ_ID" value="KFS-PERM-141" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="16" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -572,19 +572,19 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1402-ATTR1" />
-			<column name="OBJ_ID" value="KFSTP1842-PM1-ATTR1" />
+			<column name="ATTR_DATA_ID" value="KFS10932" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-248" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1842-PM1" />
+			<column name="PERM_ID" value="KFS10918" />
 			<column name="KIM_TYP_ID" value="8" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="CINV" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSTP1842-PM1-ATTR2" />
-			<column name="OBJ_ID" value="KFSTP1842-PM1-ATTR2" />
+			<column name="ATTR_DATA_ID" value="KFS10933" />
+			<column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-249" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1842-PM1" />
+			<column name="PERM_ID" value="KFS10918" />
 			<column name="KIM_TYP_ID" value="8" />
 			<column name="KIM_ATTR_DEFN_ID" value="16" />
 			<column name="ATTR_VAL" value="PreRoute" />
@@ -593,15 +593,15 @@
 			<column name="ROLE_PERM_ID" value="KFSTP1842-RLPRM1" />
 			<column name="OBJ_ID" value="KFSTP1842-RLPRM1" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1842-PM1" />
-			<column name="ROLE_ID" value="101" />
+			<column name="PERM_ID" value="KFS10918" />
+			<column name="ROLE_ID" value="KFS10906" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSTP1842-RLPRM2" />
 			<column name="OBJ_ID" value="KFSTP1842-RLPRM2" />
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_ID" value="KFSTP1842-PM1" />
+			<column name="PERM_ID" value="KFS10918" />
 			<column name="ROLE_ID" value="62" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

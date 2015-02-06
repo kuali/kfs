@@ -295,7 +295,7 @@
 			<column name="ATTR_DATA_ID" value="KFS10950" />
 			<column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-156" />
 			<column name="VER_NBR" value="1" />
-			<column name="RSP_ID" value="169" />
+			<column name="RSP_ID" value="KFS10949" />
 			<column name="KIM_TYP_ID" value="7" />
 			<column name="KIM_ATTR_DEFN_ID" value="16" />
 			<column name="ATTR_VAL" value="FundsManager" />
@@ -304,7 +304,7 @@
 			<column name="ATTR_DATA_ID" value="KFS10951" />
 			<column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-157" />
 			<column name="VER_NBR" value="1" />
-			<column name="RSP_ID" value="169" />
+			<column name="RSP_ID" value="KFS10949" />
 			<column name="KIM_TYP_ID" value="7" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="CINV" />
@@ -313,7 +313,7 @@
 			<column name="ATTR_DATA_ID" value="KFS10952" />
 			<column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-158" />
 			<column name="VER_NBR" value="1" />
-			<column name="RSP_ID" value="169" />
+			<column name="RSP_ID" value="KFS10949" />
 			<column name="KIM_TYP_ID" value="7" />
 			<column name="KIM_ATTR_DEFN_ID" value="41" />
 			<column name="ATTR_VAL" value="FALSE" />
@@ -322,7 +322,7 @@
 			<column name="ATTR_DATA_ID" value="KFS10953" />
 			<column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-159" />
 			<column name="VER_NBR" value="1" />
-			<column name="RSP_ID" value="169" />
+			<column name="RSP_ID" value="KFS10949" />
 			<column name="KIM_TYP_ID" value="7" />
 			<column name="KIM_ATTR_DEFN_ID" value="40" />
 			<column name="ATTR_VAL" value="FALSE" />

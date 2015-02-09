@@ -1376,7 +1376,7 @@
       </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
+          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting Receiving"/>
           <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
             <branch name="True">
               <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review" />
@@ -1391,7 +1391,7 @@
               <role name="Receiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
             </branch>
             <branch name="False">
-              <simple name="NoOpReceiving" nextNode="JoinReceiving"/>
+              <simple name="NoOpReceiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval"/>
             </branch>
             <join name="JoinReceiving"/>
           </split>

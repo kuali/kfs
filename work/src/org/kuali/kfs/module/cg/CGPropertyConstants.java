@@ -75,6 +75,7 @@ public class CGPropertyConstants{
     public static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
     public static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
     public static final String AWARD_LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
+    public static final String AWARD_LOOKUP_PRIMARY_FUND_MGR_FUND_MGR_NAME = "awardPrimaryFundManager.fundManager.name";
     public static final String AWARD_LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.principalId";
     public static final String PROPOSAL_LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
 

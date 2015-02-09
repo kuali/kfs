@@ -44,6 +44,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -101,8 +102,7 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -145,6 +145,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
     protected ParameterService parameterService;
+    protected PermissionService permissionService;
     protected PersonService personService;
     protected UniversityDateService universityDateService;
     protected OptionsService optionsService;
@@ -1069,11 +1070,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     @Override
     public boolean canViewInvoice(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalId) {
-        boolean canViewInvoice = false;
-
-        RoleService roleService = KimApiServiceLocator.getRoleService();
-
-        List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualification = new HashMap<String, String>(3);
         qualification.put(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, invoice.getBillByChartOfAccountCode());
         qualification.put(ArKimAttributes.BILLING_ORGANIZATION_CODE, invoice.getBilledByOrganizationCode());
@@ -1081,16 +1077,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         qualification.put(ArKimAttributes.PROCESSING_ORGANIZATION_CODE, invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
 
         String customerName = invoice.getCustomerName();
-        if (StringUtils.isNotEmpty(customerName)) {
+        if (!StringUtils.isBlank(customerName)) {
             qualification.put(ArKimAttributes.CUSTOMER_NAME, customerName);
         }
 
-        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR));
-        if (roleService.principalHasRole(collectorPrincipalId, roleIds, qualification)) {
-            canViewInvoice = true;
-        }
-
-        return canViewInvoice;
+        return getPermissionService().isAuthorized(collectorPrincipalId, ArConstants.AR_NAMESPACE_CODE, ArAuthorizationConstants.VIEW_CONTRACTS_GRANTS_INVOICE_IN_BILLING_REPORTS_PERMISSION, qualification);
     }
 
     /**
@@ -2170,5 +2161,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
 
     public void setCostCategoryService(CostCategoryService costCategoryService) {
         this.costCategoryService = costCategoryService;
+    }
+
+    public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 }

@@ -891,6 +891,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocs) {
             criteria.clear();
             criteria.put("financialDocumentReferenceInvoiceNumber", cgInvoiceDoc.getDocumentNumber());
+            List<String> allowedOwningDocumentTypes = new ArrayList<>();
+            allowedOwningDocumentTypes.add(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
+            allowedOwningDocumentTypes.add(ArConstants.CUSTOMER_CREDIT_MEMO_DOCUMENT_TYPE_CODE);
+            criteria.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, allowedOwningDocumentTypes);
 
             Collection<InvoicePaidApplied> invoicePaidApplieds = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
             for (InvoicePaidApplied invoicePapidApplied : invoicePaidApplieds) {

@@ -32,9 +32,6 @@ public class CGPropertyConstants{
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH = "documentAttribute.proposalNumber";
 
-
-
-    public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTION_CODE = "invoicingOptionCode";
     public static final String PROPOSAL_LOOKUPABLE = "proposalLookupable";
@@ -60,6 +57,13 @@ public class CGPropertyConstants{
     }
 
     public static class AwardFields {
+        public static final String LAST_BILLED_DATE = "lastBilledDate";
+        public static final String BILLING_FREQUENCY_CODE = "billingFrequencyCode";
+        public static final String EXCLUDED_FROM_INVOICING = "excludedFromInvoicing";
+        public static final String ADDITIONAL_FORMS_REQUIRED_INDICATOR = "additionalFormsRequiredIndicator";
+        public static final String ADDITIONAL_FORMS_DESCRIPTION = "additionalFormsDescription";
+        public static final String MIN_INVOICE_AMOUNT = "minInvoiceAmount";
+        public static final String FUNDING_EXPIRATION_DATE = "fundingExpirationDate";
         public static final String MILESTONE_SCHEDULE_INQUIRY_TITLE = "milestoneSchedule.milestoneScheduleInquiryTitle";
         public static final String PREDETERMINED_BILLING_SCHEDULE_INQUIRY_TITLE = "predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle";
     }

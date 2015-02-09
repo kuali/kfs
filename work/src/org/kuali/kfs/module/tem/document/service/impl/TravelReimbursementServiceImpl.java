@@ -516,9 +516,13 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         //pre-populate the AR DocHeader so it will be bypassed in the CRM populate CRM details
         arCreditMemoDoc.setAccountsReceivableDocumentHeader(createAccountsReceivableDocumentHeader(arCreditMemoDoc.getDocumentNumber(), reimbursement.getTraveler().getCustomerNumber()));
         final int documentDescriptionMaxLength = dataDictionaryService.getAttributeMaxLength(arCreditMemoDoc.getFinancialSystemDocumentHeader().getClass(), KFSPropertyConstants.DOCUMENT_DESCRIPTION);
-        String fullDocumentDescription = "Travel Advance - "+reimbursement.getTravelDocumentIdentifier()+" - "+ reimbursement.getTraveler().getFirstName() +" "+ reimbursement.getTraveler().getLastName();
-        arCreditMemoDoc.getFinancialSystemDocumentHeader().setDocumentDescription(fullDocumentDescription.substring(0, documentDescriptionMaxLength-1));        arCreditMemoDoc.getFinancialSystemDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
-
+        String documentDescription = "Travel Advance - "+reimbursement.getTravelDocumentIdentifier()+" - "+ reimbursement.getTraveler().getFirstName() +" "+ reimbursement.getTraveler().getLastName();
+ 	 	//check if document description needs truncating
+ 	 	if (documentDescription.length() > documentDescriptionMaxLength) {
+ 	 	    documentDescription = documentDescription.substring(0, documentDescriptionMaxLength-1);
+ 	 	}
+ 	 	arCreditMemoDoc.getFinancialSystemDocumentHeader().setDocumentDescription(documentDescription);
+        arCreditMemoDoc.getFinancialSystemDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
         //populate detail of CRM doc by invoice number and the amount to credit
         accountsReceivableModuleService.populateCustomerCreditMemoDocumentDetails(arCreditMemoDoc, invoice.getDocumentNumber(), creditAmount);
 

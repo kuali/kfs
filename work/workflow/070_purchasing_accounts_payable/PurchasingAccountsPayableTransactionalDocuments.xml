@@ -1379,7 +1379,7 @@
           <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
           <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
             <branch name="True">
-              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review" />
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving" />
             </branch>
             <branch name="False">
               <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving"/>
@@ -1391,7 +1391,7 @@
               <role name="Receiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
             </branch>
             <branch name="False">
-              <simple name="NoOpReceiving" nextNode="JoinReceiving"/>
+              <simple name="NoOpReceiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval"/>
             </branch>
             <join name="JoinReceiving"/>
           </split>

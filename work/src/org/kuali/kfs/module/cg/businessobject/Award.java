@@ -1659,7 +1659,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
                 return awdFundMgr;
             }
         }
-        return null;
+        return awardPrimaryFundManager;
     }
 
     /**

@@ -547,11 +547,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             if (StringUtils.equals(oldBillingFrequencyCode, CGConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
                     SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveMilestones(newAwardCopy.getProposalNumber())) {
                 success = false;
-                putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_MILESTONES_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
+                putFieldError(CGPropertyConstants.AwardFields.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_MILESTONES_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
             } else if (StringUtils.equals(oldBillingFrequencyCode, CGConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
                     SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasActiveBills(newAwardCopy.getProposalNumber())) {
                 success = false;
-                putFieldError(CGPropertyConstants.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_BILLS_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
+                putFieldError(CGPropertyConstants.AwardFields.BILLING_FREQUENCY_CODE, CGKeyConstants.AwardConstants.ERROR_CG_ACTIVE_BILLS_EXIST, newAwardCopy.getBillingFrequency().getFrequencyDescription());
             }
         }
 

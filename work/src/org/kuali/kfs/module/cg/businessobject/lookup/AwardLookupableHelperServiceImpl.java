@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -36,6 +35,7 @@ import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -49,6 +49,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected ContractsAndGrantsLookupService contractsAndGrantsLookupService;
 
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getColumns()
      */
@@ -59,13 +60,76 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         if (!getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
             for(Iterator<Column> it = columns.iterator(); it.hasNext(); ) {
                 Column column = it.next();
-                if(StringUtils.equalsIgnoreCase(column.getPropertyName(), CGPropertyConstants.AWARD_LOOKUP_PRIMARY_FUND_MGR_FUND_MGR_NAME)) {
+                if (getFieldsToIgnore().contains(column.getPropertyName())) {
                     it.remove();
                 }
             }
         }
 
         return columns;
+    }
+
+    /**
+     * Ignore fields that are specific to the Contracts & Grants Billing (CGB) enhancement
+     * if CGB is disabled.
+     *
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setRows()
+     */
+    @Override
+    protected void setRows() {
+        List<String> lookupFieldNames = null;
+        if (getBusinessObjectMetaDataService().isLookupable(getBusinessObjectClass())) {
+            lookupFieldNames = getBusinessObjectMetaDataService().getLookupableFieldNames(
+                    getBusinessObjectClass());
+        }
+        if (lookupFieldNames == null) {
+            throw new RuntimeException("Lookup not defined for business object " + getBusinessObjectClass());
+        }
+
+        List<String> lookupFieldAttributeList = new ArrayList();
+        for (String lookupFieldName: lookupFieldNames) {
+            if (!getFieldsToIgnore().contains(lookupFieldName)) {
+                lookupFieldAttributeList.add(lookupFieldName);
+            }
+        }
+
+        // construct field object for each search attribute
+        List fields = new ArrayList();
+
+        try {
+            fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(),
+                    getBusinessObjectClass());
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
+        }
+
+        int numCols = getBusinessObjectDictionaryService().getLookupNumberOfColumns(this.getBusinessObjectClass());
+
+        this.rows = FieldUtils.wrapFields(fields, numCols);
+    }
+
+    /**
+     * If the Contracts & Grants Billing (CGB) enhancement is disabled, we don't want to
+     * process sections only related to CGB.
+     *
+     * @return list of fields to ignore
+     */
+    protected List<String> getFieldsToIgnore() {
+        List<String> fieldsToIgnore = new ArrayList<String>();
+
+        if (!getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
+            fieldsToIgnore.add(CGPropertyConstants.LOOKUP_FUND_MGR_USER_ID_FIELD);
+            fieldsToIgnore.add(CGPropertyConstants.AWARD_LOOKUP_PRIMARY_FUND_MGR_FUND_MGR_NAME);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.LAST_BILLED_DATE);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.BILLING_FREQUENCY_CODE);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.EXCLUDED_FROM_INVOICING);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.ADDITIONAL_FORMS_DESCRIPTION);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.ADDITIONAL_FORMS_REQUIRED_INDICATOR);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.MIN_INVOICE_AMOUNT);
+            fieldsToIgnore.add(CGPropertyConstants.AwardFields.FUNDING_EXPIRATION_DATE);
+        }
+
+        return fieldsToIgnore;
     }
 
     /**

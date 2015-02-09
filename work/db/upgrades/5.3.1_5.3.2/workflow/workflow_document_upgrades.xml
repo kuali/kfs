@@ -1,0 +1,210 @@
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+ 	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	    
+    <documentType>
+      <name>
+        PREQ
+      </name>
+      <parent>
+        AP
+      </parent>
+      <label>
+        Payment Request
+      </label>
+      <docHandler>
+        ${kfs.url}/purapPaymentRequest.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpaymentrequest.htm
+      </helpDefinitionURL>
+      <docSearchHelpURL>
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentrequests.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <validApplicationStatuses>
+        <status>Initiated</status>
+        <status>In Process</status>
+        <status>Cancelled In Process</status>
+        <status>Cancelled</status>
+        <status>Department-Approved</status>
+        <status>Auto-Approved</status>
+        <status>Awaiting AP Review</status>
+        <status>Awaiting Receiving</status>
+        <status>Awaiting Sub-Account Manager Approval</status>
+        <status>Awaiting Fiscal Officer Approval</status>
+        <status>Awaiting Chart Approval</status>
+        <status>Awaiting Tax Approval</status>
+        <status>Pending Route Electronic Invoice</status>
+      </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>      
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
+          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+            <branch name="True">
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving"/>
+            </branch>
+            <join name="JoinRequiresImageAttachment"/>
+          </split>
+          <split name="PurchaseWasReceived" nextNode="SubAccount">
+            <branch name="True">
+              <role name="Receiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpReceiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
+            </branch>
+            <join name="JoinReceiving"/>
+          </split>
+          <role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Approval"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Chart Approval"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
+          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="RequiresAutoApprovalNotification">
+            <branch name="True">
+              <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+            </branch>
+            <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+          </split>
+          <split name="RequiresAutoApprovalNotification">
+            <branch name = "True">
+              <role name="AutoApprove" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <join name="joinOnAutoApproval"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="RequiresImageAttachment">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="ImageAttachment">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresImageAttachment"/>
+        <simple name="NoOpRequiresImageAttachment">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <split name="PurchaseWasReceived">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Receiving">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinReceiving"/>
+        <simple name="NoOpReceiving">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <split name="RequiresAutoApprovalNotification">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="AutoApprove">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="joinOnAutoApproval"/>
+        <simple name="NoOpAutoApproval">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="SubAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+          <mandatoryRoute>
+            true
+          </mandatoryRoute>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="VendorIsEmployeeOrNonResidentAlien">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Tax">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+        <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+
+	</documentTypes>	
+</data>

@@ -3937,20 +3937,7 @@
         <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_TR1">
             <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
         </foreign-key>
-        <foreign-key foreignTable="CG_AGENCY_ADDR_TYP_T" name="CG_AGENCY_ADDR_TR2">
-            <reference foreign="CG_AGENCY_ADDR_TYPE_CD" local="CG_AGENCY_ADDR_TYPE_CD"/>
-        </foreign-key>
         <unique name="CG_AGENCY_ADDR_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CG_AGENCY_ADDR_TYP_T">
-        <column name="CG_AGENCY_ADDR_TYPE_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CG_AGENCY_ADDR_TYP_DESC" size="30" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="CG_AGENCY_ADDR_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

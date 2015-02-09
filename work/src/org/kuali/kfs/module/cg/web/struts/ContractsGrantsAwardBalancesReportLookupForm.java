@@ -60,4 +60,10 @@ public class ContractsGrantsAwardBalancesReportLookupForm extends LookupForm {
         this.htmlFormAction = htmlFormAction;
     }
 
+    /**
+     * @return we don't have any display actions, so we always return false, but this is needed for the jsp to be happy
+     */
+    public boolean isDisplayActionsForRow() {
+        return false;
+    }
 }

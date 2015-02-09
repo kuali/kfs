@@ -26,7 +26,7 @@
 	<div id="TravelAdvances" class="tab-container">
 		<div align="right">
 			<a target="_blank" class="portal_link"
-				href="portal.do?channelTitle=Customer Report&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&customerNumber=${KualiForm.document.traveler.customer.customerNumber}&customerTypeCode=${KualiForm.document.traveler.customer.customerTypeCode}"
+				href="portal.do?channelTitle=Customer Report&channelUrl=${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&customerNumber=${KualiForm.document.traveler.customer.customerNumber}&customerTypeCode=${KualiForm.document.traveler.customer.customerTypeCode}"
 				title="Customer Report">Customer Report</a>
 		</div>
 		<h3><c:out value="${tabTitleVar}"/></h3>

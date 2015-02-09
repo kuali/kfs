@@ -68,7 +68,6 @@ import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
-import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivablePendingEntryService;
@@ -143,7 +142,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
     protected IdentityService identityService;
     protected KualiModuleService kualiModuleService;
     protected KualiRuleService kualiRuleService;
-    protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
     protected ParameterService parameterService;
@@ -2052,14 +2050,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl implements ContractsGrant
      */
     public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
         this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
-    }
-
-    public BillDao getBillDao() {
-        return billDao;
-    }
-
-    public void setBillDao(BillDao billDao) {
-        this.billDao = billDao;
     }
 
     public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {

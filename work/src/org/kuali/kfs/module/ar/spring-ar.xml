@@ -252,7 +252,6 @@
 	<bean id="contractsGrantsInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.ContractsGrantsInvoiceDocumentDaoOjb" />
 	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
-	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />
 
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
@@ -402,9 +401,6 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
-		</property>
-		<property name="billDao">
-			<ref bean="billDao" />
 		</property>
 		<property name="configurationService">
 			<ref bean="configurationService" />

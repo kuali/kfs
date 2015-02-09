@@ -35,12 +35,13 @@
 			<c:choose>
 				<c:when test="${empty currentTab}">
 					<c:set var="isOpen" value="false" />
-					<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
 				</c:when>
 				<c:when test="${!empty currentTab}">
 					<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 				</c:when>
 			</c:choose>
+
+			<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 	
 			<c:choose>
 				<c:when test="${isRequisition}">

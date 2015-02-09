@@ -44,14 +44,15 @@
 					<c:choose>
 						<c:when test="${empty currentTab}">
 							<c:set var="isOpen" value="false" />
-							<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
 						</c:when>
 						<c:when test="${!empty currentTab}">
 							<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 						</c:when>
 					</c:choose>
 				</c:if>
-				
+			
+				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+			
 			    <c:choose>
 			    	<%--This is done only once when this PO doc itself is not the current PO, thus there's one and only one related current PO, and all other related POs are noncurrent --%>			    			
 			        <c:when test="${view.purchaseOrderCurrentIndicator}">

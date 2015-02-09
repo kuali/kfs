@@ -434,3 +434,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10916","KFS-PERM-139",1,"10","KFS-AR","Initiate Document CVNT","Authorizes users to initiate the CVNT Document.","Y"
 "KFS10917","KFS-PERM-140",1,"42","KFS-AR","Create / Maintain Record(s) CVNT TRUE","Users allowed to maintain existing (but not create new) records using the Collection Event document.","Y"
 "KFS10918","KFS-PERM-141","1","16","KFS-AR","Edit Document CINV PreRoute","Authorizes users to edit a Contracts & Grants Invoice before it is routed.","Y"
+"KFS10956","KFS-PERM-142","1","1","KFS-AR","View Contracts & Grants Invoice in Billing Reports","Prevents the filtering of Contracts & Grants Invoices in certain Contracts & Grants Billing reports.","Y"

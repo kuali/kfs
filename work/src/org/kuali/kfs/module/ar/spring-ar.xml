@@ -451,6 +451,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService"/>
 		</property>
+		<property name="permissionService">
+			<ref bean="permissionService"/>
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService"/>
 		</property>

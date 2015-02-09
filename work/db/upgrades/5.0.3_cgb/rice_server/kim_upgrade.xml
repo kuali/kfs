@@ -611,7 +611,24 @@
 			<column name="ROLE_ID" value="54"/>
 			<column name="PERM_ID" value="KFS10817"/>
 			<column name="ACTV_IND" value="Y"/>
-		</insert>			
+		</insert>	
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFS10956" />
+			<column name="OBJ_ID" value="KFS-PERM-142" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="View Contracts &amp; Grants Invoice in Billing Reports" />
+			<column name="DESC_TXT" value="Prevents the filtering of Contracts &amp; Grants Invoices in certain Contracts &amp; Grants Billing reports." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS10957"/>
+			<column name="OBJ_ID" value="KFS-ROLE-PERM-386"/>
+			<column name="ROLE_ID" value="KFS10905"/>
+			<column name="PERM_ID" value="KFS10956"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>		
 	</changeSet>
 	
 </databaseChangeLog>

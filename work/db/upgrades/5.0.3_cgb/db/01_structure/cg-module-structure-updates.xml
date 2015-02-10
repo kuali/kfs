@@ -53,21 +53,6 @@
 			<column name="FAX_NBR" type="VARCHAR(40)" />
 			<column name="AGENCY_CNTCT_EMAIL_ADDR" type="VARCHAR(60)" />
 		</createTable>
-		<createTable tableName="CG_AGENCY_ADDR_TYP_T">
-			<column name="CG_AGENCY_ADDR_TYPE_CD" type="VARCHAR(2)">
-				<constraints primaryKey="true" primaryKeyName="CG_AGENCY_ADDR_TYP_TP1"/>
-			</column>
-			<column name="OBJ_ID" type="VARCHAR(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AGENCY_ADDR_TYP_TC0"/>
-			</column>
-			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="CG_AGENCY_ADDR_TYP_DESC" type="VARCHAR(30)" />
-			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
 		<createTable tableName="CG_AWD_FNDMGR_T">
 			<column name="PERSON_UNVL_ID" type="VARCHAR(40)">
 				<constraints primaryKey="true" primaryKeyName="CG_AWD_FNDMGR_TP1"/>

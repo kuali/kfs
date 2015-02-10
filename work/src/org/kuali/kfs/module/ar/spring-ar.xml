@@ -417,6 +417,9 @@
 		<property name="costCategoryService">
 			<ref bean="costCategoryService" />
 		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
@@ -723,6 +726,9 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
 		</property>
 	</bean>
 

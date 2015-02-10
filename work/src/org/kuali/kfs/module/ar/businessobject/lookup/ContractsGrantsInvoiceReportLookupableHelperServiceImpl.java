@@ -29,9 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
@@ -47,6 +47,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for the Contracts & Grants Invoice Report.
  */
 public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
     protected DateTimeService dateTimeService;
 
@@ -131,13 +132,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             }
 
             // get payment amount
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, openCGInvoiceDoc.getDocumentNumber());
-            Collection<InvoicePaidApplied> paidAppliedInvoices = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-            KualiDecimal paymentAmount = KualiDecimal.ZERO;
-            for (InvoicePaidApplied invoicePaidApplied : paidAppliedInvoices) {
-                paymentAmount = paymentAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
-            }
+            KualiDecimal paymentAmount = getCustomerInvoiceDocumentService().calculateAppliedPaymentAmount(openCGInvoiceDoc);
             KualiDecimal remainingAmount = openCGInvoiceDoc.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().subtract(paymentAmount);
             if (!ObjectUtils.isNull(remainingAmountOperator) && !remainingAmountOperator.applyComparison(remainingAmount)) {
                 continue; // skp this one
@@ -244,5 +239,13 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
 }

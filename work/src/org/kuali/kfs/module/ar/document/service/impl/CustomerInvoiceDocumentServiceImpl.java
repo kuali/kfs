@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -995,6 +996,27 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Note note = getDocumentService().createNoteFromDocument(documentToClose, noteText);
         note.setAuthorUniversalIdentifier(getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
         documentToClose.addNote(noteService.save(note));
+    }
+
+    /**
+     * Looks up all invoice paid applieds applied to this invoice owned by payment applications or customer credit memos, and sums the invoice item applied amount
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#calculateAppliedPaymentAmount(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
+     */
+    @Override
+    public KualiDecimal calculateAppliedPaymentAmount(CustomerInvoiceDocument invoice) {
+        Map<String, Object> criteria = new HashMap<>();
+        KualiDecimal totalPayments = KualiDecimal.ZERO;
+        criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoice.getDocumentNumber());
+        List<String> allowedOwningDocumentTypes = new ArrayList<>();
+        allowedOwningDocumentTypes.add(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
+        allowedOwningDocumentTypes.add(ArConstants.CUSTOMER_CREDIT_MEMO_DOCUMENT_TYPE_CODE);
+        criteria.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, allowedOwningDocumentTypes);
+
+        Collection<InvoicePaidApplied> invoicePaidApplieds = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+        for (InvoicePaidApplied invoicePapidApplied : invoicePaidApplieds) {
+            totalPayments = totalPayments.add(invoicePapidApplied.getInvoiceItemAppliedAmount());
+        }
+        return totalPayments;
     }
 
     public void setPersonService(PersonService personService){

@@ -1115,6 +1115,13 @@
 		</property>
 	</bean>
 
+	<bean id="customerViewService" parent="customerViewService-parentBean" />
+	<bean id="customerViewService-parentBean" class="org.kuali.kfs.module.ar.service.impl.CustomerViewServiceImpl" abstract="true">
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
+	</bean>
+
 	<!--  AR Services  -->
 	<bean id="systemInformationService"  parent="systemInformationService-parentBean"/>
 	<bean id="systemInformationService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl" abstract="true">

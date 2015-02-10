@@ -140,6 +140,9 @@ public class ArPropertyConstants{
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
         public static final String CUSTOMER_SOCIAL_SECURITY_NUMBER = "customerSocialSecurityNumberIdentifier";
         public static final String CUSTOMER_ADDRESS_END_DATE = "customerAddressEndDate";
+        public static final String CUSTOMER_INVOICE_TEMPLATE_CODE = "customerInvoiceTemplateCode";
+        public static final String CUSTOMER_COPIES_TO_PRINT = "customerCopiesToPrint";
+        public static final String CUSTOMER_ENVELOPES_TO_PRINT_QUANTITY = "customerEnvelopesToPrintQuantity";
     }
 
     // Customer Address
@@ -508,6 +511,10 @@ public class ArPropertyConstants{
         public static final String PRIMARY_FUND_MANAGER = "primaryFundManager";
         public static final String EMAIL = "email";
         public static final String PHONE = "phone";
+    }
+
+    public static class SectionId {
+        public static final String CUSTOMER_COLLECTIONS_SECTION_ID = "collectionsSection";
     }
 
     public static final String INVOICE_NUMBER = "invoiceNumber";

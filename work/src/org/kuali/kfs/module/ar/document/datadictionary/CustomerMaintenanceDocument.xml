@@ -31,7 +31,7 @@
         <ref bean="CustomerMaintenanceDocument-CorporateInformation"/>
         <ref bean="CustomerMaintenanceDocument-ContactInformation"/>
         <ref bean="CustomerMaintenanceDocument-Addresses"/>
-        <ref bean="CustomerMaintenanceDocument-CollectionsMaintenance"/>
+        <ref bean="CustomerMaintenanceDocument-Collections"/>
       </list>
     </property>
 
@@ -67,7 +67,7 @@
   <bean id="CustomerMaintenanceDocument-GeneralInformation" parent="CustomerMaintenanceDocument-GeneralInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-GeneralInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="General Information"/>
+    <property name="id" value="generalInformationSection"/>
     <property name="title" value="General Information"/>
     <property name="maintainableItems">
       <list>
@@ -87,7 +87,7 @@
   <bean id="CustomerMaintenanceDocument-CorporateInformation" parent="CustomerMaintenanceDocument-CorporateInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-CorporateInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Corporate Information"/>
+    <property name="id" value="corporateInformationSection"/>
     <property name="title" value="Corporate Information"/>
     <property name="maintainableItems">
       <list>
@@ -103,7 +103,7 @@
   <bean id="CustomerMaintenanceDocument-ContactInformation" parent="CustomerMaintenanceDocument-ContactInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-ContactInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Contact Information"/>
+    <property name="id" value="contactInformationSection"/>
     <property name="title" value="Contact Information"/>
     <property name="maintainableItems">
       <list>  
@@ -122,7 +122,7 @@
   <bean id="CustomerMaintenanceDocument-Addresses" parent="CustomerMaintenanceDocument-Addresses-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-Addresses-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Addresses"/>
+    <property name="id" value="addressesSection"/>
     <property name="title" value="Addresses"/>
     <property name="maintainableItems">
       <list>
@@ -162,12 +162,12 @@
         </property>
     </bean>
                 
-    <bean id="CustomerMaintenanceDocument-CollectionsMaintenance" parent="CustomerMaintenanceDocument-CollectionsMaintenance-parentBean" />
+    <bean id="CustomerMaintenanceDocument-Collections" parent="CustomerMaintenanceDocument-Collections-parentBean" />
 
-	<bean id="CustomerMaintenanceDocument-CollectionsMaintenance-parentBean"
+	<bean id="CustomerMaintenanceDocument-Collections-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Collections Maintenance" />
-		<property name="title" value="Collections Maintenance" />
+		<property name="id" value="collectionsSection" />
+		<property name="title" value="Collections" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyType" />

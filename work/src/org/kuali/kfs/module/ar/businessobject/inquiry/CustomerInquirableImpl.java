@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,8 +27,10 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
+import org.kuali.kfs.module.ar.service.CustomerViewService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -37,7 +39,23 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
+public class CustomerInquirableImpl extends KfsInquirableImpl {
+
+    private static volatile CustomerViewService customerViewService;
+
+    /**
+     * Overridden to hide CGB fields/sections if CGB is disabled.
+     *
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.krad.bo.BusinessObject)
+     */
+    @Override
+    public List<Section> getSections(BusinessObject businessObject) {
+        List<Section> sections = super.getSections(businessObject);
+
+        sections = getCustomerViewService().getSections(sections);
+
+        return sections;
+    }
 
     /**
      * Show the Customer Open Item Report tab. This is Customer History Report.
@@ -85,4 +103,12 @@ public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
             sections.add(section);
         }
     }
+
+    public static CustomerViewService getCustomerViewService() {
+        if (customerViewService == null) {
+            customerViewService = SpringContext.getBean(CustomerViewService.class);
+        }
+        return customerViewService;
+    }
+
 }

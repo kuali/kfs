@@ -1,18 +1,18 @@
 /*
  * The Kuali Financial System, a comprehensive financial management system for higher education.
- * 
+ *
  * Copyright 2005-2014 The Kuali Foundation
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ARCollector;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.service.CustomerViewService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -41,6 +42,8 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
@@ -54,6 +57,21 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
     private static final String BO_NOTES = "boNotes";
 
     private transient DateTimeService dateTimeService;
+    private static volatile CustomerViewService customerViewService;
+
+    /**
+     * overridden to hide CGB fields/sections if CGB is disabled
+     *
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     */
+    @Override
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
+
+        sections = getCustomerViewService().getSections(sections);
+
+        return sections;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -430,7 +448,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
             newCustomerAddress.setCustomerInvoiceTemplateCode(customer.getCustomerInvoiceTemplateCode());
         }
     }
-    
+
     /**
      * Overridden to set the default values on the Agency document.
      *
@@ -443,4 +461,12 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         // Default the invoice template field on the addresses tab
         defaultInvoiceTemplate(getCustomer(), document);
     }
+
+    public static CustomerViewService getCustomerViewService() {
+        if (customerViewService == null) {
+            customerViewService = SpringContext.getBean(CustomerViewService.class);
+        }
+        return customerViewService;
+    }
+
 }

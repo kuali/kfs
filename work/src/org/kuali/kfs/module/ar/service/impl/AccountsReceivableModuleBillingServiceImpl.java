@@ -57,7 +57,7 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService#getAwardBilledToDateAmountForAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateAmountForAward(ContractsAndGrantsBillingAward award) {
+    public KualiDecimal getAwardBilledToDateAmount(ContractsAndGrantsBillingAward award) {
         if (StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             return getContractsGrantsInvoiceDocumentService().getMilestonesBilledToDateAmount(award.getProposalNumber());
         }

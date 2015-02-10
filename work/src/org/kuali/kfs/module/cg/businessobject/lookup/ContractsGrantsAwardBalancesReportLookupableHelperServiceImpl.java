@@ -116,7 +116,7 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
             awardBalancesReportEntry.setAwardTotalAmountForReport(award.getAwardTotalAmount());
 
-            KualiDecimal awardBilledToDateAmount = getAccountsReceivableModuleBillingService().getAwardBilledToDateAmountForAward(award);
+            KualiDecimal awardBilledToDateAmount = getAccountsReceivableModuleBillingService().getAwardBilledToDateAmount(award);
             awardBalancesReportEntry.setTotalBilledToDate(awardBilledToDateAmount);
 
             // calculate Total Payments To Date

@@ -37,7 +37,7 @@ public interface AccountsReceivableModuleBillingService {
      * @param award the award to find the total billed to date for
      * @return the total amount billed to date on the award
      */
-    public KualiDecimal getAwardBilledToDateAmountForAward(ContractsAndGrantsBillingAward award);
+    public KualiDecimal getAwardBilledToDateAmount(ContractsAndGrantsBillingAward award);
 
     /**
      * This method calculates total payments to date by Award using ContractsGrantsInvoiceDocumentService

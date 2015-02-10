@@ -31,7 +31,7 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService#getAwardBilledToDateAmountForAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateAmountForAward(ContractsAndGrantsBillingAward award) {
+    public KualiDecimal getAwardBilledToDateAmount(ContractsAndGrantsBillingAward award) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }

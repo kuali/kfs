@@ -53,13 +53,11 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
     protected ParameterService parameterService;
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long) This
-     *      method gets the award billed to date using ContractsGrantsInvoiceDocumentService
-     * @param roposalNumber
-     * @return
+     * If milestone or pre-determined billing billing frequency on the award, adds up the milestones or the bills which have been billed; otherwise looks at the amount billed so far against the award based on the AwardAccountObjectCodeTotalBilled table
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService#getAwardBilledToDateAmountForAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(ContractsAndGrantsBillingAward award) {
+    public KualiDecimal getAwardBilledToDateAmountForAward(ContractsAndGrantsBillingAward award) {
         if (StringUtils.equalsIgnoreCase(award.getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             return getContractsGrantsInvoiceDocumentService().getMilestonesBilledToDateAmount(award.getProposalNumber());
         }

@@ -28,10 +28,10 @@ public class AccountsReceivableModuleBillingServiceNoOp implements AccountsRecei
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleBillingServiceNoOp.class);
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService#getAwardBilledToDateAmountByProposalNumber(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService#getAwardBilledToDateAmountForAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(ContractsAndGrantsBillingAward award) {
+    public KualiDecimal getAwardBilledToDateAmountForAward(ContractsAndGrantsBillingAward award) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }

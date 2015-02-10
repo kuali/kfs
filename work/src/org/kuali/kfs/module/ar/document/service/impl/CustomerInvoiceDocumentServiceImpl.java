@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -1005,7 +1006,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public KualiDecimal calculateAppliedPaymentAmount(CustomerInvoiceDocument invoice) {
         Map<String, Object> criteria = new HashMap<>();
         KualiDecimal totalPayments = KualiDecimal.ZERO;
-        criteria.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());
+        criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoice.getDocumentNumber());
         List<String> allowedOwningDocumentTypes = new ArrayList<>();
         allowedOwningDocumentTypes.add(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
         allowedOwningDocumentTypes.add(ArConstants.CUSTOMER_CREDIT_MEMO_DOCUMENT_TYPE_CODE);

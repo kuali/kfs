@@ -20,6 +20,7 @@ package org.kuali.kfs.module.ar.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
@@ -30,6 +31,7 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 public class LetterOfCreditCreateAndRouteDocumentsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditCreateAndRouteDocumentsStep.class);
 
+    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected LetterOfCreditCreateService letterOfCreditCreateService;
     protected String batchFileDirectoryName;
 
@@ -38,8 +40,20 @@ public class LetterOfCreditCreateAndRouteDocumentsStep extends AbstractStep {
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) {
-        getLetterOfCreditCreateService().processLettersOfCredit(batchFileDirectoryName);
+        if (getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
+            getLetterOfCreditCreateService().processLettersOfCredit(batchFileDirectoryName);
+        } else {
+            LOG.info("Contracts & Grants Billing enhancement not turned on; therefore, not running letterOfCreditCreateAndRouteDocumentsStep");
+        }
         return true;
+    }
+
+    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        return accountsReceivableModuleBillingService;
+    }
+
+    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
+        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
     /**

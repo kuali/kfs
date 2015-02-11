@@ -359,6 +359,9 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep" parent="step">
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
 		<property name="cgInvoiceBatchDocumentCreateService">
 			<ref bean="contractsGrantsInvoiceBatchCreateDocumentService" />
 		</property>
@@ -369,6 +372,9 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceRouteDocumentsStep" parent="step">
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
 		<property name="cgInvoiceDocumentCreateService">
 			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
 		</property>
@@ -634,13 +640,20 @@
 	</bean>
 
 	<bean id="letterOfCreditCreateAndRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditCreateAndRouteDocumentsStep" parent="step">
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
-	<bean id="upcomingMilestoneNotificationStep" class="org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep" parent="step">
+	<bean id="upcomingMilestoneNotificationStep" parent="upcomingMilestoneNotificationStep-parentBean"/>
+	<bean id="upcomingMilestoneNotificationStep-parentBean" abstract="true" class="org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep" parent="step">
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
 		<property name="upcomingMilestoneNotificationService">
 			<ref bean="upcomingMilestoneNotificationService" />
 		</property>
@@ -739,6 +752,9 @@
 	</bean>
 
     <bean id="clearContractsGrantsInvoiceDocumentErrorLogStep" class="org.kuali.kfs.module.ar.batch.ClearContractsGrantsInvoiceDocumentErrorLogStep" parent="step">
+    	<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

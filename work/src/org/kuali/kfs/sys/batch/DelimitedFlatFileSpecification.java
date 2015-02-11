@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  */
 public class DelimitedFlatFileSpecification extends AbstractFlatFilePrefixSpecificationBase {
     private static final Logger LOG = Logger.getLogger(DelimitedFlatFileSpecification.class);
-    private String delimiter;
+    protected String delimiter;
 
     /**
      * Splits the line based on the given delimiter and parses into properties

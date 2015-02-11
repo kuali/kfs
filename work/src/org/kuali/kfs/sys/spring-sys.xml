@@ -1114,8 +1114,9 @@
 	<bean id="FixedWidthFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFileSpecification" />
     
     <bean id="FixedWidthFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFilePropertySpecification" />
-    
-	<bean id="DelimitedFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFileSpecification" />
+
+    <bean id="DelimitedFlatFileSpecification"  abstract="true" parent="DelimitedFlatFileSpecification-parentbean" />
+    <bean id="DelimitedFlatFileSpecification-parentbean" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFileSpecification" />
 	
     <bean id="DelimitedFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFilePropertySpecification" />
     

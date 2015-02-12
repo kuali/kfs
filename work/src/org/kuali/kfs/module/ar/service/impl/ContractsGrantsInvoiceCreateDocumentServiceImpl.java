@@ -630,7 +630,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             if (firstFiscalPeriod) {
                 KualiDecimal newAwardAccountCumulativeAmount = awardAccountCumulativeAmount.add(cleanAmount(balance.getContractsGrantsBeginningBalanceAmount())).add(cleanAmount(balance.getAccountLineAnnualBalanceAmount()));
                 if (!includePeriod13InPeriod01Calculations()) {
-                    newAwardAccountCumulativeAmount = awardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
+                    newAwardAccountCumulativeAmount = newAwardAccountCumulativeAmount.subtract(balance.getMonth13Amount());
                 }
                 return newAwardAccountCumulativeAmount;
             } else {

@@ -15,24 +15,28 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-load 'dir_walker.rb'
 require 'fileutils'
 require 'optparse'
 
 module MavenMover
+    def self.correct_path()
+        if Dir.pwd =~ /bin$/
+            Dir.chdir("..")
+        end
+    end
+
 	def self.move_code_files(src_dir, target_dir, options)
-		processor = lambda do |fin, file_name|
-			fn = MavenMoverHelper.break_file_name(src_dir, MavenMoverHelper.file_delim_correct(file_name))
-			j_or_r = (fn.file =~ /\.java$/) ? "java" : "resources"
-			true_target_dir = "#{target_dir}/#{j_or_r}#{fn.directory}"
-			if options[:verbose]
-				STDOUT.puts "target for #{file_name} is #{true_target_dir}"
-			end
-			MavenMoverHelper.create_dir_as_needed(true_target_dir, options[:verbose])
-			MavenMoverHelper.move_file(file_name,"#{true_target_dir}#{fn.file}",(!options[:real] || options[:verbose])) 
-		end
-		
-		dir_walker(src_dir, lambda {|fn| true}, processor)
+	     processor = lambda do |file_name|
+            fn = MavenMoverHelper.break_file_name(src_dir, MavenMoverHelper.file_delim_correct(file_name))
+            j_or_r = (fn.file =~ /\.java$/) ? "java" : "resources"
+            true_target_dir = "#{target_dir}/#{j_or_r}#{fn.directory}"
+            if options[:verbose]
+                STDOUT.puts "target for #{file_name} is #{true_target_dir}"
+            end
+            MavenMoverHelper.create_dir_as_needed(true_target_dir, options[:verbose])
+            MavenMoverHelper.move_file(file_name,"#{true_target_dir}#{fn.file}",(!options[:real] || options[:verbose]))
+        end
+        MavenMoverHelper.dir_stepper(src_dir, processor)
 	end
 	
 	def self.create_dir(dir, options)
@@ -91,6 +95,21 @@ module MavenMover
 				#`git mv #{file_delim_correct(src)} #{target}`
 			end
 		end
+
+		def self.dir_stepper(dir, processor)
+        	Dir.foreach(dir) do |dir_child|
+        		if dir_child != "." && dir_child != ".."
+        			dir_child_name = "#{dir}/#{dir_child}"
+        			if File.directory?(dir_child_name)
+        				dir_stepper(dir_child_name, processor)
+        			else
+        				if File.file?(dir_child_name) && File.readable?(dir_child_name)
+        				    processor.call(dir_child_name)
+        				end
+        			end
+        		end
+        	end
+        end
 	end
 end
 
@@ -107,6 +126,7 @@ OptionParser.new do |opts|
 	end
 end.parse!
 
+MavenMover.correct_path()
 MavenMover.create_dir("src", options)
 MavenMover.move_code_files("work/src","src/main", options)
 MavenMover.move_code_files("test/unit/src","src/test", options)

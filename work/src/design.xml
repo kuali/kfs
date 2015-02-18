@@ -59,7 +59,6 @@
 	<package name="cam" package="org.kuali.kfs.module.cam" subpackages="include"/>
 	<package name="cg" package="org.kuali.kfs.module.cg" subpackages="include"/>
 	<package name="ec" package="org.kuali.kfs.module.ec" subpackages="include"/>
-	<package name="endow" package="org.kuali.kfs.module.endow" subpackages="include"/>
 	<package name="ld" package="org.kuali.kfs.module.ld" subpackages="include"/>
 	<package name="purap" package="org.kuali.kfs.module.purap" subpackages="include"/>
 	<package name="cab" package="org.kuali.kfs.module.cab" subpackages="include">

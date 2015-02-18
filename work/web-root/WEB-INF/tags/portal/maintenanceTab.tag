@@ -23,9 +23,6 @@
       <maintenanceChannel:chartOfAccounts />
       <maintenanceChannel:financialProcessing />
       <maintenanceChannel:preDisbursementProcessor />
-    <c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
-      <maintenanceChannel:endowment />
-    </c:if>
 </td>
 <td class="content" valign="top">
 	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">

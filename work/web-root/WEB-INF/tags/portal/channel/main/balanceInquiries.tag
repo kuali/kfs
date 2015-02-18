@@ -44,14 +44,5 @@
 	<li><portal:portalLink displayTitle="true" title="Position Inquiry" url="${ConfigProperties.application.url}/${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.PositionData&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>  
     </ul>
 </c:if>
-<c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">    
-    <strong>Endowment</strong><br />
-    <ul class="chan">
-    <li><portal:portalLink displayTitle="true" title="Current KEMID Available Balances Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>    
-	<li><portal:portalLink displayTitle="true" title="Current KEMID Balances Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li> 
-	<li><portal:portalLink displayTitle="true" title="KEMID Historical Balances Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>       
-    <li><portal:portalLink displayTitle="true" title="Transaction Archives" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.TransactionArchive&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    </ul>
-</c:if>
 </div>
 <channel:portalChannelBottom />

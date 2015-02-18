@@ -67,7 +67,6 @@ public class KfsParameterConstants  {
     public static final String PRE_DISBURSEMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PDP";
     public static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
     public static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
-    public static final String ENDOWMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ENDOW";
     public static final String PARAMETER_CONFIG_TYPE_CODE = "CONFG";
     public static final String PARAMETER_ALL_DETAIL_TYPE = "All";
 
@@ -229,26 +228,6 @@ public class KfsParameterConstants  {
     @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
     @COMPONENT(component = BATCH_COMPONENT)
     public final class EFFORT_REPORTING_BATCH {
-    }
-
-    @NAMESPACE(namespace = ENDOWMENT_NAMESPACE)
-    @COMPONENT(component = ALL_COMPONENT)
-    public final class ENDOWMENT_ALL {
-    }
-
-    @NAMESPACE(namespace = ENDOWMENT_NAMESPACE)
-    @COMPONENT(component = DOCUMENT_COMPONENT)
-    public final class ENDOWMENT_DOCUMENT {
-    }
-
-    @NAMESPACE(namespace = ENDOWMENT_NAMESPACE)
-    @COMPONENT(component = LOOKUP_COMPONENT)
-    public final class ENDOWMENT_LOOKUP {
-    }
-
-    @NAMESPACE(namespace = ENDOWMENT_NAMESPACE)
-    @COMPONENT(component = BATCH_COMPONENT)
-    public final class ENDOWMENT_BATCH {
     }
 
     @NAMESPACE(namespace = FINANCIAL_PROCESSING_NAMESPACE)

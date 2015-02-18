@@ -956,7 +956,6 @@
 				<ref bean="lockECModuleStep" />
 				<ref bean="lockPDPModuleStep" />
 				<ref bean="lockCGModuleStep" />
-				<ref bean="lockENDOWModuleStep" />
 				<ref bean="lockTEMModuleStep" />
 				
 			</list>
@@ -1005,10 +1004,6 @@
 	<bean id="lockCGModuleStep" parent="lockModuleStep">
 	    <property name="namespaceCode" value="KFS-CG"/>
 	</bean>
-	<bean id="lockENDOWModuleStep" parent="lockModuleStep">
-	    <property name="namespaceCode" value="KFS-ENDOW"/>
-	</bean>
-	
 	<bean id="lockTEMModuleStep" parent="lockModuleStep">
 	    <property name="namespaceCode" value="KFS-TEM"/>
 	</bean>
@@ -1031,7 +1026,6 @@
 				<ref bean="unlockECModuleStep" />
 				<ref bean="unlockPDPModuleStep" />
 				<ref bean="unlockCGModuleStep" />
-				<ref bean="unlockENDOWModuleStep" />
 				<ref bean="unlockTEMModuleStep" />
 			</list>
 		</property>
@@ -1078,9 +1072,6 @@
 	</bean>
 	<bean id="unlockCGModuleStep" parent="unlockModuleStep">
 	    <property name="namespaceCode" value="KFS-CG"/>
-	</bean>
-	<bean id="unlockENDOWModuleStep" parent="unlockModuleStep">
-	    <property name="namespaceCode" value="KFS-ENDOW"/>
 	</bean>
 	<bean id="unlockTEMModuleStep" parent="unlockModuleStep">
 	    <property name="namespaceCode" value="KFS-TEM"/>

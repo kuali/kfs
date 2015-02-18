@@ -62,14 +62,7 @@ import org.w3c.dom.NodeList;
 
 public class CheckModularization {
 
-    /*
-     * Since endowment is currently turned off in KFS foundation base code, it is not included in the
-     * optional namespace codes below. If the endowment module is turned back on, it should be added
-     * to the list below with
-     *
-     *         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-ENDOW", "endow");
-     *
-     */
+
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
     // NOTE: Access Security (KFS-SEC) is considered a "core" module, but one which other modules shouldn't depend
     // upon, so it's included in this group to verify that no other modules depend upon it.

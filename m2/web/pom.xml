@@ -266,19 +266,6 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<profile>
-			<id>endow</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>kfs-endow</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
 
 		<profile>
 			<id>monitoring</id>

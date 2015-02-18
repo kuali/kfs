@@ -157,7 +157,7 @@
 		<property file="${properties.directory}/b2b.properties" />
 	</target>
 		
-	<target name="init-properties" depends="init-core-properties,init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties,init-test-properties" />
+	<target name="init-properties" depends="init-core-properties,init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties" />
 	
 	<target name="init-core-properties">
 		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
@@ -246,9 +246,6 @@
 		<condition property="internal.labor.distribution.spring.files" value="${labor.distribution.spring.files}" else="">
 			<istrue value="${module.labor.distribution.enabled}"/>
 		</condition>
-		<condition property="internal.endowment.spring.files" value="${endowment.spring.files}" else="">
-			<istrue value="${module.endowment.enabled}"/>
-		</condition>
 		<condition property="internal.travel.spring.files" value="${travel.spring.files}" else="">
 			<istrue value="${module.travel.enabled}"/>
 		</condition>
@@ -268,9 +265,6 @@
 		</condition>
 		<condition property="internal.labor.distribution.spring.test.files" value="${labor.distribution.spring.test.files}" else="">
 			<istrue value="${module.labor.distribution.enabled}"/>
-		</condition>
-		<condition property="internal.endowment.spring.test.files" value="${endowment.spring.test.files}" else="">
-			<istrue value="${module.endowment.enabled}"/>
 		</condition>
 		<condition property="internal.travel.spring.test.files" value="${travel.spring.test.files}" else="">
 			<istrue value="${module.travel.enabled}"/>
@@ -303,8 +297,8 @@
         </condition>
 		
 		<!-- build the optional module spring files lists, but defer to ones set by the institution -->
-		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}${internal.travel.spring.files}" />
-		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}${internal.travel.spring.test.files}" />
+		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.travel.spring.files}" />
+		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.travel.spring.test.files}" />
 		
 		<!-- set the final properties used by the server (placed into configuration.properties) -->
 		<property name="spring.source.files"
@@ -431,12 +425,6 @@
             </then>
         </if>
 		
-	</target>
-
-	<target name="init-test-properties" depends="init-property-files">
-		<condition property="test.excludes" value="${tests.excludes}" else="org/kuali/kfs/module/endow/**,${tests.excludes}">
-			<istrue value="${module.endowment.enabled}"/>
-		</condition>
 	</target>
 
 	<target name="init-make-references" depends="init-properties,check-libs,filter-libraries">

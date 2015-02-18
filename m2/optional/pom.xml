@@ -99,15 +99,6 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>endow</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>endow</module>
-			</modules>
-		</profile>
-		<profile>
 			<id>ld</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>

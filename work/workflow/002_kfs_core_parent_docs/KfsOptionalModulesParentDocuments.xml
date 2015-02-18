@@ -377,17 +377,6 @@
     </documentType>
     <documentType>
       <name>
-        ET
-      </name>
-      <label>
-        EndowmentTransactionalDocument
-      </label>
-      <parent>
-        KFST
-      </parent>
-    </documentType>
-    <documentType>
-      <name>
         TT
       </name>
       <parent>

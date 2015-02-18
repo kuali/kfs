@@ -48,8 +48,7 @@
 	
 		<!-- optional module switches (changed by profiles - do not change manually) -->
 		<module.labor.distribution.enabled>false</module.labor.distribution.enabled>
-		<module.endowment.enabled>false</module.endowment.enabled>
-		<module.capital.asset.enabled>false</module.capital.asset.enabled>		
+		<module.capital.asset.enabled>false</module.capital.asset.enabled>
 		<module.accounts.receivable.enabled>false</module.accounts.receivable.enabled>
 		<module.purchasing.enabled>false</module.purchasing.enabled>
 		<module.contracts.and.grants.enabled>false</module.contracts.and.grants.enabled>
@@ -143,15 +142,6 @@
 			</activation>
 			<properties>
 				<module.labor.distribution.enabled>true</module.labor.distribution.enabled>			
-			</properties>
-		</profile>
-		<profile>
-			<id>endow</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<module.endowment.enabled>true</module.endowment.enabled>
 			</properties>
 		</profile>
 		<profile>

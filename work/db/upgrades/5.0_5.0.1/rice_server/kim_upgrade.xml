@@ -27,19 +27,7 @@
 			<where>KIM_ATTR_DEFN_ID = '46' AND ATTR_VAL = '68'</where>
 		</update>
 	</changeSet>
-	
-	<changeSet id="REMOVE_ENDOW_TICKLER_WORKFLOW_ADMIN_PERM" author="KFS501">
-		<comment>Remove unnecessary workflow admin perm for the Tickler document</comment>
-		<delete tableName="KRIM_ROLE_PERM_T">
-			<where>perm_id IN (SELECT perm_id FROM KRIM_PERM_T WHERE nmspc_cd = 'KFS-ENDOW' AND nm = 'Administer Routing for Document TicklerMaintenanceDocument')</where>
-		</delete>
-		<delete tableName="KRIM_PERM_ATTR_DATA_T">
-			<where>perm_id IN (SELECT perm_id FROM KRIM_PERM_T WHERE nmspc_cd = 'KFS-ENDOW' AND nm = 'Administer Routing for Document TicklerMaintenanceDocument')</where>
-		</delete>
-		<delete tableName="KRIM_PERM_T">
-			<where>nmspc_cd = 'KFS-ENDOW' AND nm = 'Administer Routing for Document TicklerMaintenanceDocument'</where>
-		</delete>
-	</changeSet>
+
 	
 	<changeSet author="KFS501" id="KFSCNTRB-65">
 		<comment>KFSCNTRB-65 Create permission to access locked modules and grant to KFS-SYS Operations</comment>

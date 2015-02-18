@@ -56,49 +56,5 @@
 		</delete>
 	</changeSet>
 
-	<changeSet author="KFS41" id="NEW_ENDOWMENT_PARAMETERS">
-		<comment>KFSMI-6408 Create new system parameters for Endowment Batch Job</comment>
-		<insert tableName="KRNS_PARM_T">
-			<column name="NMSPC_CD" value="KFS-ENDOW" />
-			<column name="PARM_DTL_TYP_CD" value="GeneralLedgerInterfaceBatchProcessStep" />
-			<column name="PARM_NM" value="COMBINE_ENDOWMENT_GL_ENTRIES_IND" />
-			<column name="OBJ_ID" value="KFS681" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="TXT" value="Y" />
-			<column name="PARM_DESC_TXT"
-				value="If this value is Y then all transactions of the same type to the same General Ledger will be entered as one total for the daily interface If this value is N,then entries will be made for each transaction as a unique general ledger line entry" />
-			<column name="CONS_CD" value="A" />
-			<column name="APPL_NMSPC_CD" value="KFS" />
-		</insert>
-		<insert tableName="KRNS_PARM_T">
-			<column name="NMSPC_CD" value="KFS-ENDOW" />
-			<column name="PARM_DTL_TYP_CD" value="GeneralLedgerInterfaceBatchProcessStep" />
-			<column name="PARM_NM" value="CASH_SALE_GAIN_LOSS_OBJECT_CODE" />
-			<column name="OBJ_ID" value="KFS682" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT"
-				value="This value is used to generate the gain or loss general ledger entries that result from the cash sale of a KEM security These gains or losses are realized gains and losses for the KEMID" />
-			<column name="CONS_CD" value="A" />
-			<column name="APPL_NMSPC_CD" value="KFS" />
-		</insert>
-	</changeSet>
-	
-	<changeSet author="KFS41" id="NEW_ENDOWMENT_PARAMETERS">
-		<comment>KFSMI-6443 Create System parameter for Effort Certification FEDERAL_SPONSOR_TYPE_CODE</comment>
-		<insert tableName="KRNS_PARM_T">
-			<column name="NMSPC_CD" value="KFS-EC" />
-			<column name="PARM_DTL_TYP_CD" value="EffortCertification" />
-			<column name="PARM_NM" value="FEDERAL_SPONSOR_TYPE_CODES" />
-			<column name="OBJ_ID" value="KFS683" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT"
-				value="This parameter defines the sponsor types that are considered Federal It is referenced along with the FEDERAL_ONLY_ROUTE_IND parameter to determine how ECD documents are routed" />
-			<column name="CONS_CD" value="A" />
-			<column name="APPL_NMSPC_CD" value="KFS" />
-		</insert>
-	</changeSet>
 </databaseChangeLog>   
       

@@ -315,47 +315,6 @@
 		<form-bean name="CapitalAssetInformationForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.CapitalAssetInformationForm" />
 
-
-		<!-- Endowment Module Bean Definitions -->
-		<form-bean name="AssetIncreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />
-		<form-bean name="AssetDecreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.AssetDecreaseDocumentForm" />
-		<form-bean name="EndowmentUnitShareAdjustmentDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.EndowmentUnitShareAdjustmentDocumentForm" />
-		<form-bean name="CashIncreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CashIncreaseDocumentForm" />
-		<form-bean name="CashDecreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CashDecreaseDocumentForm" />
-		<form-bean name="CashTransferDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CashTransferDocumentForm" />
-		<form-bean name="CorpusAdjustmentDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CorpusAdjustmentDocumentForm" />
-		<form-bean name="HoldingAdjustmentDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.HoldingAdjustmentDocumentForm" />
-		<form-bean name="HoldingHistoryValueAdjustmentDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.HoldingHistoryValueAdjustmentDocumentForm" />
-		<form-bean name="LiabilityIncreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityIncreaseDocumentForm" />
-		<form-bean name="LiabilityDecreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityDecreaseDocumentForm" />
-		<form-bean name="SecurityTransferDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.SecurityTransferDocumentForm" />
-		<form-bean name="EndowmentToGLTransferOfFundsDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.EndowmentToGLTransferOfFundsDocumentForm" />
-		<form-bean name="GLToEndowmentTransferOfFundsDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.GLToEndowmentTransferOfFundsDocumentForm" />
-		<form-bean name="CorporateReorganizationDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CorporateReorganizationDocumentForm" />
-		<form-bean name="TrialBalanceForm"
-			type="org.kuali.kfs.module.endow.web.struts.TrialBalanceForm" />
-		<form-bean name="TransactionStatementForm"
-			type="org.kuali.kfs.module.endow.web.struts.TransactionStatementForm" />
-		<form-bean name="TransactionSummaryForm"
-			type="org.kuali.kfs.module.endow.web.struts.TransactionSummaryForm" />
-		<form-bean name="AssetStatementForm"
-			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />
-
 		<!-- TEM Module Bean Definitions -->
 		<form-bean name="TravelAuthorizationForm"
             type="org.kuali.kfs.module.tem.document.web.struts.TravelAuthorizationForm" />
@@ -972,22 +931,6 @@
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
-		</action>
-		
- 
-		<action path="/reportEndow*" name="{1}Form"
-			input="/jsp/module/endow/{1}.jsp" 
-			type="org.kuali.kfs.module.endow.web.struts.{1}Action"
-			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/endow/{1}.jsp" />
-		</action>
-		
-		<action path="/endow*" name="{1}Form" input="/jsp/module/endow/{1}.jsp"
-			type="org.kuali.kfs.module.endow.document.web.struts.{1}Action"
-			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/endow/{1}.jsp" />
 		</action>
 
 		<!-- These are PDP items -->

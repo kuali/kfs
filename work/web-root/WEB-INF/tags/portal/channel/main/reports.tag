@@ -105,15 +105,6 @@
 			</li>
 		</ul>
 	</c:if>
-	<c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
-		<strong>Endowments</strong></br>
-	    <ul class="chan">	
-			<li><portal:portalLink displayTitle="true" title="Asset Statement" url="${ConfigProperties.application.url}/reportEndowAssetStatement.do?methodToCall=start"/></li>
-			<li><portal:portalLink displayTitle="true" title="Transaction Statement" url="${ConfigProperties.application.url}/reportEndowTransactionStatement.do?methodToCall=start"/></li>
-			<li><portal:portalLink displayTitle="true" title="Transaction Summary" url="${ConfigProperties.application.url}/reportEndowTransactionSummary.do?methodToCall=start"/></li>		
-			<li><portal:portalLink displayTitle="true" title="Trial Balance" url="${ConfigProperties.application.url}/reportEndowTrialBalance.do?methodToCall=start"/></li>
-		</ul>
-	</c:if>
 	<strong>General Ledger</strong></br>
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="${ConfigProperties.application.url}/glTrialBalance.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.TrialBalanceReport&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>

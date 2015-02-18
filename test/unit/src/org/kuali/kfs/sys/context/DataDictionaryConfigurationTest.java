@@ -139,7 +139,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     static {
         INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.pdp.businessobject" );
         INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.external.kc.businessobject" );
-        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.endow.businessobject" );
     }
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{

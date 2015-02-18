@@ -24,7 +24,6 @@ MODULES="ar
 bc
 cg
 ec
-endow
 ld
 "
 

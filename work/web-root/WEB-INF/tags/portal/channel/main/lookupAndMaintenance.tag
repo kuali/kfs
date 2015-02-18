@@ -63,15 +63,6 @@
 		</ul>
     </c:when>
     </c:choose>
-	<c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
-    	<strong>Endowment</strong><br />
-		<ul class="chan">
-		    <li><portal:portalLink displayTitle="true" title="KEMID" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMID&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-			<li><portal:portalLink displayTitle="true" title="Recurring Cash Transfer" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-			<li><portal:portalLink displayTitle="true" title="Security" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.Security&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		    <li><portal:portalLink displayTitle="true" title="Tickler" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.Tickler&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		</ul>
-	</c:if>		
     <strong>Financial Processing</strong><br />
 	<ul class="chan">
 	    <li><portal:portalLink displayTitle="true" title="Disbursement Voucher Travel Company" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.TravelCompanyCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

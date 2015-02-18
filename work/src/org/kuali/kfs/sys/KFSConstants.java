@@ -82,7 +82,6 @@ public class KFSConstants {
         public static final String ACCOUNTS_RECEIVABLE = "KFS-AR";
         public static final String EFFORT_COMMITTMENT = "KFS-EC";
         public static final String BUDGET_CONSTRUCTION = "KFS-BC";
-        public static final String ENDOWMENT = "KFS-ENDOW";
         public static final String CONTRACTS_AND_GRANTS = "KFS-CG";
     }
 

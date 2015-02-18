@@ -45,8 +45,6 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/module/ec" prefix="ec" %>
 
-<%@ taglib tagdir="/WEB-INF/tags/module/endow" prefix="endow" %>
-
 <%@ taglib tagdir="/WEB-INF/tags/module/tem" prefix="tem" %>
 <%@ taglib tagdir="/WEB-INF/tags/module/tem/noscript" prefix="tem-noscript" %>
 <%@ taglib tagdir="/WEB-INF/tags/module/tem/ta" prefix="tem-ta" %>

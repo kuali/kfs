@@ -87,12 +87,7 @@ module MavenMover
 			if mime_mode
 				STDOUT.puts "`git mv #{file_delim_correct(src)} #{target}`"
 			else
-				FileUtils.mv(file_delim_correct(src), target)
-				`git add #{target}`
-				`git rm #{src}`
-				
-				
-				#`git mv #{file_delim_correct(src)} #{target}`
+				`git mv #{file_delim_correct(src)} #{target}`
 			end
 		end
 

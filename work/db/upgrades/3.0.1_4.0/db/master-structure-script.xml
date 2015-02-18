@@ -33,8 +33,5 @@
 	<!-- New table for the KC integration component. -->
 	<include file="01_structure/kc-integration-structure.xml"/>
 
-	<!-- New tables for the endowment module -->
-	<include file="01_structure/endowment-schema.xml"/>
-
 </databaseChangeLog>
 	

@@ -31,6 +31,4 @@ https://test.kuali.org/svn/rice/branches/rice-release-1-0-3-br/scripts/upgrades/
 This contains the XML files you need to ingest for workflow changes made
 since KFS 3.0.1.  You should review these files, since changes to existing documents
 will, if ingested, overwrite any local modifications to those document's routing
-paths you may have made.  Also, if you are not planning on implementing the
-Endowment module, you do not need to ingest those document types.
-
+paths you may have made.

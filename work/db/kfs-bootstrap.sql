@@ -409,32 +409,6 @@ UPDATE pur_contr_mgr_t
 COMMIT
 /
 
-/* Endowment */
-
--- Only the CSHEQ record is required to be kept
-DELETE FROM END_SEC_RPT_GRP_T
-	WHERE SEC_RPT_GRP != 'CSHEQ' 
-/
---    Only the record 0, None
-DELETE FROM END_AGRMNT_SPCL_INSTRC_CD_T   
-	WHERE AGRMNT_SPCL_INSTRC_CD != '0'
-/
-
---   3 records : COMP, NONE, PEND
-DELETE FROM END_AGRMNT_STAT_CD_T
-	WHERE AGRMNT_STAT_CD NOT IN ( 'COMP', 'NONE', 'PEND' )
-/
---  3 records: NDISB, NONE, NTRAN
-DELETE FROM END_TRAN_RESTR_CD_T
-	WHERE TRAN_RESTR_CD NOT IN ( 'NDISB', 'NONE', 'NTRAN' )
-/
---  4 records: U, NA, P, T
-DELETE FROM END_TYP_RESTR_CD_T
-	WHERE TYP_RESTR_CD NOT IN ( 'U', 'NA', 'P', 'T' )
-/
-COMMIT
-/
-
 /*  Contracts & Grants  */
 /* No demo to bootstrap changes */
 

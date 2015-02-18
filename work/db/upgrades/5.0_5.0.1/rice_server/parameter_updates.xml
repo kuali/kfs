@@ -179,18 +179,6 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-ENDOW" />
-			<column name="CMPNT_CD" value="All" />
-			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
-			<column name="VAL" value="N" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the endowment module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />

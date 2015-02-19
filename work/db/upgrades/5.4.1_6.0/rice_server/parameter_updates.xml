@@ -20,5 +20,17 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-    
+
+    <changeSet author="KFS60" id="KFSTP-1935_REMOVE_ENDOWMENT_RICE_PARM_DATA">
+        <delete tableName="KRCR_PARM_T">
+            <where>NMSPC_CD = 'KFS-ENDOW'</where>
+        </delete>
+        <delete tableName="KRCR_CMPNT_T">
+            <where>NMSPC_CD = 'KFS-ENDOW'</where>
+        </delete>
+        <delete tableName="KRCR_NMSPC_T">
+            <where>NMSPC_CD = 'KFS-ENDOW'</where>
+        </delete>
+    </changeSet>
+
 </databaseChangeLog>

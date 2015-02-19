@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.pom</groupId>
+    <artifactId>kuali-common</artifactId>
+    <version>5.0.4</version>
+  </parent>
+  <groupId>org.kuali.kfs</groupId>
+  <artifactId>kfs</artifactId>
+  <version>6.0.0-SNAPSHOT</version>
+  <name>Kuali Financial System</name>
+  <inceptionYear>2004</inceptionYear>
+  <packaging>pom</packaging>
+  <url>http://${kuali.site.hostname}/kfs/${project.version}</url>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.kuali.org/</url>
+  </issueManagement>
+  <scm>
+    <developerConnection>scm:git:git@github.com:kuali/kfs.git</developerConnection>
+    <connection>scm:git:git@github.com:kuali/kfs.git</connection>
+    <url>https://github.com/kuali/kfs/tree/${project.scm.tag}</url>
+    <tag>master</tag>
+  </scm>
+</project>

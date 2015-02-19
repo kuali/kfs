@@ -21,159 +21,109 @@
                    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
                    xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
-    <changeSet author="KFS60" id="DROP_TABLE_END_ACRL_MTHD_T">
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_CRNT_BAL_DET_V">
         <preConditions>
-            <tableExists tableName="END_ACRL_MTHD_T"/>
+            <viewExists viewName="END_KEMID_CRNT_BAL_DET_V"/>
         </preConditions>
-        <dropTable tableName="END_ACRL_MTHD_T"/>
+        <dropView viewName="END_KEMID_CRNT_BAL_DET_V"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CAE_CD_T">
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_CRNT_BAL_V">
         <preConditions>
-            <tableExists tableName="END_CAE_CD_T"/>
+            <viewExists viewName="END_KEMID_CRNT_BAL_V"/>
         </preConditions>
-        <dropTable tableName="END_CAE_CD_T"/>
+        <dropView viewName="END_KEMID_CRNT_BAL_V"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_SPCL_INSTRC_CD_T">
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_CRNT_REP_GRP_V">
         <preConditions>
-            <tableExists tableName="END_AGRMNT_SPCL_INSTRC_CD_T"/>
+            <viewExists viewName="END_KEMID_CRNT_REP_GRP_V"/>
         </preConditions>
-        <dropTable tableName="END_AGRMNT_SPCL_INSTRC_CD_T"/>
+        <dropView viewName="END_KEMID_CRNT_REP_GRP_V"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_TYP_CD_T">
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_HIST_BAL_DET_V">
         <preConditions>
-            <tableExists tableName="END_AGRMNT_TYP_CD_T"/>
+            <viewExists viewName="END_KEMID_HIST_BAL_DET_V"/>
         </preConditions>
-        <dropTable tableName="END_AGRMNT_TYP_CD_T"/>
+        <dropView viewName="END_KEMID_HIST_BAL_DET_V"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_STAT_CD_T">
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_HIST_BAL_V">
+        <preConditions>
+            <viewExists viewName="END_KEMID_HIST_BAL_V"/>
+        </preConditions>
+        <dropView viewName="END_KEMID_HIST_BAL_V"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_VIEW_END_KEMID_HIST_REP_GRP_V">
+        <preConditions>
+            <viewExists viewName="END_KEMID_HIST_REP_GRP_V"/>
+        </preConditions>
+        <dropView viewName="END_KEMID_HIST_REP_GRP_V"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_ENDOW_CORPUS_T">
+        <preConditions>
+            <tableExists tableName="END_ENDOW_CORPUS_T"/>
+        </preConditions>
+        <dropForeignKeyConstraint constraintName="END_ENDOW_CORPUS_TR1" baseTableName="END_ENDOW_CORPUS_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_CRNT_ENDOW_CORPUS_T">
+        <preConditions>
+            <tableExists tableName="END_CRNT_ENDOW_CORPUS_T"/>
+        </preConditions>
+        <dropForeignKeyConstraint constraintName="END_CURR_ENDOW_CORPUS_TR1" baseTableName="END_CRNT_ENDOW_CORPUS_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_AGRMNT_STAT_CD_T">
         <preConditions>
             <tableExists tableName="END_AGRMNT_STAT_CD_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_AGRMNT_STAT_CD_TR1" baseTableName="END_AGRMNT_STAT_CD_T"/>
-        <dropTable tableName="END_AGRMNT_STAT_CD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CLOSE_CD_T">
-        <preConditions>
-            <tableExists tableName="END_CLOSE_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_CLOSE_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_BASE_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FEE_BASE_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FEE_BASE_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_BAL_TYP_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FEE_BAL_TYP_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FEE_BAL_TYP_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_TYP_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FEE_TYP_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FEE_TYP_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_RT_DEF_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FEE_RT_DEF_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FEE_RT_DEF_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_PMT_TYP_CD_T">
-        <preConditions>
-            <tableExists tableName="END_PMT_TYP_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_PMT_TYP_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FND_SRC_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FND_SRC_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FND_SRC_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CMB_GRP_T">
-        <preConditions>
-            <tableExists tableName="END_CMB_GRP_T"/>
-        </preConditions>
-        <dropTable tableName="END_CMB_GRP_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_RESP_ADMIN_CD_T">
-        <preConditions>
-            <tableExists tableName="END_RESP_ADMIN_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_RESP_ADMIN_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_TYP_CD_T">
-        <preConditions>
-            <tableExists tableName="END_TKLR_TYP_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_TKLR_TYP_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_RESTR_CD_T">
-        <preConditions>
-            <tableExists tableName="END_TYP_RESTR_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_TYP_RESTR_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TYP_T">
         <preConditions>
             <tableExists tableName="END_TYP_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TYP_TR1" baseTableName="END_TYP_T"/>
         <dropForeignKeyConstraint constraintName="END_TYP_TR2" baseTableName="END_TYP_T"/>
         <dropForeignKeyConstraint constraintName="END_TYP_TR3" baseTableName="END_TYP_T"/>
-        <dropTable tableName="END_TYP_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_FEE_MTHD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TYP_FEE_MTHD_T">
         <preConditions>
             <tableExists tableName="END_TYP_FEE_MTHD_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TYP_FEE_MTHD_TR1" baseTableName="END_TYP_FEE_MTHD_T"/>
         <dropForeignKeyConstraint constraintName="END_TYP_FEE_MTHD_TR2" baseTableName="END_TYP_FEE_MTHD_T"/>
-        <dropTable tableName="END_TYP_FEE_MTHD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_CLS_CD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_CLS_CD_T">
         <preConditions>
             <tableExists tableName="END_FEE_CLS_CD_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_FEE_CLS_CD_TR1" baseTableName="END_FEE_CLS_CD_T"/>
         <dropForeignKeyConstraint constraintName="END_FEE_CLS_CD_TR2" baseTableName="END_FEE_CLS_CD_T"/>
-        <dropTable tableName="END_FEE_CLS_CD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_SEC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_SEC_T">
         <preConditions>
             <tableExists tableName="END_FEE_SEC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_FEE_SEC_TR1" baseTableName="END_FEE_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_FEE_SEC_TR2" baseTableName="END_FEE_SEC_T"/>
-        <dropTable tableName="END_FEE_SEC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_PMT_TYP_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_PMT_TYP_T">
         <preConditions>
             <tableExists tableName="END_FEE_PMT_TYP_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_FEE_PMT_TYP_TR1" baseTableName="END_FEE_PMT_TYP_T"/>
         <dropForeignKeyConstraint constraintName="END_FEE_PMT_TYP_TR2" baseTableName="END_FEE_PMT_TYP_T"/>
-        <dropTable tableName="END_FEE_PMT_TYP_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_TRAN_DOC_TYP_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_TRAN_DOC_TYP_T">
         <preConditions>
             <tableExists tableName="END_FEE_TRAN_DOC_TYP_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_FEE_TRAN_DOC_TYP_TR1" baseTableName="END_FEE_TRAN_DOC_TYP_T"/>
-        <dropTable tableName="END_FEE_TRAN_DOC_TYP_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_ETRAN_CD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_ETRAN_CD_T">
         <preConditions>
             <tableExists tableName="END_FEE_ETRAN_CD_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_FEE_ETRAN_CD_TR1" baseTableName="END_FEE_ETRAN_CD_T"/>
-        <dropTable tableName="END_FEE_ETRAN_CD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_MTHD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_FEE_MTHD_T">
         <preConditions>
             <tableExists tableName="END_FEE_MTHD_T"/>
         </preConditions>
@@ -183,58 +133,14 @@
         <dropForeignKeyConstraint constraintName="END_FEE_MTHD_TR4" baseTableName="END_FEE_MTHD_T"/>
         <dropForeignKeyConstraint constraintName="END_FEE_MTHD_TR5" baseTableName="END_FEE_MTHD_T"/>
         <dropForeignKeyConstraint constraintName="END_FEE_MTHD_TR6" baseTableName="END_FEE_MTHD_T"/>
-        <dropTable tableName="END_FEE_MTHD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_RESTR_CD_T">
-        <preConditions>
-            <tableExists tableName="END_TRAN_RESTR_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_TRAN_RESTR_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_T">
-        <preConditions>
-            <tableExists tableName="END_DONR_T"/>
-        </preConditions>
-        <dropTable tableName="END_DONR_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_STMT_CD_T">
-        <preConditions>
-            <tableExists tableName="END_DONR_STMT_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_DONR_STMT_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_RPT_GRP_T">
-        <preConditions>
-            <tableExists tableName="END_SEC_RPT_GRP_T"/>
-        </preConditions>
-        <dropTable tableName="END_SEC_RPT_GRP_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_VLTN_MTHD_T">
-        <preConditions>
-            <tableExists tableName="END_SEC_VLTN_MTHD_T"/>
-        </preConditions>
-        <dropTable tableName="END_SEC_VLTN_MTHD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CLS_CD_TYP_T">
-        <preConditions>
-            <tableExists tableName="END_CLS_CD_TYP_T"/>
-        </preConditions>
-        <dropTable tableName="END_CLS_CD_TYP_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_TYP_CD_T">
-        <preConditions>
-            <tableExists tableName="END_ETRAN_TYP_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_ETRAN_TYP_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_CD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_ETRAN_CD_T">
         <preConditions>
             <tableExists tableName="END_ETRAN_CD_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_ETRAN_CD_TR1" baseTableName="END_ETRAN_CD_T"/>
-        <dropTable tableName="END_ETRAN_CD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CLS_CD_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_CLS_CD_T">
         <preConditions>
             <tableExists tableName="END_CLS_CD_T"/>
         </preConditions>
@@ -244,35 +150,15 @@
         <dropForeignKeyConstraint constraintName="END_CLS_CD_TR4" baseTableName="END_CLS_CD_T"/>
         <dropForeignKeyConstraint constraintName="END_CLS_CD_TR5" baseTableName="END_CLS_CD_T"/>
         <dropForeignKeyConstraint constraintName="END_CLS_CD_TR6" baseTableName="END_CLS_CD_T"/>
-        <dropTable tableName="END_CLS_CD_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_FREQ_CD_T">
-        <preConditions>
-            <tableExists tableName="END_FREQ_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_FREQ_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_SEC_T">
         <preConditions>
             <tableExists tableName="END_SEC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_SEC_TR1" baseTableName="END_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_SEC_TR2" baseTableName="END_SEC_T"/>
-        <dropTable tableName="END_SEC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_SUBCLS_CD_T">
-        <preConditions>
-            <tableExists tableName="END_SUBCLS_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_SUBCLS_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_IP_IND_T">
-        <preConditions>
-            <tableExists tableName="END_IP_IND_T"/>
-        </preConditions>
-        <dropTable tableName="END_IP_IND_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_TAX_LOT_REBAL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_HLDG_TAX_LOT_REBAL_T">
         <preConditions>
             <tableExists tableName="END_HLDG_TAX_LOT_REBAL_T"/>
         </preConditions>
@@ -280,22 +166,14 @@
         <dropForeignKeyConstraint constraintName="END_HLDG_TAX_LOT_REBAL_TR2" baseTableName="END_HLDG_TAX_LOT_REBAL_T"/>
         <dropForeignKeyConstraint constraintName="END_HLDG_TAX_LOT_REBAL_TR3" baseTableName="END_HLDG_TAX_LOT_REBAL_T"/>
         <dropForeignKeyConstraint constraintName="END_HLDG_TAX_LOT_REBAL_TR4" baseTableName="END_HLDG_TAX_LOT_REBAL_T"/>
-        <dropTable tableName="END_HLDG_TAX_LOT_REBAL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_TAX_LOT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_HLDG_TAX_LOT_T">
         <preConditions>
             <tableExists tableName="END_HLDG_TAX_LOT_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_HLDG_TAX_LOT_TR1" baseTableName="END_HLDG_TAX_LOT_T"/>
-        <dropTable tableName="END_HLDG_TAX_LOT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_ME_DT_T">
-        <preConditions>
-            <tableExists tableName="END_ME_DT_T"/>
-        </preConditions>
-        <dropTable tableName="END_ME_DT_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_HIST_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_HLDG_HIST_T">
         <preConditions>
             <tableExists tableName="END_HLDG_HIST_T"/>
         </preConditions>
@@ -303,15 +181,8 @@
         <dropForeignKeyConstraint constraintName="END_HLDG_HIST_TR2" baseTableName="END_HLDG_HIST_T"/>
         <dropForeignKeyConstraint constraintName="END_HLDG_HIST_TR3" baseTableName="END_HLDG_HIST_T"/>
         <dropForeignKeyConstraint constraintName="END_HLDG_HIST_TR4" baseTableName="END_HLDG_HIST_T"/>
-        <dropTable tableName="END_HLDG_HIST_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_REGIS_CD_T">
-        <preConditions>
-            <tableExists tableName="END_REGIS_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_REGIS_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_POOL_FND_CTRL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_POOL_FND_CTRL_T">
         <preConditions>
             <tableExists tableName="END_POOL_FND_CTRL_T"/>
         </preConditions>
@@ -322,16 +193,14 @@
         <dropForeignKeyConstraint constraintName="END_POOL_FND_CTRL_TR5" baseTableName="END_POOL_FND_CTRL_T"/>
         <dropForeignKeyConstraint constraintName="END_POOL_FND_CTRL_TR6" baseTableName="END_POOL_FND_CTRL_T"/>
         <dropForeignKeyConstraint constraintName="END_POOL_FND_CTRL_TR7" baseTableName="END_POOL_FND_CTRL_T"/>
-        <dropTable tableName="END_POOL_FND_CTRL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_POOL_FND_VAL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_POOL_FND_VAL_T">
         <preConditions>
             <tableExists tableName="END_POOL_FND_VAL_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_POOL_FND_VAL_TR1" baseTableName="END_POOL_FND_VAL_T"/>
-        <dropTable tableName="END_POOL_FND_VAL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_T">
         <preConditions>
             <tableExists tableName="END_KEMID_T"/>
         </preConditions>
@@ -347,23 +216,15 @@
         <dropForeignKeyConstraint constraintName="END_KEMID_TR7" baseTableName="END_KEMID_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_TR8" baseTableName="END_KEMID_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_TR9" baseTableName="END_KEMID_T"/>
-        <dropTable tableName="END_KEMID_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_PRPS_CD_T">
-        <preConditions>
-            <tableExists tableName="END_PRPS_CD_T"/>
-        </preConditions>
-        <dropTable tableName="END_PRPS_CD_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_GL_LNK_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_ETRAN_GL_LNK_T">
         <preConditions>
             <tableExists tableName="END_ETRAN_GL_LNK_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_ETRAN_GL_LNK_TR1" baseTableName="END_ETRAN_GL_LNK_T"/>
         <dropForeignKeyConstraint constraintName="END_ETRAN_GL_LNK_TR2" baseTableName="END_ETRAN_GL_LNK_T"/>
-        <dropTable tableName="END_ETRAN_GL_LNK_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CSH_SWEEP_MDL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_CSH_SWEEP_MDL_T">
         <preConditions>
             <tableExists tableName="END_CSH_SWEEP_MDL_T"/>
         </preConditions>
@@ -371,9 +232,8 @@
         <dropForeignKeyConstraint constraintName="END_CSH_SWEEP_MDL_TR2" baseTableName="END_CSH_SWEEP_MDL_T"/>
         <dropForeignKeyConstraint constraintName="END_CSH_SWEEP_MDL_TR3" baseTableName="END_CSH_SWEEP_MDL_T"/>
         <dropForeignKeyConstraint constraintName="END_CSH_SWEEP_MDL_TR4" baseTableName="END_CSH_SWEEP_MDL_T"/>
-        <dropTable tableName="END_CSH_SWEEP_MDL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_AUTO_CSH_INVEST_MDL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_AUTO_CSH_INVEST_MDL_T">
         <preConditions>
             <tableExists tableName="END_AUTO_CSH_INVEST_MDL_T"/>
         </preConditions>
@@ -382,9 +242,8 @@
         <dropForeignKeyConstraint constraintName="END_AUTO_CSH_INVEST_MDL_TR3" baseTableName="END_AUTO_CSH_INVEST_MDL_T"/>
         <dropForeignKeyConstraint constraintName="END_AUTO_CSH_INVEST_MDL_TR4" baseTableName="END_AUTO_CSH_INVEST_MDL_T"/>
         <dropForeignKeyConstraint constraintName="END_AUTO_CSH_INVEST_MDL_TR5" baseTableName="END_AUTO_CSH_INVEST_MDL_T"/>
-        <dropTable tableName="END_AUTO_CSH_INVEST_MDL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CRNT_TAX_LOT_BAL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_CRNT_TAX_LOT_BAL_T">
         <preConditions>
             <tableExists tableName="END_CRNT_TAX_LOT_BAL_T"/>
         </preConditions>
@@ -392,138 +251,84 @@
         <dropForeignKeyConstraint constraintName="END_CRNT_TAX_LOT_BAL_TR2" baseTableName="END_CRNT_TAX_LOT_BAL_T"/>
         <dropForeignKeyConstraint constraintName="END_CRNT_TAX_LOT_BAL_TR3" baseTableName="END_CRNT_TAX_LOT_BAL_T"/>
         <dropForeignKeyConstraint constraintName="END_CRNT_TAX_LOT_BAL_TR4" baseTableName="END_CRNT_TAX_LOT_BAL_T"/>
-        <dropTable tableName="END_CRNT_TAX_LOT_BAL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CRNT_BAL_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_CRNT_BAL_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_CRNT_BAL_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CRNT_BAL_DET_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_CRNT_BAL_DET_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_CRNT_BAL_DET_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CRNT_REP_GRP_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_CRNT_REP_GRP_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_CRNT_REP_GRP_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_AVAIL_CSH_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_AVAIL_CSH_T">
         <preConditions>
             <tableExists tableName="END_AVAIL_CSH_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_AVAIL_CSH_TR1" baseTableName="END_AVAIL_CSH_T"/>
-        <dropTable tableName="END_AVAIL_CSH_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_HIST_BAL_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_HIST_BAL_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_HIST_BAL_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_HIST_BAL_DET_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_HIST_BAL_DET_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_HIST_BAL_DET_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_HIST_REP_GRP_V">
-        <preConditions>
-            <tableExists tableName="END_KEMID_HIST_REP_GRP_V"/>
-        </preConditions>
-        <dropTable tableName="END_KEMID_HIST_REP_GRP_V"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_USE_CRIT_T">
-        <preConditions>
-            <tableExists tableName="END_USE_CRIT_T"/>
-        </preConditions>
-        <dropTable tableName="END_USE_CRIT_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_AGRMNT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_AGRMNT_T">
         <preConditions>
             <tableExists tableName="END_KEMID_AGRMNT_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_AGRMNT_TR1" baseTableName="END_KEMID_AGRMNT_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_AGRMNT_TR2" baseTableName="END_KEMID_AGRMNT_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_AGRMNT_TR3" baseTableName="END_KEMID_AGRMNT_T"/>
-        <dropTable tableName="END_KEMID_AGRMNT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_FND_SRC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_FND_SRC_T">
         <preConditions>
             <tableExists tableName="END_KEMID_FND_SRC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_FND_SRC_TR1" baseTableName="END_KEMID_FND_SRC_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_FND_SRC_TR2" baseTableName="END_KEMID_FND_SRC_T"/>
-        <dropTable tableName="END_KEMID_FND_SRC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_BENE_ORG_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_BENE_ORG_T">
         <preConditions>
             <tableExists tableName="END_KEMID_BENE_ORG_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_BENE_ORG_TR1" baseTableName="END_KEMID_BENE_ORG_T"/>
-        <dropTable tableName="END_KEMID_BENE_ORG_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_GL_LNK_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_GL_LNK_T">
         <preConditions>
             <tableExists tableName="END_KEMID_GL_LNK_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_GL_LNK_TR1" baseTableName="END_KEMID_GL_LNK_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_GL_LNK_TR2" baseTableName="END_KEMID_GL_LNK_T"/>
-        <dropTable tableName="END_KEMID_GL_LNK_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_ROLE_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_ROLE_T">
         <preConditions>
             <tableExists tableName="END_KEMID_ROLE_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_ROLE_TR1" baseTableName="END_KEMID_ROLE_T"/>
-        <dropTable tableName="END_KEMID_ROLE_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_PAY_INC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_PAY_INC_T">
         <preConditions>
             <tableExists tableName="END_KEMID_PAY_INC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_PAY_INC_TR1" baseTableName="END_KEMID_PAY_INC_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_PAY_INC_TR2" baseTableName="END_KEMID_PAY_INC_T"/>
-        <dropTable tableName="END_KEMID_PAY_INC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_USE_CRIT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_USE_CRIT_T">
         <preConditions>
             <tableExists tableName="END_KEMID_USE_CRIT_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_USE_CRIT_TR1" baseTableName="END_KEMID_USE_CRIT_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_USE_CRIT_TR2" baseTableName="END_KEMID_USE_CRIT_T"/>
-        <dropTable tableName="END_KEMID_USE_CRIT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_SPCL_INSTRC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_SPCL_INSTRC_T">
         <preConditions>
             <tableExists tableName="END_KEMID_SPCL_INSTRC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_SPCL_INSTRC_TR1" baseTableName="END_KEMID_SPCL_INSTRC_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_SPCL_INSTRC_TR2" baseTableName="END_KEMID_SPCL_INSTRC_T"/>
-        <dropTable tableName="END_KEMID_SPCL_INSTRC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_FEE_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_FEE_T">
         <preConditions>
             <tableExists tableName="END_KEMID_FEE_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_FEE_TR1" baseTableName="END_KEMID_FEE_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_FEE_TR2" baseTableName="END_KEMID_FEE_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_FEE_TR3" baseTableName="END_KEMID_FEE_T"/>
-        <dropTable tableName="END_KEMID_FEE_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CMB_GRP_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_CMB_GRP_T">
         <preConditions>
             <tableExists tableName="END_KEMID_CMB_GRP_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_CMB_GRP_TR1" baseTableName="END_KEMID_CMB_GRP_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_CMB_GRP_TR2" baseTableName="END_KEMID_CMB_GRP_T"/>
-        <dropTable tableName="END_KEMID_CMB_GRP_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_DONR_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_DONR_T">
         <preConditions>
             <tableExists tableName="END_KEMID_DONR_T"/>
         </preConditions>
@@ -532,101 +337,72 @@
         <dropForeignKeyConstraint constraintName="END_KEMID_DONR_TR3" baseTableName="END_KEMID_DONR_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_DONR_TR4" baseTableName="END_KEMID_DONR_T"/>
         <dropForeignKeyConstraint constraintName="END_KEMID_DONR_TR5" baseTableName="END_KEMID_DONR_T"/>
-        <dropTable tableName="END_KEMID_DONR_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_DONR_CMB_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_DONR_CMB_T">
         <preConditions>
             <tableExists tableName="END_KEMID_DONR_CMB_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_DONR_CMB_TR1" baseTableName="END_KEMID_DONR_CMB_T"/>
-        <dropTable tableName="END_KEMID_DONR_CMB_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CORPUS_VAL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_KEMID_CORPUS_VAL_T">
         <preConditions>
             <tableExists tableName="END_KEMID_CORPUS_VAL_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_KEMID_CORPUS_VAL_TR1" baseTableName="END_KEMID_CORPUS_VAL_T"/>
-        <dropTable tableName="END_KEMID_CORPUS_VAL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_CRNT_CSH_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_CRNT_CSH_T">
         <preConditions>
             <tableExists tableName="END_CRNT_CSH_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_CRNT_CSH_TR1" baseTableName="END_CRNT_CSH_T"/>
-        <dropTable tableName="END_CRNT_CSH_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_HIST_CSH_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_HIST_CSH_T">
         <preConditions>
             <tableExists tableName="END_HIST_CSH_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="HIST_CSH_KEMID_REF1" baseTableName="END_HIST_CSH_T"/>
         <dropForeignKeyConstraint constraintName="ME_DATE_ID" baseTableName="END_HIST_CSH_T"/>
-        <dropTable tableName="END_HIST_CSH_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_LBL_SEL_T">
-        <preConditions>
-            <tableExists tableName="END_DONR_LBL_SEL_T"/>
-        </preConditions>
-        <dropTable tableName="END_DONR_LBL_SEL_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TKLR_T">
         <preConditions>
             <tableExists tableName="END_TKLR_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TKLR_TR1" baseTableName="END_TKLR_T"/>
         <dropForeignKeyConstraint constraintName="END_TKLR_TR2" baseTableName="END_TKLR_T"/>
-        <dropTable tableName="END_TKLR_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_KEMID_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TKLR_KEMID_T">
         <preConditions>
             <tableExists tableName="END_TKLR_KEMID_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TKLR_KEMID_TR1" baseTableName="END_TKLR_KEMID_T"/>
         <dropForeignKeyConstraint constraintName="END_TKLR_KEMID_TR2" baseTableName="END_TKLR_KEMID_T"/>
-        <dropTable tableName="END_TKLR_KEMID_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_SEC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TKLR_SEC_T">
         <preConditions>
             <tableExists tableName="END_TKLR_SEC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TKLR_SEC_TR1" baseTableName="END_TKLR_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_TKLR_SEC_TR2" baseTableName="END_TKLR_SEC_T"/>
-        <dropTable tableName="END_TKLR_SEC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_RECP_PRNCPL_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TKLR_RECP_PRNCPL_T">
         <preConditions>
             <tableExists tableName="END_TKLR_RECP_PRNCPL_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TKLR_RECP_PRNCPL_TR1" baseTableName="END_TKLR_RECP_PRNCPL_T"/>
-        <dropTable tableName="END_TKLR_RECP_PRNCPL_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_RECP_GRP_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TKLR_RECP_GRP_T">
         <preConditions>
             <tableExists tableName="END_TKLR_RECP_GRP_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TKLR_RECP_GRP_TR1" baseTableName="END_TKLR_RECP_GRP_T"/>
-        <dropTable tableName="END_TKLR_RECP_GRP_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SUB_TYP_T">
-        <preConditions>
-            <tableExists tableName="END_TRAN_SUB_TYP_T"/>
-        </preConditions>
-        <dropTable tableName="END_TRAN_SUB_TYP_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SRC_TYP_T">
-        <preConditions>
-            <tableExists tableName="END_TRAN_SRC_TYP_T"/>
-        </preConditions>
-        <dropTable tableName="END_TRAN_SRC_TYP_T"/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_HLDG_LOT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_HLDG_LOT_T">
         <preConditions>
             <tableExists tableName="END_TRAN_HLDG_LOT_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TRAN_HLDG_LOT_TR1" baseTableName="END_TRAN_HLDG_LOT_T"/>
-        <dropTable tableName="END_TRAN_HLDG_LOT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_LN_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_LN_T">
         <preConditions>
             <tableExists tableName="END_TRAN_LN_T"/>
         </preConditions>
@@ -634,34 +410,30 @@
         <dropForeignKeyConstraint constraintName="END_TRAN_LN_TR2" baseTableName="END_TRAN_LN_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_LN_TR3" baseTableName="END_TRAN_LN_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_LN_TR4" baseTableName="END_TRAN_LN_T"/>
-        <dropTable tableName="END_TRAN_LN_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SEC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_SEC_T">
         <preConditions>
             <tableExists tableName="END_TRAN_SEC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TRAN_SEC_TR1" baseTableName="END_TRAN_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_SEC_TR2" baseTableName="END_TRAN_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_SEC_TR3" baseTableName="END_TRAN_SEC_T"/>
-        <dropTable tableName="END_TRAN_SEC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_DOC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_DOC_T">
         <preConditions>
             <tableExists tableName="END_TRAN_DOC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TRAN_DOC_TR2" baseTableName="END_TRAN_DOC_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_DOC_TR3" baseTableName="END_TRAN_DOC_T"/>
-        <dropTable tableName="END_TRAN_DOC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_HIST_VAL_ADJ_DOC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_HIST_VAL_ADJ_DOC_T">
         <preConditions>
             <tableExists tableName="END_HIST_VAL_ADJ_DOC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_HIST_VAL_ADJ_DOC_TR2" baseTableName="END_HIST_VAL_ADJ_DOC_T"/>
         <dropForeignKeyConstraint constraintName="END_HIST_VAL_ADJ_DOC_TR3" baseTableName="END_HIST_VAL_ADJ_DOC_T"/>
-        <dropTable tableName="END_HIST_VAL_ADJ_DOC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_ENDOW_ACCT_LINES_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_ENDOW_ACCT_LINES_T">
         <preConditions>
             <tableExists tableName="END_ENDOW_ACCT_LINES_T"/>
         </preConditions>
@@ -669,9 +441,8 @@
         <dropForeignKeyConstraint constraintName="ENDOW_ACCT_LINES_TR3" baseTableName="END_ENDOW_ACCT_LINES_T"/>
         <dropForeignKeyConstraint constraintName="ENDOW_ACCT_LINES_TR4" baseTableName="END_ENDOW_ACCT_LINES_T"/>
         <dropForeignKeyConstraint constraintName="ENDOW_ACCT_LINES_TR5" baseTableName="END_ENDOW_ACCT_LINES_T"/>
-        <dropTable tableName="END_ENDOW_ACCT_LINES_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_ARCHV_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_ARCHV_T">
         <preConditions>
             <tableExists tableName="END_TRAN_ARCHV_T"/>
         </preConditions>
@@ -680,24 +451,16 @@
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_TR4" baseTableName="END_TRAN_ARCHV_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_TR5" baseTableName="END_TRAN_ARCHV_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_TR6" baseTableName="END_TRAN_ARCHV_T"/>
-        <dropTable tableName="END_TRAN_ARCHV_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_ARCHV_SEC_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_TRAN_ARCHV_SEC_T">
         <preConditions>
             <tableExists tableName="END_TRAN_ARCHV_SEC_T"/>
         </preConditions>
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_SEC_TR1" baseTableName="END_TRAN_ARCHV_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_SEC_TR2" baseTableName="END_TRAN_ARCHV_SEC_T"/>
         <dropForeignKeyConstraint constraintName="END_TRAN_ARCHV_SEC_TR3" baseTableName="END_TRAN_ARCHV_SEC_T"/>
-        <dropTable tableName="END_TRAN_ARCHV_SEC_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_PENDING_TRAN_DOC_T ">
-        <preConditions>
-            <tableExists tableName="END_PENDING_TRAN_DOC_T "/>
-        </preConditions>
-        <dropTable tableName="END_PENDING_TRAN_DOC_T "/>
-    </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_REC_CSH_XFR_T">
         <preConditions>
             <tableExists tableName="END_REC_CSH_XFR_T"/>
         </preConditions>
@@ -705,9 +468,8 @@
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_TR2" baseTableName="END_REC_CSH_XFR_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_TR3" baseTableName="END_REC_CSH_XFR_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_TR4" baseTableName="END_REC_CSH_XFR_T"/>
-        <dropTable tableName="END_REC_CSH_XFR_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_KEMID_TGT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_REC_CSH_XFR_KEMID_TGT_T">
         <preConditions>
             <tableExists tableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
         </preConditions>
@@ -716,9 +478,8 @@
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_KEMID_TGT_TR3" baseTableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_KEMID_TGT_TR4" baseTableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_KEMID_TGT_TR5" baseTableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
-        <dropTable tableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_GL_TGT_T">
+    <changeSet author="KFS60" id="DROP_FOREIGN_KEYS_FOR_END_REC_CSH_XFR_GL_TGT_T">
         <preConditions>
             <tableExists tableName="END_REC_CSH_XFR_GL_TGT_T"/>
         </preConditions>
@@ -728,7 +489,540 @@
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_GL_TGT_TR4" baseTableName="END_REC_CSH_XFR_GL_TGT_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_GL_TGT_TR5" baseTableName="END_REC_CSH_XFR_GL_TGT_T"/>
         <dropForeignKeyConstraint constraintName="END_REC_CSH_XFT_GL_TGT_TR6" baseTableName="END_REC_CSH_XFR_GL_TGT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ENDOW_CORPUS_T">
+        <preConditions>
+            <tableExists tableName="END_ENDOW_CORPUS_T"/>
+        </preConditions>
+        <dropTable tableName="END_ENDOW_CORPUS_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CRNT_ENDOW_CORPUS_T">
+        <preConditions>
+            <tableExists tableName="END_CRNT_ENDOW_CORPUS_T"/>
+        </preConditions>
+        <dropTable tableName="END_CRNT_ENDOW_CORPUS_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ACRL_MTHD_T">
+        <preConditions>
+            <tableExists tableName="END_ACRL_MTHD_T"/>
+        </preConditions>
+        <dropTable tableName="END_ACRL_MTHD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_SPCL_INSTRC_CD_T">
+        <preConditions>
+            <tableExists tableName="END_AGRMNT_SPCL_INSTRC_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_AGRMNT_SPCL_INSTRC_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_STAT_CD_T">
+        <preConditions>
+            <tableExists tableName="END_AGRMNT_STAT_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_AGRMNT_STAT_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_AGRMNT_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_AGRMNT_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_AGRMNT_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_AUTO_CSH_INVEST_MDL_T">
+        <preConditions>
+            <tableExists tableName="END_AUTO_CSH_INVEST_MDL_T"/>
+        </preConditions>
+        <dropTable tableName="END_AUTO_CSH_INVEST_MDL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_AVAIL_CSH_T">
+        <preConditions>
+            <tableExists tableName="END_AVAIL_CSH_T"/>
+        </preConditions>
+        <dropTable tableName="END_AVAIL_CSH_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CAE_CD_T">
+        <preConditions>
+            <tableExists tableName="END_CAE_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_CAE_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CLOSE_CD_T">
+        <preConditions>
+            <tableExists tableName="END_CLOSE_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_CLOSE_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CLS_CD_T">
+        <preConditions>
+            <tableExists tableName="END_CLS_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_CLS_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CLS_CD_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_CLS_CD_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_CLS_CD_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CMB_GRP_T">
+        <preConditions>
+            <tableExists tableName="END_CMB_GRP_T"/>
+        </preConditions>
+        <dropTable tableName="END_CMB_GRP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CRNT_CSH_T">
+        <preConditions>
+            <tableExists tableName="END_CRNT_CSH_T"/>
+        </preConditions>
+        <dropTable tableName="END_CRNT_CSH_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CRNT_TAX_LOT_BAL_T">
+        <preConditions>
+            <tableExists tableName="END_CRNT_TAX_LOT_BAL_T"/>
+        </preConditions>
+        <dropTable tableName="END_CRNT_TAX_LOT_BAL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_CSH_SWEEP_MDL_T">
+        <preConditions>
+            <tableExists tableName="END_CSH_SWEEP_MDL_T"/>
+        </preConditions>
+        <dropTable tableName="END_CSH_SWEEP_MDL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_LBL_SEL_T">
+        <preConditions>
+            <tableExists tableName="END_DONR_LBL_SEL_T"/>
+        </preConditions>
+        <dropTable tableName="END_DONR_LBL_SEL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_STMT_CD_T">
+        <preConditions>
+            <tableExists tableName="END_DONR_STMT_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_DONR_STMT_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_DONR_T">
+        <preConditions>
+            <tableExists tableName="END_DONR_T"/>
+        </preConditions>
+        <dropTable tableName="END_DONR_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ENDOW_ACCT_LINES_T">
+        <preConditions>
+            <tableExists tableName="END_ENDOW_ACCT_LINES_T"/>
+        </preConditions>
+        <dropTable tableName="END_ENDOW_ACCT_LINES_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_CD_T">
+        <preConditions>
+            <tableExists tableName="END_ETRAN_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_ETRAN_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_GL_LNK_T">
+        <preConditions>
+            <tableExists tableName="END_ETRAN_GL_LNK_T"/>
+        </preConditions>
+        <dropTable tableName="END_ETRAN_GL_LNK_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ETRAN_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_ETRAN_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_ETRAN_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_BAL_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_BAL_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_BAL_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_BASE_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_BASE_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_BASE_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_CLS_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_CLS_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_CLS_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_ETRAN_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_ETRAN_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_ETRAN_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_MTHD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_MTHD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_MTHD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_PMT_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_PMT_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_PMT_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_RT_DEF_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_RT_DEF_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_RT_DEF_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_SEC_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_SEC_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_SEC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_TRAN_DOC_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_TRAN_DOC_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_TRAN_DOC_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FEE_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FEE_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FEE_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FND_SRC_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FND_SRC_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FND_SRC_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_FREQ_CD_T">
+        <preConditions>
+            <tableExists tableName="END_FREQ_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_FREQ_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_HIST_CSH_T">
+        <preConditions>
+            <tableExists tableName="END_HIST_CSH_T"/>
+        </preConditions>
+        <dropTable tableName="END_HIST_CSH_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_HIST_VAL_ADJ_DOC_T">
+        <preConditions>
+            <tableExists tableName="END_HIST_VAL_ADJ_DOC_T"/>
+        </preConditions>
+        <dropTable tableName="END_HIST_VAL_ADJ_DOC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_HIST_T">
+        <preConditions>
+            <tableExists tableName="END_HLDG_HIST_T"/>
+        </preConditions>
+        <dropTable tableName="END_HLDG_HIST_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_TAX_LOT_REBAL_T">
+        <preConditions>
+            <tableExists tableName="END_HLDG_TAX_LOT_REBAL_T"/>
+        </preConditions>
+        <dropTable tableName="END_HLDG_TAX_LOT_REBAL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_HLDG_TAX_LOT_T">
+        <preConditions>
+            <tableExists tableName="END_HLDG_TAX_LOT_T"/>
+        </preConditions>
+        <dropTable tableName="END_HLDG_TAX_LOT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_IP_IND_T">
+        <preConditions>
+            <tableExists tableName="END_IP_IND_T"/>
+        </preConditions>
+        <dropTable tableName="END_IP_IND_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_AGRMNT_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_AGRMNT_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_AGRMNT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_BENE_ORG_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_BENE_ORG_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_BENE_ORG_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CMB_GRP_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_CMB_GRP_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_CMB_GRP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_CORPUS_VAL_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_CORPUS_VAL_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_CORPUS_VAL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_DONR_CMB_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_DONR_CMB_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_DONR_CMB_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_DONR_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_DONR_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_DONR_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_FEE_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_FEE_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_FEE_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_FND_SRC_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_FND_SRC_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_FND_SRC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_GL_LNK_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_GL_LNK_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_GL_LNK_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_PAY_INC_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_PAY_INC_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_PAY_INC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_ROLE_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_ROLE_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_ROLE_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_SPCL_INSTRC_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_SPCL_INSTRC_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_SPCL_INSTRC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_KEMID_USE_CRIT_T">
+        <preConditions>
+            <tableExists tableName="END_KEMID_USE_CRIT_T"/>
+        </preConditions>
+        <dropTable tableName="END_KEMID_USE_CRIT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_ME_DT_T">
+        <preConditions>
+            <tableExists tableName="END_ME_DT_T"/>
+        </preConditions>
+        <dropTable tableName="END_ME_DT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_PENDING_TRAN_DOC_T ">
+        <preConditions>
+            <tableExists tableName="END_PENDING_TRAN_DOC_T "/>
+        </preConditions>
+        <dropTable tableName="END_PENDING_TRAN_DOC_T "/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_PMT_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_PMT_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_PMT_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_POOL_FND_CTRL_T">
+        <preConditions>
+            <tableExists tableName="END_POOL_FND_CTRL_T"/>
+        </preConditions>
+        <dropTable tableName="END_POOL_FND_CTRL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_POOL_FND_VAL_T">
+        <preConditions>
+            <tableExists tableName="END_POOL_FND_VAL_T"/>
+        </preConditions>
+        <dropTable tableName="END_POOL_FND_VAL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_PRPS_CD_T">
+        <preConditions>
+            <tableExists tableName="END_PRPS_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_PRPS_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_GL_TGT_T">
+        <preConditions>
+            <tableExists tableName="END_REC_CSH_XFR_GL_TGT_T"/>
+        </preConditions>
         <dropTable tableName="END_REC_CSH_XFR_GL_TGT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_KEMID_TGT_T">
+        <preConditions>
+            <tableExists tableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
+        </preConditions>
+        <dropTable tableName="END_REC_CSH_XFR_KEMID_TGT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_REC_CSH_XFR_T">
+        <preConditions>
+            <tableExists tableName="END_REC_CSH_XFR_T"/>
+        </preConditions>
+        <dropTable tableName="END_REC_CSH_XFR_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_REGIS_CD_T">
+        <preConditions>
+            <tableExists tableName="END_REGIS_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_REGIS_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_RESP_ADMIN_CD_T">
+        <preConditions>
+            <tableExists tableName="END_RESP_ADMIN_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_RESP_ADMIN_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_RPT_GRP_T">
+        <preConditions>
+            <tableExists tableName="END_SEC_RPT_GRP_T"/>
+        </preConditions>
+        <dropTable tableName="END_SEC_RPT_GRP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_T">
+        <preConditions>
+            <tableExists tableName="END_SEC_T"/>
+        </preConditions>
+        <dropTable tableName="END_SEC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_SEC_VLTN_MTHD_T">
+        <preConditions>
+            <tableExists tableName="END_SEC_VLTN_MTHD_T"/>
+        </preConditions>
+        <dropTable tableName="END_SEC_VLTN_MTHD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_SUBCLS_CD_T">
+        <preConditions>
+            <tableExists tableName="END_SUBCLS_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_SUBCLS_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_KEMID_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_KEMID_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_KEMID_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_RECP_GRP_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_RECP_GRP_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_RECP_GRP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_RECP_PRNCPL_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_RECP_PRNCPL_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_RECP_PRNCPL_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_SEC_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_SEC_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_SEC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TKLR_TYP_CD_T">
+        <preConditions>
+            <tableExists tableName="END_TKLR_TYP_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_TKLR_TYP_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_ARCHV_SEC_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_ARCHV_SEC_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_ARCHV_SEC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_ARCHV_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_ARCHV_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_ARCHV_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_DOC_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_DOC_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_DOC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_HLDG_LOT_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_HLDG_LOT_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_HLDG_LOT_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_LN_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_LN_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_LN_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_RESTR_CD_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_RESTR_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_RESTR_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SEC_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_SEC_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_SEC_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SRC_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_SRC_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_SRC_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TRAN_SUB_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_TRAN_SUB_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_TRAN_SUB_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_FEE_MTHD_T">
+        <preConditions>
+            <tableExists tableName="END_TYP_FEE_MTHD_T"/>
+        </preConditions>
+        <dropTable tableName="END_TYP_FEE_MTHD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_RESTR_CD_T">
+        <preConditions>
+            <tableExists tableName="END_TYP_RESTR_CD_T"/>
+        </preConditions>
+        <dropTable tableName="END_TYP_RESTR_CD_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_TYP_T">
+        <preConditions>
+            <tableExists tableName="END_TYP_T"/>
+        </preConditions>
+        <dropTable tableName="END_TYP_T"/>
+    </changeSet>
+    <changeSet author="KFS60" id="DROP_TABLE_END_USE_CRIT_T">
+        <preConditions>
+            <tableExists tableName="END_USE_CRIT_T"/>
+        </preConditions>
+        <dropTable tableName="END_USE_CRIT_T"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -20,5 +20,32 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-	
+
+    <changeSet author="KFS60" id="KFSTP-1935_REMOVE_RICE_KIM_DATA">
+        <delete tableName="KRIM_PERM_ATTR_DATA_T">
+            <where>ATTR_DATA_ID like 'KFSENDOW%'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>ROLE_PERM_ID like 'KFSENDOW%'</where>
+        </delete>
+        <delete tableName="KRIM_PERM_T">
+            <where>NMSPC_CD = 'KFS-ENDOW'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_RSP_ACTN_T">
+            <where>ROLE_RSP_ACTN_ID like 'KFSENDOW%'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_RSP_T">
+            <where>ROLE_RSP_ID like 'KFSENDOW%'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_RSP_ATTR_DATA_T">
+            <where>ATTR_DATA_ID like 'KFSENDOW%'</where>
+        </delete>
+        <delete tableName="KRIM_RSP_T">
+            <where>NMSPC_CD = 'KFS-ENDOW'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_T">
+            <where>ROLE_ID like 'KFSENDOW%'</where>
+        </delete>
+    </changeSet>
+
 </databaseChangeLog>

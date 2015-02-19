@@ -1,3 +1,0 @@
-ip_ind_cd|ip_ind_desc|ver_nbr|obj_id|
-I|Income|1.0|8529CD484560060AE0404F8189D81C0B|
-P|Principal|1.0|8529CD484561060AE0404F8189D81C0B|

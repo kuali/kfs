@@ -1,2 +1,0 @@
-aci_mdl_id|aci_mdl_nm|aci_hldg_ip_ind|aci_pool1_sec_id|aci_pool1_pct|aci_pool2_sec_id|aci_pool2_pct|aci_pool3_sec_id|aci_pool3_pct|aci_pool4_sec_id|aci_pool4_pct|aci_freq|aci_mdl_dt|row_actv_ind|obj_id|ver_nbr|aci_nxt_due_dt|
-1.0|Pooled Long Term Fund - Principal - Monthly|P|99PLTF021|1.0||0.0||0.0||0.0|M25|20041202000000|Y|8529CD484B60060AE0404F8189D81C0B|1.0||

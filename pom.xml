@@ -101,6 +101,28 @@
 
   </properties>
 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Xms1024m -Xmx1024m -XX:MaxPermSize=384m</argLine>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>org/kuali/kfs/module/external/kc/**</exclude>
+            <exclude>org/kuali/kfs/sys/context/InquirySectionConsistencyTest*</exclude>
+            <!-- not run by ant as part of core tests - why not? -->
+            <exclude>org/kuali/kfs/sys/KualiModuleServiceTest*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
 
 
@@ -732,6 +754,13 @@
       <groupId>com.oracle</groupId>
       <artifactId>${oracle.jdbc.artifactId}</artifactId>
       <version>${oracle.jdbc.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
       <scope>provided</scope>
     </dependency>
 

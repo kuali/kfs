@@ -36,7 +36,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";
     private static final String PROPERTY_TEST_FILE_NAMES_KEY = "property.test.files";
     private static final String SECURITY_PROPERTY_FILE_NAME_KEY = "security.property.file";
-    private static final String CONFIGURATION_FILE_NAME = "configuration";
+    private static final String KFS_DEFAULT_CONFIGURATION_FILE_NAME = "kfs-default-config";
+    private static final String KFS_RICE_DEFAULT_CONFIGURATION_FILE_NAME = "kfs-rice-default-config";
     private static final Properties BASE_PROPERTIES = new Properties();
     private static final String HTTP_URL_PROPERTY_NAME = "http.url";
     private static final String KSB_REMOTING_URL_PROPERTY_NAME = "ksb.remoting.url";
@@ -120,9 +121,10 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());            
-            loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
-            
+            BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());
+            loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
+            loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_RICE_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
+
             loadExternalProperties(BASE_PROPERTIES);
 
         }

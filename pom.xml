@@ -132,23 +132,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <webResources>
-            <resource>
-              <filtering>true</filtering>
-              <directory>src/main/webapp</directory>
-              <includes>
-                <include>**/web.xml</include>
-              </includes>
-            </resource>
-          </webResources>
-          <warSourceDirectory>src/main/webapp</warSourceDirectory>
-          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-        </configuration>
-      </plugin>
     </plugins>
     <resources>
       <resource>
@@ -168,13 +151,6 @@
           <exclude>kfs-rice-default-config.properties</exclude>
           <exclude>spy.properties</exclude>
         </excludes>
-      </resource>
-      <resource>
-        <directory>src/main/webapp/WEB-INF</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>web.xml</include>
-        </includes>
       </resource>
     </resources>
 

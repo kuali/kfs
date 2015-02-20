@@ -81,7 +81,7 @@
     <jsp-api.version>2.1</jsp-api.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
-    <kfs.help.version>5.2.0-SNAPSHOT</kfs.help.version>
+    <kfs.help.version>5.2.0</kfs.help.version>
     <maven.require.version>3.0</maven.require.version>
     <mysql.version>5.1.25</mysql.version>
     <opencsv.version>2.3</opencsv.version>

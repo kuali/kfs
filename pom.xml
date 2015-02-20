@@ -18,7 +18,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.pom</groupId>
@@ -45,11 +45,11 @@
 
   <developers>
     <developer>
-      <id>kfs.dev</id>
-      <name>Kuali Financial System Developers</name>
+      <id>kfs.team</id>
+      <name>Kuali Financial System Product Team</name>
       <organization>Kuali</organization>
       <timezone>-7</timezone>
-      <email>kfs.engineers@kuali.co</email>
+      <email>kfs.product.team@kuali.co</email>
     </developer>
   </developers>
 
@@ -58,45 +58,40 @@
   </prerequisites>
 
   <properties>
-    <maven.require.version>3.0</maven.require.version>
 
-    <rice.version>2.1.9</rice.version>
-    <spring.version>3.1.0.RELEASE</spring.version>
-
-    <!--kfs-lib-->
     <barcode4j.version>2.1</barcode4j.version>
+    <carol.version>3.0.6</carol.version>
+    <carol.interceptors.version>1.0.1</carol.interceptors.version>
+    <commons-cli.version>1.0</commons-cli.version>
     <commons.net.ftp.version>2.0</commons.net.ftp.version>
     <fastinfoset.version>1.2.2</fastinfoset.version>
     <itext.version>1.4.8</itext.version>
     <jasperreports.version>2.0.4</jasperreports.version>
     <javamelody.core.version>1.49.0</javamelody.core.version>
     <javax.inject.version>1</javax.inject.version>
+    <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
+    <jaxb.version>2.2.6</jaxb.version>
+    <jotm.core.version>2.1.10</jotm.core.version>
     <jrobin.version>1.5.9</jrobin.version>
+    <jsp-api.version>2.1</jsp-api.version>
+    <jta.version>1.1</jta.version>
+    <junit.version>4.9</junit.version>
+    <kfs.help.version>5.2.0-SNAPSHOT</kfs.help.version>
+    <maven.require.version>3.0</maven.require.version>
+    <mysql.version>5.1.25</mysql.version>
     <opencsv.version>2.3</opencsv.version>
     <opensaml.version>1.1</opensaml.version>
+    <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
+    <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
+    <org.objectweb.howl.version>1.0.1-1</org.objectweb.howl.version>
+    <p6spy.version>1.3-patched</p6spy.version>
+    <project.scm.vendor>git</project.scm.vendor>
+    <rice.version>2.1.9</rice.version>
+    <servlet-api.version>2.0</servlet-api.version>
+    <spring.version>3.1.0.RELEASE</spring.version>
     <taglibs.log.version>1.0</taglibs.log.version>
     <velocity.version>1.5</velocity.version>
-
-    <!-- kfs-help -->
-    <kfs.help.version>5.2.0-SNAPSHOT</kfs.help.version>
-
-    <!-- external appserver -->
-    <carol.version>3.0.6</carol.version>
-    <carol.interceptors.version>1.0.1</carol.interceptors.version>
-    <commons-cli.version>1.0</commons-cli.version>
-    <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
-    <org.objectweb.howl.version>1.0.1-1</org.objectweb.howl.version>
-    <jotm.core.version>2.1.10</jotm.core.version>
-    <jta.version>1.1</jta.version>
-    <p6spy.version>1.3-patched</p6spy.version>
     <xapool.version>1.5.0-patch4</xapool.version>
-
-    <!-- other misc -->
-    <servlet-api.version>2.5</servlet-api.version>
-    <jsp-api.version>2.1</jsp-api.version>
-    <mysql.version>5.1.25</mysql.version>
-    <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
-    <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
 
   </properties>
 
@@ -119,7 +114,53 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${basedir}/src/main/resources/kfs-default-config.properties</file>
+                <file>${basedir}/src/main/resources/kfs-rice-default-config.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>kfs-default-config.properties</include>
+          <include>kfs-rice-default-config.properties</include>
+          <include>spy.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>kfs-default-config.properties</exclude>
+          <exclude>kfs-rice-default-config.properties</exclude>
+          <exclude>spy.properties</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/webapp/WEB-INF</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>web.xml</include>
+        </includes>
+      </resource>
+    </resources>
+
   </build>
 
   <dependencies>
@@ -732,14 +773,14 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.9</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>2.2.6</version>
+      <version>${jaxb.version}</version>
     </dependency>
 
     <dependency>
@@ -759,7 +800,7 @@
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
+      <version>${servlet-api.version}</version>
       <scope>provided</scope>
     </dependency>
 

@@ -27,7 +27,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>6.0.0-SNAPSHOT</version>
+  <version>6.0.0-release-process-test-SNAPSHOT</version>
   <name>Kuali Financial System</name>
   <inceptionYear>2004</inceptionYear>
   <packaging>war</packaging>

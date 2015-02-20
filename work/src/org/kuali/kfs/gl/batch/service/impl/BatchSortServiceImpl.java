@@ -43,7 +43,10 @@ public class BatchSortServiceImpl implements BatchSortService {
             inputFile = new FileReader(inputFileName);
             outputFileStream = new PrintStream(outputFileName);
         }
-        catch (FileNotFoundException e) {
+         catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
 

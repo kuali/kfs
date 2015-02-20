@@ -59,6 +59,11 @@
 
   <properties>
 
+    <!-- These properties modify the release process -->
+    <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
+    <kuali.release.goals>deploy</kuali.release.goals>
+    <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+
     <barcode4j.version>2.1</barcode4j.version>
     <carol.version>3.0.6</carol.version>
     <carol.interceptors.version>1.0.1</carol.interceptors.version>

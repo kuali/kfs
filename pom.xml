@@ -15,10 +15,9 @@
    GNU Affero General Public License for more details.
    
    You should have received a copy of the GNU Affero General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.pom</groupId>
@@ -27,7 +26,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>6.0.0-release-process-test-SNAPSHOT</version>
+  <version>6.0.0-release-process-test</version>
   <name>Kuali Financial System</name>
   <inceptionYear>2004</inceptionYear>
   <packaging>war</packaging>
@@ -40,7 +39,7 @@
     <developerConnection>scm:git:git@github.com:kuali/kfs.git</developerConnection>
     <connection>scm:git:git@github.com:kuali/kfs.git</connection>
     <url>https://github.com/kuali/kfs/tree/${project.scm.tag}</url>
-    <tag>master</tag>
+    <tag>kfs-6.0.0-release-process-test</tag>
   </scm>
 
   <developers>

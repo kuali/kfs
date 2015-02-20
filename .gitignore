@@ -63,4 +63,3 @@ target/
 /src/main/webapp/WEB-INF/tld
 /src/main/webapp/WEB-INF/tomcat-users.xml
 /src/main/webapp/WEB-INF/validator-rules.xml
-/src/main/webapp/WEB-INF/web.xml

@@ -54,12 +54,11 @@
   </developers>
 
   <prerequisites>
-    <maven>${require.maven.version}</maven>
+    <maven>${maven.require.version}</maven>
   </prerequisites>
 
   <properties>
-    <project.scm.vendor>git</project.scm.vendor>
-    <require.maven.version>3.0</require.maven.version>
+    <maven.require.version>3.0</maven.require.version>
 
     <rice.version>2.1.9</rice.version>
     <spring.version>3.1.0.RELEASE</spring.version>

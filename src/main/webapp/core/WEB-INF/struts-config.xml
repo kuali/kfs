@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+    <form-beans>
+    	<!-- Begin required KNS forms -->
+        <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+    	<!-- End required KNS forms -->
+        <form-bean name="IngesterForm" type="org.kuali.rice.core.web.impex.IngesterForm" />
+    </form-beans>
+
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
+            handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
+            key="meaningless" /> 
+	</global-exceptions>
+
+    <global-forwards>
+       	<!-- Begin required KNS forwards -->
+        <forward name="save" path="/index.html" redirect="true" />
+        <forward name="cancel" path="/index.html" redirect="true" />
+        <forward name="close" path="/index.html" redirect="true" />
+        <forward name="portal" path="/index.html" redirect="true" />
+        <forward name="route_report" path="/../kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="updateTextArea" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
+        <forward name="exceptionIncidentHandler" path="/../kr/kualiExceptionIncidentReport.do" />
+        <forward name="authorizationExceptionHandler" path="/../kr/authorizationExceptionReport.do" />
+       	<!-- End required KNS forwards -->
+       	<forward name="moduleLocked" path="/../WEB-INF/jsp/moduleLocked.jsp" />
+    </global-forwards>
+
+
+    <action-mappings>
+       	<!-- Begin required KNS mappings -->
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
+        </action>
+       	<!-- End required KNS mappings -->
+
+      <action path="/Ingester" name="IngesterForm" scope="request" validate="false"
+      	type="org.kuali.rice.core.web.impex.IngesterAction"  input="/WEB-INF/jsp/impex/ingester.jsp">
+      	<forward name="view" path="/WEB-INF/jsp/impex/ingester.jsp"/>
+	  </action>
+
+    </action-mappings>
+
+
+
+    <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
+</struts-config>
+

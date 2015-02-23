@@ -1,0 +1,105 @@
+/**
+ * Copyright 2005-2013 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * jsTree krms theme 1.0
+ * Supported features: dots/no-dots, icons/no-icons, focused, loading
+ * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
+ */
+
+/* get rid of ugly link underlines in tree */
+li a.agendaNode { text-decoration: none; }
+
+li a.compoundNode { font-size: 1.6em; }
+
+a.simplePropositionEditNode { height: 0; }
+li.simplePropositionEditNode > ins { height: 0; margin: 0; padding: 0; }
+
+li.compoundOpCodeNode > ins { height: 0; margin: 0; padding: 0; }
+li.compoundOpCodeNode > a { height: 0; margin: 0; padding: 0; }
+
+.parameterDisplayString { margin-left: 13pt; border: 0; width: 100%; }
+.parameterDisplayString > input { border: 0; }
+
+.jstree-krms .boxLayoutHorizontalItem { background: transparent; }
+.jstree-krms .boxLayoutVerticalItem { background: transparent; }
+
+.jstree-krms > ul { background-color:transparent; }
+.jstree-krms li, 
+.jstree-krms ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
+.jstree-krms li { background-position:-90px 0; background-repeat:repeat-y; }
+.jstree-krms li.jstree-last { background:transparent; }
+.jstree-krms .jstree-open a { color: black; }
+.jstree-krms .jstree-closed a { text-shadow: 1px 1px 0.2em #ccc; }
+.jstree-krms .jstree-open > ins { background-position:-72px 0; }
+.jstree-krms .jstree-closed > ins { background-position:-54px 0; } 
+.jstree-krms .jstree-leaf > ins { background-position:-36px 0; }
+
+.editModeNode { background-color: #eee !important; }
+
+.jstree-krms .ruleBlockSelected {background-color:#e7f4f9 !important; border: 1px dashed #69f; }
+.jstree-krms .ruleCutSelected { background-color:#F4E271 !important; border: 1px dashed goldenrod; }
+
+.jstree-krms .boxLayoutHorizontalItem {padding-bottom: 0em;padding-top: 0em;padding-left: 0em;padding-right: 0em;}
+.jstree-krms .boxLayoutVerticalItem { padding-bottom: 0em;padding-top: 0em;padding-left: 0em;padding-right: 0em;}
+.jstree-krms  > ins { display:none; }
+/*
+.jstree-krms a { border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; text-shadow:1px 1px 1px white; }
+*/
+.jstree-krms .jstree-hovered { background:#beebff; /* background:#e7f4f9; border:1px solid #d8f0fa; padding:0 3px 0 1px; text-shadow:1px 1px 1px silver; */ }
+.jstree-krms .jstree-clicked { /* background:#beebff; border:1px solid #99defd; padding:0 3px 0 1px; */ }
+.jstree-krms a .jstree-icon { background-position:-56px -20px; }
+.jstree-krms a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+
+.jstree-krms.jstree-focused { background:white; }
+
+.jstree-krms .jstree-no-dots li, 
+.jstree-krms .jstree-no-dots .jstree-leaf > ins { background:transparent; }
+.jstree-krms .jstree-no-dots .jstree-open > ins { background-position:-18px 0; }
+.jstree-krms .jstree-no-dots .jstree-closed > ins { background-position:0 0; }
+
+.jstree-krms .jstree-no-icons a .jstree-icon { display:none; }
+
+.jstree-krms .jstree-search { font-style:italic; }
+
+.jstree-krms .jstree-no-icons .jstree-checkbox { display:inline-block; }
+.jstree-krms .jstree-no-checkboxes .jstree-checkbox { display:none !important; }
+.jstree-krms .jstree-checked > a > .jstree-checkbox { background-position:-38px -19px; }
+.jstree-krms .jstree-unchecked > a > .jstree-checkbox { background-position:-2px -19px; }
+.jstree-krms .jstree-undetermined > a > .jstree-checkbox { background-position:-20px -19px; }
+.jstree-krms .jstree-checked > a > .checkbox:hover { background-position:-38px -37px; }
+.jstree-krms .jstree-unchecked > a > .jstree-checkbox:hover { background-position:-2px -37px; }
+.jstree-krms .jstree-undetermined > a > .jstree-checkbox:hover { background-position:-20px -37px; }
+
+#vakata-dragged.jstree-krms ins { background:transparent !important; }
+#vakata-dragged.jstree-krms .jstree-ok { background:url("d.png") -2px -53px no-repeat !important; }
+#vakata-dragged.jstree-krms .jstree-invalid { background:url("d.png") -18px -53px no-repeat !important; }
+#jstree-marker.jstree-krms { background:url("d.png") -41px -57px no-repeat !important; text-indent:-100px; }
+
+.jstree-krms a.jstree-search { color:aqua; }
+.jstree-krms .jstree-locked a { color:silver; cursor:default; }
+
+#vakata-contextmenu.jstree-krms-context, 
+#vakata-contextmenu.jstree-krms-context li ul { background:#f0f0f0; border:1px solid #979797; -moz-box-shadow: 1px 1px 2px #999; -webkit-box-shadow: 1px 1px 2px #999; box-shadow: 1px 1px 2px #999; }
+#vakata-contextmenu.jstree-krms-context li { }
+#vakata-contextmenu.jstree-krms-context a { color:black; }
+#vakata-contextmenu.jstree-krms-context a:hover, 
+#vakata-contextmenu.jstree-krms-context .vakata-hover > a { padding:0 5px; background:#e8eff7; border:1px solid #aecff7; color:black; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; }
+#vakata-contextmenu.jstree-krms-context li.jstree-contextmenu-disabled a, 
+#vakata-contextmenu.jstree-krms-context li.jstree-contextmenu-disabled a:hover { color:silver; background:transparent; border:0; padding:1px 4px; }
+#vakata-contextmenu.jstree-krms-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
+#vakata-contextmenu.jstree-krms-context li ul { margin-left:-4px; }
+
+/* TODO: IE6 support - the `>` selectors */

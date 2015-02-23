@@ -1,0 +1,20 @@
+.smartspinner
+{
+	background: url(images/normal.jpg) no-repeat right;
+	text-align:center;
+}
+.smartspinner.up
+{
+	background: url(images/up.jpg) no-repeat right !important;
+	cursor:pointer;
+}
+.smartspinner.down
+{
+	background: url(images/down.jpg) no-repeat right !important;
+	cursor:pointer;
+}
+
+input.smartspinner {
+    background: url("images/normal.jpg") no-repeat scroll right center !important;
+    text-align: center;
+}

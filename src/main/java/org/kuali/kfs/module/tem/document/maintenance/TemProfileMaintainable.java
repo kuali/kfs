@@ -62,7 +62,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TemProfileMaintainable extends FinancialSystemMaintainable {
 
     private static final Logger LOG = Logger.getLogger(TemProfileMaintainable.class);
-    protected TemProfileAuthorizer authorizer;
+    protected transient TemProfileAuthorizer authorizer;
 
 	/**
      * This will create a new profile from either a principal id or from a customer number depending on what got filled out

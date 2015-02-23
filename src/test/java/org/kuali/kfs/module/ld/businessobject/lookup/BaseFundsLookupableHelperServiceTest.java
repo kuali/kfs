@@ -97,8 +97,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         insertCSFRecords();
         System.out.println("**** RECORDS INSERTED !!!!!");
 
-        String messageFileName    = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        String propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/accountStatusBaseFunds.properties";
+        String messageFileName    = "org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "org/kuali/kfs/module/ld/testdata/accountStatusBaseFunds.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");
@@ -245,8 +245,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
      * This method will add temporary test data to the CSF Tracker table
      */
     protected void insertCSFRecords() {
-        String messageFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        String propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/csfTracker.properties";
+        String messageFileName = "org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "org/kuali/kfs/module/ld/testdata/csfTracker.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");
@@ -287,8 +287,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         String propertyKey;
 
         AccountStatusBaseFunds inputData;
-        String messageFileName    = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        String propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/accountStatusBaseFunds.properties";
+        String messageFileName    = "org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "org/kuali/kfs/module/ld/testdata/accountStatusBaseFunds.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");

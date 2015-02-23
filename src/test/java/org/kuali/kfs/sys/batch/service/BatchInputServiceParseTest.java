@@ -61,9 +61,9 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
         collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
 
-        InputStream pcdoValidFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
+        InputStream pcdoValidFileStream = BatchInputServiceParseTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
         validPCDOFileContents = IOUtils.toByteArray(pcdoValidFileStream);
-        InputStream collectorValidFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
+        InputStream collectorValidFileStream = BatchInputServiceParseTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
         validCollectorFileContents = IOUtils.toByteArray(collectorValidFileStream);
     }
     

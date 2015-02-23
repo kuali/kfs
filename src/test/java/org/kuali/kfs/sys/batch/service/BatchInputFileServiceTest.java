@@ -84,9 +84,9 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         sampleBatchInputFileType = SpringContext.getBean(BatchInputFileType.class,"sampleTest2FlatFileInputFileType");
 
         testFileIdentifier = "junit" + RandomUtils.nextInt();
-        validPCDOFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
-        validCollectorFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
-        validSampleFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputFileWithNoExtension");
+        validPCDOFileContents = BatchInputFileServiceTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
+        validCollectorFileContents = BatchInputFileServiceTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
+        validSampleFileContents = BatchInputFileServiceTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputFileWithNoExtension");
         
 
         validWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);

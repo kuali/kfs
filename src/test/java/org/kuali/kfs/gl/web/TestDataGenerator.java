@@ -18,16 +18,6 @@
  */
 package org.kuali.kfs.gl.web;
 
-import java.beans.PropertyDescriptor;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -36,6 +26,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * A class that reads fixtures as property files and then sets the fields of
@@ -54,8 +50,8 @@ public class TestDataGenerator {
      * Constructs a TestDataGenerator instance, with default file names
      */
     public TestDataGenerator() {
-        this.messageFileName = "test/unit/src/org/kuali/kfs/gl/web/fixture/message.properties";
-        this.propertiesFileName = "test/unit/src/org/kuali/kfs/gl/web/fixture/data.properties";
+        this.messageFileName = "org/kuali/kfs/gl/web/fixture/message.properties";
+        this.propertiesFileName = "org/kuali/kfs/gl/web/fixture/data.properties";
 
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);
@@ -185,8 +181,8 @@ public class TestDataGenerator {
         Properties properties = new Properties();
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(propertiesFileName);
-            properties.load(fileInputStream);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+            properties.load(inputStream);
         }
         catch (IOException ioe) {
             ioe.printStackTrace();

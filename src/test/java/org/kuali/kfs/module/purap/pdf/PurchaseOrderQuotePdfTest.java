@@ -130,7 +130,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     }
 
     private String getLogoImageName() {
-        return "work//web-root//static//images//logo_bl.jpg";
+        return "src//main//webapp//static//images//logo_bl.jpg";
     }
 
 }

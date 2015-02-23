@@ -75,6 +75,7 @@
     <javamelody.core.version>1.49.0</javamelody.core.version>
     <javax.inject.version>1</javax.inject.version>
     <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
+    <javax.servlet.servlet.api.version>2.5</javax.servlet.servlet.api.version>
     <jaxb.version>2.2.6</jaxb.version>
     <jotm.core.version>2.1.10</jotm.core.version>
     <jrobin.version>1.5.9</jrobin.version>
@@ -141,6 +142,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
         <executions>
           <execution>
             <phase>initialize</phase>
@@ -1602,10 +1604,18 @@
       <artifactId>xapool</artifactId>
       <version>${xapool.version}</version>
     </dependency>
+
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
       <version>${jaxb.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${javax.servlet.servlet.api.version}</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>

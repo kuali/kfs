@@ -48,7 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class IcrEncumbranceFeedStepTest extends IcrEncumbranceStepTestBase {
 
     // Based KFS 5.3 contrib branch demo data
-    private static final String ICR_ENCUMBRANCE_TEST_DATA_FILE_PATH = "test/unit/src/org/kuali/kfs/gl/batch/fixture/gl_icrencmb.data.txt";
+    private static final String ICR_ENCUMBRANCE_TEST_DATA_FILE_PATH = "org/kuali/kfs/gl/batch/fixture/gl_icrencmb.data.txt";
 
 
     /**
@@ -74,7 +74,7 @@ public class IcrEncumbranceFeedStepTest extends IcrEncumbranceStepTestBase {
         // Pull the test data into a list
         List<String> expectedLines = null;
         try {
-            expectedLines = IOUtils.readLines(new FileReader(ICR_ENCUMBRANCE_TEST_DATA_FILE_PATH));
+            expectedLines = IOUtils.readLines(IcrEncumbranceFeedStepTest.class.getClassLoader().getResourceAsStream(ICR_ENCUMBRANCE_TEST_DATA_FILE_PATH));
         }catch (Exception e) {
             throw new RuntimeException(e);
         }

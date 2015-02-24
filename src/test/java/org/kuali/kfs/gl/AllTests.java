@@ -41,8 +41,6 @@ import org.kuali.kfs.gl.service.OrganizationReversionLogicTest;
 import org.kuali.kfs.gl.service.ScrubberFlexibleOffsetTest;
 import org.kuali.kfs.gl.service.ScrubberServiceTest;
 import org.kuali.kfs.gl.service.SufficientFundsServiceTest;
-import org.kuali.kfs.sys.dataaccess.TestUnitTestSqlDao;
-import org.kuali.kfs.sys.dataaccess.TestUniversityDateDao;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryServiceTest;
 import org.kuali.kfs.sys.service.PendingLedgerServiceHelperServiceTest;
 
@@ -79,10 +77,6 @@ public class AllTests {
 
         // org.kuali.kfs.gl.businessobject
         suite.addTestSuite(OriginEntryTest.class);
-
-        // org.kuali.module.gl.dao.ojb
-        suite.addTestSuite(TestUniversityDateDao.class);
-        suite.addTestSuite(TestUnitTestSqlDao.class);
 
         // org.kuali.module.gl.service
         suite.addTestSuite(CollectorServiceTest.class);

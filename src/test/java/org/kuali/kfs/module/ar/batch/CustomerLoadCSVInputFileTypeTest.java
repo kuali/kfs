@@ -46,7 +46,7 @@ public class CustomerLoadCSVInputFileTypeTest extends KualiTestBase {
     public void setUp() {
         batchInput = SpringContext.getBean(CustomerLoadCSVInputFileType.class);
         
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream(CSV_SAMPLE_DIRECTORY + CSV_TEST_FILE);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CSV_SAMPLE_DIRECTORY + CSV_TEST_FILE);
         try {
             byteArraybyteArray = IOUtils.toByteArray(inputStream);
         }

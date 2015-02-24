@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.gl.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.math.BigDecimal;
@@ -106,7 +107,7 @@ public class TrialBalanceServiceTest extends KualiTestBase {
 
 
     // Magic value variables
-    private static final String DATA_FILE_PATH = "test/unit/src/org/kuali/kfs/gl/batch/fixture/gl_trllblnc.csv";
+    private static final String DATA_FILE_PATH = "org/kuali/kfs/gl/batch/fixture/gl_trllblnc.csv";
     private static final String DATA_FILE_DELIM = ",";
     private static final int COLUMN_COUNT = 25;
     private static final String DELETE_ALL_ENTRIES_SQL = "DELETE FROM GL_BALANCE_T";
@@ -221,7 +222,7 @@ public class TrialBalanceServiceTest extends KualiTestBase {
     private List<String> getInsertStatements(){
         List<String> lines = null;
         try{
-            lines = IOUtils.readLines(new FileReader(new File(DATA_FILE_PATH)));
+            lines = IOUtils.readLines(getClass().getClassLoader().getResourceAsStream(DATA_FILE_PATH));
         }catch(Exception e){
             throw new RuntimeException(e);
         }

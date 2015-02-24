@@ -34,7 +34,7 @@ public enum PaymentSummaryFixture {
         String propertiesFileName = "org/kuali/kfs/module/cam/document/service/payment_summary_service.properties";
         properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));
+            properties.load(PaymentSummaryFixture.class.getClassLoader().getResourceAsStream(propertiesFileName));
         }
         catch (IOException e) {
             throw new RuntimeException();

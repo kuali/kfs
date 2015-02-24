@@ -58,13 +58,13 @@ public class FlatFileParserTest extends KualiTestBase {
         sampleBatchInputFileType = SpringContext.getBean(BatchInputFileType.class,"sampleTestFlatFileInputFileType");
         
 
-        InputStream validFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleValidFlatFile.txt");
+        InputStream validFileStream = FlatFileParserTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleValidFlatFile.txt");
         sampleValidFileContents = IOUtils.toByteArray(validFileStream);
         
-        InputStream sampleInvalidPropertyFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleInValidPropertyFlatFile.txt");
+        InputStream sampleInvalidPropertyFileStream = FlatFileParserTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleInValidPropertyFlatFile.txt");
         sampleInvalidPropertyFileContents = IOUtils.toByteArray(sampleInvalidPropertyFileStream);
         
-        InputStream sampleNoHeaderFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleNoHeaderFlatFile.txt");
+        InputStream sampleNoHeaderFileStream = FlatFileParserTest.class.getClassLoader().getResourceAsStream(TEST_BATCH_XML_DIRECTORY + "SampleNoHeaderFlatFile.txt");
         sampleNoHeaderFileContents = IOUtils.toByteArray(sampleNoHeaderFileStream);
         
     }

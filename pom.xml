@@ -56,7 +56,7 @@
     <maven>${maven.require.version}</maven>
   </prerequisites>
   <properties>
-    <!-- these properties modify the release process -->
+    <!-- release properties -->
     <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
     <kuali.release.goals>deploy</kuali.release.goals>
     <kuali.release.arguments>-DskipTests</kuali.release.arguments>
@@ -94,9 +94,11 @@
     <servlet-api.version>2.0</servlet-api.version>
     <spring.version>3.1.0.RELEASE</spring.version>
     <taglibs.log.version>1.0</taglibs.log.version>
-    <tomcat.plugin.version>2.2</tomcat.plugin.version>
     <velocity.version>1.5</velocity.version>
     <xapool.version>1.5.0-patch4</xapool.version>
+    
+    <!-- plugin versions -->
+    <plugin.tomcat.version>2.2</plugin.tomcat.version>
   </properties>
   <build>
     <finalName>${project.artifactId}</finalName>
@@ -105,7 +107,7 @@
         <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat7-maven-plugin</artifactId>
-          <version>${tomcat.plugin.version}</version>
+          <version>${plugin.tomcat.version}</version>
           <dependencies>
             <dependency>
               <groupId>mysql</groupId>

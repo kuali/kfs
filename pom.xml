@@ -136,6 +136,7 @@
           </excludes>
         </configuration>
       </plugin>
+      <!-- TODO remove this plugin execution.  Follow up with KK on why runtime property resolution isn't working -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>

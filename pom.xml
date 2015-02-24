@@ -192,6 +192,7 @@
     
     <!-- plugin versions -->
     <plugin.tomcat.version>2.2</plugin.tomcat.version>
+    <plugin.properties.version>1.0-alpha-2</plugin.properties.version>
   </properties>
   <build>
     <finalName>${project.artifactId}</finalName>
@@ -232,7 +233,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
+        <version>${plugin.properties.version}</version>
         <executions>
           <execution>
             <phase>initialize</phase>
@@ -250,7 +251,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.4</version>
         <configuration>
           <overlays>
             <overlay>

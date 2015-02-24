@@ -1069,6 +1069,12 @@
       <groupId>displaytag</groupId>
       <artifactId>displaytag</artifactId>
       <version>1.2</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl104-over-slf4j</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
     <dependency>
@@ -1353,6 +1359,13 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.4</version>
+
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
       <version>1.6.4</version>
 
     </dependency>

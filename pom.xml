@@ -29,6 +29,7 @@
   <artifactId>kfs</artifactId>
   <version>6.0.0-beta1-SNAPSHOT</version>
   <name>Kuali Financial System</name>
+  <description>Kuali Financial System</description>
   <inceptionYear>2004</inceptionYear>
   <packaging>war</packaging>
   <url>http://${kuali.site.hostname}/kfs/${project.version}</url>

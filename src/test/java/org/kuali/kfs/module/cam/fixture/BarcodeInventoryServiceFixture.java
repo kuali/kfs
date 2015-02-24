@@ -39,7 +39,7 @@ public enum BarcodeInventoryServiceFixture{
         String propertiesFileName = "org/kuali/kfs/module/cam/document/service/barcode_inventory_service.properties";
         properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));
+            properties.load(BarcodeInventoryServiceFixture.class.getClassLoader().getResourceAsStream(propertiesFileName));
         }
         catch (IOException e) {
             throw new RuntimeException();

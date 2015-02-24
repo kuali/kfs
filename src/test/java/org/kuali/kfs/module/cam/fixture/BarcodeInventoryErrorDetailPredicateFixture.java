@@ -37,7 +37,7 @@ public enum BarcodeInventoryErrorDetailPredicateFixture {
         String propertiesFileName = "org/kuali/kfs/module/cam/document/service/barcode_inventory_predicate.properties";
         properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));
+            properties.load(BarcodeInventoryErrorDetailPredicateFixture.class.getClassLoader().getResourceAsStream(propertiesFileName));
         }
         catch (IOException e) {
             throw new RuntimeException();

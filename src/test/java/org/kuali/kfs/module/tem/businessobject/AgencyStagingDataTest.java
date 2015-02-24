@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -175,7 +176,7 @@ public class AgencyStagingDataTest extends KualiTestBase {
             assertTrue(agency.getTravelerId().equals(data.getTravelerId()));
             assertTrue(agency.getTravelerNetworkId().equals(data.getTravelerNetworkId()));
             assertTrue(agency.getTripExpenseAmount().equals(data.getTripExpenseAmount()));
-            assertTrue(agency.getAlternateTripId().equals(data.getAlternateTripId()));
+            assertTrue(StringUtils.equals(agency.getAlternateTripId(), data.getAlternateTripId()));
             assertTrue(agency.getTripArrangerName().equals(data.getTripArrangerName()));
             ArrayList<TripAccountingInformation> accountingInfo = data.getTripAccountingInformation();
             assertTrue(agency.getTripAccountingInformation().equals(accountingInfo));
@@ -235,6 +236,7 @@ public class AgencyStagingDataTest extends KualiTestBase {
             assertTrue(agency.getMoveToHistoryIndicator()&&data.getMoveToHistoryIndicator());
         }
         catch(Exception e){
+            e.printStackTrace();
             assert(false);
         }
     }

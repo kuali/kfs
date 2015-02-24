@@ -113,8 +113,8 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
     }
 
     protected void insertLedgerBalanceRecords() {
-        String messageFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        String propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/ledgerBalance.properties";
+        String messageFileName = "org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "org/kuali/kfs/module/ld/testdata/ledgerBalance.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");

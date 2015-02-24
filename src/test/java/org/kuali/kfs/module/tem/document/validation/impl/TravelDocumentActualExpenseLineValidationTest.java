@@ -18,12 +18,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
@@ -34,8 +28,15 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 @ConfigureContext(session = khuntley)
 public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase {
@@ -78,18 +79,9 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
         TravelReimbursementDocument tr = null;
         try {
             tr = (TravelReimbursementDocument)docService.getNewDocument(TravelReimbursementDocument.class);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (WorkflowException e) {
+            throw new RuntimeException(e);
         }
-//        List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
-//        tr.setActualExpenses(actualExpenses);
-        //ActualExpense ote = new ActualExpense();
-
-//        @SuppressWarnings("rawtypes")
-//        AddActualExpenseLineEvent event = new AddActualExpenseLineEvent("errorPathPrefix", tr, ote);
-//
-//        //test using empty actualExpense
-//        assertFalse(validation.validate(event));
 
         ActualExpense ote2 = new ActualExpense();
 

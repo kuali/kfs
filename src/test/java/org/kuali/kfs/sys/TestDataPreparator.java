@@ -51,11 +51,9 @@ public class TestDataPreparator {
      * @return properties loaded from the given resource.
      */
     public static Properties loadPropertiesFromClassPath(String classPath) {
-        ClassPathResource classPathResource = new ClassPathResource(classPath);
-
         Properties properties = new Properties();
         try {
-            properties.load(classPathResource.getInputStream());
+            properties.load(TestDataPreparator.class.getClassLoader().getResourceAsStream(classPath));
         }
         catch (IOException e) {
             throw new RuntimeException("Invalid class path: " + classPath + e);

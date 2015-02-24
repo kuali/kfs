@@ -24,7 +24,7 @@
   <bean id="CapitalAssetManagementComplexMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="documentTypeName" value="CAMM"/>
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetForSearching"/>
-  
+    <property name="maintainableClass"   value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" /> <!-- this is just to make DocumentSerializabilityTest happy... -->
     <property name="workflowAttributes">
     	<ref bean="CapitalAssetManagementComplexMaintenanceDocument-workflowAttributes"/>
     </property>

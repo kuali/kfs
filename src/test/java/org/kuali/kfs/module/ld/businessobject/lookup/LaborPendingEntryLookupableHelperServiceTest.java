@@ -67,8 +67,8 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
     protected void setUp() throws Exception {
         super.setUp();
 
-        messageFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/laborLedgerPendingEntry.properties";
+        messageFileName = "org/kuali/kfs/module/ld/testdata/message.properties";
+        propertiesFileName = "org/kuali/kfs/module/ld/testdata/laborLedgerPendingEntry.properties";
         date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);

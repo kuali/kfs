@@ -158,6 +158,32 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <overlays>
+            <overlay>
+              <groupId>org.kuali.rice</groupId>
+              <artifactId>rice-web</artifactId>
+              <filtered>false</filtered>
+              <excludes>
+                <exclude>META-INF/**</exclude>
+                <exclude>WEB-INF/web.xml</exclude>
+                <exclude>WEB-INF/struts-config.xml</exclude>
+                <exclude>WEB-INF/classes/**</exclude>
+                <exclude>WEB-INF/lib/**</exclude>
+                <exclude>**/rice-portal/css/**</exclude>
+                <exclude>**/rice-portal/images/**</exclude>
+                <exclude>**/rice-portal/jsp/**</exclude>
+                <exclude>**/tags/rice-portal/**</exclude>
+                <exclude>*</exclude>
+              </excludes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
     </plugins>
     <resources>
       <resource>

@@ -56,47 +56,140 @@
     <maven>${maven.require.version}</maven>
   </prerequisites>
   <properties>
+    <!-- maven properties -->
+    <maven.require.version>3.0</maven.require.version>
+    
     <!-- release properties -->
-    <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
-    <kuali.release.goals>deploy</kuali.release.goals>
     <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+    <kuali.release.goals>deploy</kuali.release.goals>
+    <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
 
     <!-- dependency versions -->
+    <aopalliance.version>1.0</aopalliance.version>
+    <aspectjrt.version>1.6.8</aspectjrt.version>
+    <aspectjweaver.version>1.6.8</aspectjweaver.version>
+    <avalon-framework.version>4.1.5</avalon-framework.version>
     <barcode4j.version>2.1</barcode4j.version>
-    <carol.version>3.0.6</carol.version>
+    <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
+    <btm.version>2.1.2</btm.version>
     <carol.interceptors.version>1.0.1</carol.interceptors.version>
+    <carol.version>3.0.6</carol.version>
+    <cglib-nodep.version>2.2.2</cglib-nodep.version>
+    <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
+    <commons-chain.version>1.2</commons-chain.version>
     <commons-cli.version>1.0</commons-cli.version>
+    <commons-codec.version>1.6</commons-codec.version>
+    <commons-collections.version>3.2.1</commons-collections.version>
+    <commons-dbcp.version>1.4</commons-dbcp.version>
+    <commons-digester.version>2.0</commons-digester.version>
+    <commons-fileupload.version>1.3.1</commons-fileupload.version>
+    <commons-httpclient.version>3.1</commons-httpclient.version>
+    <commons-io.version>2.1</commons-io.version>
+    <commons-lang.version>2.6</commons-lang.version>
+    <commons-pool.version>1.5.7</commons-pool.version>
+    <commons-transaction.version>1.2</commons-transaction.version>
+    <commons-validator.version>1.3.1</commons-validator.version>
     <commons.net.ftp.version>2.0</commons.net.ftp.version>
+    <cxf.version>2.7.0</cxf.version>
+    <cxf-api.version>${cxf.version}</cxf-api.version>
+    <cxf-rt-bindings-soap.version>${cxf.version}</cxf-rt-bindings-soap.version>
+    <cxf-rt-bindings-xml.version>${cxf.version}</cxf-rt-bindings-xml.version>
+    <cxf-rt-core.version>${cxf.version}</cxf-rt-core.version>
+    <cxf-rt-databinding-jaxb.version>${cxf.version}</cxf-rt-databinding-jaxb.version>
+    <cxf-rt-frontend-jaxrs.version>${cxf.version}</cxf-rt-frontend-jaxrs.version>
+    <cxf-rt-frontend-jaxws.version>${cxf.version}</cxf-rt-frontend-jaxws.version>
+    <cxf-rt-frontend-simple.version>${cxf.version}</cxf-rt-frontend-simple.version>
+    <cxf-rt-transports-http.version>${cxf.version}</cxf-rt-transports-http.version>
+    <cxf-rt-ws-addr.version>${cxf.version}</cxf-rt-ws-addr.version>
+    <cxf-rt-ws-policy.version>${cxf.version}</cxf-rt-ws-policy.version>
+    <cxf-rt-ws-security.version>${cxf.version}</cxf-rt-ws-security.version>
+    <db-ojb.version>1.0.4-patch8</db-ojb.version>
+    <displaytag.version>1.2</displaytag.version>
+    <dom4j.version>1.6.1</dom4j.version>
+    <dwr.version>3.0.RC2</dwr.version>
+    <ehcache-core.version>2.5.0</ehcache-core.version>
     <fastinfoset.version>1.2.2</fastinfoset.version>
+    <groovy-all.version>1.8.9</groovy-all.version>
+    <guava.version>11.0</guava.version>
+    <hibernate-commons-annotations.version>3.2.0.Final</hibernate-commons-annotations.version>
+    <hibernate-core.version>3.6.9.Final</hibernate-core.version>
+    <hibernate-entitymanager.version>3.6.9.Final</hibernate-entitymanager.version>
+    <hibernate-jpa-2.0-api.version>1.0.1.Final</hibernate-jpa-2.0-api.version>
+    <howl.version>1.0.1-1</howl.version>
+    <irmi.version>1.1.2</irmi.version>
     <itext.version>1.4.8</itext.version>
+    <jackson-core-asl.version>1.8.8</jackson-core-asl.version>
+    <jackson-mapper-asl.version>1.8.8</jackson-mapper-asl.version>
+    <jacorb-idl.version>2.2.3-jonas-patch-20071018</jacorb-idl.version>
+    <jacorb.version>2.2.3-jonas-patch-20071018</jacorb.version>
     <jasperreports.version>2.0.4</jasperreports.version>
     <javamelody.core.version>1.49.0</javamelody.core.version>
+    <javassist.version>3.15.0-GA</javassist.version>
     <javax.inject.version>1</javax.inject.version>
     <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
-    <javax.servlet.servlet.api.version>2.5</javax.servlet.servlet.api.version>
+    <javax.ws.rs-api.version>2.0-m10</javax.ws.rs-api.version>
     <jaxb.version>2.2.6</jaxb.version>
+    <jcl-over-slf4j.version>1.6.4</jcl-over-slf4j.version>
+    <jdom.version>1.1</jdom.version>
+    <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
+    <joda-time.version>2.0</joda-time.version>
     <jotm.core.version>2.1.10</jotm.core.version>
     <jrobin.version>1.5.9</jrobin.version>
     <jsp-api.version>2.1</jsp-api.version>
+    <jsr305.version>1.3.9</jsr305.version>
+    <jsr311-api.version>1.1.1</jsr311-api.version>
+    <jstl-api.version>1.2</jstl-api.version>
+    <jstl-impl.version>1.2</jstl-impl.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
     <kfs.help.version>5.2.0</kfs.help.version>
-    <maven.require.version>3.0</maven.require.version>
+    <mail.version>1.4.4</mail.version>
     <mysql.version>5.1.25</mysql.version>
+    <neethi.version>3.0.2</neethi.version>
     <opencsv.version>2.3</opencsv.version>
     <opensaml.version>1.1</opensaml.version>
+    <openws.version>1.4.2-1</openws.version>
     <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
     <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
     <org.objectweb.howl.version>1.0.1-1</org.objectweb.howl.version>
+    <oro.version>2.0.8</oro.version>
     <p6spy.version>1.3-patched</p6spy.version>
     <project.scm.vendor>git</project.scm.vendor>
+    <quartz.version>1.8.4</quartz.version>
     <rice.version>2.1.9</rice.version>
-    <servlet-api.version>2.0</servlet-api.version>
+    <serializer.version>2.7.1</serializer.version>
+    <jsp-api.version>2.0</jsp-api.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <slf4j-api.version>1.6.4</slf4j-api.version>
+    <slf4j-log4j12.version>1.6.4</slf4j-log4j12.version>
+    <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
     <spring.version>3.1.0.RELEASE</spring.version>
+    <stax2-api.version>3.1.1</stax2-api.version>
+    <struts-core.version>1.3.10</struts-core.version>
+    <struts-el.version>1.3.10</struts-el.version>
+    <struts-extras.version>1.3.10</struts-extras.version>
+    <struts-taglib.version>1.3.10</struts-taglib.version>
     <taglibs.log.version>1.0</taglibs.log.version>
+    <tiles-api.version>2.2.2</tiles-api.version>
+    <tiles-core.version>2.2.2</tiles-core.version>
+    <tiles-jsp.version>2.2.2</tiles-jsp.version>
+    <tiles-servlet.version>2.2.2</tiles-servlet.version>
+    <tiles-template.version>2.2.2</tiles-template.version>
     <velocity.version>1.5</velocity.version>
+    <woodstox-core-asl.version>4.1.1</woodstox-core-asl.version>
+    <wsdl4j.version>1.6.2</wsdl4j.version>
+    <wss4j.version>1.6.7</wss4j.version>
+    <wstx-asl.version>3.2.9</wstx-asl.version>
+    <xalan.version>2.7.1</xalan.version>
     <xapool.version>1.5.0-patch4</xapool.version>
-    
+    <xercesImpl.version>2.9.1</xercesImpl.version>
+    <xml-resolver.version>1.2</xml-resolver.version>
+    <xmlschema-core.version>2.0.3</xmlschema-core.version>
+    <xmlsec.version>1.5.2</xmlsec.version>
+    <xmltooling.version>1.3.2-1</xmltooling.version>
+    <xpp3_min.version>1.1.3.4.O</xpp3_min.version>
+    <xstream.version>1.2.2</xstream.version>
+
     <!-- plugin versions -->
     <plugin.tomcat.version>2.2</plugin.tomcat.version>
   </properties>
@@ -371,7 +464,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-kim dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kim-api</artifactId>
@@ -405,7 +497,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-krad dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krad-app-framework</artifactId>
@@ -428,7 +519,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-krms dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-api</artifactId>
@@ -462,7 +552,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-ksb dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-ksb-api</artifactId>
@@ -511,7 +600,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-location dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-location-api</artifactId>
@@ -556,7 +644,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- rice-kns and rice-impl dependencies. -->
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kns</artifactId>
@@ -593,13 +680,11 @@
       <version>${rice.version}</version>
       <type>war</type>
     </dependency>
-    <!--KFS help-->
     <dependency>
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-help</artifactId>
       <version>${kfs.help.version}</version>
     </dependency>
-    <!-- KFS libs -->
     <dependency>
       <groupId>net.sf.barcode4j</groupId>
       <artifactId>barcode4j</artifactId>
@@ -668,7 +753,6 @@
       <artifactId>velocity</artifactId>
       <version>${velocity.version}</version>
     </dependency>
-    <!-- external appserver-->
     <dependency>
       <groupId>org.ow2.carol</groupId>
       <artifactId>carol</artifactId>
@@ -726,179 +810,173 @@
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
-      <version>${servlet-api.version}</version>
+      <version>${jsp-api.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!--runtime-->
     <dependency>
       <groupId>aopalliance</groupId>
       <artifactId>aopalliance</artifactId>
-      <version>1.0</version>
+      <version>${aopalliance.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>asm</groupId>-->
-      <!--<artifactId>asm</artifactId>-->
-      <!--<version>3.3.1</version>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
-      <version>1.6.8</version>
+      <version>${aspectjrt.version}</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
-      <version>1.6.8</version>
+      <version>${aspectjweaver.version}</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework</artifactId>
-      <version>4.1.5</version>
+      <version>${avalon-framework.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk16</artifactId>
-      <version>1.46</version>
+      <version>${bcprov-jdk16.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>
-      <version>2.1.2</version>
+      <version>${btm.version}</version>
     </dependency>
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
-      <version>2.2.2</version>
+      <version>${cglib-nodep.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.commons</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.8.3-kuali-4</version>
+      <version>${commons-beanutils.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-chain</groupId>
       <artifactId>commons-chain</artifactId>
-      <version>1.2</version>
+      <version>${commons-chain.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.6</version>
+      <version>${commons-codec.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
+      <version>${commons-collections.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-dbcp</groupId>
       <artifactId>commons-dbcp</artifactId>
-      <version>1.4</version>
+      <version>${commons-dbcp.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
-      <version>2.0</version>
+      <version>${commons-digester.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
-      <version>1.3.1</version>
+      <version>${commons-fileupload.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
+      <version>${commons-httpclient.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.1</version>
+      <version>${commons-io.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
+      <version>${commons-lang.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-pool</groupId>
       <artifactId>commons-pool</artifactId>
-      <version>1.5.7</version>
+      <version>${commons-pool.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-transaction</groupId>
       <artifactId>commons-transaction</artifactId>
-      <version>1.2</version>
+      <version>${commons-transaction.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-validator</groupId>
       <artifactId>commons-validator</artifactId>
-      <version>1.3.1</version>
+      <version>${commons-validator.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-api</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-soap</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-bindings-soap.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-xml</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-bindings-xml.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-core</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-databinding-jaxb</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-databinding-jaxb.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-frontend-jaxrs.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-frontend-jaxws.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-simple</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-frontend-simple.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-transports-http</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-transports-http.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-addr</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-ws-addr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-security</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-ws-security.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-policy</artifactId>
-      <version>2.7.0</version>
+      <version>${cxf-rt-ws-policy.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.db.ojb</groupId>
       <artifactId>db-ojb</artifactId>
-      <version>1.0.4-patch8</version>
+      <version>${db-ojb.version}</version>
       <exclusions>
         <exclusion>
           <groupId>cglib</groupId>
@@ -909,122 +987,122 @@
     <dependency>
       <groupId>displaytag</groupId>
       <artifactId>displaytag</artifactId>
-      <version>1.2</version>
+      <version>${displaytag.version}</version>
     </dependency>
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
+      <version>${dom4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.directwebremoting</groupId>
       <artifactId>dwr</artifactId>
-      <version>3.0.RC2</version>
+      <version>${dwr.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache-core</artifactId>
-      <version>2.5.0</version>
+      <version>${ehcache-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>1.8.9</version>
+      <version>${groovy-all.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>11.0</version>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>3.6.9.Final</version>
+      <version>${hibernate-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
-      <version>1.0.1.Final</version>
+      <version>${hibernate-jpa-2.0-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-commons-annotations</artifactId>
-      <version>3.2.0.Final</version>
+      <version>${hibernate-commons-annotations.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-      <version>3.6.9.Final</version>
+      <version>${hibernate-entitymanager.version}</version>
     </dependency>
     <dependency>
       <groupId>org.ow2.carol.irmi</groupId>
       <artifactId>irmi</artifactId>
-      <version>1.1.2</version>
+      <version>${irmi.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
-      <version>1.8.8</version>
+      <version>${jackson-core-asl.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.8.8</version>
+      <version>${jackson-mapper-asl.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jacorb</groupId>
       <artifactId>jacorb</artifactId>
-      <version>2.2.3-jonas-patch-20071018</version>
+      <version>${jacorb.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jacorb</groupId>
       <artifactId>jacorb-idl</artifactId>
-      <version>2.2.3-jonas-patch-20071018</version>
+      <version>${jacorb-idl.version}</version>
     </dependency>
     <dependency>
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.15.0-GA</version>
+      <version>${javassist.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.0-m10</version>
+      <version>${javax.ws.rs-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.6.4</version>
+      <version>${jcl-over-slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jdom</groupId>
       <artifactId>jdom</artifactId>
-      <version>1.1</version>
+      <version>${jdom.version}</version>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>2.0</version>
+      <version>${joda-time.version}</version>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time-jsptags</artifactId>
-      <version>1.1.1</version>
+      <version>${joda-time-jsptags.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <version>1.3.9</version>
+      <version>${jsr305.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
+      <version>${jsr311-api.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp.jstl</groupId>
       <artifactId>jstl-api</artifactId>
-      <version>1.2</version>
+      <version>${jstl-api.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -1035,7 +1113,7 @@
     <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>jstl-impl</artifactId>
-      <version>1.2</version>
+      <version>${jstl-impl.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -1046,53 +1124,48 @@
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
-      <version>1.4.4</version>
+      <version>${mail.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.neethi</groupId>
       <artifactId>neethi</artifactId>
-      <version>3.0.2</version>
+      <version>${neethi.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>openws</artifactId>
-      <version>1.4.2-1</version>
+      <version>${openws.version}</version>
     </dependency>
     <dependency>
       <groupId>oro</groupId>
       <artifactId>oro</artifactId>
-      <version>2.0.8</version>
+      <version>${oro.version}</version>
     </dependency>
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
-      <version>1.8.4</version>
+      <version>${quartz.version}</version>
     </dependency>
     <dependency>
       <groupId>xalan</groupId>
       <artifactId>serializer</artifactId>
-      <version>2.7.1</version>
+      <version>${serializer.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.6.4</version>
+      <version>${slf4j-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.4</version>
+      <version>${slf4j-log4j12.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-asm</artifactId>-->
-      <!--<version>${spring.version}</version>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
@@ -1126,7 +1199,7 @@
     <dependency>
       <groupId>org.springmodules</groupId>
       <artifactId>spring-modules-ojb</artifactId>
-      <version>0.8a</version>
+      <version>${spring-modules-ojb.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
@@ -1181,17 +1254,17 @@
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>stax2-api</artifactId>
-      <version>3.1.1</version>
+      <version>${stax2-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts-core</artifactId>
-      <version>1.3.10</version>
+      <version>${struts-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts-el</artifactId>
-      <version>1.3.10</version>
+      <version>${struts-el.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -1202,102 +1275,102 @@
     <dependency>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts-extras</artifactId>
-      <version>1.3.10</version>
+      <version>${struts-extras.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts-taglib</artifactId>
-      <version>1.3.10</version>
+      <version>${struts-taglib.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-api</artifactId>
-      <version>2.2.2</version>
+      <version>${tiles-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-core</artifactId>
-      <version>2.2.2</version>
+      <version>${tiles-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-jsp</artifactId>
-      <version>2.2.2</version>
+      <version>${tiles-jsp.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-servlet</artifactId>
-      <version>2.2.2</version>
+      <version>${tiles-servlet.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-template</artifactId>
-      <version>2.2.2</version>
+      <version>${tiles-template.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>woodstox-core-asl</artifactId>
-      <version>4.1.1</version>
+      <version>${woodstox-core-asl.version}</version>
     </dependency>
     <dependency>
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
-      <version>1.6.2</version>
+      <version>${wsdl4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.ws.security</groupId>
       <artifactId>wss4j</artifactId>
-      <version>1.6.7</version>
+      <version>${wss4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>wstx-asl</artifactId>
-      <version>3.2.9</version>
+      <version>${wstx-asl.version}</version>
     </dependency>
     <dependency>
       <groupId>xalan</groupId>
       <artifactId>xalan</artifactId>
-      <version>2.7.1</version>
+      <version>${xalan.version}</version>
     </dependency>
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
-      <version>2.9.1</version>
+      <version>${xercesImpl.version}</version>
     </dependency>
     <dependency>
       <groupId>xml-resolver</groupId>
       <artifactId>xml-resolver</artifactId>
-      <version>1.2</version>
+      <version>${xml-resolver.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.ws.xmlschema</groupId>
       <artifactId>xmlschema-core</artifactId>
-      <version>2.0.3</version>
+      <version>${xmlschema-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.santuario</groupId>
       <artifactId>xmlsec</artifactId>
-      <version>1.5.2</version>
+      <version>${xmlsec.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>xmltooling</artifactId>
-      <version>1.3.2-1</version>
+      <version>${xmltooling.version}</version>
     </dependency>
     <dependency>
       <groupId>xpp3</groupId>
       <artifactId>xpp3_min</artifactId>
-      <version>1.1.3.4.O</version>
+      <version>${xpp3_min.version}</version>
     </dependency>
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
-      <version>1.2.2</version>
+      <version>${xstream.version}</version>
     </dependency>
     <dependency>
       <groupId>org.objectweb.howl</groupId>
       <artifactId>howl</artifactId>
-      <version>1.0.1-1</version>
+      <version>${howl.version}</version>
     </dependency>
     <dependency>
       <groupId>xapool</groupId>
@@ -1312,7 +1385,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${javax.servlet.servlet.api.version}</version>
+      <version>${servlet-api.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

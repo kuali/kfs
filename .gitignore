@@ -33,7 +33,8 @@ target/
 /src/main/webapp/krad
 /src/main/webapp/krms
 /src/main/webapp/ksb
-/src/main/webapp/static
+/src/main/webapp/static/images
+/src/main/webapp/static/help
 /src/main/webapp/themes
 /src/main/webapp/rice-portal
 /src/main/webapp/META-INF/context.xml

@@ -75,7 +75,7 @@ public class BatchStepRunner {
                             + "-" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
                     boolean ndcSet = false;
                     try {
-                        ndcAppender = new FileAppender(Logger.getRootLogger().getAppender("LogFile").getLayout(), getLogFileName(nestedDiagnosticContext));
+                        ndcAppender = new FileAppender(Logger.getRootLogger().getAppender("StdOut").getLayout(), getLogFileName(nestedDiagnosticContext));
                         ndcAppender.addFilter(new NDCFilter(nestedDiagnosticContext));
                         Logger.getRootLogger().addAppender(ndcAppender);
                         NDC.push(nestedDiagnosticContext);

@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<xsd:schema elementFormDefault="qualified" 
+    targetNamespace="http://www.kuali.org/kfs/tem/AgencyData"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
+    xmlns="http://www.kuali.org/kfs/tem/AgencyData" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="../../xsd/sys/ddTypes.xsd" />
+
+	<xsd:element name="importBy" type="xsd:normalizedString" />
+
+    <!-- Agency Information -->
+    <xsd:element name="agencyDataId" type="xsd:integer" />
+    <xsd:element name="creditCardOrAgencyCode" type="xsd:normalizedString" />
+    <xsd:element name="agency" type="xsd:normalizedString" />    
+    <xsd:element name="otherCompanyName" type="xsd:normalizedString" />
+    <xsd:element name="agencyFileName" type="xsd:normalizedString" />
+    <xsd:element name="merchantName" type="xsd:normalizedString" />
+    <xsd:element name="billingCycleDate" type="xsd:date" />
+    
+    <!-- Trip Information -->
+    
+    <xsd:element name="tripId" type="xsd:normalizedString" />
+    <xsd:element name="tripInvoiceNumber" type="xsd:normalizedString" />
+    <xsd:element name="tripTravelerTypeId" type="xsd:normalizedString" />
+    <xsd:element name="otherAmount" type="xsd:decimal" />
+    
+    <!-- Traveler Information -->
+    
+    <xsd:element name="travelerName" type="xsd:normalizedString" />
+    <xsd:element name="travelerId" type="xsd:normalizedString" />
+    <xsd:element name="travelerNetworkId" type="xsd:normalizedString" />
+    <xsd:element name="tripExpenseAmount" type="xsd:decimal" />
+    <xsd:element name="alternateTripId" type="xsd:normalizedString" />
+    <xsd:element name="tripArrangerName" type="xsd:normalizedString" />
+    
+    <!-- Accounting Information -->
+    <xsd:element name="accountingInfo" type="accountingInfo" />   
+    <xsd:element name="tripChartCode" type="xsd:normalizedString" />
+    <xsd:element name="tripAccountNumber" type="xsd:normalizedString" />
+    <xsd:element name="tripSubAccountNumber" type="xsd:normalizedString" />
+    <xsd:element name="objectCode" type="xsd:normalizedString" />
+    <xsd:element name="subObjectCode" type="xsd:normalizedString" />
+    <xsd:element name="projectCode" type="xsd:normalizedString" />
+    <xsd:element name="organizationReference" type="xsd:normalizedString" />
+    
+    <xsd:element name="groupObjectCode" type="xsd:normalizedString" />
+    <xsd:element name="distributionCode" type="xsd:normalizedString" />
+    
+    <!-- Airline Information -->
+    
+    <xsd:element name="tripDepartureDate" type="xsd:date" />
+    <xsd:element name="tripReturnDate" type="xsd:date" />
+    <xsd:element name="fareSaverCode" type="xsd:normalizedString" />
+    <xsd:element name="airBookDate" type="xsd:date" />
+    <xsd:element name="airCarrierCode" type="xsd:normalizedString" />
+    <xsd:element name="airTicketNumber" type="xsd:normalizedString" />
+    <xsd:element name="pnrNumber" type="xsd:normalizedString" />
+    <xsd:element name="airTicketClass" type="xsd:normalizedString" />
+    <xsd:element name="airTransactionAmount" type="xsd:decimal" />
+    <xsd:element name="airBaseFareAmount" type="xsd:decimal" />
+    <xsd:element name="airTaxAmount" type="xsd:decimal" />
+    <xsd:element name="airLowFareAmount" type="xsd:decimal" />
+    <xsd:element name="airReasonCode" type="xsd:normalizedString" />
+    <xsd:element name="airSegmentId" type="xsd:normalizedString" />
+    <xsd:element name="airDestinationCode" type="xsd:normalizedString" />
+    <xsd:element name="airServiceFeeNumber" type="xsd:normalizedString" />
+    <xsd:element name="airServiceFeeAmount" type="xsd:decimal" />
+    <xsd:element name="transactionUniqueId" type="xsd:normalizedString" />
+    
+    <!-- Lodging information -->
+    
+    <xsd:element name="lodgingItineraryNumber" type="xsd:normalizedString" />
+    <xsd:element name="lodgingPrepayDate" type="xsd:date" />
+    <xsd:element name="lodgingAmount" type="xsd:decimal" />
+    <xsd:element name="lodgingPrepayDaysNumber" type="xsd:normalizedString" />
+    <xsd:element name="lodgingPropertyName" type="xsd:normalizedString" />
+    <xsd:element name="tripLodgingArrivalDate" type="xsd:date" />
+    <xsd:element name="lodgingDepartureDate" type="xsd:date" />
+    <xsd:element name="lodgingBookingDate" type="xsd:date" />
+    <xsd:element name="lodgingPropertyCityName" type="xsd:normalizedString" />  
+    <xsd:element name="lodgingPropertyStateCode" type="xsd:normalizedString" />
+    <xsd:element name="lodgingCountryName" type="xsd:normalizedString" />
+    
+    <!-- Rental Car Information -->
+    
+    <xsd:element name="rentalCarItineraryNumber" type="xsd:normalizedString" />
+    <xsd:element name="rentalCarAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarNumberOfDays" type="xsd:normalizedString" />
+    <xsd:element name="rentalCarCompanyName" type="xsd:normalizedString" />
+    <xsd:element name="rentalCarOpenDate" type="xsd:date" />
+    <xsd:element name="rentalCarCloseDate" type="xsd:date" />
+    <xsd:element name="rentalCarFuelAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarAdditionalAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarTaxAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarSurchargeAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarGovernmentSurchargeAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarBillAmount" type="xsd:decimal" />
+    <xsd:element name="rentalCarDetailText" type="xsd:normalizedString" />
+    
+    <!-- Conference Registration -->
+    <xsd:element name="registrationCompanyName" type="xsd:normalizedString" />
+    <xsd:element name="registrationAmount" type="xsd:decimal" />
+    
+    <!-- Processing Information -->
+    <xsd:element name="transactionPostingDate" type="xsd:date" />
+    <xsd:element name="objectVersionNumber" type="xsd:integer" />
+    <xsd:element name="creationTimestamp" type="xsd:dateTime" /> 
+    <xsd:element name="processingTimestamp" type="xsd:dateTime" /> 
+    <xsd:element name="moveToHistoryIndicator" type="xsd:normalizedString" />    
+
+	<xsd:complexType name="accountingInfo">
+		<xsd:sequence>
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripChartCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripAccountNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripSubAccountNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="objectCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="subObjectCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="projectCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="organizationReference" />
+		</xsd:sequence>
+	</xsd:complexType>    
+
+	<xsd:complexType name="agencyDataRecordType">
+		<xsd:sequence>
+    
+		    <!-- Agency Information -->
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="agencyDataId" />
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="creditCardOrAgencyCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="agency" />    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="otherCompanyName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="agencyFileName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="merchantName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="billingCycleDate" />
+		    
+		    <!-- Trip Information -->		    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripInvoiceNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripTravelerTypeId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="otherAmount" />
+		    
+		    <!-- Traveler Information -->		    
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="travelerName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="travelerId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="travelerNetworkId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripExpenseAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="alternateTripId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripArrangerName" />
+		    
+		    <!-- Accounting Information -->
+		    <xsd:element minOccurs="0" maxOccurs="3" ref="accountingInfo" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="groupObjectCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="distributionCode" />
+		    
+		    <!-- Airline Information -->		    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripDepartureDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripReturnDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="fareSaverCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airBookDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airCarrierCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airTicketNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="pnrNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airTicketClass" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airTransactionAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airBaseFareAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airTaxAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airLowFareAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airReasonCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airSegmentId" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airDestinationCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airServiceFeeNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="airServiceFeeAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="transactionUniqueId" />
+		    
+		    <!-- Lodging information -->		    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingItineraryNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingPrepayDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingPrepayDaysNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingPropertyName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="tripLodgingArrivalDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingDepartureDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingBookingDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingPropertyCityName" />  
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingPropertyStateCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="lodgingCountryName" />
+		    
+		    <!-- Rental Car Information -->
+		    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarItineraryNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarNumberOfDays" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarCompanyName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarOpenDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarCloseDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarFuelAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarAdditionalAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarTaxAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarSurchargeAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarGovernmentSurchargeAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarBillAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="rentalCarDetailText" />
+		    
+		    <!-- Conference Registration -->
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="registrationCompanyName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="registrationAmount" />
+		    
+		    <!-- Processing Information -->
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="transactionPostingDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="objectVersionNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="creationTimestamp" /> 
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="processingTimestamp" /> 
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="moveToHistoryIndicator" />
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="agencyDataType">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" maxOccurs="1" ref="importBy" />
+			<xsd:element maxOccurs="unbounded" ref="record" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="record" type="agencyDataRecordType" />	 
+	<xsd:element name="agencyData" type="agencyDataType" />	
+	
+	
+</xsd:schema>

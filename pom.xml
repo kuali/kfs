@@ -231,26 +231,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!-- TODO remove this plugin execution.  Follow up with KK on why runtime property resolution isn't working -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>${plugin.properties.version}</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>${basedir}/src/main/resources/kfs-default-config.properties</file>
-                                <file>${basedir}/src/main/resources/kfs-rice-default-config.properties</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
@@ -312,8 +292,6 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>kfs-default-config.properties</include>
-                    <include>kfs-rice-default-config.properties</include>
-                    <include>spy.properties</include>
                 </includes>
             </resource>
             <resource>
@@ -321,8 +299,6 @@
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>kfs-default-config.properties</exclude>
-                    <exclude>kfs-rice-default-config.properties</exclude>
-                    <exclude>spy.properties</exclude>
                 </excludes>
             </resource>
         </resources>

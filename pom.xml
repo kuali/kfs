@@ -131,8 +131,6 @@
     <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
     <javax.ws.rs-api.version>2.0-m10</javax.ws.rs-api.version>
     <jaxb.version>2.2.6</jaxb.version>
-    <slf4j.version>1.6.4</slf4j.version>
-    <jcl-over-slf4j.version>${slf4j.version}</jcl-over-slf4j.version>
     <jdom.version>1.1</jdom.version>
     <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
     <joda-time.version>2.0</joda-time.version>
@@ -163,8 +161,6 @@
     <serializer.version>2.7.1</serializer.version>
     <jsp-api.version>2.0</jsp-api.version>
     <servlet-api.version>2.5</servlet-api.version>
-    <slf4j-api.version>${slf4j.version}</slf4j-api.version>
-    <slf4j-log4j12.version>${slf4j.version}</slf4j-log4j12.version>
     <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
     <spring.version>3.1.0.RELEASE</spring.version>
     <stax2-api.version>3.1.1</stax2-api.version>
@@ -196,6 +192,19 @@
     <!-- plugin versions -->
     <plugin.tomcat.version>2.2</plugin.tomcat.version>
     <plugin.properties.version>1.0-alpha-2</plugin.properties.version>
+
+    <!-- logging properties -->
+    <!-- slf4j.version and log4j.version need to be changed together -->
+    <slf4j.version>1.6.4</slf4j.version>
+    <log4j.version>1.2.16</log4j.version>
+    <!-- switch these scopes to runtime if/when KFS gets all internal logging statements issued via slf4j -->
+    <log4j.scope>compile</log4j.scope>
+    <jcl-over-slf4j.scope>compile</jcl-over-slf4j.scope>
+    <slf4j-api.version>${slf4j.version}</slf4j-api.version>
+    <slf4j-log4j12.version>${slf4j.version}</slf4j-log4j12.version>
+    <jcl-over-slf4j.version>${slf4j.version}</jcl-over-slf4j.version>
+    <jul-to-slf4j.version>${slf4j.version}</jul-to-slf4j.version>
+
   </properties>
   <build>
     <finalName>${project.artifactId}</finalName>
@@ -1224,11 +1233,6 @@
       <version>${javax.ws.rs-api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>${jcl-over-slf4j.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.jdom</groupId>
       <artifactId>jdom</artifactId>
       <version>${jdom.version}</version>
@@ -1305,15 +1309,39 @@
       <artifactId>serializer</artifactId>
       <version>${serializer.version}</version>
     </dependency>
+    <!-- logging setup -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j-api.version}</version>
     </dependency>
+    <!-- route commons-logging through slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${jcl-over-slf4j.version}</version>
+      <scope>${jcl-over-slf4j.scope}</scope>
+    </dependency>
+    <!-- route java.util.logging through slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${jul-to-slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- bind to log4j as the implementation -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j-log4j12.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- included here as a dependency so we can explicitly set scope to "runtime" (down the road at some point) -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+      <scope>${log4j.scope}</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>

@@ -234,6 +234,21 @@
                         <exclude>org/kuali/kfs/sys/context/InquirySectionConsistencyTest*</exclude>
                         <!-- not run by ant as part of core tests - why not? -->
                         <exclude>org/kuali/kfs/sys/KualiModuleServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/module/ar/document/service/ContractsGrantsInvoiceDocumentServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/module/purap/document/service/PurchaseOrderServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/sys/service/KualiConfigurationServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/CollectorStepTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/FileEnterpriseFeederTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceFeedStepTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceFileRenameStepTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceSortStepTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/PosterIcrEncumbranceEntriesStepTest*</exclude>
+                        <exclude>org/kuali/kfs/gl/batch/service/impl/BalancingServiceImplTest*</exclude>
+                        <exclude>org/kuali/kfs/module/ld/batch/service/LaborNightlyOutServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/module/ld/batch/service/impl/LaborBalancingServiceImplTest*</exclude>
+                        <exclude>org/kuali/kfs/module/tem/document/service/TravelReimbursementServiceTest*</exclude>
+                        <exclude>org/kuali/kfs/module/tem/document/validation/impl/TravelDocumentActualExpenseLineValidationTest*</exclude>
+                        <exclude>org/kuali/kfs/sys/batch/service/SchedulerServiceImplTest*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

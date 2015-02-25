@@ -204,6 +204,12 @@
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>${plugin.tomcat.version}</version>
+                    <configuration>
+                        <path>/${project.artifactId}-dev</path>
+                        <systemProperties>
+                            <org.apache.el.parser.SKIP_IDENTIFIER_CHECK>true</org.apache.el.parser.SKIP_IDENTIFIER_CHECK>
+                        </systemProperties>
+                    </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>mysql</groupId>

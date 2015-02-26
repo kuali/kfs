@@ -15,13 +15,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# This helpful script moves files from the pre-KFS-6.0 directory structures
+# to the Maven standard layout.
+# As such, when known implementers are done moving to maven, this script
+# should be discarded.
+
 require 'fileutils'
 require 'optparse'
 
 module MavenMover
     def self.correct_path()
-        if Dir.pwd =~ /bin$/
-            Dir.chdir("..")
+        if Dir.pwd =~ /src\/main\/config\/scripts$/
+            Dir.chdir("../../../..")
         end
     end
 

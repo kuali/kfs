@@ -37,7 +37,7 @@
         <delete tableName="KRIM_ROLE_RSP_T">
             <where>ROLE_RSP_ID like 'KFSENDOW%'</where>
         </delete>
-        <delete tableName="KRIM_ROLE_RSP_ATTR_DATA_T">
+        <delete tableName="KRIM_RSP_ATTR_DATA_T">
             <where>ATTR_DATA_ID like 'KFSENDOW%'</where>
         </delete>
         <delete tableName="KRIM_RSP_T">

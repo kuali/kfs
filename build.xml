@@ -1083,8 +1083,9 @@ The workflow files you want to run must exist in the pending subdirectory and wi
             <jvmarg value="-Xms512m" />
             <jvmarg value="-Xmx1g" />
             <jvmarg value="-XX:MaxPermSize=256m" />
-        	<jvmarg value="-Drice.krad.componentPublishing.enabled=false" />
-			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+            <jvmarg value="-Drice.krad.componentPublishing.enabled=false" />
+	    <jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+            <jvmarg value="-Dadditional.kfs.config.locations=${additional.kfs.config.locations}" />
             <arg value="${workflow.dir}" />
             <classpath>
                 <pathelement location="${classes.directory}" />

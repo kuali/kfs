@@ -97,7 +97,6 @@
 
     <!-- plugin versions -->
     <plugin.tomcat.version>2.2</plugin.tomcat.version>
-    <plugin.properties.version>1.0-alpha-2</plugin.properties.version>
 
     <!-- logging properties -->
     <!-- slf4j.version and log4j.version need to be changed together -->

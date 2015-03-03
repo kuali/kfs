@@ -723,6 +723,28 @@
           <groupId>jfree</groupId>
           <artifactId>jfreechart</artifactId>
         </exclusion>
+        <!-- version 2.0.4 of jasper specifies version ranges which annoyingly prompts maven to continuously check Nexus for updates to maven-metadata.xml -->
+        <!-- later versions of jasper use explicit version numbers for their dependencies -->
+        <exclusion>
+          <!-- since we've explicitly pinned itext to the version KFS requires, we can safely exclude it here -->
+          <groupId>com.lowagie</groupId>
+          <artifactId>itext</artifactId>
+        </exclusion>
+        <exclusion>
+          <!-- commons-digester gets routed into the build via multiple other dependencies (safe to exclude the transitive jasper dependency)  -->
+          <groupId>commons-digester</groupId>
+          <artifactId>commons-digester</artifactId>
+        </exclusion>
+        <exclusion>
+          <!-- commons-collections gets routed into the build via multiple other dependencies (safe to exclude the transitive jasper dependency)  -->
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+        </exclusion>
+        <exclusion>
+          <!-- really, really don't think KFS needs an incremental java compiler that lets IDE's run and debug code that contains unresolved errors -->
+          <groupId>eclipse</groupId>
+          <artifactId>jdtcore</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

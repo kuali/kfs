@@ -117,19 +117,19 @@
 		<documentType>
 			<name>
 				CCA
-      		</name>
+      </name>
 			<parent>
 				AR
-      		</parent>
+      </parent>
 			<label>
 				Contracts &amp; Grants Collection Activity
       		</label>
 			<docHandler>
 				${kfs.url}/arContractsGrantsCollectionActivityDocument.do?methodToCall=docHandler
-      		</docHandler>
+      </docHandler>
 			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fcollectionactivity.htm
-      		</helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantscollectionactivity.htm
+      </helpDefinitionURL>
 			<docSearchHelpURL>
 				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
       		</docSearchHelpURL>
@@ -328,31 +328,31 @@
 		<documentType>
 			<name>
 				CINV
-      		</name>
+      </name>
 			<parent>
 				AR
-      		</parent>
+      </parent>
 			<label>
 				Contracts &amp; Grants Invoice
-      		</label>
+      </label>
 			<docHandler>
 				${kfs.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
-      		</docHandler>
+      </docHandler>
 			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
-      		</helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantsinvoice.htm
+      </helpDefinitionURL>
 			<docSearchHelpURL>
-				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
-      		</docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcontractsgrantsinvoices.htm
+      </docSearchHelpURL>
 			<active>
 				true
-      		</active>
+      </active>
 			<routingVersion>
 				2
-      		</routingVersion>
-	      	<authorizer>
-	      		org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceWorkflowDocumentAuthorizer
-	      	</authorizer>
+      </routingVersion>
+      <authorizer>
+        org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceWorkflowDocumentAuthorizer
+      </authorizer>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="RequiresApprovalSplit" />
@@ -401,8 +401,8 @@
 				${kfs.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
       		</docHandler>
 			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
-      		</helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantslocreview.htm
+      </helpDefinitionURL>
 			<docSearchHelpURL>
 				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
       		</docSearchHelpURL>
@@ -429,6 +429,9 @@
 				Final Billed Indicator
       		</label>
 			<docHandler>${kfs.url}/arFinalBilledIndicatorDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinalbilledindicator.htm
+      </helpDefinitionURL>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" />

@@ -97,6 +97,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             }
         }
         catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
         }
     }

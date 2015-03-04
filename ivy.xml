@@ -309,7 +309,7 @@
 			rev="4.1.1" transitive="false" conf="rice-lib->default" />
 		<dependency org="wsdl4j" name="wsdl4j" rev="1.6.2"
 			transitive="false" conf="rice-lib->default" />
-		<dependency org="org.apache.ws.security" name="wss4j" rev="1.6.7"
+		<dependency org="org.apache.ws.security" name="wss4j" rev="1.6.18"
 			transitive="false" conf="rice-lib->default" />
 		<dependency org="org.codehaus.woodstox" name="wstx-asl"
 			rev="3.2.9" transitive="false" conf="rice-lib->default" />

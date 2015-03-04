@@ -1,0 +1,280 @@
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+	</ruleAttributes>
+
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+		<documentType>
+			<name>
+				DLTM
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Letter Template
+			</label>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fdunninglettertemplate.htm
+      </helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				DUNC
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Campaign
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fdunningcampaign.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CAT
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Cost Category
+			</label>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcostcategory.htm
+      </helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				ITM
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Invoice Template
+			</label>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Finvoicetemplate.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				LOCF
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Letter of Credit Fund
+			</label>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fletterofcreditfund.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CCA
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Contracts &amp; Grants Collection Activity
+			</label>
+			<docHandler>
+				${kfs.url}/arContractsGrantsCollectionActivityDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantscollectionactivity.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CINV
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Contracts &amp; Grants Invoice
+			</label>
+			<docHandler>
+				${kfs.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantsinvoice.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+	      	<authorizer>org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceWorkflowDocumentAuthorizer</authorizer>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresApprovalSplit" />
+					<split name="RequiresApprovalSplit">
+						<branch name="True">
+							<role name="FundsManager" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpNode" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<join name="RequiresApprovalJoin" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresApprovalSplit">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="FundsManager">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<simple name="NoOpNode">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<join name="RequiresApprovalJoin" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				LCR
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Contracts &amp; Grants Letter of Credit Review
+			</label>
+			<docHandler>
+				${kfs.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractsgrantslocreview.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
+			</docSearchHelpURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+			<active>
+				true
+			</active>
+		</documentType>
+		<documentType>
+			<name>
+				FBI
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Final Billed Indicator
+			</label>
+			<docHandler>${kfs.url}/arFinalBilledIndicatorDocument.do?methodToCall=docHandler
+			</docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinalbilledindicator.htm
+      </helpDefinitionURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>

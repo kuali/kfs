@@ -18,19 +18,20 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
 public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";
@@ -47,6 +48,9 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
     private Properties props = new Properties();
     private boolean testMode;
     private boolean secureMode;
+
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PropertyLoadingFactoryBean.class);
+
 
     public Properties getObject() {
         loadBaseProperties();
@@ -65,7 +69,14 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         else {
             props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuilder("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append(REMOTING_URL_SUFFIX).toString());
         }
-        
+        if (LOG.isDebugEnabled()) {
+            for (Iterator itr = props.keySet().iterator(); itr.hasNext(); ) {
+                String key = (String) itr.next();
+                String value = (String) props.get(key);
+                System.out.println(key + ": " + value);
+                LOG.debug(key + ": " + value);
+            }
+        }
         return props;
     }
 

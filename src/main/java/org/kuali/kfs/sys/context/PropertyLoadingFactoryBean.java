@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Set;
 import java.util.List;
 import java.util.Properties;
 
@@ -70,8 +70,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuilder("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append(REMOTING_URL_SUFFIX).toString());
         }
         if (LOG.isDebugEnabled()) {
-            for (Iterator itr = props.keySet().iterator(); itr.hasNext(); ) {
-                String key = (String) itr.next();
+            for (Object key: props.keySet()) {
                 String value = (String) props.get(key);
                 System.out.println(key + ": " + value);
                 LOG.debug(key + ": " + value);
@@ -108,7 +107,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e);
             throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
         }
     }

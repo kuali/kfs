@@ -1,10 +1,31 @@
+# ignore eclipse
 .classpath
 .project
 .settings/
-target/
+# ignore intellij
 .metadata
 .idea
 *.iml
+# ignore netbeans
+nbproject/private/
+bbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+# ignore sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+sftp-config.json
+# ignore textmate
+*.tmproj
+*.tmproject
+tmtags
+target/
 /build/rice-sources
 /build/drivers/*.jar
 /build/external/appserver/*.jar

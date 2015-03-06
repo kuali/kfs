@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
@@ -49,7 +50,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 @ConfigureContext
 public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingServiceImplTest.class);
-    
+
+    private boolean batchFileDirectoryCreated = false;
+
     @Override
     protected void setUp() throws Exception {
         balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("laborBalancingService");
@@ -66,11 +69,34 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
         
         // Because KULDBA doesn't support FYs more then 1 year back we need to limit our range in order to properly test boundary cases
         TestUtils.setSystemParameter(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE, "0");
-        
+
+        File batchFileDirectory = new File(this.getBatchFileDirectoryName());
+        if (!batchFileDirectory.exists()) {
+            batchFileDirectory.mkdir();
+            batchFileDirectoryCreated = true;
+        }
+
         // careful: super.setUp needs to happen at the end because of service initialization and NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE
         super.setUp();
     }
-    
+
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        if (batchFileDirectoryCreated) {
+            File batchFileDirectory = new File(this.getBatchFileDirectoryName());
+            for (File f : batchFileDirectory.listFiles()) {
+                f.delete();
+            }
+            batchFileDirectory.delete();
+            batchFileDirectoryCreated = false;
+        }
+
+        super.tearDown();
+    }
+
     @Override
     public void testRunBalancingPopulateData() {
         LOG.debug("No data present scenario, hence process should populate data");

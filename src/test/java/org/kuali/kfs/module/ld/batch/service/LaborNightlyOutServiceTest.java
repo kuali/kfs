@@ -29,6 +29,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.service.impl.LaborNightlyOutServiceImpl;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
@@ -56,6 +57,9 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
     private File nightlyOutputFile = null;
     private File nightlyOutputDoneFile = null;
 
+    private String batchFileDirectoryName;
+    private boolean batchFileDirectoryCreated = false;
+
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -82,7 +86,13 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
 
         String stagingDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory");
-        String batchFileDirectoryName = stagingDirectory + File.separator + "ld" + File.separator + "originEntry";
+        batchFileDirectoryName = stagingDirectory + File.separator + "ld" + File.separator + "originEntry";
+        File batchFileDirectory = new File(batchFileDirectoryName);
+        if (!batchFileDirectory.exists()) {
+            batchFileDirectory.mkdir();
+            batchFileDirectoryCreated = true;
+        }
+
         String nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
 
@@ -188,6 +198,12 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         if (nightlyOutputDoneFile != null && nightlyOutputDoneFile.exists() && nightlyOutputDoneFile.isFile()) {
             nightlyOutputDoneFile.delete();
+        }
+
+        if (batchFileDirectoryCreated) {
+            File batchDirectoryFile = new File(batchFileDirectoryName);
+            batchDirectoryFile.delete();
+            batchFileDirectoryCreated = false;
         }
 
         super.tearDown();

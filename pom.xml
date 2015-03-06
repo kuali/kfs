@@ -181,8 +181,6 @@
             <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceSortStepTest*</exclude>
             <exclude>org/kuali/kfs/gl/batch/PosterIcrEncumbranceEntriesStepTest*</exclude>
             <exclude>org/kuali/kfs/gl/batch/service/impl/BalancingServiceImplTest*</exclude>
-            <exclude>org/kuali/kfs/module/ld/batch/service/LaborNightlyOutServiceTest*</exclude>
-            <exclude>org/kuali/kfs/module/ld/batch/service/impl/LaborBalancingServiceImplTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/service/TravelReimbursementServiceTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/validation/impl/TravelDocumentActualExpenseLineValidationTest*</exclude>
           </excludes>

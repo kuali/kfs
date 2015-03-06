@@ -178,7 +178,7 @@
         default.htm?turl=WordDocuments%2Fcontractsgrantsinvoice.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcontractsgrantsinvoice.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -238,7 +238,7 @@
         default.htm?turl=WordDocuments%2Fcontractsgrantslocreview.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcontractsgrantslocreview.htm
 			</docSearchHelpURL>
 			<routePaths>
 				<routePath>

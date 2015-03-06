@@ -68,8 +68,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
 
-        String batchFileDirectoryName = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/originEntry";
-        File nightlyOutFile = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
+        File nightlyOutFile = new File(batchDirectory + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         if (!nightlyOutFile.exists()) {
             nightlyOutFile.createNewFile();
         }
@@ -244,7 +243,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         System.err.println( "Waiting for it to enter running status" );
         // provide an "out" in case things fail badly
         while (!job.isRunning() && waitCount < 500) {
-            Thread.sleep(50);
+            Thread.sleep(20);
             waitCount++;
         }
         // stop the job
@@ -253,7 +252,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         waitCount = 0;
         System.err.println( "Waiting for it to exit running status" );
         while (job.isRunning() && waitCount < 500) {
-            Thread.sleep(50);
+            Thread.sleep(20);
             waitCount++;
         }
         Thread.sleep(2000);

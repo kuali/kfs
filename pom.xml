@@ -185,7 +185,6 @@
             <exclude>org/kuali/kfs/module/ld/batch/service/impl/LaborBalancingServiceImplTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/service/TravelReimbursementServiceTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/validation/impl/TravelDocumentActualExpenseLineValidationTest*</exclude>
-            <exclude>org/kuali/kfs/sys/batch/service/SchedulerServiceImplTest*</exclude>
           </excludes>
         </configuration>
       </plugin>

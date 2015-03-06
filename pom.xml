@@ -66,6 +66,10 @@
     <kuali.release.goals>deploy</kuali.release.goals>
     <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
 
+    <!-- build properties -->
+    <build.environment>dev</build.environment>
+    <work.base.dir>${user.home}/kuali/${project.artifactId}/work/${build.environment}/${project.artifactId}</work.base.dir>
+
     <!-- dependency versions -->
     <barcode4j.version>2.1</barcode4j.version>
     <commons-cli.version>1.0</commons-cli.version>
@@ -121,7 +125,7 @@
           <artifactId>tomcat7-maven-plugin</artifactId>
           <version>${plugin.tomcat.version}</version>
           <configuration>
-            <path>/${project.artifactId}-dev</path>
+            <path>/${project.artifactId}-${build.environment}</path>
             <systemProperties>
               <org.apache.el.parser.SKIP_IDENTIFIER_CHECK>true</org.apache.el.parser.SKIP_IDENTIFIER_CHECK>
             </systemProperties>
@@ -240,6 +244,41 @@
       </resource>
     </resources>
   </build>
+  <profiles>
+    <profile>
+      <id>prepare-work-directory</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>buildWorkDirectories</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${work.base.dir}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/main/config/work</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <dependencies>
     <!-- rice-core dependencies. -->
     <dependency>

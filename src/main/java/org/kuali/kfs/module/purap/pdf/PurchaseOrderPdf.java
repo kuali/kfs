@@ -97,7 +97,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 try {
                     logo = Image.getInstance(logoImage);
                 }
-                catch (FileNotFoundException e) {
+                catch (IOException e) {
                     LOG.info("The logo image [" + logoImage + "] is not available.  Defaulting to the default image.");
                 }
             }
@@ -918,7 +918,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             if (StringUtils.isNotBlank(contractManagerSignatureImage)) {
                 try {
                     contractManagerSignature = Image.getInstance(contractManagerSignatureImage);
-                } catch (FileNotFoundException e) {
+                } catch (IOException e) {
                     LOG.info("The contract manager image [" + contractManagerSignatureImage + "] is not available.  Defaulting to the default image.");
                 }
             }

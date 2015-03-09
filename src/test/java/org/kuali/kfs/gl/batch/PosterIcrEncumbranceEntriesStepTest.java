@@ -28,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
@@ -42,6 +43,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 @ConfigureContext
 @AnnotationTestSuite(IcrEncumbranceSuite.class)
 public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestBase {
+    private BatchDirectoryHelper batchDirectoryHelper;
 
     // Services
     private IcrEncumbranceSortStep icrEncumbranceSortStep;
@@ -58,6 +60,9 @@ public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestB
     public void setUp() throws Exception {
         super.setUp();
 
+        batchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
+
         // Init services
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
         this.icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
@@ -66,6 +71,11 @@ public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestB
         this.unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        batchDirectoryHelper.removeBatchDirectory();
+    }
 
     /*
      * Populate a list of OriginEntryFull objects from the lines

@@ -172,13 +172,6 @@
             <!-- not run by ant as part of core tests - why not? -->
             <exclude>org/kuali/kfs/sys/KualiModuleServiceTest*</exclude>
             <exclude>org/kuali/kfs/sys/service/KualiConfigurationServiceTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/CollectorStepTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/FileEnterpriseFeederTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceFeedStepTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceFileRenameStepTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/IcrEncumbranceSortStepTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/PosterIcrEncumbranceEntriesStepTest*</exclude>
-            <exclude>org/kuali/kfs/gl/batch/service/impl/BalancingServiceImplTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/service/TravelReimbursementServiceTest*</exclude>
             <exclude>org/kuali/kfs/module/tem/document/validation/impl/TravelDocumentActualExpenseLineValidationTest*</exclude>
           </excludes>

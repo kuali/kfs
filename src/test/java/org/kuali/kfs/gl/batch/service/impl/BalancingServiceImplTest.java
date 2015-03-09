@@ -38,6 +38,7 @@ import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,6 +56,8 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     protected BalancingDao balancingDao;
     protected AccountBalanceDao accountBalanceDao;
     protected EncumbranceDao encumbranceDao;
+
+    private BatchDirectoryHelper batchDirectoryHelper;
     
     @Override
     protected void setUp() throws Exception {
@@ -81,9 +84,20 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
         
         // Because KULDBA doesn't support FYs more then 1 year back we need to limit our range in order to properly test boundary cases
         TestUtils.setSystemParameter(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE, "0");
+
+        // make sure originEntry directory exists
+        batchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
         
         // careful: super.setUp needs to happen at the end because of service initialization and NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE
         super.setUp();
+    }
+
+    // remove the origin entry directory if we created it
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        batchDirectoryHelper.removeBatchDirectory();
     }
     
     @Override

@@ -402,5 +402,9 @@
 			</map>
 		</property>
 	</bean>
+
+    <bean id="collectorXmlInputFileType" parent="collectorXmlInputFileType-parentBean">
+        <property name="schemaLocation" value="file:src/main/webapp/static/xsd/gl/collector.xsd"/>
+    </bean>
            
 </beans>

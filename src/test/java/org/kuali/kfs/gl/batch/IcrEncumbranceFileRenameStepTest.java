@@ -23,6 +23,7 @@ import java.util.Date;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
@@ -41,6 +42,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 @ConfigureContext
 @AnnotationTestSuite(IcrEncumbranceSuite.class)
 public class IcrEncumbranceFileRenameStepTest extends IcrEncumbranceStepTestBase {
+    private BatchDirectoryHelper batchDirectoryHelper;
 
     private FileRenameStep fileRenameStep;
     private IcrEncumbranceSortStep icrEncumbranceSortStep;
@@ -59,10 +61,18 @@ public class IcrEncumbranceFileRenameStepTest extends IcrEncumbranceStepTestBase
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
         this.posterIcrEncumbranceEntriesStep = SpringContext.getBean(PosterIcrEncumbranceEntriesStep.class);
         this.posterIcrEncumbranceEntriesStep.setParameterService(SpringContext.getBean(ParameterService.class));
+        batchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
 
         // Override spring-gl-test.xml, since all of the other IcrEncumbranceSuite tests use spring-gl.xml
         fileRenameStep = (FileRenameStep)ProxyUtils.getTargetIfProxied(fileRenameStep);
         fileRenameStep.setBatchFileDirectoryName(batchFileDirectoryName);
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        batchDirectoryHelper.removeBatchDirectory();
     }
 
     /*

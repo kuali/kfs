@@ -23,6 +23,10 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<import resource="classpath:kfs-startup.xml" />
+
+    <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" p:testMode="true"/>
+
+    <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" p:secureMode="true" p:testMode="true"/>
 	
 	<!--  replace the kfsConfigurer bean with one which runs in test mode -->
 	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer" lazy-init="false"

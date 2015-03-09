@@ -197,7 +197,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         KualiDecimal value2 = (new KualiDecimal(2.02));
 
         invoiceDetailAccountObjectCode_1.setCurrentExpenditures(value1);
-        invoiceDetailAccountObjectCode_1.setCurrentExpenditures(value2);
+        invoiceDetailAccountObjectCode_2.setCurrentExpenditures(value2);
 
         List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
@@ -205,8 +205,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentServiceImpl.recalculateAccountDetails(invoiceAccountDetails, invoiceDetailAccountObjectCodes);
 
-        assert (invoiceAccountDetails.get(0).getInvoiceAmount().compareTo(value1) == 0);
-        assert (invoiceAccountDetails.get(1).getInvoiceAmount().compareTo(value2) == 0);
+        assertEquals(value1, invoiceAccountDetails.get(0).getInvoiceAmount());
+        assertEquals(value2, invoiceAccountDetails.get(1).getInvoiceAmount());
     }
 
     /**
@@ -250,36 +250,20 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // setup various invoice detail collections on invoice document
         contractsGrantsInvoiceCreateDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getDocumentNumber(), contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes(), new HashMap<String, KualiDecimal>(), new ArrayList<AwardAccountObjectCodeTotalBilled>());
 
-        // set InvoiceDetailAccountObjectCodes
-        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_1 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();
-        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_2 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD2.createInvoiceDetailAccountObjectCode();
-
-        invoiceDetailAccountObjectCode_1.setCurrentExpenditures(value1);
-        invoiceDetailAccountObjectCode_1.setCurrentExpenditures(value2);
-
-        List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
-        invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
-        invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
-
-        KualiDecimal originalTotalBilledValue = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate();
-
         contractsGrantsInvoiceDocumentServiceImpl.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
 
-        // assert newTotalBilled hasn't changed
-        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().compareTo((originalTotalBilledValue)) == 0);
-
         // making values in account detail different. This simulates that the user have changed
-        // the current expenditure amount and will cause recalucation.
+        // the current expenditure amount and will cause recalculation.
         value1 = new KualiDecimal(10.22);
         value2 = new KualiDecimal(8.44);
 
         invoiceDetails.get(0).setInvoiceAmount(value1);
-        invoiceDetails.get(1).setInvoiceAmount(value1);
+        invoiceDetails.get(1).setInvoiceAmount(value2);
 
         contractsGrantsInvoiceDocumentServiceImpl.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
 
         // assert new value
-        assert (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().compareTo(new KualiDecimal(18.66)) == 0);
+        assertEquals(value1.add(value2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate());
     }
 
     /**

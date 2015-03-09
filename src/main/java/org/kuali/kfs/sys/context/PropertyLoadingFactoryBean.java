@@ -59,9 +59,9 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             loadPropertyList(props,SECURITY_PROPERTY_FILE_NAME_KEY);
         } else {
             loadPropertyList(props,PROPERTY_FILE_NAMES_KEY);
-            if (testMode) {
-                loadPropertyList(props,PROPERTY_TEST_FILE_NAMES_KEY);
-            }            
+        }
+        if (testMode) {
+            loadPropertyList(props,PROPERTY_TEST_FILE_NAMES_KEY);
         }
         if (StringUtils.isBlank(System.getProperty(HTTP_URL_PROPERTY_NAME))) {
             props.put(KSB_REMOTING_URL_PROPERTY_NAME, props.getProperty(KFSConstants.APPLICATION_URL_KEY) + REMOTING_URL_SUFFIX);

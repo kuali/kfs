@@ -2291,7 +2291,8 @@
 		</property>
 	</bean>
 	
-    <bean id="collectorXmlInputFileType" class="org.kuali.kfs.gl.batch.CollectorXmlInputFileType">
+    <bean id="collectorXmlInputFileType" parent="collectorXmlInputFileType-parentBean"/>
+    <bean id="collectorXmlInputFileType-parentBean" abstract="true" class="org.kuali.kfs.gl.batch.CollectorXmlInputFileType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/gl/collectorXml</value>
 	    </property>

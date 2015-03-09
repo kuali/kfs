@@ -30,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UniversityDateServiceFixture;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -50,6 +51,20 @@ public class IcrEncumbranceFeedStepTest extends IcrEncumbranceStepTestBase {
     // Based KFS 5.3 contrib branch demo data
     private static final String ICR_ENCUMBRANCE_TEST_DATA_FILE_PATH = "org/kuali/kfs/gl/batch/fixture/gl_icrencmb.data.txt";
 
+    private BatchDirectoryHelper batchDirectoryHelper;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        batchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        batchDirectoryHelper.removeBatchDirectory();
+    }
 
     /**
      * This test checks that the IcrEncumbranceFeedStep#execute() produces a good feed file.

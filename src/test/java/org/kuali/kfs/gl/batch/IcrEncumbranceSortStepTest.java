@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -40,6 +41,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 public class IcrEncumbranceSortStepTest extends IcrEncumbranceStepTestBase {
 
     private IcrEncumbranceSortStep icrEncumbranceSortStep;
+    private BatchDirectoryHelper batchDirectoryHelper;
 
     /**
      * Setup services used in test.
@@ -51,6 +53,14 @@ public class IcrEncumbranceSortStepTest extends IcrEncumbranceStepTestBase {
         super.setUp();
         icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
         icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
+        batchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        batchDirectoryHelper.removeBatchDirectory();
     }
 
     /**

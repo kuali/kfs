@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -57,8 +58,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
     private File nightlyOutputFile = null;
     private File nightlyOutputDoneFile = null;
 
-    private String batchFileDirectoryName;
-    private boolean batchFileDirectoryCreated = false;
+    private BatchDirectoryHelper batchDirectoryHelper;
 
     @Override
     public void setUp() throws Exception {
@@ -85,16 +85,11 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         fieldValues.remove(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE); // this test isn't expecting the document approved code to be set, so let's simply remove it
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
 
-        String stagingDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory");
-        batchFileDirectoryName = stagingDirectory + File.separator + "ld" + File.separator + "originEntry";
-        File batchFileDirectory = new File(batchFileDirectoryName);
-        if (!batchFileDirectory.exists()) {
-            batchFileDirectory.mkdir();
-            batchFileDirectoryCreated = true;
-        }
+        batchDirectoryHelper = new BatchDirectoryHelper("ld","originEntry");
+        batchDirectoryHelper.createBatchDirectory();
 
-        String nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
+        String nightlyOutputFileName = batchDirectoryHelper.getBatchFileDirectoryName() + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String nightlyOutputDoneFileName = batchDirectoryHelper.getBatchFileDirectoryName() + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
 
         nightlyOutputFile = new File(nightlyOutputFileName);
         nightlyOutputDoneFile = new File(nightlyOutputDoneFileName);
@@ -200,11 +195,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
             nightlyOutputDoneFile.delete();
         }
 
-        if (batchFileDirectoryCreated) {
-            File batchDirectoryFile = new File(batchFileDirectoryName);
-            batchDirectoryFile.delete();
-            batchFileDirectoryCreated = false;
-        }
+        batchDirectoryHelper.removeBatchDirectory();
 
         super.tearDown();
     }

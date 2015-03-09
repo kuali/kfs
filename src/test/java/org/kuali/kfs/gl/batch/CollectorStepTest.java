@@ -18,9 +18,11 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.io.File;
+import java.io.*;
 
+import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchDirectoryHelper;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -37,6 +39,12 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 public class CollectorStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorStepTest.class);
 
+    private BatchDirectoryHelper originEntryBatchDirectoryHelper;
+    private BatchDirectoryHelper collectorXmlBatchDirectoryHelper;
+    private boolean copiedCollector1;
+    private boolean copiedCollector2;
+    private boolean copiedCollector3;
+
     /**
      * Constructs a CollectorStepTest instance
      */
@@ -45,7 +53,7 @@ public class CollectorStepTest extends KualiTestBase {
     }
 
     /**
-     * Creats .done file for test input file.
+     * Creates originEntry directory if needed and .done file for test input file.
      * 
      * @see junit.framework.TestCase#setUp()
      */
@@ -53,20 +61,15 @@ public class CollectorStepTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        // warren: this is just testing code to list out the contents of the staging directory
-        File directory = new File("/opt/kuali/unt/staging/");
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            for (File file : files) {
-                System.err.println("TESTING: " + file.getName());
-                if (file.isDirectory()) {
-                    File[] files2 = file.listFiles();
-                    for (File file2 : files2) {
-                        System.err.println("TESTING2: " + file2.getName());
-                    }
-                }
-            }
-        }
+        originEntryBatchDirectoryHelper = new BatchDirectoryHelper("gl","originEntry");
+        originEntryBatchDirectoryHelper.createBatchDirectory();
+        collectorXmlBatchDirectoryHelper = new BatchDirectoryHelper("gl","collectorXml");
+        collectorXmlBatchDirectoryHelper.createBatchDirectory();
+
+        // copy fixture files to directory
+        copiedCollector1 = copyFixtureToCollectorXml("gl_collector1.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
+        copiedCollector2 = copyFixtureToCollectorXml("gl_collector2.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
+        copiedCollector3 = copyFixtureToCollectorXml("gl_collector3.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
 
         String doneFileName = generateDoneFileName();
 
@@ -74,6 +77,54 @@ public class CollectorStepTest extends KualiTestBase {
         if (!doneFile.exists()) {
             doneFile.createNewFile();
         }
+    }
+
+    protected boolean copyFixtureToCollectorXml(String fixtureName, String directory) {
+        File f = new File(directory + File.separator + fixtureName);
+        if (!f.exists()) {
+            InputStream input = null;
+            OutputStream output = null;
+            try {
+                input = CollectorStepTest.class.getClassLoader().getResourceAsStream("org/kuali/kfs/gl/batch/fixture/" + fixtureName);
+                if (input != null) {
+                    output = new FileOutputStream(f);
+                    IOUtils.copy(input, output);
+                    input.close();
+                    output.close();
+                    return true;
+                }
+            } catch (IOException ioe) {
+                LOG.error("Could not copy file", ioe);
+                throw new RuntimeException(ioe);
+            } finally {
+                input = null;
+                output = null;
+            }
+        }
+        return false;
+    }
+
+    protected void deleteCollectorFile(String fileName, String directory) {
+        File f = new File(directory + File.separator + fileName);
+        if (f.exists()) {
+            f.delete();
+        }
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        if (copiedCollector1) {
+            deleteCollectorFile("gl_collector1.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
+        }
+        if (copiedCollector2) {
+            deleteCollectorFile("gl_collector2.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
+        }
+        if (copiedCollector3) {
+            deleteCollectorFile("gl_collector3.xml", collectorXmlBatchDirectoryHelper.getBatchFileDirectoryName());
+        }
+
+        originEntryBatchDirectoryHelper.removeBatchDirectory();
+        collectorXmlBatchDirectoryHelper.removeBatchDirectory();
     }
 
     /**

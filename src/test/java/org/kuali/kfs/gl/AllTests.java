@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 
 import org.kuali.kfs.gl.batch.BalanceForwardStepTest;
 import org.kuali.kfs.gl.batch.CollectorStepTest;
-import org.kuali.kfs.gl.batch.FileEnterpriseFeederTest;
 import org.kuali.kfs.gl.batch.ForwardEncumbranceTest;
 import org.kuali.kfs.gl.batch.PurgeTest;
 import org.kuali.kfs.gl.batch.YearEndFlexibleOffsetTest;
@@ -70,7 +69,6 @@ public class AllTests {
         // org.kuali.kfs.gl.batch
         suite.addTestSuite(BalanceForwardStepTest.class);
         suite.addTestSuite(CollectorStepTest.class);
-        suite.addTestSuite(FileEnterpriseFeederTest.class);
         suite.addTestSuite(ForwardEncumbranceTest.class);
         suite.addTestSuite(PurgeTest.class);
         suite.addTestSuite(YearEndFlexibleOffsetTest.class);

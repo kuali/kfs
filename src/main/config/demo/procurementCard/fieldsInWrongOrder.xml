@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<transactions xmlns="http://www.kuali.org/kfs/fp/procurementCard"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.kuali.org/kfs/fp/procurementCard @externalizable.static.content.url@/xsd/fp/procurementCard.xsd" >
+
+	<transaction>
+		<transactionCreditCardNumber>999911112222333</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>30.27</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-03-02</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-03-02</transactionCycleEndDate>
+		<cardHolderName>BARBARA TRUESDELL</cardHolderName>
+		<transactionDate>2006-03-01</transactionDate>
+		<transactionReferenceNumber>55417346061640610702687</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>5192</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-03-01</transactionPostingDate>
+		<vendorName>IMU BOOKSTORE</vendorName>
+	</transaction>
+
+
+	<transaction>
+		<cardHolderName>IUPUI JAGS BOOKSTORES</cardHolderName>
+		<transactionDate>2006-01-02</transactionDate>
+		<transactionReferenceNumber>432866002000132935937</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>5192</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-01-02</transactionPostingDate>
+		<vendorName>AMZ*AMAZON PAYMENTS</vendorName>
+		<transactionCreditCardNumber>4444876757777111</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>1.46</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-01-03</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-01-03</transactionCycleEndDate>
+	</transaction>
+</transactions>

@@ -755,12 +755,12 @@
 				</copy>
 			</then>
 		</if>
-		<copy todir="${external.work.directory}">
-			<fileset dir="${build.work.directory}" />
-			<filterset>
-				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
-			</filterset>
-		</copy>
+		<!--<copy todir="${external.work.directory}">-->
+		<!--	<fileset dir="${build.work.directory}" />-->
+		<!--	<filterset>-->
+		<!--		<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />-->
+		<!--	</filterset>-->
+		<!--</copy>-->
 		<if>
 			<isset property="institution.work.directory" />
 			<then>

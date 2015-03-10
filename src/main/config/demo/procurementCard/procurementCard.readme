@@ -1,0 +1,7 @@
+These files are demo data files which can be used to test the functionality in the KFS-FP procurementCardDocumentJob.
+
+To read in the data, either:
+* Upload one of these files via the Administration > Batch > Procurement Card Upload screen
+* Or, copy the file directly to your staging directory/fp/procurementCard directory.  Create a secondary empty file with the same name, with the exception of instead of using the .xml extension, use a .done extension.
+
+Then run the job and records should be processed.

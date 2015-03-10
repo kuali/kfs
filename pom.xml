@@ -172,8 +172,6 @@
             <!-- not run by ant as part of core tests - why not? -->
             <exclude>org/kuali/kfs/sys/KualiModuleServiceTest*</exclude>
             <exclude>org/kuali/kfs/sys/service/KualiConfigurationServiceTest*</exclude>
-            <exclude>org/kuali/kfs/module/tem/document/service/TravelReimbursementServiceTest*</exclude>
-            <exclude>org/kuali/kfs/module/tem/document/validation/impl/TravelDocumentActualExpenseLineValidationTest*</exclude>
           </excludes>
         </configuration>
       </plugin>

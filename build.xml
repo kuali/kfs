@@ -744,8 +744,9 @@
 	            <echo append="true" file="${security.property.file}" message="${institutional.security}" />
             </then>
         </if>
-
+<!--
 		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.file}"/>
+		-->
 		<if>
 			<isset property="institution.security.directory" />
 			<then>

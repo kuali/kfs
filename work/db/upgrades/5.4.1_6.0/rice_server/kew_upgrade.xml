@@ -2984,67 +2984,67 @@
             <where>doc_typ_nm = 'EndowmentSimpleMaintenanceDocument'</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_PLCY_RELN_T">
-            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_APP_STAT_CAT_T">
-            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_APP_DOC_STAT_T">
-            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_RULE_EXT_VAL_T">
-            <where>rule_ext_id in (select rule_ext_id from KREW_RULE_EXT_T where RULE_TMPL_ATTR_ID in (select RULE_TMPL_ATTR_ID from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))))</where>
+            <where>rule_ext_id in (select rule_ext_id from KREW_RULE_EXT_T where RULE_TMPL_ATTR_ID in (select RULE_TMPL_ATTR_ID from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))))</where>
         </delete>
         <delete tableName="KREW_RULE_EXT_T">
-            <where>RULE_TMPL_ATTR_ID in (select RULE_TMPL_ATTR_ID from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')))</where>
+            <where>RULE_TMPL_ATTR_ID in (select RULE_TMPL_ATTR_ID from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')))</where>
         </delete>
         <delete tableName="KREW_RULE_RSP_T">
-            <where>rule_id in (select rule_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')))))</where>
+            <where>rule_id in (select rule_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')))))</where>
         </delete>
         <delete tableName="KREW_DLGN_RSP_T">
-            <where>DLGN_RULE_BASE_VAL_ID in (select rule_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')))))</where>
+            <where>DLGN_RULE_BASE_VAL_ID in (select rule_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')))))</where>
         </delete>
         <delete tableName="KREW_RULE_EXPR_T">
-            <where>rule_expr_id in (select rule_expr_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))))</where>
+            <where>rule_expr_id in (select rule_expr_id from krew_rule_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))))</where>
         </delete>
         <delete tableName="krew_rule_t">
-            <where>rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))))</where>
+            <where>rule_tmpl_id in (select rule_tmpl_id from krew_rule_tmpl_t where rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))))</where>
         </delete>
         <delete tableName="KREW_RULE_TMPL_OPTN_T">
-            <where>RULE_TMPL_ID in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')))</where>
+            <where>RULE_TMPL_ID in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')))</where>
         </delete>
         <delete tableName="krew_rule_tmpl_t">
-            <where>rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')))</where>
+            <where>rule_tmpl_id in (select rule_tmpl_id from KREW_RULE_TMPL_ATTR_T where rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')))</where>
         </delete>
         <delete tableName="KREW_RULE_TMPL_ATTR_T">
-            <where>rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_RULE_ATTR_T">
-            <where>rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>rule_attr_id in (select rule_attr_id from KREW_DOC_TYP_ATTR_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_ATTR_T">
-            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_RTE_NODE_INSTN_LNK_T">
-            <where>FROM_RTE_NODE_INSTN_ID in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>FROM_RTE_NODE_INSTN_ID in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_RTE_NODE_INSTN_LNK_T">
-            <where>TO_RTE_NODE_INSTN_ID in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>TO_RTE_NODE_INSTN_ID in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_RTE_BRCH_PROTO_T">
-            <where>rte_brch_proto_id in (select brch_proto_id from krew_rte_node_t where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>rte_brch_proto_id in (select brch_proto_id from krew_rte_node_t where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_RTE_NODE_CFG_PARM_T">
-            <where>rte_node_id in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET'))</where>
+            <where>rte_node_id in (select rte_node_id from KREW_RTE_NODE_T where doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR'))</where>
         </delete>
         <delete tableName="KREW_RTE_NODE_T">
-            <where>doc_typ_Id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_Id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_PROC_T">
-            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET')</where>
+            <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ECR')</where>
         </delete>
         <delete tableName="KREW_DOC_TYP_T">
-            <where>doc_typ_nm = 'ET'</where>
+            <where>doc_typ_nm = 'ECR'</where>
         </delete>
     </changeSet>
 

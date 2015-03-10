@@ -826,11 +826,11 @@
         </preConditions>
         <dropTable tableName="END_ME_DT_T"/>
     </changeSet>
-    <changeSet author="KFS60" id="DROP_TABLE_END_PENDING_TRAN_DOC_T ">
+    <changeSet author="KFS60" id="DROP_TABLE_END_PENDING_TRAN_DOC_T">
         <preConditions>
-            <tableExists tableName="END_PENDING_TRAN_DOC_T "/>
+            <tableExists tableName="END_PENDING_TRAN_DOC_T"/>
         </preConditions>
-        <dropTable tableName="END_PENDING_TRAN_DOC_T "/>
+        <dropTable tableName="END_PENDING_TRAN_DOC_T"/>
     </changeSet>
     <changeSet author="KFS60" id="DROP_TABLE_END_PMT_TYP_CD_T">
         <preConditions>

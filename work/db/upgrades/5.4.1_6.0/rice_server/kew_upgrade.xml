@@ -3107,7 +3107,7 @@
       <where>doc_typ_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'ET' and parnt_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'KFST'))</where>
     </delete>
     <delete tableName="KREW_DOC_TYP_T">
-      <where>doc_typ_nm = 'ET' and parnt_id IN (SELECT doc_typ_id FROM (SELECT doc_typ_id FROM KREW_DOC_TYP_T WHERE doc_typ_nm = 'KFST') x);</where>
+      <where>doc_typ_nm = 'ET' and parnt_id IN (SELECT doc_typ_id FROM (SELECT doc_typ_id FROM KREW_DOC_TYP_T WHERE doc_typ_nm = 'KFST') x)</where>
     </delete>
   </changeSet>
 

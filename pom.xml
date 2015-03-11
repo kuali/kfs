@@ -168,10 +168,6 @@
           </includes>
           <excludes>
             <exclude>org/kuali/kfs/module/external/kc/**</exclude>
-            <exclude>org/kuali/kfs/sys/context/InquirySectionConsistencyTest*</exclude>
-            <!-- not run by ant as part of core tests - why not? -->
-            <exclude>org/kuali/kfs/sys/KualiModuleServiceTest*</exclude>
-            <exclude>org/kuali/kfs/sys/service/KualiConfigurationServiceTest*</exclude>
           </excludes>
         </configuration>
       </plugin>

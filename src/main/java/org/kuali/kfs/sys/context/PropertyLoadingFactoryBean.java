@@ -56,7 +56,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         loadBaseProperties();
         props.putAll(BASE_PROPERTIES);
         if (secureMode) {
-            loadPropertyList(props,SECURITY_PROPERTY_FILE_NAME_KEY);
+            loadProperties(props, new StringBuilder("classpath:").append(KFS_SECURITY_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
+            loadPropertyList(props, SECURITY_PROPERTY_FILE_NAME_KEY);
         } else {
             loadPropertyList(props,PROPERTY_FILE_NAMES_KEY);
         }
@@ -135,7 +136,6 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());
             loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
             loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_RICE_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
-            loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_SECURITY_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
 
             loadExternalProperties(BASE_PROPERTIES);
 

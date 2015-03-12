@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-<system systemId="http://rice.kuali.org/dd/dd.xsd" uri="platform:/resource/kfs/work/src/org/kuali/kfs/sys/spring/datadictionary/dd.xsd"/>
-</catalog>

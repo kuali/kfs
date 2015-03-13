@@ -1,3 +1,0 @@
-entity_nm_id|obj_id|ver_nbr|entity_id|nm_typ_cd|first_nm|middle_nm|last_nm|suffix_nm|prefix_nm|dflt_ind|actv_ind|last_updt_dt|title_nm|note_msg|nm_chng_dt|
-1200|5B97C50B042C6110E0404F8189D85213|1.0|1100|PRFR|admin||admin|||Y|Y|20081113140702||||
-1231|5B97C50B044B6110E0404F8189D85213|1.0|1131|PRFR|Notification||System|||Y|Y|20081113140707||||

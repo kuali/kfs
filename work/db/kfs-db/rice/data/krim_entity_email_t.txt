@@ -1,3 +1,0 @@
-entity_email_id|obj_id|ver_nbr|entity_id|ent_typ_cd|email_typ_cd|email_addr|dflt_ind|actv_ind|last_updt_dt|
-1200|5B97C50B04066110E0404F8189D85213|1.0|1100|PERSON|WRK|test@email.edu|Y|Y|20081113140655|
-1231|5B97C50B04256110E0404F8189D85213|1.0|1131|PERSON|WRK|test@email.edu|Y|Y|20081113140700|

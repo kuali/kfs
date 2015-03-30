@@ -353,7 +353,7 @@ public class TemKeyConstants {
     public static final String TAB_NAME_AGENCY_LINKS = "tab.name.agency.links";
 
     //Configuration properties
-    public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
+    public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "travel.reimbursement.initiatelink.enabled";
 
     public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "error.triptype.encumbrance.balanceType";
     public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "error.triptype.encumbrance.objectCode";

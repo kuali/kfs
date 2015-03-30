@@ -117,7 +117,7 @@
              <li><portal:portalLink displayTitle="true" title="Moving and Relocation Reimbursement" url="${ConfigProperties.application.url}/temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
              <li><portal:portalLink displayTitle="true" title="Travel Arranger" url="${ConfigProperties.application.url}/temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
              <li><portal:portalLink displayTitle="true" title="Travel Authorization" url="${ConfigProperties.application.url}/temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
-             <c:if test="${ConfigProperties.module.travel.reimbursement.initiatelink.enabled == 'true'}">
+             <c:if test="${ConfigProperties.travel.reimbursement.initiatelink.enabled == 'true'}">
                  <li><portal:portalLink displayTitle="true" title="Travel Reimbursement" url="${ConfigProperties.application.url}/temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
              </c:if>
          </ul>

@@ -105,6 +105,7 @@
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
     <kfs.help.version>5.4.0-SNAPSHOT</kfs.help.version>
+    <liquibase.version>3.3.2</liquibase.version>
     <mysql.groupId>mysql</mysql.groupId>
     <mysql.artifactId>mysql-connector-java</mysql.artifactId>
     <mysql.version>5.1.25</mysql.version>
@@ -1008,6 +1009,11 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+      <version>${liquibase.version}</version>
     </dependency>
   </dependencies>
 </project>

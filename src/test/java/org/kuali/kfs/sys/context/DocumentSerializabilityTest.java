@@ -47,6 +47,9 @@ public class DocumentSerializabilityTest extends KualiTestBase {
         String errorMessage = "";
 
         for (String documentEntryName : documentEntries.keySet()) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Checking: "+documentEntryName);
+            }
             DocumentEntry entry = documentEntries.get(documentEntryName);
 
             Set<String> unserializableFields = null;

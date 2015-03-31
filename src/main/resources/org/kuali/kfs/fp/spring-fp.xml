@@ -72,7 +72,7 @@
         <property name="batchFileDirectories">
           <list>
             <value>${reports.directory}/fp</value>
-            <value>${staging.directory}/fp</value>
+            <value>${staging.directory}/fp/procurementCard</value>
           </list>
         </property>
 

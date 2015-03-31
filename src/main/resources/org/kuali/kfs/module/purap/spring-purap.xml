@@ -87,7 +87,7 @@
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/purap</value>
-            	<value>${staging.directory}/purap</value>
+            	<value>${staging.directory}/purap/electronicInvoice</value>
           	</list>
         </property>
 	</bean>

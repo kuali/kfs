@@ -68,7 +68,12 @@
 		<property name="batchFileDirectories">
 			<list>
 				<value>${reports.directory}/tem</value>
-				<value>${staging.directory}/tem</value>
+				<value>${staging.directory}/tem/agencyData</value>
+				<value>${staging.directory}/tem/creditCardData</value>
+				<value>${staging.directory}/tem/error</value>
+				<value>${staging.directory}/tem/federalPerDiemTxt</value>
+				<value>${staging.directory}/tem/federalPerDiemXml</value>
+				<value>${staging.directory}/tem/profileExport</value>
 			</list>
 		</property>
 	</bean>

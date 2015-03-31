@@ -82,7 +82,10 @@
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/pdp</value>
-            	<value>${staging.directory}/pdp</value>
+            	<value>${staging.directory}/pdp/bankFederalReserve</value>
+            	<value>${staging.directory}/pdp/paymentExtract</value>
+            	<value>${staging.directory}/pdp/paymentImport</value>
+            	<value>${staging.directory}/pdp/paymentLoadSummary</value>
           	</list>
         </property>
 

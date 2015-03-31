@@ -103,7 +103,9 @@
         <property name="batchFileDirectories">
             <list>
                 <value>${reports.directory}/ld</value>
-                <value>${staging.directory}/ld</value>
+                <value>${staging.directory}/ld/correctionProcess</value>
+                <value>${staging.directory}/ld/enterpriseFeed</value>
+                <value>${staging.directory}/ld/originEntry</value>
             </list>
         </property>
     </bean>

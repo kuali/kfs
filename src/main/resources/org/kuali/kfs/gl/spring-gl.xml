@@ -70,7 +70,10 @@
         <property name="batchFileDirectories">
           <list>
             <value>${reports.directory}/gl</value>
-            <value>${staging.directory}/gl</value>
+            <value>${staging.directory}/gl/collectorXml</value>
+            <value>${staging.directory}/gl/correctionProcess</value>
+            <value>${staging.directory}/gl/enterpriseFeed</value>
+            <value>${staging.directory}/gl/originEntry</value>
           </list>
         </property>
 	</bean>

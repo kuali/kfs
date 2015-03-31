@@ -100,7 +100,8 @@
         <property name="batchFileDirectories">
           <list>
             <value>${reports.directory}/ar</value>
-            <value>${staging.directory}/ar</value>
+            <value>${staging.directory}/ar/customer</value>
+            <value>${staging.directory}/ar/invoiceWriteoff</value>
           </list>
         </property>
 		<property name="templateFileDirectories">

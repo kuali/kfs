@@ -26,16 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
@@ -66,6 +57,8 @@ public class SpringContext {
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static final String KFS_BATCH_STEP_COMPONENT_SET_ID = "STEP:KFS";
+    protected static final String DIRECTORIES_TO_CREATE_PATH = "directoriesToCreateOnStartup";
+
     protected static ConfigurableApplicationContext applicationContext;
     protected static Set<Class<? extends Object>> SINGLETON_TYPES = new HashSet<Class<? extends Object>>();
     protected static Map<Class<? extends Object>, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class<? extends Object>, Object>();
@@ -393,6 +386,32 @@ public class SpringContext {
         }
     }
 
+    static void initDirectories() {
+        String dirPaths = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DIRECTORIES_TO_CREATE_PATH);
+        for (String file : Arrays.asList(dirPaths.split(","))) {
+            String trimmedFile = file.trim();
+            if (!trimmedFile.isEmpty()) {
+                File directory = new File(trimmedFile);
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        throw new RuntimeException(trimmedFile + " does not exist and the server was unable to create it.");
+                    } else {
+                        if (LOG.isInfoEnabled()) {
+                            LOG.info("Created directory: "+ directory);
+                        }
+                    }
+                }
+                else {
+                    if (!directory.isDirectory()) {
+                        throw new RuntimeException(trimmedFile + " exists but is not a directory.");
+                    }
+                }
+            }
+        }
+
+
+    }
+
     public static void registerSingletonBean(String beanId, Object bean) {
         applicationContext.getBeanFactory().registerSingleton(beanId, bean);
         //Cleaning caches
@@ -415,6 +434,7 @@ public class SpringContext {
         // KFS addition - we also publish all our Step classes as components - and these are not in the
         // DD so are not published by the command above
         publishBatchStepComponents();
+        initDirectories();
     }
 
     public static void publishBatchStepComponents() {

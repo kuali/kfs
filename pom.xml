@@ -68,7 +68,6 @@
 
     <!-- build properties -->
     <build.environment>dev</build.environment>
-    <work.base.dir>${user.home}/kuali/${project.artifactId}/work/${build.environment}/${project.artifactId}</work.base.dir>
 
     <rice.web.sources>${project.build.directory}/generated-web-sources/rice-web-sources</rice.web.sources>
     <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
@@ -294,40 +293,8 @@
       </resource>
     </resources>
   </build>
+
   <profiles>
-    <profile>
-      <id>prepare-work-directory</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <property>
-          <name>buildWorkDirectories</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-resources</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${work.base.dir}</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>src/main/config/work</directory>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>oracle</id>
       <properties>
@@ -337,6 +304,8 @@
       </properties>
     </profile>
   </profiles>
+
+
   <dependencies>
     <!-- rice-core dependencies. -->
     <dependency>

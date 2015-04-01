@@ -979,9 +979,6 @@ public class KFSKeyConstants {
     public static final String INVALID_DOCTYPE_SELECTED = "error.invalid.doctype.selected";
     public static final String ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED = "error.chart.or.org.notempty.all.required";
 
-    public static final String WORKFLOW_DIRECTORY = "data.xml.root.location";
-    public static final String INGESTION_DIRECTORY = "ingestion";
-
     public static final String ERROR_US_REQUIRES_STATE = "error.USRequiresState.required";
     public static final String ERROR_US_REQUIRES_ZIP = "error.USRequiresZip.required";
     public static final String ERROR_POSTAL_CODE_INVALID = "error.postalCode.invalid";

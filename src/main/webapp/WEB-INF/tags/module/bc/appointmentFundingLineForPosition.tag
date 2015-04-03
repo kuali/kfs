@@ -77,7 +77,7 @@
 		    field="appointmentFundingDeleteIndicator"
 		    fieldAlign="center"
 		    readOnly="false"
-		    rowSpan="1 "dataFieldCssClass="nobord"
+		    rowSpan="1" dataFieldCssClass="nobord"
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" disabled="true"/>
 		    
 		 <c:if test="${!accountsCanCrossCharts}">

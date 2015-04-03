@@ -57,7 +57,7 @@
       <td align="left" valign="middle" class="datacell" width="50%"><kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.cancelDate}" property="document.${travelPaymentProp}.cancelDate" readOnly="true" /></td>
     </tr>
 	<c:if test="${displayCorpCard}">
-		<c:set var="corporateCardAttributes" value="${DataDictionary[KualiForm.document.class.simpleName].attributes}"/>
+		<c:set var="corporateCardAttributes" value="${DataDictionary[KualiForm.document['class'].simpleName].attributes}"/>
 		<tr>
 		  <th align="right" valign="middle" class="bord-l-b" width="50%"><kul:htmlAttributeLabel attributeEntry="${corporateCardAttributes.corporateCardPaymentPdpStatus}"/></th>
 		  <td align="left" valign="middle" class="datacell" width="50%"><kul:htmlControlAttribute attributeEntry="${corporateCardAttributes.corporateCardPaymentPdpStatus}" property="document.corporateCardPaymentPdpStatus" readOnly="true" /></td>

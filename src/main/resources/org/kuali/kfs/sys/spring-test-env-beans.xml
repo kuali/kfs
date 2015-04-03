@@ -23,85 +23,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" default-lazy-init="false">
 
-	<!-- SYS Module -->
-	
-	<!--  Redefine the module bean to add the clear cache job. -->
-    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean" >
-        <property name="jobNames">
-            <list merge="true">
-				<value>clearCacheJob</value>
-            </list>
-        </property>
-	</bean>
-
-    <bean id="clearCacheStep" class="org.kuali.kfs.sys.batch.ClearCacheStep" parent="step">
-		<property name="cacheService">
-			<ref bean="cacheService" />
-		</property>
-	</bean>
-	
-	<bean id="clearCacheJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="clearCacheStep" />
-			</list>
-		</property>
-	</bean>
-	
 	<!-- GL Module -->
 	<bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean">
 		<property name="jobNames">
 			<list merge="true">
-				<value>markPostableGroupsAsUnpostableJob</value>
-				<value>markScrubbableBackupGroupsAsUnscrubbableJob</value>
 				<value>sufficientFundsFullRebuildJob</value>
 			</list>
 		</property>
 	
 	</bean>
 
-	<bean id="markScrubbableBackupGroupsAsUnscrubbableStep" class="org.kuali.kfs.gl.batch.MarkScrubbableBackupGroupsAsUnscrubbableStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-	</bean>
-
-    <bean id="markScrubbableBackupGroupsAsUnscrubbableJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="markScrubbableBackupGroupsAsUnscrubbableStep" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="markPostableScrubberValidGroupsAsUnpostableStep" class="org.kuali.kfs.gl.batch.MarkPostableScrubberValidGroupsAsUnpostableStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-	</bean>
-
-	<bean id="markPostableIcrGroupsAsUnpostableStep" class="org.kuali.kfs.gl.batch.MarkPostableIcrGroupsAsUnpostableStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-	</bean>
-	
-	<bean id="deleteAllExpenditureTransactionsStep" class="org.kuali.kfs.gl.batch.DeleteAllExpenditureTransactionsStep" parent="step">
-		<property name="expenditureTransactionService">
-			<ref bean="glExpenditureTransactionService"/>
-		</property>
-	</bean>
-	
- 	<bean id="markPostableGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="markPostableScrubberValidGroupsAsUnpostableStep" />
-				<ref bean="markPostableIcrGroupsAsUnpostableStep" />
-				<ref bean="deleteAllExpenditureTransactionsStep" />
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="sufficientFundsFullRebuildStep" class="org.kuali.kfs.gl.batch.SufficientFundsFullRebuildStep" parent="step">
 		<property name="sufficientFundsFullRebuildService">
 			<ref bean="glSufficientFundsFullRebuildService" />

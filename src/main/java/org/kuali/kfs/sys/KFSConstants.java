@@ -1373,18 +1373,8 @@ public class KFSConstants {
     // System Parameters
     public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
     public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
-
-
-
-
+    
     public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
-
-    public static class SchemaBuilder {
-        public static final String SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_BEGIN = "${";
-        public static final String SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_END = "}";
-        public static final String XSD_VALIDATION_PREFIX = "xsd:";
-        public static final String DD_VALIDATION_PREFIX = "dd:";
-    }
 
     @Deprecated
     public static class Research {

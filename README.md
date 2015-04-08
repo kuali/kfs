@@ -12,7 +12,7 @@
 ## Quick Start
 
 1. Ensure that you have Java 7+ and Maven 3+ installed
-2. Setup a local MySQL database (see technical document link above for details)
+2. Setup a local MySQL 5.5.x database (see technical document link above for details)
 3. Switch to the kfs directory of the distribution
 4. Run maven's tomcat7:run-war to build the project and start a server.
 

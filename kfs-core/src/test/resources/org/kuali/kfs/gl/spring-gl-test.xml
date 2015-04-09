@@ -404,7 +404,7 @@
 	</bean>
 
     <bean id="collectorXmlInputFileType" parent="collectorXmlInputFileType-parentBean">
-        <property name="schemaLocation" value="file:src/main/webapp/static/xsd/gl/collector.xsd"/>
+        <property name="schemaLocation" value="file:kfs-core/src/main/webapp/static/xsd/gl/collector.xsd"/>
     </bean>
            
 </beans>

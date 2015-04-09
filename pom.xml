@@ -20,6 +20,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <modules>
+    <module>kfs-web</module>
+    <module>kfs-core</module>
+  </modules>
   <parent>
     <groupId>org.kuali.pom</groupId>
     <artifactId>kuali-common</artifactId>
@@ -31,7 +35,7 @@
   <name>Kuali Financial System</name>
   <description>Kuali Financial System</description>
   <inceptionYear>2004</inceptionYear>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
   <url>http://${kuali.site.hostname}/kfs/${project.version}</url>
   <issueManagement>
     <system>JIRA</system>
@@ -103,7 +107,7 @@
     <jstl-api.version>1.2</jstl-api.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
-    <kfs.help.version>5.4.0-SNAPSHOT</kfs.help.version>
+    <kfs.help.version>5.4.0</kfs.help.version>
     <liquibase.version>3.3.2</liquibase.version>
     <mysql.groupId>mysql</mysql.groupId>
     <mysql.artifactId>mysql-connector-java</mysql.artifactId>
@@ -206,84 +210,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--
-        Using dependency unpack as opposed to war overlay for a number of reasons
-        1) overlay requires the packaging phase - tomcat plugin run goal does not work with overlays.
-        2) overlayed resources are not placed in a directory (like generated code) making
-           it difficult for developers to look at the overlayed resources
-       -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-rice-web-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.kuali.rice</groupId>
-                  <artifactId>rice-standalone</artifactId>
-                  <version>${rice.version}</version>
-                  <type>war</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${rice.web.sources}</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-              <includes>*/**</includes>
-              <excludes>${rice.web.excludes}</excludes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unpack-help</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.kuali.kfs</groupId>
-                  <artifactId>kfs-help</artifactId>
-                  <version>${kfs.help.version}</version>
-                  <type>jar</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${help.web.sources}/static/help</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-              <includes>*/**</includes>
-            </configuration>
-          </execution>
-        </executions>
-        </plugin>
-        <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <webResources>
-            <resource>
-              <directory>${rice.web.sources}</directory>
-            </resource>
-            <resource>
-              <directory>${help.web.sources}</directory>
-            </resource>
-          </webResources>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
@@ -302,18 +228,6 @@
                 ${project.build.directory}/${project.artifactId}.jar
               </file>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
@@ -787,6 +701,7 @@
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-help</artifactId>
       <version>${kfs.help.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>net.sf.barcode4j</groupId>

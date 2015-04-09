@@ -18,11 +18,6 @@
  */
 package org.kuali.kfs.module.purap.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -36,9 +31,15 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.impl.country.CountryBo;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {
@@ -130,7 +131,9 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     }
 
     private String getLogoImageName() {
-        return "kfs-web//src//main//webapp//static//images//logo_bl.jpg";
+        String path = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        return path+"/logo_bl.jpg";
+
     }
 
 }

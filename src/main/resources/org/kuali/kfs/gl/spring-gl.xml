@@ -57,7 +57,8 @@
 				<value>posterJob</value>
 				<value>posterBalancingJob</value>
 				<value>sufficientFundsAccountUpdateJob</value>
-				<value>clearPendingEntriesJob</value>
+                <value>sufficientFundsFullRebuildJob</value>
+                <value>clearPendingEntriesJob</value>
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
 				<value>nominalActivityClosingJob</value>
@@ -65,7 +66,7 @@
 				<value>organizationReversionCurrentYearAccountJob</value>
 				<value>manualPurgeJob</value>
 				<value>posterBalancingHistorySyncJob</value>
-			</list>
+            </list>
 		</property>
         <property name="batchFileDirectories">
           <list>
@@ -110,9 +111,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -148,9 +146,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -186,9 +181,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -288,9 +280,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -329,9 +318,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -361,9 +347,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -393,9 +376,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -627,7 +607,6 @@
 	</bean>
 	
 	<bean id="scrubberProcess-parentBean" class="org.kuali.kfs.gl.batch.service.impl.ScrubberProcessImpl" abstract="true">
-	
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -659,8 +638,7 @@
 		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
         <property name="scrubberLedgerReportWriterService" ref="scrubberLedgerReportWriterService" />
 	</bean>
-	
-	
+
 	<bean id="reportOnlyScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
 		<property name="preScrubberService" ref="preScrubberService" />
 		<property name="scrubberReportWriterService" ref="glcpScrubberReportWriterService" />
@@ -670,23 +648,17 @@
 	</bean>
 	
 	<bean id="scrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
-		
         <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
-	
 	</bean>
 	
 	<bean id="demergerScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
-		
         <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
 		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
 		<property name="demergerRemovedTransactionsListingReportWriterService" ref="demergerRemovedTransactionsListingReportWriterService" />
-	
 	</bean>
 	
 	<bean id="batchScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
-	
         <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
-        
 	</bean>
 
 	<bean id="glScrubberService" parent="glScrubberService-parentBean"/>
@@ -700,7 +672,6 @@
 		<property name="reportOnlyScrubberProcess">
 			<ref bean="reportOnlyScrubberProcess"/>
 		</property>	
-		
 	</bean>
 	
 	<bean id="scrubberValidator" parent="scrubberValidator-parentBean" />
@@ -1048,15 +1019,6 @@
 
 	<bean id="originEntryGroupService" parent="originEntryGroupService-parentBean"/>
 	<bean id="originEntryGroupService-parentBean" abstract="true"  class="org.kuali.kfs.gl.service.impl.OriginEntryGroupServiceImpl">
-<!-- 	
-		<property name="originEntryGroupDao">
-			<ref bean="glOriginEntryGroupDao" />
-		</property>
-		<property name="originEntryDao">
-			<ref bean="originEntryDao" />
-		</property>
-
- -->
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -1064,7 +1026,6 @@
             <ref bean="kualiModuleService" />
         </property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
-		<!--<property name="batchLaborFileDirectoryName" value="${staging.directory}/ld/originEntry"/>-->
 		<property name="nightlyOutFileName" value="gl_glentry_kfs" />
 		<property name="backupFileName" value="gl_glbackup" />
 	</bean>
@@ -1201,14 +1162,11 @@
 
 	<bean id="glAccountBalanceDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceDaoJdbcBase" abstract="true" />
 
-	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceConsolidationDaoJdbc">
-	</bean>
+	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceConsolidationDaoJdbc"/>
 
-	<bean id="glAccountBalanceLevelDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceLevelDaoJdbc">
-	</bean>
-	
-	<bean id="glAccountBalanceObjectDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceObjectDaoJdbc">
-	</bean>
+	<bean id="glAccountBalanceLevelDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceLevelDaoJdbc"/>
+
+	<bean id="glAccountBalanceObjectDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceObjectDaoJdbc"/>
 
 	<bean id="glSufficientFundBalancesDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundBalancesDaoOjb" />
 
@@ -1232,9 +1190,6 @@
 		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull"/>
    			</bean>
 
-<!--	
-	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryGroupDaoOjb" />
--->
 	<bean id="glBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceDaoOjb"/>
 
 	<bean id="glExpenditureTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.ExpenditureTransactionDaoOjb" />
@@ -1484,8 +1439,7 @@
 			</map>
 		</property>
 	</bean>
-	
-	
+
 	<bean id="sufficientFundsAccountUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -1498,8 +1452,22 @@
 			</map>
 		</property>
 	</bean>
-	
-	<bean id="clearPendingEntriesJob" parent="scheduledJobDescriptor">
+
+    <bean id="sufficientFundsFullRebuildStep" class="org.kuali.kfs.gl.batch.SufficientFundsFullRebuildStep" parent="step">
+        <property name="sufficientFundsFullRebuildService">
+            <ref bean="glSufficientFundsFullRebuildService" />
+        </property>
+    </bean>
+
+    <bean id="sufficientFundsFullRebuildJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="sufficientFundsFullRebuildStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="clearPendingEntriesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="clearPendingEntriesStep" />
@@ -1517,15 +1485,7 @@
 			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
-	
-<!--	<bean id="clearOldOriginEntriesJob" parent="unscheduledJobDescriptor">-->
-<!--		<property name="steps">-->
-<!--			<list>-->
-<!--				<ref bean="clearOldOriginEntryStep" />-->
-<!--			</list>-->
-<!--		</property>		-->
-<!--	</bean>-->
-	
+
 	<bean id="manualPurgeJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -3005,5 +2965,5 @@
             <ref bean="glCurrentAccountBalanceLookupableHelperService" />
         </property>
     </bean>
-    
+
 </beans>

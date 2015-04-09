@@ -108,8 +108,19 @@
         </property>        
  		<property name="dataDictionaryPackages">
 			<list>
-                <value>org/kuali/kfs/module/external/kc/businessobject/datadictionary</value>
-                <value>org/kuali/kfs/module/external/kc/document/datadictionary</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/AccountAutoCreateDefaults.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/Agency.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/Award.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/AwardAccount.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/BillingFrequencyMapping.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/BudgetCategoryDTO.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/CfdaDTO.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/IndirectCostRecoveryAutoDefAccount.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/LetterOfCreditFundGroup.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/Proposal.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/businessobject/datadictionary/UnitDTO.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/document/datadictionary/AccountAutoCreateDefaultsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kfs/module/external/kc/document/datadictionary/BillingFrequencyMappingMaintenanceDocument.xml</value>
 			</list>
 		</property> 	
 		<property name="databaseRepositoryFilePaths">

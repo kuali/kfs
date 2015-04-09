@@ -33,8 +33,22 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
-                <value>org/kuali/kfs/module/ec/businessobject/datadictionary</value>
-                <value>org/kuali/kfs/module/ec/document/datadictionary</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/DuplicateCertificationsReport.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationDetail.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationDetailBuild.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationDocumentBuild.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationPeriodStatusCode.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationReportDefinition.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationReportEarnPaygroup.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationReportPosition.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/EffortCertificationReportType.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/OutstandingCertificationsByOrganization.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/businessobject/datadictionary/OutstandingCertificationsByReport.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/document/datadictionary/EffortCertificationDocument.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/document/datadictionary/EffortCertificationPeriodStatusCodeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/document/datadictionary/EffortCertificationReportDefinitionMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/document/datadictionary/EffortCertificationReportEarnPaygroupMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/module/ec/document/datadictionary/EffortCertificationReportTypeMaintenanceDocument.xml</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

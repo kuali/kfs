@@ -37,9 +37,24 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/sec/businessobject/datadictionary</value>
-				<value>org/kuali/kfs/sec/document/datadictionary</value>
-				<value>org/kuali/kfs/sec/datadictionary</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/AbstractSecurityModelDefinition.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/AccessSecuritySimulation.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/ModelMember.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecKimAttributes.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityAttribute.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityDefinition.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityDefinitionDocumentType.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityModel.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityModelDefinition.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityModelMember.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityPrincipal.xml</value>
+				<value>classpath:org/kuali/kfs/sec/businessobject/datadictionary/SecurityPrincipalDefinition.xml</value>
+				<value>classpath:org/kuali/kfs/sec/document/datadictionary/SecurityAttributeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/sec/document/datadictionary/SecurityDefinitionMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/sec/document/datadictionary/SecurityModelMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/sec/document/datadictionary/SecurityPrincipalMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/sec/datadictionary/AccessSecurityOverrides.xml</value>
+				<value>classpath:org/kuali/kfs/sec/datadictionary/AccessSecurityOverrides-lookups.xml</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

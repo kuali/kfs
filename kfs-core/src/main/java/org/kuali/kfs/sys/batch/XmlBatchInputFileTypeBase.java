@@ -34,8 +34,10 @@ import javax.xml.validation.Validator;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.xml.sax.SAXException;
 
@@ -136,16 +138,8 @@ public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
     protected void validateContentsAgainstSchema(String schemaLocation, InputStream fileContents) throws ParseException {
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
         // get schemaFile
-        UrlResource schemaResource = null;
-        try {
-            schemaResource = new UrlResource(schemaLocation);
-        }
-        catch (MalformedURLException e2) {
-            LOG.error("error getting schema url: " + e2.getMessage());
-            throw new RuntimeException("error getting schema url:  " + e2.getMessage(), e2);
-        }
+        Resource schemaResource = SpringContext.getResource(schemaLocation);
 
         // load a WXS schema, represented by a Schema instance
         Source schemaSource = null;

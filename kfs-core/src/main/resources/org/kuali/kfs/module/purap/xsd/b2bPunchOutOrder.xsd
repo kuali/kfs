@@ -25,9 +25,9 @@
 		    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 		    
-<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xsd/sys/xml.xsd"/>
-<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
-<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../xsd/sys/types.xsd" />
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../../sys/xsd/xml.xsd"/>
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="purapTypes.xsd" />
+<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../../sys/xsd/types.xsd" />
 
 <xsd:element name="Credential">
 	<xsd:complexType>

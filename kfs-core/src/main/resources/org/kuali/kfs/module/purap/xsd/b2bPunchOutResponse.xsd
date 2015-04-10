@@ -24,8 +24,8 @@
 		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xsd/sys/xml.xsd"/>
-<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../../sys/xsd/xml.xsd"/>
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="purapTypes.xsd" />
 	
 	<xsd:element name="cXML">
 	    <xsd:complexType>

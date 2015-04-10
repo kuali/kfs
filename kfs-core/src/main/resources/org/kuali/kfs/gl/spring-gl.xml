@@ -2292,7 +2292,7 @@
 	       <value>org/kuali/kfs/gl/batch/collectorDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/gl/collector.xsd</value>
+	       <value>org/kuali/kfs/gl/xsd/collector.xsd</value>
 	    </property>
 	    <property name="dateTimeService">
 	       <ref bean="dateTimeService"/>

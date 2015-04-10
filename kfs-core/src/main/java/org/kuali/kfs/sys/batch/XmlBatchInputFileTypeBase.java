@@ -136,16 +136,9 @@ public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
     protected void validateContentsAgainstSchema(String schemaLocation, InputStream fileContents) throws ParseException {
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
+        ClassLoader classLoader = this.getClass().getClassLoader();
         // get schemaFile
-        UrlResource schemaResource = null;
-        try {
-            schemaResource = new UrlResource(schemaLocation);
-        }
-        catch (MalformedURLException e2) {
-            LOG.error("error getting schema url: " + e2.getMessage());
-            throw new RuntimeException("error getting schema url:  " + e2.getMessage(), e2);
-        }
+        UrlResource schemaResource = new UrlResource(classLoader.getResource(schemaLocation));
 
         // load a WXS schema, represented by a Schema instance
         Source schemaSource = null;

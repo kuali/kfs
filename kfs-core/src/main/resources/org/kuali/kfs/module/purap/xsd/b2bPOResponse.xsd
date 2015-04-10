@@ -24,7 +24,7 @@
 		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-	<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
+	<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="purapTypes.xsd" />
 	
 	<xsd:element name="Error">
 	  	<xsd:complexType>

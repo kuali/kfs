@@ -817,7 +817,7 @@
         <property name="dateTimeService" ref="dateTimeService"/>
         
 	    <property name="digestorRulesFileName" value="org/kuali/kfs/module/tem/batch/perDiemDigesterRules.xml" />
-	    <property name="schemaLocation" value="${externalizable.static.content.url}/xsd/tem/perDiem.xsd" />       
+	    <property name="schemaLocation" value="org/kuali/kfs/module/tem/xsd/perDiem.xsd" />
     </bean>
 
 
@@ -1029,7 +1029,7 @@
 		<property name="fileNamePrefix" value="agencyData" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="digestorRulesFileName" value="org/kuali/kfs/module/tem/batch/agencyDataDigesterRules.xml" />			
-		<property name="schemaLocation" value="${externalizable.static.content.url}/xsd/tem/AgencyData.xsd" />			
+		<property name="schemaLocation" value="org/kuali/kfs/module/tem/xsd/AgencyData.xsd" />
 	</bean>
 
 	<bean id="agencyDataImportJob" parent="agencyDataImportJob-parentBean" />
@@ -1270,7 +1270,7 @@
 		<property name="digestorRulesFileName"
 			value="org/kuali/kfs/module/tem/batch/creditCardDataDigesterRules.xml" />
 		<property name="schemaLocation"
-			value="${externalizable.static.content.url}/xsd/tem/CreditCardData.xsd" />
+			value="org/kuali/kfs/module/tem/xsd/CreditCardData.xsd" />
 	</bean>
 	<!-- End Credit Card Upload configuration -->
 	

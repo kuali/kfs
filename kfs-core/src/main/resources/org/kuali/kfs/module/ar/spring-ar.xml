@@ -1880,7 +1880,7 @@
 			<value>org/kuali/kfs/module/ar/batch/digester/customerLoadDigesterRules.xml</value>
 		</property>
 		<property name="schemaLocation">
-			<value>${externalizable.static.content.url}/xsd/ar/customer.xsd</value>
+			<value>org/kuali/kfs/module/ar/xsd/customer.xsd</value>
 		</property>
 		<property name="customerLoadService">
 			<ref bean="customerLoadService" />
@@ -1952,7 +1952,7 @@
 			<value>org/kuali/kfs/module/ar/batch/digester/customerInvoiceWriteoffBatchDigesterRules.xml</value>
 		</property>
 		<property name="schemaLocation">
-			<value>${externalizable.static.content.url}/xsd/ar/customerInvoiceWriteoffBatch.xsd</value>
+			<value>org/kuali/kfs/module/ar/xsd/customerInvoiceWriteoffBatch.xsd</value>
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />

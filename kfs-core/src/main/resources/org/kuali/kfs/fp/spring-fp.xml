@@ -457,7 +457,7 @@
 	       <value>org/kuali/kfs/fp/batch/pcdoDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/fp/procurementCard.xsd</value>
+	       <value>org/kuali/kfs/fp/xsd/procurementCard.xsd</value>
 	    </property>
 	    <property name="dateTimeService">
 	       <ref bean="dateTimeService"/>

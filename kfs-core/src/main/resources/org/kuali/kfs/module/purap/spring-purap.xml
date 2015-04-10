@@ -782,7 +782,7 @@
 	       <value>org/kuali/kfs/module/purap/batch/electronicInvoiceDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
+	       <value>org/kuali/kfs/module/purap/xsd/electronicInvoice.xsd</value>
 	    </property>
 	    <property name="reportPrefix">
 	       <value>purapElectronicInvoiceExtractJob</value>
@@ -814,7 +814,7 @@
 	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPOResponseDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/purap/b2bPOResponse.xsd</value>
+	       <value>org/kuali/kfs/module/purap/xsd/b2bPOResponse.xsd</value>
 	    </property>
 	</bean>
 	
@@ -823,7 +823,7 @@
 	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPunchOutOrderDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/purap/b2bPunchOutOrder.xsd</value> 
+	       <value>org/kuali/kfs/module/purap/xsd/b2bPunchOutOrder.xsd</value>
 	    </property>
 	</bean>
 	
@@ -832,7 +832,7 @@
 	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPunchOutResponseDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/purap/b2bPunchOutResponse.xsd</value> 
+	       <value>org/kuali/kfs/module/purap/xsd/b2bPunchOutResponse.xsd</value>
 	    </property>
 	</bean>
 	<bean id="relatedDocumentDerivedRoleTypeService" parent="relatedDocumentDerivedRoleTypeService-parentBean"/>

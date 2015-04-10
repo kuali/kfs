@@ -23,8 +23,8 @@
     xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/ar/customer" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../xsd/sys/types.xsd" />
-    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="../../xsd/sys/ddTypes.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../../sys/xsd/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="../../../sys/xsd/ddTypes.xsd" />
   
 	<!--  elements -->
 	<xsd:element name="customers" type="customersType" />

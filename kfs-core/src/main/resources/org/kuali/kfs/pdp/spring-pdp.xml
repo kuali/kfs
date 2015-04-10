@@ -557,7 +557,7 @@
 	       <value>org/kuali/kfs/pdp/batch/paymentDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/pdp/payment.xsd</value>
+	       <value>org/kuali/kfs/module/pdp/xsd/payment.xsd</value>
 	    </property>
 	    <property name="dateTimeService">
 	       <ref bean="dateTimeService"/>

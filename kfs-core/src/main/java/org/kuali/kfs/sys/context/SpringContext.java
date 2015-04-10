@@ -50,6 +50,7 @@ import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.io.Resource;
 
 @SuppressWarnings("deprecation")
 public class SpringContext {
@@ -224,6 +225,10 @@ public class SpringContext {
     protected static String[] getBeanNames() {
         verifyProperInitialization();
         return applicationContext.getBeanDefinitionNames();
+    }
+
+    public static Resource getResource(String uri) {
+        return applicationContext.getResource(uri);
     }
 
     protected static void close() {

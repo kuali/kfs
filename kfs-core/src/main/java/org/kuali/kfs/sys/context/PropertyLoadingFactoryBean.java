@@ -27,6 +27,8 @@ import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -97,7 +99,11 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         InputStream propertyFileInputStream = null;
         try {
             try {
-                propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
+                if (!SpringContext.isInitialized()) {
+                    propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
+                } else {
+                    propertyFileInputStream = SpringContext.getResource(propertyFileName).getInputStream();
+                }
                 props.load(propertyFileInputStream);
             }
             finally {

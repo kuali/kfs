@@ -34,7 +34,7 @@ public class KFSTestStartup {
         long startInit = System.currentTimeMillis();
         LOG.info("Initializing Kuali Rice Application...");
 
-        String bootstrapSpringBeans = "kfs-startup-test.xml";
+        String bootstrapSpringBeans = "classpath:kfs-startup-test.xml";
 
         Properties baseProps = new Properties();
         baseProps.putAll(System.getProperties());

@@ -11,6 +11,7 @@
 
   <artifactId>kfs-web</artifactId>
   <packaging>war</packaging>
+  <name>Kuali Financial Web Application</name>
 
   <!--
         Using dependency unpack as opposed to war overlay for a number of reasons
@@ -87,6 +88,51 @@
     <dependency>
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-ar</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-bc</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-cam</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-cg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-ec</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-kc</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-ld</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-purap</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-tem</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

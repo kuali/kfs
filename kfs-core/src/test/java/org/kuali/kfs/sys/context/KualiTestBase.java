@@ -78,21 +78,25 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
      */
     @Override
     public final void runBare() throws Throwable {
-        if (!log4jConfigured) {
-            Log4jConfigurer.configureLogging(false);
-            log4jConfigured = true;
-        }
+
         final String testName = getClass().getName() + "." + getName();
 
-        if ( LOG.isInfoEnabled() ) {
-            LOG.info("Entering test '" + testName + "'");
-        }
+
         GlobalVariables.clear();
         ConfigureContext contextConfiguration = getMethod(getName()).getAnnotation(ConfigureContext.class) != null ? getMethod(getName()).getAnnotation(ConfigureContext.class) : getMethod("setUp").getAnnotation(ConfigureContext.class) != null ? getMethod("setUp").getAnnotation(ConfigureContext.class) : getClass().getAnnotation(ConfigureContext.class);
         if (contextConfiguration != null) {
             configure(contextConfiguration);
             SpringContext.getBean(ConfigurableDateService.class).setCurrentDate(new java.util.Date());
             ConfigContext.getCurrentContextConfig().putProperty(KSBConstants.Config.MESSAGE_DELIVERY, KSBConstants.MESSAGING_SYNCHRONOUS );
+        }
+
+        if (!log4jConfigured) {
+            Log4jConfigurer.configureLogging(false);
+            log4jConfigured = true;
+        }
+
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Entering test '" + testName + "'");
         }
         try {
             setUp();

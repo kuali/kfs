@@ -21,8 +21,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <modules>
-    <module>kfs-web</module>
     <module>kfs-core</module>
+    <module>kfs-purap</module>
+    <module>kfs-ar</module>
+    <module>kfs-cam</module>
+    <module>kfs-cg</module>
+    <module>kfs-ec</module>
+    <module>kfs-kc</module>
+    <module>kfs-ld</module>
+    <module>kfs-tem</module>
+    <module>kfs-bc</module>
+    <module>kfs-web</module>
   </modules>
   <parent>
     <groupId>org.kuali.pom</groupId>
@@ -33,7 +42,7 @@
   <artifactId>kfs</artifactId>
   <version>6.0.0-beta1-SNAPSHOT</version>
   <name>Kuali Financial System</name>
-  <description>Kuali Financial System</description>
+  <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
   <packaging>pom</packaging>
   <url>http://${kuali.site.hostname}/kfs/${project.version}</url>

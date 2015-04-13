@@ -131,8 +131,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     }
 
     private String getLogoImageName() {
-        String path = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        return path+"/logo_bl.jpg";
+        return "";
 
     }
 

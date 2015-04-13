@@ -39,34 +39,8 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/AccountBalance.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/AccountBalanceByConsolidation.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/AccountBalanceByLevel.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/AccountBalanceByObject.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/Balance.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/CashBalance.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/CollectorBatch.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/CollectorDetail.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/CurrentAccountBalance.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/Encumbrance.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/Entry.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/ExpenditureTransaction.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/LedgerBalanceTypeSummaryTotalLine.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/LedgerEntryForReporting.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/LedgerSummaryDetailLine.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/LedgerSummaryTotalLine.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/OriginEntryFull.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PendingEntrySummary.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PosterOutputSummaryBalanceTypeFiscalYearTotal.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PosterOutputSummaryBalanceTypeTotal.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PosterOutputSummaryEntry.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/PosterOutputSummaryTotal.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/Reversal.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/SufficientFundRebuild.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/TransientBalanceInquiryAttributes.xml</value>
-				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/TrialBalanceReport.xml</value>
-				<value>classpath:org/kuali/kfs/gl/document/datadictionary/GeneralLedgerCorrectionProcessDocument.xml</value>
+				<value>classpath:org/kuali/kfs/gl/businessobject/datadictionary/*.xml</value>
+				<value>classpath:org/kuali/kfs/gl/document/datadictionary/*.xml</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

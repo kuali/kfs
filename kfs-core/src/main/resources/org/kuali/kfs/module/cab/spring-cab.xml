@@ -33,17 +33,8 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/AssetTransactionType.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/GeneralLedgerEntry.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/GeneralLedgerEntryAsset.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/Pretag.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/PretagDetail.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/PurchasingAccountsPayableDocument.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/PurchasingAccountsPayableItemAsset.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/PurchasingAccountsPayableLineAssetAccount.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/PurchasingAccountsPayableProcessingReport.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/document/datadictionary/AssetTransactionTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/module/cab/document/datadictionary/PretagMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/module/cab/businessobject/datadictionary/*.xml</value>
+				<value>classpath:org/kuali/kfs/module/cab/document/datadictionary/*.xml</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

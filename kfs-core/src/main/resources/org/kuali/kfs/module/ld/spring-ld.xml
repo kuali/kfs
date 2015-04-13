@@ -45,50 +45,8 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/AccountStatusBaseFunds.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/AccountStatusCurrentFunds.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/BenefitInquiry.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/BenefitsCalculation.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/BenefitsType.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/EmployeeFunding.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/ErrorCertification.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/ExpenseTransferSourceAccountingLine.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/ExpenseTransferTargetAccountingLine.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/July1PositionFunding.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborBenefitRateCategory.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborCalculatedSalaryFoundationTracker.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborGeneralLedgerEntry.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborJournalVoucherDetail.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborLedgerPendingEntry.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborObject.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LaborOriginEntry.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerBalance.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerBalanceForBenefitExpenseTransfer.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerBalanceForEffortCertification.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerBalanceForSalaryExpenseTransfer.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerEntry.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerEntryForExpenseTransfer.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/LedgerEntryGLSummary.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/PositionData.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/PositionFunding.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/PositionObjectBenefit.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/PositionObjectGroup.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/BenefitExpenseTransferDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/BenefitExpenseTransferDocumentAccountingLinesDefinitions.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/BenefitsCalculationMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/BenefitsTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborBenefitRateCategoryMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborCorrectionDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborDistributionAccountingDocumentDefinitions.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborJournalVoucherDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborJournalVoucherDocumentAccountingLineDefinitions.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/LaborObjectMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/PositionObjectBenefitMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/PositionObjectGroupMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/SalaryExpenseTransferDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/SalaryExpenseTransferDocumentAccountingLinesDefinitions.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/YearEndBenefitExpenseTransferDocument.xml</value>
-                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/YearEndSalaryExpenseTransferDocument.xml</value>
+                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/*.xml</value>
+                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/*.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">

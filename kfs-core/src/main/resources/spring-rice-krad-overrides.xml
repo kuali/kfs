@@ -51,4 +51,47 @@
     
     <bean id="businessObjectAuthorizationService" class="org.kuali.kfs.sys.service.impl.BusinessObjectAuthorizationServiceImpl"/>
 
+    <bean id="dataDictionaryService" class="org.kuali.kfs.sys.service.impl.DataDictionaryServiceImpl">
+        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+        <property name="baselinePackages">
+            <list>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/AdHocRoutePerson.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/AdHocRouteWorkgroup.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/Attachment.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/AttributeReferenceElements.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/BusinessObjectAttributeEntry.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/DocumentHeader.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/namespace/Namespace.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterType.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/component/Component.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/parameter/Parameter.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/PessimisticLock.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/Note.xml</value>
+                <value>classpath:org/kuali/rice/krad/bo/datadictionary/NoteType.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/namespace/NamespaceMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/component/ComponentMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/core/web/cache/CacheAdmin.xml</value>
+                <value>classpath:org/kuali/rice/location/web/campus/CampusMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/campus/CampusTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/country/CountryMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/county/CountyMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>

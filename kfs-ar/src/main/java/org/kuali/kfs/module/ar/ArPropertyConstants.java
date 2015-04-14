@@ -563,7 +563,7 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_GROUP = "letterOfCreditFundGroup";
-    public static final String LETTER_OF_CREDIT_FUND_CODE = "creditFundCode";
+    public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String HEADER_REVIEW_DETAILS = "headerReviewDetails";

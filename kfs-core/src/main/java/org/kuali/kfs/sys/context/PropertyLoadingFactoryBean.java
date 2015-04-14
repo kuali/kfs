@@ -140,8 +140,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_RICE_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
             loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(KFS_SECURITY_DEFAULT_CONFIGURATION_FILE_NAME).append(".properties").toString());
 
-            loadExternalProperties(BASE_PROPERTIES);
-            loadExternalTestProperties(BASE_PROPERTIES);
+            loadExternalProperties(BASE_PROPERTIES, ADDITIONAL_KFS_CONFIG_LOCATIONS_PARAM);
+            loadExternalProperties(BASE_PROPERTIES, ADDITIONAL_KFS_TEST_CONFIG_LOCATIONS_PARAM);
 
         }
     }
@@ -150,8 +150,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
      * Loads properties from an external file.  Also merges in all System properties
      * @param props the properties object
      */
-    private static void loadExternalProperties(Properties props) {
-        String externalConfigLocationPaths = System.getProperty(PropertyLoadingFactoryBean.ADDITIONAL_KFS_CONFIG_LOCATIONS_PARAM);
+    private static void loadExternalProperties(Properties props, String location) {
+        String externalConfigLocationPaths = System.getProperty(location);
         if (StringUtils.isNotEmpty(externalConfigLocationPaths)) {
             String[] files = externalConfigLocationPaths.split(","); 
             for (String f: files) { 
@@ -165,24 +165,6 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         props.putAll(System.getProperties());
     }
 
-    /**
-     * Loads properties from an external file.  Also merges in all System properties
-     * @param props the properties object
-     */
-    private static void loadExternalTestProperties(Properties props) {
-        String externalConfigLocationPaths = System.getProperty(PropertyLoadingFactoryBean.ADDITIONAL_KFS_TEST_CONFIG_LOCATIONS_PARAM);
-        if (StringUtils.isNotEmpty(externalConfigLocationPaths)) {
-            String[] files = externalConfigLocationPaths.split(",");
-            for (String f: files) {
-                if (StringUtils.isNotEmpty(f)) {
-                    System.err.println("Loading properties from " + f);
-                    loadProperties(props, new StringBuffer("file:").append(f).toString());
-                }
-            }
-        }
-
-        props.putAll(System.getProperties());
-    }
 
     public void setTestMode(boolean testMode) {
         this.testMode = testMode;

@@ -180,13 +180,10 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xms1024m -Xmx1024m -XX:MaxPermSize=384m</argLine>
+          <argLine>-Xms1024m -Xmx1024m</argLine>
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <excludes>
-            <exclude>org/kuali/kfs/module/external/kc/**</exclude>
-          </excludes>
         </configuration>
       </plugin>
       <plugin>

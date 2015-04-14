@@ -163,7 +163,7 @@ public class DataDictionary  {
                 if (resource.exists()) {
                     final String resourcePath = parseResourcePathFromUrl(resource);
                     if (!StringUtils.isBlank(resourcePath)) {
-                        configFileLocations.add("classpath:"+resourcePath);
+                        configFileLocations.add(resourcePath);
                     }
                 } else {
                     LOG.warn("Could not find " + sourceName);
@@ -197,9 +197,12 @@ public class DataDictionary  {
     protected String parseResourcePathFromUrl(Resource resource) throws IOException {
         final URL resourceUrl = resource.getURL();
         final String resourceUrlPath = resourceUrl.getPath();
+        final String resourceUrlFile = resourceUrl.getFile();
         final Matcher resourceUrlPathMatcher = resourceUrlPattern.matcher(resourceUrlPath);
         if (resourceUrlPathMatcher.matches() && !StringUtils.isBlank(resourceUrlPathMatcher.group(1))) {
-            return resourceUrlPathMatcher.group(1);
+            return "classpath:"+resourceUrlPathMatcher.group(1);
+        } else if (!StringUtils.isBlank(resourceUrlFile) && resource.exists()) {
+            return "file:"+resourceUrlFile;
         }
         return null;
     }

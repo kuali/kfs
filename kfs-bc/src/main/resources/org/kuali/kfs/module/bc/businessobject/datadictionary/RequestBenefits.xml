@@ -81,10 +81,21 @@
   <bean id="RequestBenefits-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
   <bean id="RequestBenefits-financialObjectBenefitsTypeCode" parent="RequestBenefits-financialObjectBenefitsTypeCode-parentBean"/>
-
-  <bean id="RequestBenefits-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="BenefitsType-positionBenefitTypeCode">
-    <property name="name" value="financialObjectBenefitsTypeCode"/>
+  
+  <bean id="RequestBenefits-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectBenefitsTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Benefits Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
   </bean>
+
   <bean id="RequestBenefits-financialObjectBenefitsTypeDescription" parent="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean"/>
 
   <bean id="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">

@@ -22,11 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.identity.RoleTestBase;
-
+@ConfigureContext
 public class CgKFSApplicationRoleTest extends RoleTestBase {
 
     public static final String ACCOUNT_DERIVED_AWARD_CHART = "BL";

@@ -47,8 +47,6 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,6 +61,11 @@ import java.util.regex.Pattern;
  * Collection of named BusinessObjectEntry objects, each of which contains
  * information relating to the display, validation, and general maintenance of a
  * BusinessObject.
+ *
+ * THIS OVERRIDE OF THE RICE DATA DICTIONARY IS A TOTAL BAND-AID.
+ * It allows us to pass in the Spring ApplicationContext to retrieve resources, which means we can use file globs
+ * to pull in those resources.  Hopefully, as KFS starts pulling in Rice client functionality, the Rice DataDictionary
+ * will be improved to pull multiple files in.
  */
 public class DataDictionary  {
 
@@ -153,11 +156,11 @@ public class DataDictionary  {
             throw new DataDictionaryException("Source Name given is null");
         }
 
-        if (sourceName.endsWith("*.xml")) {
+        if (sourceName.endsWith(".xml")) {
             final Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(applicationContext).getResources(sourceName);
             for (Resource resource: resources) {
                 if (resource.exists()) {
-                    final String resourcePath = parseResourcePath(resource);
+                    final String resourcePath = parseResourcePathFromDescription(resource);
                     if (!StringUtils.isBlank(resourcePath)) {
                         configFileLocations.add("classpath:"+resourcePath);
                     }
@@ -165,15 +168,6 @@ public class DataDictionary  {
                     LOG.warn("Could not find " + sourceName);
                     throw new DataDictionaryException("DD Resource " + sourceName + " not found");
                 }
-            }
-        }
-        else if (!sourceName.endsWith(".xml") ) {
-            Resource resource = getFileResource(sourceName, applicationContext);
-            if (resource.exists()) {
-                indexSource(resource.getFile());
-            } else {
-                LOG.warn("Could not find " + sourceName);
-                throw new DataDictionaryException("DD Resource " + sourceName + " not found");
             }
         } else {
             if ( LOG.isDebugEnabled() ) {
@@ -199,7 +193,7 @@ public class DataDictionary  {
      * @param resource a resource which hides a path from us
      * @return the path name if we could parse it out
      */
-    protected String parseResourcePath(Resource resource) {
+    protected String parseResourcePathFromDescription(Resource resource) {
         final String resourceDescription = resource.getDescription();
         final Matcher resourceDescriptionMatcher = resourceDescriptionPattern.matcher(resourceDescription);
         if (resourceDescriptionMatcher.matches() && !StringUtils.isBlank(resourceDescriptionMatcher.group(1))) {

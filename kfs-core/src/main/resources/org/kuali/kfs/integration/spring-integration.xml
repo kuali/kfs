@@ -36,8 +36,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/ld/businessobject/datadictionary/LaborBenefitRateCategory.xml</value>
-                <value>classpath:org/kuali/kfs/integration/ld/businessobject/datadictionary/PositionObjectGroup.xml</value>
+                <value>classpath:org/kuali/kfs/integration/ld/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
@@ -81,14 +80,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/Agency.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/Award.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/AwardAccount.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/BudgetCategoryDTO.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/CfdaDTO.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/LetterOfCreditFundGroup.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/Proposal.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/UnitDTO.xml</value>
+                <value>classpath:org/kuali/kfs/integration/cg/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
@@ -145,8 +137,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/cam/businessobject/datadictionary/Asset.xml</value>
-                <value>classpath:org/kuali/kfs/integration/cam/businessobject/datadictionary/AssetType.xml</value>
+                <value>classpath:org/kuali/kfs/integration/cam/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
     </bean>
@@ -168,7 +159,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/cab/businessobject/datadictionary/AssetTransactionType.xml</value>
+                <value>classpath:org/kuali/kfs/integration/cab/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
                 
@@ -195,7 +186,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/purap/businessobject/datadictionary/SensitiveData.xml</value>
+                <value>classpath:org/kuali/kfs/integration/purap/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
@@ -224,7 +215,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kfs/integration/common/businessobject/datadictionary/CommonAttributeDefinitions.xml</value>
+                <value>classpath:org/kuali/kfs/integration/common/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
     </bean>

@@ -41,48 +41,8 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/AccountingChangeCode.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/AchAccountNumber.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/ACHBank.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/ACHPayee.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/ACHTransactionCode.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/ACHTransactionType.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/BankChangeHistory.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/Batch.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/CustomerBank.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/CustomerProfile.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/DailyReport.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/DisbursementNumberRange.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/DisbursementType.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/FormatProcess.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/FormatResult.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PayeeACHAccount.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PayeeType.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentAccountDetail.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentAccountHistory.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentChangeCode.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentDetail.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentFileLoad.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentGroup.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentGroupHistory.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentNoteText.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentProcess.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentStatus.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PaymentType.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/ProcessSummary.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/PurchasingPaymentDetail.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/AccountingChangeCodeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/ACHBankMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/ACHTransactionCodeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/ACHTransactionTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/CustomerProfileMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/DisbursementNumberRangeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/DisbursementTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/PayeeACHAccountMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/PayeeTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/PaymentChangeCodeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/PaymentStatusMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/PaymentTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/kfs/pdp/businessobject/datadictionary/*.xml</value>
+				<value>classpath:org/kuali/kfs/pdp/document/datadictionary/*.xml</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

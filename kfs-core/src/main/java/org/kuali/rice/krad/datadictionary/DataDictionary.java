@@ -43,6 +43,7 @@ import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.util.ResourceUtils;
 
 import java.beans.PropertyDescriptor;
 import java.io.File;
@@ -93,7 +94,7 @@ public class DataDictionary  {
 
     protected List<String> configFileLocations = new ArrayList<String>();
 
-    protected static Pattern resourceUrlPattern = Pattern.compile("^.*?\\.jar!(.+)$");
+    protected static Pattern resourceJarUrlPattern = Pattern.compile("^.*?\\.jar!(.+)$");
 
     public List<String> getConfigFileLocations() {
         return this.configFileLocations;
@@ -196,13 +197,13 @@ public class DataDictionary  {
      */
     protected String parseResourcePathFromUrl(Resource resource) throws IOException {
         final URL resourceUrl = resource.getURL();
-        final String resourceUrlPath = resourceUrl.getPath();
-        final String resourceUrlFile = resourceUrl.getFile();
-        final Matcher resourceUrlPathMatcher = resourceUrlPattern.matcher(resourceUrlPath);
-        if (resourceUrlPathMatcher.matches() && !StringUtils.isBlank(resourceUrlPathMatcher.group(1))) {
-            return "classpath:"+resourceUrlPathMatcher.group(1);
-        } else if (!StringUtils.isBlank(resourceUrlFile) && resource.exists()) {
-            return "file:"+resourceUrlFile;
+        if (ResourceUtils.isJarURL(resourceUrl)) {
+            final Matcher resourceUrlPathMatcher = resourceJarUrlPattern.matcher(resourceUrl.getPath());
+            if (resourceUrlPathMatcher.matches() && !StringUtils.isBlank(resourceUrlPathMatcher.group(1))) {
+                return "classpath:" + resourceUrlPathMatcher.group(1);
+            }
+        } else if (ResourceUtils.URL_PROTOCOL_FILE.equals(resourceUrl.getProtocol()) && resource.exists()) {
+            return "file:" + resourceUrl.getFile();
         }
         return null;
     }

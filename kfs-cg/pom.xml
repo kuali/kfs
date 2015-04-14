@@ -12,17 +12,24 @@
   <artifactId>kfs-cg</artifactId>
   <name>Kuali Financial Contracts And Grants</name>
 
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${plugin.javadoc.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.kuali.kfs</groupId>-->
-      <!--<artifactId>kfs-ar</artifactId>-->
-      <!--<version>${project.version}</version>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-core</artifactId>
@@ -30,13 +37,6 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.kuali.kfs</groupId>-->
-      <!--<artifactId>kfs-ar</artifactId>-->
-      <!--<version>${project.version}</version>-->
-      <!--<type>test-jar</type>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
   </dependencies>
 
 </project>

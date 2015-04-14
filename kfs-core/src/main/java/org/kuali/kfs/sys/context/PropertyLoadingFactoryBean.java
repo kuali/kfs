@@ -99,11 +99,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         InputStream propertyFileInputStream = null;
         try {
             try {
-                if (!SpringContext.isInitialized()) {
-                    propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
-                } else {
-                    propertyFileInputStream = SpringContext.getResource(propertyFileName).getInputStream();
-                }
+                propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
                 props.load(propertyFileInputStream);
             }
             finally {
@@ -114,7 +110,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         }
         catch (IOException e) {
             LOG.error(e);
-            throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
+           // throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
         }
     }
 

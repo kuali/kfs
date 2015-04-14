@@ -44,6 +44,7 @@ public class CGPropertyConstants{
     public static class AgencyFields {
         public static final String AGENCY_TAB_ADDRESSES = "agencyAddresses";
         public static final String AGENCY_NUMBER = "agencyNumber";
+        public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
         public static final String AGENCY_ADDRESS_STATE_CODE = "agencyStateCode";
         public static final String AGENCY_ADDRESS_ZIP_CODE = "agencyZipCode";
         public static final String AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "agencyAddressInternationalProvinceName";
@@ -72,8 +73,10 @@ public class CGPropertyConstants{
     public static final String CUSTOMER = "customer";
     public static final String CUSTOMER_NUMBER = "customerNumber";
     public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
+    public static final String LETTER_OF_CREDIT_FUND_CODE = "letterOfCreditFundCode";
 
-      // ProposalAwardCloseDocument
+
+    // ProposalAwardCloseDocument
     public static final String PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE = "userInitiatedCloseDate";
 
     public static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";

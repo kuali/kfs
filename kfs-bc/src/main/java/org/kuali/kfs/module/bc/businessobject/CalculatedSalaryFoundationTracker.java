@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -565,7 +565,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
         if (!StringUtils.isEmpty(name)) {
             return name;
         }
-        return LaborConstants.BalanceInquiries.UnknownPersonName;
+        return BCConstants.UNKNOWN_PERSON_NAME;
     }
 
     public void setName(String name) {

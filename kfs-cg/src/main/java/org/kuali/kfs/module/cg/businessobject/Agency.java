@@ -26,8 +26,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.cg.service.AgencyService;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -411,7 +411,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     @Override
     public AccountsReceivableCustomer getCustomer() {
-        return customer = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, customer, ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER);
+        return customer = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, customer, CGPropertyConstants.CUSTOMER);
     }
 
     /**

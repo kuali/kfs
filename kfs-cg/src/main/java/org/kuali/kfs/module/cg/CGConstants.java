@@ -38,6 +38,9 @@ public class CGConstants{
 
     public static final String DROPDOWN_LIST_SELECT = "select:";
 
+    public static final String SORT_INDEX_SESSION_KEY = "sortIndex";
+    public static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
+
     // System Parameters
     public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
 

@@ -87,6 +87,8 @@ public class BCConstants {
     public static final String MAPPING_IMPORT_EXPORT = "import_export";
 
     public static final String POSITION_NUMBER_NOT_FOUND = "NotFnd";
+    public static final String UNKNOWN_PERSON_NAME = "* Unknown Name *";
+
 
     public static final String IS_ORG_REPORT_REQUEST_PARAMETER = "orgReport";
 

@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -486,7 +485,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Prim
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.AGENCY_NUMBER, this.agencyNumber);
         if (this.agencyAddressIdentifier != null) {
-            m.put(ArPropertyConstants.ContractsAndGrantsAgencyAddressFields.AGENCY_ADDRESS_IDENTIFIER, this.agencyAddressIdentifier.toString());
+            m.put(CGPropertyConstants.AgencyFields.AGENCY_ADDRESS_IDENTIFIER, this.agencyAddressIdentifier.toString());
         }
         return m;
     }

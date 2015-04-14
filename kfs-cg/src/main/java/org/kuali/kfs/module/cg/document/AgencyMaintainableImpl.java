@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
@@ -223,7 +222,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         Agency agency = getAgency();
-        String customerNumber = (String) fieldValues.get(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "." + ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER);
+        String customerNumber = (String) fieldValues.get(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "." + CGPropertyConstants.CUSTOMER_NUMBER);
 
         if (ObjectUtils.isNotNull(customerNumber)) {
             AccountsReceivableCustomer customer = SpringContext.getBean(AccountsReceivableModuleService.class).findCustomer(customerNumber);

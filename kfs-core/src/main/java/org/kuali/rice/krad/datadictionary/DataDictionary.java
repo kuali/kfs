@@ -47,6 +47,7 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class DataDictionary  {
 
     protected List<String> configFileLocations = new ArrayList<String>();
 
-    protected static Pattern resourceDescriptionPattern = Pattern.compile("^.*?\\[(.+)\\]$");
+    protected static Pattern resourceUrlPattern = Pattern.compile("^.*?\\.jar!(.+)$");
 
     public List<String> getConfigFileLocations() {
         return this.configFileLocations;
@@ -160,7 +161,7 @@ public class DataDictionary  {
             final Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(applicationContext).getResources(sourceName);
             for (Resource resource: resources) {
                 if (resource.exists()) {
-                    final String resourcePath = parseResourcePathFromDescription(resource);
+                    final String resourcePath = parseResourcePathFromUrl(resource);
                     if (!StringUtils.isBlank(resourcePath)) {
                         configFileLocations.add("classpath:"+resourcePath);
                     }
@@ -193,11 +194,12 @@ public class DataDictionary  {
      * @param resource a resource which hides a path from us
      * @return the path name if we could parse it out
      */
-    protected String parseResourcePathFromDescription(Resource resource) {
-        final String resourceDescription = resource.getDescription();
-        final Matcher resourceDescriptionMatcher = resourceDescriptionPattern.matcher(resourceDescription);
-        if (resourceDescriptionMatcher.matches() && !StringUtils.isBlank(resourceDescriptionMatcher.group(1))) {
-            return resourceDescriptionMatcher.group(1);
+    protected String parseResourcePathFromUrl(Resource resource) throws IOException {
+        final URL resourceUrl = resource.getURL();
+        final String resourceUrlPath = resourceUrl.getPath();
+        final Matcher resourceUrlPathMatcher = resourceUrlPattern.matcher(resourceUrlPath);
+        if (resourceUrlPathMatcher.matches() && !StringUtils.isBlank(resourceUrlPathMatcher.group(1))) {
+            return resourceUrlPathMatcher.group(1);
         }
         return null;
     }

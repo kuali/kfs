@@ -97,4 +97,9 @@ public class KFSConfigurer extends ModuleConfigurer implements InitializingBean 
     public void setTestMode(boolean testMode) {
         this.testMode = testMode;
     }
+
+    @Override
+    public RunMode getRunMode() {
+        return RunMode.LOCAL;
+    }
 }

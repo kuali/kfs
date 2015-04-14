@@ -44,7 +44,9 @@ public class SpringContextForBatchRunner {
 
         context.start();
         long endInit = System.currentTimeMillis();
-        LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
+        if (LOG.isInfoEnabled()) {
+            LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
+        }
         SpringContext.finishInitializationAfterRiceStartup();
         
         SpringContext.initMemoryMonitor();

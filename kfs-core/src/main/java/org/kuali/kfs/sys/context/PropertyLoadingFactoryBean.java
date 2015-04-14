@@ -27,6 +27,8 @@ import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -108,7 +110,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
         }
         catch (IOException e) {
             LOG.error(e);
-            throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
+           // throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
         }
     }
 

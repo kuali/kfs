@@ -459,6 +459,10 @@
 			<http-method>PUT</http-method>
 		</web-resource-collection>
 		<auth-constraint />
-	</security-constraint>	
+	</security-constraint>
+
+    <error-page>
+        <location>/error.html</location>
+    </error-page>
 
 </web-app>

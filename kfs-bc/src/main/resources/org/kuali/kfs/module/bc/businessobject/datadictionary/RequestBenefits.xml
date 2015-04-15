@@ -40,12 +40,12 @@
         <ref bean="RequestBenefits-fringeDetailAmount"/>
         <ref bean="RequestBenefits-accountLineAnnualBalanceAmount"/>
         <ref bean="RequestBenefits-laborBenefitRateCategory-code"/>
-        <ref bean="ReqeustBenefits-laborBenefitRateCategory-codeDesc"/>
-        <ref bean="ReqeustBenefits-accountNumber"/>
+        <ref bean="RequestBenefits-laborBenefitRateCategory-codeDesc"/>
+        <ref bean="RequestBenefits-accountNumber"/>
       </list>
     </property>
   </bean>
-  
+
 <!-- Attribute Definitions -->
 
   <bean id="RequestBenefits-accountLineAnnualBalanceAmount" parent="RequestBenefits-accountLineAnnualBalanceAmount-parentBean"/>
@@ -63,9 +63,9 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    
-    
   </bean>
+
+
   <bean id="RequestBenefits-universityFiscalYear" parent="RequestBenefits-universityFiscalYear-parentBean"/>
 
   <bean id="RequestBenefits-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
@@ -76,6 +76,7 @@
 
   <bean id="RequestBenefits-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
+  
   <bean id="RequestBenefits-financialObjectCode" parent="RequestBenefits-financialObjectCode-parentBean"/>
 
   <bean id="RequestBenefits-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
@@ -123,10 +124,11 @@
       <bean parent="TextControlDefinition" p:size="24"/>
     </property>
   </bean>
-  
+
   <bean id="RequestBenefits-positionFringeBenefitObjectCode" parent="RequestBenefits-positionFringeBenefitObjectCode-parentBean"/>
 
   <bean id="RequestBenefits-positionFringeBenefitObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="positionFringeBenefitObjectCode"/>
     <property name="label" value="Position Fringe Benefit Object Code"/>
   </bean>
   <bean id="RequestBenefits-positionFringeBenefitObjectCodeName" parent="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean"/>
@@ -150,19 +152,19 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    
-    
+
+
   </bean>
-  
+
   <bean id="RequestBenefits-laborBenefitRateCategory-code" parent="RequestBenefits-laborBenefitRateCategory-code-parentBean"/>
   <bean id="RequestBenefits-laborBenefitRateCategory-code-parentBean" parent="LaborBenefitRateCategory-code" abstract="true"/>
-  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc" parent="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" />
-  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" parent="LaborBenefitRateCategory-codeDesc" abstract="true">
+  <bean id="RequestBenefits-laborBenefitRateCategory-codeDesc" parent="RequestBenefits-laborBenefitRateCategory-codeDesc-parentBean" />
+  <bean id="RequestBenefits-laborBenefitRateCategory-codeDesc-parentBean" parent="LaborBenefitRateCategory-codeDesc" abstract="true">
   	<property name="name" value="laborBenefitRateCategoryCodeDesc"/>
   </bean>
-  
-  <bean id="ReqeustBenefits-accountNumber" parent="ReqeustBenefits-accountNumber-parentBean" />
-  <bean id="ReqeustBenefits-accountNumber-parentBean" parent="Account-accountNumber" abstract="true"/>
+
+  <bean id="RequestBenefits-accountNumber" parent="RequestBenefits-accountNumber-parentBean" />
+  <bean id="RequestBenefits-accountNumber-parentBean" parent="Account-accountNumber" abstract="true"/>
 
 <!-- Business Object Lookup Definition -->
 

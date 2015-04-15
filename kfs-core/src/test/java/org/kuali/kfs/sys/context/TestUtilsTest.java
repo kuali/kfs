@@ -70,7 +70,7 @@ public class TestUtilsTest extends KualiTestBase {
 
     public void testGetUnproxiedService() {
         try {
-            BalancingServiceBaseImpl<Entry, Balance> balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("laborBalancingService");
+            BalancingServiceBaseImpl<Entry, Balance> balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
             assertNotNull(balancingService);
         }
         catch (Exception e) {

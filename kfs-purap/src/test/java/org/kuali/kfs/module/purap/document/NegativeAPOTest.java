@@ -40,7 +40,9 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
  * that are not eligible to become APO. 
  * One of the ineligibility criterias is if the APO Limit is null.
  * However, currently there is no known way to simulate this criteria
- * yet, so we'll skip this particular criteria for now. 
+ * yet, so we'll skip this particular criteria for now.
+ * Also, ineligibility due to capital asset criteria are tested in
+ * CapitalAssetInvalidAPOTest in the CAM module.
  * All the other criterias for APO ineligibility are already added in this class.
  * The methods here tested are in RequisitionService.
  * 
@@ -185,16 +187,6 @@ public class NegativeAPOTest extends KualiTestBase {
          }           
      }
 
-     // Requisition has failed capital asset rules.
-     public void testInvalidAPOCapitalAssetFailure() throws Exception {
-         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_FAILS_CAPITAL_ASSET_RULE.createRequisitionDocument();
-         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
-         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_ACCT_LINE_CAPITAL_OBJ_LEVEL);
-             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
-         }  
-     }
-     
      // Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.
      public void PATCHFIX_testInvalidAPOApprovalOutsideAllowedDateRange() throws Exception {
          //TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS, "366");

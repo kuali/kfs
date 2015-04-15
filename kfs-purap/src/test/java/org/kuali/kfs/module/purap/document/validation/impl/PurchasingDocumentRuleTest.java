@@ -218,46 +218,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     // Tests of validateCommodityCodes.
 
     /**
-     * Tests that, if a commodity code is not entered on the item, but the system parameter
-     * requires the item to have commodity code, it will give validation error about
-     * the commodity code is required.
-     *
-     * @throws Exception
-     */
-    public void testMissingCommodityCodeWhenRequired() throws Exception {
-        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
-        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_NO_APO_VALID;
-
-        CompositeValidation validation = (CompositeValidation)validations.get("Requisition-newProcessItemValidation");
-        RequisitionDocument req = reqFixture.createRequisitionDocument();
-        AttributedDocumentEventBase event = new AttributedDocumentEventBase("","", req);
-
-        for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
-            event.setIterationSubject(item);
-            validation.validate(event);
-        }
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
-
-        String fieldName = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE;
-        assertTrue(GlobalVariables.getMessageMap().fieldHasMessage(fieldName, KFSKeyConstants.ERROR_REQUIRED));
-        GlobalVariables.getMessageMap().clearErrorMessages();
-        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
-        PurchaseOrderDocumentFixture poFixture = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS;
-
-        validation = (CompositeValidation)validations.get("PurchaseOrder-newProcessItemValidation");
-        PurchaseOrderDocument po = poFixture.createPurchaseOrderDocument();
-        event = new AttributedDocumentEventBase("","", po);
-
-        for(PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
-            event.setIterationSubject(item);
-            validation.validate(event);
-        }
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
-        assertTrue(GlobalVariables.getMessageMap().fieldHasMessage(fieldName, KFSKeyConstants.ERROR_REQUIRED));
-
-    }
-
-    /**
      * Tests that, if a valid and active commodity code is entered and is required according to the
      * system parameter, the validation should return true (successful).
      *
@@ -436,18 +396,5 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse( validation.validate(null) );
     }
 
-    public void testValidateOneSystemCapitalAssetSystemChartsRequiringParameters() {
-        RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
-        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);
-        SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(requisition);
-
-        PurchasingCapitalAssetValidation validation = (PurchasingCapitalAssetValidation)validations.get("Purchasing-capitalAssetValidation-test");
-        assertTrue( validation.validate(new AttributedDocumentEventBase("", "", requisition)) );
-
-        //BA is one of the chart code that requires some fields (e.g. comments) to be filled in.
-        PurchasingDocument purchasingDocument = requisition;
-        purchasingDocument.getItems().get(0).getSourceAccountingLines().get(0).setChartOfAccountsCode("BA");
-        assertFalse( "Chart BA should have required comments", validation.validate(new AttributedDocumentEventBase("", "", requisition)) );
-    }
 }
 

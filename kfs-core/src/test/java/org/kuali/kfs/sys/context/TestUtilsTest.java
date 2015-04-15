@@ -23,6 +23,7 @@ import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.service.impl.AutoDisapproveDocumentsServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
@@ -70,8 +71,8 @@ public class TestUtilsTest extends KualiTestBase {
 
     public void testGetUnproxiedService() {
         try {
-            BalancingServiceBaseImpl<Entry, Balance> balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
-            assertNotNull(balancingService);
+            AutoDisapproveDocumentsServiceImpl autoDisapproveDocumentsService = (AutoDisapproveDocumentsServiceImpl) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
+            assertNotNull(autoDisapproveDocumentsService);
         }
         catch (Exception e) {
             assertTrue("testGetUnproxiedService failed due to stacktrace: " + e.getMessage(), false);

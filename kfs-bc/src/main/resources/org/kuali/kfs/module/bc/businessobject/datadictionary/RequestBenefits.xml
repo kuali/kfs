@@ -81,7 +81,7 @@
   <bean id="RequestBenefits-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
   <bean id="RequestBenefits-financialObjectBenefitsTypeCode" parent="RequestBenefits-financialObjectBenefitsTypeCode-parentBean"/>
-  
+
   <bean id="RequestBenefits-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectBenefitsTypeCode" />
     <property name="forceUppercase" value="true" />
@@ -126,7 +126,7 @@
   
   <bean id="RequestBenefits-positionFringeBenefitObjectCode" parent="RequestBenefits-positionFringeBenefitObjectCode-parentBean"/>
 
-  <bean id="RequestBenefits-positionFringeBenefitObjectCode-parentBean" abstract="true" parent="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean">
+  <bean id="RequestBenefits-positionFringeBenefitObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="label" value="Position Fringe Benefit Object Code"/>
   </bean>
   <bean id="RequestBenefits-positionFringeBenefitObjectCodeName" parent="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean"/>

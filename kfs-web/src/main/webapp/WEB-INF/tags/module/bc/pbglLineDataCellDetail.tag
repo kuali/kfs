@@ -37,11 +37,11 @@
 <%@ attribute name="formattedNumberValue" required="false"
               description="number to format instead of property" %>              
               
-<c:set var="class" value="${empty dataFieldCssClass ? 'fineprint' : dataFieldCssClass}"/> 
+<c:set var="cssClass" value="${empty dataFieldCssClass ? 'fineprint' : dataFieldCssClass}"/>
              
 <c:if test="${!KualiForm.hideDetails}">
 <%--    <br/> --%>
-    <div id="${accountingLine}.${detailField}.div" class="${class}">
+    <div id="${accountingLine}.${detailField}.div" class="${cssClass}">
     <c:if test="${!empty detailFields}">
 	    <c:forTokens var="key" items="${detailFields}" delims=",">
 	        <c:set var="field" value="${key}"/>

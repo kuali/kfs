@@ -52,7 +52,7 @@ public interface ReportGenerationService {
      * @param reportData the data being written into the PDF report file
      * @param dataSource the data source being used for the PDF report
      * @param template the report template full file name
-     * @param reportFileName the output stream for sending back contents
+     * @param baos the output stream for sending back contents
      */
     public void generateReportToOutputStream(Map<String, Object> reportData, Object dataSource, String template, ByteArrayOutputStream baos);
 

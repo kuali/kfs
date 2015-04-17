@@ -18,17 +18,9 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -90,10 +82,8 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
                 compileSubReports(subReports, subReportDirectory);
             }
 
-            String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
-            String designTemplateName = realTemplateNameWithoutExtension.concat(DESIGN_FILE_EXTENSION);
-            String jasperReportName = realTemplateNameWithoutExtension.concat(JASPER_REPORT_EXTENSION);
-            compileReportTemplate(designTemplateName, jasperReportName);
+            String designTemplateName = template.concat(DESIGN_FILE_EXTENSION);
+            ByteArrayInputStream jasperReport = compileReportTemplate(designTemplateName);
 
             JRDataSource jrDataSource = JasperReportsUtils.convertReportData(dataSource);
 
@@ -103,7 +93,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
                 reportDirectory.mkdir();
             }
             
-            JasperRunManager.runReportToPdfFile(jasperReportName, reportFileName, reportData, jrDataSource);
+            JasperRunManager.runReportToPdfStream(jasperReport, new FileOutputStream(reportFileName), reportData, jrDataSource);
         }
         catch (Exception e) {
             LOG.error(e);
@@ -125,19 +115,15 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             if (reportData != null && reportData.containsKey(PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME)) {
                 Map<String, String> subReports = (Map<String, String>) reportData.get(PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME);
                 String subReportDirectory = (String) reportData.get(PARAMETER_NAME_SUBREPORT_DIR);
-                compileSubReports(subReports, subReportDirectory);
+                final List<ByteArrayInputStream> subJasperReports = compileSubReports(subReports, subReportDirectory);
             }
 
-            String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
-            String designTemplateName = realTemplateNameWithoutExtension.concat(DESIGN_FILE_EXTENSION);
-            String jasperReportName = realTemplateNameWithoutExtension.concat(JASPER_REPORT_EXTENSION);
-            compileReportTemplate(designTemplateName, jasperReportName);
+            String designTemplateName = template.concat(DESIGN_FILE_EXTENSION);
+            ByteArrayInputStream jasperReport = compileReportTemplate(designTemplateName);
 
             JRDataSource jrDataSource = JasperReportsUtils.convertReportData(dataSource);
 
-            InputStream inputStream = new FileInputStream(jasperReportName);
-
-            JasperRunManager.runReportToPdfStream(inputStream, (OutputStream) baos, reportData, jrDataSource);
+            JasperRunManager.runReportToPdfStream(jasperReport, (OutputStream) baos, reportData, jrDataSource);
         }
         catch (Exception e) {
             LOG.error(e);
@@ -146,9 +132,9 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#buildFullFileName()
      */
+    @Override
     public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(runDate);
         String fileNamePattern = "{0}" + SEPARATOR + "{1}_{2}{3}";
@@ -183,24 +169,17 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * complie the report template xml file into a Jasper report file if the compiled file does not exist or is out of update
      * 
      * @param designTemplate the full name of the report template xml file
-     * @param jasperReport the full name of the compiled report file
      */
-    protected void compileReportTemplate(String designTemplate, String jasperReport) throws JRException {
-        File jasperFile = new File(jasperReport);
-        File designFile = new File(designTemplate);
+    protected ByteArrayInputStream compileReportTemplate(String designTemplate) throws JRException, IOException {
+        ClassPathResource designTemplateResource = new ClassPathResource(designTemplate);
 
-        if (!jasperFile.exists() && !designFile.exists()) {
-            throw new RuntimeException("Both the design template file and jasper report file don't exist: (" + designTemplate + ", " + jasperReport + ")");
+        if (!designTemplateResource.exists()) {
+            throw new RuntimeException("The design template file does not exist: "+designTemplate);
         }
 
-        if (!jasperFile.exists() && designFile.exists()) {
-            JasperCompileManager.compileReportToFile(designTemplate, jasperReport);
-        }
-        else if (jasperFile.exists() && designFile.exists()) {
-            if (jasperFile.lastModified() < designFile.lastModified()) {
-                JasperCompileManager.compileReportToFile(designTemplate, jasperReport);
-            }
-        }
+        ByteArrayOutputStream jasperReport = new ByteArrayOutputStream();
+        JasperCompileManager.compileReportToStream(designTemplateResource.getInputStream(), jasperReport);
+        return new ByteArrayInputStream(jasperReport.toByteArray());
     }
 
     /**
@@ -209,31 +188,14 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * @param subReports the sub report Map that hold the sub report templete names indexed with keys
      * @param subReportDirectory the directory where sub report templates are located
      */
-    protected void compileSubReports(Map<String, String> subReports, String subReportDirectory) throws Exception {
+    protected List<ByteArrayInputStream> compileSubReports(Map<String, String> subReports, String subReportDirectory) throws Exception {
+        List<ByteArrayInputStream> jasperReports = new ArrayList<>();
         for (Map.Entry<String, String> entry: subReports.entrySet()) {
-            ClassPathResource resource = getReportTemplateClassPathResource(subReportDirectory + entry.getValue());
-            String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
+            final String designTemplateName = subReportDirectory + entry.getValue() + DESIGN_FILE_EXTENSION;
 
-            String designTemplateName = realTemplateNameWithoutExtension.concat(DESIGN_FILE_EXTENSION);
-            String jasperReportName = realTemplateNameWithoutExtension.concat(JASPER_REPORT_EXTENSION);
-
-            compileReportTemplate(designTemplateName, jasperReportName);
+            jasperReports.add(compileReportTemplate(designTemplateName));
         }
-    }
-
-    /**
-     * remove the file extension of the given template if any
-     * 
-     * @param template the given template
-     * @return the template without file extension
-     */
-    protected String removeTemplateExtension(ClassPathResource template) throws IOException {
-        String realTemplateName = template.getFile().getAbsolutePath();
-
-        int lastIndex = realTemplateName.lastIndexOf(".");
-        String realTemplateNameWithoutExtension = lastIndex > 0 ? realTemplateName.substring(0, lastIndex) : realTemplateName;
-
-        return realTemplateNameWithoutExtension;
+        return jasperReports;
     }
 
     /**

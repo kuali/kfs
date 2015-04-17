@@ -78,6 +78,7 @@ public class ReportGenerationServiceTest extends KualiTestBase {
             reportGenerationService.generateReportToPdfFile(reportData, accountDataSource, template, fullReportFileName);
         }
         catch (Exception e) {
+            LOG.error("fail to generate PDF file", e);
             fail("fail to generate PDF file." + e);
         }
     }
@@ -107,6 +108,7 @@ public class ReportGenerationServiceTest extends KualiTestBase {
             reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
         }
         catch (Exception e) {
+            LOG.error("fail to generate PDF file", e);
             fail("fail to generate PDF file." + e);
         }
     }
@@ -153,6 +155,7 @@ public class ReportGenerationServiceTest extends KualiTestBase {
             LOG.info("=======Execution time: " +  duration + " millis");
         }
         catch (Exception e) {
+            LOG.error("fail to generate PDF file", e);
             fail("fail to generate PDF file." + e);
         }
     }

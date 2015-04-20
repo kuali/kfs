@@ -39,14 +39,16 @@ import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequencyService {
     protected BusinessObjectService businessObjectService;
     protected AccountingPeriodService accountingPeriodService;
     protected UniversityDateService universityDateService;
+    protected DateTimeService dateTimeService;
 
-    protected static final Set<String> invalidPeriodCodes = new TreeSet<String>();
+    protected static final Set<String> invalidPeriodCodes = new TreeSet<>();
 
     static {
         invalidPeriodCodes.add(KFSConstants.MONTH13);
@@ -67,22 +69,16 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     }
 
     protected boolean validateBillingFrequency(ContractsAndGrantsBillingAward award, Date lastBilledDate) {
-        boolean isValid = true;
-        // TODO extract - first we need to get the period itself to check these things
-        Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        Date today = new Date(ts.getTime());
+        final Date today = getDateTimeService().getCurrentSqlDate();
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
 
         Date[] pair = getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-        Date previousAccountingPeriodEndDate = pair[1];
         Date previousAccountingPeriodStartDate = pair[0];
+        Date previousAccountingPeriodEndDate = pair[1];
         if (previousAccountingPeriodStartDate.after(previousAccountingPeriodEndDate)) {
-            isValid = false;
-        } else {
-            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, lastBilledDate, award.getBillingFrequency().getGracePeriodDays());
+            return false;
         }
-
-        return isValid;
+        return calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, lastBilledDate, award.getBillingFrequency().getGracePeriodDays());
     }
 
     /**
@@ -95,16 +91,15 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
      */
     @Override
     public boolean calculateIfWithinGracePeriod(Date today, Date previousAccountingPeriodEndDate, Date previousAccountingPeriodStartDate, Date lastBilledDate, int gracePeriodDays) {
-        AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        int lastBilled = -1;
 
         if (previousAccountingPeriodEndDate == null || previousAccountingPeriodStartDate == null) {
             throw new IllegalArgumentException("invalid (null) previousAccountingPeriodEndDate or previousAccountingPeriodStartDate");
         }
 
         final int todayAsComparableDate = comparableDateForm(today);
-        final int previousPeriodClose = new Integer(comparableDateForm(previousAccountingPeriodEndDate));
+        final int previousPeriodClose = comparableDateForm(previousAccountingPeriodEndDate);
         final int previousPeriodBegin = comparableDateForm(previousAccountingPeriodStartDate);
+        int lastBilled = -1;
         if (lastBilledDate != null) {
             lastBilled = comparableDateForm(lastBilledDate);
         }
@@ -516,5 +511,13 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

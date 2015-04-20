@@ -588,6 +588,9 @@
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"

@@ -18,7 +18,7 @@
   <properties>
     <job.name>${project.artifactId}</job.name>
     <rice.version>2.1.9</rice.version>
-    <kfs.version>6.0.0-beta1-SNAPSHOT</kfs.version>
+    <kfs.version>6.0.0</kfs.version>
     <skipTests>true</skipTests>
     <test.excludes>**/*Test.java.bogus</test.excludes>
     <buildNumber>1.0-SNAPSHOT</buildNumber>

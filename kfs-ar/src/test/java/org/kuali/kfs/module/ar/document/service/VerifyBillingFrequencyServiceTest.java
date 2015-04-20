@@ -25,277 +25,98 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-/**
- * This class tests the VerifyBillingFrequencyService
- */
 @ConfigureContext(session = khuntley)
 public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
+    private VerifyBillingFrequencyService verifyBillingFrequencyService;
+    private AccountingPeriodService accountingPeriodService;
 
-
-    @Override
-    protected void setUp() throws Exception {
-
+    public void setUp() throws Exception {
         super.setUp();
+        verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
+        accountingPeriodService = SpringContext.getBean(AccountingPeriodService.class);
     }
 
-    /**
-     * This method test the validateBillingFrequency functionality. To make it flexible to test all the billing frequencies with
-     * various billing periods, this test method call the internal methods and tests it rather testing it as a whole.
-     */
-    public void testValidateBillingFrequency() {
-        ContractsAndGrantsModuleBillingService ModuleBillingService = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class);
+    public void testMonthlyNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-09-30", ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL, true);
+    }
 
+    public void testMilestoneNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-09-30", ARAwardFixture.CG_AWARD_MILESTONE_BILLED_DATE_NULL,true);
+    }
 
-        VerifyBillingFrequencyService verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
-        boolean valid = false;
-        Date testEndDay = null;
-        Date testStartDay = null;
-        // To test all billing frequencies with award last billed date null
+    public void testPredeterminedBillingNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-09-30", ARAwardFixture.CG_AWARD_PREDETERMINED_BILLED_DATE_NULL,true);
+    }
 
-        // CASE 1 - award last billed Date is null.
+    public void testQuarterlyNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-09-30", ARAwardFixture.CG_AWARD_QUAR_BILLED_DATE_NULL,true);
+    }
 
+    public void testSemiAnnualNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-06-30", ARAwardFixture.CG_AWARD_SEMI_ANN_BILLED_DATE_NULL,true);
+    }
 
-        Date date = Date.valueOf("2011-10-31");
-        AccountingPeriod currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-        // Now to set currentPeriod based on the billing frequency we would want to test.
-        // 1. MONTHLY / Milestone/Predetermined.
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
+    public void testAnnualNullLastBilledDate() {
+        runBillingTest("2011-10-31", "2011-01-01", "2011-06-30", ARAwardFixture.CG_AWARD_ANNUAL_BILLED_DATE_NULL,true);
+    }
 
+    public void testMonthValidLastBilledDate() {
+        runBillingTest("2011-11-01", "2011-10-01", "2011-10-31", ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID,true);
+    }
 
-        testEndDay = Date.valueOf("2011-09-30");
-        testStartDay = Date.valueOf("2011-01-01");
+    public void testMilestoneValidLastBilledDate() {
+        runBillingTest("2011-11-01", "2011-10-01", "2011-10-31", ARAwardFixture.CG_AWARD_MILESTONE_BILLED_DATE_VALID,true);
+    }
+
+    public void testPredeterminedValidLastBilledDate() {
+        runBillingTest("2011-11-01", "2011-10-01", "2011-10-31", ARAwardFixture.CG_AWARD_PREDETERMINED_BILLED_DATE_VALID,true);
+    }
+
+    public void testQuarterlyValidLastBilledDate() {
+        runBillingTest("2011-11-01", "2011-07-01", "2011-09-30", ARAwardFixture.CG_AWARD_QUAR_BILLED_DATE_VALID,true);
+    }
+
+    public void testSemiAnnualBillingValidLastBilledDate() {
+        runBillingTest("2012-01-01","2011-07-01","2011-12-31",ARAwardFixture.CG_AWARD_SEMI_ANN_BILLED_DATE_VALID,true);
+    }
+
+    public void testAnnualBillingValidLastBilledDate() {
+        runBillingTest("2011-07-01", "2010-07-01", "2011-06-30", ARAwardFixture.CG_AWARD_ANNUAL_BILLED_DATE_VALID, true);
+    }
+
+    public void testLOCBillingNullLastBilledDate() {
+        runLOCBillingTest("2011-10-31", "2011-01-01", ARAwardFixture.CG_AWARD_LOCB_BILLED_DATE_NULL);
+    }
+
+    public void testLOCBillingValidLastBilledDate() {
+        runLOCBillingTest("2011-12-15", "2010-12-14", ARAwardFixture.CG_AWARD_LOCB_BILLED_DATE_VALID);
+    }
+
+    protected void runLOCBillingTest(String currentDate, String startDate, ARAwardFixture awardFixture) {
+        AccountingPeriod currPeriod = accountingPeriodService.getByDate(Date.valueOf(currentDate));
+        ContractsAndGrantsBillingAward award = awardFixture.createAward();
 
         Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        award = ARAwardFixture.CG_AWARD_MILESTONE_BILLED_DATE_NULL.createAward();
-        testEndDay = Date.valueOf("2011-09-30");
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-
-        award = ARAwardFixture.CG_AWARD_PREDETERMINED_BILLED_DATE_NULL.createAward();
-
-        testEndDay = Date.valueOf("2011-09-30");
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 2. QUARTERLY
-
-
-        award = ARAwardFixture.CG_AWARD_QUAR_BILLED_DATE_NULL.createAward();
-
-        testEndDay = Date.valueOf("2011-09-30");
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 3. SEMI-ANNUAL
-
-        award = ARAwardFixture.CG_AWARD_SEMI_ANN_BILLED_DATE_NULL.createAward();
-        testEndDay = Date.valueOf("2011-06-30");
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 4. ANNUALLY
-
-
-        award = ARAwardFixture.CG_AWARD_ANNUAL_BILLED_DATE_NULL.createAward();
-        testEndDay = Date.valueOf("2011-06-30");
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 5. LOC Billing
-
-        award = ARAwardFixture.CG_AWARD_LOCB_BILLED_DATE_NULL.createAward();
-
-        testStartDay = Date.valueOf("2011-01-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        assertEquals(pair[0], testStartDay);
-
-
-        // CASE 2 - award last billed Date is set to appropriate period, current period will also be set to appropriate values.
-
-        // 1. MONTHLY / Milestone/Predetermined.
-        date = Date.valueOf("2011-11-01");
-        currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-
-
-        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.createAward();
-
-        testEndDay = Date.valueOf("2011-10-31");
-        testStartDay = Date.valueOf("2011-10-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-
-        award = ARAwardFixture.CG_AWARD_MILESTONE_BILLED_DATE_VALID.createAward();
-        testEndDay = Date.valueOf("2011-10-31");
-        testStartDay = Date.valueOf("2011-10-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-
-        award = ARAwardFixture.CG_AWARD_PREDETERMINED_BILLED_DATE_VALID.createAward();
-
-        testEndDay = Date.valueOf("2011-10-31");
-        testStartDay = Date.valueOf("2011-10-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 2. QUARTERLY
-
-        award = ARAwardFixture.CG_AWARD_QUAR_BILLED_DATE_VALID.createAward();
-
-        testEndDay = Date.valueOf("2011-09-30");
-        testStartDay = Date.valueOf("2011-07-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 3. SEMI-ANNUAL
-        date = Date.valueOf("2012-01-01");
-        currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-
-        award = ARAwardFixture.CG_AWARD_SEMI_ANN_BILLED_DATE_VALID.createAward();
-        testEndDay = Date.valueOf("2011-12-31");
-        testStartDay = Date.valueOf("2011-07-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 4. ANNUALLY
-
-
-        date = Date.valueOf("2011-07-01");
-        currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-
-        award = ARAwardFixture.CG_AWARD_ANNUAL_BILLED_DATE_VALID.createAward();
-        testEndDay = Date.valueOf("2011-06-30");
-        testStartDay = Date.valueOf("2010-07-01");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = false;
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-
-
-        assertEquals(pair[0], testStartDay);
-        assertEquals(pair[1], testEndDay);
-        assertTrue(valid);
-
-        // 5. LOC Billing - No grace period validation involved here.
-
-
-        date = Date.valueOf("2011-12-15");
-        currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-        award = ARAwardFixture.CG_AWARD_LOCB_BILLED_DATE_VALID.createAward();
-
-        testStartDay = Date.valueOf("2010-12-14");
-
-        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-
-        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-        assertEquals(pair[0], testStartDay);
-
-
+        assertEquals(pair[0], Date.valueOf(startDate));
+    }
+
+    protected void runBillingTest(String currentDate, String beginningDate, String endDate, ARAwardFixture awardFixture, boolean expectedWithinGracePeriod) {
+        Date date = Date.valueOf(currentDate);
+        AccountingPeriod currPeriod = accountingPeriodService.getByDate(date);
+        ContractsAndGrantsBillingAward award = awardFixture.createAward();
+
+        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        assertEquals(pair[0], Date.valueOf(beginningDate));
+        assertEquals(pair[1], Date.valueOf(endDate));
+
+        boolean withinGracePeriod = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        assertEquals(expectedWithinGracePeriod, withinGracePeriod);
     }
 
 }

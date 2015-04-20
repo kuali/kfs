@@ -11,7 +11,6 @@
 
   <artifactId>kfs-core</artifactId>
   <name>Kuali Financial Core</name>
-  <packaging>jar</packaging>
 
   <build>
     <plugins>

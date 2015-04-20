@@ -5,10 +5,6 @@
 ### Main Documentation Home
 [https://wiki.kuali.org/x/UgACEw](https://wiki.kuali.org/x/UgACEw)
 
-### Technical Release Notes / Upgrade Documentation:
-[https://wiki.kuali.org/x/gYSBEw](https://wiki.kuali.org/x/gYSBEw) - KFS 6.0 Technical Release Notes
-[https://wiki.kuali.org/x/BoSBEw](https://wiki.kuali.org/x/BoSBEw) - KFS 4.1.1 to 5.0.2 Upgrade Notes
-
 ## Quick Start
 
 1. Ensure that you have Java 7+ and Maven 3+ installed
@@ -18,5 +14,46 @@
 
 ## What's Here
 
-### kfs/
-The main Kuali Financial System project.  Import this into the IDE of your choice.  Maven is used to build. See the [technical documentation](https://wiki.kuali.org/x/UgACEw) for more details.
+### kfs-core/
+
+The core KFS modules, including Chart of Accounts, Financial Processing, General Ledger, Vendors, and Pre-Disbursement Processor.
+
+### kfs-web/
+
+The web assets for all KFS modules.
+
+### kfs-ar/
+
+The code for the KFS Accounts Receivable module.
+
+### kfs-bc/
+
+The code for the KFS Budget Construction module.
+
+### kfs-cam/
+
+The code for the KFS Capital Asset Management and Capital Asset Builder modules.
+
+### kfs-cg/
+
+The code for the KFS Contracts & Grants module.  Kuali Coeus integration is favored.
+
+### kfs-ec/
+
+The code for the KFS Effort Certification module.
+
+### kfs-kc/
+
+The code for the KFS-Kuali Coeus integration.
+
+### kfs-ld/
+
+The code for the KFS Labor Distribution module.
+
+### kfs-purap/
+
+The code for the KFS Purchasing and Accounts Payable module.
+
+### kfs-tem/
+
+The code for the KFS Travel and Entertainment module.

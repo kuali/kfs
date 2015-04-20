@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>kfs-cg</artifactId>
-  <name>Kuali Financial Contracts And Grants</name>
+  <name>Kuali Financial Contracts &amp; Grants</name>
 
   <build>
     <plugins>

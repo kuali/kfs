@@ -188,7 +188,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             FileUtils.forceMkdir(tempJasperDir);
         }
 
-        File tempJasperFile = new File(System.getProperty("java.io.tmpdir")+template.replace(ReportGeneration.DESIGN_FILE_EXTENSION,"").concat(ReportGeneration.JASPER_REPORT_EXTENSION));
+        File tempJasperFile = new File(System.getProperty("java.io.tmpdir")+File.separator+template.replace(ReportGeneration.DESIGN_FILE_EXTENSION,"").concat(ReportGeneration.JASPER_REPORT_EXTENSION));
         if (!tempJasperFile.exists()) {
             JasperCompileManager.compileReportToStream(designTemplateResource.getInputStream(), new FileOutputStream(tempJasperFile));
         }

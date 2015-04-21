@@ -53,23 +53,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArParameterKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
-import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
-import org.kuali.kfs.module.ar.businessobject.CostCategory;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
-import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.module.ar.businessobject.*;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -469,9 +453,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-            invoiceGeneralDetail.setBillingPeriod(pair[0] + " to " + pair[1]);
-            invoiceGeneralDetail.setLastBilledDate(pair[1]);
+            BillingPeriod billingPeriod = verifyBillingFrequencyService.determineBillingPeriodPriorTo(currPeriod, award);
+            invoiceGeneralDetail.setBillingPeriod(billingPeriod.getStartDate() + " to " + billingPeriod.getEndDate());
+            invoiceGeneralDetail.setLastBilledDate(billingPeriod.getEndDate());
 
 
             populateInvoiceDetailFromAward(invoiceGeneralDetail, award);

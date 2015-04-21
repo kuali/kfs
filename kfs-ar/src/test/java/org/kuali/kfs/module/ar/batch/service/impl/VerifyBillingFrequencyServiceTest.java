@@ -16,22 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kfs.module.ar.document.service;
+package org.kuali.kfs.module.ar.batch.service.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-
-import java.sql.Date;
-
+import org.junit.Assert;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
+import org.kuali.kfs.module.ar.businessobject.BillingPeriod;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = khuntley)
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+
+import java.sql.Date;
+
+@ConfigureContext(session = UserNameFixture.khuntley)
 public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
     private VerifyBillingFrequencyService verifyBillingFrequencyService;
     private AccountingPeriodService accountingPeriodService;
@@ -102,8 +104,8 @@ public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(Date.valueOf(currentDate));
         ContractsAndGrantsBillingAward award = awardFixture.createAward();
 
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-        assertEquals(pair[0], Date.valueOf(startDate));
+        BillingPeriod billingPeriod = verifyBillingFrequencyService.determineBillingPeriodPriorTo(currPeriod, award);
+        Assert.assertEquals(billingPeriod.getStartDate(), Date.valueOf(startDate));
     }
 
     protected void runBillingTest(String currentDate, String beginningDate, String endDate, ARAwardFixture awardFixture, boolean expectedWithinGracePeriod) {
@@ -111,12 +113,13 @@ public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(date);
         ContractsAndGrantsBillingAward award = awardFixture.createAward();
 
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-        assertEquals(pair[0], Date.valueOf(beginningDate));
-        assertEquals(pair[1], Date.valueOf(endDate));
+        BillingPeriod billingPeriod = verifyBillingFrequencyService.determineBillingPeriodPriorTo(currPeriod, award);
+        Assert.assertEquals(billingPeriod.getStartDate(), Date.valueOf(beginningDate));
+        Assert.assertEquals(billingPeriod.getEndDate(), Date.valueOf(endDate));
 
-        boolean withinGracePeriod = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
-        assertEquals(expectedWithinGracePeriod, withinGracePeriod);
+        VerifyBillingFrequencyServiceImpl verifyBillingFrequencyServiceImpl = new VerifyBillingFrequencyServiceImpl();
+        boolean withinGracePeriod = verifyBillingFrequencyServiceImpl.calculateIfWithinGracePeriod(date, billingPeriod, award.getLastBilledDate(), award.getBillingFrequency());
+        Assert.assertEquals(expectedWithinGracePeriod, withinGracePeriod);
     }
 
 }

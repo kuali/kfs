@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.businessobject.BillingPeriod;
 
 /**
  * Interface class for Billing Frequency validation.
@@ -50,11 +51,11 @@ public interface VerifyBillingFrequencyService {
     /**
      * This method returns the start and end date of previous billing period.
      *
-     * @param award ContractsAndGrantsBillingAward used to get dates and billing frequency for calculations
      * @param currPeriod accounting period used for calculations (typically the current period)
+     * @param award ContractsAndGrantsBillingAward used to get dates and billing frequency for calculations
      * @return Date array containing start date and end date of previous billing period
      */
-    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsBillingAward award, AccountingPeriod currPeriod);
+    public BillingPeriod determineBillingPeriodPriorTo(AccountingPeriod currPeriod, ContractsAndGrantsBillingAward award);
 
     /**
      * This method gets a sorted list of end dates of each period of current fiscal year.
@@ -63,14 +64,5 @@ public interface VerifyBillingFrequencyService {
      * @return ArrayList of period end dates
      */
     public ArrayList<Date> getSortedListOfPeriodEndDatesOfCurrentFiscalYear(AccountingPeriod currPeriod);
-
-    /**
-     * This method checks if a given moment of time is within an accounting period, or its billing frequency grace period.
-     *
-     * @param today a date to check if it is within the period
-     * @param periodToCheck the account period to check against
-     * @return true if a given moment in time is within an accounting period or an billing frequency grace period
-     */
-    public boolean calculateIfWithinGracePeriod(Date today, Date previousAccountingPeriodEndDate, Date previousAccountingPeriodStartDate, Date lastBilledDate, int gracePeriodDays);
 
 }

@@ -58,7 +58,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Basic setup to create Invoice Document
  */
-public class CGInvoiceDocumentTestBase extends KualiTestBase {
+public abstract class CGInvoiceDocumentTestBase extends KualiTestBase {
 
     BusinessObjectService boService;
     DocumentService documentService;

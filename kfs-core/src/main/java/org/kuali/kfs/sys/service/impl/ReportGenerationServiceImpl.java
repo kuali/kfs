@@ -102,7 +102,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     protected Map<String, Object> decorateReportData(Map<String, Object> reportData) {
         Map<String, Object> decoratedReportData = new ConcurrentHashMap<>();
         decoratedReportData.putAll(reportData);
-        decoratedReportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, new File(System.getProperty("java.io.tmpdir").concat(reportData.get(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR).toString())).getAbsolutePath().concat(File.separator));
+        decoratedReportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, new File(System.getProperty("java.io.tmpdir").concat(File.separator).concat(reportData.get(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR).toString())).getAbsolutePath().concat(File.separator));
         return decoratedReportData;
     }
 
@@ -183,7 +183,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             throw new RuntimeException("The design template file does not exist: "+template);
         }
 
-        File tempJasperDir = new File(System.getProperty("java.io.tmpdir")+template.replaceAll("\\/[^\\/]+$", ""));
+        File tempJasperDir = new File(System.getProperty("java.io.tmpdir")+File.separator+template.replaceAll("\\/[^\\/]+$", ""));
         if (!tempJasperDir.exists()) {
             FileUtils.forceMkdir(tempJasperDir);
         }

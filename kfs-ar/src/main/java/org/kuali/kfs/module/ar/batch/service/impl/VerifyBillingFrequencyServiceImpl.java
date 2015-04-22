@@ -225,7 +225,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     }
 
     private BillingPeriod determineQuarterlyBillingPeriod(AccountingPeriod currPeriod, ContractsAndGrantsBillingAward award, Date lastBilledDate, ArrayList<Date> periodEndDateListOfCurrFiscalYear, int previousYear, int periodEndDateListOfCurrFiscalYearSize) {
-        Date previousAccountingPeriodEndDay;// 3.1 find end date
+        Date previousAccountingPeriodEndDay;
         if (lastBilledDate != null) {
             if (periodEndDateListOfCurrFiscalYearSize > 2 && !currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(2))) {
                 previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
@@ -264,7 +264,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     }
 
     private BillingPeriod determineMonthlyBillingPeriod(AccountingPeriod currPeriod, ContractsAndGrantsBillingAward award, Date lastBilledDate, ArrayList<Date> periodEndDateListOfCurrFiscalYear, int previousYear, int periodEndDateListOfCurrFiscalYearSize) {
-        Date previousAccountingPeriodEndDay;// 2.1 find end date
+        Date previousAccountingPeriodEndDay;
         if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
             previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
         } else {

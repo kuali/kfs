@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.BillingPeriod;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -137,8 +138,8 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
-        Date invoiceDate = pair[1];
+        BillingPeriod billingPeriod = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
+        Date invoiceDate = billingPeriod.getEndDate();
         Date billDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
         invBill_1.setBillDate(billDate);

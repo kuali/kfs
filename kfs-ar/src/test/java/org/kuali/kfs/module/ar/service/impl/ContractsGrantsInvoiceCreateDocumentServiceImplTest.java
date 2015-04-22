@@ -38,14 +38,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
-import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
-import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
+import org.kuali.kfs.module.ar.businessobject.*;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -720,8 +713,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
-        Date invoiceDate = pair[1];
+        BillingPeriod billingPeriod = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
+        Date invoiceDate = billingPeriod.getEndDate();
         Date completionDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
         invMilestone_1.setMilestoneActualCompletionDate(completionDate);
@@ -759,8 +752,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImplTest extends KualiTe
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
-        Date invoiceDate = pair[1];
+        BillingPeriod billingPeriod = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getInvoiceGeneralDetail().getAward(), currPeriod);
+        Date invoiceDate = billingPeriod.getEndDate();
         Date billDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
 
         invBill_1.setBillDate(billDate);

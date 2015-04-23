@@ -30,16 +30,6 @@ public class BillingPeriodTest {
     }
 
     @Test
-    public void testDetermineBillingPeriodPriorTo_LOC_nullLastBilled_3() {
-        String awardStartDate = "2014-08-01";
-        String currentDate = "2015-04-21";
-        String expectedBillingPeriodStart = "2014-08-01";
-        String expectedBillingPeriodEnd = "2015-04-20";
-
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd);
-    }
-
-    @Test
     public void testDetermineBillingPeriodPriorTo_LOC_BillSingleDay() {
         String awardStartDate = "2014-07-01";
         String currentDate = "2015-04-21";

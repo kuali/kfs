@@ -2,6 +2,7 @@ package org.kuali.kfs.module.ar.businessobject;
 
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 
 import java.sql.Date;
@@ -20,15 +21,24 @@ public class BillingPeriod {
         return endDate;
     }
 
-    public static BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate) {
+    public static BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate, String billingFrequency) {
         BillingPeriod billingPeriod = new BillingPeriod();
         billingPeriod.billable = billingPeriod.canThisBeBilled(lastBilledDate, currentDate);
         if (billingPeriod.billable) {
             billingPeriod.startDate = billingPeriod.determineStartDate(awardStartDate, lastBilledDate);
-            billingPeriod.endDate = billingPeriod.calculatePreviousDate(currentDate);
+            if (billingFrequency.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                billingPeriod.endDate = billingPeriod.calculatePreviousDate(currentDate);
+            } else {
+                billingPeriod.endDate = billingPeriod.findEndDate(currentDate);
+            }
         }
 
         return billingPeriod;
+    }
+
+    protected Date findEndDate(Date currentDate) {
+
+        return Date.valueOf("2015-03-31");
     }
 
     protected boolean canThisBeBilled(Date lastBilledDate, Date currentDate) {

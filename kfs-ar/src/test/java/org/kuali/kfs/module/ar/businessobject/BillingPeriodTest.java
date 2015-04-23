@@ -3,6 +3,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kfs.module.ar.ArConstants;
 
 import java.sql.Date;
 
@@ -16,7 +17,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-07-01";
         String expectedBillingPeriodEnd = "2015-04-19";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
     @Test
@@ -26,7 +27,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-08-01";
         String expectedBillingPeriodEnd = "2015-04-19";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2015-04-19";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
     @Test
@@ -48,7 +49,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-11-15";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
     @Test
@@ -59,7 +60,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-06-15";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
     @Test
@@ -71,12 +72,34 @@ public class BillingPeriodTest {
         String expectedBillingPeriodEnd = null;
 
         boolean expectedBillable = false;
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable, ArConstants.LOC_BILLING_SCHEDULE_CODE);
     }
 
-    protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd, boolean expectedBillable) {
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Monthly_nullLastBilled_1() {
+
+        String awardStartDate = "2014-07-01";
+        String currentDate = "2015-04-21";
+        String expectedBillingPeriodStart = "2014-07-01";
+        String expectedBillingPeriodEnd = "2015-03-31";
+
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+    }
+
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Monthly_nullLastBilled_2() {
+
+        String awardStartDate = "2014-07-01";
+        String currentDate = "2015-03-21";
+        String expectedBillingPeriodStart = "2014-07-01";
+        String expectedBillingPeriodEnd = "2015-02-28";
+
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+    }
+
+    protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd, boolean expectedBillable, String billingFrequencyCode) {
         Date lastBilledDateAsDate = nullSafeDateFromString(lastBilledDate);
-        BillingPeriod priorBillingPeriod = BillingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate);
+        BillingPeriod priorBillingPeriod = BillingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate, billingFrequencyCode);
 
         Date expectedStartDate = nullSafeDateFromString(expectedBillingPeriodStart);
         Assert.assertEquals("Billing period start wasn't what we thought it was going to be", expectedStartDate, priorBillingPeriod.getStartDate());

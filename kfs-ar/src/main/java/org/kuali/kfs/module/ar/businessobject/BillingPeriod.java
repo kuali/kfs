@@ -10,6 +10,7 @@ public class BillingPeriod {
 
     private Date startDate;
     private Date endDate;
+    private boolean billable;
 
     public Date getStartDate() {
         return startDate;
@@ -19,11 +20,12 @@ public class BillingPeriod {
         return endDate;
     }
 
-    public BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate) {
+    public static BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate) {
         BillingPeriod billingPeriod = new BillingPeriod();
-        if (canThisBeBilled(lastBilledDate, currentDate)) {
-            billingPeriod.startDate = determineStartDate(awardStartDate, lastBilledDate);
-            billingPeriod.endDate = calculatePreviousDate(currentDate);
+        billingPeriod.billable = billingPeriod.canThisBeBilled(lastBilledDate, currentDate);
+        if (billingPeriod.billable) {
+            billingPeriod.startDate = billingPeriod.determineStartDate(awardStartDate, lastBilledDate);
+            billingPeriod.endDate = billingPeriod.calculatePreviousDate(currentDate);
         }
 
         return billingPeriod;
@@ -51,5 +53,9 @@ public class BillingPeriod {
 
     protected Date calculatePreviousDate(Date currentDate) {
         return new Date(DateUtils.addDays(currentDate, -1).getTime());
+    }
+
+    public boolean isBillable() {
+        return billable;
     }
 }

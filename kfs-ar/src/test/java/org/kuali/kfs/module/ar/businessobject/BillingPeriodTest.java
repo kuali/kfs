@@ -16,7 +16,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-07-01";
         String expectedBillingPeriodEnd = "2015-04-19";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-08-01";
         String expectedBillingPeriodEnd = "2015-04-19";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2015-04-19";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-11-15";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = "2014-06-15";
         String expectedBillingPeriodEnd = "2015-04-20";
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, true);
     }
 
     @Test
@@ -70,18 +70,19 @@ public class BillingPeriodTest {
         String expectedBillingPeriodStart = null;
         String expectedBillingPeriodEnd = null;
 
-        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd);
+        boolean expectedBillable = false;
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable);
     }
 
-    protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd) {
-        BillingPeriod billingPeriod = new BillingPeriod();
+    protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd, boolean expectedBillable) {
         Date lastBilledDateAsDate = nullSafeDateFromString(lastBilledDate);
-        BillingPeriod priorBillingPeriod = billingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate);
+        BillingPeriod priorBillingPeriod = BillingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate);
 
         Date expectedStartDate = nullSafeDateFromString(expectedBillingPeriodStart);
         Assert.assertEquals("Billing period start wasn't what we thought it was going to be", expectedStartDate, priorBillingPeriod.getStartDate());
         Date expectedEndDate = nullSafeDateFromString(expectedBillingPeriodEnd);
         Assert.assertEquals("Billing period end wasn't what we thought it was going to be", expectedEndDate, priorBillingPeriod.getEndDate());
+        Assert.assertEquals("Billing period billable wasn't what we thought it was going to be", expectedBillable, priorBillingPeriod.isBillable());
     }
 
     private Date nullSafeDateFromString(String date) {

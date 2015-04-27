@@ -1,13 +1,14 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 
 import java.sql.Date;
-import java.util.Calendar;
 
 public class BillingPeriod {
 
@@ -23,40 +24,41 @@ public class BillingPeriod {
         return endDate;
     }
 
-    public static BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate, String billingFrequency) {
+    public static BillingPeriod determineBillingPeriodPriorTo(Date awardStartDate, Date currentDate, Date lastBilledDate, String billingFrequency, AccountingPeriodService accountingPeriodService) {
         BillingPeriod billingPeriod = new BillingPeriod();
         billingPeriod.billable = billingPeriod.canThisBeBilled(lastBilledDate, currentDate);
         if (billingPeriod.billable) {
-            billingPeriod.startDate = billingPeriod.determineStartDate(awardStartDate, lastBilledDate);
+            billingPeriod.startDate = billingPeriod.determineStartDate(awardStartDate, lastBilledDate, billingFrequency, accountingPeriodService);
             if (billingFrequency.equals(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 billingPeriod.endDate = billingPeriod.calculatePreviousDate(currentDate);
             } else {
-                billingPeriod.endDate = billingPeriod.findEndDate(currentDate);
+                billingPeriod.endDate = billingPeriod.findEndDate(currentDate, accountingPeriodService);
             }
         }
 
         return billingPeriod;
     }
 
-    protected Date findEndDate(Date currentDate) {
-        final AccountingPeriod accountingPeriod = findPreviousAccountingPeriod(currentDate);
+    protected Date findEndDate(Date currentDate, AccountingPeriodService accountingPeriodService) {
+        final AccountingPeriod accountingPeriod = findPreviousAccountingPeriod(currentDate, accountingPeriodService);
         return accountingPeriod.getUniversityFiscalPeriodEndDate();
     }
 
-    protected AccountingPeriod findPreviousAccountingPeriod(final Date currentDate) {
-        return new AccountingPeriod() {
-            @Override
-            public Date getUniversityFiscalPeriodEndDate() {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(currentDate);
-                if (cal.get(Calendar.MONTH) == Calendar.APRIL) {
-                    return Date.valueOf("2015-03-31");
-                } else {
-                    return Date.valueOf("2015-02-28");
-                }
-            }
-        };
+    protected AccountingPeriod findPreviousAccountingPeriod(final Date currentDate, AccountingPeriodService accountingPeriodService) {
+        final AccountingPeriod currentAccountingPeriod = findAccountingPeriodBy(currentDate, accountingPeriodService);
+        final Integer currentFiscalYear = currentAccountingPeriod.getUniversityFiscalYear();
+        final Integer currentAccountingPeriodCode = Integer.parseInt(currentAccountingPeriod.getUniversityFiscalPeriodCode());
+        final Integer previousAccountingPeriodCode = (currentAccountingPeriodCode.intValue() - 1);
+        //TODO: fix this suspect hack.
+        final AccountingPeriod previousAccountingPeriod = accountingPeriodService.getByPeriod("0"+previousAccountingPeriodCode, currentFiscalYear);
+
+        return previousAccountingPeriod;
     }
+
+    protected AccountingPeriod findAccountingPeriodBy(final Date currentDate, AccountingPeriodService accountingPeriodService) {
+        return accountingPeriodService.getByDate(currentDate);
+    }
+
 
     protected boolean canThisBeBilled(Date lastBilledDate, Date currentDate) {
         if (lastBilledDate == null) {
@@ -71,18 +73,27 @@ public class BillingPeriod {
         return true;
     }
 
-    protected Date determineStartDate(Date awardStartDate, Date lastBilledDate) {
+    protected Date determineStartDate(Date awardStartDate, Date lastBilledDate, String billingFrequency, AccountingPeriodService accountingPeriodService) {
         if (lastBilledDate == null) {
             return awardStartDate;
         }
-        return lastBilledDate;
+        if (StringUtils.equals(billingFrequency, ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+            return lastBilledDate;
+        }
+        AccountingPeriod lastBilledDateAccountingPeriod = findPreviousAccountingPeriod(lastBilledDate, accountingPeriodService);
+        return calculateNextDay(lastBilledDateAccountingPeriod.getUniversityFiscalPeriodEndDate());
     }
 
     protected Date calculatePreviousDate(Date currentDate) {
         return new Date(DateUtils.addDays(currentDate, -1).getTime());
     }
 
+    protected Date calculateNextDay(Date currentDate) {
+        return new Date(DateUtils.addDays(currentDate, 1).getTime());
+    }
+
     public boolean isBillable() {
         return billable;
     }
+
 }

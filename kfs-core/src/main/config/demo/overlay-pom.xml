@@ -71,7 +71,7 @@
           <overlays>
             <overlay>
               <groupId>org.kuali.kfs</groupId>
-              <artifactId>kfs</artifactId>
+              <artifactId>kfs-web</artifactId>
               <filtered>false</filtered>
             </overlay>
           </overlays>
@@ -154,7 +154,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.kfs</groupId>
-      <artifactId>kfs</artifactId>
+      <artifactId>kfs-web</artifactId>
       <version>${kfs.version}</version>
       <type>war</type>
     </dependency>
@@ -162,6 +162,19 @@
   </dependencies>
 
   <distributionManagement/>
-  <repositories/>
+
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
 </project>

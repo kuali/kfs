@@ -3,9 +3,14 @@ package org.kuali.kfs.module.ar.businessobject;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.coa.service.impl.AccountingPeriodServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.Collection;
 
 public class BillingPeriodTest {
 
@@ -93,13 +98,105 @@ public class BillingPeriodTest {
         String currentDate = "2015-03-21";
         String expectedBillingPeriodStart = "2014-07-01";
         String expectedBillingPeriodEnd = "2015-02-28";
-
         verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+    }
+
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Monthly_LastBilledLastMonth() {
+
+        String awardStartDate = "2014-07-01";
+        String lastBilled = "2015-03-29";
+        String currentDate = "2015-04-21";
+        String expectedBillingPeriodStart = "2015-03-01";
+        String expectedBillingPeriodEnd = "2015-03-31";
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilled, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+    }
+
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Monthly_LastBilledTwoMonthsAgo() {
+
+        String awardStartDate = "2014-07-01";
+        String lastBilled = "2015-02-17";
+        String currentDate = "2015-04-21";
+        String expectedBillingPeriodStart = "2015-02-01";
+        String expectedBillingPeriodEnd = "2015-03-31";
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilled, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.MONTHLY_BILLING_SCHEDULE_CODE);
     }
 
     protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd, boolean expectedBillable, String billingFrequencyCode) {
         Date lastBilledDateAsDate = nullSafeDateFromString(lastBilledDate);
-        BillingPeriod priorBillingPeriod = BillingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate, billingFrequencyCode);
+        AccountingPeriodService accountingPeriodService = new AccountingPeriodServiceImpl() {
+
+            @Override
+            public AccountingPeriod getByDate(final Date currentDate) {
+                return new AccountingPeriod() {
+                    @Override
+                    public Date getUniversityFiscalPeriodEndDate() {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(currentDate);
+                        if (cal.get(Calendar.MONTH) == Calendar.APRIL) {
+                            return Date.valueOf("2015-04-30");
+                        } else if (cal.get(Calendar.MONTH) == Calendar.MARCH) {
+                            return Date.valueOf("2015-03-31");
+                        } else if (cal.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                            return Date.valueOf("2015-02-28");
+                        } else {
+                            return Date.valueOf("2015-01-31");
+                        }
+                    }
+
+                    @Override
+                    public Integer getUniversityFiscalYear() {
+                        return 2015;
+                    }
+
+                    @Override
+                    public String getUniversityFiscalPeriodCode() {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(currentDate);
+                        if (cal.get(Calendar.MONTH) == Calendar.APRIL) {
+                            return "10";
+                        } else if (cal.get(Calendar.MONTH) == Calendar.MARCH) {
+                            return "09";
+                        } else if (cal.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                            return "08";
+                        } else {
+                            return "07";
+                        }
+                    }
+                };
+            }
+
+            @Override
+            public AccountingPeriod getByPeriod(final String periodCode, final Integer fiscalYear) {
+                return new AccountingPeriod() {
+                    @Override
+                    public Date getUniversityFiscalPeriodEndDate() {
+                        if (StringUtils.equals("10", periodCode)) {
+                            return Date.valueOf("2015-04-30");
+                        } else if (StringUtils.equals("09", periodCode)) {
+                            return Date.valueOf("2015-03-31");
+                        } else if (StringUtils.equals("08", periodCode)) {
+                            return Date.valueOf("2015-02-28");
+                        } else {
+                            return Date.valueOf("2015-01-31");
+                        }
+                    }
+
+                    @Override
+                    public Integer getUniversityFiscalYear() {
+                        return fiscalYear;
+                    }
+
+                    @Override
+                    public String getUniversityFiscalPeriodCode() {
+                        return periodCode;
+                    }
+                };
+            }
+        };
+
+        BillingPeriod priorBillingPeriod = BillingPeriod.determineBillingPeriodPriorTo(Date.valueOf(awardStartDate), Date.valueOf(currentDate), lastBilledDateAsDate, billingFrequencyCode, accountingPeriodService);
 
         Date expectedStartDate = nullSafeDateFromString(expectedBillingPeriodStart);
         Assert.assertEquals("Billing period start wasn't what we thought it was going to be", expectedStartDate, priorBillingPeriod.getStartDate());

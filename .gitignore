@@ -25,4 +25,4 @@ sftp-config.json
 *.tmproj
 *.tmproject
 tmtags
-*/target/
+**/target/

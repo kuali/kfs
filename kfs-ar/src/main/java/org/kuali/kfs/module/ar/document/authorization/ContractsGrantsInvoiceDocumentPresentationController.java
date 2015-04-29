@@ -21,9 +21,11 @@ package org.kuali.kfs.module.ar.document.authorization;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -41,17 +43,29 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
      */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        if (StringUtils.isNotBlank(document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId())) {
+        FinancialSystemDocumentHeader financialSystemDocumentHeader = document.getFinancialSystemDocumentHeader();
+        boolean invoiceReversal = ((ContractsGrantsInvoiceDocument) document).isInvoiceReversal();
+        return canErrorCorrect((ContractsGrantsInvoiceDocument) document, financialSystemDocumentHeader, invoiceReversal, null);
+    }
+
+    protected boolean canErrorCorrect(ContractsGrantsInvoiceDocument document, FinancialSystemDocumentHeader financialSystemDocumentHeader, boolean invoiceReversal, DateTime dateApproved) {
+        if (StringUtils.isNotBlank(financialSystemDocumentHeader.getCorrectedByDocumentId())) {
             return false;
         }
-        if (((ContractsGrantsInvoiceDocument) document).isInvoiceReversal()) {
+
+        if (invoiceReversal) {
             return false;
         }
-        else {
-            // a normal invoice can only be error corrected if document is in a final state
-            // and no amounts have been applied (excluding discounts)
-            return isDocFinalWithNoAppliedAmountsExceptDiscounts((ContractsGrantsInvoiceDocument) document);
+
+        if (ObjectUtils.isNotNull(dateApproved) && dateApproved.isBefore(getStartOfCurrentFiscalYear().toInstant())) {
+            return false;
         }
+
+        return isDocFinalWithNoAppliedAmountsExceptDiscounts(document);
+    }
+
+    protected DateTime getStartOfCurrentFiscalYear() {
+        return new DateTime().minusDays(365);
     }
 
     /**

@@ -180,6 +180,45 @@ public class BillingPeriodTest {
         verifyBillingPeriodPriorTo(awardStartDate, currentDate, null, expectedBillingPeriodStart, expectedBillingPeriodEnd, true, ArConstants.QUATERLY_BILLING_SCHEDULE_CODE);
     }
 
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Quarterly_MayNotBillNow() {
+
+        String awardStartDate = "2014-07-01";
+        String currentDate = "2015-04-21";
+        final String lastBilledDate = "2015-04-20";
+        String expectedBillingPeriodStart = null;
+        String expectedBillingPeriodEnd = null;
+
+        final boolean expectedBillable = false;
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable, ArConstants.QUATERLY_BILLING_SCHEDULE_CODE);
+    }
+
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Quarterly_LastBilledEarlierQuarter() {
+
+        String awardStartDate = "2014-07-01";
+        String currentDate = "2015-08-21";
+        final String lastBilledDate = "2015-04-20";
+        String expectedBillingPeriodStart = "2015-04-01";
+        String expectedBillingPeriodEnd = "2015-06-30";
+
+        final boolean expectedBillable = true;
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable, ArConstants.QUATERLY_BILLING_SCHEDULE_CODE);
+    }
+
+    @Test
+    public void testDetermineBillingPeriodPriorTo_Quarterly_LastBilledPreviousQuarter() {
+
+        String awardStartDate = "2014-07-01";
+        String currentDate = "2015-04-21";
+        final String lastBilledDate = "2015-03-29";
+        String expectedBillingPeriodStart = "2015-01-01";
+        String expectedBillingPeriodEnd = "2015-03-31";
+
+        final boolean expectedBillable = true;
+        verifyBillingPeriodPriorTo(awardStartDate, currentDate, lastBilledDate, expectedBillingPeriodStart, expectedBillingPeriodEnd, expectedBillable, ArConstants.QUATERLY_BILLING_SCHEDULE_CODE);
+    }
+
     protected void verifyBillingPeriodPriorTo(String awardStartDate, String currentDate, String lastBilledDate, String expectedBillingPeriodStart, String expectedBillingPeriodEnd, boolean expectedBillable, String billingFrequencyCode) {
         Date lastBilledDateAsDate = nullSafeDateFromString(lastBilledDate);
         AccountingPeriodService accountingPeriodService = getMockAccountingPeriodService();
@@ -230,9 +269,9 @@ public class BillingPeriodTest {
     }
 
     protected void validateCanThisBeBilled(boolean expectedCanThisBeBilled, String lastBilledDate, String currentDate) {
-        BillingPeriod billingPeriod = new BillingPeriod();
         AccountingPeriodService accountingPeriodService = getMockAccountingPeriodService();
-        Assert.assertEquals(expectedCanThisBeBilled, billingPeriod.canThisBeBilled(nullSafeDateFromString(lastBilledDate), Date.valueOf(currentDate), ArConstants.LOC_BILLING_SCHEDULE_CODE, accountingPeriodService));
+        BillingPeriod billingPeriod = new BillingPeriod(accountingPeriodService);
+        Assert.assertEquals(expectedCanThisBeBilled, billingPeriod.canThisBeBilled(nullSafeDateFromString(lastBilledDate), Date.valueOf(currentDate), ArConstants.LOC_BILLING_SCHEDULE_CODE));
     }
 
     protected AccountingPeriodServiceImpl getMockAccountingPeriodService() {
@@ -245,19 +284,10 @@ public class BillingPeriodTest {
                     public Date getUniversityFiscalPeriodEndDate() {
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(currentDate);
-                        if (cal.get(Calendar.MONTH) == Calendar.APRIL) {
-                            return Date.valueOf(cal.get(Calendar.YEAR)+"-04-30");
-                        } else if (cal.get(Calendar.MONTH) == Calendar.MARCH) {
-                            return Date.valueOf(cal.get(Calendar.YEAR)+"-03-31");
-                        } else if (cal.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                            return Date.valueOf(cal.get(Calendar.YEAR)+"-02-28");
-                        } else if (cal.get(Calendar.MONTH) == Calendar.JUNE) {
-                            return Date.valueOf(cal.get(Calendar.YEAR)+"-06-30");
-                        } else if (cal.get(Calendar.MONTH) == Calendar.AUGUST) {
-                            return Date.valueOf(cal.get(Calendar.YEAR) + "-08-31");
-                        } else {
-                            return Date.valueOf(cal.get(Calendar.YEAR)+"-01-31");
-                        }
+                        final int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                        cal.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
+
+                        return new java.sql.Date(cal.getTimeInMillis());
                     }
 
                     @Override
@@ -274,20 +304,16 @@ public class BillingPeriodTest {
                     public String getUniversityFiscalPeriodCode() {
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(currentDate);
-                        if (cal.get(Calendar.MONTH) == Calendar.APRIL) {
-                            return "10";
-                        } else if (cal.get(Calendar.MONTH) == Calendar.MARCH) {
-                            return "09";
-                        } else if (cal.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                            return "08";
-                        } else if (cal.get(Calendar.MONTH) == Calendar.JUNE) {
+                        final int month = (cal.get(Calendar.MONTH) + 7) % 12;
+                        if (month == 0) {
                             return "12";
-                        } else if (cal.get(Calendar.MONTH) == Calendar.AUGUST) {
-                            return "02";
+                        } else if (month < 10) {
+                            return "0"+month;
                         } else {
-                            return "07";
+                            return ""+month;
                         }
                     }
+
                 };
             }
 
@@ -296,22 +322,18 @@ public class BillingPeriodTest {
                 return new AccountingPeriod() {
                     @Override
                     public Date getUniversityFiscalPeriodEndDate() {
-
-                        if (StringUtils.equals("10", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-04-30");
-                        } else if (StringUtils.equals("09", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-03-31");
-                        } else if (StringUtils.equals("08", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-02-28");
-                        } else if (StringUtils.equals("11", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-05-31");
-                        } else if (StringUtils.equals("02", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-08-31");
-                        } else if (StringUtils.equals("12", periodCode)) {
-                            return Date.valueOf(fiscalYear+"-06-30");
-                        } else {
-                            return Date.valueOf(fiscalYear+"-01-31");
+                        int periodCodeMonth = Integer.parseInt(periodCode) - 7;
+                        if (periodCodeMonth < 0) {
+                            periodCodeMonth += 12;
                         }
+                        int year = (periodCodeMonth >= 7) ? fiscalYear - 1 : fiscalYear;
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.MONTH, periodCodeMonth);
+                        cal.set(Calendar.YEAR, year);
+                        cal.set(Calendar.DAY_OF_MONTH,1);
+                        final int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                        cal.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
+                        return KfsDateUtils.clearTimeFields(new java.sql.Date(cal.getTimeInMillis()));
                     }
 
                     @Override

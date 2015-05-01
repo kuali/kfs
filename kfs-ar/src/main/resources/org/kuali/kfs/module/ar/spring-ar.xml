@@ -1173,6 +1173,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

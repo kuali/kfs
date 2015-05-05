@@ -35,13 +35,16 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     protected boolean allowsErrorCorrection = false;
     protected boolean potentiallySensitive = false;
 
+    protected boolean hasAppDocStatus = false;
+
     /**
-     * Gets the validationMap attribute. 
+     * Gets the validationMap attribute.
      * @return Returns the validationMap.
      */
     public Map<Class, String> getValidationMap() {
         return validationMap;
     }
+
 
     /**
      * Sets the validationMap attribute value.
@@ -52,7 +55,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     }
 
     /**
-     * Gets the accountingLineGroups attribute. 
+     * Gets the accountingLineGroups attribute.
      * @return Returns the accountingLineGroups.
      */
     public Map<String, AccountingLineGroupDefinition> getAccountingLineGroups() {
@@ -66,9 +69,9 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public void setAccountingLineGroups(Map<String, AccountingLineGroupDefinition> accountingLineGroups) {
         this.accountingLineGroups = accountingLineGroups;
     }
-    
+
     /**
-     * Gets the importedLineParserClass attribute. 
+     * Gets the importedLineParserClass attribute.
      * @return Returns the importedLineParserClass.
      */
     public Class<? extends AccountingLineParser> getImportedLineParserClass() {
@@ -84,7 +87,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     }
 
     /**
-     * Gets the maxDictionaryValidationDepth attribute. 
+     * Gets the maxDictionaryValidationDepth attribute.
      * @return Returns the maxDictionaryValidationDepth.
      */
     public Integer getMaxDictionaryValidationDepth() {
@@ -98,7 +101,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public void setMaxDictionaryValidationDepth(Integer maxDictionaryValidationDepth) {
         this.maxDictionaryValidationDepth = maxDictionaryValidationDepth;
     }
-    
+
     /**
         This field contains a value of true or false.
         If true, then error correction is allowed for the document.
@@ -106,9 +109,9 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public void setAllowsErrorCorrection(boolean allowsErrorCorrection) {
         this.allowsErrorCorrection = allowsErrorCorrection;
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry#getAllowsErrorCorrection()
      */
     public boolean getAllowsErrorCorrection() {
@@ -116,7 +119,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     }
 
     /**
-     * Gets the potentiallySensitive attribute. 
+     * Gets the potentiallySensitive attribute.
      * @return Returns the potentiallySensitive.
      */
     public boolean isPotentiallySensitive() {
@@ -130,6 +133,13 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public void setPotentiallySensitive(boolean potentiallySensitive) {
         this.potentiallySensitive = potentiallySensitive;
     }
-    
-    
+
+    public boolean hasAppDocStatus() {
+        return hasAppDocStatus;
+    }
+
+    public void setHasAppDocStatus(boolean hasAppDocStatus) {
+        this.hasAppDocStatus = hasAppDocStatus;
+    }
+
 }

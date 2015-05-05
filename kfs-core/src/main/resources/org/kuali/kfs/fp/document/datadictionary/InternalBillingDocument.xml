@@ -31,7 +31,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.InternalBillingDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
-    <property name="workflowAttributes">
+    <property name="hasAppDocStatus" value="true"/>
+	<property name="workflowAttributes">
       <ref bean="InternalBillingDocument-workflowAttributes"/>
     </property>
 

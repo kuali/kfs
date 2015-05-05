@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDoc
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiConstants.SearchableAttributeConstants;
 import org.kuali.rice.kew.api.document.DocumentWithContent;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
@@ -168,6 +169,15 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             Field searchField = FieldUtils.getPropertyField(FinancialSystemDocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, true);
             searchField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_FLOAT);
             docSearchRows.add(new Row(Collections.singletonList(searchField)));
+        }
+
+        if (FinancialSystemTransactionalDocumentEntry.class.isAssignableFrom(entry.getClass())) {
+            if (((FinancialSystemTransactionalDocumentEntry)entry).hasAppDocStatus()) {
+                Field appDocStatusField = FieldUtils.getPropertyField(FinancialSystemDocumentHeader.class, KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS, true);
+                appDocStatusField.setFieldDataType(KewApiConstants.SearchableAttributeConstants.DATA_TYPE_STRING);
+                appDocStatusField.setColumnVisible(false);
+                docSearchRows.add(new Row(Collections.singletonList(appDocStatusField)));
+            }
         }
 
         Row resultType = createSearchResultDisplayTypeRow();

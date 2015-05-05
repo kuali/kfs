@@ -65,7 +65,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute;
 
-//RICE20 This class needs to be fixed to support pre-rice2.0 features
 public class FinancialSystemSearchableAttribute extends DataDictionarySearchableAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemSearchableAttribute.class);
 
@@ -82,7 +81,6 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         SEARCH_RESULT_TYPE_OPTION_LIST.add(new ConcreteKeyValue(WORKFLOW_DISPLAY_TYPE_VALUE, WORKFLOW_DISPLAY_TYPE_LABEL));
     }
 
-    // used to map the special fields to the DD Entry that validate it.
     private static final Map<String, String> magicFields = new HashMap<String, String>();
 
     static {
@@ -185,17 +183,20 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractDocumentAttributes( " + extensionDefinition + ", " + documentWithContent + " )");
         }
+
         List<DocumentAttribute> searchAttrValues = super.extractDocumentAttributes(extensionDefinition, documentWithContent);
 
         String docId = documentWithContent.getDocument().getDocumentId();
         DocumentService docService = SpringContext.getBean(DocumentService.class);
         Document doc = null;
+
         try {
             doc = docService.getByDocumentHeaderIdSessionless(docId);
         }
         catch (WorkflowException we) {
 
         }
+
         if (doc != null) {
             if (doc instanceof AmountTotaling && ((AmountTotaling)doc).getTotalDollarAmount() != null) {
                 DocumentAttributeDecimal.Builder searchableAttributeValue = DocumentAttributeDecimal.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
@@ -221,6 +222,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             }
 
         }
+
         return searchAttrValues;
     }
 
@@ -229,7 +231,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         if (LOG.isDebugEnabled()) {
             LOG.debug("validateDocumentAttributeCriteria( " + extensionDefinition + ", " + documentSearchCriteria + " )");
         }
-        // this list is irrelevant. the validation errors are put on the stack in the validationService.
+
         List<RemotableAttributeError> errors =  super.validateDocumentAttributeCriteria(extensionDefinition, documentSearchCriteria);
 
         DictionaryValidationService validationService = SpringContext.getBean(DictionaryValidationService.class);
@@ -272,7 +274,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
     /**
      * Harvest GLPE document type as searchable attributes from a GL posting document
-     * @param GLPDoc the GLP document to pull values from
+     * @param doc the GLP document to pull values from
      * @return a List of searchable values
      */
     protected List<DocumentAttribute> harvestGLPDocumentSearchableAttributes(GeneralLedgerPostingDocument doc) {
@@ -373,24 +375,4 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         return new Row(Collections.singletonList(searchField));
     }
 
-
-    // RICE20: fixes to allow document search to function until Rice 2.0.1
-//    @Override
-//    public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
-//        if (LOG.isDebugEnabled()) {
-//            LOG.debug("getSearchFields( " + extensionDefinition + ", " + documentTypeName + " )");
-//        }
-//        List<Row> searchRows = getSearchingRows(documentTypeName);
-//        for ( Row row : searchRows ) {
-//            for ( Field field : row.getFields() ) {
-//                if ( field.getFieldType().equals(Field.CURRENCY) ) {
-//                    field.setFieldType(Field.TEXT);
-//                }
-//                if ( field.getMaxLength() < 1 ) {
-//                    field.setMaxLength(100);
-//                }
-//            }
-//        }
-//        return FieldUtils.convertRowsToAttributeFields(searchRows);
-//    }
 }

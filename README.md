@@ -1,4 +1,4 @@
-# KFS Release 6.0
+# KFS Release 6.0.1
 
 ## Documentation Links
 

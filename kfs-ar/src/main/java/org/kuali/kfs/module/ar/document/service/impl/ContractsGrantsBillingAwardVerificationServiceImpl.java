@@ -35,11 +35,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
-import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.businessobject.*;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -155,8 +151,8 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-            java.sql.Date invoiceDate = pair[1];
+            BillingPeriod billingPeriod = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            java.sql.Date invoiceDate = billingPeriod.getEndDate();
 
 
             for (Milestone awdMilestone : milestones) {
@@ -191,8 +187,8 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-            java.sql.Date invoiceDate = pair[1];
+            BillingPeriod billingPeriod = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            java.sql.Date invoiceDate = billingPeriod.getEndDate();
 
             for (Bill awdBill : bills) {
                 if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilled() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {

@@ -20,7 +20,6 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -36,6 +35,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
+import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.BillingPeriod;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -72,13 +73,14 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         final Date today = getDateTimeService().getCurrentSqlDate();
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
 
-        Date[] pair = getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-        Date previousAccountingPeriodStartDate = pair[0];
-        Date previousAccountingPeriodEndDate = pair[1];
-        if (previousAccountingPeriodStartDate.after(previousAccountingPeriodEndDate)) {
+        BillingPeriod billingPeriod = getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        if (!billingPeriod.isBillable()) {
             return false;
         }
-        return calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, lastBilledDate, award.getBillingFrequency().getGracePeriodDays());
+        if (billingPeriod.getStartDate().after(billingPeriod.getEndDate())) {
+            return false;
+        }
+        return calculateIfWithinGracePeriod(today, billingPeriod.getEndDate(), billingPeriod.getStartDate(), lastBilledDate, award.getBillingFrequency().getGracePeriodDays());
     }
 
     /**
@@ -104,318 +106,14 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
             lastBilled = comparableDateForm(lastBilledDate);
         }
         final int gracePeriodClose = previousPeriodClose + gracePeriodDays;
-        return (todayAsComparableDate >= previousPeriodBegin && gracePeriodClose <= todayAsComparableDate && (lastBilledDate == null || previousPeriodBegin > lastBilled));
+        final int gracePeriodAfterLastBilled = lastBilled + gracePeriodDays;
+        return (todayAsComparableDate >= previousPeriodBegin && gracePeriodClose <= todayAsComparableDate && (lastBilledDate == null || todayAsComparableDate > gracePeriodAfterLastBilled));
 
     }
 
     @Override
-    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsBillingAward award, AccountingPeriod currPeriod) {
-        Date[] startDt_EndDt = new Date[2];
-        Date previousAccountingPeriodEndDay = null;
-        Date previousAccountingPeriodStartDay = null;
-        Date tmpEndDate;
-        Date lastBilledDate = award.getLastBilledDate();
-        String billingFrequency = award.getBillingFrequencyCode();
-        ArrayList<Date> periodEndDateListOfCurrFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(currPeriod);
-
-        // this is used later on when obtaining the last date of the previous fiscal year as the previousAccountPeriodEndDay
-        // it subtracts one from the fiscal year for the currPeriod passed in rather than assuming we want the
-        // previous fiscal year to the current active fiscal year, just in case a past period is sent in as currPeriod
-        // this is mostly just to facilitate unit tests but does make the code more robust (theoretically at least)
-        int previousYear = currPeriod.getUniversityFiscalYear() - 1;
-
-        int periodEndDateListOfCurrFiscalYearSize = 0;
-        if (periodEndDateListOfCurrFiscalYear != null) {
-            periodEndDateListOfCurrFiscalYearSize = periodEndDateListOfCurrFiscalYear.size();
-        }
-
-        // 2.billed monthly. ( Milestone and Predetermined Scheduled billing frequencies will also be invoiced as monthly.)
-        if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            // 2.1 find end date
-            if (lastBilledDate != null) {
-                if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime()); // assume the calendar date, discussion
-                } else {
-                    int i = -1;
-                    for (i = 0; i < periodEndDateListOfCurrFiscalYear.size(); i++) {
-                        if (currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            break;
-                        }
-                    }
-
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i - 1);
-                }
-            } else {
-                if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    // get end date by award's beginning date
-                    // if the lastBilledDate = null, means the the award is billed from its start date till the previous period end
-                    // date, so the calculation would be:
-                    int i = -1;
-                    for (i = 0; i < periodEndDateListOfCurrFiscalYear.size(); i++) {
-                        if (currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            break;
-                        }
-                    }
-
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i - 1);
-                }
-            }
-
-            // 2.2 find start date
-            // PreviousAccountingPeriodStartDate = previous accounting period endDate of previous accounting period + 1 day
-            // for example current date is 2012.8.16, then PreviousAccountingPeriodStartDate = 2012.6.30 + 1day, which is 2012.7.1
-
-            AccountingPeriod period = accountingPeriodService.getByDate(previousAccountingPeriodEndDay);
-            if (period.getUniversityFiscalYear().intValue() < currPeriod.getUniversityFiscalYear().intValue()) {
-
-                if (lastBilledDate == null) {
-                    previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-                } else {
-                    ArrayList<Date> acctPeriodEndDateListOfPreviousFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(period);
-
-                    int i = -1;
-                    for (i = acctPeriodEndDateListOfPreviousFiscalYear.size() - 1; i >= 0; i -= 1) {
-                        tmpEndDate = acctPeriodEndDateListOfPreviousFiscalYear.get(i);
-
-                        if (tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                            previousAccountingPeriodStartDay = calculateNextDay(tmpEndDate);
-                            break;
-                        }
-                    }
-
-                }
-            }
-            else if (period.getUniversityFiscalYear().intValue() == currPeriod.getUniversityFiscalYear().intValue()) {
-                if (lastBilledDate == null) {
-                    previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-                }
-                else {
-                    if (periodEndDateListOfCurrFiscalYearSize > 0 && previousAccountingPeriodEndDay.equals(periodEndDateListOfCurrFiscalYear.get(0))) {
-                        final Date firstDayOfCurrentFiscalYear = new Date(universityDateService.getFirstDateOfFiscalYear(currPeriod.getUniversityFiscalYear()).getTime());
-                        previousAccountingPeriodStartDay = firstDayOfCurrentFiscalYear;
-                    }
-                    else {
-                        int i = -1;
-                        for (i = 0; i < periodEndDateListOfCurrFiscalYear.size(); i++) {
-                            tmpEndDate = periodEndDateListOfCurrFiscalYear.get(i);
-
-                            if (!tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                                break;
-                            }
-                        }
-                        previousAccountingPeriodStartDay = calculateNextDay(periodEndDateListOfCurrFiscalYear.get(i - 1));
-                    }
-                }
-            }
-        }
-
-        // 3.billed quarterly
-        if (billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE)) {
-            // 3.1 find end date
-            if (lastBilledDate != null) {
-                if (periodEndDateListOfCurrFiscalYearSize > 2 && !currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(2))) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    int i = 0;
-                    for (i = 2; i < periodEndDateListOfCurrFiscalYear.size(); i += 3) {
-                        // find the PreviousAccountingPeriodEndDate by current fiscal period end date and last billed date.
-                        // for exmple, if current date is 2011.10.8, then the code will get out from for loop when looping to i =5
-                        // (2011.12.31), so previous end date is 2011.9.30(i=5-3=2)
-                        if (!currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            break;
-                        }
-                    }
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i - 3);
-                }
-
-            } else {
-
-                if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    Date dt = accountingPeriodService.getByDate(award.getAwardBeginningDate()).getUniversityFiscalPeriodEndDate();
-
-                    int i = -1;
-                    for (i = 2; i < periodEndDateListOfCurrFiscalYear.size(); i += 3) {
-                        // find the closest period end date by the award beginning date,
-                        // for exmple award is created on 7/15/2012 and billed quarterly, then the next billing date for this award is
-                        // 9/30/2012
-                        if (!dt.after(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            break;
-                        }
-                    }
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i);
-
-                }
-            }
-            // 3.2 find start date
-            // PreviousAccountingPeriodStartDate falls into previous fiscal year
-            AccountingPeriod period = accountingPeriodService.getByDate(previousAccountingPeriodEndDay);
-            if (lastBilledDate == null) {
-                previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-            } else {
-                if (period.getUniversityFiscalYear().intValue() < currPeriod.getUniversityFiscalYear().intValue()) {
-
-                    ArrayList<Date> acctPeriodEndDateListOfPreviousFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(period);
-
-                    int j = -1;
-                    for (j = acctPeriodEndDateListOfPreviousFiscalYear.size() - 1; j >= 0; j -= 3) {
-                        tmpEndDate = acctPeriodEndDateListOfPreviousFiscalYear.get(j);
-
-                        if (tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                            previousAccountingPeriodStartDay = calculateNextDay(tmpEndDate);
-                            break;
-                        }
-                    }
-
-                }
-                else if (period.getUniversityFiscalYear().intValue() == currPeriod.getUniversityFiscalYear().intValue()) {
-
-                    if (periodEndDateListOfCurrFiscalYearSize > 2 && !previousAccountingPeriodEndDay.after(periodEndDateListOfCurrFiscalYear.get(2))) {
-                        final Date firstDayOfCurrentFiscalYear = new Date(universityDateService.getFirstDateOfFiscalYear(currPeriod.getUniversityFiscalYear()).getTime());
-                        previousAccountingPeriodStartDay = firstDayOfCurrentFiscalYear;
-                    }
-                    else {
-                        int i = -1;
-                        for (i = 2; i < periodEndDateListOfCurrFiscalYear.size(); i += 3) {
-                            tmpEndDate = periodEndDateListOfCurrFiscalYear.get(i);
-
-                            if (!tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                                break;
-                            }
-                        }
-                        previousAccountingPeriodStartDay = calculateNextDay(periodEndDateListOfCurrFiscalYear.get(i - 3));
-                    }
-                }
-            }
-        }
-
-        // 4.billed semi-annually
-        if (billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE)) {
-            // 4.1 find end date
-            if (lastBilledDate != null) {
-                // if the current month is in the first fiscal semi-year of the current year,
-                // then get the last day of the previous fiscal year as PreviousAccountingPeriodEndDate
-                if (!currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(5))) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    int i = -1;
-                    for (i = 5; i < periodEndDateListOfCurrFiscalYear.size(); i += 6) {
-                        if (!currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            break;
-                        }
-                    }
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i - 6);
-                }
-            } else {
-                Date dt = accountingPeriodService.getByDate(award.getAwardBeginningDate()).getUniversityFiscalPeriodEndDate();
-
-                if (accountingPeriodService.getByDate(award.getAwardBeginningDate()).getUniversityFiscalYear().compareTo(currPeriod.getUniversityFiscalYear()) < 0) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    for (int i = 5; i < periodEndDateListOfCurrFiscalYear.size(); i += 6) {
-                        // find the closest period end date by the award beginning date,
-                        // for exmple award is created on 7/15/2012 and billed annually, then the next billing date for this award
-                        // is 12/31/2012
-                        if (dt.before(periodEndDateListOfCurrFiscalYear.get(i)) || dt.equals(periodEndDateListOfCurrFiscalYear.get(i))) {
-                            previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(i);
-                            break;
-                        }
-                    }
-                }
-            }
-
-
-            // 4.2 find start date
-            // PreviousAccountingPeriodStartDate falls into previous fiscal year
-            AccountingPeriod period = accountingPeriodService.getByDate(previousAccountingPeriodEndDay);
-            if (lastBilledDate == null) {
-                previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-            } else {
-                if (period.getUniversityFiscalYear() < currPeriod.getUniversityFiscalYear()) {
-                    ArrayList<Date> periodEndDateListOfPreviousFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(period);
-
-                    int i = -1;
-                    for (i = periodEndDateListOfPreviousFiscalYear.size() - 1; i >= 0; i -= 6) {
-                        tmpEndDate = periodEndDateListOfPreviousFiscalYear.get(i);
-
-                        if (tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                            previousAccountingPeriodStartDay = calculateNextDay(tmpEndDate);
-                            break;
-                        }
-                    }
-
-                }
-                // PreviousAccountingPeriodStartDate falls into current fiscal year
-                else if (period.getUniversityFiscalYear().intValue() == currPeriod.getUniversityFiscalYear().intValue()) {
-
-                    // previousAccoutingPeriodEndDay falls in the first fiscal period
-                    if (!previousAccountingPeriodEndDay.after(periodEndDateListOfCurrFiscalYear.get(5))) {
-                        final Date firstDayOfCurrentFiscalYear = new Date(universityDateService.getFirstDateOfFiscalYear(currPeriod.getUniversityFiscalYear()).getTime());
-                        previousAccountingPeriodStartDay = firstDayOfCurrentFiscalYear;
-                    }
-                    // previousAccoutingPeriodEndDay does not falls in the first fiscal period
-                    else {
-                        int i = -1;
-                        for (i = 5; i < periodEndDateListOfCurrFiscalYear.size(); i += 6) {
-                            tmpEndDate = periodEndDateListOfCurrFiscalYear.get(i);
-
-                            if (!tmpEndDate.before(previousAccountingPeriodEndDay)) {
-                                break;
-                            }
-                        }
-                        previousAccountingPeriodStartDay = calculateNextDay(periodEndDateListOfCurrFiscalYear.get(i - 6));
-
-                    }
-                }
-            }
-        }
-
-        // 5.billed annually
-        if (billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
-            // 5.1 find end date
-            if (lastBilledDate != null) {
-                previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime()); // assume the calendar date, discussion needed
-            } else {
-                if (accountingPeriodService.getByDate(award.getAwardBeginningDate()).getUniversityFiscalYear().compareTo(currPeriod.getUniversityFiscalYear()) < 0) {
-                    previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
-                } else {
-                    previousAccountingPeriodEndDay = periodEndDateListOfCurrFiscalYear.get(11);
-                }
-            }
-
-            // 5.2 find start date
-            if (lastBilledDate == null) {
-                previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-            } else {
-                previousAccountingPeriodStartDay = new Date(universityDateService.getFirstDateOfFiscalYear(previousYear).getTime());
-            }
-        }
-
-        // 6.billed for LOC Review - A Random billing period
-        if (billingFrequency.equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
-
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -1);
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            previousAccountingPeriodEndDay = new Date(cal.getTime().getTime());
-
-            // 5.2 find start date
-            if (lastBilledDate == null) {
-                previousAccountingPeriodStartDay = award.getAwardBeginningDate();
-            } else {
-                previousAccountingPeriodStartDay = calculateNextDay(lastBilledDate);
-            }
-        }
-
-        startDt_EndDt[0] = previousAccountingPeriodStartDay;
-        startDt_EndDt[1] = previousAccountingPeriodEndDay;
-        return startDt_EndDt;
+    public BillingPeriod getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsBillingAward award, AccountingPeriod currPeriod) {
+        return BillingPeriod.determineBillingPeriodPriorTo(award.getAwardBeginningDate(), this.dateTimeService.getCurrentSqlDate(), award.getLastBilledDate(), award.getBillingFrequencyCode(), this.accountingPeriodService);
     }
 
 

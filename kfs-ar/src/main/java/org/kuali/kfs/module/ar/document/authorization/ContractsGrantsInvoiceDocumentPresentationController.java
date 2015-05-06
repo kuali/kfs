@@ -43,22 +43,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceDocumentPresentationController extends CustomerInvoiceDocumentPresentationController {
 
-    private UniversityDateService universityDateService;
-
-    @Override
-    public UniversityDateService getUniversityDateService() {
-        if (universityDateService == null) {
-            universityDateService = SpringContext.getBean(UniversityDateService.class);
-        }
-        return universityDateService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
+    protected UniversityDateService universityDateService;
 
     /**
-
      * @see org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
     @Override
@@ -66,7 +53,13 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         FinancialSystemDocumentHeader financialSystemDocumentHeader = document.getFinancialSystemDocumentHeader();
         boolean invoiceReversal = ((ContractsGrantsInvoiceDocument) document).isInvoiceReversal();
 
-        return canErrorCorrect((ContractsGrantsInvoiceDocument) document, financialSystemDocumentHeader, invoiceReversal, null);
+        DateTime dateApproved = null;
+        final WorkflowDocument workflowDocument = financialSystemDocumentHeader.getWorkflowDocument();
+        if (ObjectUtils.isNotNull(workflowDocument)) {
+            dateApproved = workflowDocument.getDateApproved();
+        }
+        
+        return canErrorCorrect((ContractsGrantsInvoiceDocument) document, financialSystemDocumentHeader, invoiceReversal, dateApproved);
     }
 
     protected boolean canErrorCorrect(ContractsGrantsInvoiceDocument document, FinancialSystemDocumentHeader financialSystemDocumentHeader, boolean invoiceReversal, DateTime dateApproved) {
@@ -91,8 +84,8 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
 
     protected DateTime getStartOfCurrentFiscalYear() {
         final Date today = new DateTime().toDate();
-        final Integer fiscalYear = universityDateService.getFiscalYear(today);
-        final Date firstDateOfFiscalYear = universityDateService.getFirstDateOfFiscalYear(fiscalYear);
+        final Integer fiscalYear = getUniversityDateService().getFiscalYear(today);
+        final Date firstDateOfFiscalYear = getUniversityDateService().getFirstDateOfFiscalYear(fiscalYear);
 
         return new DateTime(firstDateOfFiscalYear);
     }
@@ -114,14 +107,14 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         return canEdit;
     }
 
-
-
     public boolean canProrate(ContractsGrantsInvoiceDocument document) {
         return canEdit(document) &&
                 getParameterService().getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_PRORATE_BILL_IND) &&
                 !StringUtils.equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequencyCode()) &&
                 !StringUtils.equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE, document.getInvoiceGeneralDetail().getBillingFrequencyCode());
     }
+
+
 
     public boolean canModifyTransmissionDate(ContractsGrantsInvoiceDocument document) {
         if (document.hasInvoiceBeenCorrected()) {
@@ -157,6 +150,18 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         Set<String> documentActions = super.getDocumentActions(document);
         documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
         return documentActions;
+    }
+
+    @Override
+    public UniversityDateService getUniversityDateService() {
+        if (universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 }

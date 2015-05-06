@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,8 +27,12 @@ import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -38,18 +43,34 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceDocumentPresentationController extends CustomerInvoiceDocumentPresentationController {
 
+    private UniversityDateService universityDateService;
+
+    @Override
+    public UniversityDateService getUniversityDateService() {
+        if (universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
     /**
+
      * @see org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         FinancialSystemDocumentHeader financialSystemDocumentHeader = document.getFinancialSystemDocumentHeader();
         boolean invoiceReversal = ((ContractsGrantsInvoiceDocument) document).isInvoiceReversal();
+
         return canErrorCorrect((ContractsGrantsInvoiceDocument) document, financialSystemDocumentHeader, invoiceReversal, null);
     }
 
     protected boolean canErrorCorrect(ContractsGrantsInvoiceDocument document, FinancialSystemDocumentHeader financialSystemDocumentHeader, boolean invoiceReversal, DateTime dateApproved) {
-        if (StringUtils.isNotBlank(financialSystemDocumentHeader.getCorrectedByDocumentId())) {
+        if (hasBeenCorrected(financialSystemDocumentHeader)) {
             return false;
         }
 
@@ -64,8 +85,16 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
         return isDocFinalWithNoAppliedAmountsExceptDiscounts(document);
     }
 
+    private boolean hasBeenCorrected(FinancialSystemDocumentHeader financialSystemDocumentHeader) {
+        return StringUtils.isNotBlank(financialSystemDocumentHeader.getCorrectedByDocumentId());
+    }
+
     protected DateTime getStartOfCurrentFiscalYear() {
-        return new DateTime().minusDays(365);
+        final Date today = new DateTime().toDate();
+        final Integer fiscalYear = universityDateService.getFiscalYear(today);
+        final Date firstDateOfFiscalYear = universityDateService.getFirstDateOfFiscalYear(fiscalYear);
+
+        return new DateTime(firstDateOfFiscalYear);
     }
 
     /**

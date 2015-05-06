@@ -33,6 +33,7 @@
     <property name="allowsNoteAttachments" value="true" />
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
+    <property name="hasAppDocStatus" value="true"/>
 
     <property name="workflowAttributes">
     	<ref bean="RequisitionDocument-workflowAttributes"/>

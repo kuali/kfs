@@ -172,9 +172,6 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      * @param applicationDocumentStatus The applicationDocumentStatus to set.
      */
     public void setApplicationDocumentStatus(String applicationDocumentStatus) {
-        WorkflowDocument document = getWorkflowDocument();
-
-        document.setApplicationDocumentStatus(applicationDocumentStatus);
         this.applicationDocumentStatus = applicationDocumentStatus;
     }
 

@@ -36,9 +36,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.sys.document.*;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
@@ -194,8 +192,6 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             LOG.debug("extractDocumentAttributes( " + extensionDefinition + ", " + documentWithContent + " )");
         }
 
-        List<DocumentAttribute> searchAttrValues = super.extractDocumentAttributes(extensionDefinition, documentWithContent);
-
         String docId = documentWithContent.getDocument().getDocumentId();
         DocumentService docService = SpringContext.getBean(DocumentService.class);
         Document doc = null;
@@ -204,9 +200,16 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             doc = docService.getByDocumentHeaderIdSessionless(docId);
         }
         catch (WorkflowException we) {
-
         }
 
+        final List<DocumentAttribute> searchAttrValues = super.extractDocumentAttributes(extensionDefinition, documentWithContent);
+        final List<DocumentAttribute> financialSystemDocumentAttributes = extractFinancialSystemDocumentAttributes(doc);
+        searchAttrValues.addAll(financialSystemDocumentAttributes);
+        return searchAttrValues;
+    }
+
+    protected List<DocumentAttribute> extractFinancialSystemDocumentAttributes(Document doc) {
+        List<DocumentAttribute> searchAttrValues = new ArrayList<>();
         if (doc != null) {
             if (doc instanceof AmountTotaling && ((AmountTotaling)doc).getTotalDollarAmount() != null) {
                 DocumentAttributeDecimal.Builder searchableAttributeValue = DocumentAttributeDecimal.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);

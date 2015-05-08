@@ -51,6 +51,7 @@ import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.extension.ExtensionDefinition;
+import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -234,6 +235,15 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
                 searchAttrValues.addAll(harvestGLPDocumentSearchableAttributes(GLPostingDoc));
             }
 
+            if (doc instanceof FinancialSystemTransactionalDocument) {
+                FinancialSystemTransactionalDocument document = (FinancialSystemTransactionalDocument)doc;
+                final String applicationDocumentStatus = document.getApplicationDocumentStatus();
+                if (StringUtils.isNotBlank(applicationDocumentStatus)) {
+                    DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+                    searchableAttributeValue.setValue(applicationDocumentStatus);
+                    searchAttrValues.add(searchableAttributeValue.build());
+                }
+            }
         }
 
         return searchAttrValues;
@@ -281,6 +291,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         for ( AccountingLine line : (List<AccountingLine>)accountingDoc.getTargetAccountingLines() ) {
             addSearchableAttributesForAccountingLine(searchAttrValues, line);
         }
+
+
+
 
         return searchAttrValues;
     }

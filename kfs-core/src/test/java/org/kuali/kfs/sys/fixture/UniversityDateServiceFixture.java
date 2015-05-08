@@ -36,6 +36,7 @@ public enum UniversityDateServiceFixture {
     DATE_EMPTY(0, null, 0, 0);
 
 
+
     private int fiscalYear;
     private String fiscalPeriod;
     private int month;

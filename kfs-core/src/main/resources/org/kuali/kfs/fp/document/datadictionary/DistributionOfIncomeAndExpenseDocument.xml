@@ -23,7 +23,7 @@
   <bean id="DistributionOfIncomeAndExpenseDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
     <property name="documentTypeName" value="DI"/>
-    <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOxfIncomeAndExpenseDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/> 
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ExpiredAccountOverridePreRules"/>

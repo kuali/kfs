@@ -1,39 +1,43 @@
 package org.kuali.kfs.sys.document.workflow;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.businessobject.*;
+import org.kuali.kfs.sys.document.*;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.*;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.util.NoteType;
+import org.kuali.rice.krad.util.documentserializer.PropertySerializabilityEvaluator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-@ConfigureContext
-public class FinancialSystemSearchableAttributeTest extends KualiTestBase {
+//@ConfigureContext
+public class FinancialSystemSearchableAttributeTest {//extends KualiTestBase {
 
-    @Ignore
     @Test
     public void testGetSearchingRowsDoesNotContainAppDocStatus() {
         FinancialSystemSearchableAttribute financialSystemSearchableAttribute = new FinancialSystemSearchableAttribute();
@@ -57,7 +61,6 @@ public class FinancialSystemSearchableAttributeTest extends KualiTestBase {
         return false;
     }
 
-    @Ignore
     @Test
     public void testGetSearchingRowsContainsAppDocStatus() {
         FinancialSystemSearchableAttribute financialSystemSearchableAttribute = new FinancialSystemSearchableAttribute();
@@ -76,32 +79,15 @@ public class FinancialSystemSearchableAttributeTest extends KualiTestBase {
         assertTrue("Search attributes should be empty", searchAttributes.isEmpty());
     }
 
-    class FakeTotalingDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
-        private final KualiDecimal amount;
-
-        public FakeTotalingDocument(double amount) {
-            this.amount = new KualiDecimal(amount);
-        }
-
-        @Override
-        public KualiDecimal getTotalDollarAmount() {
-            return amount;
-        }
-    }
-
-    class FakeAppDocStatusDocument extends FinancialSystemTransactionalDocumentBase {
-
-        FakeAppDocStatusDocument(String appDocStatus) {
-            this.documentHeader = new FinancialSystemDocumentHeader();
-            ((FinancialSystemDocumentHeader)this.documentHeader).setApplicationDocumentStatus(appDocStatus);
-       }
-
-    }
-
     @Test
     public void testExtractFinancialSystemDocumentAttributes_amountTotalling() {
         FinancialSystemSearchableAttribute financialSystemSearchableAttribute = new FinancialSystemSearchableAttribute();
-        final FakeTotalingDocument doc = new FakeTotalingDocument(27.5);
+        final FakeTotalingDocument doc = new FakeTotalingDocument() {
+            @Override
+            public KualiDecimal getTotalDollarAmount() {
+                return new KualiDecimal(27.5);
+            }
+        };
         List<DocumentAttribute> searchAttributes = financialSystemSearchableAttribute.extractFinancialSystemDocumentAttributes(doc);
         assertEquals("Search attributes should have one attribute", 1, searchAttributes.size());
         assertDocumentAttributeDecimal(searchAttributes.get(0), 27.5);
@@ -115,24 +101,53 @@ public class FinancialSystemSearchableAttributeTest extends KualiTestBase {
     @Test
     public void testExtractFinancialSystemDocumentAttributes_accountingAttributes() {
         FinancialSystemSearchableAttribute financialSystemSearchableAttribute = new FinancialSystemSearchableAttribute();
-        final DistributionOfIncomeAndExpenseDocument diDoc = new DistributionOfIncomeAndExpenseDocument();
-        try {
-            diDoc.addSourceAccountingLine(AccountingLineFixture.LINE2.createSourceAccountingLine());
-            diDoc.addTargetAccountingLine(AccountingLineFixture.LINE3.createTargetAccountingLine());
+        final FakeDistributionOfIncomeAndExpenseDocument diDoc = new FakeDistributionOfIncomeAndExpenseDocument();
+            diDoc.addSourceAccountingLine(createSourceLine());
+            diDoc.addTargetAccountingLine(createTargetLine());
             List<DocumentAttribute> searchAttributes = financialSystemSearchableAttribute.extractFinancialSystemDocumentAttributes(diDoc);
-            assertEquals("Search attributes should have one attribute", 7, searchAttributes.size());
+            assertEquals("Search attributes should have 4 attribute (chart and account for source and target)", 4, searchAttributes.size());
 
-            assertDocumentAttributeDecimal(searchAttributes.get(0), 1.1);
+//            assertDocumentAttributeDecimal(searchAttributes.get(0), 1.1);
             // TODO CONTINUE ASSERTIONS
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+
     }
+
+    private SourceAccountingLine createSourceLine()  {
+      SourceAccountingLine sal = new SourceAccountingLine() {
+          @Override
+          public void setAccountNumber(String accountNumber) {
+              this.accountNumber = accountNumber;
+          }
+      };
+        sal.setAccountNumber("1031400");
+        sal.setAmount(new KualiDecimal(1.10));
+        sal.setChartOfAccountsCode("BL");
+        return sal;
+    }
+
+    private TargetAccountingLine createTargetLine()  {
+        TargetAccountingLine tal = new TargetAccountingLine() {
+            @Override
+            public void setAccountNumber(String accountNumber) {
+                this.accountNumber = accountNumber;
+            }
+        };
+        tal.setAccountNumber("6044900");
+        tal.setAmount(new KualiDecimal(1.10));
+        tal.setChartOfAccountsCode("BA");
+        return tal;
+    }
+
 
     @Test
     public void testExtractFinancialSystemDocumentAttributes_appDocStatus() {
         FinancialSystemSearchableAttribute financialSystemSearchableAttribute = new FinancialSystemSearchableAttribute();
-        final FakeAppDocStatusDocument doc = new FakeAppDocStatusDocument("In Process");
+        final FakeFinancialSystemTransactionalDocument doc = new FakeFinancialSystemTransactionalDocument() {
+            @Override
+            public String getApplicationDocumentStatus() {
+                return "In Process";
+            }
+        };
         List<DocumentAttribute> searchAttributes = financialSystemSearchableAttribute.extractFinancialSystemDocumentAttributes(doc);
         assertEquals("Search attributes should have one attribute", 1, searchAttributes.size());
         assertEquals("Search attributes should have appDocStatus In Process", "In Process", searchAttributes.get(0).getValue().toString());

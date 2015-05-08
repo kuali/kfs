@@ -22,10 +22,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-/**
- * Suspension Category that checks to see if the invoice amount is less than the minimum allowed specified by the award.
-
- */
 public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends SuspensionCategoryBase {
 
     /**
@@ -33,11 +29,14 @@ public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends Suspe
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        KualiDecimal invoiceMinimumAmount = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getMinInvoiceAmount();
-        if (invoiceMinimumAmount == null) {
-            return false; // if no minimum specified, then no limit
+        return shouldSuspend(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getMinInvoiceAmount(), contractsGrantsInvoiceDocument.getTotalInvoiceAmount());
+    }
+
+    protected boolean shouldSuspend(KualiDecimal minInvoiceAmount, KualiDecimal invoiceAmount) {
+        if (minInvoiceAmount == null) {
+            return false;
         }
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getTotalAmountBilledToDate().isLessThan(invoiceMinimumAmount);
+        return invoiceAmount.isLessThan(minInvoiceAmount);
     }
 
 }

@@ -8,6 +8,7 @@ public class ChartSearch {
     public Chart retrieveByChartCode(String code) {
         Chart chart = new Chart();
         chart.setChartOfAccountsCode(code);
+        chart.setFinChartOfAccountDescription("BLOOMINGTON AUX");
         return chart;
     }
 }

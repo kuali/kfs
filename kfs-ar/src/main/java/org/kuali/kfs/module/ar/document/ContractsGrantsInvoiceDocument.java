@@ -107,9 +107,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List deletionAwareLists = super.buildListOfDeletionAwareLists();
+        if (invoiceSuspensionCategories != null) {
+            deletionAwareLists.add(invoiceSuspensionCategories);
+        }
+        return deletionAwareLists;
+    }
+
+    /**
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#prepareForSave()
      */
-
     @Override
     public void prepareForSave() {
         super.prepareForSave();
@@ -120,6 +131,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
             contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(this);
         }
+
+        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(this);
     }
 
     /**

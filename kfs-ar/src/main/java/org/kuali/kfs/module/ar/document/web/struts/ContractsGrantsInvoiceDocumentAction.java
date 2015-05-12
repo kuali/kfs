@@ -233,7 +233,7 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        updateSuspensionCategoriesOnDocument(form);
+        //updateSuspensionCategoriesOnDocument(form);
 
         return super.save(mapping, form, request, response);
     }
@@ -250,8 +250,8 @@ public class ContractsGrantsInvoiceDocumentAction extends CustomerInvoiceDocumen
         ContractsGrantsInvoiceDocumentForm contractsGrantsInvoiceDocumentForm = (ContractsGrantsInvoiceDocumentForm) form;
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = contractsGrantsInvoiceDocumentForm.getContractsGrantsInvoiceDocument();
 
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
+//        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+//        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         return contractsGrantsInvoiceDocument;
     }

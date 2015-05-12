@@ -107,10 +107,13 @@
     <commons-transaction.version>1.2</commons-transaction.version>
     <fastinfoset.version>1.2.2</fastinfoset.version>
     <itext.version>1.4.8</itext.version>
+    <jackson.jaxrs.provider.version>2.5.3</jackson.jaxrs.provider.version>
     <jasperreports.version>2.0.4</jasperreports.version>
     <javamelody.core.version>1.49.0</javamelody.core.version>
     <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
     <jaxb.version>2.2.6</jaxb.version>
+    <jax.rs.version>2.0.1</jax.rs.version>
+    <jersey.container.version>2.17</jersey.container.version>
     <jrobin.version>1.5.9</jrobin.version>
     <jsp-api.version>2.1</jsp-api.version>
     <jstl-api.version>1.2</jstl-api.version>
@@ -936,6 +939,22 @@
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
       <version>${liquibase.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>${jax.rs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>${jersey.container.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.jaxrs.provider.version}</version>
     </dependency>
 
   </dependencies>

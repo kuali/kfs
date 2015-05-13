@@ -55,19 +55,19 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     protected String expBdgtEliminationsFinObjCd;
     protected String fundBalanceObjectCode;
 
-    protected ObjectCode incBdgtEliminationsFinObj;
-    protected ObjectCode expBdgtEliminationsFinObj;
-    protected ObjectCode finAccountsPayableObject;
-    protected ObjectCode finExternalEncumbranceObj;
-    protected ObjectCode finPreEncumbranceObject;
-    protected ObjectCode financialCashObject;
-    protected ObjectCode icrIncomeFinancialObject;
-    protected ObjectCode finAccountsReceivableObj;
-    protected ObjectCode finInternalEncumbranceObj;
-    protected ObjectCode icrExpenseFinancialObject;
-    protected ObjectCode fundBalanceObject;
-    protected Person finCoaManager;
-    protected Chart reportsToChartOfAccounts;
+    transient protected ObjectCode incBdgtEliminationsFinObj;
+    transient protected ObjectCode expBdgtEliminationsFinObj;
+    transient protected ObjectCode finAccountsPayableObject;
+    transient protected ObjectCode finExternalEncumbranceObj;
+    transient protected ObjectCode finPreEncumbranceObject;
+    transient protected ObjectCode financialCashObject;
+    transient protected ObjectCode icrIncomeFinancialObject;
+    transient protected ObjectCode finAccountsReceivableObj;
+    transient protected ObjectCode finInternalEncumbranceObj;
+    transient protected ObjectCode icrExpenseFinancialObject;
+    transient protected ObjectCode fundBalanceObject;
+    transient protected Person finCoaManager;
+    transient protected Chart reportsToChartOfAccounts;
 
     private static transient ChartService chartService;
     

@@ -114,6 +114,7 @@
     <jaxb.version>2.2.6</jaxb.version>
     <jax.rs.version>2.0.1</jax.rs.version>
     <jersey.container.version>2.17</jersey.container.version>
+    <jersey.media.json.jackson.version>2.17</jersey.media.json.jackson.version>
     <jrobin.version>1.5.9</jrobin.version>
     <jsp-api.version>2.1</jsp-api.version>
     <jstl-api.version>1.2</jstl-api.version>
@@ -317,6 +318,10 @@
         <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>jsr311-api</artifactId>
         </exclusion>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -951,10 +956,15 @@
       <artifactId>jersey-container-servlet</artifactId>
       <version>${jersey.container.version}</version>
     </dependency>
+    <!--<dependency>-->
+      <!--<groupId>com.fasterxml.jackson.jaxrs</groupId>-->
+      <!--<artifactId>jackson-jaxrs-json-provider</artifactId>-->
+      <!--<version>${jackson.jaxrs.provider.version}</version>-->
+    <!--</dependency>-->
     <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
-      <version>${jackson.jaxrs.provider.version}</version>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>${jersey.media.json.jackson.version}</version>
     </dependency>
 
   </dependencies>

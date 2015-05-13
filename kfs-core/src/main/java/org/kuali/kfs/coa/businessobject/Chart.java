@@ -20,6 +20,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -55,19 +56,32 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     protected String expBdgtEliminationsFinObjCd;
     protected String fundBalanceObjectCode;
 
-    transient protected ObjectCode incBdgtEliminationsFinObj;
-    transient protected ObjectCode expBdgtEliminationsFinObj;
-    transient protected ObjectCode finAccountsPayableObject;
-    transient protected ObjectCode finExternalEncumbranceObj;
-    transient protected ObjectCode finPreEncumbranceObject;
-    transient protected ObjectCode financialCashObject;
-    transient protected ObjectCode icrIncomeFinancialObject;
-    transient protected ObjectCode finAccountsReceivableObj;
-    transient protected ObjectCode finInternalEncumbranceObj;
-    transient protected ObjectCode icrExpenseFinancialObject;
-    transient protected ObjectCode fundBalanceObject;
-    transient protected Person finCoaManager;
-    transient protected Chart reportsToChartOfAccounts;
+    @JsonIgnore
+    protected ObjectCode incBdgtEliminationsFinObj;
+    @JsonIgnore
+    protected ObjectCode expBdgtEliminationsFinObj;
+    @JsonIgnore
+    protected ObjectCode finAccountsPayableObject;
+    @JsonIgnore
+    protected ObjectCode finExternalEncumbranceObj;
+    @JsonIgnore
+    protected ObjectCode finPreEncumbranceObject;
+    @JsonIgnore
+    protected ObjectCode financialCashObject;
+    @JsonIgnore
+    protected ObjectCode icrIncomeFinancialObject;
+    @JsonIgnore
+    protected ObjectCode finAccountsReceivableObj;
+    @JsonIgnore
+    protected ObjectCode finInternalEncumbranceObj;
+    @JsonIgnore
+    protected ObjectCode icrExpenseFinancialObject;
+    @JsonIgnore
+    protected ObjectCode fundBalanceObject;
+    @JsonIgnore
+    protected Person finCoaManager;
+    @JsonIgnore
+    protected Chart reportsToChartOfAccounts;
 
     private static transient ChartService chartService;
     

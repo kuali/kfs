@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping(value="/coa")
 public class ChartController {
 
-    @RequestMapping(value="lookup/coa/chart/{chartofAccountsCode}", method= RequestMethod.GET, produces="application/json")
-    @ResponseBody
-    public Chart lookupChartByPrimaryKey(@PathVariable String chartOfAccountsCode) {
+    @RequestMapping(value="/chart/{chartofAccountsCode}", method= RequestMethod.GET, produces="application/json")
+    public @ResponseBody Chart lookupChartByPrimaryKey(@PathVariable String chartOfAccountsCode) {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final ChartSearch chartSearch = new ChartSearch(lookupService);
         return chartSearch.retrieveByChartCode(chartOfAccountsCode);

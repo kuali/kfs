@@ -46,26 +46,26 @@
               <excludes>${rice.web.excludes}</excludes>
             </configuration>
           </execution>
-          <execution>
-            <id>unpack-help</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.kuali.kfs</groupId>
-                  <artifactId>kfs-help</artifactId>
-                  <version>${kfs.help.version}</version>
-                  <type>jar</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${help.web.sources}/static/help</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-              <includes>*/**</includes>
-            </configuration>
-          </execution>
+          <!--<execution>-->
+            <!--<id>unpack-help</id>-->
+            <!--<phase>generate-sources</phase>-->
+            <!--<goals>-->
+              <!--<goal>unpack</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<artifactItems>-->
+                <!--<artifactItem>-->
+                  <!--<groupId>org.kuali.kfs</groupId>-->
+                  <!--<artifactId>kfs-help</artifactId>-->
+                  <!--<version>${kfs.help.version}</version>-->
+                  <!--<type>jar</type>-->
+                  <!--<overWrite>false</overWrite>-->
+                  <!--<outputDirectory>${help.web.sources}/static/help</outputDirectory>-->
+                <!--</artifactItem>-->
+              <!--</artifactItems>-->
+              <!--<includes>*/**</includes>-->
+            <!--</configuration>-->
+          <!--</execution>-->
         </executions>
       </plugin>
       <plugin>
@@ -75,9 +75,9 @@
             <resource>
               <directory>${rice.web.sources}</directory>
             </resource>
-            <resource>
-              <directory>${help.web.sources}</directory>
-            </resource>
+            <!--<resource>-->
+              <!--<directory>${help.web.sources}</directory>-->
+            <!--</resource>-->
           </webResources>
         </configuration>
       </plugin>

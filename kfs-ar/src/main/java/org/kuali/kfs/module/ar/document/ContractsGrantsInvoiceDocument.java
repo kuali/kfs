@@ -131,9 +131,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
             contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(this);
         }
-
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(this);
     }
 
     /**

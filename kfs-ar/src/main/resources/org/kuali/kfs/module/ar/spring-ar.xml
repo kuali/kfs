@@ -496,6 +496,9 @@
 		<property name="code">
 			<value>2</value>
 		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService"/>
+		</property>
 	</bean>
 
 	<bean id="reportsRequiredSuspensionCategory"  parent="reportsRequiredSuspensionCategory-parentBean"/>

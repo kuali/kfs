@@ -18,18 +18,32 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.SuspensionCategoryBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends SuspensionCategoryBase {
+
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.validation.SuspensionCategory#shouldSuspend(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
     public boolean shouldSuspend(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        ensureTotalInvoiceAmountIsUpToDate(contractsGrantsInvoiceDocument);
+
         return shouldSuspend(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAward().getMinInvoiceAmount(), contractsGrantsInvoiceDocument.getTotalInvoiceAmount());
+    }
+
+    protected void ensureTotalInvoiceAmountIsUpToDate(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        if (!StringUtils.equalsIgnoreCase(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !StringUtils.equalsIgnoreCase(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequencyCode(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            contractsGrantsInvoiceDocumentService.recalculateTotalAmountBilledToDate(contractsGrantsInvoiceDocument);
+        }
     }
 
     protected boolean shouldSuspend(KualiDecimal minInvoiceAmount, KualiDecimal invoiceAmount) {
@@ -37,6 +51,14 @@ public class InvoiceAmountLessThanInvoiceMinimumSuspensionCategory extends Suspe
             return false;
         }
         return invoiceAmount.isLessThan(minInvoiceAmount);
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
 }

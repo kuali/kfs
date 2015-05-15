@@ -9,13 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value="/kfs-dev/lookup")
 public class ChartController {
 
-    @RequestMapping(value="/coa/chart", method= RequestMethod.GET, produces="application/json")
-    public @ResponseBody Chart lookupChartByPrimaryKey(@RequestParam("chartOfAccountsCode") String chartOfAccountsCode) {
+    @RequestMapping(value="/lookup/coa/chart/BA", method= RequestMethod.GET, produces="application/json")
+    public @ResponseBody Chart lookupChartByPrimaryKey() {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final ChartSearch chartSearch = new ChartSearch(lookupService);
-        return chartSearch.retrieveByChartCode(chartOfAccountsCode);
+        return chartSearch.retrieveByChartCode("BA");
     }
 }

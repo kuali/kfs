@@ -135,6 +135,11 @@
       <artifactId>kfs-tem</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kns</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
 </project>

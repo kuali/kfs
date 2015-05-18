@@ -56,4 +56,12 @@
     </plugins>
   </build>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kns</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

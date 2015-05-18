@@ -32,6 +32,7 @@
     <module>kfs-tem</module>
     <module>kfs-bc</module>
     <module>kfs-web</module>
+    <module>kns</module>
   </modules>
   <parent>
     <groupId>org.kuali.pom</groupId>
@@ -296,6 +297,10 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>org.igniterealtime</groupId>
           <artifactId>smack</artifactId>
         </exclusion>
@@ -370,6 +375,10 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>javax.resource</groupId>
           <artifactId>connector-api</artifactId>
         </exclusion>
@@ -393,6 +402,10 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
         </exclusion>
@@ -415,6 +428,10 @@
       <artifactId>rice-edl-impl</artifactId>
       <version>${rice.version}</version>
       <exclusions>
+        <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
@@ -494,6 +511,10 @@
       <artifactId>rice-kim-impl</artifactId>
       <version>${rice.version}</version>
       <exclusions>
+        <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
@@ -610,6 +631,10 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
         </exclusion>
@@ -643,6 +668,10 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
         </exclusion>
@@ -654,16 +683,9 @@
       <version>${rice.version}</version>
       <exclusions>
         <exclusion>
-          <groupId>xapool</groupId>
-          <artifactId>xapool</artifactId>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
         </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-kns</artifactId>
-      <version>${rice.version}</version>
-      <exclusions>
         <exclusion>
           <groupId>xapool</groupId>
           <artifactId>xapool</artifactId>
@@ -675,6 +697,10 @@
       <artifactId>rice-impl</artifactId>
       <version>${rice.version}</version>
       <exclusions>
+        <exclusion>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-kns</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>javax.resource</groupId>
           <artifactId>connector-api</artifactId>

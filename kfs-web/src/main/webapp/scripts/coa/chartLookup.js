@@ -1,4 +1,25 @@
+// Parent
+var Parent = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <SearchBar/>
+                <ResultsBox searchResults={searchResults}/>
+            </div>
+        );
+    }
+});
+
 // Search Bar
+var SearchBar = React.createClass({
+    render: function() {
+        return (
+            <div>
+                Chart Code: <input type="text"/>
+            </div>
+        );
+    }
+});
 
 // Results Row
 var ResultsRow = React.createClass({
@@ -66,9 +87,9 @@ searchResults=[{
   "code": "BA",
   "codeAndDescription": "BA - BLOOMINGTON AUX",
   "chartCodeForReport": "BA"
-}]
+}];
 
 React.render(
-    <ResultsBox searchResults={searchResults}/>,
+    <Parent/>,
     document.getElementById('main')
 );

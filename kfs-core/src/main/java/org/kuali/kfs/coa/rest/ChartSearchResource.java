@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Arrays;
+import java.util.List;
 
 @Path("coa/chart")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -20,9 +22,9 @@ public class ChartSearchResource {
 
     @GET
     @Path("/{code}")
-    public Chart lookupChartByPrimaryKey(@PathParam("code") String chartOfAccountsCode) {
+    public List<Chart> lookupChartByPrimaryKey(@PathParam("code") String chartOfAccountsCode) {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final ChartSearch chartSearch = new ChartSearch(lookupService);
-        return chartSearch.retrieveByChartCode(chartOfAccountsCode);
+        return Arrays.asList(chartSearch.retrieveByChartCode(chartOfAccountsCode));
     }
 }

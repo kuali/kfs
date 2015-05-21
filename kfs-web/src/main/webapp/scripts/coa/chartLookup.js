@@ -1,43 +1,49 @@
-// Parent
 var Parent = React.createClass({
+    handleSearchSubmit: function(code) {
+        $.ajax({
+            url: this.props.url + code,
+            dataType: 'json',
+            type: 'GET',
+            success: function(searchResults) {
+                this.setState({searchResults: searchResults});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+    getInitialState: function () {
+        return {searchResults: []};
+    },
     render: function() {
         return (
             <div>
-                <SearchBar/>
-                <ResultsBox searchResults={searchResults}/>
+                <SearchBar onSearchSubmit={this.handleSearchSubmit}/>
+                <ResultsBox searchResults={this.state.searchResults}/>
             </div>
         );
     }
 });
 
-// Search Bar
 var SearchBar = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var code = React.findDOMNode(this.refs.code).value.trim();
+        if (!code) {
+            // TODO - make this empty string or * or something
+        }
+        this.props.onSearchSubmit(code);
+        return;
+    },
     render: function() {
         return (
-            <div>
-                Chart Code: <input type="text"/>
-            </div>
+            <form className="searchForm" onSubmit={this.handleSubmit}>
+                Chart Code: <input ref="code" type="text"/>
+            </form>
         );
     }
 });
 
-// Results Row
-var ResultsRow = React.createClass({
-    render: function() {
-        return (
-          <tr>
-              <td>{this.props.chart.code}</td>
-              <td>{this.props.chart.name}</td>
-              <td>{this.props.chart.active}</td>
-              <td>{this.props.chart.financialCashObjectCode}</td>
-              <td>{this.props.chart.finAccountsPayableObjectCode}</td>
-              <td>{this.props.chart.finCoaManagerPrincipalId}</td>
-          </tr>
-        );
-    }
-});
-
-// Results Box
 var ResultsBox = React.createClass({
     render: function() {
         var rows = [];
@@ -62,34 +68,22 @@ var ResultsBox = React.createClass({
     }
 });
 
-searchResults=[{
-  "versionNumber": 1,
-  "objectId": "014F3DAF7489A448E043814FD28EA448",
-  "newCollectionRecord": false,
-  "extension": null,
-  "finChartOfAccountDescription": "BLOOMINGTON AUX",
-  "active": true,
-  "finCoaManagerPrincipalId": "2168808105",
-  "reportsToChartOfAccountsCode": "BL",
-  "chartOfAccountsCode": "BA",
-  "finAccountsPayableObjectCode": "9041",
-  "finExternalEncumbranceObjCd": "9892",
-  "finPreEncumbranceObjectCode": "9890",
-  "financialCashObjectCode": "8000",
-  "icrIncomeFinancialObjectCode": "1803",
-  "finAccountsReceivableObjCode": "8118",
-  "finInternalEncumbranceObjCd": "9891",
-  "icrExpenseFinancialObjectCd": "5500",
-  "incBdgtEliminationsFinObjCd": "1209",
-  "expBdgtEliminationsFinObjCd": "1209",
-  "fundBalanceObjectCode": "9899",
-  "name": "BLOOMINGTON AUX",
-  "code": "BA",
-  "codeAndDescription": "BA - BLOOMINGTON AUX",
-  "chartCodeForReport": "BA"
-}];
+var ResultsRow = React.createClass({
+    render: function() {
+        return (
+            <tr>
+                <td>{this.props.chart.code}</td>
+                <td>{this.props.chart.name}</td>
+                <td>{this.props.chart.active}</td>
+                <td>{this.props.chart.financialCashObjectCode}</td>
+                <td>{this.props.chart.finAccountsPayableObjectCode}</td>
+                <td>{this.props.chart.finCoaManagerPrincipalId}</td>
+            </tr>
+        );
+    }
+});
 
 React.render(
-    <Parent/>,
+    <Parent url="/kfs-dev/lookup/coa/chart/" />,
     document.getElementById('main')
 );

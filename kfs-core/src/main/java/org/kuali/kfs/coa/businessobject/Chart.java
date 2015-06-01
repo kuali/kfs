@@ -20,7 +20,9 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -76,9 +78,8 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     protected ObjectCode finInternalEncumbranceObj;
     @JsonIgnore
     protected ObjectCode icrExpenseFinancialObject;
-    @JsonIgnore
+    @JsonBackReference
     protected ObjectCode fundBalanceObject;
-    @JsonIgnore
     protected Person finCoaManager;
     @JsonIgnore
     protected Chart reportsToChartOfAccounts;

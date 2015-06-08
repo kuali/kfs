@@ -15,21 +15,27 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChartSearchSerializer extends JsonSerializer<Chart> {
     private DataDictionaryService dataDictionaryService;
     private ConfigurationService configurationService;
+    private PersistenceStructureService persistenceStructureService;
 
     public ChartSearchSerializer() {}
 
-    public ChartSearchSerializer(DataDictionaryService dataDictionaryService, ConfigurationService configurationService) {
+    public ChartSearchSerializer(DataDictionaryService dataDictionaryService, ConfigurationService configurationService, PersistenceStructureService persistenceStructureService) {
         this.dataDictionaryService = dataDictionaryService;
         this.configurationService = configurationService;
+        this.persistenceStructureService = persistenceStructureService;
     }
 
     @Override
@@ -67,7 +73,7 @@ public class ChartSearchSerializer extends JsonSerializer<Chart> {
             if (ObjectUtils.isNotNull(nestedReferenceObject) && nestedReferenceObject instanceof BusinessObject) {
                 return nestedReferenceName;
             }
-        } else {
+        } else if (!isPrimaryKey(value, resultFieldName)) {
             Map primitiveReference = LookupUtils.getPrimitiveReference(value, resultFieldName);
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
                 final String attributeRefName = (String) primitiveReference.keySet().iterator().next();
@@ -75,6 +81,11 @@ public class ChartSearchSerializer extends JsonSerializer<Chart> {
             }
         }
         return "";
+    }
+
+    protected boolean isPrimaryKey(Chart value, String resultFieldName) {
+        final List<String> primaryKeyFields = getPersistenceStructureService().getPrimaryKeys(value.getClass());
+        return primaryKeyFields.contains(resultFieldName);
     }
 
     protected void writeLinkedValue(JsonGenerator gen, Chart value, String resultFieldName, Object resultFieldValue, String referenceAttributeName) throws IOException {
@@ -109,7 +120,7 @@ public class ChartSearchSerializer extends JsonSerializer<Chart> {
 
     protected String buildLink(Person person) {
         // TODO: we should point at inquiry
-        return "/lookup/kim/principal?principaId="+ person.getPrincipalId();
+        return "/lookup/kim/principal?principalId="+ person.getPrincipalId();
     }
 
     protected void writeValue(JsonGenerator gen, String propertyName, Object value) throws IOException {
@@ -132,5 +143,12 @@ public class ChartSearchSerializer extends JsonSerializer<Chart> {
             configurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return configurationService;
+    }
+
+    public PersistenceStructureService getPersistenceStructureService() {
+        if (persistenceStructureService == null) {
+            persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
+        }
+        return persistenceStructureService;
     }
 }

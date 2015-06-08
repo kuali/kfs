@@ -1,5 +1,8 @@
 package org.kuali.kfs.coa.rest;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -13,7 +16,7 @@ public class ChartSearchApplication extends Application {
     public ChartSearchApplication() {
 
         singletons.add(new ChartSearchResource());
-        singletons.add(new ObjectCodeSearchResource());
+        singletons.add(new ObjectCodeSearchResource(SpringContext.getBean(UniversityDateService.class)));
     }
 
     @Override

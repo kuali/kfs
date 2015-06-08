@@ -17,7 +17,7 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<html:html>
+<html>
 <head>
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 
@@ -104,4 +104,4 @@
   ;
 </script>
 </body>
-</html:html>
+</html>

@@ -17,27 +17,6 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<style type="text/css">
-	TABLE.positioningTable {
-		border: 0!important;
- 		margin : 0!important;
-		padding : 0!important;
-		empty-cells : show;
-		border-collapse : collapse;
- 	}
-	TABLE.positioningTable TD {
-		border: 0!important;
- 		margin : 0!important;
-		padding : 0!important;
- 	}
-</style>
-<!--[if IE]>
-<style>
-	#workarea div.tab-container {
-		width:100%;
-	}
-</style>
-<![endif]-->
 <kul:page showDocumentInfo="false"
 	headerTitle="Modify Batch Job" docTitle="Modify Batch Job"
 	transactionalDocument="false" htmlFormAction="batchModify"

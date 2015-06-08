@@ -28,11 +28,6 @@
 
 <c:set var="drawer" value="${KualiForm.document.cashDrawer}" />
 
-<style>
-    td {white-space: nowrap}
-    th {white-space: nowrap}
-</style>
-
 <c:set var="subheading" value="Cash Drawer Activity" />
 <c:if test="${!empty KualiForm.cashDrawerSummary}">
     <c:set var="subheading" value="${subheading} as of ${KualiForm.cashDrawerSummary.timeRefreshed}" />

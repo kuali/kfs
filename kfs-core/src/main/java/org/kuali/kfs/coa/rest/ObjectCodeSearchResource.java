@@ -19,8 +19,8 @@ public class ObjectCodeSearchResource {
 
 
     @GET
-    @Path("/{code}")
-    public List<ObjectCode> lookupObjectCodeByPrimaryKey(@QueryParam("fiscalYYear") Integer fiscalYear, @QueryParam("chartCode") String chartOfAccountsCode, @QueryParam("objectCode") String objectCode) {
+   // @Path("/{code}")
+    public List<ObjectCode> lookupObjectCodeByPrimaryKey(@QueryParam("fiscalYear") Integer fiscalYear, @QueryParam("chartCode") String chartOfAccountsCode, @QueryParam("objectCode") String objectCode) {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final ObjectCodeSearch objectSearch = new ObjectCodeSearch(lookupService);
         return Arrays.asList(objectSearch.retrieveByPK(fiscalYear, chartOfAccountsCode, objectCode));

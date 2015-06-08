@@ -11,7 +11,9 @@ public class ChartSearchApplication extends Application {
     private Set<Class<?>> empty = new HashSet<>();
 
     public ChartSearchApplication() {
+
         singletons.add(new ChartSearchResource());
+        singletons.add(new ObjectCodeSearchResource());
     }
 
     @Override

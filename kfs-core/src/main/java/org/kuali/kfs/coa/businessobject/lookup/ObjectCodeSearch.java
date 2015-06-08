@@ -24,9 +24,9 @@ public class ObjectCodeSearch {
 
     protected ObjectCode findObjectCode(Integer fiscalYear, String chartCode, String objectCode) {
         Map<String, String> searchProperties = new ConcurrentHashMap<>();
-        searchProperties.put(KFSPropertyConstants.FISCAL_YEAR, fiscalYear+"");
-        searchProperties.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-        searchProperties.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        searchProperties.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2015");
+        searchProperties.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
+        searchProperties.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "5000");
         Collection objectCodes = lookupService.findCollectionBySearch(ObjectCode.class, searchProperties);
         return (ObjectCode) objectCodes.iterator().next();
     }

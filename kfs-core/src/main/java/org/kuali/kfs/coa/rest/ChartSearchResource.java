@@ -43,14 +43,17 @@ public class ChartSearchResource {
 
     protected Map<String, Object> representChartForLookup(Chart chart, DataDictionaryService dataDictionaryService, PersistenceStructureService persistenceStructureService, ConfigurationService configurationService) {
         final BusinessObjectEntry entry = (BusinessObjectEntry)dataDictionaryService.getDataDictionary().getBusinessObjectEntryForConcreteClass(Chart.class.getName());
-        Map<String, Object> matsya = new ConcurrentHashMap<>();
-        entry.getLookupDefinition().getResultFieldNames().stream().forEach((resultFieldName) -> {
-            collectValueForLookupResult(matsya, chart, resultFieldName, persistenceStructureService, configurationService);
-        });
-        return matsya;
+        Map<String, Object> identity = new ConcurrentHashMap<>();
+        return entry.getLookupDefinition().getResultFieldNames().stream().reduce(identity,
+                (matsya, resultFieldName) -> {
+                    return collectValueForLookupResult(matsya, chart, resultFieldName, persistenceStructureService, configurationService);
+                },
+                (matsya, resultFieldName) -> {
+                    return matsya;
+                });
     }
 
-    protected void collectValueForLookupResult(Map<String, Object> matsya, Chart chart, String resultFieldName, PersistenceStructureService persistenceStructureService, ConfigurationService configurationService) {
+    protected Map<String, Object> collectValueForLookupResult(Map<String, Object> matsya, Chart chart, String resultFieldName, PersistenceStructureService persistenceStructureService, ConfigurationService configurationService) {
         final Object resultFieldValue = ObjectPropertyUtils.getPropertyValue(chart, resultFieldName);
         if (!ObjectUtils.isNull(resultFieldValue)) {
             // see KualiInquirableImpl#getInquiryUrl for more info on determining field references....
@@ -61,6 +64,7 @@ public class ChartSearchResource {
                 matsya.put(resultFieldName, resultFieldValue);
             }
         }
+        return matsya;
     }
 
     protected String determineFieldReference(Chart value, String resultFieldName, PersistenceStructureService persistenceStructureService) {

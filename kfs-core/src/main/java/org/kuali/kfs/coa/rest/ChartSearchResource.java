@@ -35,9 +35,8 @@ public class ChartSearchResource {
     public List<Map<String, Object>> lookupChartByPrimaryKey(@QueryParam("code") String chartOfAccountsCode) {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        final PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
         final ConfigurationService configurationService = SpringContext.getBean(ConfigurationService.class);
-        final ChartSearch chartSearch = new ChartSearch(lookupService, dataDictionaryService, persistenceStructureService, configurationService);
+        final ChartSearch chartSearch = new ChartSearch(lookupService, dataDictionaryService, configurationService);
         return Arrays.asList(chartSearch.retrieveByChartCode(chartOfAccountsCode));
     }
 

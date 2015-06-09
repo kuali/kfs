@@ -25,13 +25,11 @@ public class ChartSearch {
 
     protected LookupService lookupService;
     protected DataDictionaryService dataDictionaryService;
-    protected PersistenceStructureService persistenceStructureService;
     protected ConfigurationService configurationService;
 
-    public ChartSearch(LookupService lookupService, DataDictionaryService dataDictionaryService, PersistenceStructureService persistenceStructureService, ConfigurationService configurationService) {
+    public ChartSearch(LookupService lookupService, DataDictionaryService dataDictionaryService, ConfigurationService configurationService) {
         this.lookupService = lookupService;
         this.dataDictionaryService = dataDictionaryService;
-        this.persistenceStructureService = persistenceStructureService;
         this.configurationService = configurationService;
     }
 
@@ -74,14 +72,17 @@ public class ChartSearch {
     }
 
     protected String determineFieldReference(Chart value, String resultFieldName) {
-        if (ObjectUtils.isNestedAttribute(resultFieldName)) {
+        final BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)dataDictionaryService.getDataDictionary().getBusinessObjectEntry(value.getClass().getName());
+        if (!ObjectUtils.isNull(businessObjectEntry) && StringUtils.equals(businessObjectEntry.getTitleAttribute(), resultFieldName)) {
+            return resultFieldName;
+        } else if (ObjectUtils.isNestedAttribute(resultFieldName)) {
             final String nestedReferenceName = ObjectUtils.getNestedAttributePrefix(resultFieldName);
             final Object nestedReferenceObject = ObjectUtils.getNestedValue(value, nestedReferenceName);
 
             if (ObjectUtils.isNotNull(nestedReferenceObject) && nestedReferenceObject instanceof BusinessObject) {
                 return nestedReferenceName;
             }
-        } else if (!isPrimaryKey(value, resultFieldName)) {
+        } else {
             Map primitiveReference = LookupUtils.getPrimitiveReference(value, resultFieldName);
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
                 final String attributeRefName = (String) primitiveReference.keySet().iterator().next();
@@ -91,16 +92,13 @@ public class ChartSearch {
         return "";
     }
 
-    protected boolean isPrimaryKey(Chart value, String resultFieldName) {
-        final List<String> primaryKeyFields = persistenceStructureService.getPrimaryKeys(value.getClass());
-        return primaryKeyFields.contains(resultFieldName);
-    }
-
     protected void collectLinkedValue(Map<String, Object> matsya, Chart value, String resultFieldName, Object resultFieldValue, String referenceAttributeName) {
         Map<String, Object> linkMap = new ConcurrentHashMap<>();
         linkMap.put("value", resultFieldValue);
 
-        final Object attributeReference = ObjectPropertyUtils.getPropertyValue(value, referenceAttributeName);
+        final Object attributeReference = (!StringUtils.equals(resultFieldName, referenceAttributeName))
+            ? ObjectPropertyUtils.getPropertyValue(value, referenceAttributeName)
+            : value;
         if (!ObjectUtils.isNull(attributeReference)) {
             collectLink(linkMap, attributeReference);
         }
@@ -109,15 +107,22 @@ public class ChartSearch {
     }
 
     protected void collectLink(Map<String, Object> linkMap, Object attributeReference) {
-        if (attributeReference instanceof ObjectCode || attributeReference instanceof Person) {
+        if (attributeReference instanceof Chart || attributeReference instanceof ObjectCode || attributeReference instanceof Person) {
             String link = "";
-            if (attributeReference instanceof ObjectCode) {
+            if (attributeReference instanceof Chart) {
+                link = buildLink((Chart)attributeReference);
+            } if (attributeReference instanceof ObjectCode) {
                 link = buildLink((ObjectCode)attributeReference);
             } else if (attributeReference instanceof Person) {
                 link = buildLink((Person)attributeReference);
             }
             linkMap.put("link", configurationService.getPropertyValueAsString(KFSKeyConstants.KFS_URL) + link);
         }
+    }
+
+    protected String buildLink(Chart attributeReference) {
+        // TODO: we should point at inquiry
+        return "/lookup/coa/chart?code=" + attributeReference.getChartOfAccountsCode();
     }
 
     protected String buildLink(ObjectCode attributeReference) {

@@ -49,6 +49,8 @@
     	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase" />
     	<property name="allowsNoteFYI" value="true"/>    
     </bean>
+
+	<bean id="FieldDefinition" class="org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemFieldDefinition" abstract="true"/>
     
     <bean id="AccountingLineView" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDefinition" />
     

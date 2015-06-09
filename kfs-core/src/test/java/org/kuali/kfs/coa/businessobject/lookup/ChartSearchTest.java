@@ -27,7 +27,7 @@ public class ChartSearchTest {
     @Test
     public void retrieveBLChartByCode() {
         String code = "BL";
-        ChartSearch chartSearch = new ChartSearch(lookupService, null, null, null);
+        ChartSearch chartSearch = new ChartSearch(lookupService, null, null);
         Chart chart = chartSearch.findChart(code);
         assertSameChart(code, chart, "BLOOMINGTON");
     }
@@ -35,7 +35,7 @@ public class ChartSearchTest {
     @Test
     public void retrieveBAChartByCode() {
         String code = "BA";
-        ChartSearch chartSearch = new ChartSearch(lookupService, null, null, null);
+        ChartSearch chartSearch = new ChartSearch(lookupService, null, null);
         Chart chart = chartSearch.findChart(code);
         assertSameChart(code, chart, "BLOOMINGTON AUX");
     }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,21 +21,22 @@ public class ChartSearchTest {
     @Before
     public void setUp() throws Exception {
         lookupService = new FakeChartLookupService();
+
     }
 
     @Test
     public void retrieveBLChartByCode() {
         String code = "BL";
-        ChartSearch chartSearch = new ChartSearch(lookupService);
-        Chart chart = chartSearch.retrieveByChartCode(code);
+        ChartSearch chartSearch = new ChartSearch(lookupService, null, null, null);
+        Chart chart = chartSearch.findChart(code);
         assertSameChart(code, chart, "BLOOMINGTON");
     }
 
     @Test
     public void retrieveBAChartByCode() {
         String code = "BA";
-        ChartSearch chartSearch = new ChartSearch(lookupService);
-        Chart chart = chartSearch.retrieveByChartCode(code);
+        ChartSearch chartSearch = new ChartSearch(lookupService, null, null, null);
+        Chart chart = chartSearch.findChart(code);
         assertSameChart(code, chart, "BLOOMINGTON AUX");
     }
 

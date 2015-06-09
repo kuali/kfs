@@ -20,12 +20,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.rest.ChartSearchSerializer;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,7 +32,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-@JsonSerialize(using=ChartSearchSerializer.class)
 public class Chart extends PersistableBusinessObjectBase implements KualiCode {
 
     private static final long serialVersionUID = 4129020803214027609L;
@@ -61,30 +55,18 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     protected String expBdgtEliminationsFinObjCd;
     protected String fundBalanceObjectCode;
 
-    @JsonIgnore
     protected ObjectCode incBdgtEliminationsFinObj;
-    @JsonIgnore
     protected ObjectCode expBdgtEliminationsFinObj;
-    @JsonIgnore
     protected ObjectCode finAccountsPayableObject;
-    @JsonIgnore
     protected ObjectCode finExternalEncumbranceObj;
-    @JsonIgnore
     protected ObjectCode finPreEncumbranceObject;
-    @JsonIgnore
     protected ObjectCode financialCashObject;
-    @JsonIgnore
     protected ObjectCode icrIncomeFinancialObject;
-    @JsonIgnore
     protected ObjectCode finAccountsReceivableObj;
-    @JsonIgnore
     protected ObjectCode finInternalEncumbranceObj;
-    @JsonIgnore
     protected ObjectCode icrExpenseFinancialObject;
-    @JsonBackReference
     protected ObjectCode fundBalanceObject;
     protected Person finCoaManager;
-    @JsonIgnore
     protected Chart reportsToChartOfAccounts;
 
     private static transient ChartService chartService;

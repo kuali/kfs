@@ -5,7 +5,7 @@
 
 /* These override styles exist to get the new look. Eventually this may need to be cleaned up. */
 
-.navbar .nav a.brand {
+.navbar a.brand {
     background-image: url('../static/images/KualiCo.png');
     background-size: 155px;
     background-repeat: no-repeat;
@@ -100,4 +100,15 @@ html > body {
     height: 50px;
     margin-top: -24px;
 }
+
+.navbar .nav {
+    margin: 0 10px 0 180px;
+}
+
+.navbar .brand {
+    pointer-events: auto;
+    cursor: auto;
+}
+
+
 

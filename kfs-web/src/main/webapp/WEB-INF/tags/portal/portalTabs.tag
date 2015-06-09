@@ -24,8 +24,8 @@
 <div class="navbar main-navbar navbar-static-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
+			<a class="brand" href="${ConfigProperties.application.url}/portal.do">Kuali Financial System</a>
 			<ul class="nav">
-				<a class="brand" href="${ConfigProperties.application.url}/portal.do">Kuali Financial System</a>
 				<%-- Main Menu --%>
 				<c:if test='${selectedTab == "main"}'>
 					<li class="active">

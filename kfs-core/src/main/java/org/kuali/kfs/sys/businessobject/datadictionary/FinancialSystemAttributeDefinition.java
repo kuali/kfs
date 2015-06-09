@@ -1,8 +1,8 @@
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
-import org.kuali.rice.kns.datadictionary.FieldDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
-public class FinancialSystemFieldDefinition extends FieldDefinition {
+public class FinancialSystemAttributeDefinition extends AttributeDefinition {
     protected String urlParameterName;
 
     public String getUrlParameterName() {

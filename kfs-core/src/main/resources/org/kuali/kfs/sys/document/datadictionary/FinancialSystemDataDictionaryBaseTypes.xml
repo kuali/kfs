@@ -50,8 +50,8 @@
     	<property name="allowsNoteFYI" value="true"/>    
     </bean>
 
-	<bean id="FieldDefinition" class="org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemFieldDefinition" abstract="true"/>
-    
+	<bean id="AttributeDefinition" class="org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemAttributeDefinition"/>
+
     <bean id="AccountingLineView" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDefinition" />
     
     <bean id="AccountingLineView-lines" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewLinesDefinition" />

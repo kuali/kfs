@@ -1,7 +1,7 @@
 var Parent = React.createClass({
     handleSearchSubmit: function(code) {
         $.ajax({
-            url: this.props.url + code,
+            url: this.props.url + '?code=' + code,
             dataType: 'json',
             type: 'GET',
             success: function(searchResults) {
@@ -72,18 +72,26 @@ var ResultsRow = React.createClass({
     render: function() {
         return (
             <tr>
-                <td>{this.props.chart.code}</td>
-                <td>{this.props.chart.name}</td>
-                <td>{this.props.chart.active}</td>
-                <td>{this.props.chart.financialCashObjectCode}</td>
-                <td>{this.props.chart.finAccountsPayableObjectCode}</td>
-                <td>{this.props.chart.finCoaManagerPrincipalId}</td>
+                <td><InquiryField field={this.props.chart.chartOfAccountsCode} /></td>
+                <td>{this.props.chart.finChartOfAccountDescription}</td>
+                <td>{(this.props.chart.active ? 'Yes' : 'No')}</td>
+                <td><InquiryField field={this.props.chart.financialCashObjectCode} /></td>
+                <td><InquiryField field={this.props.chart.finAccountsPayableObjectCode} /></td>
+                <td><InquiryField field={this.props.chart['finCoaManager.name']} /></td>
             </tr>
         );
     }
 });
 
+var InquiryField = React.createClass({
+    render: function() {
+        return (
+            <a href={this.props.field.link}>{this.props.field.value}</a>
+        );
+    }
+});
+
 React.render(
-    <Parent url="/kfs-dev/lookup/coa/chart/" />,
+    <Parent url="/kfs-dev/lookup/coa/chart" />,
     document.getElementById('main')
 );

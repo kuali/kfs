@@ -639,4 +639,8 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     public boolean isReportingToSelf() {
         return StringUtils.equals(this.getChartOfAccountsCode(), this.getReportsToChartOfAccountsCode()) && StringUtils.equals(this.getFinancialObjectCode(), this.getReportsToFinancialObjectCode());
     }
+
+    public String generateInquiryUrl() {
+        return "/inquiry/coa/objectCode?fiscalYear=" + getUniversityFiscalYear() + "&chartCode=" + getChartOfAccountsCode() + "&objectCode=" + getFinancialObjectCode();
+    }
 }

@@ -110,9 +110,9 @@ public class ChartSearch {
         if (attributeReference instanceof Chart || attributeReference instanceof ObjectCode || attributeReference instanceof Person) {
             String link = "";
             if (attributeReference instanceof Chart) {
-                link = buildLink((Chart)attributeReference);
+                link = ((Chart)attributeReference).generateInquiryUrl();
             } if (attributeReference instanceof ObjectCode) {
-                link = buildLink((ObjectCode)attributeReference);
+                link = ((ObjectCode)attributeReference).generateInquiryUrl();
             } else if (attributeReference instanceof Person) {
                 link = buildLink((Person)attributeReference);
             }
@@ -120,19 +120,9 @@ public class ChartSearch {
         }
     }
 
-    protected String buildLink(Chart attributeReference) {
-        // TODO: we should point at inquiry
-        return "/lookup/coa/chart?code=" + attributeReference.getChartOfAccountsCode();
-    }
-
-    protected String buildLink(ObjectCode attributeReference) {
-        // TODO: we should point at inquiry
-        return "/lookup/coa/objectCode?chartCode=" + attributeReference.getChartOfAccountsCode() + "&objectCode=" + attributeReference.getFinancialObjectCode();
-    }
-
     protected String buildLink(Person person) {
         // TODO: we should point at inquiry
-        return "/lookup/kim/principal?principalId="+ person.getPrincipalId();
+        return "/inquiry/kim/principal?principalId="+ person.getPrincipalId();
     }
 
 }

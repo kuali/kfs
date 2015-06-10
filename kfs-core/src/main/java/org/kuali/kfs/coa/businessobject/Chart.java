@@ -28,6 +28,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.KualiCode;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.DataDictionaryService;
 
 /**
  * 
@@ -657,6 +658,10 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     
     public String getChartCodeForReport() {
         return this.chartOfAccountsCode;
+    }
+
+    public String generateInquiryUrl() {
+        return "/inquiry/coa/chart?code=" + getChartOfAccountsCode();
     }
 }
 

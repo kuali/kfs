@@ -5225,7 +5225,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #aaa;
+  color: #3344dd;
   text-decoration: none;
 }
 li,
@@ -7760,6 +7760,7 @@ textarea,
 select,
 input[type="file"] {
   margin-bottom: 0;
+  font-size: 12px;
 }
 #tabs input {
   font-size: 14px;
@@ -7965,6 +7966,7 @@ td.grid,
 td.infoline {
   border: 1px solid transparent;
   padding: 2px;
+  vertical-align: top;
 }
 #workarea .tab {
   position: relative;

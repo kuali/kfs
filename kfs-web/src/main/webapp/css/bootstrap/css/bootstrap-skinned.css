@@ -891,8 +891,9 @@ textarea {
   font-family: 'Open Sans', sans-serif;
 }
 label {
-  display: block;
+  /*display: block;*/
   margin-bottom: 5px;
+  margin-right: 10px;
 }
 select,
 textarea,
@@ -921,12 +922,12 @@ input[type="color"],
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
 }
 input,
 textarea,
 .uneditable-input {
-  width: 206px;
+  /*width: 206px;*/
 }
 textarea {
   height: auto;
@@ -983,7 +984,7 @@ input[type="color"]:focus,
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 0 0;
+  /*margin: 4px 0 0;*/
   *margin-top: 0;
   /* IE7 */
   margin-top: 1px \9;
@@ -3876,7 +3877,7 @@ input[type="submit"].btn.btn-mini {
   padding: 15px 12px 15px;
   color: #eeeeee;
   text-decoration: none;
-  text-shadow: 0 1px 0 #aa003e;
+  /*text-shadow: 0 1px 0 #aa003e;*/
   font-size: 14px;
 }
 .navbar ul.nav a.brand + li {
@@ -5224,7 +5225,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #3344dd;
+  color: #aaa;
   text-decoration: none;
 }
 li,
@@ -7728,14 +7729,15 @@ td.annotate-b img {
   display: none;
 }
 #workarea div.tab-container h3 {
-  line-height: 18px;
+  line-height: 24px;
   font-size: 14px;
-  color: #333;
-  background-color: transparent;
+  color: #fff;
+  background-color: #6B6B6B;
   border-bottom: none;
+  height: 24px;
 }
 span.subhead-left {
-  color: #333;
+  color: #fff;
 }
 #workarea .tab tr {
   border-bottom: 1px solid #333;
@@ -7922,7 +7924,7 @@ td.infoline {
   padding-left: 8px;
 }
 .excol {
-  color: #999999;
+  color: #000;
 }
 #workarea > table.tab {
   min-height: 20px;
@@ -7997,9 +7999,9 @@ td.infoline {
 }
 #workarea .tab-container table td,
 #workarea .tab-container table th {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: #efefef;
+  /*border-bottom-width: 1px;*/
+  /*border-bottom-style: solid;*/
+  /*border-bottom-color: #efefef;*/
   padding: 4px;
 }
 .form-table tr[align="center"] td {

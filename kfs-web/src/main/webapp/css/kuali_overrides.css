@@ -108,15 +108,6 @@ html > body {
     cursor: auto;
 }
 
-h1 a,
-h1 a:link,
-h1 a:visited,
-h1 a:hover,
-h1 a:active,
-td.subhead a {
-    color: #aaa;
-}
-
 
 
 /* Override some bootstrap styles */
@@ -125,31 +116,10 @@ label {
     margin-right: 10px;
 }
 
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-    /*vertical-align: middle;*/
-}
-
 input,
 textarea,
 .uneditable-input {
     width: inherit;
-    /*margin-right: 10px;*/
 }
 
 input[type="radio"],
@@ -201,4 +171,67 @@ span.subhead-left {
 #workarea .tab-container table td,
 #workarea .tab-container table th {
     border-bottom: none;
+}
+
+div.login-form input.searchbox {
+    width: 211px;
+}
+
+#row tr.odd:hover,
+#row tr.even:hover,
+tbody.over td {
+    background-color: #ccc;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #000;
+    text-decoration: underline;
+}
+
+.navbar .dropdown-toggle {
+    text-decoration: none;
+}
+
+h1 a,
+h1 a:link,
+h1 a:visited,
+h1 a:hover,
+h1 a:active {
+    color: #888;
+    text-decoration: none;
+}
+
+td.subhead a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+#lookup table {
+    width: 1000px;
+}
+
+div.left-errmsg {
+    float: left;
+}
+
+.msg-excol .left-errmsg div {
+    float: none;
+    margin: 0 20px;
+    color: #a94442;
+    background-color: #f2dede;
+    border: none;
+}
+
+.left-errmsg-tab {
+    float: none;
+    margin: 0 20px;
+    color: #a94442;
+}
+
+#workarea td.tab-subhead-import {
+    background-color: #f5f5f5;
 }

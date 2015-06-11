@@ -3,8 +3,6 @@
     background-image:   url("../images-portal/logo-kfs.gif");
 }
 
-/* These override styles exist to get the new look. Eventually this may need to be cleaned up. */
-
 .navbar a.brand {
     background-image: url('../static/images/KualiCo.png');
     background-size: 155px;
@@ -110,5 +108,97 @@ html > body {
     cursor: auto;
 }
 
+h1 a,
+h1 a:link,
+h1 a:visited,
+h1 a:hover,
+h1 a:active,
+td.subhead a {
+    color: #aaa;
+}
 
 
+
+/* Override some bootstrap styles */
+label {
+    display: inline;
+    margin-right: 10px;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    /*vertical-align: middle;*/
+}
+
+input,
+textarea,
+.uneditable-input {
+    width: inherit;
+    /*margin-right: 10px;*/
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 0 5px 0 10px;
+}
+
+input[type="checkbox"] {
+    margin: 4px 5px 0 10px;
+}
+
+input[type=text],
+textarea,
+select,
+input[type="file"] {
+    font-size: 12px;
+}
+
+#workarea th,
+#workarea td,
+#workarea table,
+#workarea td.infoline,
+#workarea div.tab-container h3,
+th.grid,
+td.grid,
+td.infoline {
+    vertical-align: top;
+}
+
+.navbar .nav > li > a {
+    text-shadow: none;
+}
+
+#workarea div.tab-container h3 {
+    line-height: 24px;
+    color: #fff;
+    background-color: #6B6B6B;
+    height: 24px;
+}
+
+span.subhead-left {
+    color: #fff;
+}
+
+.excol {
+    color: #000;
+}
+
+#workarea .tab-container table td,
+#workarea .tab-container table th {
+    border-bottom: none;
+}

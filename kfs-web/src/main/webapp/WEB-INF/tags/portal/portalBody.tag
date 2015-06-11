@@ -77,5 +77,4 @@
 <div class="footerbevel">&nbsp;</div>
 <div id="footer-copyright">
     <bean:message key="app.copyright" arg0="${ConfigProperties.current.year}" />
-    <img src="css/images/KualiCo.png" alt="KualiCo Logo" class="pull-right kfs-footer-img">
 </div>

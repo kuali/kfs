@@ -112,6 +112,7 @@ label {
 
 input,
 textarea,
+select,
 .uneditable-input {
     width: inherit;
 }
@@ -1947,9 +1948,10 @@ th {
 .msg-excol .left-errmsg div {
     padding: 8px 35px 8px 14px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    background-color: #dff0d8;
+    background-color: #f2dede;
     color: #a94442;
     margin: 0 20px;
+    border-radius: 4px;
 }
 .msg-excol .left-errmsg .error {
     padding: 8px 35px 8px 14px;

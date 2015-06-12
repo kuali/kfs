@@ -1,27 +1,28 @@
 var Parent = React.createClass({
-    handleSearchSubmit: function(code) {
-
-    },
-    getInitialState: function () {
+    loadInquiryData: function() {
         var url = getUrlParameter("url");
-        var inquiryData;
         $.ajax({
             url: url,
             dataType: 'json',
             type: 'GET',
             success: function(searchResults) {
-                inquiryData = searchResults;
+                this.setState({inquiryData: searchResults});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-        return {searchResults: inquiryData};
+    },
+    getInitialState: function () {
+        return {inquiryData: {}};
+    },
+    componentDidMount: function() {
+        this.loadInquiryData();
     },
     render: function() {
         return (
             <div>
-                <ResultsBox searchResults={this.state.searchResults}/>
+                <ResultsBox inquiryData={this.state.inquiryData}/>
             </div>
         );
     }
@@ -30,7 +31,7 @@ var Parent = React.createClass({
 var ResultsBox = React.createClass({
     render: function() {
         var rows = [];
-        this.props.searchResults.forEach(function(result) {
+        this.props.inquiryData.forEach(function(result) {
             rows.push(<ResultsRow chart={result} />);
         }.bind(this));
         return (

@@ -1,11 +1,13 @@
 var Parent = React.createClass({
     loadInquiryData: function() {
-        var url = getUrlParameter("url");
+        var url = decodeURIComponent(getUrlParameter("url"));
+        console.log('url: ' + url);
         $.ajax({
             url: url,
             dataType: 'json',
             type: 'GET',
             success: function(searchResults) {
+                console.log(searchResults);
                 this.setState({inquiryData: searchResults});
             }.bind(this),
             error: function(xhr, status, err) {
@@ -14,10 +16,12 @@ var Parent = React.createClass({
         });
     },
     getInitialState: function () {
+        console.log('getInitialState');
         return {inquiryData: {}};
     },
     componentDidMount: function() {
         this.loadInquiryData();
+        console.log('mounted');
     },
     render: function() {
         return (
@@ -30,22 +34,15 @@ var Parent = React.createClass({
 
 var ResultsBox = React.createClass({
     render: function() {
+        console.log(this.props.inquiryData);
         var rows = [];
-        this.props.inquiryData.forEach(function(result) {
-            rows.push(<ResultsRow chart={result} />);
-        }.bind(this));
+        if (this.props.inquiryData.fields) {
+            this.props.inquiryData.fields.forEach(function(field) {
+                rows.push(<ResultsRow field={field} data={this.props.inquiryData.data} />);
+            }.bind(this));
+        }
         return (
             <table>
-                <thead>
-                <tr>
-                    <th>Chart Code</th>
-                    <th>Chart Description</th>
-                    <th>Chart Active Indicator</th>
-                    <th>Cash Object Code</th>
-                    <th>Accounts Payable Object Code</th>
-                    <th>Chart Manager Name</th>
-                </tr>
-                </thead>
                 <tbody>{rows}</tbody>
             </table>
         );
@@ -54,15 +51,24 @@ var ResultsBox = React.createClass({
 
 var ResultsRow = React.createClass({
     render: function() {
+        var value = this.props.data[this.props.field.field];
+        if (typeof this.props.data[this.props.field.field] === "object") {
+            value = "<a href=" + value.link + "target='_blank'>" + value.value + "/a>";
+        }
         return (
             <tr>
-                <td><InquiryField field={this.props.chart.chartOfAccountsCode} /></td>
-                <td>{this.props.chart.finChartOfAccountDescription}</td>
-                <td>{(this.props.chart.active ? 'Yes' : 'No')}</td>
-                <td><InquiryField field={this.props.chart.financialCashObjectCode} /></td>
-                <td><InquiryField field={this.props.chart.finAccountsPayableObjectCode} /></td>
-                <td><InquiryField field={this.props.chart['finCoaManager.name']} /></td>
+                <td>{this.props.field.label}</td>
+                <td>{typeof this.props.data[this.props.field.field] === "object" ? <InquiryField field={this.props.data[this.props.field.field]} /> : this.props.data[this.props.field.field]}</td>
             </tr>
+        );
+    }
+});
+
+var InquiryField = React.createClass({
+    render: function() {
+        var url = "/kfs-dev/inquiry.html?url=" + encodeURIComponent(this.props.field.link);
+        return (
+            <a href={url} target="_blank">{this.props.field.value}</a>
         );
     }
 });

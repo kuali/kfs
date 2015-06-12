@@ -137,6 +137,10 @@ div.login-form input.searchbox {
     width: 211px;
 }
 
+th[align=right] {
+    text-align: right;
+}
+
 h1 a,
 h1 a:link,
 h1 a:visited,

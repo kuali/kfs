@@ -85,8 +85,9 @@ var ResultsRow = React.createClass({
 
 var InquiryField = React.createClass({
     render: function() {
+        var url = "/kfs-dev/inquiry.html?url=" + this.props.field.link;
         return (
-            <a href={this.props.field.link}>{this.props.field.value}</a>
+            <a href={url} target="_blank">{this.props.field.value}</a>
         );
     }
 });

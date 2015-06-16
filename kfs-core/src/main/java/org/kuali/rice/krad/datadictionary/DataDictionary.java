@@ -15,6 +15,10 @@
  */
 package org.kuali.rice.krad.datadictionary;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -274,6 +278,53 @@ public class DataDictionary  {
             ddIndex.run();
             uifIndex.run();
         }
+    }
+
+    public long parseDataDictionaryFromDatastore(boolean allowConcurrentValidation) {
+        // configure the bean factory, setup component decorator post processor
+        // and allow Spring EL
+        try {
+            BeanPostProcessor idPostProcessor = ComponentBeanPostProcessor.class.newInstance();
+            ddBeans.addBeanPostProcessor(idPostProcessor);
+            ddBeans.setBeanExpressionResolver(new StandardBeanExpressionResolver());
+
+            GenericConversionService conversionService = new GenericConversionService();
+            conversionService.addConverter(new StringMapConverter());
+            conversionService.addConverter(new StringListConverter());
+            ddBeans.setConversionService(conversionService);
+        } catch (Exception e1) {
+            LOG.error("Cannot create component decorator post processor: " + e1.getMessage(), e1);
+            throw new RuntimeException("Cannot create component decorator post processor: " + e1.getMessage(), e1);
+        }
+
+        // expand configuration locations into files
+        LOG.info("Starting DD Datastore Load");
+
+        MongoClient client = new MongoClient(new MongoClientURI("mongodb://host:27017,host2:27017/?replicaSet=rs0"));
+        MongoDatabase database = client.getDatabase("kfs_dd");
+        MongoCollection dds = database.getCollection("data_dictionary");
+
+        LOG.info("Completed DD Datastore Load");
+
+        UifBeanFactoryPostProcessor factoryPostProcessor = new UifBeanFactoryPostProcessor();
+        factoryPostProcessor.postProcessBeanFactory(ddBeans);
+
+        // indexing
+        if (allowConcurrentValidation) {
+            Thread t = new Thread(ddIndex);
+            t.start();
+
+            Thread t2 = new Thread(uifIndex);
+            t2.start();
+        } else {
+            ddIndex.run();
+            uifIndex.run();
+        }
+        return dds.count();
+    }
+
+    public void persistDataDictionaryToDatastore() {
+
     }
 
     static boolean validateEBOs = true;

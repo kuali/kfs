@@ -20,10 +20,12 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bson.Document;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
@@ -52,6 +54,7 @@ import org.springframework.util.ResourceUtils;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -255,7 +258,7 @@ public class DataDictionary  {
 
         String[] configFileLocationsArray = new String[configFileLocations.size()];
         configFileLocationsArray = configFileLocations.toArray(configFileLocationsArray);
-        configFileLocations.clear(); // empty the list out so other items can be added
+       // configFileLocations.clear(); // empty the list out so other items can be added
         try {
             xmlReader.loadBeanDefinitions(configFileLocationsArray);
         } catch (Exception e) {
@@ -300,7 +303,7 @@ public class DataDictionary  {
         // expand configuration locations into files
         LOG.info("Starting DD Datastore Load");
 
-        MongoClient client = new MongoClient(new MongoClientURI("mongodb://host:27017,host2:27017/?replicaSet=rs0"));
+        MongoClient client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         MongoDatabase database = client.getDatabase("kfs_dd");
         MongoCollection dds = database.getCollection("data_dictionary");
 
@@ -324,6 +327,34 @@ public class DataDictionary  {
     }
 
     public void persistDataDictionaryToDatastore() {
+        LOG.info("Starting DD datastore persist");
+        MongoClient client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        MongoDatabase database = client.getDatabase("kfs_dd");
+        MongoCollection dds = database.getCollection("data_dictionary");
+        dds.drop();
+
+        String[] configFileLocationsArray = new String[configFileLocations.size()];
+        configFileLocationsArray = configFileLocations.toArray(configFileLocationsArray);
+        configFileLocations.clear(); // empty the list out so other items can be added
+        List<Document> dataDictionaries = new ArrayList();
+        int count = 0;
+        try {
+            for (String config : configFileLocationsArray) {
+                InputStream inputStream = getFileResource(config).getInputStream();
+
+                String theString = IOUtils.toString(inputStream, "UTF-8");
+
+                Document doc  = new Document(count++ +"", theString);
+                dataDictionaries.add(doc);
+            }
+
+            dds = database.getCollection("data_dictionary");
+            dds.insertMany(dataDictionaries);
+        } catch (Exception e) {
+            LOG.error("Error loading bean definitions", e);
+            throw new DataDictionaryException("Error loading bean definitions: " + e.getLocalizedMessage());
+        }
+        LOG.info("Completed DD datastore persist");
 
     }
 

@@ -110,7 +110,7 @@ public class KRADConfigurer extends ModuleConfigurer implements SmartApplication
                         .getService(KRADServiceLocatorWeb.DATA_DICTIONARY_SERVICE);
             }
             //get from datastore
-            dds.getDataDictionary().parseDataDictionaryFromDatastore(false);
+            //dds.getDataDictionary().parseDataDictionaryFromDatastore(false);
             //if datastore.size == 0 {
             dds.getDataDictionary().parseDataDictionaryConfigurationFiles(false);
             dds.getDataDictionary().persistDataDictionaryToDatastore();

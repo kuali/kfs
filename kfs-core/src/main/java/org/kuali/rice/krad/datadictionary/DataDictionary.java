@@ -17,7 +17,9 @@ package org.kuali.rice.krad.datadictionary;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
@@ -46,6 +48,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.expression.StandardBeanExpressionResolver;
 import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternUtils;
@@ -63,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -306,6 +310,15 @@ public class DataDictionary  {
         MongoClient client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         MongoDatabase database = client.getDatabase("kfs_dd");
         MongoCollection dds = database.getCollection("data_dictionary");
+        FindIterable iterable = dds.find();
+        MongoCursor cursor = iterable.iterator();
+        while (cursor.hasNext()) {
+            Document doc = (Document)cursor.next();
+            String ddValue = (String)doc.get("xml");
+            LOG.info(ddValue);
+            ByteArrayResource resource = new ByteArrayResource(ddValue.getBytes());
+            xmlReader.loadBeanDefinitions(resource);
+        }
 
         LOG.info("Completed DD Datastore Load");
 
@@ -343,8 +356,9 @@ public class DataDictionary  {
                 InputStream inputStream = getFileResource(config).getInputStream();
 
                 String theString = IOUtils.toString(inputStream, "UTF-8");
-
-                Document doc  = new Document(count++ +"", theString);
+                Document doc  = new Document();
+                doc.put("key", count++);
+                doc.put("xml", theString);
                 dataDictionaries.add(doc);
             }
 

@@ -1375,6 +1375,10 @@ td.infoline {
     margin: 0;
     border-bottom: none;
 }
+.headerarea-small>div>div>div {
+    width:inherit !important;
+    padding: 0 3px;
+}
 .headerarea {
     height: 72px;
     padding-bottom: 20px;

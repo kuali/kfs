@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class DataDictionaryIndex implements Runnable {
+public class DataDictionaryIndex implements Runnable, DictionaryIndex {
     private static final Log LOG = LogFactory.getLog(DataDictionaryIndex.class);
 
     private KualiDefaultListableBeanFactory ddBeans;
@@ -63,18 +63,22 @@ public class DataDictionaryIndex implements Runnable {
         return this.objectEntries;
     }
 
+    @Override
     public Map<String, DocumentEntry> getDocumentEntries() {
         return this.documentEntries;
     }
 
+    @Override
     public Map<Class, DocumentEntry> getDocumentEntriesByBusinessObjectClass() {
         return this.documentEntriesByBusinessObjectClass;
     }
 
+    @Override
     public Map<Class, DocumentEntry> getDocumentEntriesByMaintainableClass() {
         return this.documentEntriesByMaintainableClass;
     }
 
+    @Override
     public Map<String, DataDictionaryEntry> getEntriesByJstlKey() {
         return this.entriesByJstlKey;
     }

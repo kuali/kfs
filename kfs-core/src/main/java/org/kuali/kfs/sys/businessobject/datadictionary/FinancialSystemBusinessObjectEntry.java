@@ -18,15 +18,17 @@
  */
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Overrides KNS BusinessObjectEntry to add access security configuration properties
  */
+@JsonIgnoreProperties("_id")
 public class FinancialSystemBusinessObjectEntry extends BusinessObjectEntry {
 
     protected List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes;

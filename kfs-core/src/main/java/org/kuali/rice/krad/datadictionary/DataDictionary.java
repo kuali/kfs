@@ -28,6 +28,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bson.Document;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
@@ -250,34 +252,67 @@ public class DataDictionary  {
             throw new RuntimeException("Cannot create component decorator post processor: " + e1.getMessage(), e1);
         }
 
-        // expand configuration locations into files
-        LOG.info("Starting DD XML File Load");
+        LOG.info("Load data dictionary from Mongo");
+        DictionaryIndex mongoDictionaryIndex = new MongoDictionaryIndex();
+        mongoDictionaryIndex.index();
 
-        String[] configFileLocationsArray = new String[configFileLocations.size()];
-        configFileLocationsArray = configFileLocations.toArray(configFileLocationsArray);
-       // configFileLocations.clear(); // empty the list out so other items can be added
-        try {
-            xmlReader.loadBeanDefinitions(configFileLocationsArray);
-        } catch (Exception e) {
-            LOG.error("Error loading bean definitions", e);
-            throw new DataDictionaryException("Error loading bean definitions: " + e.getLocalizedMessage());
+        if (mongoDictionaryIndex.getBusinessObjectEntries().size() < 1) {
+            // expand configuration locations into files
+            LOG.info("Starting DD XML File Load");
+
+            String[] configFileLocationsArray = new String[configFileLocations.size()];
+            configFileLocationsArray = configFileLocations.toArray(configFileLocationsArray);
+            // configFileLocations.clear(); // empty the list out so other items can be added
+            try {
+                xmlReader.loadBeanDefinitions(configFileLocationsArray);
+            } catch (Exception e) {
+                LOG.error("Error loading bean definitions", e);
+                throw new DataDictionaryException("Error loading bean definitions: " + e.getLocalizedMessage());
+            }
+            LOG.info("Completed DD XML File Load");
+
+            LOG.info("Loading business objects into Mongo");
+            Map<String, FinancialSystemBusinessObjectEntry> businessObjectEntryMap = ddBeans.getBeansOfType(FinancialSystemBusinessObjectEntry.class);
+            writeToMongo("localhost", "kfs_dd", "business_objects", businessObjectEntryMap);
+            mongoDictionaryIndex.index();
         }
-        LOG.info("Completed DD XML File Load");
 
-        UifBeanFactoryPostProcessor factoryPostProcessor = new UifBeanFactoryPostProcessor();
-        factoryPostProcessor.postProcessBeanFactory(ddBeans);
 
-        // indexing
-        if (allowConcurrentValidation) {
-            Thread t = new Thread(ddIndex);
-            t.start();
 
-            Thread t2 = new Thread(uifIndex);
-            t2.start();
-        } else {
-            ddIndex.run();
-            uifIndex.run();
+//        UifBeanFactoryPostProcessor factoryPostProcessor = new UifBeanFactoryPostProcessor();
+//        factoryPostProcessor.postProcessBeanFactory(ddBeans);
+//
+//        // indexing
+//        if (allowConcurrentValidation) {
+//            Thread t = new Thread(ddIndex);
+//            t.start();
+//
+//            Thread t2 = new Thread(uifIndex);
+//            t2.start();
+//        } else {
+//            ddIndex.run();
+//            uifIndex.run();
+//        }
+    }
+
+    protected void writeToMongo(String hostUrl, String databaseName, String collectionName, Map<String, FinancialSystemBusinessObjectEntry> businessObjectEntryMap) {
+        MongoDatabase database;
+        try (MongoClient client = new MongoClient(new MongoClientURI("mongodb://" + hostUrl + ":27017"))) {
+            database = client.getDatabase(databaseName);
+            MongoCollection dds = database.getCollection(collectionName);
+            Iterator<FinancialSystemBusinessObjectEntry> iterator = businessObjectEntryMap.values().iterator();
+            ObjectMapper mapper = new ObjectMapper();
+            while(iterator.hasNext()) {
+                FinancialSystemBusinessObjectEntry businessObjectEntry = iterator.next();
+                try {
+                    Document doc = Document.parse(mapper.writeValueAsString(businessObjectEntry));
+                    dds.insertOne(doc);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
     }
 
     public long parseDataDictionaryFromDatastore(boolean allowConcurrentValidation) {

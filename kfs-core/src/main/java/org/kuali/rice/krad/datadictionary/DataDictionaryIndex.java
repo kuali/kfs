@@ -201,7 +201,8 @@ public class DataDictionaryIndex implements Runnable, DictionaryIndex {
         }
     }
 
-    public void run() {
+    @Override
+    public void index() {
         LOG.info( "Starting DD Index Building" );
         buildDDIndicies();
         LOG.info( "Completed DD Index Building" );
@@ -211,5 +212,9 @@ public class DataDictionaryIndex implements Runnable, DictionaryIndex {
         LOG.info( "Started DD Inactivation Blocking Index Building" );
         buildDDInactivationBlockingIndices();
         LOG.info( "Completed DD Inactivation Blocking Index Building" );
+    }
+
+    public void run() {
+        index();
     }
 }

@@ -15,4 +15,6 @@ public interface DictionaryIndex {
     public Map<Class, Set<InactivationBlockingMetadata>> getInactivationBlockersForClass();
 
     public Map<String, BusinessObjectEntry> getBusinessObjectEntries();
+
+    void index();
 }

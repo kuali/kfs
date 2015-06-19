@@ -256,7 +256,7 @@ public class DataDictionary  {
         DictionaryIndex mongoDictionaryIndex = new MongoDictionaryIndex();
         mongoDictionaryIndex.index();
 
-        if (mongoDictionaryIndex.getBusinessObjectEntries().size() < 1) {
+        if (mongoDictionaryIndex.getBusinessObjectEntries().isEmpty()) {
             // expand configuration locations into files
             LOG.info("Starting DD XML File Load");
 

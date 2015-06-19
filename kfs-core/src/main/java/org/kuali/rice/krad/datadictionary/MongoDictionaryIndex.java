@@ -67,18 +67,19 @@ public class MongoDictionaryIndex implements Runnable, DictionaryIndex {
     @Override
     public void index() {
         // primary indices
-        businessObjectEntries = new ConcurrentHashMap<String, BusinessObjectEntry>();
-        documentEntries = new ConcurrentHashMap<String, DocumentEntry>();
+        businessObjectEntries = new ConcurrentHashMap<>();
+        documentEntries = new ConcurrentHashMap<>();
 
         // alternate indices
-        documentEntriesByBusinessObjectClass = new ConcurrentHashMap<Class, DocumentEntry>();
-        documentEntriesByMaintainableClass = new ConcurrentHashMap<Class, DocumentEntry>();
-        entriesByJstlKey = new ConcurrentHashMap<String, DataDictionaryEntry>();
+        documentEntriesByBusinessObjectClass = new ConcurrentHashMap<>();
+        documentEntriesByMaintainableClass = new ConcurrentHashMap<>();
+        entriesByJstlKey = new ConcurrentHashMap<>();
 
         final ObjectMapper mapper = new ObjectMapper();
         populateFromMongo("localhost", "kfs_dd", "business_objects", document -> {
             try {
-                mapper.readValue(document.toJson(), FinancialSystemBusinessObjectEntry.class);
+                final FinancialSystemBusinessObjectEntry entry = mapper.readValue(document.toJson(), FinancialSystemBusinessObjectEntry.class);
+                businessObjectEntries.put(entry.getBusinessObjectClass().getName(), entry);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

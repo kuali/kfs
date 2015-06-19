@@ -394,7 +394,7 @@ public class FieldDefinition extends DataDictionaryDefinitionBase implements Fie
     }
 
 
-
+    @JsonIgnore
     public boolean isReadOnlyAfterAdd() {
         return false;
     }

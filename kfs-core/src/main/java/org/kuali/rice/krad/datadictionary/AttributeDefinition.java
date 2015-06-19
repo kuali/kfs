@@ -70,9 +70,11 @@ public class AttributeDefinition extends AttributeDefinitionBase implements Case
     @Deprecated
     protected ValidationPattern validationPattern;
 
+    @JsonIgnore
     protected ControlDefinition control;
 
     // TODO: rename to control once ControlDefinition is removed
+    @JsonIgnore
     protected Control controlField;
 
     protected String formatterClass;

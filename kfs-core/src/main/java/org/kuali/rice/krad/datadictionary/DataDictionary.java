@@ -22,7 +22,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -59,7 +58,6 @@ import org.springframework.util.ResourceUtils;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -87,6 +85,7 @@ public class DataDictionary  {
      * The encapsulation of DataDictionary indices
      */
     protected DataDictionaryIndex ddIndex = new DataDictionaryIndex(ddBeans);
+    protected DictionaryIndex mongoDictionaryIndex = new MongoDictionaryIndex();
 
     // View indices
     protected UifDictionaryIndex uifIndex = new UifDictionaryIndex(ddBeans);
@@ -253,7 +252,6 @@ public class DataDictionary  {
         }
 
         LOG.info("Load data dictionary from Mongo");
-        DictionaryIndex mongoDictionaryIndex = new MongoDictionaryIndex();
         mongoDictionaryIndex.index();
 
         if (mongoDictionaryIndex.getBusinessObjectEntries().isEmpty()) {
@@ -367,39 +365,6 @@ public class DataDictionary  {
         return dds.count();
     }
 
-    public void persistDataDictionaryToDatastore() {
-        LOG.info("Starting DD datastore persist");
-        MongoClient client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        MongoDatabase database = client.getDatabase("kfs_dd");
-        MongoCollection dds = database.getCollection("data_dictionary");
-        dds.drop();
-
-        String[] configFileLocationsArray = new String[configFileLocations.size()];
-        configFileLocationsArray = configFileLocations.toArray(configFileLocationsArray);
-        configFileLocations.clear(); // empty the list out so other items can be added
-        List<Document> dataDictionaries = new ArrayList();
-        int count = 0;
-        try {
-            for (String config : configFileLocationsArray) {
-                InputStream inputStream = getFileResource(config).getInputStream();
-
-                String theString = IOUtils.toString(inputStream, "UTF-8");
-                Document doc  = new Document();
-                doc.put("key", count++);
-                doc.put("xml", theString);
-                dataDictionaries.add(doc);
-            }
-
-            dds = database.getCollection("data_dictionary");
-            dds.insertMany(dataDictionaries);
-        } catch (Exception e) {
-            LOG.error("Error loading bean definitions", e);
-            throw new DataDictionaryException("Error loading bean definitions: " + e.getLocalizedMessage());
-        }
-        LOG.info("Completed DD datastore persist");
-
-    }
-
     static boolean validateEBOs = true;
 
     public void validateDD( boolean validateEbos ) {
@@ -424,7 +389,7 @@ public class DataDictionary  {
      */
     @Deprecated
     public BusinessObjectEntry getBusinessObjectEntry(String className ) {
-        return ddMapper.getBusinessObjectEntry(ddIndex, className);
+        return ddMapper.getBusinessObjectEntry(mongoDictionaryIndex, className);
     }
 
     /**
@@ -432,7 +397,7 @@ public class DataDictionary  {
      * @return BusinessObjectEntry for the named class, or null if none exists
      */
     public DataObjectEntry getDataObjectEntry(String className ) {
-        return ddMapper.getDataObjectEntry(ddIndex, className);
+        return ddMapper.getDataObjectEntry(mongoDictionaryIndex, className);
     }
 
     /**
@@ -442,21 +407,21 @@ public class DataDictionary  {
      * @return
      */
     public BusinessObjectEntry getBusinessObjectEntryForConcreteClass(String className){
-        return ddMapper.getBusinessObjectEntryForConcreteClass(ddIndex, className);
+        return ddMapper.getBusinessObjectEntryForConcreteClass(mongoDictionaryIndex, className);
     }
 
     /**
      * @return List of businessObject classnames
      */
     public List<String> getBusinessObjectClassNames() {
-        return ddMapper.getBusinessObjectClassNames(ddIndex);
+        return ddMapper.getBusinessObjectClassNames(mongoDictionaryIndex);
     }
 
     /**
      * @return Map of (classname, BusinessObjectEntry) pairs
      */
     public Map<String, BusinessObjectEntry> getBusinessObjectEntries() {
-        return ddMapper.getBusinessObjectEntries(ddIndex);
+        return ddMapper.getBusinessObjectEntries(mongoDictionaryIndex);
     }
 
     /**
@@ -465,7 +430,7 @@ public class DataDictionary  {
      *         exists
      */
     public DataDictionaryEntry getDictionaryObjectEntry(String className) {
-        return ddMapper.getDictionaryObjectEntry(ddIndex, className);
+        return ddMapper.getDictionaryObjectEntry(mongoDictionaryIndex, className);
     }
 
     /**
@@ -484,7 +449,7 @@ public class DataDictionary  {
      * @return the KNS DocumentEntry if it exists
      */
     public DocumentEntry getDocumentEntry(String documentTypeDDKey ) {
-        return ddMapper.getDocumentEntry(ddIndex, documentTypeDDKey);
+        return ddMapper.getDocumentEntry(mongoDictionaryIndex, documentTypeDDKey);
     }
 
     /**
@@ -498,11 +463,11 @@ public class DataDictionary  {
      *         is none
      */
     public MaintenanceDocumentEntry getMaintenanceDocumentEntryForBusinessObjectClass(Class<?> businessObjectClass) {
-        return ddMapper.getMaintenanceDocumentEntryForBusinessObjectClass(ddIndex, businessObjectClass);
+        return ddMapper.getMaintenanceDocumentEntryForBusinessObjectClass(mongoDictionaryIndex, businessObjectClass);
     }
 
     public Map<String, DocumentEntry> getDocumentEntries() {
-        return ddMapper.getDocumentEntries(ddIndex);
+        return ddMapper.getDocumentEntries(mongoDictionaryIndex);
     }
 
     /**

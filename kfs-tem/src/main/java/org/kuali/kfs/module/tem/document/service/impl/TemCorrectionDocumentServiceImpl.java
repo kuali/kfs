@@ -18,17 +18,6 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument;
 import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
@@ -37,9 +26,16 @@ import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.krad.comparator.NumericValueComparator;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.comparator.TemporalValueComparator;
-/*import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;*/
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentService {
 

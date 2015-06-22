@@ -44,7 +44,13 @@ import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

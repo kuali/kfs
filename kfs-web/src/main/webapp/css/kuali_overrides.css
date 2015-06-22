@@ -102,6 +102,10 @@ html > body {
     cursor: auto;
 }
 
+tr:not(:first-child) > th {
+    text-align: center;
+}
+
 
 
 /* Override some bootstrap styles */
@@ -138,7 +142,11 @@ div.login-form input.searchbox {
 }
 
 th[align=right] {
-    text-align: right;
+    text-align: right !important;
+}
+
+th[align=left] {
+    text-align: left !important;
 }
 
 h1 a,
@@ -1507,7 +1515,7 @@ td.infoline {
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
     border-collapse: separate !important;
-    padding: 19px 19px 19px 20px;
+    padding-left: 12px;
 }
 #workarea > table.tab blockquote {
     border-color: #ddd;

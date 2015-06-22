@@ -18,11 +18,7 @@
  */
 package org.kuali.kfs.module.cab.dataaccess.impl;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -32,6 +28,10 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.dataaccess.ReconciliationDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This is the data access object for ReconciliationService

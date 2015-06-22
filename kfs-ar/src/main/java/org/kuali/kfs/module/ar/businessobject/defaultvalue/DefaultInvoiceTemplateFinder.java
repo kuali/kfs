@@ -18,7 +18,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -19,14 +19,14 @@
 
 package org.kuali.kfs.module.ld.businessobject;
 
-import java.math.BigDecimal;
-
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.math.BigDecimal;
 
 /**
  * Labor business object for July 1 Position Funding

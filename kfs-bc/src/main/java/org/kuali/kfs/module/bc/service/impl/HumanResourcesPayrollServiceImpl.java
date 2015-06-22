@@ -18,7 +18,7 @@
  */
 package org.kuali.kfs.module.bc.service.impl;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.Incumbent;

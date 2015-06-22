@@ -18,17 +18,17 @@
  */
 package org.kuali.kfs.vnd.businessobject.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.vnd.batch.service.VendorExcludeService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     VendorExcludeService vendorExcludeService;

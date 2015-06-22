@@ -19,15 +19,15 @@
 
 package org.kuali.kfs.module.ld.businessobject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Labor business object for Account Status (Current Funds).

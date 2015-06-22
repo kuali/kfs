@@ -37,12 +37,9 @@ import org.kuali.rice.krad.datadictionary.parse.StringListConverter;
 import org.kuali.rice.krad.datadictionary.parse.StringMapConverter;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import org.kuali.rice.krad.uif.UifConstants.ViewType;
 import org.kuali.rice.krad.uif.util.ComponentBeanPostProcessor;
 import org.kuali.rice.krad.uif.util.UifBeanFactoryPostProcessor;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.KualiDefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -471,57 +468,6 @@ public class DataDictionary  {
     }
 
     /**
-     * Returns the View entry identified by the given id
-     *
-     * @param viewId - unique id for view
-     * @return View instance associated with the id
-     */
-    public View getViewById(String viewId) {
-        return ddMapper.getViewById(uifIndex, viewId);
-    }
-
-    /**
-     * Returns View instance identified by the view type name and index
-     *
-     * @param viewTypeName
-     *            - type name for the view
-     * @param indexKey
-     *            - Map of index key parameters, these are the parameters the
-     *            indexer used to index the view initially and needs to identify
-     *            an unique view instance
-     * @return View instance that matches the given index
-     */
-    public View getViewByTypeIndex(ViewType viewTypeName, Map<String, String> indexKey) {
-        return ddMapper.getViewByTypeIndex(uifIndex, viewTypeName, indexKey);
-    }
-
-    /**
-     * Indicates whether a <code>View</code> exists for the given view type and index information
-     *
-     * @param viewTypeName - type name for the view
-     * @param indexKey - Map of index key parameters, these are the parameters the
-     * indexer used to index the view initially and needs to identify
-     * an unique view instance
-     * @return boolean true if view exists, false if not
-     */
-    public boolean viewByTypeExist(ViewType viewTypeName, Map<String, String> indexKey) {
-        return ddMapper.viewByTypeExist(uifIndex, viewTypeName, indexKey);
-    }
-
-    /**
-     * Gets all <code>View</code> prototypes configured for the given view type
-     * name
-     *
-     * @param viewTypeName
-     *            - view type name to retrieve
-     * @return List<View> view prototypes with the given type name, or empty
-     *         list
-     */
-    public List<View> getViewsForType(ViewType viewTypeName) {
-        return ddMapper.getViewsForType(uifIndex, viewTypeName);
-    }
-
-    /**
      * Returns an object from the dictionary by its spring bean name
      *
      * @param beanName - id or name for the bean definition
@@ -539,39 +485,6 @@ public class DataDictionary  {
      */
     public boolean containsDictionaryObject(String id) {
         return ddBeans.containsBean(id);
-    }
-
-    /**
-     * Retrieves the configured property values for the view bean definition associated with the given id
-     *
-     * <p>
-     * Since constructing the View object can be expensive, when metadata only is needed this method can be used
-     * to retrieve the configured property values. Note this looks at the merged bean definition
-     * </p>
-     *
-     * @param viewId - id for the view to retrieve
-     * @return PropertyValues configured on the view bean definition, or null if view is not found
-     */
-    public PropertyValues getViewPropertiesById(String viewId) {
-        return ddMapper.getViewPropertiesById(uifIndex, viewId);
-    }
-
-    /**
-     * Retrieves the configured property values for the view bean definition associated with the given type and
-     * index
-     *
-     * <p>
-     * Since constructing the View object can be expensive, when metadata only is needed this method can be used
-     * to retrieve the configured property values. Note this looks at the merged bean definition
-     * </p>
-     *
-     * @param viewTypeName - type name for the view
-     * @param indexKey - Map of index key parameters, these are the parameters the indexer used to index
-     * the view initially and needs to identify an unique view instance
-     * @return PropertyValues configured on the view bean definition, or null if view is not found
-     */
-    public PropertyValues getViewPropertiesByType(ViewType viewTypeName, Map<String, String> indexKey) {
-        return ddMapper.getViewPropertiesByType(uifIndex, viewTypeName, indexKey);
     }
 
     /**

@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
+import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -53,6 +54,13 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
         }
         if (!StringUtils.isBlank(attributeDefinition.getInclusiveMax())) {
             attributeNode.put("inclusiveMax", attributeDefinition.getInclusiveMax());
+        }
+
+        ControlDefinitionBase control = (ControlDefinitionBase)attributeDefinition.getControl();
+        if (control != null) {
+            ObjectNode controlDefinitionNode = mapper.createObjectNode();
+            controlDefinitionNode.put("type", control.getType().toString());
+            attributeNode.put("controlDefinition", controlDefinitionNode);
         }
         return attributeNode;
     }

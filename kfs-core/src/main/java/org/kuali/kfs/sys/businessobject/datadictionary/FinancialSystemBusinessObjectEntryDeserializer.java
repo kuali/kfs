@@ -63,9 +63,11 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
             }
 
             JsonNode node = nextAttr.get("control");
-            ControlDefinitionBase controlDefinition = new ControlDefinitionBase();
-            controlDefinition.setType(ControlDefinitionType.valueOf(node.get("type").getTextValue()));
-            attributeDefinition.setControl(controlDefinition);
+            if (node != null) {
+                ControlDefinitionBase controlDefinition = new ControlDefinitionBase();
+                controlDefinition.setType(ControlDefinitionType.valueOf(node.get("type").getTextValue()));
+                attributeDefinition.setControl(controlDefinition);
+            }
         }
         entry.getAttributes().add(attributeDefinition);
     }

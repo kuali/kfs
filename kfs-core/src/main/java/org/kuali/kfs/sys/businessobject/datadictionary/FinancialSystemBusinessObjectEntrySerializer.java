@@ -10,6 +10,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.ExternalizableAttributeDefinitionProxy;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.IOException;
@@ -26,7 +27,9 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
 
         ArrayNode attributes = mapper.createArrayNode();
         for (AttributeDefinition attributeDefinition : entry.getAttributes()) {
-            attributes.add(mapAttributeDefinition(attributeDefinition, mapper));
+            if (!(attributeDefinition instanceof ExternalizableAttributeDefinitionProxy)) {
+                attributes.add(mapAttributeDefinition(attributeDefinition, mapper));
+            }
         }
         node.put("attributes", attributes);
         jsonGenerator.writeTree(node);

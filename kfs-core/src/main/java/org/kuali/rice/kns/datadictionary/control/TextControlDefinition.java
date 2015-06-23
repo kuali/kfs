@@ -27,6 +27,7 @@ public class TextControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 6075633623507085548L;
 
     public TextControlDefinition() {
+        this.type = ControlDefinitionType.TEXT;
     }
 
     /**

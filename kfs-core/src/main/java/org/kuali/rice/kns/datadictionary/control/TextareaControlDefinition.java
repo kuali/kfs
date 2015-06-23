@@ -25,6 +25,7 @@ public class TextareaControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 8378481767935057649L;
 
     public TextareaControlDefinition() {
+        this.type = ControlDefinitionType.TEXTAREA;
     }
 
     /**

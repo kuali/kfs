@@ -35,6 +35,7 @@ public class CurrencyControlDefinition extends ControlDefinitionBase {
     protected Integer formattedMaxLength;
 
     public CurrencyControlDefinition() {
+        this.type = ControlDefinitionType.CURRENCY;
     }
 
     /**

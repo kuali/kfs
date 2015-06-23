@@ -28,6 +28,7 @@ public class ButtonControlDefinition extends ControlDefinitionBase {
     protected String styleClass;
 
     public ButtonControlDefinition() {
+        this.type = ControlDefinitionType.BUTTON;
     }
 
     /**

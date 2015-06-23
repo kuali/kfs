@@ -26,6 +26,7 @@ public class MultiselectControlDefinition extends MultivalueControlDefinitionBas
     private static final long serialVersionUID = -381869420276558508L;
 
     public MultiselectControlDefinition() {
+        this.type = ControlDefinitionType.MULTISELECT;
     }
 
     /**

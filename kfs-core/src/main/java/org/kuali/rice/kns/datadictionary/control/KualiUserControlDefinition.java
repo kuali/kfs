@@ -47,6 +47,7 @@ public class KualiUserControlDefinition extends ControlDefinitionBase {
     protected String personNameAttributeName;
 
     public KualiUserControlDefinition() {
+        this.type = ControlDefinitionType.KUALI_USER;
     }
 
     /**

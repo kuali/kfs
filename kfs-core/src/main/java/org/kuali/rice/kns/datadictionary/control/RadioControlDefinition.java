@@ -26,6 +26,7 @@ public class RadioControlDefinition extends MultivalueControlDefinitionBase {
     private static final long serialVersionUID = -7578183583825935850L;
 
     public RadioControlDefinition() {
+        this.type = ControlDefinitionType.RADIO;
     }
 
     /**

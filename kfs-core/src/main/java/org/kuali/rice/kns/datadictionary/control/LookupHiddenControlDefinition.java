@@ -26,6 +26,7 @@ public class LookupHiddenControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -2145156789968831921L;
 
     public LookupHiddenControlDefinition() {
+        this.type = ControlDefinitionType.LOOKUP_HIDDEN;
     }
 
     /**

@@ -51,14 +51,14 @@ public class ControlDefinitionBase extends DataDictionaryDefinitionBase implemen
     protected Integer cols;
     protected boolean ranged;
     protected ControlDefinitionType type;
-    private String imageSrc;
-    private String styleClass;
-    private Integer formattedMaxLength;
-    private String personNameAttributeName;
-    private String userIdAttributeName;
-    private String universalIdAttributeName;
-    private String target;
-    private String hrefText;
+    protected String imageSrc;
+    protected String styleClass;
+    protected Integer formattedMaxLength;
+    protected String personNameAttributeName;
+    protected String userIdAttributeName;
+    protected String universalIdAttributeName;
+    protected String target;
+    protected String hrefText;
 
 
     public ControlDefinitionBase() {
@@ -95,56 +95,56 @@ public class ControlDefinitionBase extends DataDictionaryDefinitionBase implemen
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isCheckbox()
      */
     public boolean isCheckbox() {
-        return type.equals(ControlDefinitionType.CHECKBOX);
+        return ControlDefinitionType.CHECKBOX.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isHidden()
      */
     public boolean isHidden() {
-        return type.equals(ControlDefinitionType.HIDDEN);
+        return ControlDefinitionType.HIDDEN.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isRadio()
      */
     public boolean isRadio() {
-        return type.equals(ControlDefinitionType.RADIO);
+        return ControlDefinitionType.RADIO.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isSelect()
      */
     public boolean isSelect() {
-        return type.equals(ControlDefinitionType.SELECT);
+        return ControlDefinitionType.SELECT.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isSelect()
      */
     public boolean isMultiselect() {
-        return type.equals(ControlDefinitionType.MULTISELECT);
+        return ControlDefinitionType.MULTISELECT.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isText()
      */
     public boolean isText() {
-        return type.equals(ControlDefinitionType.TEXT);
+        return ControlDefinitionType.TEXT.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isTextarea()
      */
     public boolean isTextarea() {
-        return type.equals(ControlDefinitionType.TEXTAREA);
+        return ControlDefinitionType.TEXTAREA.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isCurrency()
      */
     public boolean isCurrency() {
-        return type.equals(ControlDefinitionType.CURRENCY);
+        return ControlDefinitionType.CURRENCY.equals(type);
     }
 
     /**
@@ -152,49 +152,49 @@ public class ControlDefinitionBase extends DataDictionaryDefinitionBase implemen
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isKualiUser()
      */
     public boolean isKualiUser() {
-        return type.equals(ControlDefinitionType.KUALI_USER);
+        return ControlDefinitionType.KUALI_USER.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isWorkflowWorkgroup()
      */
     public boolean isWorkflowWorkgroup() {
-        return type.equals(ControlDefinitionType.WORKFLOW_WORKGROUP);
+        return ControlDefinitionType.WORKFLOW_WORKGROUP.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isFile()
      */
     public boolean isFile() {
-        return type.equals(ControlDefinitionType.FILE);
+        return ControlDefinitionType.FILE.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isLookupHidden()
      */
     public boolean isLookupHidden() {
-        return type.equals(ControlDefinitionType.LOOKUP_HIDDEN);
+        return ControlDefinitionType.LOOKUP_HIDDEN.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isLookupReadonly()
      */
     public boolean isLookupReadonly() {
-        return type.equals(ControlDefinitionType.LOOKUP_READONLY);
+        return ControlDefinitionType.LOOKUP_READONLY.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isButton()
      */
     public boolean isButton() {
-        return type.equals(ControlDefinitionType.BUTTON);
+        return ControlDefinitionType.BUTTON.equals(type);
     }
 
     /**
      * @see org.kuali.rice.krad.datadictionary.control.ControlDefinition#isLink()
      */
     public boolean isLink() {
-        return type.equals(ControlDefinitionType.LINK);
+        return ControlDefinitionType.LINK.equals(type);
     }
 
 

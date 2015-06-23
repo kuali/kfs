@@ -27,6 +27,7 @@ public class LinkControlDefinition extends ControlDefinitionBase {
     protected String hrefText;
 
     public LinkControlDefinition() {
+        this.type = ControlDefinitionType.LINK;
     }
 
     /**

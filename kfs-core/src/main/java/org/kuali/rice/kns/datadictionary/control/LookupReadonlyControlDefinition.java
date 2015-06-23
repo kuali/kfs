@@ -26,6 +26,7 @@ public class LookupReadonlyControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -5036539644716405540L;
 
     public LookupReadonlyControlDefinition() {
+        this.type = ControlDefinitionType.LOOKUP_READONLY;
     }
 
     /**

@@ -27,6 +27,7 @@ public class CheckboxControlDefinition extends ControlDefinitionBase {
     public CheckboxControlDefinition()
     {
         super();
+        this.type = ControlDefinitionType.CHECKBOX;
     }
 
     /**

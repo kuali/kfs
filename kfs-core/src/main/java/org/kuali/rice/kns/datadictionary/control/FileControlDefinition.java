@@ -32,6 +32,7 @@ public class FileControlDefinition extends ControlDefinitionBase {
 
     public FileControlDefinition() {
         LOG.debug("creating new FileControlDefinition");
+        this.type = ControlDefinitionType.FILE;
     }
 
     /**

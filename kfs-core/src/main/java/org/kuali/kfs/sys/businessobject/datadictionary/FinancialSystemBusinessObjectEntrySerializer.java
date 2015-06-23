@@ -60,7 +60,7 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
         if (control != null) {
             ObjectNode controlDefinitionNode = mapper.createObjectNode();
             controlDefinitionNode.put("type", control.getType().toString());
-            attributeNode.put("controlDefinition", controlDefinitionNode);
+            attributeNode.put("control", controlDefinitionNode);
         }
         return attributeNode;
     }

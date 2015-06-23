@@ -21,7 +21,6 @@ package org.kuali.rice.kns.datadictionary.control;
  The valuesFinderClass will have a getKeyValues() method
  that returns a list of KeyValue objects.
  */
-@Deprecated
 public class RadioControlDefinition extends MultivalueControlDefinitionBase {
     private static final long serialVersionUID = -7578183583825935850L;
 

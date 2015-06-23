@@ -38,7 +38,6 @@ import org.apache.commons.lang.StringUtils;
  * personNameAttributeName -
  attribute that provides the User Name - e.g. JONES,JOHN P
  */
-@Deprecated
 public class KualiUserControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 4749994521411547705L;
 

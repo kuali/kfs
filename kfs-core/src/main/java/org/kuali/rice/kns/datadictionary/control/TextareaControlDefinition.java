@@ -20,7 +20,6 @@ package org.kuali.rice.kns.datadictionary.control;
  The textarea element defines an HTML textarea control element.
  The rows and cols attributes define the size of the field.
  */
-@Deprecated
 public class TextareaControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 8378481767935057649L;
 

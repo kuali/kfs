@@ -20,7 +20,6 @@ package org.kuali.rice.kns.datadictionary.control;
  The button element is used to render an HTML button
  control.
  */
-@Deprecated
 public class ButtonControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -4014804850405243606L;
 

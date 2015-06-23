@@ -21,7 +21,6 @@ package org.kuali.rice.kns.datadictionary.control;
  glass, but no value showing.  This can be used to do a lookup to
  return a value which will appear in another field.
  */
-@Deprecated
 public class LookupHiddenControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -2145156789968831921L;
 

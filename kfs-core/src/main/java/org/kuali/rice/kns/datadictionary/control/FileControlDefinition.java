@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
  *
  *
  */
-@Deprecated
 public class FileControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 8778523411471162513L;
 

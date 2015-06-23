@@ -54,7 +54,6 @@ import java.util.Map;
  * <p/>
  * Note: the setters do copious amounts of validation, to facilitate generating errors during the parsing process.
  */
-@Deprecated
 public class LookupDefinition extends DataDictionaryDefinitionBase {
     private static final long serialVersionUID = 6733008572890721359L;
 

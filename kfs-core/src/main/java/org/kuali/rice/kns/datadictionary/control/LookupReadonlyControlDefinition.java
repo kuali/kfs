@@ -21,7 +21,6 @@ package org.kuali.rice.kns.datadictionary.control;
  glass and a read-only value.  This forces the user to change the value
  of the field only by use of the magnifying glass.
  */
-@Deprecated
 public class LookupReadonlyControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -5036539644716405540L;
 

@@ -24,7 +24,6 @@ package org.kuali.rice.kns.datadictionary.control;
 
  Used Properties: size, formattedMaxLength
  */
-@Deprecated
 public class CurrencyControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 1650000676894176080L;
 

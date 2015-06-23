@@ -21,7 +21,6 @@ package org.kuali.rice.kns.datadictionary.control;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-@Deprecated
 public class MultiselectControlDefinition extends MultivalueControlDefinitionBase {
     private static final long serialVersionUID = -381869420276558508L;
 

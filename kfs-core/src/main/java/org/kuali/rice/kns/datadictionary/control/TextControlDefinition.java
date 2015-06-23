@@ -22,7 +22,6 @@ package org.kuali.rice.kns.datadictionary.control;
  If the datePicker option is entered, then  the user will be able
  to select a date from a popup calendar.
  */
-@Deprecated
 public class TextControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = 6075633623507085548L;
 

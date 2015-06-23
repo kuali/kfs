@@ -20,7 +20,6 @@ import org.kuali.rice.krad.datadictionary.exception.CompletionException;
 /**
  * Base class for control which provide a list of values to choose between. 
  */
-@Deprecated
 public abstract class MultivalueControlDefinitionBase extends ControlDefinitionBase {
     private static final long serialVersionUID = -9164657952021540261L;
 

@@ -25,7 +25,6 @@ package org.kuali.rice.kns.datadictionary.control;
  entered.  This code will be run when the user selects a new
  value.
  */
-@Deprecated
 public class SelectControlDefinition extends MultivalueControlDefinitionBase {
     private static final long serialVersionUID = 7176759040882704084L;
 

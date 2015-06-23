@@ -25,7 +25,6 @@ package org.kuali.rice.kns.datadictionary.control;
  magnifying glass.
 
  */
-@Deprecated
 public class WorkflowWorkgroupControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -7423968769245455072L;
 

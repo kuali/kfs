@@ -20,7 +20,6 @@ package org.kuali.rice.kns.datadictionary.control;
  The checkbox element is used to render an HTML checkbox
  control.  It is used for boolean fields.
  */
-@Deprecated
 public class CheckboxControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -2658505826476098781L;
 

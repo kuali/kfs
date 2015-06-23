@@ -20,7 +20,6 @@ package org.kuali.rice.kns.datadictionary.control;
  The hidden element will cause the attribute to not
  be displayed.
  */
-@Deprecated
 public class HiddenControlDefinition extends ControlDefinitionBase {
     private static final long serialVersionUID = -557648224354274301L;
 

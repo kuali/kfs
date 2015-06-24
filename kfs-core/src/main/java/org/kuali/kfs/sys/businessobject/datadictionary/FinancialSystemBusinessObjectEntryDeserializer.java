@@ -114,17 +114,30 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         if (lookupDefinitionNode.has("resultSetLimit")) {
             lookupDefinition.setResultSetLimit(lookupDefinitionNode.get("resultSetLimit").getIntValue());
         }
-
         if (lookupDefinitionNode.has("multipleValuesResultSetLimit")) {
             lookupDefinition.setMultipleValuesResultSetLimit(lookupDefinitionNode.get("multipleValuesResultSetLimit").getIntValue());
         }
-//        lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").getTextValue());
-//        lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").getTextValue());
-//        lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").getTextValue());
-//        lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").getIntValue());
-//        lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").getTextValue());
-//        lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").getBooleanValue());
-//        lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").getBooleanValue());
+        if (lookupDefinitionNode.has("extraButtonSource")) {
+            lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").getTextValue());
+        }
+        if (lookupDefinitionNode.has("extraButtonParams")) {
+            lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").getTextValue());
+        }
+        if (lookupDefinitionNode.has("searchIconOverride")) {
+            lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").getTextValue());
+        }
+        if (lookupDefinitionNode.has("numOfColumns")) {
+            lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").getIntValue());
+        }
+        if (lookupDefinitionNode.has("helpUrl")) {
+            lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").getTextValue());
+        }
+        if (lookupDefinitionNode.has("translateCodes")) {
+            lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").getBooleanValue());
+        }
+        if (lookupDefinitionNode.has("disableSearchButtons")) {
+            lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").getBooleanValue());
+        }
         return lookupDefinition;
     }
     

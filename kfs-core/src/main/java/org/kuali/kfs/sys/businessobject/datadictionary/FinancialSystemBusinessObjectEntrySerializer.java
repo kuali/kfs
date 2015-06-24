@@ -106,18 +106,30 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
         if (ObjectUtils.isNotNull(lookupDefinition.getResultSetLimit())) {
             lookupNode.put("resultSetLimit", lookupDefinition.getResultSetLimit());
         }
-
         if (ObjectUtils.isNotNull(lookupDefinition.getMultipleValuesResultSetLimit())) {
             lookupNode.put("multipleValuesResultSetLimit", lookupDefinition.getMultipleValuesResultSetLimit());
         }
-
-//        lookupNode.put("extraButtonSource", lookupDefinition.getExtraButtonSource());
-//        lookupNode.put("extraButtonParams", lookupDefinition.getExtraButtonParams());
-//        lookupNode.put("searchIconOverride", lookupDefinition.getSearchIconOverride());
-//        lookupNode.put("numOfColumns", lookupDefinition.getNumOfColumns());
-//        lookupNode.put("helpUrl", lookupDefinition.getHelpUrl());
-//        lookupNode.put("translateCodes", lookupDefinition.isTranslateCodes());
-//        lookupNode.put("disableSearchButtons", lookupDefinition.isDisableSearchButtons());
+        if (ObjectUtils.isNotNull(lookupDefinition.getExtraButtonSource())) {
+            lookupNode.put("extraButtonSource", lookupDefinition.getExtraButtonSource());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.getExtraButtonParams())) {
+            lookupNode.put("extraButtonParams", lookupDefinition.getExtraButtonParams());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.getSearchIconOverride())) {
+            lookupNode.put("searchIconOverride", lookupDefinition.getSearchIconOverride());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.getNumOfColumns())) {
+            lookupNode.put("numOfColumns", lookupDefinition.getNumOfColumns());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.getHelpUrl())) {
+            lookupNode.put("helpUrl", lookupDefinition.getHelpUrl());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.isTranslateCodes())) {
+            lookupNode.put("translateCodes", lookupDefinition.isTranslateCodes());
+        }
+        if (ObjectUtils.isNotNull(lookupDefinition.isDisableSearchButtons())) {
+            lookupNode.put("disableSearchButtons", lookupDefinition.isDisableSearchButtons());
+        }
         return lookupNode;
     }
 

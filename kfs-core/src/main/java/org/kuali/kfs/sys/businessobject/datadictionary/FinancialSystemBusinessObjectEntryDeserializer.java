@@ -73,10 +73,21 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
                 attributeDefinition.setInclusiveMax(nextAttr.get("inclusiveMax").getTextValue());
             }
 
-            JsonNode node = nextAttr.get("control");
-            if (node != null) {
+            JsonNode controlNode = nextAttr.get("control");
+            if (controlNode != null) {
                 ControlDefinitionBase controlDefinition = new ControlDefinitionBase();
-                controlDefinition.setType(ControlDefinitionType.valueOf(node.get("type").getTextValue()));
+                controlDefinition.setType(ControlDefinitionType.valueOf(controlNode.get("type").getTextValue()));
+                controlDefinition.setDatePicker(controlNode.get("datePicker").getValueAsBoolean());
+                controlDefinition.setExpandedTextArea(controlNode.get("expandedTextArea").getValueAsBoolean());
+                if (controlNode.has("valuesFinderClass")) {
+                    controlDefinition.setValuesFinderClass(controlNode.get("valuesFinderClass").getTextValue());
+                }
+                if (controlNode.has("keyAttribute")) {
+                    controlDefinition.setKeyAttribute(controlNode.get("keyAttribute").getTextValue());
+                }
+                if (controlNode.has("labelAttribute")) {
+                    controlDefinition.setLabelAttribute(controlNode.get("labelAttribute").getTextValue());
+                }
                 attributeDefinition.setControl(controlDefinition);
             }
         }

@@ -111,15 +111,20 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         }
         lookupDefinition.setResultFields(resultFields);
 
-        lookupDefinition.setResultSetLimit(lookupDefinitionNode.get("resultSetLimit").getIntValue());
-        lookupDefinition.setMultipleValuesResultSetLimit(lookupDefinitionNode.get("multipleValuesResultSetLimit").getIntValue());
-        lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").getTextValue());
-        lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").getTextValue());
-        lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").getTextValue());
-        lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").getIntValue());
-        lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").getTextValue());
-        lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").getBooleanValue());
-        lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").getBooleanValue());
+        if (lookupDefinitionNode.has("resultSetLimit")) {
+            lookupDefinition.setResultSetLimit(lookupDefinitionNode.get("resultSetLimit").getIntValue());
+        }
+
+        if (lookupDefinitionNode.has("multipleValuesResultSetLimit")) {
+            lookupDefinition.setMultipleValuesResultSetLimit(lookupDefinitionNode.get("multipleValuesResultSetLimit").getIntValue());
+        }
+//        lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").getTextValue());
+//        lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").getTextValue());
+//        lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").getTextValue());
+//        lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").getIntValue());
+//        lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").getTextValue());
+//        lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").getBooleanValue());
+//        lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").getBooleanValue());
         return lookupDefinition;
     }
     
@@ -136,7 +141,9 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         fieldDef.setDefaultValue(fieldDefinitionNode.get("defaultValue").getTextValue());
         fieldDef.setQuickfinderParameterString(fieldDefinitionNode.get("quickfinderParameterString").getTextValue());
 
-        fieldDef.setMaxLength(fieldDefinitionNode.get("maxLength").getIntValue());
+        if (fieldDefinitionNode.has("maxLength")) {
+            fieldDef.setMaxLength(fieldDefinitionNode.get("maxLength").getIntValue());
+        }
 
         fieldDef.setDisplayEditMode(fieldDefinitionNode.get("displayEditMode").getTextValue());
 

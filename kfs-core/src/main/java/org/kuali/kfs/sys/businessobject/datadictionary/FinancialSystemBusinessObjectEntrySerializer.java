@@ -78,14 +78,16 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
     protected ObjectNode serializeLookupDefinition(LookupDefinition lookupDefinition) {
         ObjectNode lookupNode = mapper.createObjectNode();
         lookupNode.put("title", lookupDefinition.getTitle());
-        ObjectNode sortDefinition = mapper.createObjectNode();
-        sortDefinition.put("ascending", lookupDefinition.getDefaultSort().getSortAscending());
-        ArrayNode sortAttributes = mapper.createArrayNode();
-        for (String attributeName : lookupDefinition.getDefaultSort().getAttributeNames()) {
-            sortAttributes.add(attributeName);
+        if (lookupDefinition.hasDefaultSort()) {
+            ObjectNode sortDefinition = mapper.createObjectNode();
+            sortDefinition.put("ascending", lookupDefinition.getDefaultSort().getSortAscending());
+            ArrayNode sortAttributes = mapper.createArrayNode();
+            for (String attributeName : lookupDefinition.getDefaultSort().getAttributeNames()) {
+                sortAttributes.add(attributeName);
+            }
+            sortDefinition.put("attributeNames", sortAttributes);
+            lookupNode.put("defaultSort", sortDefinition);
         }
-        sortDefinition.put("attributeNames", sortAttributes);
-        lookupNode.put("defaultSort", sortDefinition);
 
         ArrayNode lookupFields = mapper.createArrayNode();
         for (FieldDefinition lookupField : lookupDefinition.getLookupFields()) {
@@ -101,15 +103,21 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
         }
         lookupNode.put("resultFields", resultFields);
 
-        lookupNode.put("resultSetLimit", lookupDefinition.getResultSetLimit());
-        lookupNode.put("multipleValuesResultSetLimit", lookupDefinition.getMultipleValuesResultSetLimit());
-        lookupNode.put("extraButtonSource", lookupDefinition.getExtraButtonSource());
-        lookupNode.put("extraButtonParams", lookupDefinition.getExtraButtonParams());
-        lookupNode.put("searchIconOverride", lookupDefinition.getSearchIconOverride());
-        lookupNode.put("numOfColumns", lookupDefinition.getNumOfColumns());
-        lookupNode.put("helpUrl", lookupDefinition.getHelpUrl());
-        lookupNode.put("translateCodes", lookupDefinition.isTranslateCodes());
-        lookupNode.put("disableSearchButtons", lookupDefinition.isDisableSearchButtons());
+        if (ObjectUtils.isNotNull(lookupDefinition.getResultSetLimit())) {
+            lookupNode.put("resultSetLimit", lookupDefinition.getResultSetLimit());
+        }
+
+        if (ObjectUtils.isNotNull(lookupDefinition.getMultipleValuesResultSetLimit())) {
+            lookupNode.put("multipleValuesResultSetLimit", lookupDefinition.getMultipleValuesResultSetLimit());
+        }
+
+//        lookupNode.put("extraButtonSource", lookupDefinition.getExtraButtonSource());
+//        lookupNode.put("extraButtonParams", lookupDefinition.getExtraButtonParams());
+//        lookupNode.put("searchIconOverride", lookupDefinition.getSearchIconOverride());
+//        lookupNode.put("numOfColumns", lookupDefinition.getNumOfColumns());
+//        lookupNode.put("helpUrl", lookupDefinition.getHelpUrl());
+//        lookupNode.put("translateCodes", lookupDefinition.isTranslateCodes());
+//        lookupNode.put("disableSearchButtons", lookupDefinition.isDisableSearchButtons());
         return lookupNode;
     }
 
@@ -126,7 +134,9 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
         fieldDefinitionNode.put("defaultValue", fieldDefinition.getDefaultValue());
         fieldDefinitionNode.put("quickfinderParameterString", fieldDefinition.getQuickfinderParameterString());
 
-        fieldDefinitionNode.put("maxLength", fieldDefinition.getMaxLength());
+        if (ObjectUtils.isNotNull(fieldDefinition.getMaxLength())) {
+            fieldDefinitionNode.put("maxLength", fieldDefinition.getMaxLength());
+        }
 
         fieldDefinitionNode.put("displayEditMode", fieldDefinition.getDisplayEditMode());
 

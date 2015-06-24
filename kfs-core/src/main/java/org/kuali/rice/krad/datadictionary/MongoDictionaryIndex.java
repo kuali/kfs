@@ -81,7 +81,7 @@ public class MongoDictionaryIndex implements Runnable, DictionaryIndex {
                 final FinancialSystemBusinessObjectEntry entry = mapper.readValue(document.toJson(), FinancialSystemBusinessObjectEntry.class);
                 businessObjectEntries.put(entry.getBusinessObjectClass().getName(), entry);
                 businessObjectEntries.put(entry.getBusinessObjectClass().getSimpleName(), entry);
-                businessObjectEntries.put(entry.getJstlKey(), entry);
+                entriesByJstlKey.put(entry.getJstlKey(), entry);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -48,6 +48,7 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
     }
 
     protected void deserializeAttributes(FinancialSystemBusinessObjectEntry entry, Iterator<JsonNode> attributes) {
+        List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
         while (attributes.hasNext()) {
             AttributeDefinition attributeDefinition = new AttributeDefinition();
             JsonNode nextAttr = attributes.next();
@@ -106,8 +107,9 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
                 controlDefinition.setRanged(controlNode.get("ranged").asBoolean());
                 attributeDefinition.setControl(controlDefinition);
             }
-            entry.getAttributes().add(attributeDefinition);
+            attributeDefinitions.add(attributeDefinition);
         }
+        entry.setAttributes(attributeDefinitions);
     }
     
     protected LookupDefinition deserializeLookupDefinition(JsonNode lookupDefinitionNode) {

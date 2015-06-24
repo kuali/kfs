@@ -1,13 +1,13 @@
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.ObjectCodec;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.node.ArrayNode;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
@@ -30,11 +30,11 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
             ObjectCodec codec = jp.getCodec();
             JsonNode entryRoot = codec.readTree(jp);
 
-            businessObjectEntry.setBusinessObjectClass((Class<? extends BusinessObject>) (Class.forName(entryRoot.get("businessObjectClass").getTextValue())));
-            businessObjectEntry.setTitleAttribute(entryRoot.get("titleAttribute").getTextValue());
-            businessObjectEntry.setObjectLabel(entryRoot.get("objectLabel").getTextValue());
+            businessObjectEntry.setBusinessObjectClass((Class<? extends BusinessObject>) (Class.forName(entryRoot.get("businessObjectClass").textValue())));
+            businessObjectEntry.setTitleAttribute(entryRoot.get("titleAttribute").textValue());
+            businessObjectEntry.setObjectLabel(entryRoot.get("objectLabel").textValue());
 
-            deserializeAttributes(businessObjectEntry, entryRoot.get("attributes").getElements());
+            deserializeAttributes(businessObjectEntry, entryRoot.get("attributes").elements());
 
             if (entryRoot.has("lookupDefinition")) {
                 LookupDefinition lookupDefinition = deserializeLookupDefinition(entryRoot.get("lookupDefinition"));
@@ -51,43 +51,59 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         AttributeDefinition attributeDefinition = new AttributeDefinition();
         while (attributes.hasNext()) {
             JsonNode nextAttr = attributes.next();
-            attributeDefinition.setName(nextAttr.get("name").getTextValue());
-            attributeDefinition.setLabel(nextAttr.get("label").getTextValue());
-            attributeDefinition.setShortLabel(nextAttr.get("shortLabel").getTextValue());
-            attributeDefinition.setConstraintText(nextAttr.get("constraintText").getTextValue());
-            attributeDefinition.setRequired(nextAttr.get("required").getBooleanValue());
-            attributeDefinition.setForceUppercase(nextAttr.get("forceUppercase").getBooleanValue());
+            attributeDefinition.setName(nextAttr.get("name").textValue());
+            attributeDefinition.setLabel(nextAttr.get("label").textValue());
+            attributeDefinition.setShortLabel(nextAttr.get("shortLabel").textValue());
+            attributeDefinition.setConstraintText(nextAttr.get("constraintText").textValue());
+            attributeDefinition.setRequired(nextAttr.get("required").booleanValue());
+            attributeDefinition.setForceUppercase(nextAttr.get("forceUppercase").booleanValue());
             if (!ObjectUtils.isNull(attributeDefinition.getMinLength())) {
-                attributeDefinition.setMinLength(nextAttr.get("minLength").getIntValue());
+                attributeDefinition.setMinLength(nextAttr.get("minLength").intValue());
             }
             if (!ObjectUtils.isNull(attributeDefinition.getMaxLength())) {
-                attributeDefinition.setMaxLength(nextAttr.get("maxLength").getIntValue());
+                attributeDefinition.setMaxLength(nextAttr.get("maxLength").intValue());
             }
             if (!ObjectUtils.isNull(attributeDefinition.getUnique())) {
-                attributeDefinition.setUnique(nextAttr.get("unique").getBooleanValue());
+                attributeDefinition.setUnique(nextAttr.get("unique").booleanValue());
             }
             if (!StringUtils.isBlank(attributeDefinition.getExclusiveMin())) {
-                attributeDefinition.setExclusiveMin(nextAttr.get("exclusiveMin").getTextValue());
+                attributeDefinition.setExclusiveMin(nextAttr.get("exclusiveMin").textValue());
             }
             if (!StringUtils.isBlank(attributeDefinition.getInclusiveMax())) {
-                attributeDefinition.setInclusiveMax(nextAttr.get("inclusiveMax").getTextValue());
+                attributeDefinition.setInclusiveMax(nextAttr.get("inclusiveMax").textValue());
             }
 
             JsonNode controlNode = nextAttr.get("control");
             if (controlNode != null) {
                 ControlDefinitionBase controlDefinition = new ControlDefinitionBase();
-                controlDefinition.setType(ControlDefinitionType.valueOf(controlNode.get("type").getTextValue()));
-                controlDefinition.setDatePicker(controlNode.get("datePicker").getValueAsBoolean());
-                controlDefinition.setExpandedTextArea(controlNode.get("expandedTextArea").getValueAsBoolean());
+                controlDefinition.setType(ControlDefinitionType.valueOf(controlNode.get("type").textValue()));
+                controlDefinition.setDatePicker(controlNode.get("datePicker").asBoolean());
+                controlDefinition.setExpandedTextArea(controlNode.get("expandedTextArea").asBoolean());
                 if (controlNode.has("valuesFinderClass")) {
-                    controlDefinition.setValuesFinderClass(controlNode.get("valuesFinderClass").getTextValue());
+                    controlDefinition.setValuesFinderClass(controlNode.get("valuesFinderClass").textValue());
                 }
                 if (controlNode.has("keyAttribute")) {
-                    controlDefinition.setKeyAttribute(controlNode.get("keyAttribute").getTextValue());
+                    controlDefinition.setKeyAttribute(controlNode.get("keyAttribute").textValue());
                 }
                 if (controlNode.has("labelAttribute")) {
-                    controlDefinition.setLabelAttribute(controlNode.get("labelAttribute").getTextValue());
+                    controlDefinition.setLabelAttribute(controlNode.get("labelAttribute").textValue());
                 }
+                if (controlNode.has("includeBlankRow")) {
+                    controlDefinition.setIncludeBlankRow(controlNode.get("includeBlankRow").booleanValue());
+                }
+                if (controlNode.has("includeKeyInLabel")) {
+                    controlDefinition.setIncludeKeyInLabel(controlNode.get("includeKeyInLabel").booleanValue());
+                }
+                if (controlNode.has("size")) {
+                    controlDefinition.setSize(controlNode.get("size").asInt());
+                }
+                if (controlNode.has("rows")) {
+                    controlDefinition.setRows(controlNode.get("rows").asInt());
+                }
+                if (controlNode.has("cols")) {
+                    controlDefinition.setCols(controlNode.get("cols").asInt());
+                }
+                controlDefinition.setRanged(controlNode.get("ranged").asBoolean());
                 attributeDefinition.setControl(controlDefinition);
             }
         }
@@ -96,17 +112,19 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
     
     protected LookupDefinition deserializeLookupDefinition(JsonNode lookupDefinitionNode) {
         LookupDefinition lookupDefinition = new LookupDefinition();
-        lookupDefinition.setTitle(lookupDefinitionNode.get("title").getTextValue());
+        lookupDefinition.setTitle(lookupDefinitionNode.get("title").textValue());
 
-        SortDefinition defaultSort = new SortDefinition();
-        JsonNode defaultSortNode = lookupDefinitionNode.get("defaultSort");
-        defaultSort.setSortAscending(defaultSortNode.get("ascending").getBooleanValue());
-        ArrayNode sortAttributeNames = (ArrayNode)defaultSortNode.get("attributeNames");
-        List<String> attributeNames = new ArrayList<>();
-        for (JsonNode attributeNameNode : sortAttributeNames) {
-            attributeNames.add(attributeNameNode.getTextValue());
+        if (lookupDefinitionNode.has("defaultSort")) {
+            SortDefinition defaultSort = new SortDefinition();
+            JsonNode defaultSortNode = lookupDefinitionNode.get("defaultSort");
+            defaultSort.setSortAscending(defaultSortNode.get("ascending").booleanValue());
+            ArrayNode sortAttributeNames = (ArrayNode) defaultSortNode.get("attributeNames");
+            List<String> attributeNames = new ArrayList<>();
+            for (JsonNode attributeNameNode : sortAttributeNames) {
+                attributeNames.add(attributeNameNode.textValue());
+            }
+            lookupDefinition.setDefaultSort(defaultSort);
         }
-        lookupDefinition.setDefaultSort(defaultSort);
 
         List<FieldDefinition> lookupFields = new ArrayList<>();
         for (JsonNode lookupFieldNode : (ArrayNode)lookupDefinitionNode.get("lookupFields")) {
@@ -123,64 +141,64 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         lookupDefinition.setResultFields(resultFields);
 
         if (lookupDefinitionNode.has("resultSetLimit")) {
-            lookupDefinition.setResultSetLimit(lookupDefinitionNode.get("resultSetLimit").getIntValue());
+            lookupDefinition.setResultSetLimit(lookupDefinitionNode.get("resultSetLimit").intValue());
         }
         if (lookupDefinitionNode.has("multipleValuesResultSetLimit")) {
-            lookupDefinition.setMultipleValuesResultSetLimit(lookupDefinitionNode.get("multipleValuesResultSetLimit").getIntValue());
+            lookupDefinition.setMultipleValuesResultSetLimit(lookupDefinitionNode.get("multipleValuesResultSetLimit").intValue());
         }
         if (lookupDefinitionNode.has("extraButtonSource")) {
-            lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").getTextValue());
+            lookupDefinition.setExtraButtonSource(lookupDefinitionNode.get("extraButtonSource").textValue());
         }
         if (lookupDefinitionNode.has("extraButtonParams")) {
-            lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").getTextValue());
+            lookupDefinition.setExtraButtonParams(lookupDefinitionNode.get("extraButtonParams").textValue());
         }
         if (lookupDefinitionNode.has("searchIconOverride")) {
-            lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").getTextValue());
+            lookupDefinition.setSearchIconOverride(lookupDefinitionNode.get("searchIconOverride").textValue());
         }
         if (lookupDefinitionNode.has("numOfColumns")) {
-            lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").getIntValue());
+            lookupDefinition.setNumOfColumns(lookupDefinitionNode.get("numOfColumns").intValue());
         }
         if (lookupDefinitionNode.has("helpUrl")) {
-            lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").getTextValue());
+            lookupDefinition.setHelpUrl(lookupDefinitionNode.get("helpUrl").textValue());
         }
         if (lookupDefinitionNode.has("translateCodes")) {
-            lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").getBooleanValue());
+            lookupDefinition.setTranslateCodes(lookupDefinitionNode.get("translateCodes").booleanValue());
         }
         if (lookupDefinitionNode.has("disableSearchButtons")) {
-            lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").getBooleanValue());
+            lookupDefinition.setDisableSearchButtons(lookupDefinitionNode.get("disableSearchButtons").booleanValue());
         }
         return lookupDefinition;
     }
     
     protected FieldDefinition deserializeFieldDefinition(JsonNode fieldDefinitionNode) {
         FieldDefinition fieldDef = new FieldDefinition();
-        fieldDef.setAttributeName(fieldDefinitionNode.get("attributeName").getTextValue());
-        fieldDef.setRequired(fieldDefinitionNode.get("required").getBooleanValue());
-        fieldDef.setForceInquiry(fieldDefinitionNode.get("forceInquiry").getBooleanValue());
-        fieldDef.setNoInquiry(fieldDefinitionNode.get("noInquiry").getBooleanValue());
-        fieldDef.setNoDirectInquiry(fieldDefinitionNode.get("noDirectInquiry").getBooleanValue());
-        fieldDef.setForceLookup(fieldDefinitionNode.get("forceLookup").getBooleanValue());
-        fieldDef.setNoLookup(fieldDefinitionNode.get("noLookup").getBooleanValue());
-        fieldDef.setUseShortLabel(fieldDefinitionNode.get("useShortLabel").getBooleanValue());
-        fieldDef.setDefaultValue(fieldDefinitionNode.get("defaultValue").getTextValue());
-        fieldDef.setQuickfinderParameterString(fieldDefinitionNode.get("quickfinderParameterString").getTextValue());
+        fieldDef.setAttributeName(fieldDefinitionNode.get("attributeName").textValue());
+        fieldDef.setRequired(fieldDefinitionNode.get("required").booleanValue());
+        fieldDef.setForceInquiry(fieldDefinitionNode.get("forceInquiry").booleanValue());
+        fieldDef.setNoInquiry(fieldDefinitionNode.get("noInquiry").booleanValue());
+        fieldDef.setNoDirectInquiry(fieldDefinitionNode.get("noDirectInquiry").booleanValue());
+        fieldDef.setForceLookup(fieldDefinitionNode.get("forceLookup").booleanValue());
+        fieldDef.setNoLookup(fieldDefinitionNode.get("noLookup").booleanValue());
+        fieldDef.setUseShortLabel(fieldDefinitionNode.get("useShortLabel").booleanValue());
+        fieldDef.setDefaultValue(fieldDefinitionNode.get("defaultValue").textValue());
+        fieldDef.setQuickfinderParameterString(fieldDefinitionNode.get("quickfinderParameterString").textValue());
 
         if (fieldDefinitionNode.has("maxLength")) {
-            fieldDef.setMaxLength(fieldDefinitionNode.get("maxLength").getIntValue());
+            fieldDef.setMaxLength(fieldDefinitionNode.get("maxLength").intValue());
         }
 
-        fieldDef.setDisplayEditMode(fieldDefinitionNode.get("displayEditMode").getTextValue());
+        fieldDef.setDisplayEditMode(fieldDefinitionNode.get("displayEditMode").textValue());
 
-        fieldDef.setHidden(fieldDefinitionNode.get("hidden").getBooleanValue());
-        fieldDef.setReadOnly(fieldDefinitionNode.get("readOnly").getBooleanValue());
+        fieldDef.setHidden(fieldDefinitionNode.get("hidden").booleanValue());
+        fieldDef.setReadOnly(fieldDefinitionNode.get("readOnly").booleanValue());
 
-        fieldDef.setTreatWildcardsAndOperatorsAsLiteral(fieldDefinitionNode.get("treatWildcardsAndOperatorsAsLiteral").getBooleanValue());
+        fieldDef.setTreatWildcardsAndOperatorsAsLiteral(fieldDefinitionNode.get("treatWildcardsAndOperatorsAsLiteral").booleanValue());
 
-        fieldDef.setAlternateDisplayAttributeName(fieldDefinitionNode.get("alternateDisplayAttributeName").getTextValue());
-        fieldDef.setAdditionalDisplayAttributeName(fieldDefinitionNode.get("additionalDisplayAttributeName").getTextValue());
+        fieldDef.setAlternateDisplayAttributeName(fieldDefinitionNode.get("alternateDisplayAttributeName").textValue());
+        fieldDef.setAdditionalDisplayAttributeName(fieldDefinitionNode.get("additionalDisplayAttributeName").textValue());
 
-        fieldDef.setTriggerOnChange(fieldDefinitionNode.get("triggerOnChange").getBooleanValue());
-        fieldDef.setTotal(fieldDefinitionNode.get("total").getBooleanValue());
+        fieldDef.setTriggerOnChange(fieldDefinitionNode.get("triggerOnChange").booleanValue());
+        fieldDef.setTotal(fieldDefinitionNode.get("total").booleanValue());
         return fieldDef;
     }
 }

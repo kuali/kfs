@@ -1,13 +1,13 @@
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
@@ -85,6 +85,22 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
             if (ObjectUtils.isNotNull(control.getLabelAttribute())) {
                 controlDefinitionNode.put("labelAttribute", control.getLabelAttribute());
             }
+            if (ObjectUtils.isNotNull(control.getIncludeBlankRow())) {
+                controlDefinitionNode.put("includeBlankRow", control.getIncludeBlankRow());
+            }
+            if (ObjectUtils.isNotNull(control.getIncludeKeyInLabel())) {
+                controlDefinitionNode.put("includeKeyInLabel", control.getIncludeKeyInLabel());
+            }
+            if (ObjectUtils.isNotNull(control.getSize())) {
+                controlDefinitionNode.put("size", control.getSize());
+            }
+            if (ObjectUtils.isNotNull(control.getRows())) {
+                controlDefinitionNode.put("rows", control.getRows());
+            }
+            if (ObjectUtils.isNotNull(control.getCols())) {
+                controlDefinitionNode.put("cols", control.getCols());
+            }
+            controlDefinitionNode.put("ranged", control.isRanged());
             attributeNode.put("control", controlDefinitionNode);
         }
         return attributeNode;

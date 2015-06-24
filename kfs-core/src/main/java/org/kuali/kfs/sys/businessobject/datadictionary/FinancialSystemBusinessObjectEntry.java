@@ -18,9 +18,9 @@
  */
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 

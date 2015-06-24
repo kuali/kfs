@@ -107,6 +107,7 @@
     <commons-transaction.version>1.2</commons-transaction.version>
     <fastinfoset.version>1.2.2</fastinfoset.version>
     <itext.version>1.4.8</itext.version>
+    <jackson.jaxrs.provider.version>2.5.3</jackson.jaxrs.provider.version>
     <jasperreports.version>2.0.4</jasperreports.version>
     <javamelody.core.version>1.49.0</javamelody.core.version>
     <javax.resource.connector.api.version>1.5</javax.resource.connector.api.version>
@@ -950,6 +951,12 @@
       <groupId>org.mongodb</groupId>
       <artifactId>mongodb-driver</artifactId>
       <version>3.0.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.jaxrs.provider.version}</version>
     </dependency>
 
   </dependencies>

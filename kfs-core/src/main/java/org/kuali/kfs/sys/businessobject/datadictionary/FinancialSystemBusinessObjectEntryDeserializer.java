@@ -8,19 +8,19 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.datadictionary.FieldDefinition;
-import org.kuali.rice.kns.datadictionary.LookupDefinition;
+import org.kuali.rice.kns.datadictionary.*;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionType;
+import org.kuali.rice.kns.inquiry.InquiryAuthorizer;
+import org.kuali.rice.kns.inquiry.InquiryPresentationController;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.SortDefinition;
+import org.kuali.rice.krad.inquiry.Inquirable;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserializer<FinancialSystemBusinessObjectEntry> {
     @Override
@@ -39,6 +39,11 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
             if (entryRoot.has("lookupDefinition")) {
                 LookupDefinition lookupDefinition = deserializeLookupDefinition(entryRoot.get("lookupDefinition"));
                 businessObjectEntry.setLookupDefinition(lookupDefinition);
+            }
+
+            if (entryRoot.has("inquiryDefinition")) {
+                InquiryDefinition inquiryDefinition = deserializeInquiryDefinition(entryRoot.get("inquiryDefinition"));
+                businessObjectEntry.setInquiryDefinition(inquiryDefinition);
             }
 
             return businessObjectEntry;
@@ -111,7 +116,7 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         }
         entry.setAttributes(attributeDefinitions);
     }
-    
+
     protected LookupDefinition deserializeLookupDefinition(JsonNode lookupDefinitionNode) {
         LookupDefinition lookupDefinition = new LookupDefinition();
         lookupDefinition.setTitle(lookupDefinitionNode.get("title").textValue());
@@ -171,7 +176,121 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
         }
         return lookupDefinition;
     }
-    
+
+    protected InquiryDefinition deserializeInquiryDefinition(JsonNode inquiryDefinitionNode) {
+        InquiryDefinition inquiryDefinition = new InquiryDefinition();
+
+        if (inquiryDefinitionNode.has("title")) {
+            inquiryDefinition.setTitle(inquiryDefinitionNode.get("title").textValue());
+        }
+
+        List<InquirySectionDefinition> inquirySectionDefinitions = new ArrayList<>();
+        for (JsonNode inquirySectionNode : inquiryDefinitionNode.get("inquirySections")) {
+            InquirySectionDefinition inquirySection = deserializeInquirySectionDefinition(inquirySectionNode);
+            inquirySectionDefinitions.add(inquirySection);
+        }
+        inquiryDefinition.setInquirySections(inquirySectionDefinitions);
+
+        try {
+            if (inquiryDefinitionNode.has("inquirableClass")) {
+                inquiryDefinition.setInquirableClass((Class<? extends Inquirable>) Class.forName(inquiryDefinitionNode.get("inquirableClass").textValue()));
+            }
+
+            if (inquiryDefinitionNode.has("presentationControllerClass")) {
+                inquiryDefinition.setPresentationControllerClass((Class<? extends InquiryPresentationController>) Class.forName(inquiryDefinitionNode.get("presentationControllerClass").textValue()));
+            }
+
+            if (inquiryDefinitionNode.has("authorizerClass")) {
+                inquiryDefinition.setAuthorizerClass((Class<? extends InquiryAuthorizer>) Class.forName(inquiryDefinitionNode.get("authorizerClass").textValue()));
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (inquiryDefinitionNode.has("translateCodes")) {
+            inquiryDefinition.setTranslateCodes(inquiryDefinitionNode.get("translateCodes").booleanValue());
+        }
+
+        return inquiryDefinition;
+    }
+
+    private InquirySectionDefinition deserializeInquirySectionDefinition(JsonNode inquirySectionNode) {
+        InquirySectionDefinition inquirySectionDefinition = new InquirySectionDefinition();
+
+        if (inquirySectionNode.has("title")) {
+            inquirySectionDefinition.setTitle(inquirySectionNode.get("title").textValue());
+        }
+
+        List<FieldDefinition> inquiryFields = new ArrayList<>();
+        for (JsonNode inquiryFieldNode : inquirySectionNode.get("inquiryFields")) {
+            FieldDefinition inquiryField = deserializeFieldDefinition(inquiryFieldNode);
+            inquiryFields.add(inquiryField);
+        }
+        inquirySectionDefinition.setInquiryFields(inquiryFields);
+
+        Map<String, InquiryCollectionDefinition> inquiryCollectionDefinitions = new HashMap<>();
+        if (inquirySectionNode.has("inquiryCollections")) {
+            for (JsonNode inquiryCollectionNode : inquirySectionNode.get("inquiryCollections")) {
+                InquiryCollectionDefinition inquiryCollectionDefinition = deserializeInquiryCollectionDefinition(inquiryCollectionNode.get(1));
+                inquiryCollectionDefinitions.put(inquiryCollectionNode.get(0).asText(), inquiryCollectionDefinition);
+            }
+            inquirySectionDefinition.setInquiryCollections(inquiryCollectionDefinitions);
+        }
+
+        if (inquirySectionNode.has("numberOfColumns")) {
+            inquirySectionDefinition.setNumberOfColumns(inquirySectionNode.get("numberOfColumns").intValue());
+        }
+
+        if (inquirySectionNode.has("defaultOpen")) {
+            inquirySectionDefinition.setDefaultOpen(inquirySectionNode.get("defaultOpen").booleanValue());
+        }
+
+        return inquirySectionDefinition;
+    }
+
+    protected InquiryCollectionDefinition deserializeInquiryCollectionDefinition(JsonNode inquiryCollectionDefinitionNode) {
+        InquiryCollectionDefinition inquiryCollectionDefinition = new InquiryCollectionDefinition();
+
+        try {
+            if (inquiryCollectionDefinitionNode.has("businessObjectClass")) {
+                inquiryCollectionDefinition.setBusinessObjectClass((Class<? extends BusinessObject>) Class.forName(inquiryCollectionDefinitionNode.get("businessObjectClass").textValue()));
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (inquiryCollectionDefinitionNode.has("numberOfColumns")) {
+            inquiryCollectionDefinition.setNumberOfColumns(inquiryCollectionDefinitionNode.get("numberOfColumns").intValue());
+        }
+
+        List<FieldDefinition> inquiryFields = new ArrayList<>();
+        for (JsonNode inquiryFieldNode : inquiryCollectionDefinitionNode.get("inquiryFields")) {
+            FieldDefinition inquiryField = deserializeFieldDefinition(inquiryFieldNode);
+            inquiryFields.add(inquiryField);
+        }
+        inquiryCollectionDefinition.setInquiryFields(inquiryFields);
+
+        List<InquiryCollectionDefinition> inquiryCollections = new ArrayList<>();
+        for (JsonNode inquiryCollectionNode : inquiryCollectionDefinitionNode.get("inquiryCollections")) {
+            InquiryCollectionDefinition inquiryCollection = deserializeInquiryCollectionDefinition(inquiryCollectionNode);
+            inquiryFields.add(inquiryCollection);
+        }
+        inquiryCollectionDefinition.setInquiryCollections(inquiryCollections);
+
+        List<FieldDefinition> summaryFields = new ArrayList<>();
+        for (JsonNode summaryFieldNode : inquiryCollectionDefinitionNode.get("summaryFields")) {
+            FieldDefinition summaryField = deserializeFieldDefinition(summaryFieldNode);
+            inquiryFields.add(summaryField);
+        }
+        inquiryCollectionDefinition.setSummaryFields(summaryFields);
+
+        if (inquiryCollectionDefinitionNode.has("summaryTitle")) {
+            inquiryCollectionDefinition.setSummaryTitle(inquiryCollectionDefinitionNode.get("summaryTitle").textValue());
+        }
+
+        return inquiryCollectionDefinition;
+    }
+
     protected FieldDefinition deserializeFieldDefinition(JsonNode fieldDefinitionNode) {
         FieldDefinition fieldDef = new FieldDefinition();
         fieldDef.setAttributeName(fieldDefinitionNode.get("attributeName").textValue());

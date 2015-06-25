@@ -8,14 +8,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.datadictionary.FieldDefinition;
-import org.kuali.rice.kns.datadictionary.LookupDefinition;
+import org.kuali.rice.kns.datadictionary.*;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinitionBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.ExternalizableAttributeDefinitionProxy;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer<FinancialSystemBusinessObjectEntry> {
     private final ObjectMapper mapper = new ObjectMapper();
@@ -39,6 +39,12 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
             final ObjectNode lookupDefinitionNode = serializeLookupDefinition(entry.getLookupDefinition());
             node.put("lookupDefinition", lookupDefinitionNode);
         }
+
+        if (!ObjectUtils.isNull(entry.getInquiryDefinition())) {
+            final ObjectNode inquiryDefinitionNode = serializeInquiryDefinition(entry.getInquiryDefinition());
+            node.put("inquiryDefinition", inquiryDefinitionNode);
+        }
+
         jsonGenerator.writeTree(node);
     }
 
@@ -162,6 +168,109 @@ public class FinancialSystemBusinessObjectEntrySerializer extends JsonSerializer
             lookupNode.put("disableSearchButtons", lookupDefinition.isDisableSearchButtons());
         }
         return lookupNode;
+    }
+
+    protected ObjectNode serializeInquiryDefinition(InquiryDefinition inquiryDefinition) {
+        ObjectNode lookupNode = mapper.createObjectNode();
+
+        if (StringUtils.isNotBlank(inquiryDefinition.getTitle())) {
+            lookupNode.put("title", inquiryDefinition.getTitle());
+        }
+
+        ArrayNode inquirySections = mapper.createArrayNode();
+        for (InquirySectionDefinition inquirySectionDefinition : inquiryDefinition.getInquirySections()) {
+            final ObjectNode inquirySectionDefinitionNode = serializeInquirySectionDefinition(inquirySectionDefinition);
+            inquirySections.add(inquirySectionDefinitionNode);
+        }
+        lookupNode.put("inquirySections", inquirySections);
+
+        if (ObjectUtils.isNotNull(inquiryDefinition.getInquirableClass())) {
+            lookupNode.put("inquirableClass", inquiryDefinition.getInquirableClass().getName());
+        }
+
+        if (ObjectUtils.isNotNull(inquiryDefinition.getPresentationControllerClass())) {
+            lookupNode.put("presentationControllerClass", inquiryDefinition.getPresentationControllerClass().getName());
+        }
+
+        if (ObjectUtils.isNotNull(inquiryDefinition.getAuthorizerClass())) {
+            lookupNode.put("authorizerClass", inquiryDefinition.getAuthorizerClass().getName());
+        }
+
+        lookupNode.put("translateCodes", inquiryDefinition.isTranslateCodes());
+
+        return lookupNode;
+    }
+
+    protected ObjectNode serializeInquirySectionDefinition(InquirySectionDefinition inquirySectionDefinition) {
+        ObjectNode inquirySectionDefinitionNode = mapper.createObjectNode();
+
+        if (StringUtils.isNotBlank(inquirySectionDefinition.getTitle())) {
+            inquirySectionDefinitionNode.put("title", inquirySectionDefinition.getTitle());
+        }
+
+        ArrayNode inquiryFields = mapper.createArrayNode();
+        for (FieldDefinition inquiryField : inquirySectionDefinition.getInquiryFields()) {
+            final ObjectNode inquiryFieldNode = serializeField(inquiryField);
+            inquiryFields.add(inquiryFieldNode);
+        }
+        inquirySectionDefinitionNode.put("inquiryFields", inquiryFields);
+
+        ObjectNode inquiryCollectionsNode = mapper.createObjectNode();
+        Map inquiryCollections = inquirySectionDefinition.getInquiryCollections();
+        if (ObjectUtils.isNotNull(inquiryCollections)) {
+            for (Object inquiryCollectionKey : inquiryCollections.keySet()) {
+                final ObjectNode inquiryCollectionNode = serializeInquiryCollection((InquiryCollectionDefinition) inquiryCollections.get(inquiryCollectionKey));
+                inquiryCollectionsNode.put(inquiryCollectionKey.toString(), inquiryCollectionNode);
+            }
+            inquirySectionDefinitionNode.put("inquiryCollections", inquiryCollectionsNode);
+        }
+
+        if (ObjectUtils.isNotNull(inquirySectionDefinition.getNumberOfColumns())) {
+            inquirySectionDefinitionNode.put("numberOfColumns", inquirySectionDefinition.getNumberOfColumns());
+        }
+
+        inquirySectionDefinitionNode.put("defaultOpen", inquirySectionDefinition.isDefaultOpen());
+
+        return inquirySectionDefinitionNode;
+    }
+
+    protected ObjectNode serializeInquiryCollection(InquiryCollectionDefinition inquiryCollectionDefinition) {
+        ObjectNode inquiryCollectionDefinitionNode = mapper.createObjectNode();
+
+        if (ObjectUtils.isNotNull(inquiryCollectionDefinition.getBusinessObjectClass())) {
+            inquiryCollectionDefinitionNode.put("businessObjectClass", inquiryCollectionDefinition.getBusinessObjectClass().getName());
+        }
+
+        if (ObjectUtils.isNotNull(inquiryCollectionDefinition.getNumberOfColumns())) {
+            inquiryCollectionDefinitionNode.put("numberOfColumns", inquiryCollectionDefinition.getNumberOfColumns());
+        }
+
+        ArrayNode inquiryFields = mapper.createArrayNode();
+        for (FieldDefinition inquiryField : inquiryCollectionDefinition.getInquiryFields()) {
+            final ObjectNode inquiryFieldNode = serializeField(inquiryField);
+            inquiryFields.add(inquiryFieldNode);
+        }
+        inquiryCollectionDefinitionNode.put("inquiryFields", inquiryFields);
+
+        ArrayNode inquiryCollections = mapper.createArrayNode();
+        for (InquiryCollectionDefinition inquiryCollection : inquiryCollectionDefinition.getInquiryCollections()) {
+            final ObjectNode inquiryCollectionNode = serializeInquiryCollection(inquiryCollection);
+            inquiryCollections.add(inquiryCollectionNode);
+        }
+        inquiryCollectionDefinitionNode.put("inquiryCollections", inquiryCollections);
+
+        ArrayNode summaryFields = mapper.createArrayNode();
+        for (FieldDefinition summaryField : inquiryCollectionDefinition.getSummaryFields()) {
+            final ObjectNode summaryFieldNode = serializeField(summaryField);
+            summaryFields.add(summaryFieldNode);
+        }
+        inquiryCollectionDefinitionNode.put("summaryFields", summaryFields);
+
+        if (ObjectUtils.isNotNull(inquiryCollectionDefinition.getSummaryTitle())) {
+            inquiryCollectionDefinitionNode.put("summaryTitle", inquiryCollectionDefinition.getSummaryTitle());
+        }
+
+        return inquiryCollectionDefinitionNode;
     }
 
     protected ObjectNode serializeField(FieldDefinition fieldDefinition) {

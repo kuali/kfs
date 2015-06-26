@@ -20,39 +20,26 @@ function setupPrincipalChart(data, idName) {
     return chart;
 }
 
-var uncompletedLimit = 5;
-var completedLimit = 5;
-var uncompletedActionRequests;
-var completedActionRequests;
-
-$.get("/kfs-snd/docStats/uncompletedActionRequestsByPrincipalName?limit="+uncompletedLimit, function (response) {
-    uncompletedActionRequests = setupPrincipalChart(response, "uncompleted-requests");
-});
-
-$.get("/kfs-snd/docStats/completedActionRequestsByPrincipalName?limit="+completedLimit, function (response) {
-    completedActionRequests = setupPrincipalChart(response, "completed-requests");
-});
-
-$(document).ready(function () {
-    $("#completed-limit-label").html(completedLimit)
-    $("#completed-limit").val(completedLimit)
-    $("#completed-limit").change(function (ele) {
-        completedLimit = $( this ).val()
-        $.get("/kfs-snd/docStats/completedActionRequestsByPrincipalName?limit="+completedLimit, function (response) {
+function setupChangeResponse(divName, chart, startLimit, sourceUrl) {
+    $("#"+divName+"-label").html(startLimit)
+    $("#"+divName).val(startLimit)
+    $("#"+divName).change(function (ele) {
+        var updatedLimit = $(this).val()
+        $.get(sourceUrl+"?limit=" + updatedLimit, function (response) {
             var cols = principalsToArray(response)
-            completedActionRequests.load({columns: cols})
-            $("#completed-limit-label").html(completedLimit)
-        });
-    });
+            chart.unload()
+            chart.load({columns: cols})
+            $("#"+divName+"-label").html(updatedLimit)
+        })
+    })
+}
 
-    $("#uncompleted-limit-label").html(uncompletedLimit)
-    $("#uncompleted-limit").val(uncompletedLimit)
-    $("#uncompleted-limit").change(function (ele) {
-        uncompletedLimit = $( this ).val()
-        $.get("/kfs-snd/docStats/uncompletedActionRequestsByPrincipalName?limit="+uncompletedLimit, function (response) {
-            var cols = principalsToArray(response)
-            uncompletedActionRequests.load({columns: cols})
-            $("#uncompleted-limit-label").html(uncompletedLimit)
-        });
-    });
+$.get("/kfs-snd/docStats/uncompletedActionRequestsByPrincipalName?limit=5", function (response) {
+    var uncompletedActionRequests = setupPrincipalChart(response, "uncompleted-requests")
+    setupChangeResponse("uncompleted-limit", uncompletedActionRequests, 5, "/kfs-snd/docStats/uncompletedActionRequestsByPrincipalName")
+})
+
+$.get("/kfs-snd/docStats/completedActionRequestsByPrincipalName?limit=5", function (response) {
+    var completedActionRequests = setupPrincipalChart(response, "completed-requests")
+    setupChangeResponse("completed-limit",completedActionRequests, 5,"/kfs-snd/docStats/completedActionRequestsByPrincipalName")
 })

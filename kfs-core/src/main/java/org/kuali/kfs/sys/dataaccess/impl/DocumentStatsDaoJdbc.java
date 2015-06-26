@@ -14,16 +14,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements DocumentStatsDao {
-    public static final String SQL_NUM_DOCS_INITIATED = "select count(*) as c, krew_doc_typ_t.doc_typ_nm from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by krew_doc_typ_t.doc_typ_nm order by c desc";
+    public static final String SQL_NUM_DOCS_INITIATED = "select count(*) as c, krew_doc_typ_t.doc_typ_nm from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by krew_doc_typ_t.doc_typ_nm order by c desc limit ?";
 
     @Override
-    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType() throws SQLException {
+    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) throws SQLException {
         final List<Map<String, Integer>> results = new ArrayList<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(StatsDAOOjbImpl.SQL_NUM_DOCS_INITIATED);
-                ps.setTimestamp(1, new Timestamp(calculateThirtyDaysAgo().getTime().getTime()));
+                PreparedStatement ps = con.prepareStatement(SQL_NUM_DOCS_INITIATED);
+                ps.setTimestamp(1, new Timestamp(calculateDaysAgo(days).getTime().getTime()));
+                ps.setInt(2, limit);
                 return ps;
             }
         }, new RowCallbackHandler() {
@@ -37,9 +38,9 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         return results;
     }
 
-    protected Calendar calculateThirtyDaysAgo() {
+    protected Calendar calculateDaysAgo(int days) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -29);
+        calendar.add(Calendar.DAY_OF_YEAR, days * -1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);

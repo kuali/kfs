@@ -4,9 +4,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.DocumentStatsService;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,9 @@ public class DocumentStatsResource {
 
     @GET
     @Path("initiatedDocumentsByDocumentType")
-    public List<Map<String, Integer>> getInitiatedDocsByDocumentType() {
-        return getDocumentStatsService().reportNumInitiatedDocsByDocType();
+    public List<Map<String, Integer>> getInitiatedDocsByDocumentType(@DefaultValue("10")@QueryParam("limit") Integer limit,
+                                                                     @DefaultValue("30") @QueryParam("days") Integer days) {
+        return getDocumentStatsService().reportNumInitiatedDocsByDocType(limit, days);
     }
 
     protected static DocumentStatsService getDocumentStatsService() {

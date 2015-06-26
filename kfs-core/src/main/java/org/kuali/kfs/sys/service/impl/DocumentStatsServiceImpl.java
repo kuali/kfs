@@ -22,12 +22,12 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
     }
 
     @Override
-    public List<Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit) {
+    public Map<String, Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit) {
         return getDocumentStatsDao().reportCompletedActionRequestsByPrincipal(limit);
     }
 
     @Override
-    public List<Map<String, Integer>> reportUncompletedActionRequstsByPrincipal(int limit) {
+    public Map<String, Map<String, Integer>> reportUncompletedActionRequstsByPrincipal(int limit) {
         return getDocumentStatsDao().reportUncompletedActionRequestsByPrincipal(limit);
     }
 

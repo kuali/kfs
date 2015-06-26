@@ -17,6 +17,8 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
     public static final String SQL_NUM_DOCS_INITIATED = "select count(*) as c, krew_doc_typ_t.doc_typ_nm from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by krew_doc_typ_t.doc_typ_nm order by c desc limit ?";
     private static final String SQL_UNCOMPLETED_ACTIONS_BY_PRINCIPAL = "select krim_prncpl_t.prncpl_nm, count(*) as c from krew_actn_rqst_t join krim_prncpl_t on krew_actn_rqst_t.prncpl_id = krim_prncpl_t.prncpl_id where krew_actn_rqst_t.stat_cd = 'A' group by krim_prncpl_t.prncpl_nm order by c desc limit ?\n";
     private static final String SQL_COMPLETED_ACTIONS_BY_PRINCIPAL = "select krim_prncpl_t.prncpl_nm, count(*) as c from krew_actn_rqst_t join krim_prncpl_t on krew_actn_rqst_t.prncpl_id = krim_prncpl_t.prncpl_id where krew_actn_rqst_t.stat_cd = 'D' group by krim_prncpl_t.prncpl_nm order by c desc limit ?\n";
+    private static final String SQL_UNCOMPLETED_ACTION_REQUEST_TYPES_FOR_PRINCPAL = "select krew_actn_rqst_t.actn_rqst_cd, count(*) as c from krew_actn_rqst_t join krim_prncpl_t on krew_actn_rqst_t.prncpl_id = krim_prncpl_t.prncpl_id where krew_actn_rqst_t.stat_cd = 'A' and krim_prncpl_t.prncpl_nm = ? group by krew_actn_rqst_t.actn_rqst_cd order by c desc\n";
+    private static final String SQL_COMPLETED_ACTION_REQUEST_TYPES_FOR_PRINCPAL = "select krew_actn_rqst_t.actn_rqst_cd, count(*) as c from krew_actn_rqst_t join krim_prncpl_t on krew_actn_rqst_t.prncpl_id = krim_prncpl_t.prncpl_id where krew_actn_rqst_t.stat_cd = 'D' and krim_prncpl_t.prncpl_nm = ? group by krew_actn_rqst_t.actn_rqst_cd order by c desc\n";
     private static final String SQL_UNCOMPLETED_ACTIONS_BY_REQUEST_TYPE = "select count(*) as c, actn_rqst_cd from krew_actn_rqst_t where stat_cd = 'A' group by actn_rqst_cd";
     private static final String SQL_COMPLETED_ACTIONS_BY_REQUEST_TYPE = "select count(*) as c, actn_rqst_cd from krew_actn_rqst_t where stat_cd = 'D' group by actn_rqst_cd";
 
@@ -52,9 +54,30 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         return calendar;
     }
 
+    protected void processPrincipalRow(ResultSet rs, Map<String, Map<String, Integer>> results, String sql) throws SQLException {
+        final String principalName = rs.getString("prncpl_nm");
+        final Map<String, Integer> result = new ConcurrentHashMap<>();
+        getJdbcTemplate().query(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, principalName);
+                return ps;
+            }
+        }, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+                final int count = rs.getInt(2);
+                final String actionRequestType = ActionRequestType.fromCode(rs.getString("actn_rqst_cd")).getLabel();
+                result.put(actionRequestType, count);
+            }
+        });
+        results.put(principalName, result);
+    }
+
     @Override
-    public List<Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit) {
-        final List<Map<String, Integer>> results = new ArrayList<>();
+    public Map<String, Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit) {
+        final Map<String, Map<String,Integer>> results = new ConcurrentHashMap<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
@@ -65,17 +88,15 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         }, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                Map<String, Integer> result = new ConcurrentHashMap<>();
-                result.put(rs.getString("prncpl_nm"), rs.getInt(2));
-                results.add(result);
+                processPrincipalRow(rs, results, SQL_COMPLETED_ACTION_REQUEST_TYPES_FOR_PRINCPAL);
             }
         });
         return results;
     }
 
     @Override
-    public List<Map<String, Integer>> reportUncompletedActionRequestsByPrincipal(int limit) {
-        final List<Map<String, Integer>> results = new ArrayList<>();
+    public Map<String, Map<String, Integer>> reportUncompletedActionRequestsByPrincipal(int limit) {
+        final Map<String, Map<String,Integer>> results = new ConcurrentHashMap<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
@@ -86,9 +107,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         }, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                Map<String, Integer> result = new ConcurrentHashMap<>();
-                result.put(rs.getString("prncpl_nm"), rs.getInt(2));
-                results.add(result);
+                processPrincipalRow(rs, results, SQL_UNCOMPLETED_ACTION_REQUEST_TYPES_FOR_PRINCPAL);
             }
         });
         return results;

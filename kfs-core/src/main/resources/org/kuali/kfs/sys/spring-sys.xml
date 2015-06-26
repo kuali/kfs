@@ -1258,6 +1258,13 @@
     	<property name="nonProductionNotificationMailingList" value="${nonproduction.notification.mailing.list}" />
     	<property name="realNotificationsEnabled" value="${real.notifications.enabled}" />
 	</bean>
+
+	<bean id="documentStatsDao" parent="documentStatsDao-parentBean"/>
+	<bean id="documentStatsDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.DocumentStatsDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+	<bean id="documentStatsService" parent="documentStatsService-parentBean"/>
+	<bean id="documentStatsService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.DocumentStatsServiceImpl">
+		<property name="documentStatsDao" ref="documentStatsDao"/>
+	</bean>
      
     <import resource="spring-sys-bus-exports.xml"/>
 </beans>

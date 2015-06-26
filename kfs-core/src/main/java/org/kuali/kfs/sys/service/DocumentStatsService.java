@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface DocumentStatsService {
     public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days);
+    List<Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit);
+    List<Map<String, Integer>> reportUncompletedActionRequstsByPrincipal(int limit);
 }

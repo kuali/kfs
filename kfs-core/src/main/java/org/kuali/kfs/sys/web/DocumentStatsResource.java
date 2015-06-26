@@ -26,6 +26,18 @@ public class DocumentStatsResource {
         return getDocumentStatsService().reportNumInitiatedDocsByDocType(limit, days);
     }
 
+    @GET
+    @Path("completedActionRequestsByPrincipalName")
+    public List<Map<String, Integer>> getCompletedActionRequestsByPrincipalName(@DefaultValue("20") @QueryParam("limit") Integer limit) {
+        return getDocumentStatsService().reportCompletedActionRequestsByPrincipal(limit);
+    }
+
+    @GET
+    @Path("uncompletedActionRequestsByPrincipalName")
+    public List<Map<String, Integer>> getUncompletedActionRequestsByPrincipalName(@DefaultValue("20") @QueryParam("limit") Integer limit) {
+        return getDocumentStatsService().reportUncompletedActionRequstsByPrincipal(limit);
+    }
+
     protected static DocumentStatsService getDocumentStatsService() {
         if (documentStatsService == null) {
             documentStatsService = SpringContext.getBean(DocumentStatsService.class);

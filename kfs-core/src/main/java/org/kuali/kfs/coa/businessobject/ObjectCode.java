@@ -20,6 +20,9 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.sys.KFSConstants;
@@ -62,16 +65,26 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     protected String nextYearFinancialObjectCode;
     protected String finObjMandatoryTrnfrelimCd;
     protected String financialFederalFundedCode;
-        
+
+    @JsonIgnore
     protected transient BudgetAggregationCode financialBudgetAggregation;
+    @JsonIgnore
     protected transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
+    @JsonIgnore
     protected transient FederalFundedCode financialFederalFunded;
+    @JsonIgnore
     protected transient SystemOptions universityFiscal;
+    @JsonIgnore
     protected transient ObjectLevel financialObjectLevel;
+    @JsonIgnore
     protected transient Chart chartOfAccounts;
+    @JsonIgnore
     protected transient Chart reportsToChartOfAccounts;
+    @JsonManagedReference
     protected transient ObjectCode reportsToFinancialObject;
+    @JsonIgnore
     protected transient ObjectType financialObjectType;
+    @JsonIgnore
     protected transient ObjectSubType financialObjectSubType;
     
     /**
@@ -625,5 +638,9 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
      */
     public boolean isReportingToSelf() {
         return StringUtils.equals(this.getChartOfAccountsCode(), this.getReportsToChartOfAccountsCode()) && StringUtils.equals(this.getFinancialObjectCode(), this.getReportsToFinancialObjectCode());
+    }
+
+    public String generateInquiryUrl() {
+        return "/inquiry/coa/objectCode?fiscalYear=" + getUniversityFiscalYear() + "&chartCode=" + getChartOfAccountsCode() + "&objectCode=" + getFinancialObjectCode();
     }
 }

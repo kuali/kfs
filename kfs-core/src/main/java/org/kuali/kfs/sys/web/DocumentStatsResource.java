@@ -26,6 +26,12 @@ public class DocumentStatsResource {
         return getDocumentStatsService().reportNumInitiatedDocsByDocType(limit, days);
     }
 
+    @GET
+    @Path("documentsStatus")
+    public Map<String, Integer> getDocumentCountsByStatus(@DefaultValue("30") @QueryParam("days") Integer days) {
+        return getDocumentStatsService().reportNumDocsByStatus(days);
+    }
+
     protected static DocumentStatsService getDocumentStatsService() {
         if (documentStatsService == null) {
             documentStatsService = SpringContext.getBean(DocumentStatsService.class);

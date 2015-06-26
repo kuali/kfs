@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface DocumentStatsDao {
     public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) throws SQLException;
+
+    public Map<String,Integer> reportNumDocsByStatus(int days) throws SQLException;
 }

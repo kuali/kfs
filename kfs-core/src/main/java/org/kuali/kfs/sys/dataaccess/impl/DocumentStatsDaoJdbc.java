@@ -30,7 +30,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
             @Override
             public void processRow(ResultSet rs) throws SQLException {
                 Map<String, Integer> result = new ConcurrentHashMap<>();
-                result.put(rs.getString("doc_typ_nm"), rs.getInt("c"));
+                result.put(rs.getString("doc_typ_nm"), rs.getInt(1));
                 results.add(result);
             }
         });

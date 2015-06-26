@@ -11,13 +11,14 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 
+@Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DocumentStatsResource {
     protected volatile static DocumentStatsService documentStatsService;
 
     @GET
-    @Path(("initiatedDocumentsByDocumentType"))
+    @Path("initiatedDocumentsByDocumentType")
     public List<Map<String, Integer>> getInitiatedDocsByDocumentType() {
         return getDocumentStatsService().reportNumInitiatedDocsByDocType();
     }

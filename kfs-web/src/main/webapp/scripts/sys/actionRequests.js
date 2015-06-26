@@ -1,9 +1,35 @@
-function principalsToArray(prncpls) {
-    var ary = prncpls.map(function(obj, i){
-        var principalName = Object.keys(obj)[0]
-        return [principalName, obj[principalName]]
+function principalsSortedByCount(principals) {
+    var principalTotals = Object.keys(principals).map(function(principalName) {
+        var countsForPrincipal =  principals[principalName]
+        var sum = Object.keys(countsForPrincipal).reduce(function (sum, actionRequestType) {
+            var count = countsForPrincipal[actionRequestType]
+            return sum + count
+        }, 0)
+        return {principalName : sum}
     })
-    return ary
+    principalTotals.sort(function (principalTotalA, principalTotalB) {
+        var countA = principalTotalA[Object.keys(principalTotalA)[0]]
+        var countB = principalTotalB[Object.keys(principalTotalB)[0]]
+        return countB - countA
+    })
+    var sortedPrincipals = principalTotals.map(function (ele) {
+        return Object.keys(ele)[0]
+    })
+    return sortedPrincipals
+}
+
+function principalsToArray(principals) {
+    var sortedPrincipals = principalsSortedByCount(principals)
+    var completes = ["COMPLETE"]
+    var approves = ["APPROVE"]
+    var acknowledgements = ["ACKNOWLEDGE"]
+    var fyis = ["FYI"]
+    sortedPrincipals.forEach(function (principalName) {
+        var principalCounts = principals[principalName]
+        var completeCount = principals["COMPLETE"]
+        // HERE JAMES
+    }
+    return [completes, approves, acknowledgements, fyis]
 }
 
 function setupPrincipalChart(data, idName) {

@@ -1,4 +1,9 @@
 h3 {
     text-align: center;
-    margin-top: 90px;
+}
+
+div.c3 {
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px dashed #ccc;
 }

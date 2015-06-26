@@ -38,6 +38,18 @@ public class DocumentStatsResource {
         return getDocumentStatsService().reportUncompletedActionRequstsByPrincipal(limit);
     }
 
+    @GET
+    @Path("completedActionRequestsByType")
+    public Map<String, Integer> getCompletedActionRequestsByType() {
+        return getDocumentStatsService().reportCompletedActionRequestsByType();
+    }
+
+    @GET
+    @Path("uncompletedActionRequestsByType")
+    public Map<String, Integer> getUncompletedActionRequestsByType() {
+        return getDocumentStatsService().reportUncompletedActionRequestsByType();
+    }
+
     protected static DocumentStatsService getDocumentStatsService() {
         if (documentStatsService == null) {
             documentStatsService = SpringContext.getBean(DocumentStatsService.class);

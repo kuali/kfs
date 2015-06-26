@@ -23,20 +23,22 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
 
     @Override
     public List<Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit) {
-        try {
-            return getDocumentStatsDao().reportCompletedActionRequestsByPrincipal(limit);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
+        return getDocumentStatsDao().reportCompletedActionRequestsByPrincipal(limit);
     }
 
     @Override
     public List<Map<String, Integer>> reportUncompletedActionRequstsByPrincipal(int limit) {
-        try {
-            return getDocumentStatsDao().reportUncompletedActionRequstsByPrincipal(limit);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
+        return getDocumentStatsDao().reportUncompletedActionRequestsByPrincipal(limit);
+    }
+
+    @Override
+    public Map<String, Integer> reportUncompletedActionRequestsByType() {
+        return getDocumentStatsDao().reportUncompletedActionRequestsByType();
+    }
+
+    @Override
+    public Map<String, Integer> reportCompletedActionRequestsByType() {
+        return getDocumentStatsDao().reportCompletedActionRequestsByType();
     }
 
     public DocumentStatsDao getDocumentStatsDao() {

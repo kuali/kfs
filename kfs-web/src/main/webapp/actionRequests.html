@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-    <h3>Completed Requests</h3>
+    <h3>Completed Requests by Principal</h3>
     <div id="completed-requests"></div>
     <form id="completed-request-options">
         <p>
@@ -17,7 +17,7 @@
             <input type="text" id="completed-limit" size="3"/>
         </p>
     </form>
-    <h3>Uncompleted Requests</h3>
+    <h3>Uncompleted Requests by Principal</h3>
     <div id="uncompleted-requests"></div>
     <form id="uncompleted-request-options">
         <p>
@@ -25,6 +25,11 @@
             <input type="text" id="uncompleted-limit" size="3"/>
         </p>
     </form>
+    <hr/>
+    <h3>Completed Requests by Request Type</h3>
+    <div id="completed-requests-by-type"></div>
+    <h3>Uncompleted Requests by Request Type</h3>
+    <div id="uncompleted-requests-by-type"></div>
     <script src="scripts/sys/actionRequests.js"></script>
 </body>
 </html>

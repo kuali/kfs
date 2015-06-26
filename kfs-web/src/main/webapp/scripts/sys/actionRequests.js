@@ -1,41 +1,25 @@
-$.get("/kfs-dev/docStats/initiatedDocumentsByDocumentType", function (response) {
-    var data = response;
-
-    var categories = data.map(function (obj, i) {
-        return Object.keys(obj)[0];
-    });
-
-    var columns = data.map(function (obj, i) {
-        return obj[Object.keys(obj)[0]];
-    });
-
-    var pieColumns = columns.map(function (e, i) {
-        return [categories[i], columns[i]];
-    });
-
-    columns.unshift('initiated docs');
+function setupPrincipalChart(data, idName) {
+    var cols = data.map(function(obj, i){
+        var principalName = Object.keys(obj)[0]
+        return [principalName, obj[principalName]]
+    })
 
     var chart = c3.generate({
-        bindto: '#chart',
         data: {
-            columns: [
-                columns
-            ]
+            type: 'bar',
+            columns: cols
         },
-        axis: {
-            x: {
-                type: 'category',
-                categories: categories
-            }
-        }
-    });
+        bindto: "#"+idName
+    })
 
-    var pie = c3.generate({
-        bindto: '#pie',
-        data: {
-            columns: pieColumns,
-            type : 'pie'
-        }
-    });
+    return chart;
+}
+
+$.get("/kfs-snd/docStats/uncompletedActionRequestsByPrincipalName", function (response) {
+    var uncompletedActionRequests = setupPrincipalChart(response, "uncompleted-requests");
+});
+
+$.get("/kfs-snd/docStats/completedActionRequestsByPrincipalName", function (response) {
+    var completedActionRequests = setupPrincipalChart(response, "completed-requests");
 });
 

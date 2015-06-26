@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document Statistics</title>
+    <title>Action Request Throughput</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="UTF-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
@@ -11,8 +11,20 @@
 <body>
     <h3>Completed Requests</h3>
     <div id="completed-requests"></div>
+    <form id="completed-request-options">
+        <p>
+            <label for="completed-limit">Top <span id="completed-limit-label"></span></label>
+            <input type="text" id="completed-limit" size="3"/>
+        </p>
+    </form>
     <h3>Uncompleted Requests</h3>
     <div id="uncompleted-requests"></div>
+    <form id="uncompleted-request-options">
+        <p>
+            <label for="uncompleted-limit">Top <span id="uncompleted-limit-label"></span></label>
+            <input type="text" id="uncompleted-limit" size="3"/>
+        </p>
+    </form>
     <script src="scripts/sys/actionRequests.js"></script>
 </body>
 </html>

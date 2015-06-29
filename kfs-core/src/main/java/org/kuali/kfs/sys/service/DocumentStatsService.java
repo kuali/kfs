@@ -9,4 +9,9 @@ public interface DocumentStatsService {
     Map<String, Map<String, Integer>> reportUncompletedActionRequstsByPrincipal(int limit);
     Map<String, Integer> reportUncompletedActionRequestsByType();
     Map<String, Integer> reportCompletedActionRequestsByType();
+
+    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days);
+
+
+    public Map<String,Integer> reportNumDocsByStatus(int days);
 }

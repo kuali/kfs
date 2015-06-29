@@ -50,6 +50,19 @@ public class DocumentStatsResource {
         return getDocumentStatsService().reportUncompletedActionRequestsByType();
     }
 
+    @GET
+    @Path("reportNumDocsByStatusByDocType")
+    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(@DefaultValue("5")@QueryParam("limit") Integer limit,
+                                                                     @DefaultValue("30") @QueryParam("days") Integer days) {
+        return getDocumentStatsService().reportNumDocsByStatusByDocType(limit, days);
+    }
+
+    @GET
+    @Path("documentsStatus")
+    public Map<String, Integer> getDocumentCountsByStatus(@DefaultValue("30") @QueryParam("days") Integer days) {
+        return getDocumentStatsService().reportNumDocsByStatus(days);
+    }
+
     protected static DocumentStatsService getDocumentStatsService() {
         if (documentStatsService == null) {
             documentStatsService = SpringContext.getBean(DocumentStatsService.class);

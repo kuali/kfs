@@ -4,13 +4,28 @@
     <meta charset="UTF-8">
     <title>Document Statistics</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" type="text/css">
+    <link href="css/docStats.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="UTF-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-    <div id="chart"></div>
-    <div id="pie"></div>
+    <div class="left">
+        <h3>Initiated Docs by Type</h3>
+        <div id="chart"></div>
+    </div>
+    <div class="right">
+        <h3>Document Status Count for Top 5 Documents</h3>
+        <div id="top5chart"></div>
+    </div>
+    <div class="left">
+        <h3>Top Active Items</h3>
+        <div id="pie"></div>
+    </div>
+    <div class="right">
+        <h3>Routing Status</h3>
+        <div id="docs-status-pie"></div>
+    </div>
     <script src="scripts/sys/docStats.js"></script>
 </body>
 </html>

@@ -26,6 +26,34 @@
         <h3>Routing Status</h3>
         <div id="docs-status-pie"></div>
     </div>
+    <div class="left">
+        <h3>Completed Requests by Principal</h3>
+        <form id="completed-request-options" onsubmit="false">
+            <p>
+                <label for="completed-limit">Top <span id="completed-limit-label"></span></label>
+                <input type="text" id="completed-limit" size="3"/>
+            </p>
+        </form>
+        <div id="completed-requests"></div>
+    </div>
+    <div class="right">
+        <h3>Uncompleted Requests by Principal</h3>
+        <form id="uncompleted-request-options" onsubmit="false">
+            <p>
+                <label for="uncompleted-limit">Top <span id="uncompleted-limit-label"></span></label>
+                <input type="text" id="uncompleted-limit" size="3"/>
+            </p>
+        </form>
+        <div id="uncompleted-requests"></div>
+    </div>
+    <div class="left">
+        <h3>Completed Requests by Request Type</h3>
+        <div id="completed-requests-by-type"></div>
+    </div>
+    <div class="right">
+        <h3>Uncompleted Requests by Request Type</h3>
+        <div id="uncompleted-requests-by-type"></div>
+    </div>
     <script src="scripts/sys/docStats.js"></script>
 </body>
 </html>

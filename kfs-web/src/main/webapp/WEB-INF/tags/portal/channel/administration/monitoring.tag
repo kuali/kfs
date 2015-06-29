@@ -32,7 +32,8 @@
    	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Document Operation" url="${ConfigProperties.kew.url}/DocumentOperation.do" /></li>
 		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.kew.url}/Stats.do" /></li>
-	</ul>	
+        <li><portal:portalLink displayTitle="true" title="Statistics Graphs" url="${ConfigProperties.application.url}/docStats.html" /></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
 

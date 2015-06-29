@@ -4,7 +4,6 @@ import org.kuali.kfs.sys.dataaccess.DocumentStatsDao;
 import org.kuali.kfs.sys.service.DocumentStatsService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +13,7 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
 
     @Override
     public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) {
-        try {
-            return getDocumentStatsDao().reportNumInitiatedDocsByDocType(limit, days);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
+        return getDocumentStatsDao().reportNumInitiatedDocsByDocType(limit, days);
     }
 
     @Override
@@ -43,20 +38,12 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
 
     @Override
     public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) {
-        try {
-            return getDocumentStatsDao().reportNumDocsByStatusByDocType(limit, days);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
+        return getDocumentStatsDao().reportNumDocsByStatusByDocType(limit, days);
     }
 
     @Override
     public Map<String, Integer> reportNumDocsByStatus(int days) {
-        try {
-            return getDocumentStatsDao().reportNumDocsByStatus(days);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
+        return getDocumentStatsDao().reportNumDocsByStatus(days);
     }
 
     public DocumentStatsDao getDocumentStatsDao() {

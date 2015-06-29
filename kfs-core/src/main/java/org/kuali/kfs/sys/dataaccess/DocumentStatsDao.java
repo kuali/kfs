@@ -1,11 +1,10 @@
 package org.kuali.kfs.sys.dataaccess;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public interface DocumentStatsDao {
-    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) throws SQLException;
+    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days);
 
     Map<String, Map<String, Integer>> reportCompletedActionRequestsByPrincipal(int limit);
 
@@ -15,8 +14,8 @@ public interface DocumentStatsDao {
 
     Map<String, Integer> reportCompletedActionRequestsByType();
 
-    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) throws SQLException;
+    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days);
 
 
-    public Map<String,Integer> reportNumDocsByStatus(int days) throws SQLException;
+    public Map<String,Integer> reportNumDocsByStatus(int days);
 }

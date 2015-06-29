@@ -5,20 +5,29 @@ function principalsSortedByCount(principals) {
             var count = countsForPrincipal[actionRequestType]
             return sum + count
         }, 0)
-        return {principalName : sum}
+        return {principalName : principalName, sum : sum}
     })
     principalTotals.sort(function (principalTotalA, principalTotalB) {
-        var countA = principalTotalA[Object.keys(principalTotalA)[0]]
-        var countB = principalTotalB[Object.keys(principalTotalB)[0]]
+        var countA = principalTotalA["sum"]
+        var countB = principalTotalB["sum"]
         return countB - countA
     })
     var sortedPrincipals = principalTotals.map(function (ele) {
-        return Object.keys(ele)[0]
+        return ele["principalName"]
     })
     return sortedPrincipals
 }
 
 function principalsToArray(principals) {
+    function pushResult(m, key, a) {
+        var count = m[key]
+        if (count) {
+            a.push(count)
+        } else {
+            a.push(0)
+        }
+    }
+
     var sortedPrincipals = principalsSortedByCount(principals)
     var completes = ["COMPLETE"]
     var approves = ["APPROVE"]
@@ -26,9 +35,11 @@ function principalsToArray(principals) {
     var fyis = ["FYI"]
     sortedPrincipals.forEach(function (principalName) {
         var principalCounts = principals[principalName]
-        var completeCount = principals["COMPLETE"]
-        // HERE JAMES
-    }
+        pushResult(principalCounts, "COMPLETE", completes)
+        pushResult(principalCounts, "APPROVE", approves)
+        pushResult(principalCounts, "ACKNOWLEDGE", acknowledgements)
+        pushResult(principalCounts, "FYI", fyis)
+    })
     return [completes, approves, acknowledgements, fyis]
 }
 
@@ -38,9 +49,12 @@ function setupPrincipalChart(data, idName) {
     var chart = c3.generate({
         data: {
             type: 'bar',
-            columns: cols
+            columns: cols,
+            groups: [
+                ["COMPLETE","APPROVE","ACKNOWLEDGE","FYI"]
+            ]
         },
-        bindto: "#"+idName
+        bindto: "#"+idName,
     })
 
     return chart;

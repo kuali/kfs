@@ -51,19 +51,19 @@ var ResultsBox = React.createClass({
             rows.push(<ResultsRow chart={result} />);
         }.bind(this));
         return (
-          <table>
-              <thead>
-                  <tr>
-                      <th>Chart Code</th>
-                      <th>Chart Description</th>
-                      <th>Chart Active Indicator</th>
-                      <th>Cash Object Code</th>
-                      <th>Accounts Payable Object Code</th>
-                      <th>Chart Manager Name</th>
-                  </tr>
-              </thead>
-              <tbody>{rows}</tbody>
-          </table>
+            <table>
+                <thead>
+                <tr>
+                    <th>Chart Code</th>
+                    <th>Chart Description</th>
+                    <th>Chart Active Indicator</th>
+                    <th>Cash Object Code</th>
+                    <th>Accounts Payable Object Code</th>
+                    <th>Chart Manager Name</th>
+                </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </table>
         );
     }
 });

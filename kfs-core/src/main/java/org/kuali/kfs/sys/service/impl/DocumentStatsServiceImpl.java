@@ -21,6 +21,15 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
         }
     }
 
+    @Override
+    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) {
+        try {
+            return getDocumentStatsDao().reportNumDocsByStatusByDocType(limit, days);
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+
     public DocumentStatsDao getDocumentStatsDao() {
         return documentStatsDao;
     }

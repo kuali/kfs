@@ -10,13 +10,15 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements DocumentStatsDao {
     public static final String SQL_NUM_DOCS_INITIATED = "select count(*) as c, krew_doc_typ_t.doc_typ_nm from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by krew_doc_typ_t.doc_typ_nm order by c desc limit ?";
-    public static final String SQL_DOCUMENTS_ROUTED = "select count(*) as count, krew_doc_hdr_t.doc_hdr_stat_cd from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_typ_t.doc_typ_nm = ? and krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by doc_hdr_stat_cd";
+    public static final String SQL_DOCUMENTS_ROUTED_FOR_DOC_TYPE = "select count(*) as count, krew_doc_hdr_t.doc_hdr_stat_cd from krew_doc_hdr_t, krew_doc_typ_t where krew_doc_typ_t.doc_typ_nm = ? and krew_doc_hdr_t.crte_dt > ? and krew_doc_hdr_t.doc_typ_id = krew_doc_typ_t.doc_typ_id group by doc_hdr_stat_cd";
+    public static final String SQL_DOCUMENTS_ROUTED = "select count(*) as count, krew_doc_hdr_t.doc_hdr_stat_cd from krew_doc_hdr_t where krew_doc_hdr_t.crte_dt > ? group by doc_hdr_stat_cd";
 
     @Override
     public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) throws SQLException {
@@ -93,7 +95,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(SQL_DOCUMENTS_ROUTED);
+                PreparedStatement ps = con.prepareStatement(SQL_DOCUMENTS_ROUTED_FOR_DOC_TYPE);
                 ps.setString(1, docType);
                 ps.setTimestamp(2, new Timestamp(calculateDaysAgo(days).getTime().getTime()));
                 return ps;
@@ -104,6 +106,25 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
                 Map<String, Integer> result = new ConcurrentHashMap<>();
                 result.put(rs.getString("doc_hdr_stat_cd"), rs.getInt(1));
                 results.add(result);
+            }
+        });
+        return results;
+    }
+
+    @Override
+    public Map<String, Integer> reportNumDocsByStatus(int days) throws SQLException {
+        final Map<String, Integer> results = new ConcurrentHashMap<>();
+        getJdbcTemplate().query(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(SQL_DOCUMENTS_ROUTED);
+                ps.setTimestamp(1, new Timestamp(calculateDaysAgo(days).getTime().getTime()));
+                return ps;
+            }
+        }, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+                results.put(rs.getString(2), rs.getInt(1));
             }
         });
         return results;

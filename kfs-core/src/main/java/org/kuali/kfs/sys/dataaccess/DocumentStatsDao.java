@@ -9,4 +9,6 @@ public interface DocumentStatsDao {
 
     public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) throws SQLException;
 
+
+    public Map<String,Integer> reportNumDocsByStatus(int days) throws SQLException;
 }

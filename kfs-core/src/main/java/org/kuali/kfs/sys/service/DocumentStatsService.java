@@ -8,4 +8,6 @@ public interface DocumentStatsService {
 
     public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days);
 
+
+    public Map<String,Integer> reportNumDocsByStatus(int days);
 }

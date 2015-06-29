@@ -30,6 +30,15 @@ public class DocumentStatsServiceImpl implements DocumentStatsService {
         }
     }
 
+    @Override
+    public Map<String, Integer> reportNumDocsByStatus(int days) {
+        try {
+            return getDocumentStatsDao().reportNumDocsByStatus(days);
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+
     public DocumentStatsDao getDocumentStatsDao() {
         return documentStatsDao;
     }

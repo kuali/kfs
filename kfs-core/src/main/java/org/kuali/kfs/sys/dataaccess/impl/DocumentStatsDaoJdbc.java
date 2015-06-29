@@ -5,6 +5,7 @@ import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJd
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.stats.dao.impl.StatsDAOOjbImpl;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
@@ -28,7 +29,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
     public static final String SQL_DOCUMENTS_ROUTED = "select count(*) as count, krew_doc_hdr_t.doc_hdr_stat_cd from krew_doc_hdr_t where krew_doc_hdr_t.crte_dt > ? group by doc_hdr_stat_cd";
 
     @Override
-    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) throws SQLException {
+    public List<Map<String, Integer>> reportNumInitiatedDocsByDocType(int limit, int days) {
         final List<Map<String, Integer>> results = new ArrayList<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
@@ -50,7 +51,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
     }
 
     @Override
-    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) throws SQLException {
+    public List<Map<String, Map<String, Integer>>> reportNumDocsByStatusByDocType(int limit, int days) {
         final List<Map<String, Map<String, Integer>>> results = new ArrayList<>();
 
         List<Map<String, Integer>> topDocs = reportNumInitiatedDocsByDocType(limit, days);
@@ -97,7 +98,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
         return results;
     }
 
-    protected List<Map<String, Integer>> reportNumInitiatedDocsForDocType(int days, String docType) throws SQLException {
+    protected List<Map<String, Integer>> reportNumInitiatedDocsForDocType(int days, String docType) {
         final List<Map<String, Integer>> results = new ArrayList<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override
@@ -119,7 +120,7 @@ public class DocumentStatsDaoJdbc extends PlatformAwareDaoBaseJdbc implements Do
     }
 
     @Override
-    public Map<String, Integer> reportNumDocsByStatus(int days) throws SQLException {
+    public Map<String, Integer> reportNumDocsByStatus(int days) {
         final Map<String, Integer> results = new ConcurrentHashMap<>();
         getJdbcTemplate().query(new PreparedStatementCreator() {
             @Override

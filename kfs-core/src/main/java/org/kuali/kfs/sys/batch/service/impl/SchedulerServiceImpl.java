@@ -18,18 +18,6 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
@@ -60,6 +48,19 @@ import org.quartz.Trigger;
 import org.quartz.UnableToInterruptJobException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Transactional
 public class SchedulerServiceImpl implements SchedulerService {
@@ -879,5 +880,16 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
 
         return cronConditionMet;
+    }
+
+    @Override
+    public Map<String, List<BatchJobStatus>> getGroupedJobs() {
+        Map<String, List<BatchJobStatus>> groupedJobs = new ConcurrentHashMap<>();
+
+        List<String> groups = getSchedulerGroups();
+        for (String group : groups) {
+            groupedJobs.put(group, getJobs(group));
+        }
+        return groupedJobs;
     }
 }

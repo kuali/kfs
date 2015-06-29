@@ -18,14 +18,15 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public interface SchedulerService {
     public static final String SCHEDULE_JOB_NAME = "scheduleJob";
@@ -196,4 +197,6 @@ public interface SchedulerService {
      * @return boolean true if next valid date for cron expression matches today, false otherwise
      */
     public boolean cronConditionMet(String cronExpressionString);
+
+    public Map<String, List<BatchJobStatus>> getGroupedJobs();
 }

@@ -18,15 +18,16 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.quartz.JobDetail;
+
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
 
@@ -36,6 +37,7 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
 
     private JobDetail jobDetail;
 
+    @JsonIgnore
     private static SchedulerService schedulerService;
 
     private SchedulerService getSchedulerService() {
@@ -76,6 +78,7 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         return jobDescriptor.getDependencies();
     }
 
+    @JsonIgnore
     public List<Step> getSteps() {
         if(jobDescriptor == null) return null;
         return jobDescriptor.getSteps();

@@ -18,21 +18,24 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.quartz.JobDetail;
+import org.springframework.beans.factory.BeanNameAware;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.quartz.JobDetail;
-import org.springframework.beans.factory.BeanNameAware;
 
 public class JobDescriptor implements BeanNameAware {
     private String name;
     private String namespaceCode;
     private String group;
     private Map<String, String> dependencies;
+    @JsonIgnore
     private List<Step> steps;
+    @JsonIgnore
     private SchedulerService schedulerService;
     private boolean durable = true;
 

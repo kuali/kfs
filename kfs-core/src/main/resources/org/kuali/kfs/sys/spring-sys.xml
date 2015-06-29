@@ -1260,7 +1260,7 @@
 	</bean>
 
 	<bean id="documentStatsDao" parent="documentStatsDao-parentBean"/>
-	<bean id="documentStatsDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.DocumentStatsDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+	<bean id="documentStatsDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.DocumentStatsDaoJdbc" parent="ricePlatformAwareDaoJdbc" abstract="true" />
 	<bean id="documentStatsService" parent="documentStatsService-parentBean"/>
 	<bean id="documentStatsService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.DocumentStatsServiceImpl">
 		<property name="documentStatsDao" ref="documentStatsDao"/>

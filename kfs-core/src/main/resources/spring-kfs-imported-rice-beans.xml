@@ -28,6 +28,7 @@
 	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
  	<bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
+	<bean id="riceDataSource" p:serviceName="kimDataSource" parent="grlBeanImporter" />
 	<!-- These are beans we need to export from Rice -->
 	
 	<!-- TODO: sort by rice module -->
@@ -152,6 +153,12 @@
 	<bean id="ricePlatformAwareDao" abstract="true"
 		class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
 		<property name="jcdAlias" value="kimDataSource" />
+		<property name="dbPlatform" ref="dbPlatform" />
+	</bean>
+
+	<bean id="ricePlatformAwareDaoJdbc" abstract="true"
+		  class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
+		<property name="dataSource" ref="riceDataSource" />
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>
 

@@ -49,6 +49,22 @@ function prettifyStepNames(stepNames) {
     )
 }
 
+function prettifyDependencies(dependencies) {
+    var rows = [];
+    for (var dependency in dependencies) {
+        if (dependencies.hasOwnProperty(dependency)) {
+            rows.push(dependency + " (" + dependencies[dependency] + ")");
+        }
+    }
+    return (
+        <ul>
+            {rows.map(function(row) {
+                return (<li>{row}</li>)
+            })}
+        </ul>
+    )
+}
+
 var JobList = React.createClass({
     render: function() {
         console.log("render JobList");
@@ -60,6 +76,7 @@ var JobList = React.createClass({
             row['formattedNextRunDate'] = formattedNextRunDate
             row['modifyUrl'] = <Link to="detail" params={{jobName: row.name, groupId: row.group}}>modify</Link>;
             row['steps'] = prettifyStepNames(row.stepNames)
+            row['dependencyList'] = prettifyDependencies(row.dependencies)
             return row
         })
         return (

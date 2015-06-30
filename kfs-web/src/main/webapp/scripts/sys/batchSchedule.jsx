@@ -121,21 +121,35 @@ var JobDetail = React.createClass({
 });
 
 var ScheduledGroupMembershipToggle = React.createClass({
-    handleUnscheduleClick: function() {
-        console.log("Unschedule!")
-    },
-    handleScheduleClick: function() {
-        console.log("Schedule!")
+    handleClick: function(name, event) {
+        console.log(name+"!")
+        var jobDetailEndpoint = getUrlPathPrefix('/batchSchedule.html') + "/batch/job/"+this.props.job.group+"/"+this.props.job.name;
+        $.ajax({
+            url: jobDetailEndpoint,
+            contentType: 'application/json',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify({command: name}),
+            success: function(job) {
+                this.setState({job: job});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(jobDetailEndpoint, status, err.toString());
+            }.bind(this)
+        })
     },
     render:function() {
-        if (this.props.job.scheduled) {
+        if (this.props.job && this.props.job.group === "unscheduled") {
             return (
-                <button onClick={this.handleUnscheduleClick} value="Unschedule" type="button">Unschedule</button>
+                <button onClick={this.handleClick.bind(this, "schedule")} value="schedule" type="button">
+                    Schedule</button>
+            )
+        } else if (this.props.job && this.props.job.scheduled) {
+            return (
+                <button onClick={this.handleClick.bind(this, "unschedule")} value="unschedule" type="button">Unschedule</button>
             )
         } else {
-            return (
-                <button onClick={this.handleScheduleClick} value="schedule" type="button">Schedule</button>
-            )
+            return (<span/>) // this should never happen!!! : - >
         }
     }
 });

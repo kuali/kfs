@@ -19,7 +19,7 @@ var JobTable = React.createClass({
                 this.setState({searchResults: searchResults});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(path, status, err.toString()+"; this should never happen!!!!");
             }.bind(this)
         });
     },
@@ -62,31 +62,18 @@ var JobList = React.createClass({
 
 var JobDetail = React.createClass({
     componentDidMount: function() {
-        //$.ajax({
-        //    url: this.props.url,
-        //    dataType: 'json',
-        //    type: 'GET',
-        //    success: function(job) {
-        //        this.setState({job: job});
-        //    }.bind(this),
-        //    error: function(xhr, status, err) {
-        //        console.error(this.props.url, status, err.toString());
-        //    }.bind(this)
-        //});
-        this.setState({job: {
-            "name": "pdpSendAchAdviceNotificationsJob",
-            "group": "unscheduled",
-            "status": null,
-            "running": false,
-            "fullName": "unscheduled.pdpSendAchAdviceNotificationsJob",
-            "namespaceCode": "KFS-PDP",
-            "scheduled": true,
-            "dependencies": {},
-            "dependencyList": "",
-            "stepList": "pdpSendAchAdviceNotificationsStep \n",
-            "numSteps": 1,
-            "nextRunDate": null
-        }})
+        var jobDetailEndpoint = getUrlPathPrefix('/batchSchedule.html') + "/batch/job/"+this.props.params.groupId+"/"+this.props.params.jobName;
+        $.ajax({
+            url: jobDetailEndpoint,
+            dataType: 'json',
+            type: 'GET',
+            success: function(job) {
+                this.setState({job: job});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(jobDetailEndpoint, status, err.toString());
+            }.bind(this)
+        })
     },
     getInitialState: function () {
         return {job: {}};

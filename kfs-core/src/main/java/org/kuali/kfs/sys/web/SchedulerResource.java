@@ -4,10 +4,7 @@ import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +21,13 @@ public class SchedulerResource {
     @Path("jobs")
     public Map<String, List<BatchJobStatus>> getGroupedJobs() {
         return getSchedulerService().getGroupedJobs();
+    }
+
+
+    @GET
+    @Path("job/{groupId}/{jobName}")
+    public BatchJobStatus getJobDetail(@PathParam("groupId") String groupId, @PathParam("jobName") String jobName) {
+        return getSchedulerService().getJob(groupId, jobName);
     }
 
     protected SchedulerService getSchedulerService() {

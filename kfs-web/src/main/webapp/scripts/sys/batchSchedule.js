@@ -1,6 +1,9 @@
-import React, { findDOMNode } from 'react';
+import React from 'react/addons';
 import Router from 'react-router';
+import Reactable from 'reactable';
 import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+import $ from 'jquery';
+import Moment from 'moment';
 
 var Table = Reactable.Table;
 
@@ -41,7 +44,7 @@ var JobList = React.createClass({
         var unscheduled = this.props.searchResults.unscheduled;
         var rows = scheduled.concat(unscheduled)
         rows = rows.map(function(row) {
-            var formattedNextRunDate = (row.nextRunDate ? moment(row.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
+            var formattedNextRunDate = (row.nextRunDate ? Moment(row.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
             row['formattedNextRunDate'] = formattedNextRunDate
             row['modifyUrl'] = "<a href='/kfs-dev/batch/jobs/'" + row.name +  "></a>";
             return row
@@ -104,7 +107,7 @@ var JobActionForm = React.createClass({
 
 var JobInfo = React.createClass({
     render: function() {
-        var formattedNextRunDate = (this.props.job.nextRunDate ? moment(this.props.job.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
+        var formattedNextRunDate = (this.props.job.nextRunDate ? Moment(this.props.job.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
         return (
             <ul>
                 <li>Namespace: {this.props.job.namespaceCode}</li>

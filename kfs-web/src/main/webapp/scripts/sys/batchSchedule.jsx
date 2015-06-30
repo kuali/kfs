@@ -141,13 +141,27 @@ var ScheduledGroupMembershipToggle = React.createClass({
 });
 
 var UnscheduledJobForm = React.createClass({
+    getInitialState: function () {
+        return {startStep: "", stopStep: "", startDateTime: "", resultsEMail: ""};
+    },
     handleClick: function() {
         console.log("Handle Click!")
+    },
+    handleTextChange: function(name, event) {
+        var stateUpdate = {}
+        stateUpdate[name] = event.target.value
+        this.setState(stateUpdate)
     },
     render:function() {
         if (this.props.job.group === 'unscheduled') {
             return (
-                <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
+                <div>
+                    <p><label htmlFor="startStep">Start Step</label> <input type="text" value={this.state.startStep} size="2" onChange={this.handleTextChange.bind(this,"startStep")}/></p>
+                    <p><label htmlFor="endStep">End Step</label> <input type="text" value={this.state.endStep} size="2" onChange={this.handleTextChange.bind(this,"endStep")}/></p>
+                    <p><label htmlFor="startDateTime">Start Date/Time</label> <input type="text" value={this.state.startDateTime} onChange={this.handleTextChange.bind(this,"startDateTime")}/></p>
+                    <p><label htmlFor="resultsEMail">Results E-Mail Address</label> <input type="text" value={this.state.resultsEMail} onChange={this.handleTextChange.bind(this,"resultsEMail")}/></p>
+                    <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
+                </div>
             )
         } else {
             return (

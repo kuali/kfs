@@ -1,16 +1,18 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import Reactable from 'reactable';
-import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+import { DefaultRoute, HashHistory, Link, Route, RouteHandler } from 'react-router';
 import $ from 'jquery';
 import Moment from 'moment';
+import URL from 'url-parse';
 
 var Table = Reactable.Table;
+var path = getUrlPathPrefix('/batchSchedule.html') + "/batch/jobs";
 
 var JobTable = React.createClass({
     handleSearchSubmit: function() {
         $.ajax({
-            url: "/kfs-dev/batch/jobs",
+            url: path,
             dataType: 'json',
             type: 'GET',
             success: function(searchResults) {
@@ -46,7 +48,7 @@ var JobList = React.createClass({
         rows = rows.map(function(row) {
             var formattedNextRunDate = (row.nextRunDate ? Moment(row.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
             row['formattedNextRunDate'] = formattedNextRunDate
-            row['modifyUrl'] = "<a href='/kfs-dev/batch/jobs/'" + row.name +  "></a>";
+            row['modifyUrl'] = <Link to="detail" params={{jobName: row.name, groupId: row.group}}>modify</Link>;
             return row
         })
         return (
@@ -109,23 +111,42 @@ var JobInfo = React.createClass({
     render: function() {
         var formattedNextRunDate = (this.props.job.nextRunDate ? Moment(this.props.job.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
         return (
-            <ul>
-                <li>Namespace: {this.props.job.namespaceCode}</li>
-                <li>Name: {this.props.job.name}</li>
-                <li>Group: {this.props.job.group}</li>
-                <li>Status: {this.props.job.status}</li>
-                <li>Next Run Date: {formattedNextRunDate}</li>
-                <li>Steps: {this.props.job.stepList}</li>
-                <li>Number of Steps: {this.props.job.numSteps}</li>
-                <li>Dependencies: {this.props.job.dependencyList}</li>
-            </ul>
+            <div>
+                <ul>
+                    <li>Namespace: {this.props.job.namespaceCode}</li>
+                    <li>Name: {this.props.job.name}</li>
+                    <li>Group: {this.props.job.group}</li>
+                    <li>Status: {this.props.job.status}</li>
+                    <li>Next Run Date: {formattedNextRunDate}</li>
+                    <li>Steps: {this.props.job.stepList}</li>
+                    <li>Number of Steps: {this.props.job.numSteps}</li>
+                    <li>Dependencies: {this.props.job.dependencyList}</li>
+                </ul>
+                <Link to="table">back</Link>
+            </div>
         )
     }
 })
 
+function getUrlPathPrefix(page) {
+    var path = URL(window.location.href).pathname;
+    var index = path.indexOf(page);
+    return path.substring(0, index);
+}
+
+var App = React.createClass({
+    render () {
+        return (
+            <div>
+                <RouteHandler/>
+            </div>
+        )
+    }
+});
 
 let routes = (
-    <Route name="table" path="/" handler={JobTable}>
+    <Route handler={App}>
+        <Route name="table" path="/" handler={JobTable}/>
         <Route name="detail" path="/job/:jobName/group/:groupId" handler={JobDetail}/>
     </Route>
 );
@@ -133,3 +154,4 @@ let routes = (
 Router.run(routes, function (Handler) {
     React.render(<Handler/>, document.getElementById('main'));
 });
+

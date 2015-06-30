@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --progress --colors",
-    "build": "webpack --progress --colors"
+    "build": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "reactable": "^0.10.2",
     "react-hot-loader": "^1.2.7",
     "react-router": "^0.13.3",
+    "url-parse": "^1.0.1",
     "webpack": "^1.10.0",
     "webpack-dev-server": "^1.10.1"
   }

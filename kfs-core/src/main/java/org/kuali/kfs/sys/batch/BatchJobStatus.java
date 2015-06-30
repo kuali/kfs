@@ -24,10 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.quartz.JobDetail;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
 
@@ -108,12 +105,21 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         return sb.toString();
     }
 
+    @JsonIgnore
     public String getStepList() {
         StringBuffer sb = new StringBuffer(200);
         for (Step step : getSteps()) {
             sb.append(step.getName() + " \n");
         }
         return sb.toString();
+    }
+
+    public List<String> getStepNames() {
+        List<String> stepNames = new ArrayList<>();
+        for (Step step: getSteps()) {
+            stepNames.add(step.getName());
+        };
+        return stepNames;
     }
 
     public int getNumSteps() {

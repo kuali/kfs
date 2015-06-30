@@ -39,6 +39,16 @@ var JobTable = React.createClass({
     }
 });
 
+function prettifyStepNames(stepNames) {
+    return (
+        <ul>
+            {stepNames.map(function(ele) {
+                return (<li>{ele}</li>)
+            })}
+        </ul>
+    )
+}
+
 var JobList = React.createClass({
     render: function() {
         console.log("render JobList");
@@ -49,11 +59,12 @@ var JobList = React.createClass({
             var formattedNextRunDate = (row.nextRunDate ? Moment(row.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
             row['formattedNextRunDate'] = formattedNextRunDate
             row['modifyUrl'] = <Link to="detail" params={{jobName: row.name, groupId: row.group}}>modify</Link>;
+            row['steps'] = prettifyStepNames(row.stepNames)
             return row
         })
         return (
             <Table data={rows}
-                   columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'stepList', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
+                   columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
                    sortable={true}
                    filterable={['namespaceCode','name','group']}/>
         );

@@ -5,6 +5,7 @@ import { DefaultRoute, HashHistory, Link, Route, RouteHandler } from 'react-rout
 import $ from 'jquery';
 import Moment from 'moment';
 import URL from 'url-parse';
+import DatePicker from 'react-datepicker';
 
 var Table = Reactable.Table;
 var path = getUrlPathPrefix('/batchSchedule.html') + "/batch/jobs";
@@ -45,8 +46,8 @@ function prettifyStepNames(stepNames) {
     }
     return (
         <ul>
-            {stepNames.map(function(ele) {
-                return (<li>{ele}</li>)
+            {stepNames.map(function(ele, idx) {
+                return (<li>{idx+1}: {ele}</li>)
             })}
         </ul>
     )
@@ -162,17 +163,35 @@ var UnscheduledJobForm = React.createClass({
         console.log("Handle Click!")
     },
     handleTextChange: function(name, event) {
+        console.log("on change: "+name)
         var stateUpdate = {}
         stateUpdate[name] = event.target.value
         this.setState(stateUpdate)
     },
     render:function() {
+        var startStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.map(function (ele, idx) {
+            return (<option value={idx+1}>{idx+1}: {ele}</option>)
+        }) : "";
+        var startStep = this.state.startStep
+        var endStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.filter(function (ele, idx) {
+            return !(startStep && idx <= startStep)
+        }).map(function (ele, idx) {
+                return (<option value={idx+1}>{idx+1}: {ele}</option>)
+        }) : "";
         if (this.props.job.group === 'unscheduled') {
             return (
                 <div>
-                    <p><label htmlFor="startStep">Start Step</label> <input type="text" value={this.state.startStep} size="2" onChange={this.handleTextChange.bind(this,"startStep")}/></p>
-                    <p><label htmlFor="endStep">End Step</label> <input type="text" value={this.state.endStep} size="2" onChange={this.handleTextChange.bind(this,"endStep")}/></p>
-                    <p><label htmlFor="startDateTime">Start Date/Time</label> <input type="text" value={this.state.startDateTime} onChange={this.handleTextChange.bind(this,"startDateTime")}/></p>
+                    <p><label htmlFor="startStep">Start Step</label>
+                        <select value={this.state.startStep} onChange={this.handleTextChange.bind(this,"startStep")}>
+                            <option value=""></option>
+                            {startStepOptions}
+                        </select></p>
+                    <p><label htmlFor="endStep">End Step</label>
+                        <select value={this.state.endStep} onChange={this.handleTextChange.bind(this,"endStep")}>
+                            <option value=""></option>
+                            {endStepOptions}
+                        </select></p>
+                    <p><label htmlFor="startDateTime">Start Date/Time</label> <DatePicker key="Start Date/Time" selected={this.state.startDateTime} onChange={this.handleTextChange.bind(this,"startDateTime")}/></p>
                     <p><label htmlFor="resultsEMail">Results E-Mail Address</label> <input type="text" value={this.state.resultsEMail} onChange={this.handleTextChange.bind(this,"resultsEMail")}/></p>
                     <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
                 </div>
@@ -213,7 +232,7 @@ function getUrlPathPrefix(page) {
 }
 
 var App = React.createClass({
-    render () {
+    render: function() {
         return (
             <div>
                 <RouteHandler/>

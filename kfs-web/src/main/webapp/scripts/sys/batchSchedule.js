@@ -1,13 +1,13 @@
-
-
-var url = "/kfs-dev/batch/jobs";
+import React, { findDOMNode } from 'react';
+import Router from 'react-router';
+import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 
 var Table = Reactable.Table;
 
 var JobTable = React.createClass({
     handleSearchSubmit: function() {
         $.ajax({
-            url: url,
+            url: "/kfs-dev/batch/jobs",
             dataType: 'json',
             type: 'GET',
             success: function(searchResults) {
@@ -120,12 +120,13 @@ var JobInfo = React.createClass({
     }
 })
 
-React.render(
-    <Router history={new HashHistory}>
-        <Route component={JobTable}>
-            <Route path="/" component={Index}/>
-            <Route path="/job/:jobName/group/:groupId" component={JobDetail}/>
-        </Route>
-    </Router>,
-    document.getElementById('main')
+
+let routes = (
+    <Route name="table" path="/" handler={JobTable}>
+        <Route name="detail" path="/job/:jobName/group/:groupId" handler={JobDetail}/>
+    </Route>
 );
+
+Router.run(routes, function (Handler) {
+    React.render(<Handler/>, document.getElementById('main'));
+});

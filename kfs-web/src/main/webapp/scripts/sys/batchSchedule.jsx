@@ -111,19 +111,51 @@ var JobDetail = React.createClass({
     },
     render: function() {
         return (
-            <JobActionForm/>,
-            <JobInfo job={this.state.job}/>
+            <div>
+                <ScheduledGroupMembershipToggle job={this.state.job}/>
+                <UnscheduledJobForm job={this.state.job}/>
+                <JobInfo job={this.state.job}/>
+            </div>
         )
     }
-})
+});
 
-var JobActionForm = React.createClass({
-    render: function() {
-        return (
-            <div></div>
-        )
+var ScheduledGroupMembershipToggle = React.createClass({
+    handleUnscheduleClick: function() {
+        console.log("Unschedule!")
+    },
+    handleScheduleClick: function() {
+        console.log("Schedule!")
+    },
+    render:function() {
+        if (this.props.job.scheduled) {
+            return (
+                <button onClick={this.handleUnscheduleClick} value="Unschedule" type="button">Unschedule</button>
+            )
+        } else {
+            return (
+                <button onClick={this.handleScheduleClick} value="schedule" type="button">Schedule</button>
+            )
+        }
     }
-})
+});
+
+var UnscheduledJobForm = React.createClass({
+    handleClick: function() {
+        console.log("Handle Click!")
+    },
+    render:function() {
+        if (this.props.job.group === 'unscheduled') {
+            return (
+                <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
+            )
+        } else {
+            return (
+                <span/>
+            )
+        }
+    }
+});
 
 var JobInfo = React.createClass({
     render: function() {

@@ -2,7 +2,7 @@ var webpack = require('webpack');
 module.exports = {
     entry: [
         //'webpack/hot/only-dev-server',
-        "./scripts/sys/batchSchedule.js"
+        "./scripts/sys/batchSchedule.jsx"
     ],
     output: {
         path: __dirname + '/build',
@@ -10,8 +10,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js?$/, loaders: ['babel'], exclude: /node_modules/ },
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+            { test: /\.jsx$/, loaders: ['jsx-loader?harmony','babel','babel-loader'], exclude: /node_modules/ },
             { test: /\.css$/, loader: "style!css" }
         ]
     },

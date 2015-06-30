@@ -82,7 +82,7 @@ var JobList = React.createClass({
         return (
             <Table data={rows}
                    columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
-                   sortable={true}
+                   sortable={['namespaceCode','name','group','formattedNextRunDate']}
                    filterable={['namespaceCode','name','group']}/>
         );
     }

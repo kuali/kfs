@@ -68,6 +68,7 @@
     	<li><portal:portalLink displayTitle="true" title="Batch File" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     	<c:if test="${ConfigProperties.use.quartz.scheduling == 'true'}">
 			<li><portal:portalLink displayTitle="true" title="Schedule" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
+			<li><portal:portalLink displayTitle="true" title="Schedule React" url="${ConfigProperties.application.url}/batchSchedule.html" /></li>
 		</c:if>
 		<li><portal:portalLink displayTitle="true" title="Special Batch File Upload" url="${ConfigProperties.application.url}/batchFileUpload" /></li>
 	</ul>

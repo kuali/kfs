@@ -40,6 +40,9 @@ var JobTable = React.createClass({
 });
 
 function prettifyStepNames(stepNames) {
+    if (!stepNames) {
+        return (<span></span>)
+    }
     return (
         <ul>
             {stepNames.map(function(ele) {
@@ -133,7 +136,7 @@ var JobInfo = React.createClass({
                     <li>Group: {this.props.job.group}</li>
                     <li>Status: {this.props.job.status}</li>
                     <li>Next Run Date: {formattedNextRunDate}</li>
-                    <li>Steps: {this.props.job.stepList}</li>
+                    <li>Steps: {prettifyStepNames(this.props.job.stepNames)}</li>
                     <li>Number of Steps: {this.props.job.numSteps}</li>
                     <li>Dependencies: {this.props.job.dependencyList}</li>
                 </ul>

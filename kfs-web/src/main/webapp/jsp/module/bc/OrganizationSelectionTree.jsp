@@ -28,15 +28,7 @@
 	htmlFormAction="budgetOrganizationSelectionTree" renderMultipart="true"
 	docTitle="Organization Selection"
     transactionalDocument="false" showTabButtons="true">
-    
-    <!--[if IE]> 
-      <style>
-        #workarea div.tab-container {
-          width:100%;
-        }
-      </style> 
-    <![endif]-->
-    	    
+
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <c:forEach items="${KualiForm.messages}" var="message">
 	   ${message}

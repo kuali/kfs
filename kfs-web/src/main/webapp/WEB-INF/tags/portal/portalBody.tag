@@ -22,7 +22,7 @@
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
 
-<portal:immutableBar />
+
 
 <%-- first try to check if they are focusing in --%>
 <c:choose>
@@ -32,6 +32,7 @@
 	  </div>
   </c:when>
   <c:otherwise>
+    <div class="container-fluid body-container">
 	<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
 	<c:if test="${empty channelTitle && empty channelUrl}">
 		<c:set var="motd" value="<%= (new org.kuali.kfs.sys.businessobject.defaultvalue.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
@@ -68,9 +69,12 @@
           </c:otherwise>
         </c:choose>
     </tr>
-</table>
+    </table>
+    </div>
   </c:otherwise>
 </c:choose>
 
- <div class="footerbevel">&nbsp;</div>
-  <div id="footer-copyright"> <bean:message key="app.copyright" arg0="${ConfigProperties.current.year}" /></div>
+<div class="footerbevel">&nbsp;</div>
+<div id="footer-copyright">
+    <bean:message key="app.copyright" arg0="${ConfigProperties.current.year}" />
+</div>

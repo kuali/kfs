@@ -48,10 +48,6 @@
 	              </c:when>
                   <c:otherwise>
     	              <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 90%;'>
-        	            <style type='text/css'>
-            	            #ctrl-info th { text-align: right; }
-                	        #ctrl-info th, #ctrl-info td { width: 50%; }
-    	                </style>
 		  				<h3>Control Information</h3>
     				    <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                     	    <tr>
@@ -109,10 +105,6 @@
 	        </c:when>
         	<c:otherwise>
           	  <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
-                <style type='text/css'>
-                	#ctrl-info th { text-align: right; }
-                	#ctrl-info th, #ctrl-info td { width: 50%; }
-            	</style>
   				<h3>Control Information</h3>
             	<table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0" class="datatable">
               		<tr>

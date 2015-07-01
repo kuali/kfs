@@ -97,7 +97,10 @@
           acknowledgments.jsp,
           favicon.ico,
           index.jsp,
-          portal.jsp
+          portal.jsp,
+          kr/images/,
+          kr/static/images/,
+          kew/images/
       </rice.web.excludes>
 
       <!-- dependency versions -->

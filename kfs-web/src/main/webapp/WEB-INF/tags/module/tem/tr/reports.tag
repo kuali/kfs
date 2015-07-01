@@ -17,24 +17,6 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<style type="text/css">
-div#reports li {
-	text-align: left;
-	list-style-type: none;
-	padding: 5 5 5 5;
-}
-
-div#reports li:hover {
-	background-color: #6B6B6B;
-	color: #ffffff;
-	text-decoration: underline
-}
-
-div#reports li a {
-	color: inherit;
-	text-decoration: none;
-}
-</style>
 <kul:tab tabTitle="Reports" defaultOpen="false">
 	<div id="reports" class="tab-container" align="center">
 		<h3>Links to Generated Reports</h3>

@@ -18,7 +18,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<html:html>
+<html>
 <head>
 <title>KFS</title>
 <script language="Javascript">
@@ -32,4 +32,4 @@ function reload() {
 <body onload="reload()">
 <center>Please wait...</center>
 </body>
-</html:html>
+</html>

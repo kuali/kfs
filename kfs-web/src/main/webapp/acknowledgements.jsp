@@ -16,11 +16,11 @@
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
 <title>Kuali Acknowledgements</title>
-<link href="css/portal.css" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap/bootstrap-skinned.css" rel="stylesheet" type="text/css" />
 </head>
 <body onload="placeFocus()">
  <div id="header" title="Kuali Financial System">
@@ -92,7 +92,7 @@ Copyright 2014 Kuali, Inc. All rights reserved. This software is licensed for us
 
 <p>Portions Copyright (c) 2002-2005, Jonas Bon?r, Alexandre Vasseur. All rights reserved.<p>
 
-<p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University). All Rights Reserved. This work is distributed under the W3C® Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+<p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University). All Rights Reserved. This work is distributed under the W3Cï¿½ Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
                             </div>
 </td>
 </tr>

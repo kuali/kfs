@@ -5,7 +5,7 @@ import { DefaultRoute, HashHistory, Link, Route, RouteHandler } from 'react-rout
 import $ from 'jquery';
 import Moment from 'moment';
 import URL from 'url-parse';
-import DatePicker from 'react-datepicker';
+import DateTimeField from 'react-bootstrap-datetimepicker';
 
 var Table = Reactable.Table;
 var path = getUrlPathPrefix('/batchSchedule.html') + "/batch/jobs";
@@ -176,7 +176,8 @@ var ScheduledGroupMembershipToggle = React.createClass({
 
 var UnscheduledJobForm = React.createClass({
     getInitialState: function () {
-        return {startStep: "", endStep: "", startDateTime: "", resultsEMail: ""};
+        var now = new Date()
+        return {startStep: "", endStep: "", startDate: Moment(now).format("x"), startTime: Moment(now).format("x"), resultsEMail: ""};
     },
     handleClick: function() {
         console.log("Handle Click!")
@@ -188,6 +189,11 @@ var UnscheduledJobForm = React.createClass({
         if (name === "startStep") {
             this.props.updateEndSteps(event.target.value);
         }
+        this.setState(stateUpdate)
+    },
+    handleDateChange: function(name, millis) {
+        var stateUpdate = {}
+        stateUpdate[name] = new Date(parseInt(millis))
         this.setState(stateUpdate)
     },
     render:function() {
@@ -204,8 +210,8 @@ var UnscheduledJobForm = React.createClass({
                         <UpdatableSelect key={startStepOptions.length} step={this.state.startStep} handleTextChange={this.handleTextChange.bind(this,"startStep")} options={startStepOptions}/></p>
                     <p><label htmlFor="endStep">End Step</label>
                         <UpdatableSelect key={endStepOptions.length} step={this.state.endStep} handleTextChange={this.handleTextChange.bind(this,"endStep")} options={endStepOptions}/></p>
-                    <p><label htmlFor="startDateTime">Start Date/Time</label><DatePicker key="Start Date/Time" selected={this.state.startDateTime} onChange={this.handleTextChange.bind(this,"startDateTime")}/></p>
-                    <p><label htmlFor="resultsEMail">Results E-Mail Address</label><input type="text" value={this.state.resultsEMail} onChange={this.handleTextChange.bind(this,"resultsEMail")}/></p>
+                    <p><label htmlFor="startDateTime">Start Date/Time</label><DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/><DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/></p>
+                    <p><label htmlFor="resultsEMail">Results E-Mail Address</label><input type="text" value={this.state.resultsEMail} size="50" onChange={this.handleTextChange.bind(this,"resultsEMail")}/></p>
                     <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
                 </div>
             )

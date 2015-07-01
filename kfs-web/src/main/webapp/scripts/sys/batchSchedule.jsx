@@ -121,12 +121,6 @@ var JobDetail = React.createClass({
         }).filter(function (ele, idx) {
             return !(startStep && ele.index+1 < startStep)
         }) : [];
-        //var endSteps = (this.state.job.stepNames) ? this.state.job.stepNames.filter(function (ele, idx) {
-        //    return !(startStep && idx < startStep)
-        //}).map(function (ele, idx) {
-        //    console.log("index: " + idx + ", stepName: " + ele);
-        //    return {index: idx, stepName: ele}
-        //}) : [];
         this.setState({endSteps: endSteps});
     },
     render: function() {
@@ -176,7 +170,7 @@ var ScheduledGroupMembershipToggle = React.createClass({
 var UnscheduledJobForm = React.createClass({
     getInitialState: function () {
         var now = new Date()
-        return {startStep: "", endStep: "", startDate: Moment(now).format("x"), startTime: Moment(now).format("x"), resultsEMail: ""};
+        return {startStep: "1", endStep: "1", startDate: Moment(now).format("x"), startTime: Moment(now).format("x"), resultsEMail: ""};
     },
     handleClick: function() {
         console.log("Handle Click!")
@@ -195,12 +189,16 @@ var UnscheduledJobForm = React.createClass({
             type: 'POST',
             data: JSON.stringify(data),
             success: function(job) {
-                this.setState({job: job});
+                console.log("numSteps: " + job.numSteps)
+                this.setState({job: job, endStep: job.numSteps});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(jobDetailEndpoint, status, err.toString());
             }.bind(this)
         })
+    },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({endStep: nextProps.job.numSteps})
     },
     handleTextChange: function(name, event) {
         console.log("on change: "+name)
@@ -217,12 +215,22 @@ var UnscheduledJobForm = React.createClass({
         this.setState(stateUpdate)
     },
     render:function() {
-        var startStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.map(function (ele, idx) {
-            return (<option value={idx+1}>{idx+1}: {ele}</option>)
-        }) : "";
-        var endStepOptions = (this.props.endSteps) ? this.props.endSteps.map(function (ele, idx) {
-            return (<option value={ele.index+1}>{ele.index+1}: {ele.stepName}</option>)
-        }) : "";
+        var startStepOptions = "";
+        if (this.props.job.stepNames && this.props.job.stepNames.length <= 1) {
+            startStepOptions = ["1: " + this.props.job.stepNames[0]];
+        } else {
+            startStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.map(function (ele, idx) {
+                return (<option value={idx+1}>{idx + 1}: {ele}</option>)
+            }) : "";
+        }
+        var endStepOptions = "";
+        if (this.props.endSteps && this.props.endSteps.length === 1) {
+            endStepOptions = [this.props.endSteps[0].index+1 + ": " + this.props.endSteps[0].stepName]
+        } else {
+            endStepOptions = (this.props.endSteps) ? this.props.endSteps.map(function (ele, idx) {
+                return (<option value={ele.index+1}>{ele.index+1}: {ele.stepName}</option>)
+            }) : "";
+        }
         if (this.props.job.group === 'unscheduled') {
             return (
                 <div>
@@ -262,12 +270,23 @@ var UnscheduledJobForm = React.createClass({
 
 var UpdatableSelect = React.createClass({
     render:function() {
-         return (
-            <select value={this.props.step} onChange={this.props.handleTextChange}>
-                <option value=""></option>
-                {this.props.options}
-            </select>
-         )
+        if (this.props.options.length <= 1) {
+            return (
+                <div>
+                    {this.props.options[0]}
+                </div>
+            )
+        } else if (!this.props.options || this.props.options.length === 0) {
+            return (
+                <div></div>
+            )
+        } else {
+            return (
+                <select value={this.props.step} onChange={this.props.handleTextChange}>
+                    {this.props.options}
+                </select>
+            )
+        }
     }
 });
 

@@ -235,9 +235,15 @@ var UnscheduledJobForm = React.createClass({
                         <UpdatableSelect key={endStepOptions.length} step={this.state.endStep} handleTextChange={this.handleTextChange.bind(this,"endStep")} options={endStepOptions}/>
                     </p>
                     <p>
-                        <label htmlFor="startDateTime">Start Date/Time</label>
-                        <DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/>
-                        <DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/>
+                        <div id="dateTime">
+                            <label htmlFor="startDateTime">Start Date/Time</label>
+                            <div className="left">
+                                <DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/>
+                            </div>
+                            <div className="right">
+                                <DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/>
+                            </div>
+                        </div>
                     </p>
                     <p>
                         <label htmlFor="resultsEMail">Results E-Mail Address</label>

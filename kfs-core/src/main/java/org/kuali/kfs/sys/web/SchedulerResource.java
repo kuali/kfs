@@ -1,13 +1,22 @@
 package org.kuali.kfs.sys.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.joda.time.DateTime;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +26,7 @@ import java.util.Map;
 public class SchedulerResource {
 
     protected static volatile SchedulerService schedulerService;
+    protected static volatile DateTimeService dateTimeService;
 
 
     @GET
@@ -33,25 +43,86 @@ public class SchedulerResource {
     }
 
     @POST
-    @Path("job/{groupId}/{jobName}")
-    public Response modifyJob(@PathParam("groupId") String groupId,
+    @Path("job/scheduler/{groupId}/{jobName}")
+    public Response scheduleJob(@PathParam("groupId") String groupId,
+                              @PathParam("jobName") String jobName) {
+
+        BatchJobStatus job = getSchedulerService().getJob(groupId, jobName);
+        if (job != null) {
+            job.schedule();
+            return Response.ok(job).build();
+        }
+        return Response.status(404).entity("Specified job does not exist").build();
+    }
+
+    @POST
+    @Path("job/unscheduler/{groupId}/{jobName}")
+    public Response unscheduleJob(@PathParam("groupId") String groupId,
+                              @PathParam("jobName") String jobName) {
+        BatchJobStatus job = getSchedulerService().getJob(groupId, jobName);
+        if (job != null) {
+            job.unschedule();
+            return Response.ok(job).build();
+        }
+        return Response.status(404).entity("Specified job does not exist").build();
+    }
+
+    @POST
+    @Path("job/runner/{groupId}/{jobName}")
+    public Response createJob(@PathParam("groupId") String groupId,
                               @PathParam("jobName") String jobName,
                               JsonNode body) {
-        if (body.has("command")) {
-            String command = body.get("command").asText();
-            BatchJobStatus job = getSchedulerService().getJob(groupId, jobName);
-            switch (command) {
-                case "schedule":
-                    job.schedule();
-                    return Response.ok(job).build();
-                case "unschedule" :
-                    job.unschedule();
-                    return Response.ok(job).build();
-                default: return Response.status(400).entity("Command not recognized").build();
+        BatchJobStatus job = getSchedulerService().getJob(groupId, jobName);
+        if (job != null) {
+            int startStep = 1;
+            if (body.has("startStep")) {
+                 startStep = body.get("startStep").asInt();
             }
 
+            int endStep = job.getNumSteps();
+            if (body.has("endStep")) {
+                endStep = body.get("startStep").asInt();
+            }
+
+            if (startStep > endStep) {
+                return Response.status(400).entity("Invalid input").build();
+            }
+
+            DateTime startDateTime = new DateTime();
+            if (body.has("startDate")) {
+                try {
+                    Date parsedDate = getDateTimeService().convertToDate(body.get("startDate").asText());
+                    DateTime parsedDateTime = new DateTime(parsedDate);
+                    startDateTime = startDateTime.withYear(parsedDateTime.getYear());
+                    startDateTime = startDateTime.withMonthOfYear(parsedDateTime.getMonthOfYear());
+                    startDateTime = startDateTime.withDayOfMonth(parsedDateTime.getDayOfMonth());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if (body.has("startTime")) {
+                try {
+                    Date parsedDate = getDateTimeService().convertToDateTime(body.get("startTime").asText());
+                    DateTime parsedDateTime = new DateTime(parsedDate);
+                    startDateTime = startDateTime.withHourOfDay(parsedDateTime.getHourOfDay());
+                    startDateTime = startDateTime.withMinuteOfHour(parsedDateTime.getMinuteOfHour());
+                    startDateTime = startDateTime.withSecondOfMinute(parsedDateTime.getSecondOfMinute());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            String emailAddress = null;
+            if (body.has("resultsEMail")) {
+                emailAddress = body.get("resultsEMail").asText();
+            }
+
+            job.runJob(startStep, endStep, startDateTime.toDate(), emailAddress);
+
+            return Response.ok(job).build();
         }
-        return Response.status(400).entity("Command not recognized").build();
+        return Response.status(404).entity("Specified job does not exist").build();
     }
 
     protected SchedulerService getSchedulerService() {
@@ -59,5 +130,12 @@ public class SchedulerResource {
             schedulerService = SpringContext.getBean(SchedulerService.class);
         }
         return schedulerService;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import Reactable from 'reactable';
-import { DefaultRoute, HashHistory, Link, Route, RouteHandler } from 'react-router';
+import { DefaultRoute, HashHistory, Link, Route, RouteHandler, Navigation } from 'react-router';
 import $ from 'jquery';
 import Moment from 'moment';
 import URL from 'url-parse';
@@ -85,24 +85,24 @@ var JobList = React.createClass({
         })
         return (
             <Table data={rows}
-                   columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
-                   sortable={['namespaceCode','name','group','formattedNextRunDate']}
-                   filterable={['namespaceCode','name','group']}/>
+                   columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'status', label: 'Status'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
+                   sortable={['namespaceCode','name','group','formattedNextRunDate','status']}
+                   filterable={['namespaceCode','name','group','status']}/>
         );
     }
 });
 
 var JobDetail = React.createClass({
-    componentDidMount: function() {
-        var jobDetailEndpoint = getUrlPathPrefix('/batchSchedule.html') + "/batch/job/"+this.props.params.groupId+"/"+this.props.params.jobName;
+    updateJob: function(groupId, jobName) {
+        var jobDetailEndpoint = getUrlPathPrefix('/batchSchedule.html') + "/batch/job/"+groupId+"/"+jobName;
         $.ajax({
             url: jobDetailEndpoint,
             dataType: 'json',
             type: 'GET',
             success: function(job) {
-                var endSteps = job.stepNames.map(function (ele, idx) {
+                var endSteps = (job) ? job.stepNames.map(function (ele, idx) {
                     return {index: idx, stepName: ele}
-                });
+                }) : [];
 
                 this.setState({job: job, endSteps: endSteps});
             }.bind(this),
@@ -110,6 +110,13 @@ var JobDetail = React.createClass({
                 console.error(jobDetailEndpoint, status, err.toString());
             }.bind(this)
         })
+    },
+    componentDidMount: function() {
+        this.updateJob(this.props.params.groupId, this.props.params.jobName)
+    },
+    componentWillReceiveProps: function(nextParams) {
+        console.log("i'm going to update")
+        this.updateJob(nextParams.params.groupId, nextParams.params.jobName)
     },
     getInitialState: function () {
         return {job: {}, endSteps: []};
@@ -135,6 +142,7 @@ var JobDetail = React.createClass({
 });
 
 var ScheduledGroupMembershipToggle = React.createClass({
+    mixins: [Navigation],
     handleClick: function(name, event) {
         console.log(name+"!")
         var jobDetailEndpoint = getUrlPathPrefix('/batchSchedule.html') + "/batch/job/"+name+"r/"+this.props.job.group+"/"+this.props.job.name;
@@ -145,7 +153,12 @@ var ScheduledGroupMembershipToggle = React.createClass({
             type: 'POST',
             data: JSON.stringify({command: name}),
             success: function(job) {
-                this.setState({job: job});
+                if (job.group === 'unscheduled') {
+                    this.setState({job: job})
+                    this.transitionTo("/job/"+job.name+"/group/unscheduled")
+                } else {
+                    this.transitionTo("/")
+                }
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(jobDetailEndpoint, status, err.toString());
@@ -198,7 +211,9 @@ var UnscheduledJobForm = React.createClass({
         })
     },
     componentWillReceiveProps: function(nextProps) {
-        this.setState({endStep: nextProps.job.numSteps})
+        if (nextProps.job) {
+            this.setState({endStep: nextProps.job.numSteps})
+        }
     },
     handleTextChange: function(name, event) {
         console.log("on change: "+name)
@@ -216,12 +231,14 @@ var UnscheduledJobForm = React.createClass({
     },
     render:function() {
         var startStepOptions = "";
-        if (this.props.job.stepNames && this.props.job.stepNames.length <= 1) {
-            startStepOptions = ["1: " + this.props.job.stepNames[0]];
-        } else {
-            startStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.map(function (ele, idx) {
-                return (<option value={idx+1}>{idx + 1}: {ele}</option>)
-            }) : "";
+        if (this.props.job && this.props.stepNames) {
+            if (this.props.job.stepNames && this.props.job.stepNames.length === 1) {
+                startStepOptions = ["1: " + this.props.job.stepNames[0]];
+            } else {
+                startStepOptions = (this.props.job.stepNames) ? this.props.job.stepNames.map(function (ele, idx) {
+                    return (<option value={idx+1}>{idx + 1}: {ele}</option>)
+                }) : "";
+            }
         }
         var endStepOptions = "";
         if (this.props.endSteps && this.props.endSteps.length === 1) {
@@ -231,7 +248,7 @@ var UnscheduledJobForm = React.createClass({
                 return (<option value={ele.index+1}>{ele.index+1}: {ele.stepName}</option>)
             }) : "";
         }
-        if (this.props.job.group === 'unscheduled') {
+        if (this.props.job && this.props.job.group === 'unscheduled') {
             return (
                 <div>
                     <p>
@@ -293,13 +310,14 @@ var UpdatableSelect = React.createClass({
 var JobInfo = React.createClass({
     render: function() {
         var formattedNextRunDate = (this.props.job.nextRunDate ? Moment(this.props.job.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
+        var statusClassName = (this.props.job.status) ? this.props.job.status : "batch-status-normal"
         return (
             <div>
                 <ul>
                     <li>Namespace: {this.props.job.namespaceCode}</li>
                     <li>Name: {this.props.job.name}</li>
                     <li>Group: {this.props.job.group}</li>
-                    <li>Status: {this.props.job.status}</li>
+                    <li className={statusClassName}>Status: {this.props.job.status}</li>
                     <li>Next Run Date: {formattedNextRunDate}</li>
                     <li>Steps: {prettifyStepNames(this.props.job.stepNames)}</li>
                     <li>Number of Steps: {this.props.job.numSteps}</li>

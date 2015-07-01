@@ -7,12 +7,7 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
@@ -62,7 +57,8 @@ public class SchedulerResource {
         BatchJobStatus job = getSchedulerService().getJob(groupId, jobName);
         if (job != null) {
             job.unschedule();
-            return Response.ok(job).build();
+            BatchJobStatus unscheduledJob = getSchedulerService().getJob("unscheduled", jobName);
+            return Response.ok(unscheduledJob).build();
         }
         return Response.status(404).entity("Specified job does not exist").build();
     }

@@ -1,22 +1,19 @@
+#main {
+    background-color: #fff;
+}
+
 #main th {
     cursor: pointer;
 }
 
 #main th.reactable-header-sortable {
     text-decoration: underline;
-    padding-left: 10px;
-    padding-bottom: 5px;
 }
 
 #main th.reactable-header-sortable:after {
     content: '\00a0\00a0';
     text-decoration: none;
     font-size: 10px;
-    padding-left: 10px;
-    padding-bottom: 5px;
-}
-
-#main td {
     padding-left: 10px;
     padding-bottom: 5px;
 }
@@ -33,6 +30,28 @@
     font-size: 10px;
     padding-left: 10px;
     padding-bottom: 5px;
+}
+
+#main td {
+    padding: 4px;
+    height: 50px;
+}
+
+#main #row th {
+    padding: 0;
+}
+
+#main .reactable-filterer {
+    text-align: center;
+}
+
+#main .reactable-filterer .reactable-filter-input {
+    width: 250px;
+    font-size: 16px;
+}
+
+#main td li {
+    list-style: none;
 }
 
 #dateTime {

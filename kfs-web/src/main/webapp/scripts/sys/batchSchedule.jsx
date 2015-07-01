@@ -84,7 +84,8 @@ var JobList = React.createClass({
             return row
         })
         return (
-            <Table data={rows}
+            <Table id="row" className="datatable-100"
+                   data={rows}
                    columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'status', label: 'Status'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
                    sortable={['namespaceCode','name','group','formattedNextRunDate','status']}
                    filterable={['namespaceCode','name','group','status']}/>
@@ -168,11 +169,11 @@ var ScheduledGroupMembershipToggle = React.createClass({
     render:function() {
         if (this.props.job && this.props.job.group === "unscheduled") {
             return (
-                <button onClick={this.handleClick.bind(this, "schedule")} value="schedule" type="button">Schedule</button>
+                <button onClick={this.handleClick.bind(this, "schedule")} value="schedule" type="button" className="btn btn-sm btn-default">Schedule</button>
             )
         } else if (this.props.job && this.props.job.scheduled) {
             return (
-                <button onClick={this.handleClick.bind(this, "unschedule")} value="unschedule" type="button">Unschedule</button>
+                <button onClick={this.handleClick.bind(this, "unschedule")} value="unschedule" type="button" className="btn btn-sm btn-default">Unschedule</button>
             )
         } else {
             return (<span/>) // this should never happen!!! : - >
@@ -274,7 +275,7 @@ var UnscheduledJobForm = React.createClass({
                         <label htmlFor="resultsEMail">Results E-Mail Address</label>
                         <input type="text" value={this.state.resultsEMail} size="50" onChange={this.handleTextChange.bind(this,"resultsEMail")}/>
                     </p>
-                    <button onClick={this.handleClick} value="schedule" type="button">New Schedule</button>
+                    <button onClick={this.handleClick} value="schedule" type="button" className="btn btn-sm btn-default">New Schedule</button>
                 </div>
             )
         } else {

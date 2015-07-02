@@ -59,6 +59,7 @@ html > body {
     padding: 30px;
 }
 
+table#job-detail td:first-child,
 table#schedule-job td:first-child {
     text-align: right;
 }
@@ -103,14 +104,6 @@ tr#dateTime>td>div {
     list-style-type: none;
 }
 
-#main #row {
-    background-color: #fff;
-}
-
-#main #row th {
-    padding: 0;
-}
-
 #main .reactable-filterer {
     text-align: center;
     height: 75px;
@@ -148,6 +141,10 @@ tr#dateTime>td>div {
     clear:both;
 }
 
+div.detail-body {
+    padding-top: 35px;
+}
+
 .right-left {
     text-align: left;
     float: right;
@@ -165,6 +162,7 @@ tr#dateTime>td>div {
 table.datatable th {
     border-bottom: 2px solid #ddd;
     color: #777;
+    font-weight: normal;
 }
 
 table.datatable td {
@@ -173,6 +171,10 @@ table.datatable td {
 
 table.datatable tr:first-child > td {
     border: none;
+}
+
+.center {
+    text-align: center;
 }
 
 /*
@@ -207,4 +209,8 @@ table.datatable tr:first-child > td {
 
 .glyphicon-chevron-down {
     background-position: -313px -119px;
+}
+
+.glyphicon-chevron-left {
+    background-position: -432px -72px;
 }

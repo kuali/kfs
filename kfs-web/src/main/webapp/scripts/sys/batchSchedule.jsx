@@ -139,12 +139,18 @@ var JobDetail = React.createClass({
     render: function() {
         return (
             <div>
-                <div className="left">
-                    <ScheduledGroupMembershipToggle job={this.state.job}/>
-                    <JobInfo job={this.state.job}/>
+                <div className="headerarea-small" id="headerarea-small">
+                    <h1>Job Detail</h1>
                 </div>
-                <div className="right-left">
-                    <UnscheduledJobForm job={this.state.job} endSteps={this.state.endSteps} updateEndSteps={this.updateEndSteps}/>
+                <span className="glyphicon-chevron-left"></span><Link to="table">Back to Job List</Link>
+                <div className="detail-body">
+                    <div className="left">
+                        <div className="center"><ScheduledGroupMembershipToggle job={this.state.job}/></div>
+                        <JobInfo job={this.state.job}/>
+                    </div>
+                    <div className="right-left">
+                        <UnscheduledJobForm job={this.state.job} endSteps={this.state.endSteps} updateEndSteps={this.updateEndSteps}/>
+                    </div>
                 </div>
             </div>
         )
@@ -320,19 +326,40 @@ var JobInfo = React.createClass({
         var formattedNextRunDate = (this.props.job.nextRunDate ? Moment(this.props.job.nextRunDate).format('M/DD/YYYY, h:mm:ss a') : '');
         var statusClassName = (this.props.job.status) ? this.props.job.status : "batch-status-normal"
         return (
-            <div>
-                <ul>
-                    <li>Namespace: {this.props.job.namespaceCode}</li>
-                    <li>Name: {this.props.job.name}</li>
-                    <li>Group: {this.props.job.group}</li>
-                    <li className={statusClassName}>Status: {this.props.job.status}</li>
-                    <li>Next Run Date: {formattedNextRunDate}</li>
-                    <li>Steps: {prettifyStepNames(this.props.job.stepNames)}</li>
-                    <li>Number of Steps: {this.props.job.numSteps}</li>
-                    <li>Dependencies: {this.props.job.dependencyList}</li>
-                </ul>
-                <Link to="table">back</Link>
-            </div>
+            <table id="job-detail">
+                <tr>
+                    <td>Namespace:</td>
+                    <td>{this.props.job.namespaceCode}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{this.props.job.name}</td>
+                </tr>
+                <tr>
+                    <td>Group:</td>
+                    <td>{this.props.job.group}</td>
+                </tr>
+                <tr>
+                    <td className={statusClassName}>Status:</td>
+                    <td>{this.props.job.status}</td>
+                </tr>
+                <tr>
+                    <td>Next Run Date:</td>
+                    <td>{formattedNextRunDate}</td>
+                </tr>
+                <tr>
+                    <td>Steps:</td>
+                    <td>{prettifyStepNames(this.props.job.stepNames)}</td>
+                </tr>
+                <tr>
+                    <td>Number of Steps:</td>
+                    <td>{this.props.job.numSteps}</td>
+                </tr>
+                <tr>
+                    <td>Dependencies:</td>
+                    <td>{this.props.job.dependencyList}</td>
+                </tr>
+            </table>
         )
     }
 })

@@ -136,6 +136,10 @@ var JobDetail = React.createClass({
         }) : [];
         this.setState({endSteps: endSteps});
     },
+    updateJobState: function(newJob) {
+        console.log("update job");
+        this.setState({job: newJob});
+    },
     render: function() {
         return (
             <div>
@@ -145,7 +149,7 @@ var JobDetail = React.createClass({
                 <span className="glyphicon-chevron-left"></span><Link to="table">Back to Job List</Link>
                 <div className="detail-body">
                     <div className="left">
-                        <div className="center"><ScheduledGroupMembershipToggle job={this.state.job}/></div>
+                        <div className="center"><ScheduledGroupMembershipToggle job={this.state.job} updateJobState={this.updateJobState}/></div>
                         <JobInfo job={this.state.job}/>
                     </div>
                     <div className="right-left">
@@ -169,11 +173,11 @@ var ScheduledGroupMembershipToggle = React.createClass({
             type: 'POST',
             data: JSON.stringify({command: name}),
             success: function(job) {
+                this.props.updateJobState(job);
                 if (job.group === 'unscheduled') {
-                    this.setState({job: job})
                     this.transitionTo("/job/"+job.name+"/group/unscheduled")
                 } else {
-                    this.transitionTo("/")
+                    this.transitionTo("/job/"+job.name+"/group/scheduled")
                 }
             }.bind(this),
             error: function(xhr, status, err) {
@@ -182,7 +186,7 @@ var ScheduledGroupMembershipToggle = React.createClass({
         })
     },
     render:function() {
-        if (this.props.job && this.props.job.group === "unscheduled") {
+        if (this.props.job && !this.props.job.scheduled) {
             return (
                 <button onClick={this.handleClick.bind(this, "schedule")} value="schedule" type="button" className="btn btn-sm btn-default">Schedule</button>
             )

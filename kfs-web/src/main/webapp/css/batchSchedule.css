@@ -113,14 +113,15 @@ tr#dateTime>td>div {
     width: 200px;
     height: 18px;
     font-size: 14px;
-    background-image: url("/kfs-dev/kr/static/images/searchicon.gif");
-    background-position: 186px 0px;
+    background-image: url("../static/images/filtericon.png");
+    background-position: 190px 5px;
     background-repeat: no-repeat;
 }
 
-#main .reactable-filterer .reactable-filter-input[value]:before {
-    content: "Filter";
-    font-size: 14px;
+.reactable-filterer td:before {
+    content: 'Filter';
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 #main td li {
@@ -157,6 +158,10 @@ div.detail-body {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+table.datatable {
+    width: 100%;
 }
 
 table.datatable th {
@@ -213,4 +218,8 @@ table.datatable tr:first-child > td {
 
 .glyphicon-chevron-left {
     background-position: -432px -72px;
+}
+
+.glyphicon-filter {
+    background-position: -408px -144px;
 }

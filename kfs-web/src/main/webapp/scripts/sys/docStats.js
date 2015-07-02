@@ -1,4 +1,6 @@
-$.get("/kfs-dev/docStats/initiatedDocumentsByDocumentType", function(data) {
+var basePath = getUrlPathPrefix('/docStats.html') + "/docStats";
+
+$.get(basePath + "/initiatedDocumentsByDocumentType", function(data) {
     var categories = data.map(function (obj, i) {
         return Object.keys(obj)[0];
     });
@@ -45,7 +47,7 @@ $.get("/kfs-dev/docStats/initiatedDocumentsByDocumentType", function(data) {
     });
 });
 
-$.get("/kfs-dev/docStats/reportNumDocsByStatusByDocType", function (response) {
+$.get(basePath + "/reportNumDocsByStatusByDocType", function (response) {
     var data = response;
     var first = data[0];
 
@@ -90,7 +92,7 @@ $.get("/kfs-dev/docStats/reportNumDocsByStatusByDocType", function (response) {
 
 });
 
-$.get("/kfs-dev/docStats/documentsStatus", function(data) {
+$.get(basePath + "/documentsStatus", function(data) {
     var statusMapping = {"X": "CANCELED", "D": "Disapproved", "R": "Enroute", "E": "Exception", "F": "Final", "I": "Initiated", "P": "Processed", "S": "Saved"};
     var pieColumns = [];
     for (var key in data) {
@@ -222,19 +224,25 @@ function setupTypeChart(data, divName) {
     return chart;
 }
 
-$.get("/kfs-dev/docStats/uncompletedActionRequestsByPrincipalName?limit=5", function (response) {
+$.get(basePath + "/uncompletedActionRequestsByPrincipalName?limit=5", function (response) {
     var uncompletedActionRequests = setupPrincipalChart(response, "uncompleted-requests")
-    setupChangeResponse("uncompleted-limit", uncompletedActionRequests, 5, "/kfs-dev/docStats/uncompletedActionRequestsByPrincipalName")
+    setupChangeResponse("uncompleted-limit", uncompletedActionRequests, 5, basePath + "/uncompletedActionRequestsByPrincipalName")
 })
 
-$.get("/kfs-dev/docStats/completedActionRequestsByPrincipalName?limit=5", function (response) {
+$.get(basePath + "/completedActionRequestsByPrincipalName?limit=5", function (response) {
     var completedActionRequests = setupPrincipalChart(response, "completed-requests")
-    setupChangeResponse("completed-limit",completedActionRequests, 5,"/kfs-dev/docStats/completedActionRequestsByPrincipalName")
+    setupChangeResponse("completed-limit",completedActionRequests, 5, basePath + "/completedActionRequestsByPrincipalName")
 })
 
-$.get("/kfs-dev/docStats/uncompletedActionRequestsByType", function (response) {
+$.get(basePath + "/uncompletedActionRequestsByType", function (response) {
     var uncompletedActionRequestsByType = setupTypeChart(response, "uncompleted-requests-by-type")
 })
-$.get("/kfs-dev/docStats/completedActionRequestsByType", function (response) {
+$.get(basePath + "/completedActionRequestsByType", function (response) {
     var completedActionRequestsbyType = setupTypeChart(response, "completed-requests-by-type")
 })
+
+function getUrlPathPrefix(page) {
+    var path = new URL(window.location.href).pathname;
+    var index = path.indexOf(page);
+    return path.substring(0, index);
+}

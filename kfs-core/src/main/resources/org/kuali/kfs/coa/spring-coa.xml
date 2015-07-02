@@ -627,5 +627,12 @@
 	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
 
+	<bean id="generalLedgerDao" parent="generalLedgerDao-parentBean"/>
+	<bean id="generalLedgerDao-parentBean" class="org.kuali.kfs.coa.dataaccess.impl.GeneralLedgerDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+	<bean id="generalLedgerService" parent="generalLedgerService-parentBean"/>
+	<bean id="generalLedgerService-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.GeneralLedgerServiceImpl">
+		<property name="generalLedgerDao" ref="generalLedgerDao"/>
+	</bean>
+
     <import resource="spring-coa-bus-exports.xml"/>
 </beans>

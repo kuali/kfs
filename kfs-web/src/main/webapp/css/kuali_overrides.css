@@ -240,16 +240,15 @@ textarea {
 
 .btn-primary {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #960037;
-    background-image: -moz-linear-gradient(top, #aa003e, #77002b);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#aa003e), to(#77002b));
-    background-image: -webkit-linear-gradient(top, #aa003e, #77002b);
-    background-image: -o-linear-gradient(top, #aa003e, #77002b);
-    background-image: linear-gradient(to bottom, #aa003e, #77002b);
+    background-color: #2d3ed9;
+    background-image: -moz-linear-gradient(top, #3344dd, #2335d3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3344dd), to(#2335d3));
+    background-image: -webkit-linear-gradient(top, #3344dd, #2335d3);
+    background-image: -o-linear-gradient(top, #3344dd, #2335d3);
+    background-image: linear-gradient(to bottom, #3344dd, #2335d3);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaa003e', endColorstr='#ff77002b', GradientType=0);
-    border-color: #77002b #77002b #2a0010;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    *background-color: #77002b;
+    border-color: #357ebd;
+    *background-color: #2d3ed9;
 }
 
 .btn-primary:hover,
@@ -258,13 +257,13 @@ textarea {
 .btn-primary.active,
 .btn-primary.disabled,
 .btn-primary[disabled] {
-    background-color: #77002b;
-    *background-color: #5d0022;
+    background-color: #2d3ed9;
+    *background-color: #2d3ed9;
 }
 
 .btn-primary:active,
 .btn-primary.active {
-    background-color: #440019 \9;
+    background-color: #2d3ed9 \9;
 }
 
 .btn-link {

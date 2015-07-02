@@ -84,11 +84,16 @@ var JobList = React.createClass({
             return row
         })
         return (
-            <Table id="row" className="datatable-100"
-                   data={rows}
-                   columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'status', label: 'Status'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
-                   sortable={['namespaceCode','name','group','formattedNextRunDate','status']}
-                   filterable={['namespaceCode','name','group','status']}/>
+            <div>
+                <div className="headerarea-small" id="headerarea-small">
+                    <h1>Batch Job Lookup</h1>
+                </div>
+                <Table className="datatable"
+                       data={rows}
+                       columns={[{key: 'modifyUrl', label: 'Actions'},{key: 'namespaceCode', label: 'Namespace'},{key: 'name', label: 'Name'}, {key: 'group', label: 'Group'},{key: 'status', label: 'Status'},{key: 'formattedNextRunDate', label: 'Next Run Date'},{ key: 'steps', label: 'Steps'},{key: 'dependencyList',label: 'Dependencies'}]}
+                       sortable={['namespaceCode','name','group','formattedNextRunDate','status']}
+                       filterable={['namespaceCode','name','group','status']}/>
+            </div>
         );
     }
 });
@@ -255,28 +260,30 @@ var UnscheduledJobForm = React.createClass({
         }
         if (this.props.job && this.props.job.group === 'unscheduled') {
             return (
-                <div>
-                    <p>
-                        <label htmlFor="startStep">Start Step</label>
-                        <UpdatableSelect key={startStepOptions.length} step={this.state.startStep} handleTextChange={this.handleTextChange.bind(this,"startStep")} options={startStepOptions}/>
-                    </p>
-                    <p>
-                        <label htmlFor="endStep">End Step</label>
-                        <UpdatableSelect key={endStepOptions.length} step={this.state.endStep} handleTextChange={this.handleTextChange.bind(this,"endStep")} options={endStepOptions}/>
-                    </p>
-                    <p>
-                        <div id="dateTime">
-                            <label htmlFor="startDateTime">Start Date/Time</label>
+                <table id="schedule-job">
+                    <tr>
+                        <td><label htmlFor="startStep">Start Step</label></td>
+                        <td><UpdatableSelect key={startStepOptions.length} step={this.state.startStep} handleTextChange={this.handleTextChange.bind(this,"startStep")} options={startStepOptions}/></td>
+                    </tr>
+                    <tr>
+                        <td><label htmlFor="endStep">End Step</label></td>
+                        <td><UpdatableSelect key={endStepOptions.length} step={this.state.endStep} handleTextChange={this.handleTextChange.bind(this,"endStep")} options={endStepOptions}/></td>
+                    </tr>
+                    <tr id="dateTime">
+                        <td><label htmlFor="startDateTime">Start Date/Time</label></td>
+                        <td>
                             <DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/>
                             <DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/>
-                        </div>
-                    </p>
-                    <p>
-                        <label htmlFor="resultsEMail">Results E-Mail Address</label>
-                        <input type="text" value={this.state.resultsEMail} size="50" onChange={this.handleTextChange.bind(this,"resultsEMail")}/>
-                    </p>
-                    <button onClick={this.handleClick} value="schedule" type="button" className="btn btn-sm btn-default">New Schedule</button>
-                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label htmlFor="resultsEMail">Results E-Mail Address</label></td>
+                        <td><input type="text" value={this.state.resultsEMail} size="50" onChange={this.handleTextChange.bind(this,"resultsEMail")}/></td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2" className="buttons"><button onClick={this.handleClick} value="schedule" type="button" className="btn btn-sm btn-default">New Schedule</button></td>
+                    </tr>
+                </table>
             )
         } else {
             return (

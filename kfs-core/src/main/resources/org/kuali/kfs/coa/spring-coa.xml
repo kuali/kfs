@@ -632,6 +632,7 @@
 	<bean id="generalLedgerService" parent="generalLedgerService-parentBean"/>
 	<bean id="generalLedgerService-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.GeneralLedgerServiceImpl">
 		<property name="generalLedgerDao" ref="generalLedgerDao"/>
+		<property name="accountService" ref="accountService"/>
 	</bean>
 
     <import resource="spring-coa-bus-exports.xml"/>

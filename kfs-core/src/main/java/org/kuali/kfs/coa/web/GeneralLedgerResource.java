@@ -6,7 +6,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.Map;
 
 @Path("/")
@@ -18,7 +17,7 @@ public class GeneralLedgerResource {
 
     @GET
     @Path("accountBalanceByConsolidation/chart/{chartOfAccountsCode}/account/{accountNumber}")
-    public List<Map<String, Object>> getGeneralLedgerResource(@PathParam("chartOfAccountsCode") String chartOfAccountsCode, @PathParam("accountNumber") String accountNumber) {
+    public Map<String, Object> getGeneralLedgerResource(@PathParam("chartOfAccountsCode") String chartOfAccountsCode, @PathParam("accountNumber") String accountNumber) {
         //final Integer fiscalYear = getUniversityDateService().getCurrentFiscalYear();
         final Integer fiscalYear = 2009;
         return getGeneralLedgerService().lookupAccountBalancesByConsolidation(fiscalYear, chartOfAccountsCode, accountNumber);

@@ -44,15 +44,6 @@ public class GeneralLedgerDaoJdbc extends PlatformAwareDaoBaseJdbc implements Ge
         result.put("spent", rs.getDouble(5));
         result.put("allocated", rs.getDouble(6));
         result.put("balance", rs.getDouble(7));
-        result.put("usedPercentOfBudget", calculateUsedPercentOfBudget((double) result.get("budget"), (double) result.get("spent"), (double)result.get("allocated")));
         return result;
-    }
-
-    protected Double calculateUsedPercentOfBudget(double budget, double actuals, double encumbrance) {
-        if (budget == 0.0) {
-            return null;
-        }
-        final double usedPercent = ((actuals + encumbrance)/budget)*100.0;
-        return new Double(usedPercent);
     }
 }

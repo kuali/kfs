@@ -2,6 +2,10 @@
     background-color: #fff;
 }
 
+html > body {
+    background-color: #fff;
+}
+
 #main th {
     cursor: pointer;
 }
@@ -11,7 +15,6 @@
 }
 
 #main th.reactable-header-sortable:after {
-    content: '\00a0\00a0';
     text-decoration: none;
     font-size: 10px;
     padding-left: 10px;
@@ -37,6 +40,10 @@
     height: 50px;
 }
 
+#main #row {
+    background-color: #fff;
+}
+
 #main #row th {
     padding: 0;
 }
@@ -56,4 +63,28 @@
 
 #dateTime {
     width: 25%;
+}
+
+#dateTime label{
+    display: block;
+}
+
+#dateTime:after {
+    content:"";
+    display:table;
+    clear:both;
+}
+
+.right-left {
+    text-align: left;
+    float: right;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.left {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

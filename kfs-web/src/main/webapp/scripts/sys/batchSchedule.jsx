@@ -134,9 +134,13 @@ var JobDetail = React.createClass({
     render: function() {
         return (
             <div>
-                <ScheduledGroupMembershipToggle job={this.state.job}/>
-                <UnscheduledJobForm job={this.state.job} endSteps={this.state.endSteps} updateEndSteps={this.updateEndSteps}/>
-                <JobInfo job={this.state.job}/>
+                <div className="left">
+                    <ScheduledGroupMembershipToggle job={this.state.job}/>
+                    <JobInfo job={this.state.job}/>
+                </div>
+                <div className="right-left">
+                    <UnscheduledJobForm job={this.state.job} endSteps={this.state.endSteps} updateEndSteps={this.updateEndSteps}/>
+                </div>
             </div>
         )
     }
@@ -232,7 +236,7 @@ var UnscheduledJobForm = React.createClass({
     },
     render:function() {
         var startStepOptions = "";
-        if (this.props.job && this.props.stepNames) {
+        if (this.props.job && this.props.job.stepNames) {
             if (this.props.job.stepNames && this.props.job.stepNames.length === 1) {
                 startStepOptions = ["1: " + this.props.job.stepNames[0]];
             } else {
@@ -263,12 +267,8 @@ var UnscheduledJobForm = React.createClass({
                     <p>
                         <div id="dateTime">
                             <label htmlFor="startDateTime">Start Date/Time</label>
-                            <div className="left">
-                                <DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/>
-                            </div>
-                            <div className="right">
-                                <DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/>
-                            </div>
+                            <DateTimeField key="Start Date" dateTime={this.state.startDate} onChange={this.handleDateChange.bind(this,"startDate")} mode="date" inputFormat="MM/DD/YY"/>
+                            <DateTimeField key="Start Time" dateTime={this.state.startTime} onChange={this.handleDateChange.bind(this,"startTime")} mode="time" inputFormat="h:mm A"/>
                         </div>
                     </p>
                     <p>

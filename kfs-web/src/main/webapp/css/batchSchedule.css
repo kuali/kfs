@@ -40,6 +40,23 @@ html > body {
     height: 50px;
 }
 
+#main .datepicker td {
+    padding: 0px;
+    height: 0px;
+}
+
+#main .bootstrap-datetimepicker-widget {
+    padding: 0px;
+}
+
+#main .bootstrap-datetimepicker-widget ul {
+    margin: 0px;
+}
+
+#main .bootstrap-datetimepicker-widget li {
+    list-style-type: none;
+}
+
 #main #row {
     background-color: #fff;
 }
@@ -87,4 +104,30 @@ html > body {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+/*
+    bootstrap overrides because we are using an older version of bootstrap than the DateTimeField react component wanted
+    ultimately, we should upgrade bootstrap, but not for Hack Week!
+*/
+[class^="glyphicon-"],
+[class*=" glyphicon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    *margin-right: .3em;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("bootstrap/img/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+
+.glyphicon-calendar {
+    background-position: -192px -120px;
+}
+
+.glyphicon-time {
+    background-position: -48px -24px;
 }

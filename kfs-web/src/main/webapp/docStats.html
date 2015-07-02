@@ -10,49 +10,54 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-    <div class="widget left">
-        <h3>Initiated Docs by Type</h3>
-        <div id="chart"></div>
+    <div className="headerarea-small" id="headerarea-small">
+        <h1>Document Statistics</h1>
     </div>
-    <div class="widget right">
-        <h3>Document Status Count for Top 5 Documents</h3>
-        <div id="top5chart"></div>
-    </div>
-    <div class="widget left">
-        <h3>Top Active Items</h3>
-        <div id="pie"></div>
-    </div>
-    <div class="widget right">
-        <h3>Routing Status</h3>
-        <div id="docs-status-pie"></div>
-    </div>
-    <div class="widget left">
-        <h3>Completed Requests by Principal</h3>
-        <form id="completed-request-options" onsubmit="false">
-            <p>
-                <label for="completed-limit">Top <span id="completed-limit-label"></span></label>
-                <input type="text" id="completed-limit" size="3"/>
-            </p>
-        </form>
-        <div id="completed-requests"></div>
-    </div>
-    <div class="widget right">
-        <h3>Uncompleted Requests by Principal</h3>
-        <form id="uncompleted-request-options" onsubmit="false">
-            <p>
-                <label for="uncompleted-limit">Top <span id="uncompleted-limit-label"></span></label>
-                <input type="text" id="uncompleted-limit" size="3"/>
-            </p>
-        </form>
-        <div id="uncompleted-requests"></div>
-    </div>
-    <div class="widget left">
-        <h3>Completed Requests by Request Type</h3>
-        <div id="completed-requests-by-type"></div>
-    </div>
-    <div class="widget right">
-        <h3>Uncompleted Requests by Request Type</h3>
-        <div id="uncompleted-requests-by-type"></div>
+    <div>
+        <div class="widget left">
+            <h3>Initiated Docs by Type</h3>
+            <div id="chart"></div>
+        </div>
+        <div class="widget right">
+            <h3>Document Status Count for Top 5 Documents</h3>
+            <div id="top5chart"></div>
+        </div>
+        <div class="widget left">
+            <h3>Top Active Items</h3>
+            <div id="pie"></div>
+        </div>
+        <div class="widget right">
+            <h3>Routing Status</h3>
+            <div id="docs-status-pie"></div>
+        </div>
+        <div class="widget left">
+            <h3>Completed Requests by Principal</h3>
+            <form id="completed-request-options" onsubmit="false">
+                <p>
+                    <label for="completed-limit">Top <span id="completed-limit-label"></span></label>
+                    <input type="text" id="completed-limit" size="3"/>
+                </p>
+            </form>
+            <div id="completed-requests"></div>
+        </div>
+        <div class="widget right">
+            <h3>Uncompleted Requests by Principal</h3>
+            <form id="uncompleted-request-options" onsubmit="false">
+                <p>
+                    <label for="uncompleted-limit">Top <span id="uncompleted-limit-label"></span></label>
+                    <input type="text" id="uncompleted-limit" size="3"/>
+                </p>
+            </form>
+            <div id="uncompleted-requests"></div>
+        </div>
+        <div class="widget left">
+            <h3>Completed Requests by Request Type</h3>
+            <div id="completed-requests-by-type"></div>
+        </div>
+        <div class="widget right">
+            <h3>Uncompleted Requests by Request Type</h3>
+            <div id="uncompleted-requests-by-type"></div>
+        </div>
     </div>
     <script src="scripts/sys/docStats.js"></script>
 </body>

@@ -120,14 +120,15 @@ tr#dateTime>td>div {
     width: 200px;
     height: 18px;
     font-size: 14px;
-    background-image: url("/kfs-dev/kr/static/images/searchicon.gif");
+    background-image: url("../static/images/filtericon.gif");
     background-position: 186px 0px;
     background-repeat: no-repeat;
 }
 
-#main .reactable-filterer .reactable-filter-input[value]:before {
-    content: "Filter";
-    font-size: 14px;
+.reactable-filterer td:before {
+    content: 'Filter';
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 #main td li {

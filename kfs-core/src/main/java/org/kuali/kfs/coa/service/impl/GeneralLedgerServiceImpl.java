@@ -4,6 +4,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.dataaccess.GeneralLedgerDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.GeneralLedgerService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,12 +71,12 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
             if (!b.containsKey(fieldName) || ObjectUtils.isNull(b.get(fieldName))) {
                 return 0.0;
             }
-            return (double)b.get(fieldName);
+            return new KualiDecimal((double)b.get(fieldName)).doubleValue();
         } else {
             if (!b.containsKey(fieldName) || ObjectUtils.isNull(b.get(fieldName))) {
                 return 0.0;
             }
-            return (double)a.get(fieldName) + (double)b.get(fieldName);
+            return new KualiDecimal((double)a.get(fieldName)).add(new KualiDecimal((double)b.get(fieldName))).doubleValue();
         }
     }
 

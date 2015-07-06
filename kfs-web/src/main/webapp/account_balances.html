@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
 <style>
 
@@ -19,12 +20,29 @@
         padding: 0.5em;
         font-size: 10pt;
     }
-    .account_balances .amount td {
+    .account_balances td.amount {
         text-align: right;
     }
 
     .account_balances .total td {
         font-size: 12pt;
+    }
+
+    .account_balances td.good_dark {
+        color: #95CBB0;
+        font-weight: bold;
+    }
+    .account_balances td.good_light {
+        color: #A9D4BE;
+        font-weight: bold;
+    }
+    .account_balances td.bad_dark {
+        color: #EEA290;
+        font-weight: bold;
+    }
+    .account_balances td.bad_light {
+        color: #F3BDB0;
+        font-weight: bold;
     }
 
     .bullet { font: 10px sans-serif; }
@@ -39,6 +57,11 @@
     .bullet .subtitle { fill: #999; }
 
 </style>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.3/numeral.min.js"></script>
+    </head>
 <!--
 <button>Update</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
@@ -102,89 +125,7 @@
 </script>
 -->
 <body>
-    <table class="account_balances">
-        <thead>
-            <tr>
-                <th>Account #</th>
-                <th>Account Name</th>
-                <th>Budgeted</th>
-                <th>Spent</th>
-                <th>Allocated</th>
-                <th>Balance</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>BL-4631588</td>
-                <td span="5">
-                    PHS R01 HD 28555-03 XXXXX
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>COMPENSATION</td>
-                <td class="amount">$77,115.00</td>
-                <td class="amount">$73690.25</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$3424.75</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>CAPITAL</td>
-                <td class="amount">$4,621.00</td>
-                <td class="amount">$4,588.00</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$33.00</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>GENERAL EXPENSE</td>
-                <td class="amount">$95,546.00</td>
-                <td class="amount">$99,547.22</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">-$4,001.22</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>INDIRECT COST RECOVERY EXPENSE</td>
-                <td class="amount">$49,382.00</td>
-                <td class="amount">$49,019.27</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$362.73</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>OTHER REVENUE</td>
-                <td class="amount">$231,234.00</td>
-                <td class="amount">$231,234.00</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$0.00</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>FINANCIAL AID</td>
-                <td class="amount">$800.00</td>
-                <td class="amount">$1,167.60</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">-$367.60</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>TRAVEL</td>
-                <td class="amount">$3,770.00</td>
-                <td class="amount">$3,221.66</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$548.34</td>
-            </tr>
-            <tr class="total">
-                <td>&nbsp;</td>
-                <td>TOTAL</td>
-                <td class="amount">$462,468.00</td>
-                <td class="amount">$462,468.00</td>
-                <td class="amount">$0.00</td>
-                <td class="amount">$0.00</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="main"></div>
+    <script type="text/jsx" src="scripts/coa/accountBalances.js"></script>
 </body>
 </html>

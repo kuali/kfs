@@ -18,17 +18,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
-import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
@@ -36,16 +26,26 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
+import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.*;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds.
@@ -106,6 +106,26 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
         PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
         assertMatch(poDocument, result);
+    }
+
+    public final void testHandleNegativeEntryAmount() {
+        PurchaseOrderDocument doc = new PurchaseOrderDocument();
+        GeneralLedgerPendingEntry entry = new GeneralLedgerPendingEntry();
+        entry.setTransactionLedgerEntryAmount(new KualiDecimal(-1));
+        doc.handleNegativeEntryAmount(entry);
+
+        assertEquals(new KualiDecimal(1), entry.getTransactionLedgerEntryAmount());
+        assertEquals(KFSConstants.GL_CREDIT_CODE, entry.getTransactionDebitCreditCode());
+    }
+
+    public final void testHandleNegativeEntryAmountNonNegative() {
+        PurchaseOrderDocument doc = new PurchaseOrderDocument();
+        GeneralLedgerPendingEntry entry = new GeneralLedgerPendingEntry();
+        entry.setTransactionLedgerEntryAmount(new KualiDecimal(1));
+        doc.handleNegativeEntryAmount(entry);
+
+        assertEquals(new KualiDecimal(1), entry.getTransactionLedgerEntryAmount());
+        assertEquals(KFSConstants.GL_DEBIT_CODE, entry.getTransactionDebitCreditCode());
     }
 
     // test util methods

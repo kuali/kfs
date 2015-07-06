@@ -1546,25 +1546,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
 
         explicitEntry.setTransactionLedgerEntryAmount(accountTotalGLEntryAmount);
-        String debitCreditCode = GL_DEBIT_CODE;
-
-        // if the amount is negative, flip the D/C indicator
-        if (accountTotalGLEntryAmount.doubleValue() < 0) {
-            if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-                if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-                    explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-                }
-            }
-            else {
-                explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
-            }
-        }
-        else {
-            explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
-        }
+        handleNegativeEntryAmount(explicitEntry);
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
+    }
+
+    protected void handleNegativeEntryAmount(GeneralLedgerPendingEntry explicitEntry) {
+        if (explicitEntry.getTransactionLedgerEntryAmount().doubleValue() < 0) {
+            explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
+            explicitEntry.setTransactionLedgerEntryAmount(explicitEntry.getTransactionLedgerEntryAmount().abs());
+        }
+        else {
+            explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
+        }
     }
 
     @Override

@@ -59,9 +59,14 @@ html > body {
     padding: 30px;
 }
 
+table#job-detail {
+    width: 100%;
+}
+
 table#job-detail td:first-child,
 table#schedule-job td:first-child {
     text-align: right;
+    font-weight: bold;
 }
 
 table#schedule-job td.buttons {
@@ -152,12 +157,14 @@ div.detail-body {
     padding-right: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
+    width: 45%;
 }
 
 .left {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
+    width: 45%;
 }
 
 table.datatable {
@@ -174,7 +181,7 @@ table.datatable td {
     border-bottom: 1px solid #ddd;
 }
 
-table.datatable tr:first-child > td {
+table.datatable tr.reactable-filterer > td {
     border: none;
 }
 

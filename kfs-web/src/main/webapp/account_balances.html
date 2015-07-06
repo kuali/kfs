@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin: auto;
+        padding-top: 40px;
+        position: relative;
+    }
+
+    button {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .account_balances td {
+        padding: 0.5em;
+        font-size: 10pt;
+    }
+    .account_balances .amount td {
+        text-align: right;
+    }
+
+    .account_balances .total td {
+        font-size: 12pt;
+    }
+
+    .bullet { font: 10px sans-serif; }
+    .bullet .marker { stroke: #000; stroke-width: 2px; }
+    .bullet .tick line { stroke: #666; stroke-width: .5px; }
+    .bullet .range.s0 { fill: #eee; }
+    .bullet .range.s1 { fill: #ddd; }
+    .bullet .range.s2 { fill: #ccc; }
+    .bullet .measure.s0 { fill: lightsteelblue; }
+    .bullet .measure.s1 { fill: steelblue; }
+    .bullet .title { font-size: 14px; font-weight: bold; }
+    .bullet .subtitle { fill: #999; }
+
+</style>
+<!--
+<button>Update</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="bullet.js"></script>
+<script>
+
+    var margin = {top: 5, right: 40, bottom: 20, left: 120},
+    width = 960 - margin.left - margin.right,
+    height = 50 - margin.top - margin.bottom;
+
+    var chart = d3.bullet()
+            .width(width)
+            .height(height);
+
+    d3.json("bullets.json", function(error, data) {
+        if (error) throw error;
+
+        var svg = d3.select("body").selectAll("svg")
+                .data(data)
+                .enter().append("svg")
+                .attr("class", "bullet")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(chart);
+
+        var title = svg.append("g")
+                .style("text-anchor", "end")
+                .attr("transform", "translate(-6," + height / 2 + ")");
+
+        title.append("text")
+                .attr("class", "title")
+                .text(function(d) { return d.title; });
+
+        title.append("text")
+                .attr("class", "subtitle")
+                .attr("dy", "1em")
+                .text(function(d) { return d.subtitle; });
+
+        d3.selectAll("button").on("click", function() {
+            svg.datum(randomize).call(chart.duration(1000)); // TODO automatic transition
+        });
+    });
+
+    function randomize(d) {
+        if (!d.randomizer) d.randomizer = randomizer(d);
+        d.ranges = d.ranges.map(d.randomizer);
+        d.markers = d.markers.map(d.randomizer);
+        d.measures = d.measures.map(d.randomizer);
+        return d;
+    }
+
+    function randomizer(d) {
+        var k = d3.max(d.ranges) * .2;
+        return function(d) {
+            return Math.max(0, d + k * (Math.random() - .5));
+        };
+    }
+
+</script>
+-->
+<body>
+    <table class="account_balances">
+        <thead>
+            <tr>
+                <th>Account #</th>
+                <th>Account Name</th>
+                <th>Budgeted</th>
+                <th>Spent</th>
+                <th>Allocated</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BL-4631588</td>
+                <td span="5">
+                    PHS R01 HD 28555-03 XXXXX
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>COMPENSATION</td>
+                <td class="amount">$77,115.00</td>
+                <td class="amount">$73690.25</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$3424.75</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>CAPITAL</td>
+                <td class="amount">$4,621.00</td>
+                <td class="amount">$4,588.00</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$33.00</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>GENERAL EXPENSE</td>
+                <td class="amount">$95,546.00</td>
+                <td class="amount">$99,547.22</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">-$4,001.22</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>INDIRECT COST RECOVERY EXPENSE</td>
+                <td class="amount">$49,382.00</td>
+                <td class="amount">$49,019.27</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$362.73</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>OTHER REVENUE</td>
+                <td class="amount">$231,234.00</td>
+                <td class="amount">$231,234.00</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$0.00</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>FINANCIAL AID</td>
+                <td class="amount">$800.00</td>
+                <td class="amount">$1,167.60</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">-$367.60</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>TRAVEL</td>
+                <td class="amount">$3,770.00</td>
+                <td class="amount">$3,221.66</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$548.34</td>
+            </tr>
+            <tr class="total">
+                <td>&nbsp;</td>
+                <td>TOTAL</td>
+                <td class="amount">$462,468.00</td>
+                <td class="amount">$462,468.00</td>
+                <td class="amount">$0.00</td>
+                <td class="amount">$0.00</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -8,6 +8,18 @@ function currFormat(val) {
     return numeral(val).format('$0,0.00')
 }
 
+function interleave(ary1, ary2) {
+    var zippedArray = ary1.map(function(ele, idx){
+        return [ele, ary2[idx]]
+    })
+    return zippedArray.reduce(function(prev, curr) {
+        curr.forEach(function(val) {
+            prev.push(val)
+        })
+        return prev
+    }, [])
+}
+
 function bulletChart(target, chartData) {
     var margin = {top: 5, right: 40, bottom: 20, left: 120},
         width = 800 - margin.left - margin.right,
@@ -78,11 +90,17 @@ var AccountTable = React.createClass({
         }, -1)
         var consolidationLines = this.props.accountConsolidation.accountBalances.map(function (ele) {
             var key = ele.chartOfAccountsCode+"-"+ele.accountNumber+"-"+ele.objectConsolidationName.replace(/\s/,"")
-            var chartKey = key+"-chart"
             return (
                 <ConsolidationRow consolidationName={ele.objectConsolidationName} budget={ele.budget} spent={ele.spent} allocated={ele.allocated} balance={ele.balance} key={key}/>
             )
         })
+        var consolidationChartLines = this.props.accountConsolidation.accountBalances.map(function (ele) {
+            var key = ele.chartOfAccountsCode+"-"+ele.accountNumber+"-"+ele.objectConsolidationName.replace(/\s/,"")+"-chart"
+            return (
+                <ConsolidationChartRow consolidationName={ele.objectConsolidationName} budget={ele.budget} spent={ele.spent} maxAmount={maxAmount} key={key}/>
+            )
+        })
+        var tableLines = interleave(consolidationLines, consolidationChartLines)
         var balanceClass = this.props.accountConsolidation.total.balance >= 0 ? "amount good_dark" : "amount bad_dark"
         return (<table className="account_balances">
             <thead>
@@ -102,7 +120,7 @@ var AccountTable = React.createClass({
                     {this.props.accountConsolidation.accountName}
                 </td>
             </tr>
-            {consolidationLines}
+            {tableLines}
             <tr className="total">
                 <td>&nbsp;</td>
                 <td>TOTAL</td>
@@ -118,7 +136,7 @@ var AccountTable = React.createClass({
 
 //http://www.d3noob.org/2013/07/introduction-to-bullet-charts-in-d3js.html
 //http://boothead.github.io/d3/ex/bullet.html
-var ConsolidationChart = React.createClass({
+var ConsolidationChartRow = React.createClass({
     buildChartData: function() {
         var chartData = {}
         //chartData['title'] = ""

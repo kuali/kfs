@@ -374,7 +374,7 @@
 
   <servlet-mapping>
     <servlet-name>lookup</servlet-name>
-    <url-pattern>/lookup/coa/chart/BA</url-pattern>
+    <url-pattern>/lookup/*</url-pattern>
       <!--<url-pattern>/*</url-pattern>-->
   </servlet-mapping>
 

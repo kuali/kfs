@@ -17,17 +17,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Controller
 public class ChartController {
 
-    // Lines commented out here and line 378 of the web.xml render a different result that partially works in a different way
-
-//    @RequestMapping(value="/lookup/coa/chart/{code}", method= RequestMethod.GET, produces="application/json")
     @RequestMapping(value="/coa/chart/{code}", method= RequestMethod.GET, produces="application/json")
     public @ResponseBody Map<String, String> lookupChartByPrimaryKey(@PathVariable String code) {
         final LookupService lookupService = SpringContext.getBean(LookupService.class);
         final ChartSearch chartSearch = new ChartSearch(lookupService);
-//        return chartSearch.retrieveByChartCode("BA");
-        final Chart chart = chartSearch.retrieveByChartCode("BL");
+        final Chart chart = chartSearch.retrieveByChartCode(code);
         Map<String, String> m = new ConcurrentHashMap<>();
         m.put("name", chart.getName());
+        m.put("code", chart.getCode());
         return m;
     }
 }

@@ -13,10 +13,7 @@ function interleave(ary1, ary2) {
         return [ele, ary2[idx]]
     })
     return zippedArray.reduce(function(prev, curr) {
-        curr.forEach(function(val) {
-            prev.push(val)
-        })
-        return prev
+        return prev.concat(curr)
     }, [])
 }
 

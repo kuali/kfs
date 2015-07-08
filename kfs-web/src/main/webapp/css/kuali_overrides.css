@@ -105,6 +105,7 @@ tr:not(:first-child) > th {
 label {
     display: inline;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 input,
@@ -887,7 +888,7 @@ div#rightbox {
     border: 1px solid #999999;
 }
 .portlet .header h2 {
-    margin: 0;
+    margin: 0 0 0 10px;
     padding: 0;
     font-size: 100%;
     float: left;
@@ -1120,13 +1121,13 @@ div.blockPage {
 }
 #iframe_portlet_container_table td.content .portlet .header h2.portlet-title {
     font-family: 'Open Sans', sans-serif;
-    color: black;
+    color: #fff;
     font-size: 1.1em;
-    border-bottom: 1px solid #cccccc;
     float: none;
 }
 #iframe_portlet_container_table td.content .portlet .header div.portlet-title {
     float: none;
+    background-color: #888;
 }
 #footer-copyright .login-form {
     position: absolute;
@@ -1221,16 +1222,17 @@ td.annotate-t img,
 td.annotate-b img {
     display: none;
 }
-#workarea div.tab-container h3 {
+#workarea div.tab-container h3,
+#workarea td.subhead {
     line-height: 24px;
     font-size: 14px;
-    color: #fff;
-    background-color: #6b6b6b;
+    color: #666;
+    background-color: #eee;
     border-bottom: none;
     height: 24px;
 }
 span.subhead-left {
-    color: #fff;
+    color: #666;
 }
 #workarea .tab tr {
     border-bottom: 1px solid #333;
@@ -1246,7 +1248,11 @@ div.innerTab-head {
     color: #333;
 }
 input[type=text] {
-    height: 26px;
+    height: 16px;
+}
+input[type=file],
+select {
+    height: 24px;
 }
 input[type=text],
 textarea,
@@ -1276,7 +1282,7 @@ td.infoline {
 }
 #headerarea-small h1,
 #headerarea h1 {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: normal;
     font-family: 'Open Sans', sans-serif;
 }
@@ -1292,7 +1298,6 @@ td.infoline {
     padding: 0 3px;
 }
 .headerarea {
-    height: 72px;
     padding-bottom: 20px;
 }
 #headerarea table {
@@ -1350,7 +1355,7 @@ td.infoline {
     padding: 0 6px 4px;
     color: #0088CC;
     font-size: 12px;
-    background: #f5f5f5;
+    background: #eee;
     font-weight: bold;
     margin-right: 2px;
     height: 30px;
@@ -1409,8 +1414,9 @@ td.infoline {
 }
 #workarea > table.tab {
     min-height: 20px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
+    margin-bottom: 0;
+    background-color: #6b6b6b;
+    color: #fff;
     border: 1px solid #e3e3e3;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -1427,7 +1433,6 @@ td.infoline {
 }
 #workarea > table.tab input[type="radio"],
 input[type="checkbox"] {
-    margin: 0;
     margin-top: 0 \9;
     line-height: normal;
 }
@@ -1443,7 +1448,7 @@ th.grid,
 td.grid,
 td.infoline {
     border: 1px solid transparent;
-    padding: 2px;
+    padding: 2px 0 2px 10px;
 }
 #workarea .tab {
     position: relative;
@@ -1451,6 +1456,7 @@ td.infoline {
 }
 #workarea .tab tbody tr h2 {
     margin-left: 0;
+    color: #fff;
 }
 #workarea .tab > input {
     width: 16px;
@@ -1489,7 +1495,7 @@ td.infoline {
     height: 60px;
 }
 #workarea .innerTab-head {
-    background-color: #f5f5f5;
+    background-color: #eee;
     font-size: 18px;
     font-weight: normal;
     -webkit-border-radius: 4px;
@@ -1500,7 +1506,7 @@ td.infoline {
 }
 #workarea td.tab-subhead {
     font-weight: bold;
-    background-color: #f5f5f5;
+    background-color: #eee;
     padding: 2px;
     height: 18px;
     text-align: left;
@@ -1509,7 +1515,7 @@ td.infoline {
     border-left: none;
 }
 #workarea td.tab-subhead-import {
-    background-color: #f5f5f5;
+    background-color: #eee;
     border-bottom: 1px solid #999999;
 }
 .form-table .grid label {
@@ -1519,6 +1525,23 @@ td.infoline {
 .elementtable td,
 th {
     text-align: left;
+}
+#workarea .datatable tr:nth-child(even) th.grid,
+#workarea .datatable tr:nth-child(even) td.grid {
+    background-color: #f5f5f5;
+}
+#workarea .datatable tr:hover th.grid,
+#workarea .datatable tr:hover td.grid {
+    background-color: #ccc;
+}
+#workarea .datatable .grid input,
+#workarea .datatable .grid textarea,
+#workarea .datatable .grid select,
+#workarea .datatable .grid .uneditable-input {
+    width: 300px;
+}
+#workarea .datatable .grid input[type=image] {
+    width: auto;
 }
 #tab-Summary-div table {
     width: 100%;
@@ -1824,7 +1847,7 @@ th {
     min-height: 20px;
     padding: 19px;
     margin-bottom: 20px;
-    background-color: #f5f5f5;
+    background-color: #eee;
     border: 1px solid #e3e3e3;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -1889,6 +1912,10 @@ th {
 .msg-excol .left-errmsg .error + div {
     display: none;
 }
+
+/*#workarea div.tab-container h3 {*/
+    /*display: none;*/
+/*}*/
 
 
 

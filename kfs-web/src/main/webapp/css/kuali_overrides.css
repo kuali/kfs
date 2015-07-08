@@ -1127,7 +1127,7 @@ div.blockPage {
 }
 #iframe_portlet_container_table td.content .portlet .header div.portlet-title {
     float: none;
-    background-color: #888;
+    background-color: #6b6b6b;
 }
 #footer-copyright .login-form {
     position: absolute;
@@ -1282,9 +1282,12 @@ td.infoline {
 }
 #headerarea-small h1,
 #headerarea h1 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: normal;
     font-family: 'Open Sans', sans-serif;
+}
+.headerarea {
+    height: 75px;
 }
 .headerarea,
 .headerarea-small {
@@ -1296,9 +1299,6 @@ td.infoline {
 .headerarea-small>div>div>div {
     width:inherit !important;
     padding: 0 3px;
-}
-.headerarea {
-    padding-bottom: 20px;
 }
 #headerarea table {
     height: inherit;
@@ -1538,7 +1538,7 @@ th {
 #workarea .datatable .grid textarea,
 #workarea .datatable .grid select,
 #workarea .datatable .grid .uneditable-input {
-    width: 300px;
+    width: initial;
 }
 #workarea .datatable .grid input[type=image] {
     width: auto;

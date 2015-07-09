@@ -1,7 +1,7 @@
 package org.kuali.kfs.sys.web;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.kfs.sys.service.DataDictionaryService;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

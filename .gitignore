@@ -26,3 +26,5 @@ sftp-config.json
 *.tmproject
 tmtags
 **/target/
+**/node_modules/*
+kfs-web/src/main/webapp/build

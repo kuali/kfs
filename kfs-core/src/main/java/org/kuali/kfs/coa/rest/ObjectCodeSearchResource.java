@@ -1,5 +1,6 @@
 package org.kuali.kfs.coa.rest;
 
+import io.swagger.annotations.Api;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.lookup.ChartSearch;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.List;
 
+@Api(value = "coa/objectCode")
 @Path("coa/objectCode")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

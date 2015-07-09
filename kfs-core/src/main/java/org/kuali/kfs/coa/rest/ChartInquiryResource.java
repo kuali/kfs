@@ -1,5 +1,6 @@
 package org.kuali.kfs.coa.rest;
 
+import io.swagger.annotations.Api;
 import org.kuali.kfs.coa.businessobject.inquiry.ChartInquiry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -10,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
+@Api(value = "coa/chart")
 @Path("coa/chart")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

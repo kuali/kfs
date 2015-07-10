@@ -52,7 +52,7 @@ public class DataDictionaryServiceImpl extends org.kuali.rice.kns.service.impl.D
         entryMap.put("label", businessObjectEntry.getObjectLabel());
         entryMap.put("namespace", getKualiModuleService().getNamespaceCode(businessObjectEntry.getBusinessObjectClass()));
         Map<String, String> linkMap = new ConcurrentHashMap<>();
-        linkMap.put("link", this.getKualiConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY)+"/core/datadictionary/businessObjectEntry"+key);
+        linkMap.put("link", this.getKualiConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY)+"/core/datadictionary/businessObjectEntry/"+key);
         entryMap.put("details", linkMap);
         return entryMap;
     }

@@ -104,8 +104,6 @@ var Detail = React.createClass({
         for (var key in this.state.entry) {
             if (this.state.entry.hasOwnProperty(key)) {
                 fields.push(<FormField name={key} value={this.state.entry[key]} editable={this.props.params.editable}/>)
-            } else {
-                console.log(key)
             }
         }
         return (
@@ -118,14 +116,88 @@ var Detail = React.createClass({
 
 var FormField = React.createClass({
     render: function() {
+        var attributeValue
+        if (this.props.name === "attributes") {
+            attributeValue = <AttributeTable attributes={this.props.value} editable={this.props.editable}/>
+        } else {
+            attributeValue = determineFieldValue(this.props.editable, this.props.value)
+        }
         return (
             <tr>
                 <td><label>{this.props.name}</label></td>
-                <td>{this.props.editable && this.props.editable === 'true' ? <input type="text" value={this.props.value}/> : this.props.value}</td>
+                <td>{attributeValue}</td>
+            </tr>
+        )
+
+    }
+})
+
+var AttributeTable = React.createClass({
+    render: function() {
+        var fields = [];
+        if (this.props.attributes.length > 0) {
+            fields.push(<AttributeLabelField attribute={this.props.attributes[0]}/>)
+        }
+        for (var i=0; i<this.props.attributes.length; i++) {
+            fields.push(<AttributeFormField attribute={this.props.attributes[i]} editable={this.props.editable}/>)
+        }
+        return (
+            <table>
+                {fields}
+            </table>
+        )
+    }
+})
+
+var AttributeLabelField = React.createClass({
+    render: function() {
+        var labels = [];
+        for (var key in this.props.attribute) {
+            if (this.props.attribute.hasOwnProperty(key)) {
+                labels.push(<th>{key}</th>)
+            }
+        }
+        return (
+            <tr>
+                {labels}
             </tr>
         )
     }
 })
+
+var AttributeFormField = React.createClass({
+    render: function() {
+        var fields = [];
+        for (var key in this.props.attribute) {
+            if (this.props.attribute.hasOwnProperty(key)) {
+                if (key === "control") {
+                    fields.push(<td><AttributeTable editable={this.props.editable} attributes={[this.props.attribute[key]]}/></td>)
+
+                } else {
+                    var attributeValue = determineFieldValue(this.props.editable, this.props.attribute[key])
+                    fields.push(<td>{attributeValue}</td>)
+                }
+            }
+        }
+        return (
+            <tr>
+                {fields}
+            </tr>
+        )
+    }
+})
+
+function determineFieldValue(editable, value) {
+    if (!editable || editable === 'false') {
+        return typeof value === "boolean" ? value.toString() : value
+    } else {
+        var type = "text"
+        if (typeof value === "boolean") {
+            type = "checkbox"
+        }
+        return <input type={type} value={value} checked={value}/>
+    }
+}
 
 function getUrlPathPrefix(page) {
     var path = new URL(window.location.href).pathname;

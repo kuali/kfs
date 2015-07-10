@@ -1117,13 +1117,15 @@ div.blockPage {
     padding: 0;
 }
 #iframe_portlet_container_table td.content .portlet .header {
-    height: 40px;
+    height: 25px;
 }
 #iframe_portlet_container_table td.content .portlet .header h2.portlet-title {
     font-family: 'Open Sans', sans-serif;
     color: #fff;
     font-size: 1.1em;
     float: none;
+    line-height: 20px;
+    font-weight: normal;
 }
 #iframe_portlet_container_table td.content .portlet .header div.portlet-title {
     float: none;

@@ -1,5 +1,6 @@
 package org.kuali.kfs.coa.rest;
 
+import io.swagger.annotations.Api;
 import org.kuali.kfs.coa.businessobject.lookup.ChartSearch;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -12,7 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Path("coa/chart")
+@Api(value = "lookup/chart")
+@Path("lookup/chart")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ChartSearchResource {

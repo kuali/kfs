@@ -11,8 +11,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
-@Api(value = "coa/chart")
-@Path("coa/chart")
+@Api(value = "inquiry/chart")
+@Path("inquiry/chart")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ChartInquiryResource {

@@ -14,8 +14,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.List;
 
-@Api(value = "coa/objectCode")
-@Path("coa/objectCode")
+@Api(value = "lookup/objectCode")
+@Path("lookup/objectCode")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ObjectCodeSearchResource {

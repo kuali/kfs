@@ -82,12 +82,7 @@ var Detail = React.createClass({
         })
     },
     render: function() {
-        var fields = [];
-        for (var key in this.state.entry) {
-            if (this.state.entry.hasOwnProperty(key)) {
-                fields.push(<FormField name={key} value={this.state.entry[key]} editable={this.props.params.editable}/>)
-            }
-        }
+        var fields = buildFieldArray(this.state.entry, this.props.params.editable)
         return (
             <div>
                 <Link to="table">go back</Link>
@@ -99,11 +94,34 @@ var Detail = React.createClass({
     }
 })
 
+function buildFieldArray(map, editable) {
+    var fields = [];
+    for (var key in map) {
+        if (map.hasOwnProperty(key)) {
+            fields.push(<FormField name={key} value={map[key]} editable={editable}/>)
+        }
+    }
+    return fields;
+}
+
 var FormField = React.createClass({
     render: function() {
         var attributeValue
-        if (this.props.name === "attributes") {
+        if (this.props.name === "attributes" || this.props.name === "inquiryFields" || this.props.name === "lookupFields" || this.props.name === "resultFields") {
             attributeValue = <AttributeTable attributes={this.props.value} editable={this.props.editable}/>
+        } else if (this.props.name === "defaultSort") {
+            var fields = buildFieldArray(this.props.value, this.props.editable)
+            attributeValue = <table>{fields}</table>
+        } else if (this.props.name === "inquirySections") {
+            var attributeValues = [];
+            for (var i=0;i<this.props.value.length;i++) {
+                var fields = buildFieldArray(this.props.value[i], this.props.editable)
+                attributeValues.push(<tr><td><table>{fields}</table></td></tr>)
+            }
+            attributeValue = <table>{attributeValues}</table>
+        } else if (this.props.name === "inquiryDefinition" || this.props.name === "lookupDefinition") {
+            var fields = buildFieldArray(this.props.value, this.props.editable)
+            attributeValue = <table>{fields}</table>
         } else {
             attributeValue = determineFieldValue(this.props.editable, this.props.value)
         }

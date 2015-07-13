@@ -95,9 +95,15 @@
        </tr>   
     </table>   
 	
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
-		<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${ctr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
-	</table>
+	<%-- For accounting lines to tab through the fields correctly, the sys-java:accountingLineGroup needs to be in a TAB tag, and in 
+	 	sys-java:accountingLines.  Nesting accountingLineGroup sets the tabindex element of the image tags very high, and the actual fields 
+	 	have no tabindex attribute at all.  Without nesting both the images and fields have no tabindex attribute.  
+	--%>
+	<kul:subtab width="100%" noShowHideButton="true" useCurrentTabIndexAsKey="false">
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${ctr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
+		</sys-java:accountingLines>
+	</kul:subtab>
     
     <br/>
    </logic:iterate> 

@@ -2,6 +2,7 @@ package org.kuali.kfs.sys.service.impl;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
 import org.kuali.kfs.sys.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -55,5 +56,10 @@ public class DataDictionaryServiceImpl extends org.kuali.rice.kns.service.impl.D
         linkMap.put("link", this.getKualiConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY)+"/core/datadictionary/businessObjectEntry/"+key);
         entryMap.put("details", linkMap);
         return entryMap;
+    }
+
+    @Override
+    public void updateDictionaryEntry(FinancialSystemBusinessObjectEntry financialSystemBusinessObjectEntry) {
+
     }
 }

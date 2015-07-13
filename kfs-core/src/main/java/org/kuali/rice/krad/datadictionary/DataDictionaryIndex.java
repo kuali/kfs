@@ -217,4 +217,9 @@ public class DataDictionaryIndex implements Runnable, DictionaryIndex {
     public void run() {
         index();
     }
+
+    @Override
+    public void updateBusinessObjectEntry(BusinessObjectEntry businessObjectEntry) {
+        throw new UnsupportedOperationException("Spring Bean data dictionary does not support updates to data dictionary entries.");
+    }
 }

@@ -17,4 +17,6 @@ public interface DictionaryIndex {
     public Map<String, BusinessObjectEntry> getBusinessObjectEntries();
 
     void index();
+
+    void updateBusinessObjectEntry(BusinessObjectEntry businessObjectEntry);
 }

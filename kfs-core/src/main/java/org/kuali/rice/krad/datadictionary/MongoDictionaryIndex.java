@@ -1,5 +1,7 @@
 package org.kuali.rice.krad.datadictionary;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -9,7 +11,6 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bson.Document;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class MongoDictionaryIndex implements Runnable, DictionaryIndex {
         entriesByJstlKey = new ConcurrentHashMap<>();
 
         final ObjectMapper mapper = new ObjectMapper();
-        populateFromMongo("localhost", "kfs_dd", "business_objects", document -> {
+        readFromMongo("localhost", "kfs_dd", "business_objects", document -> {
             try {
                 final FinancialSystemBusinessObjectEntry entry = mapper.readValue(document.toJson(), FinancialSystemBusinessObjectEntry.class);
                 businessObjectEntries.put(entry.getBusinessObjectClass().getName(), entry);
@@ -93,7 +94,24 @@ public class MongoDictionaryIndex implements Runnable, DictionaryIndex {
         index();
     }
 
-    protected void populateFromMongo(String hostUrl, String databaseName, String collectionName, Consumer<Document> consumer) {
+    @Override
+    public void updateBusinessObjectEntry(BusinessObjectEntry businessObjectEntry) {
+        businessObjectEntries.put(businessObjectEntry.getBusinessObjectClass().getName(), businessObjectEntry);
+        businessObjectEntries.put(businessObjectEntry.getBusinessObjectClass().getSimpleName(), businessObjectEntry);
+        businessObjectEntries.put(businessObjectEntry.getJstlKey(), businessObjectEntry);
+        writeToMongo("localhost", "kfs_dd", "business_objects", collection -> {
+            Document filter = new Document();
+            filter.put("businessObjectClass", businessObjectEntry.getBusinessObjectClass().getName());
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                collection.findOneAndReplace(filter, Document.parse(mapper.writeValueAsString(businessObjectEntry)));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    protected void readFromMongo(String hostUrl, String databaseName, String collectionName, Consumer<Document> consumer) {
         MongoDatabase database;
         try (MongoClient client = new MongoClient(new MongoClientURI("mongodb://" + hostUrl + ":27017"))) {
             database = client.getDatabase(databaseName);
@@ -110,8 +128,15 @@ public class MongoDictionaryIndex implements Runnable, DictionaryIndex {
                 cursor.close();
             }
         }
-
     }
 
+    protected void writeToMongo(String hostUrl, String databaseName, String collectionName, Consumer<MongoCollection> consumer) {
+        MongoDatabase database;
+        try (MongoClient client = new MongoClient(new MongoClientURI("mongodb://" + hostUrl + ":27017"))) {
+            database = client.getDatabase(databaseName);
+            MongoCollection dds = database.getCollection(collectionName);
+            consumer.accept(dds);
+        }
+    }
 
 }

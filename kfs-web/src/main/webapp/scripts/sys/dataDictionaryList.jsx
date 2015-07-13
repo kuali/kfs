@@ -81,12 +81,18 @@ var Detail = React.createClass({
         })
     },
     updateFieldValue: function(prefix, name, event) {
+        var value = event.target.value
+        if (event.target.type === 'checkbox') {
+            value = event.target.checked
+        }
+
+        console.log(event)
         var s = {}
         s.entry = this.state.entry
         if (prefix) {
-            setValue(prefix + '.' + name, event.target.value, s.entry)
+            setValue(prefix + '.' + name, value, s.entry)
         } else {
-            s.entry[name] = event.target.value
+            s.entry[name] = value
         }
 
         this.setState(s)
@@ -246,11 +252,10 @@ var InputField = React.createClass({
         if (!this.props.editable || this.props.editable === 'false') {
             return typeof this.props.value === "boolean" ? this.props.value.toString() : this.props.value
         } else {
-            var type = "text"
             if (typeof this.props.value === "boolean") {
-                type = "checkbox"
+                return <input type='checkbox' value={this.props.value} checked={this.props.value} onChange={this.props.updateFieldValue.bind(this, this.props.prefix, this.props.name)}/>
             }
-            return <input type={type} value={this.props.value} checked={this.props.value} onChange={this.props.updateFieldValue.bind(this, this.props.prefix, this.props.name)}/>
+            return <input type='text' value={this.props.value}onChange={this.props.updateFieldValue.bind(this, this.props.prefix, this.props.name)}/>
         }
     }
 })

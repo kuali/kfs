@@ -32,7 +32,7 @@ var Root = React.createClass({
                 tableClassName="table"
                 showFilter={true}
                 showSettings={true}
-                columns={["edit", "namespace", "className", "details"]}
+                columns={["edit", "namespace", "className", "label", "key", "details"]}
                 resultsPerPage={20}
                 columnMetadata={columnMeta}
                 useGriddleStyles={false}
@@ -56,28 +56,10 @@ var EditComponent = React.createClass({
 var columnMeta = [
     {
         "columnName": "edit",
-        "order": 1,
-        "locked": false,
-        "visible": true,
         "customComponent": EditComponent
     },
     {
-        "columnName": "namespace",
-        "order": 2,
-        "locked": false,
-        "visible": true
-    },
-    {
-        "columnName": "className",
-        "order": 3,
-        "locked": false,
-        "visible": true
-    },
-    {
         "columnName": "details",
-        "order": 4,
-        "locked": false,
-        "visible": true,
         "customComponent": LinkComponent
     }
 ];
@@ -107,9 +89,12 @@ var Detail = React.createClass({
             }
         }
         return (
-            <table>
-                {fields}
-            </table>
+            <div>
+                <Link to="table">go back</Link>
+                <table>
+                    {fields}
+                </table>
+            </div>
         )
     }
 })

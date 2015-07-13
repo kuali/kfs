@@ -130,6 +130,7 @@ public class FinancialSystemBusinessObjectEntryDeserializer extends JsonDeserial
             for (JsonNode attributeNameNode : sortAttributeNames) {
                 attributeNames.add(attributeNameNode.textValue());
             }
+            defaultSort.setAttributeNames(attributeNames);
             lookupDefinition.setDefaultSort(defaultSort);
         }
 

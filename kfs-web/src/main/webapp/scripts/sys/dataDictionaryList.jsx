@@ -17,7 +17,7 @@ var Root = React.createClass({
                 this.setState({entries: entries});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(status, err.toString());
             }.bind(this)
         })
     },
@@ -76,14 +76,13 @@ var Detail = React.createClass({
                 this.setState({entry: entry});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(status, err.toString());
             }.bind(this)
         })
     },
     updateFieldValue: function(prefix, name, event) {
         var s = {}
         s.entry = this.state.entry
-
         if (prefix) {
             setValue(prefix + '.' + name, event.target.value, s.entry)
         } else {
@@ -96,13 +95,14 @@ var Detail = React.createClass({
         $.ajax({
             url: getUrlPathPrefix("/sys/DataDictionaryList.html") + "/core/datadictionary/businessObjectEntry/" + this.props.params.name,
             dataType: 'json',
+            contentType: 'application/json',
             type: 'PUT',
             data: JSON.stringify(this.state.entry),
             success: function() {
                 alert('Congrats')
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(status, err.toString());
             }.bind(this)
         })
 
@@ -173,7 +173,6 @@ var FormField = React.createClass({
         } else {
             var prefix
             attributeValue = <InputField prefix={prefix} editable={this.props.editable} value={this.props.value} name={this.props.name} updateFieldValue={this.props.updateFieldValue}/>
-                //determineFieldValue(this.props.editable, this.props.value, this.props.name, this.props.updateFieldValue)
         }
         return (
             <tr>
@@ -230,7 +229,6 @@ var AttributeFormField = React.createClass({
 
                 } else {
                     var attributeValue = <InputField prefix={this.props.prefix} editable={this.props.editable} value={this.props.attribute[key]} name={key} updateFieldValue={this.props.updateFieldValue}/>
-                        //determineFieldValue(this.props.editable, this.props.attribute[key], key, this.props.updateFieldValue)
                     fields.push(<td>{attributeValue}</td>)
                 }
             }
@@ -256,18 +254,6 @@ var InputField = React.createClass({
         }
     }
 })
-
-function determineFieldValue(editable, value, name, onBlurFunction) {
-    if (!editable || editable === 'false') {
-        return typeof value === "boolean" ? value.toString() : value
-    } else {
-        var type = "text"
-        if (typeof value === "boolean") {
-            type = "checkbox"
-        }
-        return <input type={type} value={value} checked={value} onBlur={onBlurFunction.bind(this, name)}/>
-    }
-}
 
 function getUrlPathPrefix(page) {
     var path = new URL(window.location.href).pathname;

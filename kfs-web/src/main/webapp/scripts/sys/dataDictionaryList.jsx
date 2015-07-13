@@ -25,7 +25,6 @@ var Root = React.createClass({
         return this.state.entries[rowIndex]
     },
     render: function() {
-        console.log(this.state.entries.length);
         return (
             <Griddle
                 results={this.state.entries}
@@ -81,17 +80,19 @@ var Detail = React.createClass({
             }.bind(this)
         })
     },
-    updateFieldValue: function(name, event) {
-        console.log("updating state")
-        console.log(name)
-        console.log(event.target.value)
+    updateFieldValue: function(prefix, name, event) {
         var s = {}
         s.entry = this.state.entry
-        s.entry[name] = event.target.value
+
+        if (prefix) {
+            setValue(prefix + '.' + name, event.target.value, s.entry)
+        } else {
+            s.entry[name] = event.target.value
+        }
+
         this.setState(s)
     },
     updateBusinessObjectEntry: function() {
-        console.log("updating boe")
         $.ajax({
             url: getUrlPathPrefix("/sys/DataDictionaryList.html") + "/core/datadictionary/businessObjectEntry/" + this.props.params.name,
             dataType: 'json',
@@ -107,7 +108,8 @@ var Detail = React.createClass({
 
     },
     render: function() {
-        var fields = buildFieldArray(this.state.entry, this.props.params.editable, this.updateFieldValue)
+        var prefix;
+        var fields = buildFieldArray(prefix, this.state.entry, this.props.params.editable, this.updateFieldValue)
         var updateButton;
         if (this.props.params.editable && this.props.params.editable  === "true") {
             updateButton = <button type="button" onClick={this.updateBusinessObjectEntry.bind(this)}>Update</button>;
@@ -124,11 +126,27 @@ var Detail = React.createClass({
     }
 })
 
-function buildFieldArray(map, editable, updateFieldValue) {
+function setValue(path, val, obj) {
+    var fields = path.split('.');
+    var result = obj;
+    for (var i = 0, n = fields.length; i < n && result !== undefined; i++) {
+        var field = fields[i];
+        if (i === n - 1) {
+            result[field] = val;
+        } else {
+            if (typeof result[field] === 'undefined' || typeof result[field] !== 'object') {
+                result[field] = {};
+            }
+            result = result[field];
+        }
+    }
+}
+
+function buildFieldArray(prefix, map, editable, updateFieldValue) {
     var fields = [];
     for (var key in map) {
         if (map.hasOwnProperty(key)) {
-            fields.push(<FormField name={key} value={map[key]} editable={editable} updateFieldValue={updateFieldValue}/>)
+            fields.push(<FormField prefix={prefix} name={key} value={map[key]} editable={editable} updateFieldValue={updateFieldValue}/>)
         }
     }
     return fields;
@@ -138,22 +156,23 @@ var FormField = React.createClass({
     render: function() {
         var attributeValue
         if (this.props.name === "attributes" || this.props.name === "inquiryFields" || this.props.name === "lookupFields" || this.props.name === "resultFields") {
-            attributeValue = <AttributeTable attributes={this.props.value} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue}/>
+            attributeValue = <AttributeTable prefix={this.props.name} attributes={this.props.value} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue}/>
         } else if (this.props.name === "defaultSort") {
-            var fields = buildFieldArray(this.props.value, this.props.editable, this.props.updateFieldValue)
+            var fields = buildFieldArray(this.props.name, this.props.value, this.props.editable, this.props.updateFieldValue)
             attributeValue = <table>{fields}</table>
         } else if (this.props.name === "inquirySections") {
             var attributeValues = [];
             for (var i=0;i<this.props.value.length;i++) {
-                var fields = buildFieldArray(this.props.value[i], this.props.editable, this.props.updateFieldValue)
+                var fields = buildFieldArray(this.props.name, this.props.value[i], this.props.editable, this.props.updateFieldValue)
                 attributeValues.push(<tr><td><table>{fields}</table></td></tr>)
             }
             attributeValue = <table>{attributeValues}</table>
         } else if (this.props.name === "inquiryDefinition" || this.props.name === "lookupDefinition") {
-            var fields = buildFieldArray(this.props.value, this.props.editable, this.props.updateFieldValue)
+            var fields = buildFieldArray(this.props.name, this.props.value, this.props.editable, this.props.updateFieldValue)
             attributeValue = <table>{fields}</table>
         } else {
-            attributeValue = <InputField editable={this.props.editable} value={this.props.value} name={this.props.name} updateFieldValue={this.props.updateFieldValue}/>
+            var prefix
+            attributeValue = <InputField prefix={prefix} editable={this.props.editable} value={this.props.value} name={this.props.name} updateFieldValue={this.props.updateFieldValue}/>
                 //determineFieldValue(this.props.editable, this.props.value, this.props.name, this.props.updateFieldValue)
         }
         return (
@@ -173,7 +192,8 @@ var AttributeTable = React.createClass({
             fields.push(<AttributeLabelField attribute={this.props.attributes[0]}/>)
         }
         for (var i=0; i<this.props.attributes.length; i++) {
-            fields.push(<AttributeFormField attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue}/>)
+            var prefix = this.props.prefix + '.' + i
+            fields.push(<AttributeFormField prefix={prefix} attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue}/>)
         }
         return (
             <table>
@@ -201,15 +221,15 @@ var AttributeLabelField = React.createClass({
 
 var AttributeFormField = React.createClass({
     render: function() {
-        console.log('rendering attribute form field')
         var fields = [];
         for (var key in this.props.attribute) {
             if (this.props.attribute.hasOwnProperty(key)) {
                 if (key === "control") {
-                    fields.push(<td><AttributeTable editable={this.props.editable} attributes={[this.props.attribute[key]]} updateFieldValue={this.props.updateFieldValue}/></td>)
+                    var prefix = this.props.prefix + "." + key
+                    fields.push(<td><AttributeTable prefix={prefix} editable={this.props.editable} attributes={[this.props.attribute[key]]} updateFieldValue={this.props.updateFieldValue}/></td>)
 
                 } else {
-                    var attributeValue = <InputField editable={this.props.editable} value={this.props.attribute[key]} name={key} updateFieldValue={this.props.updateFieldValue}/>
+                    var attributeValue = <InputField prefix={this.props.prefix} editable={this.props.editable} value={this.props.attribute[key]} name={key} updateFieldValue={this.props.updateFieldValue}/>
                         //determineFieldValue(this.props.editable, this.props.attribute[key], key, this.props.updateFieldValue)
                     fields.push(<td>{attributeValue}</td>)
                 }
@@ -232,7 +252,7 @@ var InputField = React.createClass({
             if (typeof this.props.value === "boolean") {
                 type = "checkbox"
             }
-            return <input type={type} value={this.props.value} checked={this.props.value} onChange={this.props.updateFieldValue.bind(this, this.props.name)}/>
+            return <input type={type} value={this.props.value} checked={this.props.value} onChange={this.props.updateFieldValue.bind(this, this.props.prefix, this.props.name)}/>
         }
     }
 })

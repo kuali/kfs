@@ -1,7 +1,7 @@
 package org.kuali.kfs.sys.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
 import org.kuali.kfs.sys.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
@@ -41,7 +41,9 @@ public class DataDictionaryServiceImpl extends org.kuali.rice.kns.service.impl.D
         Map<String, BusinessObjectEntry> businessObjectEntries = getDataDictionary().getBusinessObjectEntries();
         List<Map<String, Object>> entries = new ArrayList<>();
         for (Map.Entry<String, BusinessObjectEntry> keyAndEntry : businessObjectEntries.entrySet()) {
-            entries.add(convertEntryToMap(keyAndEntry.getKey(), keyAndEntry.getValue()));
+            if(!StringUtils.equals(keyAndEntry.getKey(), keyAndEntry.getValue().getBusinessObjectClass().getName()) ) {
+                entries.add(convertEntryToMap(keyAndEntry.getKey(), keyAndEntry.getValue()));
+            }
         }
         return entries;
     }

@@ -250,7 +250,8 @@ var AttributeFormField = React.createClass({
 var InputField = React.createClass({
     render: function() {
         if (!this.props.editable || this.props.editable === 'false') {
-            return typeof this.props.value === "boolean" ? this.props.value.toString() : this.props.value
+            var value = typeof this.props.value === "boolean" ? this.props.value.toString() : this.props.value
+            return <div>{value}</div>
         } else {
             if (typeof this.props.value === "boolean") {
                 return <input type='checkbox' value={this.props.value} checked={this.props.value} onChange={this.props.updateFieldValue.bind(this, this.props.prefix, this.props.name)}/>

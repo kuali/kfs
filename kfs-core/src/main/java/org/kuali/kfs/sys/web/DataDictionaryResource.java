@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
 @Path("/datadictionary")
@@ -40,6 +41,8 @@ public class DataDictionaryResource {
         ObjectMapper mapper = new ObjectMapper();
         FinancialSystemBusinessObjectEntry financialSystemBusinessObjectEntry = mapper.readValue(businessObjectEntryAsJson, FinancialSystemBusinessObjectEntry.class);
         dataDictionaryService.updateDictionaryEntry(financialSystemBusinessObjectEntry);
-        return Response.ok().build();
+        Map<String, String> responseMap= new ConcurrentHashMap<>();
+        responseMap.put("message", "business object entry updated successfully");
+        return Response.ok(responseMap).build();
     }
 }

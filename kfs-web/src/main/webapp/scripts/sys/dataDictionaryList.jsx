@@ -104,8 +104,8 @@ var Detail = React.createClass({
             contentType: 'application/json',
             type: 'PUT',
             data: JSON.stringify(this.state.entry),
-            success: function() {
-                alert('Congrats')
+            success: function(response) {
+                alert('Congrats! ' + response.message)
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(status, err.toString());

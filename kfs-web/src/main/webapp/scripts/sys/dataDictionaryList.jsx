@@ -343,36 +343,38 @@ var AddField = React.createClass({
         this.props.addListItem(this.props.prefix, this.state.addLine)
     },
     render: function() {
-        var attributeNameOptions = <option>Oops, we didn't find attribute names</option>
-        if (this.props.attributeNames) {
-            attributeNameOptions = []
+        if (this.props.attributeNames && this.props.attributeNames.length > 0) {
+            var attributeNameOptions = []
             for (var i = 0; i < this.props.attributeNames.length; i++) {
                 attributeNameOptions.push(<option value={this.props.attributeNames[i]}>{this.props.attributeNames[i]}</option>)
             }
+            return (
+                <tr>
+                    <td><select onChange={this.updateFieldValue.bind(this, "attributeName")}>{attributeNameOptions}</select></td>
+                    <td><input type="checkbox" value={this.state.addLine.required} onChange={this.updateFieldValue.bind(this, "required")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "forceInquiry")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noInquiry")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noDirectInquiry")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "forceLookup")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noLookup")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "useShortLabel")}/></td>
+                    <td><input type="text" onChange={this.updateFieldValue.bind(this, "defaultValue")}/></td>
+                    <td><input type="text" onChange={this.updateFieldValue.bind(this, "quickFinderParameterString")}/></td>
+                    <td><input type="text" onChange={this.updateFieldValue.bind(this, "displayEditMode")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "hidden")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "readOnly")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "treatWildcardsAndOperatorsAsLiteral")}/></td>
+                    <td><input type="text" onChange={this.updateFieldValue.bind(this, "alternateDisplayAttributeName")}/></td>
+                    <td><input type="text" onChange={this.updateFieldValue.bind(this, "additionalDisplayAttributeName")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "triggerOnChange")}/></td>
+                    <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "total")}/></td>
+                    <td><button type="button" onClick={this.addItem.bind(this)}>Kaboom!</button></td>
+                </tr>
+            )
+        } else {
+            return (<tr style={{display:'none'}}><td></td></tr>)
         }
-        return (
-            <tr>
-                <td><select onChange={this.updateFieldValue.bind(this, "attributeName")}>{attributeNameOptions}</select></td>
-                <td><input type="checkbox" value={this.state.addLine.required} onChange={this.updateFieldValue.bind(this, "required")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "forceInquiry")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noInquiry")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noDirectInquiry")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "forceLookup")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "noLookup")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "useShortLabel")}/></td>
-                <td><input type="text" onChange={this.updateFieldValue.bind(this, "defaultValue")}/></td>
-                <td><input type="text" onChange={this.updateFieldValue.bind(this, "quickFinderParameterString")}/></td>
-                <td><input type="text" onChange={this.updateFieldValue.bind(this, "displayEditMode")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "hidden")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "readOnly")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "treatWildcardsAndOperatorsAsLiteral")}/></td>
-                <td><input type="text" onChange={this.updateFieldValue.bind(this, "alternateDisplayAttributeName")}/></td>
-                <td><input type="text" onChange={this.updateFieldValue.bind(this, "additionalDisplayAttributeName")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "triggerOnChange")}/></td>
-                <td><input type="checkbox" value="false" onChange={this.updateFieldValue.bind(this, "total")}/></td>
-                <td><button type="button" onClick={this.addItem.bind(this)}>Kaboom!</button></td>
-            </tr>
-        )
+
     }
 })
 

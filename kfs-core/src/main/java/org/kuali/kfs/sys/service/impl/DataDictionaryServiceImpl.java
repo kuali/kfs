@@ -60,8 +60,7 @@ public class DataDictionaryServiceImpl extends org.kuali.rice.kns.service.impl.D
         return entryMap;
     }
 
-    @Override
     public void updateDictionaryEntry(FinancialSystemBusinessObjectEntry financialSystemBusinessObjectEntry) {
-
+        getDataDictionary().updateDictionaryEntry(financialSystemBusinessObjectEntry);
     }
 }

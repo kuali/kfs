@@ -70,7 +70,7 @@ import java.util.regex.Pattern;
  * to pull in those resources.  Hopefully, as KFS starts pulling in Rice client functionality, the Rice DataDictionary
  * will be improved to pull multiple files in.
  */
-public class DataDictionary  {
+public class DataDictionary {
 
     protected KualiDefaultListableBeanFactory ddBeans = new KualiDefaultListableBeanFactory();
     protected XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ddBeans);
@@ -106,19 +106,20 @@ public class DataDictionary  {
         this.configFileLocations = configFileLocations;
     }
 
-    public void addConfigFileLocation( String location ) throws IOException {
-        indexSource( location );
+    public void addConfigFileLocation(String location) throws IOException {
+        indexSource(location);
     }
 
     /**
      * ApplicationContext aware version of method
      */
-    public void addConfigFileLocation( String location, ApplicationContext applicationContext ) throws IOException {
-        indexSource( location, applicationContext );
+    public void addConfigFileLocation(String location, ApplicationContext applicationContext) throws IOException {
+        indexSource(location, applicationContext);
     }
 
     /**
      * Sets the DataDictionaryMapper
+     *
      * @param mapper the datadictionary mapper
      */
     public void setDataDictionaryMapper(DataDictionaryMapper mapper) {
@@ -130,7 +131,7 @@ public class DataDictionary  {
             throw new DataDictionaryException("Source Name given is null");
         }
 
-        if (!sourceName.endsWith(".xml") ) {
+        if (!sourceName.endsWith(".xml")) {
             Resource resource = getFileResource(sourceName);
             if (resource.exists()) {
                 indexSource(resource.getFile());
@@ -139,16 +140,16 @@ public class DataDictionary  {
                 throw new DataDictionaryException("DD Resource " + sourceName + " not found");
             }
         } else {
-            if ( LOG.isDebugEnabled() ) {
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("adding sourceName " + sourceName + " ");
             }
             Resource resource = getFileResource(sourceName);
-            if (! resource.exists()) {
+            if (!resource.exists()) {
                 throw new DataDictionaryException("DD Resource " + sourceName + " not found");
             }
 
             String indexName = sourceName.substring(sourceName.lastIndexOf("/") + 1, sourceName.indexOf(".xml"));
-            configFileLocations.add( sourceName );
+            configFileLocations.add(sourceName);
         }
     }
 
@@ -162,7 +163,7 @@ public class DataDictionary  {
 
         if (sourceName.endsWith(".xml")) {
             final Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(applicationContext).getResources(sourceName);
-            for (Resource resource: resources) {
+            for (Resource resource : resources) {
                 if (resource.exists()) {
                     final String resourcePath = parseResourcePathFromUrl(resource);
                     if (!StringUtils.isBlank(resourcePath)) {
@@ -174,16 +175,16 @@ public class DataDictionary  {
                 }
             }
         } else {
-            if ( LOG.isDebugEnabled() ) {
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("adding sourceName " + sourceName + " ");
             }
             Resource resource = getFileResource(sourceName, applicationContext);
-            if (! resource.exists()) {
+            if (!resource.exists()) {
                 throw new DataDictionaryException("DD Resource " + sourceName + " not found");
             }
 
             String indexName = sourceName.substring(sourceName.lastIndexOf("/") + 1, sourceName.indexOf(".xml"));
-            configFileLocations.add( sourceName );
+            configFileLocations.add(sourceName);
         }
     }
 
@@ -194,6 +195,7 @@ public class DataDictionary  {
 
     /**
      * Parses the path name from a resource's description
+     *
      * @param resource a resource which hides a path from us
      * @return the path name if we could parse it out
      */
@@ -221,17 +223,17 @@ public class DataDictionary  {
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 indexSource(file);
-            } else if (file.getName().endsWith(".xml") ) {
-                configFileLocations.add( "file:" + file.getAbsolutePath());
+            } else if (file.getName().endsWith(".xml")) {
+                configFileLocations.add("file:" + file.getAbsolutePath());
             } else {
-                if ( LOG.isDebugEnabled() ) {
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Skipping non xml file " + file.getAbsolutePath() + " in DD load");
                 }
             }
         }
     }
 
-    public void parseDataDictionaryConfigurationFiles( boolean allowConcurrentValidation ) {
+    public void parseDataDictionaryConfigurationFiles(boolean allowConcurrentValidation) {
         // configure the bean factory, setup component decorator post processor
         // and allow Spring EL
         try {
@@ -273,7 +275,6 @@ public class DataDictionary  {
         }
 
 
-
 //        UifBeanFactoryPostProcessor factoryPostProcessor = new UifBeanFactoryPostProcessor();
 //        factoryPostProcessor.postProcessBeanFactory(ddBeans);
 //
@@ -297,7 +298,7 @@ public class DataDictionary  {
             MongoCollection dds = database.getCollection(collectionName);
             Iterator<FinancialSystemBusinessObjectEntry> iterator = businessObjectEntryMap.values().iterator();
             ObjectMapper mapper = new ObjectMapper();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 FinancialSystemBusinessObjectEntry businessObjectEntry = iterator.next();
                 try {
                     Document doc = Document.parse(mapper.writeValueAsString(businessObjectEntry));
@@ -336,8 +337,8 @@ public class DataDictionary  {
         FindIterable iterable = dds.find();
         MongoCursor cursor = iterable.iterator();
         while (cursor.hasNext()) {
-            Document doc = (Document)cursor.next();
-            String ddValue = (String)doc.get("xml");
+            Document doc = (Document) cursor.next();
+            String ddValue = (String) doc.get("xml");
             LOG.info(ddValue);
             ByteArrayResource resource = new ByteArrayResource(ddValue.getBytes());
             xmlReader.loadBeanDefinitions(resource);
@@ -364,14 +365,14 @@ public class DataDictionary  {
 
     static boolean validateEBOs = true;
 
-    public void validateDD( boolean validateEbos ) {
+    public void validateDD(boolean validateEbos) {
         DataDictionary.validateEBOs = validateEbos;
-        Map<String,DataObjectEntry> doBeans = ddBeans.getBeansOfType(DataObjectEntry.class);
-        for ( DataObjectEntry entry : doBeans.values() ) {
+        Map<String, DataObjectEntry> doBeans = ddBeans.getBeansOfType(DataObjectEntry.class);
+        for (DataObjectEntry entry : doBeans.values()) {
             entry.completeValidation();
         }
-        Map<String,DocumentEntry> docBeans = ddBeans.getBeansOfType(DocumentEntry.class);
-        for ( DocumentEntry entry : docBeans.values() ) {
+        Map<String, DocumentEntry> docBeans = ddBeans.getBeansOfType(DocumentEntry.class);
+        for (DocumentEntry entry : docBeans.values()) {
             entry.completeValidation();
         }
     }
@@ -385,7 +386,7 @@ public class DataDictionary  {
      * @return BusinessObjectEntry for the named class, or null if none exists
      */
     @Deprecated
-    public BusinessObjectEntry getBusinessObjectEntry(String className ) {
+    public BusinessObjectEntry getBusinessObjectEntry(String className) {
         return ddMapper.getBusinessObjectEntry(mongoDictionaryIndex, className);
     }
 
@@ -393,7 +394,7 @@ public class DataDictionary  {
      * @param className
      * @return BusinessObjectEntry for the named class, or null if none exists
      */
-    public DataObjectEntry getDataObjectEntry(String className ) {
+    public DataObjectEntry getDataObjectEntry(String className) {
         return ddMapper.getDataObjectEntry(mongoDictionaryIndex, className);
     }
 
@@ -403,7 +404,7 @@ public class DataDictionary  {
      * @param className
      * @return
      */
-    public BusinessObjectEntry getBusinessObjectEntryForConcreteClass(String className){
+    public BusinessObjectEntry getBusinessObjectEntryForConcreteClass(String className) {
         return ddMapper.getBusinessObjectEntryForConcreteClass(mongoDictionaryIndex, className);
     }
 
@@ -424,7 +425,7 @@ public class DataDictionary  {
     /**
      * @param className
      * @return DataDictionaryEntryBase for the named class, or null if none
-     *         exists
+     * exists
      */
     public DataDictionaryEntry getDictionaryObjectEntry(String className) {
         return ddMapper.getDictionaryObjectEntry(mongoDictionaryIndex, className);
@@ -445,19 +446,19 @@ public class DataDictionary  {
      * @param documentTypeDDKey the KEW/workflow document type name
      * @return the KNS DocumentEntry if it exists
      */
-    public DocumentEntry getDocumentEntry(String documentTypeDDKey ) {
+    public DocumentEntry getDocumentEntry(String documentTypeDDKey) {
         return ddMapper.getDocumentEntry(mongoDictionaryIndex, documentTypeDDKey);
     }
 
     /**
      * Note: only MaintenanceDocuments are indexed by businessObject Class
-     *
+     * <p/>
      * This is a special case that is referenced in one location. Do we need
      * another map for this stuff??
      *
      * @param businessObjectClass
      * @return DocumentEntry associated with the given Class, or null if there
-     *         is none
+     * is none
      */
     public MaintenanceDocumentEntry getMaintenanceDocumentEntryForBusinessObjectClass(Class<?> businessObjectClass) {
         return ddMapper.getMaintenanceDocumentEntryForBusinessObjectClass(mongoDictionaryIndex, businessObjectClass);
@@ -534,7 +535,7 @@ public class DataDictionary  {
      * @return the persistenceStructureService
      */
     public static PersistenceStructureService getPersistenceStructureService() {
-        if ( persistenceStructureService == null ) {
+        if (persistenceStructureService == null) {
             persistenceStructureService = KRADServiceLocator.getPersistenceStructureService();
         }
         return persistenceStructureService;
@@ -544,7 +545,7 @@ public class DataDictionary  {
      * This method determines the Class of the attributeName passed in. Null will be returned if the member is not available, or if
      * a reflection exception is thrown.
      *
-     * @param boClass - Class that the attributeName property exists in.
+     * @param boClass       - Class that the attributeName property exists in.
      * @param attributeName - Name of the attribute you want a class for.
      * @return The Class of the attributeName, if the attribute exists on the rootClass. Null otherwise.
      */
@@ -558,7 +559,7 @@ public class DataDictionary  {
         //Implementing Externalizable Business Object Services...
         //The boClass can be an interface, hence handling this separately, 
         //since the original method was throwing exception if the class could not be instantiated.
-        if(boClass.isInterface())
+        if (boClass.isInterface())
             return getAttributeClassWhenBOIsInterface(boClass, attributeName);
         else
             return getAttributeClassWhenBOIsClass(boClass, attributeName);
@@ -566,14 +567,13 @@ public class DataDictionary  {
     }
 
     /**
-     *
      * This method gets the property type of the given attributeName when the bo class is a concrete class
      *
      * @param boClass
      * @param attributeName
      * @return
      */
-    private static Class getAttributeClassWhenBOIsClass(Class boClass, String attributeName){
+    private static Class getAttributeClassWhenBOIsClass(Class boClass, String attributeName) {
         Object boInstance;
         try {
             boInstance = boClass.newInstance();
@@ -590,16 +590,15 @@ public class DataDictionary  {
     }
 
     /**
-     *
      * This method gets the property type of the given attributeName when the bo class is an interface
-     * This method will also work if the bo class is not an interface, 
-     * but that case requires special handling, hence a separate method getAttributeClassWhenBOIsClass 
+     * This method will also work if the bo class is not an interface,
+     * but that case requires special handling, hence a separate method getAttributeClassWhenBOIsClass
      *
      * @param boClass
      * @param attributeName
      * @return
      */
-    private static Class getAttributeClassWhenBOIsInterface(Class boClass, String attributeName){
+    private static Class getAttributeClassWhenBOIsInterface(Class boClass, String attributeName) {
         if (boClass == null) {
             throw new IllegalArgumentException("invalid (null) boClass");
         }
@@ -621,18 +620,16 @@ public class DataDictionary  {
             if (propertyDescriptor != null) {
 
                 Class propertyType = propertyDescriptor.getPropertyType();
-                if ( propertyType.equals( PersistableBusinessObjectExtension.class ) ) {
-                    propertyType = getPersistenceStructureService().getBusinessObjectAttributeClass( currentClass, currentPropertyName );
+                if (propertyType.equals(PersistableBusinessObjectExtension.class)) {
+                    propertyType = getPersistenceStructureService().getBusinessObjectAttributeClass(currentClass, currentPropertyName);
                 }
                 if (Collection.class.isAssignableFrom(propertyType)) {
                     // TODO: determine property type using generics type definition
                     throw new AttributeValidationException("Can't determine the Class of Collection elements because when the business object is an (possibly ExternalizableBusinessObject) interface.");
-                }
-                else {
+                } else {
                     currentClass = propertyType;
                 }
-            }
-            else {
+            } else {
                 throw new AttributeValidationException("Can't find getter method of " + boClass.getName() + " for property " + attributeName);
             }
         }
@@ -642,7 +639,7 @@ public class DataDictionary  {
     /**
      * This method determines the Class of the elements in the collectionName passed in.
      *
-     * @param boClass Class that the collectionName collection exists in.
+     * @param boClass        Class that the collectionName collection exists in.
      * @param collectionName the name of the collection you want the element class for
      * @return
      */
@@ -659,7 +656,7 @@ public class DataDictionary  {
         String[] intermediateProperties = collectionName.split("\\.");
         Class currentClass = boClass;
 
-        for (int i = 0; i <intermediateProperties.length; ++i) {
+        for (int i = 0; i < intermediateProperties.length; ++i) {
 
             String currentPropertyName = intermediateProperties[i];
             propertyDescriptor = buildSimpleReadDescriptor(currentClass, currentPropertyName);
@@ -676,13 +673,11 @@ public class DataDictionary  {
                         collectionClasses = getPersistenceStructureService().listCollectionObjectTypes(currentClass);
                         currentClass = collectionClasses.get(currentPropertyName);
 
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException("Can't determine the Class of Collection elements because persistenceStructureService.isPersistable(" + currentClass.getName() + ") returns false.");
                     }
 
-                }
-                else {
+                } else {
 
                     currentClass = propertyDescriptor.getPropertyType();
 
@@ -724,8 +719,8 @@ public class DataDictionary  {
                 if (propertyDescriptor != null) {
 
                     Class propertyType = propertyDescriptor.getPropertyType();
-                    if ( propertyType.equals( PersistableBusinessObjectExtension.class ) ) {
-                        propertyType = getPersistenceStructureService().getBusinessObjectAttributeClass( currentClass, currentPropertyName );
+                    if (propertyType.equals(PersistableBusinessObjectExtension.class)) {
+                        propertyType = getPersistenceStructureService().getBusinessObjectAttributeClass(currentClass, currentPropertyName);
                     }
                     if (Collection.class.isAssignableFrom(propertyType)) {
 
@@ -735,15 +730,13 @@ public class DataDictionary  {
                             collectionClasses = getPersistenceStructureService().listCollectionObjectTypes(currentClass);
                             currentClass = collectionClasses.get(currentPropertyName);
 
-                        }
-                        else {
+                        } else {
 
                             throw new RuntimeException("Can't determine the Class of Collection elements because persistenceStructureService.isPersistable(" + currentClass.getName() + ") returns false.");
 
                         }
 
-                    }
-                    else {
+                    } else {
 
                         currentClass = propertyType;
 
@@ -816,11 +809,10 @@ public class DataDictionary  {
      * This method gathers beans of type BeanOverride and invokes each one's performOverride() method.
      */
     // KULRICE-4513
-    public void performBeanOverrides()
-    {
+    public void performBeanOverrides() {
         Collection<BeanOverride> beanOverrides = ddBeans.getBeansOfType(BeanOverride.class).values();
 
-        if (beanOverrides.isEmpty()){
+        if (beanOverrides.isEmpty()) {
             LOG.info("DataDictionary.performOverrides(): No beans to override");
         }
         for (BeanOverride beanOverride : beanOverrides) {
@@ -830,4 +822,9 @@ public class DataDictionary  {
             LOG.info("DataDictionary.performOverrides(): Performing override on bean: " + bean.toString());
         }
     }
+
+    public void updateDictionaryEntry(FinancialSystemBusinessObjectEntry financialSystemBusinessObjectEntry) {
+        mongoDictionaryIndex.updateBusinessObjectEntry(financialSystemBusinessObjectEntry);
+    }
+
 }

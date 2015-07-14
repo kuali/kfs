@@ -18,28 +18,20 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -75,9 +67,17 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.TreeMap;
 
 /**
  * Struts Action for Accounts Payable documents.
@@ -552,8 +552,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, "Unable to reopen the PO at this time due to the incorrect PO status or a pending PO change document.", PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
             }
 
-        }
-        catch (ValidationException ve) {
+        } catch (ValidationException ve) {
             throw ve;
         }
     }
@@ -564,13 +563,14 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 public Object runLogic(Object[] objects) throws Exception {
                     PurchaseOrderDocument po = (PurchaseOrderDocument) objects[0];
 
+                    final NoteService noteService = SpringContext.getBean(NoteService.class);
                     Note cancelNote = new Note();
                     cancelNote.setNoteTypeCode(po.getNoteType().getCode());
-                    cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     cancelNote.setNoteText(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
                     cancelNote.setNotePostedTimestampToCurrent();
-                    po.addNote(cancelNote);
-                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+                    final Note poCancelNote = noteService.createNote(cancelNote, po.getNoteTarget(), GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                    po.addNote(poCancelNote);
+                    noteService.save(poCancelNote);
 
                     return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
                 }

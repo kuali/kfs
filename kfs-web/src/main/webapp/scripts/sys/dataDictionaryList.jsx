@@ -97,14 +97,10 @@ var Detail = React.createClass({
         this.setState(s)
     },
     addListItem: function(prefix, item) {
-        console.log("adding a list item")
-        console.log(prefix)
         var list = getValueByPath(prefix, this.state.entry)
-        console.log(list)
         var s = {}
         s.entry = this.state.entry
         if (list && Array.isArray(list)) {
-            console.log('we made it')
             list.push(item)
             setValue(prefix, list, s.entry)
             this.setState(s)
@@ -133,7 +129,6 @@ var Detail = React.createClass({
                 return elem.name
             })
         }
-        console.log("Attribute names: "+attributeNames.join(", "))
         var prefix;
         var fields = buildFieldArray(prefix, this.state.entry, this.props.params.editable, this.updateFieldValue, attributeNames, this.addListItem)
         var updateButton;
@@ -144,7 +139,9 @@ var Detail = React.createClass({
             <div>
                 <Link to="table">go back</Link>
                 <table>
+                    <tbody>
                     {fields}
+                    </tbody>
                 </table>
                 {updateButton}
             </div>
@@ -202,17 +199,17 @@ var FormField = React.createClass({
             attributeValue = <AttributeTable prefix={prefix} attributes={this.props.value} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem}/>
         } else if (this.props.name === "defaultSort") {
             var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
-            attributeValue = <table>{fields}</table>
+            attributeValue = <table><tbody>{fields}</tbody></table>
         } else if (this.props.name === "inquirySections") {
             var attributeValues = [];
             for (var i=0;i<this.props.value.length;i++) {
                 var fields = buildFieldArray(prefix, this.props.value[i], this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
-                attributeValues.push(<tr><td><table>{fields}</table></td></tr>)
+                attributeValues.push(<tr><td><table><tbody>{fields}</tbody></table></td></tr>)
             }
-            attributeValue = <table>{attributeValues}</table>
+            attributeValue = <table><tbody>{attributeValues}</tbody></table>
         } else if (this.props.name === "inquiryDefinition" || this.props.name === "lookupDefinition") {
             var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
-            attributeValue = <table>{fields}</table>
+            attributeValue = <table><tbody>{fields}</tbody></table>
         } else {
             attributeValue = <InputField prefix={undefined} editable={this.props.editable} value={this.props.value} name={this.props.name} updateFieldValue={this.props.updateFieldValue}/>
         }
@@ -243,12 +240,13 @@ var AttributeTable = React.createClass({
             fields.push(<AttributeFormField prefix={prefix} attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem}/>)
         }
         if (this.props.prefix === 'lookupDefinition.lookupFields' || this.props.prefix === 'lookupDefinition.resultFields') {
-            console.log(this.props.prefix)
             fields.push(<AddField attributeNames={nonUsedAttributeNames} prefix={this.props.prefix} addListItem={this.props.addListItem}/>)
         }
         return (
             <table>
+                <tbody>
                 {fields}
+                </tbody>
             </table>
         )
     }
@@ -310,24 +308,24 @@ var InputField = React.createClass({
 var AddField = React.createClass({
     getInitialState: function() {
         return {addLine: {
-            additionalDisplayAttributeName: null,
-            alternateDisplayAttributeName: null,
             attributeName: this.props.attributeNames[0],
-            defaultValue: null,
-            displayEditMode: null,
-            forceInquiry: false,
-            forceLookup: false,
-            hidden: false,
-            noDirectInquiry: false,
-            noInquiry: false,
-            noLookup: false,
-            quickfinderParameterString: null,
-            readOnly: false,
             required: false,
-            total: false,
+            forceInquiry: false,
+            noInquiry: false,
+            noDirectInquiry: false,
+            forceLookup: false,
+            noLookup: false,
+            useShortLabel: false,
+            defaultValue: null,
+            quickfinderParameterString: null,
+            displayEditMode: null,
+            hidden: false,
+            readOnly: false,
             treatWildcardsAndOperatorsAsLiteral: false,
+            alternateDisplayAttributeName: null,
+            additionalDisplayAttributeName: null,
             triggerOnChange: false,
-            useShortLabel: false
+            total: false
         }}
     },
     updateFieldValue: function(name, event) {

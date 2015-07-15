@@ -1004,7 +1004,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.IMPORTED_EXPENSES, null, line));
 
         if (line instanceof ActualExpense){
-            getTravelExpenseService().updateTaxabilityOfActualExpense((ActualExpense)line, this, GlobalVariables.getUserSession().getPerson()); // when adding the expense detail, attempt to update the taxability if user can't edit taxability
+            getTravelExpenseService().updateTaxabilityOfActualExpense((ActualExpense) line, this, GlobalVariables.getUserSession().getPerson()); // when adding the expense detail, attempt to update the taxability if user can't edit taxability
             getActualExpenses().get(index).addExpenseDetails(line);
             if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode()) && !StringUtils.isBlank(getTripTypeCode())) {
                 getActualExpenses().get(index).refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
@@ -1336,8 +1336,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         List managedLists = super.buildListOfDeletionAwareLists();
 
         managedLists.add(getImportedExpenses());
-        managedLists.add(getActualExpenses());
         managedLists.add(getPerDiemExpenses());
+        managedLists.add(getGroupTravelers());
+        managedLists.add(getAllActualExpensesWithDetails());
 
         return managedLists;
     }

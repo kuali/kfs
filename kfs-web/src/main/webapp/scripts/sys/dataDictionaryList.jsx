@@ -106,6 +106,46 @@ var Detail = React.createClass({
             this.setState(s)
         }
     },
+    removeListItem: function(prefix) {
+        var index = prefix.lastIndexOf('.')
+        var elementIndex = prefix.substring(index+1)
+        var path = prefix.substring(0,index)
+        var list = getValueByPath(path, this.state.entry)
+        var s = {}
+        s.entry = this.state.entry
+        if (list && Array.isArray(list)) {
+            list.splice(elementIndex, 1);
+            this.setState(s)
+        }
+    },
+    moveListItemDown: function(prefix) {
+        var index = prefix.lastIndexOf('.')
+        var elementIndex = parseInt(prefix.substring(index+1))
+        var path = prefix.substring(0,index)
+        var list = getValueByPath(path, this.state.entry)
+        var s = {}
+        s.entry = this.state.entry
+        if (list && Array.isArray(list)) {
+            var tmp = list[elementIndex+1]
+            list[elementIndex+1] = list[elementIndex]
+            list[elementIndex] = tmp
+            this.setState(s)
+        }
+    },
+    moveListItemUp: function(prefix) {
+        var index = prefix.lastIndexOf('.')
+        var elementIndex = parseInt(prefix.substring(index+1))
+        var path = prefix.substring(0,index)
+        var list = getValueByPath(path, this.state.entry)
+        var s = {}
+        s.entry = this.state.entry
+        if (list && Array.isArray(list)) {
+            var tmp = list[elementIndex-1]
+            list[elementIndex-1] = list[elementIndex]
+            list[elementIndex] = tmp
+            this.setState(s)
+        }
+    },
     updateBusinessObjectEntry: function() {
         $.ajax({
             url: getUrlPathPrefix("/sys/DataDictionaryList.html") + "/core/datadictionary/businessObjectEntry/" + this.props.params.name,
@@ -130,7 +170,7 @@ var Detail = React.createClass({
             })
         }
         var prefix;
-        var fields = buildFieldArray(prefix, this.state.entry, this.props.params.editable, this.updateFieldValue, attributeNames, this.addListItem)
+        var fields = buildFieldArray(prefix, this.state.entry, this.props.params.editable, this.updateFieldValue, attributeNames, this.addListItem, this.removeListItem, this.moveListItemDown, this.moveListItemUp)
         var updateButton;
         if (this.props.params.editable && this.props.params.editable  === "true") {
             updateButton = <button type="button" onClick={this.updateBusinessObjectEntry}>Update</button>;
@@ -178,11 +218,11 @@ function getValueByPath(path, obj) {
     return result;
 }
 
-function buildFieldArray(prefix, map, editable, updateFieldValue, attributeNames, addListItem) {
+function buildFieldArray(prefix, map, editable, updateFieldValue, attributeNames, addListItem, removeListItem, moveListItemDown, moveListItemUp) {
     var fields = [];
     for (var key in map) {
         if (map.hasOwnProperty(key)) {
-            fields.push(<FormField prefix={prefix} name={key} value={map[key]} editable={editable} updateFieldValue={updateFieldValue} attributeNames={attributeNames} addListItem={addListItem}/>)
+            fields.push(<FormField prefix={prefix} name={key} value={map[key]} editable={editable} updateFieldValue={updateFieldValue} attributeNames={attributeNames} addListItem={addListItem} removeListItem={removeListItem} moveListItemDown={moveListItemDown} moveListItemUp={moveListItemUp}/>)
         }
     }
     return fields;
@@ -196,19 +236,19 @@ var FormField = React.createClass({
             prefix = this.props.prefix + "." + this.props.name
         }
         if (this.props.name === "attributes" || this.props.name === "inquiryFields" || this.props.name === "lookupFields" || this.props.name === "resultFields") {
-            attributeValue = <AttributeTable prefix={prefix} attributes={this.props.value} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem}/>
+            attributeValue = <AttributeTable prefix={prefix} attributes={this.props.value} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem} removeListItem={this.props.removeListItem} moveListItemDown={this.props.moveListItemDown} moveListItemUp={this.props.moveListItemUp}/>
         } else if (this.props.name === "defaultSort") {
-            var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
+            var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem, this.props.removeListItem, this.props.moveListItemDown, this.props.moveListItemUp)
             attributeValue = <table><tbody>{fields}</tbody></table>
         } else if (this.props.name === "inquirySections") {
             var attributeValues = [];
             for (var i=0;i<this.props.value.length;i++) {
-                var fields = buildFieldArray(prefix, this.props.value[i], this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
+                var fields = buildFieldArray(prefix, this.props.value[i], this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem, this.props.removeListItem, this.props.moveListItemDown, this.props.moveListItemUp)
                 attributeValues.push(<tr><td><table><tbody>{fields}</tbody></table></td></tr>)
             }
             attributeValue = <table><tbody>{attributeValues}</tbody></table>
         } else if (this.props.name === "inquiryDefinition" || this.props.name === "lookupDefinition") {
-            var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem)
+            var fields = buildFieldArray(prefix, this.props.value, this.props.editable, this.props.updateFieldValue, this.props.attributeNames, this.props.addListItem, this.props.removeListItem, this.props.moveListItemDown, this.props.moveListItemUp)
             attributeValue = <table><tbody>{fields}</tbody></table>
         } else {
             attributeValue = <InputField prefix={undefined} editable={this.props.editable} value={this.props.value} name={this.props.name} updateFieldValue={this.props.updateFieldValue}/>
@@ -225,9 +265,10 @@ var FormField = React.createClass({
 
 var AttributeTable = React.createClass({
     render: function() {
-        var fields = [];
+        var headerFields = [];
+        var bodyFields = [];
         if (this.props.attributes.length > 0) {
-            fields.push(<AttributeLabelField attribute={this.props.attributes[0]}/>)
+            headerFields.push(<AttributeLabelField attribute={this.props.attributes[0]}/>)
         }
         var usedAttributeNames = this.props.attributes.map(function (attr) {
             return attr.attributeName
@@ -237,15 +278,18 @@ var AttributeTable = React.createClass({
         })
         for (var i=0; i<this.props.attributes.length; i++) {
             var prefix = this.props.prefix + '.' + i
-            fields.push(<AttributeFormField prefix={prefix} attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem}/>)
+            bodyFields.push(<AttributeFormField prefix={prefix} attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem} removeListItem={this.props.removeListItem} moveListItemDown={this.props.moveListItemDown} moveListItemUp={this.props.moveListItemUp} attributeCount={this.props.attributes.length}/>)
         }
         if (this.props.prefix === 'lookupDefinition.lookupFields' || this.props.prefix === 'lookupDefinition.resultFields') {
-            fields.push(<AddField attributeNames={nonUsedAttributeNames} prefix={this.props.prefix} addListItem={this.props.addListItem}/>)
+            bodyFields.push(<AddField attributeNames={nonUsedAttributeNames} prefix={this.props.prefix} addListItem={this.props.addListItem}/>)
         }
         return (
             <table>
+                <thead>
+                    {headerFields}
+                </thead>
                 <tbody>
-                {fields}
+                    {bodyFields}
                 </tbody>
             </table>
         )
@@ -269,19 +313,45 @@ var AttributeLabelField = React.createClass({
 })
 
 var AttributeFormField = React.createClass({
+    removeItem: function() {
+        this.props.removeListItem(this.props.prefix)
+    },
+    moveItemUp: function() {
+        this.props.moveListItemUp(this.props.prefix)
+    },
+    moveItemDown: function() {
+        this.props.moveListItemDown(this.props.prefix)
+    },
     render: function() {
         var fields = [];
         for (var key in this.props.attribute) {
             if (this.props.attribute.hasOwnProperty(key)) {
                 if (key === "control") {
                     var prefix = this.props.prefix + "." + key
-                    fields.push(<td><AttributeTable prefix={prefix} editable={this.props.editable} attributes={[this.props.attribute[key]]} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem}/></td>)
-
+                    fields.push(<td><AttributeTable prefix={prefix} editable={this.props.editable} attributes={[this.props.attribute[key]]} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem} removeListItem={this.props.removeListItem} moveListItemDown={this.props.moveListItemDown} moveListItemUp={this.props.moveListItemUp}/></td>)
                 } else {
                     var attributeValue = <InputField prefix={this.props.prefix} editable={this.props.editable} value={this.props.attribute[key]} name={key} updateFieldValue={this.props.updateFieldValue}/>
                     fields.push(<td>{attributeValue}</td>)
                 }
             }
+        }
+        if (this.props.prefix.startsWith('lookupDefinition.lookupFields') || this.props.prefix.startsWith('lookupDefinition.resultFields')) {
+            var index = this.props.prefix.lastIndexOf('.')
+            var elementIndex = parseInt(this.props.prefix.substring(index+1))
+
+            if (elementIndex < this.props.attributeCount - 1) {
+                fields.push(<td><button type="button" onClick={this.moveItemDown}>Down</button></td>)
+            } else {
+                fields.push(<td>&nbsp;</td>)
+            }
+
+            if (elementIndex > 0) {
+                fields.push(<td><button type="button" onClick={this.moveItemUp}>Up</button></td>)
+            } else {
+                fields.push(<td>&nbsp;</td>)
+            }
+
+            fields.push(<td><button type="button" onClick={this.removeItem}>Remove</button></td>)
         }
         return (
             <tr>

@@ -1,0 +1,8 @@
+table {
+    background-color: rgba(1, 1, 1, 0.15);
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #eee;
+}

@@ -280,7 +280,7 @@ var AttributeTable = React.createClass({
             var prefix = this.props.prefix + '.' + i
             bodyFields.push(<AttributeFormField prefix={prefix} attribute={this.props.attributes[i]} editable={this.props.editable} updateFieldValue={this.props.updateFieldValue} attributeNames={this.props.attributeNames} addListItem={this.props.addListItem} removeListItem={this.props.removeListItem} moveListItemDown={this.props.moveListItemDown} moveListItemUp={this.props.moveListItemUp} attributeCount={this.props.attributes.length}/>)
         }
-        if (this.props.prefix === 'lookupDefinition.lookupFields' || this.props.prefix === 'lookupDefinition.resultFields') {
+        if ((this.props.prefix === 'lookupDefinition.lookupFields' || this.props.prefix === 'lookupDefinition.resultFields') && (this.props.editable && this.props.editable === 'true')) {
             bodyFields.push(<AddField attributeNames={nonUsedAttributeNames} prefix={this.props.prefix} addListItem={this.props.addListItem}/>)
         }
         return (
@@ -335,7 +335,7 @@ var AttributeFormField = React.createClass({
                 }
             }
         }
-        if (this.props.prefix.startsWith('lookupDefinition.lookupFields') || this.props.prefix.startsWith('lookupDefinition.resultFields')) {
+        if ((this.props.prefix.startsWith('lookupDefinition.lookupFields') || this.props.prefix.startsWith('lookupDefinition.resultFields')) && (this.props.editable && this.props.editable === 'true')) {
             var index = this.props.prefix.lastIndexOf('.')
             var elementIndex = parseInt(this.props.prefix.substring(index+1))
 

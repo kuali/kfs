@@ -165,10 +165,9 @@
           </configuration>
           <dependencies>
             <dependency>
-              <groupId>mysql</groupId>
-              <artifactId>mysql-connector-java</artifactId>
-              <version>${mysql.version}</version>
-              <scope>provided</scope>
+              <groupId>${db.groupId}</groupId>
+              <artifactId>${db.artifactId}</artifactId>
+              <version>${db.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -497,6 +496,12 @@
           <artifactId>xapool</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kim-ldap</artifactId>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>

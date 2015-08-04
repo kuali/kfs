@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<!--
+ Copyright 2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- UA UPGRADE - enable ldap for upgrade -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/util 
+            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="contextSource"
+          class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="url" value="${rice.ldap.url}" />
+        <property name="base" value="${rice.ldap.base}" />
+        <property name="authenticationSource" ref="authenticationSource" />
+    </bean>
+    
+    <!-- UAF-6 - Performance improvements to improve user experience for AWS deployment -->
+    <bean id="authenticationSource" class="edu.arizona.rice.kim.ldap.authentication.KualiAuthenticationSource" >
+        <property name="principal" value="${rice.ldap.username}" />
+        <property name="credentials" value="${rice.ldap.password}" />
+    </bean>
+
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="contextSource" />
+    </bean>
+
+    <bean id="kimConstants" class="org.kuali.rice.kim.util.ConstantsImpl">
+        <property name="kimLdapIdProperty"         value="uaid" />
+        <property name="kimLdapNameProperty"       value="uid" />
+        <property name="snLdapProperty"            value="sn" />
+        <property name="givenNameLdapProperty"     value="givenName" />
+        <property name="entityIdKimProperty"       value="entityId" />
+        <property name="employeeMailLdapProperty"  value="mail" />
+        <property name="employeePhoneLdapProperty" value="employeePhone" />
+        <property name="defaultCountryCode"        value="1" />
+        <property name="mappedParameterName"       value="KIM_TO_EDS_FIELD_MAPPINGS" />
+        <property name="mappedValuesName"          value="KIM_TO_EDS_VALUE_MAPPINGS" />
+        <property name="parameterNamespaceCode"    value="KFS-SYS" />
+        <property name="parameterDetailTypeCode"   value="Lookup" />
+        <property name="personEntityTypeCode"      value="PERSON" />
+        <property name="employeeIdProperty"        value="emplId" />
+        <property name="departmentLdapProperty"    value="employeePrimaryDept" />  
+        <property name="employeeTypeProperty"      value="employeeType" />
+        <property name="employeeStatusProperty"    value="employeeStatus" />
+        <property name="affiliationLdapProperty"   value="eduPersonPrimaryAffiliation" />
+        <property name="primaryAffiliationLdapProperty"   value="eduPersonPrimaryAffiliation" />
+        <property name="defaultCampusCode"         value="MC" />
+        <property name="defaultChartCode"          value="UA" />
+        <property name="taxExternalIdTypeCode"     value="TAX" />
+        <property name="externalIdProperty"        value="externalIdentifiers.externalId" />
+        <property name="externalIdTypeProperty"    value="externalIdentifiers.externalIdentifierTypeCode" />
+        <property name="affiliationMappings"       value="staff=STAFF,faculty=FCLTY,employee=STAFF,student=STDNT,affilate=AFLT"/>
+        <property name="employeeAffiliationCodes"  value="STAFF,FCLTY" />
+    </bean>
+    
+    <bean id="edsConstants" class="edu.arizona.kfs.sys.identity.EdsConstants">
+        <!-- Keys into the EDS Schema -->
+        <property name="uaIdContextKey"                                value="uaId" />
+        <property name="uidContextKey"                                 value="uid" />
+        <property name="personAffiliationContextKey"                   value="eduPersonAffiliation" />
+        <property name="employeeDeptCodeContextKey"                    value="employeePrimaryDept" />
+        <property name="employeeStatusCodeContextKey"                  value="employeeStatus" />
+        <property name="employeeTypeCodeContextKey"                    value="employeeType" />
+        <property name="dccRelationContextKey"                         value="dccRelation" />
+        <property name="givenNameContextKey"                           value="givenName" />
+        <property name="cnContextKey"                                  value="cn" />
+        <property name="snContextKey"                                  value="sn" />
+        <property name="employeePhoneContextKey"                       value="employeePhone" />
+        <property name="mailContextKey"                                value="mail" />
+        <property name="employeePrimaryDeptNameContextKey"             value="employeePrimaryDeptName" />
+        <property name="employeePoBoxContextKey"                       value="employeePoBox" />
+        <property name="employeeCityContextKey"                        value="employeeCity" />
+        <property name="employeeStateContextKey"                       value="employeeState" />
+        <property name="employeeZipContextKey"                         value="employeeZip" />
+        <property name="emplIdContextKey"                              value="emplId" />
+        <!-- KFS Settings for EDS Params -->
+        <property name="parameterNamespaceCode"                         value="KFS-SYS" />
+        <property name="parameterDetailTypeCode"                        value="Lookup" />
+        <!-- Keys into KFS for params containing EDS values  -->
+        <property name="edsRespectedAndOrderedAffsParamKey"            value="EDS_RESPECTED_AND_ORDERED_AFFS" />
+        <property name="edsUnrespectedAndOrderedAffsParamKey"          value="EDS_UNRESPECTED_AND_ORDERED_AFFS" />
+        <property name="edsNonEmployeeAffsParamKey"                    value="EDS_NON_EMPLOYEE_AFFS" />
+        <property name="edsProfessionalAffsParamKey"                   value="EDS_PROFESSIONAL_AFFS" />
+        <property name="edsOrderedActiveStatusIndicatorsParamKey"      value="EDS_ORDERED_ACTIVE_STATUS_INDICATORS" />
+        <property name="edsEmployeeTypesParamKey"                      value="EDS_EMPLOYEE_TYPES" />
+        <property name="edsDefaultEmployeeTypeParamKey"                value="EDS_DEFAULT_EMPLOYEE_TYPE" />
+        <property name="edsRestrictedEmployeeTypesParamKey"            value="EDS_RESTRICTED_EMPLOYEE_TYPES" />
+        <!-- The delimeter to be used for EDS values stored in KFS Parameters -->
+        <property name="kfsParamDelimiter"                             value=";" />
+    </bean>
+
+    <bean id="personService" class="edu.arizona.rice.kim.impl.identity.PersonServiceImpl">
+        <property name="ldapIdentityService" ref="kimIdentityDelegateService"/>
+        <property name="personEntityTypeCodes">
+            <list>
+                <value>PERSON</value>
+                <value>SYSTEM</value>
+            </list>
+        </property>
+    </bean>
+</beans>
+   
+

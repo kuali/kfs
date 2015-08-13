@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package edu.arizona.rice.kim.impl.permisson;
+package edu.arizona.kfs.sys.identity.service.impl;
 
 import java.util.Map;
 import org.kuali.kfs.sys.context.SpringContext;

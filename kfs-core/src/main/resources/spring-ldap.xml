@@ -26,22 +26,22 @@
             http://www.springframework.org/schema/util 
             http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="contextSource"
-          class="org.springframework.ldap.core.support.LdapContextSource">
-        <property name="url" value="${rice.ldap.url}" />
-        <property name="base" value="${rice.ldap.base}" />
-        <property name="authenticationSource" ref="authenticationSource" />
-    </bean>
+    <!--<bean id="contextSource"-->
+          <!--class="org.springframework.ldap.core.support.LdapContextSource">-->
+        <!--<property name="url" value="${rice.ldap.url}" />-->
+        <!--<property name="base" value="${rice.ldap.base}" />-->
+        <!--<property name="authenticationSource" ref="authenticationSource" />-->
+    <!--</bean>-->
     
     <!-- UAF-6 - Performance improvements to improve user experience for AWS deployment -->
-    <bean id="authenticationSource" class="edu.arizona.rice.kim.ldap.authentication.KualiAuthenticationSource" >
-        <property name="principal" value="${rice.ldap.username}" />
-        <property name="credentials" value="${rice.ldap.password}" />
-    </bean>
+    <!--<bean id="authenticationSource" class="edu.arizona.kim.ldap.authentication.KualiAuthenticationSource" >-->
+        <!--<property name="principal" value="${rice.ldap.username}" />-->
+        <!--<property name="credentials" value="${rice.ldap.password}" />-->
+    <!--</bean>-->
 
-    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-        <constructor-arg ref="contextSource" />
-    </bean>
+    <!--<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">-->
+        <!--<constructor-arg ref="contextSource" />-->
+    <!--</bean>-->
 
     <bean id="kimConstants" class="org.kuali.rice.kim.util.ConstantsImpl">
         <property name="kimLdapIdProperty"         value="uaid" />
@@ -71,9 +71,9 @@
         <property name="affiliationMappings"       value="staff=STAFF,faculty=FCLTY,employee=STAFF,student=STDNT,affilate=AFLT"/>
         <property name="employeeAffiliationCodes"  value="STAFF,FCLTY" />
     </bean>
-    
-    <bean id="edsConstants" class="edu.arizona.kfs.sys.identity.EdsConstants">
-        <!-- Keys into the EDS Schema -->
+
+<!--    <bean id="edsConstants" class="edu.arizona.kfs.sys.identity.EdsConstants">
+        &lt;!&ndash; Keys into the EDS Schema &ndash;&gt;
         <property name="uaIdContextKey"                                value="uaId" />
         <property name="uidContextKey"                                 value="uid" />
         <property name="personAffiliationContextKey"                   value="eduPersonAffiliation" />
@@ -92,10 +92,10 @@
         <property name="employeeStateContextKey"                       value="employeeState" />
         <property name="employeeZipContextKey"                         value="employeeZip" />
         <property name="emplIdContextKey"                              value="emplId" />
-        <!-- KFS Settings for EDS Params -->
+        &lt;!&ndash; KFS Settings for EDS Params &ndash;&gt;
         <property name="parameterNamespaceCode"                         value="KFS-SYS" />
         <property name="parameterDetailTypeCode"                        value="Lookup" />
-        <!-- Keys into KFS for params containing EDS values  -->
+        &lt;!&ndash; Keys into KFS for params containing EDS values  &ndash;&gt;
         <property name="edsRespectedAndOrderedAffsParamKey"            value="EDS_RESPECTED_AND_ORDERED_AFFS" />
         <property name="edsUnrespectedAndOrderedAffsParamKey"          value="EDS_UNRESPECTED_AND_ORDERED_AFFS" />
         <property name="edsNonEmployeeAffsParamKey"                    value="EDS_NON_EMPLOYEE_AFFS" />
@@ -104,11 +104,11 @@
         <property name="edsEmployeeTypesParamKey"                      value="EDS_EMPLOYEE_TYPES" />
         <property name="edsDefaultEmployeeTypeParamKey"                value="EDS_DEFAULT_EMPLOYEE_TYPE" />
         <property name="edsRestrictedEmployeeTypesParamKey"            value="EDS_RESTRICTED_EMPLOYEE_TYPES" />
-        <!-- The delimeter to be used for EDS values stored in KFS Parameters -->
+        &lt;!&ndash; The delimeter to be used for EDS values stored in KFS Parameters &ndash;&gt;
         <property name="kfsParamDelimiter"                             value=";" />
-    </bean>
+    </bean>-->
 
-    <bean id="personService" class="edu.arizona.rice.kim.impl.identity.PersonServiceImpl">
+    <bean id="personService" class="edu.arizona.kim.service.impl.UaPersonService">
         <property name="ldapIdentityService" ref="kimIdentityDelegateService"/>
         <property name="personEntityTypeCodes">
             <list>

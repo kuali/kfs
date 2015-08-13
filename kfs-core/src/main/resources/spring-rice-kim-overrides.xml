@@ -31,10 +31,9 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="false">
 
 
-    <import resource="classpath*:/org/kuali/rice/kim/config/KIMLdapSpringBeans.xml" />
-    <import resource="classpath:spring-ldap.xml" />
+    <import resource="classpath*:/org/kuali/rice/kim/config/UaKIMLdapSpringBeans.xml" />
 
-    <bean id="kimPermissionService" class="edu.arizona.rice.kim.impl.permisson.PermissionServiceImpl"
+    <bean id="kimPermissionService" class="edu.arizona.kfs.sys.identity.service.impl.PermissionServiceImpl"
        p:businessObjectService-ref="rice.kim.import.businessObjectService"
        p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService"
        p:kimTypeInfoService-ref="kimTypeInfoService"
@@ -42,13 +41,12 @@
        p:cacheManager-ref="kimLocalCacheManager">
         <property name="identityService" ref="kimIdentityDelegateService"/>
     </bean>
-    
-    <bean id="kimRoleTypeService" class=" edu.arizona.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl">
+
+    <bean id="kimRoleTypeService" class=" edu.arizona.kfs.sys.identity.UaEmployeeDerivedRoleTypeServiceImpl">
         <property name="edsConstants" ref="edsConstants"/>
     </bean>
-    
-    <!-- UAF-6 - Performance improvements to improve user experience for AWS deployment -->
-     <bean id="kimIdentityService" class="edu.arizona.rice.kim.impl.identity.IdentityCurrentAndArchivedServiceImpl">
+
+     <bean id="kimIdentityService" class="edu.arizona.kim.identity.impl.UaIdentityCurrentAndArchivedServiceImpl">
         <constructor-arg ref="kimIdentityArchiveService"/>
         <constructor-arg ref="kimIdentityDelegateService"/>
     </bean>

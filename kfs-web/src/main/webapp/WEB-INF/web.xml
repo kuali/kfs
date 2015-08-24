@@ -163,7 +163,7 @@
 
   <filter>
     <filter-name>UserLoginFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+    <filter-class>edu.arizona.rice.kew.web.UserLoginFilter</filter-class>
   </filter>
 
   <filter>

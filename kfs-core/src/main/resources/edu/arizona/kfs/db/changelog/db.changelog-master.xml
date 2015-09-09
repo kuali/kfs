@@ -8,5 +8,5 @@
   <!-- Here we will include all changesets in the proper order -->
   <!-- include file="changesets/db.changelog-UAF-###.xml" -->
   
-  <include file="changesets/db.changelog-UAR-387.xml" />
+  <include file="changesets/db.changelog-UAF-387.xml" />
 </databaseChangeLog>

@@ -1517,6 +1517,8 @@ public class KFSConstants {
     }
 
     public static final String ZERO = "0";
+    public static final String YEP = "yep";
+    public static final String CLAIM = "claim";
 
     public static class BasicAccountingCategoryCodes {
         public static final String ASSETS = "AS";

@@ -41,6 +41,7 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -51,21 +52,21 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimLookupableHelperServiceImpl.class);
     private LookupDao lookupDao;
 
-    private static final String URL_DOC_HANDLER_DOC_ID = "/DocHandler.do?docId=";
-    private static final String URL_COMMAND_DISPLAY_DOC_SEARCH_VIEW = "&command=displayDocSearchView";
+    private static final String URL_DOC_HANDLER_DOC_ID = KRADConstants.DOCHANDLER_DO_URL;
+    private static final String URL_COMMAND_DISPLAY_DOC_SEARCH_VIEW = KRADConstants.DOCHANDLER_URL_CHUNK;
 
-    private static final String SEARCH_FIELD_CLAIMING_STATUS = "paymentClaimStatusCode";
-    private static final String SEARCH_FIELD_ORG_REFERENCE_ID = "generatingAccountingLine.organizationReferenceId";
-    private static final String SEARCH_FIELD_DESCRIPTION = "generatingAccountingLine.financialDocumentLineDescription";
-    private static final String SEARCH_FIELD_AMOUNT_FROM = "amountFrom";
-    private static final String SEARCH_FIELD_AMOUNT_TO = "amountTo";
-    private static final String SEARCH_FIELD_DEPOSIT_DATE_FROM = "rangeLowerBoundKeyPrefix_generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate";
-    private static final String SEARCH_FIELD_DEPOSIT_DATE_TO = "generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate";
+    private static final String SEARCH_FIELD_CLAIMING_STATUS = KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE;
+    private static final String SEARCH_FIELD_ORG_REFERENCE_ID = KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + "." + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+    private static final String SEARCH_FIELD_DESCRIPTION = KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
+    private static final String SEARCH_FIELD_AMOUNT_FROM = KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_FROM;
+    private static final String SEARCH_FIELD_AMOUNT_TO = KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_TO;
+    private static final String SEARCH_FIELD_DEPOSIT_DATE_FROM = KFSPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX + KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
+    private static final String SEARCH_FIELD_DEPOSIT_DATE_TO = KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
 
-    private static final String ADVANCE_DEPOSIT_DETAIL_DEPOSIT_DATE = "advanceDeposits.financialDocumentAdvanceDepositDate";
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_ORG_REF_ID = "sourceAccountingLines.organizationReferenceId";
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_DESCRIPTION = "sourceAccountingLines.financialDocumentLineDescription";
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_AMOUNT = "sourceAccountingLines.amount";
+    private static final String ADVANCE_DEPOSIT_DETAIL_DEPOSIT_DATE = KFSPropertyConstants.ADVANCE_DEPOSITS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
+    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_ORG_REF_ID = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_DESCRIPTION = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
+    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_AMOUNT = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.AMOUNT;
 
     /**
      *
@@ -75,10 +76,10 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String claimingStatus = fieldValues.remove(SEARCH_FIELD_CLAIMING_STATUS);
         if (claimingStatus != null) {
-            if (claimingStatus.equalsIgnoreCase(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
+            if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
                 fieldValues.put(SEARCH_FIELD_CLAIMING_STATUS, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             }
-            if (claimingStatus.equalsIgnoreCase(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED)) {
+            if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED)) {
                 fieldValues.put(SEARCH_FIELD_CLAIMING_STATUS, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }

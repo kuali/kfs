@@ -1297,6 +1297,15 @@ public class KFSPropertyConstants {
     public static final String SALES_TAX = "salesTax";
     public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
 
+    //Added by Electronic Payment Claim mod
+    public static final String PAYMENT_CLAIM_STATUS_CODE = "paymentClaimStatusCode";
+    public static final String RANGE_LOWER_BOUND_KEY_PREFIX = "rangeLowerBoundKeyPrefix_";
+    public static final String GENERATING_ACCOUNTING_LINE = "generatingAccountingLine";
+    public static final String GENERATING_ADVANCE_DEPOSIT_DETAIL = "generatingAdvanceDepositDetail";
+    public static final String FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE = "financialDocumentAdvanceDepositDate";
+    public static final String PAYMENT_CLAIM_AMOUNT_FROM = "amountFrom";
+    public static final String PAYMENT_CLAIM_AMOUNT_TO = "amountTo";
+    public static final String ADVANCE_DEPOSITS = "advanceDeposits";
 
     public static class SubAccountImport {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

@@ -52,35 +52,19 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimLookupableHelperServiceImpl.class);
     private LookupDao lookupDao;
 
-    private static final String URL_DOC_HANDLER_DOC_ID = KRADConstants.DOCHANDLER_DO_URL;
-    private static final String URL_COMMAND_DISPLAY_DOC_SEARCH_VIEW = KRADConstants.DOCHANDLER_URL_CHUNK;
-
-    private static final String SEARCH_FIELD_CLAIMING_STATUS = KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE;
-    private static final String SEARCH_FIELD_ORG_REFERENCE_ID = KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + "." + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-    private static final String SEARCH_FIELD_DESCRIPTION = KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
-    private static final String SEARCH_FIELD_AMOUNT_FROM = KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_FROM;
-    private static final String SEARCH_FIELD_AMOUNT_TO = KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_TO;
-    private static final String SEARCH_FIELD_DEPOSIT_DATE_FROM = KFSPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX + KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
-    private static final String SEARCH_FIELD_DEPOSIT_DATE_TO = KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
-
-    private static final String ADVANCE_DEPOSIT_DETAIL_DEPOSIT_DATE = KFSPropertyConstants.ADVANCE_DEPOSITS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE;
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_ORG_REF_ID = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_DESCRIPTION = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
-    private static final String ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_AMOUNT = KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "." + KFSPropertyConstants.AMOUNT;
-
     /**
      *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String claimingStatus = fieldValues.remove(SEARCH_FIELD_CLAIMING_STATUS);
+        String claimingStatus = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE);
         if (claimingStatus != null) {
             if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
-                fieldValues.put(SEARCH_FIELD_CLAIMING_STATUS, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
+                fieldValues.put(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             }
             if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED)) {
-                fieldValues.put(SEARCH_FIELD_CLAIMING_STATUS, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
+                fieldValues.put(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
         Map<String, String> advanceDepositFieldValues = getAdvanceDepositFieldValues(fieldValues);
@@ -114,28 +98,28 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     private Map<String, String> getAdvanceDepositFieldValues(Map<String, String> fieldValues) {
         Map<String, String> returnMap = new HashMap<String, String>();
 
-        String orgRefId = fieldValues.remove(SEARCH_FIELD_ORG_REFERENCE_ID);
-        String dateFrom = fieldValues.remove(SEARCH_FIELD_DEPOSIT_DATE_FROM);
-        String dateTo = fieldValues.remove(SEARCH_FIELD_DEPOSIT_DATE_TO);
-        String description = fieldValues.remove(SEARCH_FIELD_DESCRIPTION);
-        String amountFrom = fieldValues.remove(SEARCH_FIELD_AMOUNT_FROM);
-        String amountTo = fieldValues.remove(SEARCH_FIELD_AMOUNT_TO);
+        String orgRefId = fieldValues.remove(KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + KFSConstants.DELIMITER + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
+        String dateFrom = fieldValues.remove(KFSPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX + KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE);
+        String dateTo = fieldValues.remove(KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE);
+        String description = fieldValues.remove(KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION);
+        String amountFrom = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_FROM);
+        String amountTo = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_TO);
         if (StringUtils.isNotBlank(orgRefId)) {
-            returnMap.put(ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_ORG_REF_ID, orgRefId);
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, orgRefId);
         }
         if (StringUtils.isNotBlank(description)) {
-            returnMap.put(ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_DESCRIPTION, description);
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION, description);
         }
         if (StringUtils.isNotBlank(dateTo)) {
-            returnMap.put(ADVANCE_DEPOSIT_DETAIL_DEPOSIT_DATE, dateTo);
+            returnMap.put(KFSPropertyConstants.ADVANCE_DEPOSITS + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE, dateTo);
         } else {
             if (StringUtils.isNotBlank(dateFrom)) {
-                returnMap.put(ADVANCE_DEPOSIT_DETAIL_DEPOSIT_DATE, dateFrom);
+                returnMap.put(KFSPropertyConstants.ADVANCE_DEPOSITS + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE, dateFrom);
             }
         }
         String amount = getAmountCriteria(amountFrom, amountTo);
         if (StringUtils.isNotBlank(amount)) {
-            returnMap.put(ADVANCE_DEPOSIT_SOURCE_ACCOUNTING_LINES_AMOUNT, amount);
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.AMOUNT, amount);
         }
         return returnMap;
     }
@@ -170,15 +154,15 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         }
         return false;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
         // grab the backLocation and the docFormKey
-        this.setDocFormKey((String)fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        this.setBackLocation((String)fieldValues.get(KFSConstants.BACK_LOCATION));
+        this.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        this.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.validateSearchParameters(fieldValues);
     }
 
@@ -188,7 +172,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public boolean isResultReturnable(BusinessObject claimAsBO) {
         boolean result = super.isResultReturnable(claimAsBO);
-        ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsBO;
+        ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsBO;
         if (result && ((claim.getPaymentClaimStatusCode() != null && claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) || (!StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())))) {
             result = false;
         }
@@ -209,10 +193,10 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
-        for (ResultRow row : (Collection<ResultRow>)resultTable) {
+        for (ResultRow row : (Collection<ResultRow>) resultTable) {
             for (Column col : row.getColumns()) {
                 if (StringUtils.equals(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_NUMBER, col.getPropertyName()) && StringUtils.isNotBlank(col.getPropertyValue())) {
-                    String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + URL_DOC_HANDLER_DOC_ID + col.getPropertyValue() + URL_COMMAND_DISPLAY_DOC_SEARCH_VIEW;
+                    String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + KRADConstants.DOCHANDLER_DO_URL + col.getPropertyValue() + KRADConstants.DOCHANDLER_URL_CHUNK;
                     AnchorHtmlData htmlData = new AnchorHtmlData(propertyURL, "", col.getPropertyValue());
                     htmlData.setTitle(col.getPropertyValue());
                     col.setColumnAnchor(htmlData);

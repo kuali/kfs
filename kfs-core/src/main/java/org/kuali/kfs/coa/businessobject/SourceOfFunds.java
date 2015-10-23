@@ -26,84 +26,47 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents the SourceOfFunds Business Object
- * @author 
- * @version
  */
 
 public class SourceOfFunds extends PersistableBusinessObjectBase implements Inactivatable {
 
-	private String typeCode;				//Source Of Funds Type Code
-	private boolean active;					//Active Indicator
-	private String sourceOfFundsDesc;		//Source Of Funds Description
-	private String sourceOfFundsName;		//Source Of Funds Name
+	private String typeCode;				
+	private boolean active;					
+	private String sourceOfFundsDescription;		
+	private String sourceOfFundsName;		
 	
-	/**
-	 * Default constructor.
-	 */
 	public SourceOfFunds() {
 		
 	}
 
-	/**
-	 * Gets the sourceOfFunds typeCode attribute.
-	 * @return typeCode
-	 */
 	public String getTypeCode() {
 		return typeCode;
 	}
 
-	/**
-	 * Sets the sourceOfFunds typeCode attribute value.
-	 * @param typeCode The typeCode to set.
-	 */
 	public void setTypeCode(String typeCode) {
 		this.typeCode = typeCode;
 	}
 
-	/**
-	 * Gets the active attribute.
-	 * @return Returns the value for active.
-	 */
 	public boolean isActive() {
 		return active;
 	}
 
-	/**
-	 * Sets the active attribute value.
-	 * @param active The value for active to set.
-	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
-	/**
-	 * Gets the sourceOfFundsDesc attribute
-	 * @return Returns the sourceOfFundsDesc.
-	 */
-	public String getSourceOfFundsDesc() {
-		return sourceOfFundsDesc;
+	public String getSourceOfFundsDescription() {
+		return sourceOfFundsDescription;
 	}
 
-	/**
-	 * Sets the sourceOfFundsDesc attribute.
-	 * @param sourceOfFundsDesc The sourceOfFundsDesc to set.
-	 */
-	public void setSourceOfFundsDesc(String sourceOfFundsDesc) {
-		this.sourceOfFundsDesc = sourceOfFundsDesc;
+	public void setSourceOfFundsDescription(String sourceOfFundsDescription) {
+		this.sourceOfFundsDescription = sourceOfFundsDescription;
 	}
 
-	/**
-	 * Gets the sourceOfFundsName attribute.
-	 * @return Returns the sourceOfFundsName.
-	 */
 	public String getSourceOfFundsName() {
 		return sourceOfFundsName;
 	}
 
-	/**
-	 * Sets the sourceOfFundsName attribute value.
-	 * @param sourceOfFundsName The sourceofFundsName to set
-	 */
 	public void setSourceOfFundsName(String sourceOfFundsName) {
 		this.sourceOfFundsName = sourceOfFundsName;
 	}

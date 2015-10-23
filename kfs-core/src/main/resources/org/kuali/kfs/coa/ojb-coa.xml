@@ -1888,7 +1888,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="sourceOfFundsName" column="SOURCE_NAME" jdbc-type="VARCHAR" />
-	<field-descriptor name="sourceOfFundsDesc" column="SOURCE_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceOfFundsDescription" column="SOURCE_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 </class-descriptor>
 

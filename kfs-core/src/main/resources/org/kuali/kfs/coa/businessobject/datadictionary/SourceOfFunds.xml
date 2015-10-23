@@ -40,7 +40,7 @@
             <list>
                 <ref bean="SourceOfFunds-active"/>
                 <ref bean="SourceOfFunds-typeCode"/>
-                <ref bean="SourceOfFunds-sourceOfFundsDesc"/>
+                <ref bean="SourceOfFunds-sourceOfFundsDescription"/>
                 <ref bean="SourceOfFunds-sourceOfFundsName"/>
             </list>
         </property>
@@ -72,10 +72,10 @@
     	</property>
   	</bean>
   
-    <bean id="SourceOfFunds-sourceOfFundsDesc" parent="SourceOfFunds-sourceOfFundsDesc-parentBean" />
+    <bean id="SourceOfFunds-sourceOfFundsDescription" parent="SourceOfFunds-sourceOfFundsDescription-parentBean" />
 
-  	<bean id="SourceOfFunds-sourceOfFundsDesc-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="sourceOfFundsDesc" />
+  	<bean id="SourceOfFunds-sourceOfFundsDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="sourceOfFundsDescription" />
     	<property name="forceUppercase" value="false" />
     	<property name="label" value="Source of Funds Description" />
     	<property name="shortLabel" value="Source of Funds Description" />
@@ -107,7 +107,7 @@
                     	<list>
                         	<bean parent="FieldDefinition" p:attributeName="typeCode"/>
                             <bean parent="FieldDefinition" p:attributeName="sourceOfFundsName"/>
-                            <bean parent="FieldDefinition" p:attributeName="sourceOfFundsDesc"/>
+                            <bean parent="FieldDefinition" p:attributeName="sourceOfFundsDescription"/>
                             <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                     </property>
@@ -135,7 +135,7 @@
             <list>
 				<bean parent="FieldDefinition" p:attributeName="typeCode"/>
                 <bean parent="FieldDefinition" p:attributeName="sourceOfFundsName"/>
-                <bean parent="FieldDefinition" p:attributeName="sourceOfFundsDesc"/>
+                <bean parent="FieldDefinition" p:attributeName="sourceOfFundsDescription"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>

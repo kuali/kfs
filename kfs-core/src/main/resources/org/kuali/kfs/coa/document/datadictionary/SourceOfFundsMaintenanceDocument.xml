@@ -61,7 +61,7 @@
      		<list>
         		<bean parent="MaintainableFieldDefinition" p:name="typeCode" p:required="true"/>
         		<bean parent="MaintainableFieldDefinition" p:name="sourceOfFundsName" p:required="true"/>       
-        		<bean parent="MaintainableFieldDefinition" p:name="sourceOfFundsDesc"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="sourceOfFundsDescription"/>
         		<bean parent="MaintainableFieldDefinition" p:defaultValue="Y" p:name="active" />
       		</list>
     	</property>

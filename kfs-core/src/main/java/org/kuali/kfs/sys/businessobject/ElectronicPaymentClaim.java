@@ -58,9 +58,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
 
     private transient KualiDecimal amountFrom;
     private transient KualiDecimal amountTo;
-    /**
-     * Default constructor.  It constructs.
-     */
+    
     public ElectronicPaymentClaim() {}
 
     /**

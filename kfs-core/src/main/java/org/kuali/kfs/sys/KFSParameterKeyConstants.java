@@ -91,4 +91,7 @@ public class KFSParameterKeyConstants {
         public static final String IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES";
     }
 
+    public static class CoaParameterConstants {
+        public final static String DISPLAY_SOURCE_OF_FUNDS_IND = "DISPLAY_SOURCE_OF_FUNDS_IND";
+    }
 }

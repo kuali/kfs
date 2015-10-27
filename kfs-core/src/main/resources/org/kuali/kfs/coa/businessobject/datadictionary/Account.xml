@@ -109,6 +109,7 @@
 		<ref bean="Account-reportsToOrganizationCode" />
 		<ref bean="Account-reportsToCOACode" />
 		<ref bean="Account-responsibilityCenterName" />
+		<ref bean="Account-typeCode" />
       </list>
     </property>
     <property name="accessRestrictedAttributes">
@@ -992,6 +993,9 @@
 		<property name="name" value="subFundGroup.fundGroupCode" />
 	</bean>
 
+	<bean id="Account-typeCode" parent="Account-typeCode-parentBean" />
+	<bean id="Account-typeCode-parentBean" abstract="true" parent="SourceOfFunds-typeCode" />
+	
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -1041,6 +1045,7 @@
 				<bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="financialHigherEdFunction.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="typeCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusDate" />
 				<bean parent="FieldDefinition"

@@ -48,13 +48,18 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> hiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
         
-        String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
-        
-        if(sourceOfFundsParmValue.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
-        	hiddenPropertyNames.add(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+        if (getParameterService().parameterExists(Account.class,  KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND)) {
+        	String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
+            
+            if(sourceOfFundsParmValue.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
+            	hiddenPropertyNames.remove(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+            } else {
+            	hiddenPropertyNames.add(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+            }
         } else {
-        	hiddenPropertyNames.remove(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+        	hiddenPropertyNames.add(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
         }
+        
         return hiddenPropertyNames;
     }
 

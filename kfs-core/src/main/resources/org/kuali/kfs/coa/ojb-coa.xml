@@ -1883,5 +1883,14 @@
   </class-descriptor>
 -->
 
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SourceOfFunds" table="CA_SOURCE_OF_FUNDS_T">
+	<field-descriptor name="typeCode" column="FUNDS_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	<field-descriptor name="sourceOfFundsName" column="SOURCE_NAME" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceOfFundsDescription" column="SOURCE_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+</class-descriptor>
+
 </descriptor-repository>
 

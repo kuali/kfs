@@ -1307,6 +1307,10 @@ public class KFSPropertyConstants {
     public static final String PAYMENT_CLAIM_AMOUNT_TO = "amountTo";
     public static final String ADVANCE_DEPOSITS = "advanceDeposits";
 
+    public static final String HAS_DOCUMENTATION = "hasDocumentation";
+    public static final String CHOSEN_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_CODE = "chosenElectronicPaymentClaimingDocumentCode";
+    public static final String CLAIMS = "claims";
+
     public static class SubAccountImport {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_NUMBER = "accountNumber";

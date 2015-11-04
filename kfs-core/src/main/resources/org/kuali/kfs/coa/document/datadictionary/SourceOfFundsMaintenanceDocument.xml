@@ -38,7 +38,7 @@
       		</list>
     	</property>
     	<property name="allowsNewOrCopy" value="true" />
-    	<property name="documentTypeName" value="SOF" />
+    	<property name="documentTypeName" value="SOFTYP" />
     	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     	<property name="workflowAttributes">
     		<ref bean="SourceOfFundsMaintenanceDocument-workflowAttributes" />

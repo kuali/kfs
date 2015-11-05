@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -86,45 +85,44 @@ public class AccountInquirable extends KualiInquirableImpl {
     @Override
     @Deprecated
     public List<Section> getSections(BusinessObject arg0) {
-    	List<Section> sections = super.getSections(arg0);
-		for(Section section : sections) {
-			for (Row row : section.getRows()) {
-				List<Field> updatedFields = new ArrayList<Field>();
-				for (Field field : row.getFields()) {
-					if(shouldIncludeField(field)) {
-						updatedFields.add(field);
-					}
-				}
-				row.setFields(updatedFields);
-			}
-		}
+        List<Section> sections = super.getSections(arg0);
+	    for(Section section : sections) {
+	        for (Row row : section.getRows()) {
+			    List<Field> updatedFields = new ArrayList<Field>();
+			    for (Field field : row.getFields()) {
+				    if(shouldIncludeField(field)) {
+				        updatedFields.add(field);
+				    }
+			    }
+			    row.setFields(updatedFields);
+		    }
+	    }
 		
-		return sections;
-	}
+	    return sections;
+    }
     
     protected boolean shouldIncludeField(Field field) {
-        boolean includeField = true;
-        if (field.getFieldHelpName().equalsIgnoreCase(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE)) {
-        	
-        	if (getParameterService().parameterExists(Account.class,  KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND)) {
-        		String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
+    	boolean includeField = true;
+        if (field.getPropertyName().equalsIgnoreCase(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE)) {
+        
+            if (getParameterService().parameterExists(Account.class,  KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND)) {
+        	    String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
     			
             	if (sourceOfFundsParmValue.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
-            		includeField = true;
+            	    includeField = true;
     			} else {
     				includeField = false;
     			}
         	} else {
         		includeField = false;
-        	}
-        	
+        	}       	
         }
         return includeField;
     }
     
     public ParameterService getParameterService() {
         if(parameterService == null){
-            parameterService = (ParameterService)GlobalResourceLoader.getService( "parameterService" );
+            parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
     }

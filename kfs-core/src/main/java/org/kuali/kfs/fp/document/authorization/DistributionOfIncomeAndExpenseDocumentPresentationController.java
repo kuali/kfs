@@ -70,6 +70,7 @@ public class DistributionOfIncomeAndExpenseDocumentPresentationController extend
         
         if (StringUtils.isNotBlank(docInError)) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
         return documentActions;
     }

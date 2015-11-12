@@ -36,6 +36,7 @@ import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
@@ -60,6 +61,7 @@ import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -116,6 +118,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     protected boolean recategorized;
 
     protected String createDate;
+    
+    protected Boolean displayCashReceiptDenominationDetail;
 
     /**
      * Initializes the array lists and line incrementers.
@@ -1123,6 +1127,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     public String getCreateDate() {
         return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
+    }
+    
+    public Boolean getDisplayCashReceiptDenominationDetail() {
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, KFSParameterKeyConstants.FpParameterConstants.DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND, true);
     }
 
     /**

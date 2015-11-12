@@ -42,6 +42,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentTwoDollarAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentOneDollarAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentOtherDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentDollarAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor.
@@ -452,6 +453,14 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
      */
     public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {
         this.financialDocumentOtherDollarAmount = financialDocumentOtherDollarAmount;
+    }
+    
+    public KualiDecimal getFinancialDocumentDollarAmount() {
+        return financialDocumentOtherDollarAmount;
+    }
+
+    public void setFinancialDocumentDollarAmount(KualiDecimal financialDocumentDollarAmount) {
+        this.financialDocumentOtherDollarAmount = financialDocumentDollarAmount;
     }
 
     /**

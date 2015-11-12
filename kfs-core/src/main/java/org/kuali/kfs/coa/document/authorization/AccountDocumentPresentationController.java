@@ -49,11 +49,11 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
         Set<String> hiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
         
         String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
-
-        if (StringUtils.equalsIgnoreCase(sourceOfFundsParmValue, KFSConstants.ParameterValues.YES)) {
-            hiddenPropertyNames.remove(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
-        } else {
+        
+        if(sourceOfFundsParmValue.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
             hiddenPropertyNames.add(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+        } else {
+            hiddenPropertyNames.remove(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
         }
         return hiddenPropertyNames;
     }

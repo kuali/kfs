@@ -1115,6 +1115,7 @@ public class KFSPropertyConstants {
     public static final String SOURCE_ACCOUNTING_LINES = "sourceAccountingLines";
     public static final String SOURCE_ACCOUNTING_LINES_SECTION_TITLE = "sourceAccountingLinesSectionTitle";
     public static final String SOURCE_CODE = "sourceCode";
+    public static final String SOURCE_OF_FUNDS_TYPE_CODE = "sourceOfFundsTypeCode";
     public static final String SOURCE_TOTAL = "sourceTotal";
     public static final String SPSI_USER = "spsiUser";
     public static final String STATE = "state";

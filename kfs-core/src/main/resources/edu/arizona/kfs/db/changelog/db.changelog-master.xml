@@ -9,4 +9,6 @@
   <!-- include file="changesets/db.changelog-UAF-###.xml" -->
   
   <include file="changesets/db.changelog-UAF-387.xml" />
+  <include file="changesets/db.changelog-UAF-37.xml" />
+  <include file="changesets/db.changelog-UAF-41.xml" />
 </databaseChangeLog>

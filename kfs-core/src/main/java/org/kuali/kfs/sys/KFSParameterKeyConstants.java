@@ -41,6 +41,7 @@ public class KFSParameterKeyConstants {
     	public static final String FP_BUDGET_BALANCE_TYPES = "BUDGET_BALANCE_TYPES";
         public static final String NEGATIVE_ACCOUNTING_LINES_IND = "NEGATIVE_ACCOUNTING_LINES_IND";
         public static final String ALLOW_ADDITIONAL_FROM_LINE_IND = "ALLOW_ADDITIONAL_FROM_LINE_IND";
+        public static final String DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND = "DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND"; 
     }
 
     public static class PopulateFinancialSystemDocumentHeaderParameterNames {

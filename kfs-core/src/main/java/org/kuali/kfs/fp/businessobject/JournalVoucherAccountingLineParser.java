@@ -36,19 +36,23 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.BalanceTypeService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class represents a <code>JournalVoucherDocument</code> accounting line parser.
  */
 public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccountingLineParser {
     private String balanceTypeCode;
+    private final Integer currentUniversityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     protected static final String[] NON_OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, ORGANIZATION_REFERENCE_ID, AMOUNT };
     protected static final String[] OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
     protected static final String[] ENCUMBRANCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, ENCUMBRANCE_UPDATE_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, REFERENCE_ORIGIN_CODE, REFERENCE_TYPE_CODE, REFERENCE_NUMBER, DEBIT, CREDIT };
@@ -71,7 +75,7 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
 
         boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
-        if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
+        if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, currentUniversityFiscalYear).getExtrnlEncumFinBalanceTypCd())) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }
         sourceAccountingLine.setBalanceTypeCode(balanceTypeCode);
@@ -91,7 +95,7 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
      * @return String []
      */
     private String[] selectFormat() {
-        if (StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
+        if (isEncumbranceBalanceType()) {
             return ENCUMBRANCE_FORMAT;
         }
         else if (SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator()) {
@@ -100,5 +104,15 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
         else {
             return NON_OFFSET_FORMAT;
         }
+    }
+    
+    private boolean isEncumbranceBalanceType() {
+    	List<String> encumbranceBalanceTypes = SpringContext.getBean(BalanceTypeService.class).getEncumbranceBalanceTypes(currentUniversityFiscalYear);
+    	for(String encumbranceBalanceType : encumbranceBalanceTypes) {
+    		if(StringUtils.equals(balanceTypeCode, encumbranceBalanceType)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }

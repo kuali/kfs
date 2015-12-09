@@ -489,7 +489,8 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kim-impl</artifactId>
-      <version>${rice.version}</version>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
       <exclusions>
         <exclusion>
           <groupId>xapool</groupId>
@@ -676,7 +677,8 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
-      <version>${rice.version}</version>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
       <exclusions>
         <exclusion>
           <groupId>javax.resource</groupId>

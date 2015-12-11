@@ -161,7 +161,10 @@
           <artifactId>maven-war-plugin</artifactId>
           <version>2.6</version>
           <configuration>
-            <packagingExcludes>WEB-INF/lib/rice-kim-impl-${rice.version}.jar</packagingExcludes>
+            <packagingExcludes>
+              WEB-INF/lib/rice-kim-impl-${rice.version}.jar,
+              WEB-INF/lib/rice-impl-${rice.version}.jar
+             </packagingExcludes>
           </configuration>
         </plugin>
         <plugin>

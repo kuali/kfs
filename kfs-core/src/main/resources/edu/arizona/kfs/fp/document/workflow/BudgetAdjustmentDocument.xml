@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>BA</name>
+      <parent>FP</parent>
+      <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresFullApproval"/>
+          <split name="RequiresFullApproval">
+            <branch name="True">
+              <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+              <requests name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode"/>
+              <requests name="ObjectSubTypeCode" nextNode="SubFund"/>
+              <requests name="SubFund" nextNode="Award"/>
+              <requests name="Award" nextNode="JoinRequiresFullApproval"/>
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="JoinRequiresFullApproval"/>
+            </branch>
+            <join name="JoinRequiresFullApproval"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresFullApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="Do Nothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresFullApproval"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

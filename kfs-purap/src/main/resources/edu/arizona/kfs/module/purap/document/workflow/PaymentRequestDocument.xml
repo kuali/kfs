@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PREQ</name>
+      <parent>AP</parent>
+      <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresImageAttachment"/>
+          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+            <branch name="True">
+              <requests name="ImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+            </branch>
+            <join name="JoinRequiresImageAttachment"/>
+          </split>
+          <split name="PurchaseWasReceived" nextNode="SubAccount">
+            <branch name="True">
+              <requests name="Receiving" nextNode="JoinReceiving"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpReceiving" nextNode="JoinReceiving"/>
+            </branch>
+            <join name="JoinReceiving"/>
+          </split>
+          <requests name="SubAccount" nextNode="Account"/>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode"/>
+          <requests name="ObjectSubTypeCode" nextNode="VendorIsEmployeeOrNonResidentAlien"/>
+          <split name="VendorIsEmployeeOrNonResidentAlien">
+            <branch name="True">
+              <requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+            </branch>
+            <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="ImageAttachment">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Receiving">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubAccount">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Tax">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="PurchaseWasReceived">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <split name="VendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="NoOpReceiving">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinReceiving"/>
+        <split name="RequiresImageAttachment">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpRequiresImageAttachment">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresImageAttachment"/>
+        <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

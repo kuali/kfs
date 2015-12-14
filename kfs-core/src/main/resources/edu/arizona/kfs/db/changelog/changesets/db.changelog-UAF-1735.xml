@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+		
+	<changeSet id="UAF-1735-1" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_TYP_T
+					WHERE kim_typ_id='71'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            ObjectSubTypeCode KIM role type
+        </comment>
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="71"/>
+			<column name="OBJ_ID" value="UAF-1735-1"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="NM" value="Object Sub-Type &amp; Document Type"/>
+			<column name="SRVC_NM" value="objectSubTypeCodeRoleTypeService"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="NMSPC_CD" value="KFS-COA"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_TYP_T">
+				<where>kim_typ_id='71'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-1735-2" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_ROLE_T
+					WHERE ROLE_ID='1003'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            Object Sub Type Code Reviewer role
+        </comment>
+		<insert tableName="KRIM_ROLE_T">
+			<column name="ROLE_ID" value="1003"/>
+			<column name="OBJ_ID" value="UAF-1735-2"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="ROLE_NM" value="Object Sub Type Code Reviewer"/>
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="DESC_TXT" value="null"/>
+			<column name="KIM_TYP_ID" value="71"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="LAST_UPDT_DT" value=""/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_ROLE_T">
+				<where>ROLE_ID='1003'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-1735-3" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_ROLE_RSP_T
+					WHERE ROLE_RSP_ID='500000'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            Object Sub Type Code: link the roles and the responsibilities
+        </comment>
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="500000"/>
+			<column name="OBJ_ID" value="UAF-1735-3"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="ROLE_ID" value="1003"/>
+			<column name="RSP_ID" value="1004"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_ROLE_RSP_T">
+				<where>ROLE_RSP_ID='500000'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-1735-4" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_ATTR_DEFN_T
+					WHERE KIM_ATTR_DEFN_ID='91'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            Create ObjectSubTypeCode attribute
+        </comment>
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="91"/>
+			<column name="OBJ_ID" value="UAF-1735-4"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="NM" value="financialObjectSubTypeCode"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="LBL" value="Object Sub Type Code"/>
+			<column name="NMSPC_CD" value="KFS-COA"/>
+			<column name="CMPNT_NM" value="edu.arizona.kfs.sys.identity.ArizonaKfsKimAttributes"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_ATTR_DEFN_T">
+				<where>KIM_ATTR_DEFN_ID='91'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-1735-5" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_TYP_ATTR_T
+					WHERE KIM_TYP_ATTR_ID='200'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            Create mapping between "Object Sub-Type &amp; Document Type KIM role type" and ObjectSubTypeCode attribute
+        </comment>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="200"/>
+			<column name="OBJ_ID" value="UAF-1735-5"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="KIM_TYP_ID" value="71"/>
+			<column name="KIM_ATTR_DEFN_ID" value="91"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="SORT_CD" value="a"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_TYP_ATTR_T">
+				<where>KIM_TYP_ATTR_ID='200'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-1735-6" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRIM_TYP_ATTR_T
+					WHERE KIM_TYP_ATTR_ID='201'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+            Create mapping between "Object Sub-Type &amp; Document Type KIM role type" and documentTypeName attribute
+        </comment>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="201"/>
+			<column name="OBJ_ID" value="UAF-1735-6"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="KIM_TYP_ID" value="71"/>
+			<column name="KIM_ATTR_DEFN_ID" value="13"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="SORT_CD" value="b"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRIM_TYP_ATTR_T">
+				<where>KIM_TYP_ATTR_ID='201'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+	
+</databaseChangeLog>

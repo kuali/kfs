@@ -15,4 +15,5 @@
   <include file="changesets/db.changelog-UAF-937.xml" />
   <include file="changesets/db.changelog-UAF-760.xml" />
   <include file="changesets/db.changelog-UAF-432.xml" />
+  <include file="changesets/db.changelog-UAF-1735.xml" />
 </databaseChangeLog>

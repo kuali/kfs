@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+
+	<bean id="DistributionOfIncomeAndExpenseDocument" parent="DistributionOfIncomeAndExpenseDocument-parentBean">
+		<property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser"/>
+	</bean>
+	
+	<!-- accounting line groups -->
+
+	<bean id="DistributionOfIncomeAndExpense-sourceAccountingLineGroup" parent="DistributionOfIncomeAndExpense-sourceAccountingLineGroup-parentBean">
+		<property name="accountingLineView" ref="DistributionOfIncomeAndExpense-accountingLineAddition" />
+	</bean>
+
+	<bean id="DistributionOfIncomeAndExpense-targetAccountingLineGroup" parent="DistributionOfIncomeAndExpense-targetAccountingLineGroup-parentBean">
+		<property name="accountingLineView" ref="DistributionOfIncomeAndExpense-accountingLineAddition" />
+	</bean>
+	
+	<!-- new beans -->
+	<bean id="DistributionOfIncomeAndExpense-accountingLineAddition" parent="DistributionOfIncomeAndExpense-accountingLineAddition-parent" />
+
+	<bean id="DistributionOfIncomeAndExpense-accountingLineAddition-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+							<bean parent="AccountingLineView-line">
+								<property name="elementName" value="lineDescription"/>
+								<property name="fields">
+									<list>
+										<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+									</list>
+								</property>
+							</bean>
+							<ref bean="salesTaxInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- workflow attributes for routing -->
+	<bean id="DistributionOfIncomeAndExpenseDocument-workflowAttributes" parent="DistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean">
+	  <property name="routingTypeDefinitions">
+        <map>
+    	  <entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    	  <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    	  <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode"/>
+    	  <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    	  <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+    	</map>
+      </property>
+	</bean>
+</beans>

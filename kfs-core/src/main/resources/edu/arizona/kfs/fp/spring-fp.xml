@@ -1,19 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean">
-		<property name="packagePrefixes">
+    <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean">	
+    	<property name="namespaceCode" value="KFS-FP" />
+    	
+    	<property name="jobNames">
 			<list merge="true">
-				<value>edu.arizona.kfs.fp</value>
+				<value>documentCreationJob</value>
+			</list>
+		</property>
+    	
+        <property name="packagePrefixes">
+			<list merge="true">
+			    <value>edu.arizona.kfs.fp</value>	   
 			</list>
 		</property>
 		<property name="dataDictionaryPackages">
+		    <list merge="true">
+		    	<value>edu/arizona/kfs/fp/businessobject/datadictionary</value>
+		    	<value>edu/arizona/kfs/fp/document/datadictionary</value>
+            </list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
 			<list merge="true">
-				<value>classpath:edu/arizona/kfs/fp/document/datadictionary/*.xml</value>
+			   <value>edu/arizona/kfs/fp/ojb-fp.xml</value> 
+			</list>
+		</property>
+	</bean>  
+	
+	<!-- validations -->
+	<import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
+	
+	<bean id="crcCheckService" class="edu.arizona.kfs.fp.batch.service.impl.CrcCheckServiceImpl" >
+		<property name="crcDao">
+			<ref bean="crcDao" />
+		</property>
+	</bean>
+
+	<bean id="crcDao" parent="platformAwareDao" class="edu.arizona.kfs.fp.batch.dataaccess.impl.CrcDaoOjb" />
+
+	
+	<bean id="documentCreationJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="tfileValidationStep" />
+				<ref bean="backupAndConsolidateStep" />
+				<ref bean="documentCreationStep" />
 			</list>
 		</property>
 	</bean>
+
+	<bean id="backupAndConsolidateStep" class="edu.arizona.kfs.fp.batch.BackupAndConsolidateStep" parent="step">
+		<property name="tfileHandler">
+			<ref bean="tfileHandler" />
+		</property>
+	</bean>
+
+	<bean id="tfileValidationStep" class="edu.arizona.kfs.fp.batch.TfileValidationStep" parent="step">
+		<property name="transactionPostingService">
+			<ref bean="transactionPostingService" />
+		</property>
+	</bean>
+
+	<bean id="documentCreationStep" class="edu.arizona.kfs.fp.batch.DocumentCreationStep" parent="step">
+	 	<property name="transactionPostingService">
+			<ref bean="transactionPostingService" />
+		</property>
+	</bean>
+	
+	<bean id="transactionPostingService" class="edu.arizona.kfs.fp.batch.service.impl.TransactionPostingServiceImpl" >
+		<property name="transactionPostingDao">
+			<ref bean="transactionPostingDao" />
+		</property>
+		<property name="tfileHandler">
+			<ref bean="tfileHandler" />
+		</property>
+		<property name="checkReconFileHandler">
+			<ref bean="checkReconFileHandler" />
+		</property>
+		<property name="bankParameterAccessService">
+			<ref bean="bankParameterAccessService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="serviceMap">
+			<map>
+				<entry key= "CCR" value-ref ="bankCreditCardDocumentService"/>
+				<entry key= "DI" value-ref  ="bankDiDocumentService"/>
+				<entry key= "AD" value-ref  ="bankAdDocumentService"/>
+			</map>
+		</property>
+	</bean>
+	<bean id="bankAbstractDocumentService" abstract="true" >
+		<property name="tfileHandlerService">
+			<ref bean="tfileHandler" />
+		</property>
+		<property name="transactionPostingDao">
+			<ref bean="transactionPostingDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="bankParameterAccessService">
+			<ref bean="bankParameterAccessService" />
+		</property>
+	</bean>
+	
+	<bean id="bankCreditCardDocumentService" class="edu.arizona.kfs.fp.batch.service.impl.BankCreditCardDocumentServiceImpl" parent="bankAbstractDocumentService"/>
+	<bean id="bankDiDocumentService" class="edu.arizona.kfs.fp.batch.service.impl.BankDiDocumentServiceImpl"  parent="bankAbstractDocumentService"/>
+	<bean id="bankAdDocumentService" class="edu.arizona.kfs.fp.batch.service.impl.BankAdDocumentServiceImpl"  parent="bankAbstractDocumentService"/>
+	
+	<bean id="bankParameterAccessService" class="edu.arizona.kfs.fp.batch.dataaccess.impl.BankParameterAccessServiceImpl" >
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>	
+
+	<bean id="checkReconFileHandler" class="edu.arizona.kfs.fp.batch.dataaccess.impl.CheckReconFileHandlerImpl" >
+		<property name="batchFileDirectoryName" value="${staging.directory}/recon" />
+		<property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	</bean>	
+
+	<bean id="transactionPostingDao" parent="platformAwareDao" class="edu.arizona.kfs.fp.batch.dataaccess.impl.TransactionPostingDaoOjb" />
+
+	<bean id="tfileHandler" class="edu.arizona.kfs.fp.batch.dataaccess.impl.TfileHandlerServiceImpl" >
+		<property name = "batchFileDirectoryName" value="${staging.directory}/fp/BankTransactions"/>
+        <property name="bankParameterAccessService">
+			<ref bean="bankParameterAccessService" />
+		</property>
+		
+	</bean>	
+
+	
+	
+	<bean id="tpBatchInputFileService" class="edu.arizona.kfs.fp.batch.service.impl.TpBatchInputFileServiceImpl"/>
+	<bean id="bankTransactionsInputFileType" class="edu.arizona.kfs.fp.batch.BankTransactionsInputFileType"> 
+	    <property name="directoryPath">
+	       <value>${staging.directory}/fp/BankTransactions</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>data</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	</bean>
+	
+	<bean id="objectSubTypeCodeRoleTypeService"
+		class="edu.arizona.kfs.coa.identity.ObjectSubTypeCodeRoleTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="objectSubTypeCodeRoleTypeService"
+				p:localServiceName="objectSubTypeCodeRoleTypeService" />
+		</property>
+	</bean>	
 </beans>
+
+

@@ -1,3 +1,8 @@
+# This repository is dormant; please access the up to date repository at [https://github.com/KualiCo/financials](https://github.com/KualiCo/financials)
+
+# If you need access to this repository, please email kfs.analysts@kuali.co
+
+
 # KFS Release 6.0
 
 ## Documentation Links

@@ -3,7 +3,7 @@
 # If you need access to this repository, please email kfs.analysts@kuali.co
 
 
-# KFS Release 6.0
+# KFS 
 
 ## Documentation Links
 

@@ -40,7 +40,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release3</version>
+  <version>ua-release4</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
@@ -156,6 +156,17 @@
     <finalName>${project.artifactId}</finalName>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <packagingExcludes>
+              WEB-INF/lib/rice-kim-impl-${rice.version}.jar,
+              WEB-INF/lib/rice-impl-${rice.version}.jar
+             </packagingExcludes>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat7-maven-plugin</artifactId>
@@ -489,7 +500,8 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kim-impl</artifactId>
-      <version>${rice.version}</version>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
       <exclusions>
         <exclusion>
           <groupId>xapool</groupId>
@@ -676,7 +688,8 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
-      <version>${rice.version}</version>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
       <exclusions>
         <exclusion>
           <groupId>javax.resource</groupId>

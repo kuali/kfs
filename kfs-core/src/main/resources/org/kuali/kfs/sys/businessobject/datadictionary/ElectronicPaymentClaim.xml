@@ -43,6 +43,8 @@
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.amount"/>
         <ref bean="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
         <ref bean="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber"/>
+        <ref bean="ElectronicPaymentClaim-amountFrom"/>
+        <ref bean="ElectronicPaymentClaim-amountTo"/>
       </list>
     </property>
   </bean>
@@ -137,6 +139,21 @@
   	<property name="name" value="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
   	<property name="label" value="Deposited Date"/>
   </bean>
+  
+  <bean id="ElectronicPaymentClaim-amountFrom" parent="ElectronicPaymentClaim-amountFrom-parentBean" />
+  <bean id="ElectronicPaymentClaim-amountFrom-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="amountFrom"/>
+    <property name="label" value="Amount From"/>
+    <property name="shortLabel" value="Amount From"/>
+  </bean>
+
+  <bean id="ElectronicPaymentClaim-amountTo" parent="ElectronicPaymentClaim-amountTo-parentBean" />
+  <bean id="ElectronicPaymentClaim-amountTo-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="amountTo"/>
+    <property name="label" value="Amount To"/>
+    <property name="shortLabel" value="Amount To"/>
+  </bean>
+
 <!-- RICE20 - we can't be reaching into Rice in the DD   
   <bean id="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" parent="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus-parentBean"/>
   
@@ -204,6 +221,10 @@
         <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
         <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.organizationReferenceId"/>
         <bean parent="FieldDefinition" p:defaultValue="U" p:attributeName="paymentClaimStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
+        <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.financialDocumentLineDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="amountFrom"/>
+        <bean parent="FieldDefinition" p:attributeName="amountTo"/>
       </list>
     </property>
     <property name="resultFields">

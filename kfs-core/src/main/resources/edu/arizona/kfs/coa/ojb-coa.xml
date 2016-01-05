@@ -218,6 +218,12 @@
     <field-descriptor name="institutionalFringeAccountExt"  column="INSTITUTIONAL_FRINGE_ACCOUNT"   jdbc-type="VARCHAR" />
     <field-descriptor name="budgetShellCode"                column="BUDGET_SHELL_CD"                jdbc-type="VARCHAR" />
     <field-descriptor name="crossOrganizationCode"          column="CROSS_ORG_CD"                   jdbc-type="VARCHAR" />
+    <reference-descriptor name="budgetShell" class-ref="edu.arizona.kfs.coa.businessobject.BudgetShellCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="budgetShellCode" />
+    </reference-descriptor>
+    <reference-descriptor name="crossOrganization" class-ref="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="crossOrganizationCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 </descriptor-repository> 

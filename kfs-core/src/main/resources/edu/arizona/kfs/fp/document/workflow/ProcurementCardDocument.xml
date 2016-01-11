@@ -4,6 +4,7 @@
     <documentType>
       <name>PCDO</name>
       <parent>FP</parent>
+      <label>Procurement Card</label>
       <docHandler>${application.url}/financialProcurementCard.do?methodToCall=docHandler</docHandler>
       <routePaths>       
         <routePath>

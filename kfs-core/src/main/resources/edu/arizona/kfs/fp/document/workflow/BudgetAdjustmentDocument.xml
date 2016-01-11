@@ -4,6 +4,7 @@
     <documentType>
       <name>BA</name>
       <parent>FP</parent>
+      <label>Budget Adjustment</label>
       <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

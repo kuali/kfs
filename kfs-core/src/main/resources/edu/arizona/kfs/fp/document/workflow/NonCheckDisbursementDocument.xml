@@ -19,6 +19,7 @@
     <documentType>
       <name>ND</name>
       <parent>FP</parent>
+      <label>Non Check Disbursement</label>
       <docHandler>${application.url}/financialNonCheckDisbursement.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

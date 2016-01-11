@@ -4,6 +4,7 @@
     <documentType>
       <name>IB</name>
       <parent>FP</parent>
+      <label>Internal Billing</label>
       <docHandler>${application.url}/financialInternalBilling.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

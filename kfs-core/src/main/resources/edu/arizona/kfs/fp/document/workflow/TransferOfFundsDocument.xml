@@ -19,6 +19,7 @@
     <documentType>
       <name>TF</name>
       <parent>FP</parent>
+      <label>Transfer of Funds</label>
       <docHandler>${application.url}/financialTransferOfFunds.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

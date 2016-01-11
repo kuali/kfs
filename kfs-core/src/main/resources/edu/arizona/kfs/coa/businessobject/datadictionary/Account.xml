@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="Account" parent="Account-parentBean">
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="Account-budgetShellCode" />
+                <ref bean="Account-crossOrganizationCode" />
+            </list>
+        </property>
+        <property name="inactivationBlockingDefinitions">
+            <list merge="true">
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.budgetShell"          />
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.crossOrganization"    />
+            </list>
+        </property>
+        <property name="relationships">
+            <list merge="true">
+                <dd:relationship objectAttribute="extension.budgetShell">
+                    <dd:primitiveAttribute source="extension.budgetShellCode" target="budgetShellCode" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="extension.crossOrganization">
+                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="crossOrganizationCode" />
+                </dd:relationship>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <dd:boAttributeRef id="Account-budgetShellCode"         parent="AccountExtension-budgetShellCode"       attributeName="extension.budgetShellCode"       />
+    <dd:boAttributeRef id="Account-crossOrganizationCode"   parent="AccountExtension-crossOrganizationCode" attributeName="extension.crossOrganizationCode" />
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean">
+        <property name="inquirySections">
+            <list merge="true">
+                <bean parent="InquirySectionDefinition" p:title="Additional Account Attributes">
+                    <property name="inquiryFields">
+                        <list>
+                            <dd:field attributeName="extension.budgetShellCode" />
+                            <dd:field attributeName="extension.crossOrganizationCode" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean">
+        <property name="lookupFields">
+            <list merge="true">
+                <dd:field attributeName="extension.budgetShellCode" />
+                <dd:field attributeName="extension.crossOrganizationCode" />
+            </list>
+        </property>
+    </bean>
+</beans>

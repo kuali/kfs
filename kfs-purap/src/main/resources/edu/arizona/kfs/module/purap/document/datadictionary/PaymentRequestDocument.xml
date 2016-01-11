@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:dd="http://rice.kuali.org/dd" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean">
-      <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.DocuwarePaymentRequestDocumentPresentationController"/>
-  </bean>
-
-  <bean id="PaymentRequestDocument-accountsPayableProcessorIdentifier" parent="PaymentRequestDocument-accountsPayableProcessorIdentifier-parentBean">
-    <property name="maxLength" value="40"/>
-  </bean>
-
-  <!-- KITT-1222 -->
+	<!-- workflow attributes for routing -->
   <bean id="PaymentRequestDocument-workflowAttributes" parent="PaymentRequestDocument-workflowAttributes-parentBean">
   	<property name="routingTypeDefinitions">
     	<map>

@@ -19,6 +19,7 @@
     <documentType>
       <name>PREQ</name>
       <parent>AP</parent>
+      <label>Payment Request</label>
       <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

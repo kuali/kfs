@@ -4,22 +4,18 @@
     <documentType>
       <name>AV</name>
       <parent>FP</parent>
+      <label>Auxiliary Voucher</label>
       <docHandler>${application.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
-          <requests name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode"/>
+          <requests name="Account" nextNode="ObjectSubTypeCode"/>
           <requests name="ObjectSubTypeCode"/>
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
         <role name="Account">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
-        <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

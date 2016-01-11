@@ -4,6 +4,7 @@
     <documentType>
       <name>REQS</name>
       <parent>PUR</parent>
+      <label>Requisition</label>
       <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

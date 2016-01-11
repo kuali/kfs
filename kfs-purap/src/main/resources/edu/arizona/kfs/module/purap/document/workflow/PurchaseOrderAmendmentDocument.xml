@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>POA</name>
+      <parent>PO</parent>
+      <label>Purchase Order Amendment</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasNewUnorderedItems"/>
+          <split name="HasNewUnorderedItems" nextNode="Account">
+            <branch name="True">
+              <requests name="NewUnorderedItems" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="AmountRequiresSeparationOfDutiesReview"/>
+          <split name="AmountRequiresSeparationOfDutiesReview" nextNode="ObjectSubTypeCode">
+            <branch name="True">
+              <requests name="SeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoSeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+            </branch>
+            <join name="JoinSeparationOfDuties"/>
+          </split>  
+          <requests name="ObjectSubTypeCode" nextNode="RequiresContractManagementReview"/> 
+          <split name="RequiresContractManagementReview" nextNode="CentralAdministrationReview">
+            <branch name="True">
+              <requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
+            </branch>
+            <branch name="False">
+              <requests name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
+            </branch>
+            <join name="JoinRequiresContractManagementReview"/>
+          </split>
+          <requests name="CentralAdministrationReview"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="HasNewUnorderedItems">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+        <role name="NewUnorderedItems">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ContractManagement">
+          <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresContractManagementReview">
+          <type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpRequiresContractManagementReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresContractManagementReview"/>
+        <role name="CentralAdministrationReview">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="AmountRequiresSeparationOfDutiesReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <join name="JoinSeparationOfDuties" />                
+        <simple name="NoSeparationOfDuties">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

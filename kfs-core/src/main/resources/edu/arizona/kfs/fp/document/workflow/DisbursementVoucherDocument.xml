@@ -20,6 +20,7 @@
   <documentType>
    <name>DV</name>
    <parent>FP</parent>
+   <label>Disbursement Voucher</label>
    <docHandler>
     ${application.url}/financialDisbursementVoucher.do?methodToCall=docHandler
    </docHandler>

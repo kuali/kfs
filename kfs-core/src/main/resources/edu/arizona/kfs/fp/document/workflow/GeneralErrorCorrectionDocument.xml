@@ -4,6 +4,7 @@
     <documentType>
       <name>GEC</name>
       <parent>FP</parent>
+      <label>General Error Correction</label>
       <docHandler>${application.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

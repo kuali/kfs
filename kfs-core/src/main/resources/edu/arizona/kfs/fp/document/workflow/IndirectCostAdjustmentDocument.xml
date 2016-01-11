@@ -4,6 +4,7 @@
     <documentType>
       <name>ICA</name>
       <parent>FP</parent>
+      <label>Indirect Cost Adjustment</label>
       <docHandler>${application.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

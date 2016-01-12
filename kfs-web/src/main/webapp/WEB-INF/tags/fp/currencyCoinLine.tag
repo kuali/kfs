@@ -39,7 +39,15 @@
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />
 <c:set var="coinAttributes" value="${DataDictionary.CoinDetail.attributes}" />
 <c:set var="tabindexOverrideBase" value="20" />
-<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.document.displayCashReceiptDenominationDetail}" />
+<c:catch var="exception">${KualiForm.displayCashReceiptDenominationDetail}</c:catch>
+<c:choose>
+	<c:when test="${not empty exception}">
+		<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.document.displayCashReceiptDenominationDetail}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
+	</c:otherwise>
+</c:choose>
 
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
         <c:if test="${showConfirm}">

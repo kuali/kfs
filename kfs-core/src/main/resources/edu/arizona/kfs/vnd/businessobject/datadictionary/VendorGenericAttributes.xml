@@ -5,4 +5,8 @@
     <property name="maxLength" value="40" />    
   </bean>
   
+  <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean">
+  	<property name="maxLength" value="37" />  
+  </bean>
+    
 </beans>

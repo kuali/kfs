@@ -15,6 +15,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
     		<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
     		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
     		<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+    		<entry key="AutoApprove" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
             <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
     	</map>
     </property>

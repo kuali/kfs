@@ -12,7 +12,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
     		<entry key="AccountFullEdit" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>   		
    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly"/>
-   			<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+   			<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-targetOnly"/>
    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
             <entry key="AutoApprove" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
    		</map>

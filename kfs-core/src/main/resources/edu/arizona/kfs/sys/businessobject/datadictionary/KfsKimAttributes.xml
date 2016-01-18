@@ -5,14 +5,12 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="ArizonaKfsKimAttributes" parent="ArizonaKfsKimAttributes-parentBean" />
-	
-	<bean id="ArizonaKfsKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean"
-		p:businessObjectClass="edu.arizona.kfs.sys.identity.ArizonaKfsKimAttributes"
+	<bean id="KfsKimAttributes" parent="KfsKimAttributes-parentBean"
+		p:businessObjectClass="edu.arizona.kfs.sys.identity.KfsKimAttributes"
 		p:objectLabel="KFS Core KIM Attributes">
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="ArizonaKfsKimAttributes-objectSubTypeCode" />
+				<ref bean="KfsKimAttributes-objectSubTypeCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -25,6 +23,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		</property>
 	</bean>
 
-	<bean id="ArizonaKfsKimAttributes-objectSubTypeCode" parent="ObjectCode-financialObjectSubTypeCode-parentBean" />	
+	<bean id="KfsKimAttributes-objectSubTypeCode" parent="ObjectCode-financialObjectSubTypeCode-parentBean" />	
 
 </beans>

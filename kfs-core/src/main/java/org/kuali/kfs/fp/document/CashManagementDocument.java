@@ -94,7 +94,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     private KualiDecimal financialDocumentOneCentAmount;
     private KualiDecimal financialDocumentOtherCentAmount;
 
-    protected Boolean displayCashReceiptDenominationDetail;
 
     /**
      * Default constructor.
@@ -816,9 +815,5 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
         this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
-    }
-
-    public Boolean getDisplayCashReceiptDenominationDetail() {
-        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, KFSParameterKeyConstants.FpParameterConstants.DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND, true);
     }
 }

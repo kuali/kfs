@@ -119,7 +119,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     protected String createDate;
     
-    protected Boolean displayCashReceiptDenominationDetail;
 
     /**
      * Initializes the array lists and line incrementers.
@@ -1129,9 +1128,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
     }
     
-    public Boolean getDisplayCashReceiptDenominationDetail() {
-        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, KFSParameterKeyConstants.FpParameterConstants.DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND, true);
-    }
 
     /**
      * Generate the primary key for a currency or coin detail related to this document

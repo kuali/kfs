@@ -75,7 +75,6 @@ public class DepositWizardForm extends KualiForm {
 
     protected String noVerifiedCashErrorMessage = "";
     
-    protected Boolean displayCashReceiptDenominationDetail;
 
     /**
      * Constructs a DepositWizardForm class instance.

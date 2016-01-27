@@ -76,7 +76,7 @@
           <activationType>P</activationType>
         </role>
         <role name="ObjectSubTypeCode">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
         <role name="Commodity">

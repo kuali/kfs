@@ -11,7 +11,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
     		<map>
     		    <!-- no qualifiers for HasNewUnorderedItems -->
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
                 <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
     		</map>
     	</property>

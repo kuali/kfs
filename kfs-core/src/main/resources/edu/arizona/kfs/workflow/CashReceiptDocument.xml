@@ -11,9 +11,10 @@
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="CashManagement" />
+          <start name="AdHoc" nextNode="ObjectSubTypeCode" />
+          <role name="ObjectSubTypeCode" nextNode="CashManagement"/>
           <role name="CashManagement" nextNode="RequireChangeRequestReview" />
-          <split name="RequireChangeRequestReview" nextNode="ObjectSubTypeCode">
+          <split name="RequireChangeRequestReview">
             <branch name="True">
               <role name="ChangeRequest" nextNode="JoinRequireChangeRequestReview" />
             </branch>
@@ -22,11 +23,15 @@
             </branch>
             <join name="JoinRequireChangeRequestReview" />
           </split>
-          <role name="ObjectSubTypeCode" />
+          
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc" />
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
         <role name="CashManagement">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <!-- don't need mandatoryRoute -->
@@ -45,10 +50,6 @@
         <simple name="NoOp">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
-        <role name="ObjectSubTypeCode">
-          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
       </routeNodes>
     </documentType>
   </documentTypes>

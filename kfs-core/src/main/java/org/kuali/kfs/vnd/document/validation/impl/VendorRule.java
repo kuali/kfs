@@ -51,7 +51,6 @@ import org.kuali.kfs.vnd.businessobject.VendorCustomerNumber;
 import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.businessobject.W8TypeOwnershipType;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -59,7 +58,6 @@ import org.kuali.kfs.vnd.service.CommodityCodeService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.FixedPointValidationPattern;
@@ -84,9 +82,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     private VendorDetail oldVendor;
     private VendorDetail newVendor;
-    
-    private static final String VENDOR_SUPPLIER_DIVERSITY_CODE = "vendorSupplierDiversityCode";
-    private static final String ACTIVE = "active";
 
 
     /**
@@ -238,48 +233,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             valid &= processAddressValidation(document);
             valid &= processContractValidation(document);
             valid &= processCommodityCodeValidation(document);
-            valid &= processSupplierDiversityValidation(document);
         }
 
         return valid;
     }
 
-    private boolean processSupplierDiversityValidation(MaintenanceDocument document) {
-    	boolean valid = true;
-    	List<VendorSupplierDiversity> vendorSupplierDiversities = ((VendorDetail) document.getNewMaintainableObject().getBusinessObject()).getVendorHeader().getVendorSupplierDiversities();
-    	DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-    	
-    	if(vendorSupplierDiversities == null || vendorSupplierDiversities.isEmpty()) {
-    		valid = false;
-    		String fieldName = VENDOR_SUPPLIER_DIVERSITY_CODE;
-    		String attributeLabel = dataDictionaryService.getAttributeLabel(VendorSupplierDiversity.class, fieldName);
-    		String shortLabel = dataDictionaryService.getAttributeShortLabel(VendorSupplierDiversity.class, fieldName);
-    		
-    		putFieldError(VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_CODE, RiceKeyConstants.ERROR_REQUIRED, attributeLabel + " (" + shortLabel + ")");
-    	}
-    	
-    	else {
-    		int count = 0;
-    		for(VendorSupplierDiversity vsd : vendorSupplierDiversities) {
-    			if(vsd.isActive()) {
-    				count++;
-    			}
-    		}
-    		
-    		if(count == 0) {
-    			valid = false;
-    			String fieldName = ACTIVE;
-    			String attributeLabel = dataDictionaryService.getAttributeLabel(VendorSupplierDiversity.class, fieldName);
-        		String shortLabel = dataDictionaryService.getAttributeShortLabel(VendorSupplierDiversity.class, fieldName);
-        		
-        		putFieldError(VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_ACTIVE, RiceKeyConstants.ERROR_REQUIRED, attributeLabel + " (" + shortLabel + ")");
-    		}
-    	}
-    	
-		return valid;
-	}
-
-	/**
+    /**
      * Validates VendorDetail document.
      *
      * @param document MaintenanceDocument instance

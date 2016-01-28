@@ -19,7 +19,8 @@
         </property>
 		<property name="dataDictionaryPackages">
 			<list merge="true">
-				<value>classpath:edu/arizona/kfs/vnd/businessobject/datadictionary/*.xml</value>                
+				<value>classpath:edu/arizona/kfs/vnd/businessobject/datadictionary/*.xml</value>
+				<value>classpath:edu/arizona/kfs/vnd/document/datadictionary/*.xml</value>                
 			</list>
 		</property>		
 	</bean>

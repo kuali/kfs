@@ -273,7 +273,7 @@
   <bean id="VendorMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorSupplierDiversities"/>
     <property name="title" value="Supplier Diversity"/>
-    <property name="defaultOpen" value="true"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">

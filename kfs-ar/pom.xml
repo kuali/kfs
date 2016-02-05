@@ -5,7 +5,7 @@
   <parent>
     <artifactId>kfs</artifactId>
     <groupId>org.kuali.kfs</groupId>
-    <version>ua-release5</version>
+    <version>ua-release6-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 

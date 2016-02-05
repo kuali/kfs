@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	
+	<bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean">
+		<property name="forceUppercase" value="true" />	
+		<property name="maxLength" value="40" />
+	</bean>
+	
+	<bean id="VendorDetail-vendorLastName" parent="VendorDetail-vendorLastName-parentBean">
+		<property name="forceUppercase" value="true" />	
+		<property name="maxLength" value="40" />	
+	</bean>
+	
+	<bean id="VendorDetail-vendorFirstName" parent="VendorDetail-vendorFirstName-parentBean">	
+		<property name="forceUppercase" value="true" />		
+		<property name="maxLength" value="40" />		
+	</bean>
+	
+	<bean id="VendorDetail-vendorRemitName" parent="VendorDetail-vendorRemitName-parentBean">	
+		<property name="forceUppercase" value="true" />		
+		<property name="maxLength" value="40" />		
+	</bean>
+	
+	<bean id="VendorDetail-vendorParentName" parent="VendorDetail-vendorParentName-parentBean">		
+		<property name="maxLength" value="40" />		
+	</bean>
+
+	<bean id="VendorDetail-lookupDefinition" parent="VendorDetail-lookupDefinition-parentBean">
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="vendorName" />
+				<bean parent="FieldDefinition" p:attributeName="defaultAddressLine1" />
+				<bean parent="FieldDefinition" p:attributeName="vendorAliasesAsString" />
+				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCountry.name" />
+				<bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
+			</list>
+		</property>
+	</bean>
+   
+</beans>

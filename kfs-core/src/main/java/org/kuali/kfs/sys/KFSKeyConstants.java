@@ -697,6 +697,7 @@ public class KFSKeyConstants {
         public static final String MSG_VERIFIED_AND_AWAITING_DEPOSIT = "message.document.cashReceipt.verifiedAndAwaitingDeposit";
         public static final String MSG_VERIFIED_AND_DEPOSITED = "message.document.cashReceipt.verifiedAndDeposited";
         public static final String MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED = "message.document.cashReceipt.cashDrawerClosedVerificationNotAllowed";
+        public static final String MSG_CASH_DRAWER_LOCKED_VERIFICATION_NOT_ALLOWED = "message.document.cashReceipt.cashDrawerLockedVerificationNotAllowed";
         public static final String ERROR_ZERO_CHECK_AMOUNT = "error.document.cashReceipt.zeroCheckAmount";
         public static final String ERROR_NEGATIVE_CHECK_AMOUNT = "error.document.cashReceipt.negativeCheckAmount";
         public static final String ERROR_NEGATIVE_CASH_DETAIL_AMOUNT = "error.document.cashReceipt.negativeCashDetailAmount";

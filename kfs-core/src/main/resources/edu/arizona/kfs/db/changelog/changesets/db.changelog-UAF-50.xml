@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+		
+	<changeSet id="UAF-50" author="Leaha Sullivan">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="8">
+				SELECT COUNT(*) FROM KRIM_ATTR_DEFN_T
+					WHERE nm='fundGroupCode'
+					OR nm='subFundGroupCode'
+					OR nm='financialObjectSubTypeCode'
+					OR nm='chartOfAccountsCode'
+					OR nm='organizationCode'
+					OR nm='fromAmount'
+					OR nm='toAmount'
+					OR nm='accountingLineOverrideCode'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			UAF-50 changing component name for KfsKimAttributes to the new file in the edu.arizona package
+		</comment>
+			<update tableName="KRIM_ATTR_DEFN_T">
+				<column name="CMPNT_NM" value="edu.arizona.kfs.sys.identity.KfsKimAttributes"/>
+				<where>nm='fundGroupCode'
+					OR nm='subFundGroupCode'
+					OR nm='financialObjectSubTypeCode'
+					OR nm='chartOfAccountsCode'
+					OR nm='organizationCode'
+					OR nm='fromAmount'
+					OR nm='toAmount'
+					OR nm='accountingLineOverrideCode'</where>
+			</update>
+		<rollback>
+			<update tableName="KRIM_ATTR_DEFN_T">
+				<column name="CMPNT_NM" value="org.kuali.kfs.sys.identity.KfsKimAttributes"/>
+				<where>nm='fundGroupCode'
+					OR nm='subFundGroupCode'
+					OR nm='financialObjectSubTypeCode'
+					OR nm='chartOfAccountsCode'
+					OR nm='organizationCode'
+					OR nm='fromAmount'
+					OR nm='toAmount'
+					OR nm='accountingLineOverrideCode'</where>
+			</update>
+		</rollback>
+	</changeSet>
+</databaseChangeLog>

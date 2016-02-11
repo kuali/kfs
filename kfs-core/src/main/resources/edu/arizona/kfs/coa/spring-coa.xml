@@ -22,4 +22,7 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="accountingOrganizationHierarchyReviewRoleTypeService" parent="accountingOrganizationHierarchyReviewRoleTypeService-parentBean" 
+    		class="edu.arizona.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl" />
 </beans>

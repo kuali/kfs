@@ -10,13 +10,7 @@
         <comment>
             UAF-475 add KFS-RQ namespace for document requeue job
         </comment>
-        <insert tableName="KRCR_NMSPC_T">
-            <column name="APPL_ID" value="KFS"/>
-            <column name="NMSPC_CD" value="KFS-RQ"/>
-            <column name="OBJ_ID" value="KFS-RQ"/>
-            <column name="NM" value="Document Requeue"/>
-            <column name="ACTV_IND" value="Y"/>
-        </insert>
+        <sql>insert into KULOWNER.KRCR_NMSPC_T (OBJ_ID, ACTV_IND, NM, NMSPC_CD, APPL_ID) VALUES (sys_guid(), 'Y', 'Document Requeue', 'KFS-RQ', 'KFS');</sql>
         <rollback>
             <delete tableName="KRCR_NMSPC_T">
                 <where>NMSPC_CD='KFS-RQ'</where>

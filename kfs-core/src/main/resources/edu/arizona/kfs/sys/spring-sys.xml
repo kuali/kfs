@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean">
+        <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.sys</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask" lazy-init="false">
+        <!-- wait 60 seconds before starting repeated execution -->
+        <property name="delay" value="60000" />
+        <!-- run every 5 seconds -->
+        <property name="period" value="5000" />
+        <property name="timerTask" ref="remoteBatchJobInvoker" />
+    </bean>
+
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref bean="scheduledTask" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="remoteBatchJobInvoker" class="edu.arizona.kfs.sys.batch.RemoteBatchJobInvoker">
+        <property name="directoryToWatch">
+            <value>${work.directory}/control</value>
+        </property>
+        <property name="historyDirectory">
+            <value>${work.directory}/control/history</value>
+        </property>
+        <property name="runFileSuffix">
+            <value>.run</value>
+        </property>
+        <property name="statusFileSuffix">
+            <value>.status</value>
+        </property>
+        <property name="hostFileSuffix">
+            <value>.runnable</value>
+        </property>
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="schedulerService" ref="schedulerService" />
+    </bean>
+
+
+</beans>

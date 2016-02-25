@@ -39,7 +39,7 @@
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />
 <c:set var="coinAttributes" value="${DataDictionary.CoinDetail.attributes}" />
 <c:set var="tabindexOverrideBase" value="20" />
-<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.document.displayCashReceiptDenominationDetail}" />
+<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
 
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
         <c:if test="${showConfirm}">

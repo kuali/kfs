@@ -25,7 +25,7 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="confirmed" value="${KualiForm.document.confirmed}" />
 <c:set var="cashReceiptAttributes" value="${DataDictionary['CashReceiptDocument'].attributes}" />
-<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.document.displayCashReceiptDenominationDetail}" />
+<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
 
 <%-- 
 	We should show both the original and confirmed details after CashManagerment confirmation; only that neither column would be editable.

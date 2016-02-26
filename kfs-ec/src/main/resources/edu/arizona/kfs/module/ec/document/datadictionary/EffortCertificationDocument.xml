@@ -15,7 +15,7 @@
   			<ref bean="RoutingAttribute-overrideCode"/>
   			<ref bean="RoutingAttribute-fundGroupCode"/>
   			<ref bean="RoutingAttribute-subFundGroupCode"/>
-  			<ref bean="RoutingAttribute-financialObjectSubTypeCode"/>
+  			<ref bean="RoutingAttribute-objectSubTypeCode"/>
   		</list>
   	</property>
   	<property name="documentValuePathGroups">

@@ -49,7 +49,7 @@
   <bean id="OrgReviewRole-subFundGroupCode-parentBean" parent="KfsKimAttributes-subFundGroupCode" abstract="true" p:name="subFundGroupCode" p:required="false"/>
 	
   <bean id="OrgReviewRole-financialObjectSubTypeCode" parent="OrgReviewRole-financialObjectSubTypeCode-parentBean"/>
-  <bean id="OrgReviewRole-financialObjectSubTypeCode-parentBean" parent="KfsKimAttributes-financialObjectSubTypeCode" abstract="true" p:name="financialObjectSubTypeCode" p:required="false"/>
+  <bean id="OrgReviewRole-financialObjectSubTypeCode-parentBean" parent="KfsKimAttributes-objectSubTypeCode" abstract="true" p:name="financialObjectSubTypeCode" p:required="false"/>
 
   <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean">
     <property name="lookupFields">

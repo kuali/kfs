@@ -29,10 +29,11 @@ public class StuckDocumentsDAOJdbc extends PlatformAwareDaoBaseJdbc implements S
             "from krew_doc_hdr_t dh " +
             "left join krew_actn_rqst_t ar " +
             "  on dh.doc_hdr_id = ar.doc_hdr_id " +
-            "  and (ar.stat_cd = 'I' or (ar.stat_cd = 'A' and (ar.actn_rqst_cd != 'F' or ar.actn_rqst_cd != 'A'))) " +
+            "  and (ar.stat_cd = 'I' or (ar.stat_cd = 'A' and (ar.actn_rqst_cd != 'F' or ar.actn_rqst_cd = 'A'))) " +
             "inner join krew_doc_typ_t dt on dh.doc_typ_id = dt.doc_typ_id " +
             "where dh.doc_hdr_stat_cd = 'R' " +
             "and ar.doc_hdr_id is null " +
+            "and dt.actv_ind = 1 " +
             "order by dh.stat_mdfn_dt";
 
     @Override

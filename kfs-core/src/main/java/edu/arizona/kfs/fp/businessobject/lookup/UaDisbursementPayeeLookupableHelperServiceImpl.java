@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -38,17 +37,25 @@ import edu.arizona.kfs.sys.UaKFSConstants;
 public class UaDisbursementPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookupableHelperServiceImpl {
 	private static final long serialVersionUID = 1L;
 
+	private static volatile PersonService personService;
+
+	private PersonService getPersonService() {
+		if (personService == null) {
+			personService = SpringContext.getBean(PersonService.class);
+		}
+		return personService;
+	}
+
+
 	/**
 	 * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPersonAsPayees(java.util.Map)
 	 */
-	@SuppressWarnings("deprecation")
 	protected List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
 		List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
 
 		ArrayList<String> employeeStatusCodes = new ArrayList<String>(CoreFrameworkServiceLocator.getParameterService().getParameterValuesAsString(DisbursementVoucherDocument.class, UaKFSConstants.ACTIVE_EMPLOYEE_STATUS_CODES_PARAM_NAME));
 		if (ObjectUtils.isNull(employeeStatusCodes) || employeeStatusCodes.isEmpty()) {
-			employeeStatusCodes = new ArrayList<String>();
-			employeeStatusCodes.add(KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+			throw new RuntimeException("The ACTIVE_EMPLOYEE_STATUS_CODES parameter has no values.");
 		}
 
 		for (String statusCode : employeeStatusCodes) {
@@ -81,15 +88,6 @@ public class UaDisbursementPayeeLookupableHelperServiceImpl extends Disbursement
 		}
 
 		return payeeList;
-	}
-
-	private static volatile PersonService personService;
-
-	private PersonService getPersonService() {
-		if (personService == null) {
-			personService = SpringContext.getBean(PersonService.class);
-		}
-		return personService;
 	}
 
 	@Override

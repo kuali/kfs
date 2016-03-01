@@ -33,4 +33,7 @@
     <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
 
     <bean id="disbursementVoucherInvoiceService" class="edu.arizona.kfs.fp.service.impl.DisbursementVoucherInvoiceServiceImpl" />
+
+    <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
+
 </beans>

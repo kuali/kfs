@@ -27,4 +27,3 @@ sftp-config.json
 tmtags
 **/target/
 .gitignore
-/bin/

@@ -11,6 +11,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="KfsKimAttributes-objectSubTypeCode" />
+				<ref bean="KfsKimAttributes-fundGroupCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -19,10 +20,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 					<dd:primitiveAttribute source="financialObjectSubTypeCode"
 						target="code" />
 				</dd:relationship>
+				<dd:relationship objectAttribute="fundGroup">
+					<dd:primitiveAttribute source="fundGroupCode" target="code" />
+				</dd:relationship>  
 			</list>
 		</property>
 	</bean>
 
 	<bean id="KfsKimAttributes-objectSubTypeCode" parent="ObjectCode-financialObjectSubTypeCode-parentBean" />	
+	
+	<bean id="KfsKimAttributes-fundGroupCode" parent="FundGroup-code" p:name="fundGroupCode" />
 
 </beans>

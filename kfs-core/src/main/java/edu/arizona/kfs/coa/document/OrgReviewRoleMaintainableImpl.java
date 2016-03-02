@@ -6,6 +6,29 @@ import org.kuali.rice.kns.web.ui.Field;
 public class OrgReviewRoleMaintainableImpl extends org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl {
 
 	@Override
+	protected void prepareFieldsCommon(Field field, boolean shouldReviewTypesFieldBeReadOnly, boolean hasAccountingOrganizationHierarchy){
+        if ( field == null ) {
+            throw new IllegalArgumentException( "The Field parameter may not be null." );
+        }
+
+        if(!shouldReviewTypesFieldBeReadOnly) {
+            return; // nothing to make read only
+        }
+
+        if(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
+            field.setReadOnly(true);
+        } else if( !hasAccountingOrganizationHierarchy
+                && (OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.FUND_GROUP_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.SUB_FUND_GROUP_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.OBJECT_SUB_TYPE_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName()))) {
+            field.setReadOnly(true);
+        }
+    }
+	
+	@Override
 	protected void setCommonFieldsToReadOnlyOnEdit(Field field) {
 		  if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
 	                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||

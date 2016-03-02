@@ -33,7 +33,7 @@
   			<value>overrideCode</value>
   			<value>account.subFundGroup.fundGroupCode</value>
   			<value>account.subFundGroupCode</value>
-  			<value>objectCode.financialObjectSubTypeCode</value>
+  			<value>financialObject.financialObjectSubTypeCode</value>
   		</list>
   	</property>
   </bean>  

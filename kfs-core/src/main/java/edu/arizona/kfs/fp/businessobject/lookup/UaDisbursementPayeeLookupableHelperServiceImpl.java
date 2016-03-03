@@ -83,7 +83,7 @@ public class UaDisbursementPayeeLookupableHelperServiceImpl extends Disbursement
 		List<? extends Person> persons = getPersonService().findPeople(personFieldValues);
 
 		for (Person personDetail : persons) {
-			DisbursementPayee payee = getPayeeFromPerson(personDetail, personFieldValues);
+			DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
 			payeeList.add(payee);
 		}
 

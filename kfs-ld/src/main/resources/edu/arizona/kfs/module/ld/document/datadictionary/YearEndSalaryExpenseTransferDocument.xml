@@ -8,6 +8,7 @@
 	  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes" parent="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean">
 	    <property name="routingTypeDefinitions">
 	    	<map>
+	    		<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
 	    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
 	    		<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode"/>
 	    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>

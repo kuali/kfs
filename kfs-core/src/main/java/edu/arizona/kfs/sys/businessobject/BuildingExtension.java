@@ -15,7 +15,10 @@
  */
 package edu.arizona.kfs.sys.businessobject;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /**
@@ -25,6 +28,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
  */
 
 public class BuildingExtension extends PersistableBusinessObjectExtensionBase {
+	
+	private static transient volatile BusinessObjectService boService;
+	
     private String routeCode;       //Route Code Extended Attribute
     private RouteCode routeCodeObj; // Route Code Object
     private String campusCode;
@@ -67,6 +73,10 @@ public class BuildingExtension extends PersistableBusinessObjectExtensionBase {
      * @return RouteCode
      */
     public RouteCode getRouteCodeObj() {
+//        return routeCodeObj;
+        if (routeCodeObj == null || !StringUtils.equals(routeCodeObj.getRouteCode(), routeCode)) {
+        	routeCodeObj = getBusinessObjectService().findBySinglePrimaryKey(RouteCode.class, routeCode);
+        }
         return routeCodeObj;
     }
 
@@ -76,6 +86,7 @@ public class BuildingExtension extends PersistableBusinessObjectExtensionBase {
      */
     public void setRouteCodeObj(RouteCode routeCodeObj) {
         this.routeCodeObj = routeCodeObj;
+        setRouteCode(routeCodeObj.getRouteCode());
     }
 
     /**
@@ -92,6 +103,13 @@ public class BuildingExtension extends PersistableBusinessObjectExtensionBase {
      */
     public void setRouteCode(String routeCode) {
         this.routeCode = routeCode;
+    }
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        if (boService == null) {
+            boService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return boService;
     }
 
 }

@@ -14,7 +14,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<property name="objectLabel" value="Building" />
 		<property name="attributes">
 			<list>
-				<ref bean="BuildingExtension-versionNumber" />
 		        <ref bean="BuildingExtension-campusCode" />
         		<ref bean="BuildingExtension-buildingCode" />
 				<ref bean="BuildingExtension-routeCode"/>
@@ -22,7 +21,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		</property>
 	</bean>
 
-	<bean id="BuildingExtension-versionNumber" parent="AttributeReferenceDummy-versionNumber-parentBean" />
 	<bean id="BuildingExtension-campusCode" parent="Building-campusCode-parentBean" />
 	<bean id="BuildingExtension-buildingCode" parent="Building-buildingCode-parentBean" />
 

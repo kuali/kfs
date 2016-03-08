@@ -11,6 +11,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 				<ref bean="Building-routeCode" />
 			</list>
 		</property>
+		<property name="inactivationBlockingDefinitions">
+			<list merge="true">
+				<bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="extension.routeCodeObj"/>
+			</list>
+		</property>
 		<property name="relationships">
 			<list merge="true">
 				<dd:relationship objectAttribute="extension.routeCodeObj">

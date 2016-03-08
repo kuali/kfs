@@ -25,7 +25,7 @@
 	    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 	    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 	    <field-descriptor name="routeCode" column="ROUTE_CODE" jdbc-type="VARCHAR" />
-	    <reference-descriptor name="routeCodeObj" class-ref="edu.arizona.kfs.sys.businessobject.RouteCode" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+	    <reference-descriptor name="routeCodeObj" class-ref="edu.arizona.kfs.sys.businessobject.RouteCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		    <foreignkey field-ref="routeCode" />
 	    </reference-descriptor>
 	</class-descriptor>

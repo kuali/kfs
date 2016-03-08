@@ -21,7 +21,7 @@
     <property name="documentTypeName" value="RTCD" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="workflowAttributes">
-    	<ref bean="BalanceTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="RouteCodeMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>   
 

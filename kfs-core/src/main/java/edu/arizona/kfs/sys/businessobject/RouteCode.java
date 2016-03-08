@@ -16,6 +16,8 @@
 package edu.arizona.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
+
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
@@ -24,7 +26,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * @author Kevin McOmber
  * 
  */
-public class RouteCode extends PersistableBusinessObjectBase {
+public class RouteCode extends PersistableBusinessObjectBase implements MutableInactivatable {
     
     private String routeCode;           // Route Code 
     private String routeCodeDesc;       // Route Code Description

@@ -38,8 +38,8 @@ import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -175,16 +175,22 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return flattenedSearchResults;
     }
 
-    protected List<String> getPrincipalIdsForWildcardedPrincipalName( String principalName ) {
+    protected List<String> getPrincipalIdsForWildcardedPrincipalName(String principalName) {
+        List<String> principalIds = new ArrayList<String>();
+
         if(StringUtils.isNotBlank(principalName)){
-            PrincipalQueryResults results =  KimApiServiceLocator.getIdentityService().findPrincipals(QueryByCriteria.Builder.fromPredicates(PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, getQueryString(principalName))) ));
-            List<String> principalIds = new ArrayList<String>(results.getResults().size());
-            for ( Principal principals : results.getResults() ) {
-                principalIds.add( principals.getPrincipalId() );
+
+            String wildcardPrincipalName = getWildcardValue(principalName);
+            Map<String, String> criteriaMap = Collections.singletonMap(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, wildcardPrincipalName);
+            List<Person> persons= KimApiServiceLocator.getPersonService().findPeople(criteriaMap);
+
+            for (Person person : persons) {
+                principalIds.add(person.getPrincipalId());
             }
-            return principalIds;
+
         }
-        return Collections.emptyList();
+
+        return principalIds;
     }
 
     protected List<String> getGroupIdsForWildcardedGroupName( String namespaceCode, String groupName ) {
@@ -193,7 +199,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, namespaceCode);
         }
         if( StringUtils.isNotBlank(groupName) ) {
-            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(groupName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getWildcardValue(groupName));
         }
         if ( searchCriteria.isEmpty() ) {
             return Collections.emptyList();
@@ -207,7 +213,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, namespaceCode);
         }
         if( StringUtils.isNotBlank(roleName) ) {
-            searchCriteria.put(KimConstants.UniqueKeyConstants.NAME, getQueryString(roleName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAME, getWildcardValue(roleName));
         }
         if ( searchCriteria.isEmpty() ) {
             return Collections.emptyList();
@@ -520,7 +526,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return orgReviewRoles;
     }
 
-    protected String getQueryString(String parameter){
+    protected String getWildcardValue(String parameter){
         if(StringUtils.isBlank(parameter)) {
             return KFSConstants.WILDCARD_CHARACTER;
         } else {

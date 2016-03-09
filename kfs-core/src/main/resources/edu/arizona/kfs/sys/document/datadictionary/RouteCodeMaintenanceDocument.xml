@@ -11,7 +11,7 @@
 
   <bean id="RouteCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="edu.arizona.kfs.sys.businessobject.RouteCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
     <property name="maintainableSections" >
       <list>
         <ref bean="RouteCodeMaintenanceDocument-EditRouteCode" />

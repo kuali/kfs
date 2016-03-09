@@ -73,7 +73,6 @@ public class BuildingExtension extends PersistableBusinessObjectExtensionBase {
      * @return RouteCode
      */
     public RouteCode getRouteCodeObj() {
-//        return routeCodeObj;
         if (routeCodeObj == null || !StringUtils.equals(routeCodeObj.getRouteCode(), routeCode)) {
         	routeCodeObj = getBusinessObjectService().findBySinglePrimaryKey(RouteCode.class, routeCode);
         }

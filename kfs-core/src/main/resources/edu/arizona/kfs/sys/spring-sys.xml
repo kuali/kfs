@@ -20,6 +20,11 @@
 				<value>edu.arizona.kfs.sys</value>
 			</list>
 		</property>
+		<property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/sys/ojb-sys.xml</value>
+            </list>
+        </property>
 	</bean>
 
 </beans>

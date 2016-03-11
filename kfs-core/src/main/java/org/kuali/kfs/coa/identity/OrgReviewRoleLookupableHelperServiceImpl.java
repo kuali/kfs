@@ -177,19 +177,19 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
     protected List<String> getPrincipalIdsForWildcardedPrincipalName(String principalName) {
         List<String> principalIds = new ArrayList<String>();
-        
-    	if(StringUtils.isNotBlank(principalName)){
-            
-    		String wildcardPrincipalName = getWildcardValue(principalName);
-    		Map<String, String> criteriaMap = Collections.singletonMap(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, wildcardPrincipalName);
-    		List<Person> persons= KimApiServiceLocator.getPersonService().findPeople(criteriaMap);
-    		
-    		for (Person person : persons) {
-    			principalIds.add(person.getPrincipalId());
-    		}
-    		
+
+        if(StringUtils.isNotBlank(principalName)){
+
+            String wildcardPrincipalName = getWildcardValue(principalName);
+            Map<String, String> criteriaMap = Collections.singletonMap(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, wildcardPrincipalName);
+            List<Person> persons= KimApiServiceLocator.getPersonService().findPeople(criteriaMap);
+
+            for (Person person : persons) {
+                principalIds.add(person.getPrincipalId());
+            }
+
         }
-    	
+
         return principalIds;
     }
 

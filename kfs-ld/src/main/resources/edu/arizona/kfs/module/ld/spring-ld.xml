@@ -10,10 +10,16 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean">
+          <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.module.ld</value>               
+            </list>
+        </property>
         <property name="dataDictionaryPackages">
             <list merge="true">
                 <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/overrides/*.xml</value>
                 <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/overrides/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/ld/document/datadictionary/*.xml</value>
             </list>
         </property>
     </bean>

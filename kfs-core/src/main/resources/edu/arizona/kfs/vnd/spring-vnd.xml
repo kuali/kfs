@@ -22,7 +22,12 @@
 				<value>classpath:edu/arizona/kfs/vnd/businessobject/datadictionary/*.xml</value>
 				<value>classpath:edu/arizona/kfs/vnd/document/datadictionary/*.xml</value>                
 			</list>
-		</property>		
+		</property>	
+		<property name="databaseRepositoryFilePaths">
+			<list merge="true">
+				<value>edu/arizona/kfs/vnd/ojb-vnd.xml</value>
+			</list>
+		</property>	
 	</bean>
     
 </beans>

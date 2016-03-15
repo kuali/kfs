@@ -30,4 +30,7 @@
 	<bean id="objectSubTypeCodeRoleTypeService-parentBean" class="edu.arizona.kfs.coa.identity.ObjectSubTypeCodeRoleTypeServiceImpl" abstract="true">  
 	</bean>
 	
+	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
+	<bean id="orgReviewRoleService-parentBean" class="edu.arizona.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
+	
 </beans>

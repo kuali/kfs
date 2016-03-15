@@ -36,4 +36,23 @@
 
     <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
 
+    <bean id="procurementCardDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="procurementCardLoadStep" />
+                <ref bean="procurementCardCreateDocumentsStep" />
+                <ref bean="procurementCardRouteDocumentsStep" />
+                <ref bean="procurementCardAutoApproveDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="disbursementVoucherPreDisbursementProcessorExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="disbursementVoucherPreDisbursementProcessorExtractStep" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

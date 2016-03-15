@@ -23,6 +23,14 @@
         </property>
     </bean>
 
+    <bean id="populatePriorYearDataJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="updatePriorYearDataStep" />
+            </list>
+        </property>
+    </bean>
+
     <bean id="accountingOrganizationHierarchyReviewRoleTypeService" parent="accountingOrganizationHierarchyReviewRoleTypeService-parentBean" 
     		class="edu.arizona.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl" />
     

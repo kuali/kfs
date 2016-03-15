@@ -18,12 +18,27 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
-
-
-
   <bean id="VendorMaintenanceDocument" parent="VendorMaintenanceDocument-parentBean">
     <property name="businessRulesClass" value="edu.arizona.kfs.vnd.document.validation.impl.VendorRule"/>
+    <property name="maintainableSections">
+        <list merge="true">
+            <ref bean="VendorMaintenanceDocument-ExtendedAttributes" />
+        </list>
+    </property>
   </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="VendorMaintenanceDocument-ExtendedAttributes" parent="VendorMaintenanceDocument-ExtendedAttributes-parentBean" />
+    <bean id="VendorMaintenanceDocument-ExtendedAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="ExtendedAttributes" />
+        <property name="title" value="Additional Attributes" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="extension.exportControlsFlag" />
+            </list>
+        </property>
+    </bean>
 
   <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean">
     <property name="defaultOpen" value="true"/>

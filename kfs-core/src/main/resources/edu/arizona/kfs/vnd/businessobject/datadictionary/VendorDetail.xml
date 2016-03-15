@@ -3,17 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
-	
+
 	<bean id="VendorDetail" parent="VendorDetail-parentBean">
-		<property name="attributes">
-			<list merge="true">
-				<ref bean="VendorDetail-conflictOfInterest" />
-			</list>
-		</property>
-	</bean>
-	
-	<dd:boAttributeRef id="VendorDetail-conflictOfInterest" parent="VendorDetailExtension-conflictOfInterest" attributeName="extension.conflictOfInterest" />
-	
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="VendorDetail-exportControlsFlag" />
+                <ref bean="VendorDetail-conflictOfInterest" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <dd:boAttributeRef id="VendorDetail-exportControlsFlag" parent="VendorDetailExtension-exportControlsFlag" attributeName="extension.exportControlsFlag" />
+    
+    <dd:boAttributeRef id="VendorDetail-conflictOfInterest" parent="VendorDetailExtension-conflictOfInterest" attributeName="extension.conflictOfInterest" />
+
 	<bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean">
 		<property name="forceUppercase" value="true" />	
 		<property name="maxLength" value="40" />
@@ -38,24 +43,62 @@
 		<property name="maxLength" value="40" />		
 	</bean>
 
+    <!-- Inquiry Definition -->
+
+    <bean id="VendorDetail-inquiryDefinition" parent="VendorDetail-inquiryDefinition-parentBean">
+        <property name="inquirySections">
+            <list merge="true">
+                <ref bean="VendorDetail-extension"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="VendorDetail-extension" parent="InquirySectionDefinition">
+        <property name="title" value="Additional Attributes" />
+        <property name="numberOfColumns" value="1" />
+        <property name="inquiryFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="extension.exportControlsFlag" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Lookup Definition -->
+
 	<bean id="VendorDetail-lookupDefinition" parent="VendorDetail-lookupDefinition-parentBean">
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="vendorName" />
-				<bean parent="FieldDefinition" p:attributeName="defaultAddressLine1" />
-				<bean parent="FieldDefinition" p:attributeName="vendorAliasesAsString" />
-				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
-				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCountry.name" />
-				<bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
-				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
-			</list>
-		</property>
-	</bean>
-   
-   <bean id="VendorDetail-inquirySectionDefinition-vendorDetail" parent="VendorDetail-inquirySectionDefinition-vendorDetail-parentBean">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="vendorName" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignTaxId" />
+                <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+                <bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+                <bean parent="FieldDefinition" p:attributeName="extension.exportControlsFlag"/>
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorAddresses.vendorStateCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorCommodities.purchasingCommodityCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorContracts.vendorContractGeneratedIdentifier"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="vendorName" />
+                <bean parent="FieldDefinition" p:attributeName="defaultAddressLine1" />
+                <bean parent="FieldDefinition" p:attributeName="vendorAliasesAsString" />
+                <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+                <bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCountry.name" />
+                <bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
+            </list>
+        </property>
+    </bean>
+    
+       <bean id="VendorDetail-inquirySectionDefinition-vendorDetail" parent="VendorDetail-inquirySectionDefinition-vendorDetail-parentBean">
    		<property name="title" value="Vendor Detail" />
    		<property name="numberOfColumns" value="2" />
    		<property name="inquiryFields">

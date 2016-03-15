@@ -13,7 +13,6 @@
             <list>
                 <ref bean="VendorDetailExtension-vendorHeaderGeneratedIdentifier" />
                 <ref bean="VendorDetailExtension-vendorDetailAssignedIdentifier" />
-                <ref bean="VendorDetailExtension-versionNumber" />
                 <ref bean="VendorDetailExtension-exportControlsFlag" />
             </list>
         </property>
@@ -22,8 +21,6 @@
     <bean id="VendorDetailExtension-vendorHeaderGeneratedIdentifier" parent="VendorDetail-vendorHeaderGeneratedIdentifier-parentBean" />
 
     <bean id="VendorDetailExtension-vendorDetailAssignedIdentifier" parent="VendorDetail-vendorDetailAssignedIdentifier-parentBean" />
-
-    <bean id="VendorDetailExtension-versionNumber" parent="AttributeReferenceDummy-versionNumber-parentBean" />
 
     <bean id="VendorDetailExtension-exportControlsFlag" parent="GenericAttributes-genericBoolean">
         <property name="name" value="exportControlsFlag" />

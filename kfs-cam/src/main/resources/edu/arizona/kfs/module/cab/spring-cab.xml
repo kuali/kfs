@@ -10,24 +10,33 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-                           
-    <bean id="vndModuleConfiguration" parent="vndModuleConfiguration-parentBean">	
-        <property name="packagePrefixes">
-            <list merge="true">
-				<value>edu.arizona.kfs.vnd</value>
+
+    <bean id="cabModuleConfiguration" parent="cabModuleConfiguration-parentBean">
+        <property name="triggerNames">
+            <list>
             </list>
         </property>
-		<property name="dataDictionaryPackages">
-			<list merge="true">
-				<value>classpath:edu/arizona/kfs/vnd/businessobject/datadictionary/*.xml</value>
-				<value>classpath:edu/arizona/kfs/vnd/document/datadictionary/*.xml</value>                
-			</list>
-		</property>		
-        <property name="databaseRepositoryFilePaths">
-            <list merge="true">
-                <value>edu/arizona/kfs/vnd/ojb-vnd.xml</value>
+    </bean>
+
+    <bean id="cabExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="cabExtractStep" />
             </list>
         </property>
-	</bean>
-    
+        <property name="dependencies">
+            <map>
+                <entry key="posterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="preAssetTaggingExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="preAssetTaggingStep" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

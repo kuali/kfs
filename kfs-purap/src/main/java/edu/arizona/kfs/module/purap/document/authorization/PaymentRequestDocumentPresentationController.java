@@ -19,7 +19,7 @@
 package edu.arizona.kfs.module.purap.document.authorization;
 
 import java.util.Set;
-import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 
 
@@ -30,7 +30,7 @@ public class PaymentRequestDocumentPresentationController extends org.kuali.kfs.
 		Set<String> editModes = super.getEditModes(document); 
 		
 		//Remove ability for AP Specialist to EDIT PREQ vendor address. 
-		editModes.add(KFSConstants.Authorization.EDIT_VENDOR_ADDR_EDIT_MODE); 
+		editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_VENDOR_ADDR_EDIT_MODE);
 		
 		return editModes; 
 	} 

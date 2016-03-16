@@ -1,0 +1,107 @@
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="edu.arizona.kfs.vnd.businessobject.VendorDetailExtension" table="PUR_VNDR_DTL_EXT_T">
+        <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="azSalesTaxLicense" column="AZ_SALES_TAX_LIC" jdbc-type="VARCHAR" />
+        <field-descriptor name="tucSalesTaxLicense" column="TUC_SALES_TAX_LIC" jdbc-type="VARCHAR" />
+        <field-descriptor name="conflictOfInterest" column="VNDR_CONFLICT_OF_INT" jdbc-type="VARCHAR" />
+        <field-descriptor name="defaultB2BPaymentMethodCode" column="DFLT_B2B_PMT_MTHD_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="exportControlsFlag" column="EXPORT_CONTROLS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kfs.vnd.businessobject.VendorDetail" table="PUR_VNDR_DTL_T">
+        <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="vendorParentIndicator" column="VNDR_PARENT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="activeIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorInactiveReasonCode" column="VNDR_INACTV_REAS_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="vendorPaymentTermsCode" column="VNDR_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorShippingTitleCode" column="VNDR_SHP_TTL_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorShippingPaymentTermsCode" column="VNDR_SHP_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorConfirmationIndicator" column="VNDR_CNFM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorPrepaymentIndicator" column="VNDR_PRPYMT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorCreditCardIndicator" column="VNDR_CCRD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorMinimumOrderAmount" column="VNDR_MIN_ORD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="vendorUrlAddress" column="VNDR_URL_ADDR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorSoldToName" column="VNDR_SOLD_TO_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorRemitName" column="VNDR_RMT_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorRestrictedIndicator" column="VNDR_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="vendorRestrictedReasonText" column="VNDR_RSTRC_REAS_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorRestrictedDate" column="VNDR_RSTRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="vendorRestrictedPersonIdentifier" column="VNDR_RSTRC_PRSN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorSoldToGeneratedIdentifier" column="VNDR_SOLD_TO_GNRTD_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="vendorSoldToAssignedIdentifier" column="VNDR_SOLD_TO_ASND_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="vendorFirstLastNameIndicator" column="VNDR_1ST_LST_NM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="taxableIndicator" column="COLLECT_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        </reference-descriptor>
+        <reference-descriptor name="soldToVendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="vendorSoldToGeneratedIdentifier" />
+            <foreignkey field-ref="vendorSoldToAssignedIdentifier" />
+        </reference-descriptor>
+        <reference-descriptor name="vendorInactiveReason" class-ref="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="vendorInactiveReasonCode" />
+        </reference-descriptor>
+        <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="vendorPaymentTermsCode" />
+        </reference-descriptor>
+        <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="vendorShippingTitleCode" />
+        </reference-descriptor>
+        <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+        </reference-descriptor>
+        <collection-descriptor name="vendorAliases" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorAlias" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="vendorAliasName" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorAddresses" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="vendorAddressTypeCode" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <orderby name="vendorContactTypeCode" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <orderby name="vendorContractName" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorCustomerNumbers" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="chartOfAccountsCode" sort="ASC" />
+            <orderby name="vendorOrganizationCode" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorPhoneNumbers" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <orderby name="vendorPhoneGeneratedIdentifier" sort="ASC" />
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorShippingSpecialConditions" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <collection-descriptor name="vendorCommodities" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorCommodityCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </collection-descriptor>
+        <reference-descriptor name="extension" class-ref="edu.arizona.kfs.vnd.businessobject.VendorDetailExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </reference-descriptor>
+    </class-descriptor>
+
+</descriptor-repository>

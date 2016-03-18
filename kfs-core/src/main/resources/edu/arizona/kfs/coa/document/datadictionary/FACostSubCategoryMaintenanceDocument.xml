@@ -11,7 +11,7 @@
   
     <bean id="FACostSubCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
        <property name="businessObjectClass" value="edu.arizona.kfs.coa.businessobject.FACostSubCategory" />
-       <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+       <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
        <property name="maintainableSections" >
          <list>
              <ref bean="FACostSubCategoryMaintenanceDocument-EditFACostSubCategory" />
@@ -33,15 +33,9 @@
     <property name="title" value="Edit FA Cost Subcategory" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="faCostSubCatCode" 
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValueFinderClass="edu.arizona.kfs.coa.businessobject.defaultvalue.ActiveIndicatorValuesFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="faCostSubCatDesc" 
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="faCostSubCatCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="faCostSubCatDesc" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y" />
       </list>
     </property>
   </bean>

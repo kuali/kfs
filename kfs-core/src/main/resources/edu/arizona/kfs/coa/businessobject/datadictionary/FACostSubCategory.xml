@@ -107,8 +107,8 @@
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="faCostSubCatCode"/>
-                <bean parent="FieldDefinition" p:attributeName="active"/>
                 <bean parent="FieldDefinition" p:attributeName="faCostSubCatDesc"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
     </bean>

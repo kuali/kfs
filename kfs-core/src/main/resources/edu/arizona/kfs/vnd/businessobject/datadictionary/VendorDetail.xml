@@ -4,10 +4,11 @@
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-    <bean id="VendorDetail" parent="VendorDetail-parentBean">
+	<bean id="VendorDetail" parent="VendorDetail-parentBean">
         <property name="attributes">
             <list merge="true">
                 <ref bean="VendorDetail-exportControlsFlag" />
+                <ref bean="VendorDetail-conflictOfInterest" />
             </list>
         </property>
     </bean>
@@ -15,6 +16,8 @@
     <!-- Attribute Definitions -->
 
     <dd:boAttributeRef id="VendorDetail-exportControlsFlag" parent="VendorDetailExtension-exportControlsFlag" attributeName="extension.exportControlsFlag" />
+    
+    <dd:boAttributeRef id="VendorDetail-conflictOfInterest" parent="VendorDetailExtension-conflictOfInterest" attributeName="extension.conflictOfInterest" />
 
 	<bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean">
 		<property name="forceUppercase" value="true" />	
@@ -94,4 +97,65 @@
             </list>
         </property>
     </bean>
+    
+       <bean id="VendorDetail-inquirySectionDefinition-vendorDetail" parent="VendorDetail-inquirySectionDefinition-vendorDetail-parentBean">
+   		<property name="title" value="Vendor Detail" />
+   		<property name="numberOfColumns" value="2" />
+   		<property name="inquiryFields">
+   			<list>
+   				<bean parent="InquirySubSectionHeaderDefinition"
+					p:attributeName="Vendor Header Information" />
+				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorName" />
+				<bean parent="FieldDefinition" p:attributeName="vendorParentIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorParentName" />
+				
+				<bean parent="InquirySubSectionHeaderDefinition"
+					p:attributeName="Corporate Information" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9ReceivedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9SignedDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8BenReceivedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8SignedDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8TypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorGIIN" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignTaxId" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDOB" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter3StatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorChapter4StatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxEndDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDebarredIndicator" />
+				
+				<bean parent="InquirySubSectionHeaderDefinition"
+					p:attributeName="Detail Information" />
+				<bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorSoldToNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorSoldToName" />
+				<bean parent="FieldDefinition" p:attributeName="vendorPrepaymentIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorCreditCardIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="taxableIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorRestrictedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorMinimumOrderAmount" />
+				<bean parent="FieldDefinition" p:attributeName="vendorRestrictedDate" />
+				<bean parent="FieldDefinition" p:attributeName="vendorShippingTitleCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorRestrictedPerson.name" />
+				<bean parent="FieldDefinition" p:attributeName="vendorShippingPaymentTermsCode" />
+				<bean parent="FieldDefinition" p:attributeName="vendorRestrictedReasonText" />
+				<bean parent="FieldDefinition" p:attributeName="vendorDunsNumber" />
+				<bean parent="FieldDefinition" p:attributeName="vendorRemitName" />
+				<bean parent="FieldDefinition" p:attributeName="vendorUrlAddress" />
+				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorConfirmationIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="vendorInactiveReasonCode" />
+				<bean parent="FieldDefinition" p:attributeName="extension.conflictOfInterest" />
+			</list>
+		</property>
+	</bean>	
 </beans>

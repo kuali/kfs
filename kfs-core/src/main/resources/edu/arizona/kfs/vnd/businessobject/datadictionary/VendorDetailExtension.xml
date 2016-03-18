@@ -14,6 +14,7 @@
                 <ref bean="VendorDetailExtension-vendorHeaderGeneratedIdentifier" />
                 <ref bean="VendorDetailExtension-vendorDetailAssignedIdentifier" />
                 <ref bean="VendorDetailExtension-exportControlsFlag" />
+                <ref bean="VendorDetailExtension-conflictOfInterest" />
             </list>
         </property>
     </bean>
@@ -27,6 +28,15 @@
         <property name="label" value="Export Controls Flag" />
         <property name="shortLabel" value="Exp. Ctl." />
     </bean>
+    
+    <bean id="VendorDetailExtension-conflictOfInterest" parent="AttributeDefinition">
+		<property name="name" value="conflictOfInterest" />
+		<property name="label" value="Conflict of Interest" />
+		<property name="shortLabel" value="Conflict of Interest" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.vnd.businessobject.options.ConflictOfInterestTypeValuesFinder" p:includeKeyInLabel="false" />
+		</property>
+	</bean>
 
 </beans>
-

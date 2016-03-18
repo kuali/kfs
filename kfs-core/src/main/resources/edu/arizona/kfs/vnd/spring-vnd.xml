@@ -29,5 +29,18 @@
             </list>
         </property>
 	</bean>
+	
+	<bean id="vendorService" class="edu.arizona.kfs.vnd.document.service.impl.VendorServiceImpl">
+		<property name="vendorService">
+			<bean class="org.kuali.kfs.vnd.document.service.impl.VendorServiceImpl">
+		        <property name="vendorDao" ref="vendorDao"/>
+        		<property name="businessObjectService" ref="businessObjectService"/>
+       			<property name="documentService" ref="documentService"/>
+       			<property name="dateTimeService" ref="dateTimeService"/>
+       			<property name="noteService" ref="noteService"/>
+ 		   </bean>
+        </property>
+        <property name="documentService" ref="documentService"/>
+    </bean>
     
 </beans>

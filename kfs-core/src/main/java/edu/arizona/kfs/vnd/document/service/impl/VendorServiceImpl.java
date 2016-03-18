@@ -108,7 +108,7 @@ private static final Logger LOG = Logger.getLogger(VendorServiceImpl.class);
      * Returns true if super class returns true, or if there was a change in an extended attribute.
      */
     public boolean shouldVendorRouteForApproval(String documentId) {        
-        if (getVendorService().shouldVendorRouteForApproval(documentId)) {
+        if (vendorService.shouldVendorRouteForApproval(documentId)) {
              return true;
         }
                 
@@ -119,7 +119,7 @@ private static final Logger LOG = Logger.getLogger(VendorServiceImpl.class);
         boolean shouldRoute = true;
         MaintenanceDocument newDoc = null;
         try {
-            newDoc = (MaintenanceDocument) getDocumentService().getByDocumentHeaderId(documentId);
+            newDoc = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentId);
         }
         catch (WorkflowException we) {
             throw new RuntimeException("A WorkflowException was thrown which prevented the loading of " + "the comparison document (" + documentId + ")", we);
@@ -150,12 +150,12 @@ private static final Logger LOG = Logger.getLogger(VendorServiceImpl.class);
      *  org.kuali.kfs.vnd.document.service.VendorServiceImpl.noRouteSignificantChangeOccurred
      *            
      */
-    public boolean noRouteSignificantChangeOccurredForExtensions(VendorDetailExtension newVDtlExtension, VendorDetailExtension oldVDtlExtension) {
+    public boolean noRouteSignificantChangeOccurredForExtensions(VendorDetailExtension oldVDtlExtension, VendorDetailExtension newVDtlExtension) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering noRouteSignificantChangeOccurredForExtensions.");
         }
 
-        boolean unchanged = oldVDtlExtension.isEqualForRouting(newVDtlExtension);
+        boolean unchanged = newVDtlExtension.isEqualForRouting(oldVDtlExtension);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Exiting noRouteSignificantChangeOccurredForExtensions.");
@@ -164,16 +164,8 @@ private static final Logger LOG = Logger.getLogger(VendorServiceImpl.class);
         return unchanged;
     }
 
-    public VendorService getVendorService() {
-        return vendorService;
-    }
-
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
-    }
-
-    public DocumentService getDocumentService() {
-        return documentService;
     }
 
     public void setDocumentService(DocumentService documentService) {

@@ -297,7 +297,16 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                         remove = true;
                     }
                 }
+                
+                if(!chartOfAccountsCode.equals(orgReviewRole.getChartOfAccountsCode())) {
+    	        	remove = true;
+    	        }
             }
+    	    if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)) {
+    	    	if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())) {
+    	    		remove = true;
+    	    	}
+    	    }
     	    if(StringUtils.isNotBlank(fundGroupCode)){
             	if(!fundGroupCode.equals(orgReviewRole.getFundGroupCode())) {
             		remove = true;

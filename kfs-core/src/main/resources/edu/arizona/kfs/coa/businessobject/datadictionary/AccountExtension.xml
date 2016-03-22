@@ -14,6 +14,7 @@
                 <ref bean="AccountExtension-chartOfAccountsCode"    />
                 <ref bean="AccountExtension-budgetShellCode"        />
                 <ref bean="AccountExtension-crossOrganizationCode"  />
+                <ref bean="AccountExtension-faCostSubCatCode"       />
             </list>
         </property>
     </bean>
@@ -22,5 +23,14 @@
     <dd:boAttributeRef id="AccountExtension-chartOfAccountsCode"    parent="Chart-chartOfAccountsCode"                      required="true"  attributeName="chartOfAccountsCode"    />
     <dd:boAttributeRef id="AccountExtension-budgetShellCode"        parent="BudgetShellCode-budgetShellCode"                required="false" attributeName="budgetShellCode"        />
     <dd:boAttributeRef id="AccountExtension-crossOrganizationCode"  parent="CrossOrganizationCode-crossOrganizationCode"    required="false" attributeName="crossOrganizationCode"  />
+
+
+
+	<bean id="AccountExtension-faCostSubCatCode" parent="AccountExtension-faCostSubCatCode-parentBean" /> 		
+		
+	<dd:boAttributeRef id="AccountExtension-faCostSubCatCode-parentBean" 	
+		abstract="true" parent="FACostSubCategory-faCostSubCatCode-parentBean"   			
+		attributeName="faCostSubCategory.faCostSubCatCode" label="FA Cost Subcategory"   			
+		shortLabel="FA Cost Subcat" />  
 
 </beans>

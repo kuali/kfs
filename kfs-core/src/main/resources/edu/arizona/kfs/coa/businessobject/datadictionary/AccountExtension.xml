@@ -30,7 +30,7 @@
 		
 	<dd:boAttributeRef id="AccountExtension-faCostSubCatCode-parentBean" 	
 		abstract="true" parent="FACostSubCategory-faCostSubCatCode-parentBean"   			
-		attributeName="faCostSubCategory.faCostSubCatCode" label="FA Cost Subcategory"   			
+		attributeName="faCostSubCatCode" label="FA Cost Subcategory"   			
 		shortLabel="FA Cost Subcat" />  
 
 </beans>

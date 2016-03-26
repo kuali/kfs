@@ -1,0 +1,156 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+        
+    <bean id="RoutingAttribute-objectSubTypeCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
+       	<property name="qualificationAttributeName" value="financialObjectSubTypeCode" />
+    </bean>
+    
+    <bean id="RoutingAttribute-fundGroupCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="fundGroupCode" />
+	</bean>    
+    
+    <bean id="DocumentCollectionPath-AccountingLine-objectSubTypeCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+ 			<list>
+	   			<value>objectCode.financialObjectSubTypeCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   		
+   	<bean id="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-sourceAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+   	   	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-objectSubTypeCode">
+    			<property name="collectionPath" value="sourceAccountingLines" />
+	   		</bean>
+    	</property>
+    </bean>
+    
+    <bean id="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-targetAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-objectSubTypeCode">
+    			<property name="collectionPath" value="targetAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
+    	
+    <bean id="RoutingType-AccountingDocument-ObjectSubTypeCode" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+	        	<ref bean="RoutingAttribute-objectSubTypeCode" />
+	   		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-targetAccountingLines" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	   	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-objectSubTypeCode" />
+	   		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-sourceAccountingLines" />
+	   		</list>
+    	</property>
+    </bean>
+    
+    <bean id="RoutingType-AccountingDocument-ObjectSubTypeCode-targetOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	   	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-objectSubTypeCode" />
+	   		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectSubTypeCode-targetAccountingLines" />
+	   		</list>
+    	</property>
+    </bean>    
+    
+    <bean id="DocumentCollectionPath-AccountingLine-chartOrganizationAndOverrideCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+   			<list>
+   				<value>chartOfAccountsCode</value>
+   				<value>accountNumber</value>
+   				<value>account.organizationCode</value>
+   				<value>overrideCode</value>
+   				<value>account.subFundGroup.fundGroupCode</value>
+   				<value>account.subFundGroupCode</value>
+   				<value>objectCode.financialObjectSubTypeCode</value>
+   			</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="RoutingType-AccountingDocument-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+   		<property name="routingAttributes">
+   			<list>
+   				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+   				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+   				<ref bean="RoutingAttribute-accountNumber" />
+   				<ref bean="RoutingAttribute-organizationCode" />
+   				<ref bean="RoutingAttribute-overrideCode" />
+   				<ref bean="RoutingAttribute-fundGroupCode" />
+   				<ref bean="RoutingAttribute-subFundGroupCode" />
+   				<ref bean="RoutingAttribute-objectSubTypeCode" />
+   			</list>
+   		</property>
+   		<property name="documentValuePathGroups">
+   			<list>
+   				<ref bean="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-sourceAccountingLines" />
+   				<ref bean="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-targetAccountingLines" />
+   			</list>
+   		</property>
+   	</bean>
+   	<bean id="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+   		<property name="routingAttributes">
+   			<list>
+   				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+   				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+   				<ref bean="RoutingAttribute-accountNumber" />
+   				<ref bean="RoutingAttribute-organizationCode" />
+   				<ref bean="RoutingAttribute-overrideCode" />
+   				<ref bean="RoutingAttribute-fundGroupCode" />
+   				<ref bean="RoutingAttribute-subFundGroupCode" />
+   				<ref bean="RoutingAttribute-objectSubTypeCode" />
+   			</list>
+   		</property>
+   		<property name="documentValuePathGroups">
+   			<list>
+   				<ref bean="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-sourceAccountingLines" />
+   			</list>
+   		</property>
+   	</bean>
+   	<bean id="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+   		<property name="routingAttributes">
+   			<list>
+   				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+   				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+   				<ref bean="RoutingAttribute-accountNumber" />
+   				<ref bean="RoutingAttribute-organizationCode" />
+   				<ref bean="RoutingAttribute-overrideCode" />
+   				<ref bean="RoutingAttribute-fundGroupCode" />
+   				<ref bean="RoutingAttribute-subFundGroupCode" />
+   				<ref bean="RoutingAttribute-objectSubTypeCode" />
+   			</list>
+   		</property>
+   		<property name="documentValuePathGroups">
+   			<list>
+   				<ref bean="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-targetAccountingLines" />
+   			</list>
+   		</property>
+   	</bean>
+    
+    
+</beans>

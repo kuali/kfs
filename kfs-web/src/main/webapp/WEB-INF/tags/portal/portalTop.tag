@@ -23,7 +23,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>Kuali Portal Index</title>
+	<title>UAccess Financials</title>
 <c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
 	<link href="${cssFile}" rel="stylesheet" type="text/css" />
 </c:forEach>

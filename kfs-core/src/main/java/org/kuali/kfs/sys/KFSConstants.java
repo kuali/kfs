@@ -89,7 +89,7 @@ public class KFSConstants {
     //TODO: eventually this should be removed and the system user should be pulled from a parameter
     // right now, you HAVE to make sure that a 'kfs' user exists in your system, either in the DB
     // or in an external system such as LDAP if implemented
-    public static final String SYSTEM_USER = "kfs";
+    public static final String SYSTEM_USER = "kfs-sys-user";
 
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
@@ -1517,6 +1517,9 @@ public class KFSConstants {
     }
 
     public static final String ZERO = "0";
+    public static final String DELIMITER = ".";
+    public static final String YEP = "yep";
+    public static final String CLAIM = "claim";
 
     public static class BasicAccountingCategoryCodes {
         public static final String ASSETS = "AS";

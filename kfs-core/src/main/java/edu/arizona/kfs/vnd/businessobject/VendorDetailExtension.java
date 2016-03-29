@@ -1,6 +1,8 @@
 package edu.arizona.kfs.vnd.businessobject;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
 
 /**
@@ -77,5 +79,20 @@ public class VendorDetailExtension extends PersistableBusinessObjectExtensionBas
 
     public void setDefaultB2BPaymentMethodCode(String defaultB2BPaymentMethodCode) {
         this.defaultB2BPaymentMethodCode = defaultB2BPaymentMethodCode;
+    }
+    
+    public boolean isEqualForRouting(Object toCompare) {
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorDetailExtension)) {
+            return false;
+        } else {
+            VendorDetailExtension extension = (VendorDetailExtension) toCompare;
+            return new EqualsBuilder()
+                    .append(getConflictOfInterest(), extension.getConflictOfInterest())
+                    .append(getAzSalesTaxLicense(), extension.getAzSalesTaxLicense())
+                    .append(getTucSalesTaxLicense(), extension.getTucSalesTaxLicense())
+                    .append(isExportControlsFlag(), extension.isExportControlsFlag())
+                    .append(getDefaultB2BPaymentMethodCode(), extension.getDefaultB2BPaymentMethodCode())
+                    .isEquals();
+        }        
     }
 }

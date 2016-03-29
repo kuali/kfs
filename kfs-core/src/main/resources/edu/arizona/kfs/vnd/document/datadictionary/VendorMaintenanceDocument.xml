@@ -42,5 +42,15 @@
 
   <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean">
     <property name="defaultOpen" value="true"/>
-  </bean> 	  
+  </bean> 	
+  
+  <bean id="VendorMaintenanceDocument-Vendor" parent="VendorMaintenanceDocument-Vendor-parentBean">
+  	<property name="id" value="Vendor"/>
+    <property name="title" value="Vendor"/>
+    <property name="maintainableItems">
+      <list merge="true">
+      	<bean parent="MaintainableFieldDefinition" p:name="extension.conflictOfInterest" p:required="true"/>
+      </list>
+    </property>
+  </bean>    
 </beans>

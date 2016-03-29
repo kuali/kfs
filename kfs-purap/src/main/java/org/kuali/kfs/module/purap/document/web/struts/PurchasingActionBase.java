@@ -54,7 +54,6 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
@@ -1184,18 +1183,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 for (PurchasingCapitalAssetItem assetItem : document.getPurchasingCapitalAssetItems()) {
                     SpringContext.getBean(BusinessObjectService.class).delete((PersistableBusinessObject) assetItem);
                 }
-            }
-            
-            // remove capital assets from db
-            if (document instanceof RequisitionDocument) {
-            	for(PurchasingCapitalAssetItem purchasingCapitalAssetItem : document.getPurchasingCapitalAssetItems()) {
-	            	SpringContext.getBean(BusinessObjectService.class).delete((PersistableBusinessObject) purchasingCapitalAssetItem);
-	            }
-	            for(CapitalAssetSystem capitalAssetSystem : document.getPurchasingCapitalAssetSystems()) {
-	            	for(ItemCapitalAsset itemCapitalAsset : capitalAssetSystem.getItemCapitalAssets()) {
-	            		SpringContext.getBean(BusinessObjectService.class).delete((PersistableBusinessObject) itemCapitalAsset);
-	            	}
-	            }
             }
             document.clearCapitalAssetFields();
             // saveDocumentNoValidationUsingClearErrorMap(document);

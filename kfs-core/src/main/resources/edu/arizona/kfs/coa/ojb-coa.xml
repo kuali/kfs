@@ -1,4 +1,13 @@
 <descriptor-repository version="1.0">
+
+<class-descriptor class="edu.arizona.kfs.coa.businessobject.FACostSubCategory" table="CA_FA_COST_SUBCAT_T">
+    <field-descriptor name="faCostSubCatCode" column="FA_COST_SUBCAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="active" column="FA_COST_SUBCAT_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    <field-descriptor name="faCostSubCatDesc" column="FA_COST_SUBCAT_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.coa.businessobject.Account" table="CA_ACCOUNT_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

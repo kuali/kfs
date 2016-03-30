@@ -39,15 +39,11 @@
        p:kimTypeInfoService-ref="kimTypeInfoService"
        p:roleService-ref="kimRoleService"
        p:cacheManager-ref="kimLocalCacheManager">
-        <property name="identityService" ref="kimIdentityDelegateService"/>
+        <property name="identityService" ref="kimIdentityService"/>
     </bean>
 
     <bean id="kimRoleTypeService" class=" edu.arizona.kfs.sys.identity.UaEmployeeDerivedRoleTypeServiceImpl">
         <property name="edsConstants" ref="edsConstants"/>
     </bean>
 
-     <bean id="kimIdentityService" class="edu.arizona.kim.identity.impl.UaIdentityCurrentAndArchivedServiceImpl">
-        <constructor-arg ref="kimIdentityArchiveService"/>
-        <constructor-arg ref="kimIdentityDelegateService"/>
-    </bean>
 </beans>

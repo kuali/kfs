@@ -9,12 +9,14 @@
             <list merge="true">
                 <ref bean="Account-budgetShellCode" />
                 <ref bean="Account-crossOrganizationCode" />
+                <ref bean="Account-faCostSubCatCode" />
             </list>
         </property>
         <property name="inactivationBlockingDefinitions">
             <list merge="true">
                 <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.budgetShell"          />
                 <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.crossOrganization"    />
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.faCostSubCategory"    />
             </list>
         </property>
         <property name="relationships">
@@ -25,6 +27,9 @@
                 <dd:relationship objectAttribute="extension.crossOrganization">
                     <dd:primitiveAttribute source="extension.crossOrganizationCode" target="crossOrganizationCode" />
                 </dd:relationship>
+                <dd:relationship objectAttribute="extension.faCostSubCategory">
+					<dd:primitiveAttribute source="extension.faCostSubCatCode" target="faCostSubCatCode" />
+				</dd:relationship>
             </list>
         </property>
     </bean>
@@ -33,6 +38,9 @@
 
     <dd:boAttributeRef id="Account-budgetShellCode"         parent="AccountExtension-budgetShellCode"       attributeName="extension.budgetShellCode"       />
     <dd:boAttributeRef id="Account-crossOrganizationCode"   parent="AccountExtension-crossOrganizationCode" attributeName="extension.crossOrganizationCode" />
+    
+    <bean id="Account-faCostSubCatCode" parent="Account-faCostSubCatCode-parentBean" />
+	<dd:boAttributeRef id="Account-faCostSubCatCode-parentBean" abstract="true" parent="AccountExtension-faCostSubCatCode-parentBean" attributeName="extension.faCostSubCatCode" />
 
     <!-- Business Object Inquiry Definition -->
 
@@ -44,6 +52,7 @@
                         <list>
                             <dd:field attributeName="extension.budgetShellCode" />
                             <dd:field attributeName="extension.crossOrganizationCode" />
+                            <dd:field attributeName="extension.faCostSubCatCode" />
                         </list>
                     </property>
                 </bean>

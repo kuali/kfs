@@ -108,13 +108,5 @@
             </list>
         </property>
     </bean>
-    
-    <bean id="printService" parent="printService-parentBean"  class="edu.arizona.kfs.module.purap.document.service.impl.PrintServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="parameterService" ref="parameterService" />
-        <property name="imageService" ref="imageService" />
-        <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
-	</bean>
-	
+    	
 </beans>

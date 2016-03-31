@@ -2,7 +2,7 @@
 
   <bean id="PurchaseOrderDocument" parent="PurchaseOrderDocument-parentBean">
     <property name="documentClass" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
-    <property name="baseDocumentClass" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     <property name="attributes">
       <list merge="true">
         <ref bean="PurchaseOrderDocument-routeCode"/>
@@ -10,10 +10,10 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-   <bean id="PurchaseOrderDocument-routeCode" parent="RequisitionDocument-routeCode-parentBean"/>
+	<!-- Attribute Definitions -->
+   <bean id="PurchaseOrderDocument-routeCode" parent="PurchaseOrderDocument-routeCode-parentBean"/>
    
-   <bean id="RequisitionDocument-routeCode-parentBean" abstract="true" parent="AttributeDefinition"> 
+   <bean id="PurchaseOrderDocument-routeCode-parentBean" abstract="true" parent="AttributeDefinition"> 
 		<property name="name" value="routeCode" /> 
 		<property name="label" value="Route Code" /> 
 		<property name="shortLabel" value="Route Code" />

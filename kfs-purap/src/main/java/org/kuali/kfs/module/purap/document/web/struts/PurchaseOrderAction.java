@@ -1174,7 +1174,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);
-            ((edu.arizona.kfs.module.purap.document.PurchaseOrderRetransmitDocument) po).setShouldDisplayRetransmitTab(true);
+            ((PurchaseOrderRetransmitDocument) po).setShouldDisplayRetransmitTab(true);
         }
 
         kualiDocumentFormBase.setDocument(po);

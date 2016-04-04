@@ -45,7 +45,7 @@ public class VendorConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String VENDOR_CONTRACT_LOOKUPABLE_IMPL = "vendorContractLookupable";
-    public static final int MAX_VENDOR_NAME_LENGTH = 45;
+    public static final int MAX_VENDOR_NAME_LENGTH = 40;
     public static final String VENDOR_EXCLUDE_FILE_TYPE_INDENTIFIER = "vendorExcludeInputFileType";
     public static final String EXCLUDED_MATCHED_VENDOR_STATUS = "M";
     public static final String NON_EXCLUDED_MATCHED_VENDOR_STATUS = "N";

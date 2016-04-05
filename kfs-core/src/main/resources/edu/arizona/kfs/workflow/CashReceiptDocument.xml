@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>CR</name>
-      <parent>FP</parent>
+      <parent>FPAD</parent>
       <label>Cash Receipt</label>
       <docHandler>${kfs.url}/financialCashReceipt.do?methodToCall=docHandler</docHandler>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashreceipt.htm</helpDefinitionURL>

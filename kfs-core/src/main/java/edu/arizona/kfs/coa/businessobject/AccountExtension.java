@@ -32,6 +32,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     // Helper Objects
     private transient volatile BudgetShellCode budgetShell;
     private transient volatile CrossOrganizationCode crossOrganization;
+    private transient volatile FACostSubCategory faCostSubCategory;    // FA Subcategory Object
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -87,6 +88,18 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
 
     public void setFaCostSubCatCode(String faCostSubCatCode) {
         this.faCostSubCatCode = faCostSubCatCode;
+    }
+
+    public FACostSubCategory getFaCostSubCategory() {
+    	if (faCostSubCategory == null || !StringUtils.equals(faCostSubCategory.getFaCostSubCatCode(), faCostSubCatCode)) {
+    		faCostSubCategory = getBusinessObjectService().findBySinglePrimaryKey(FACostSubCategory.class, faCostSubCatCode);
+        }
+    	return faCostSubCategory;
+    }
+    
+    public void setFaCostSubCategory(FACostSubCategory faCostSubCategory) {
+    	this.faCostSubCategory = faCostSubCategory;
+    	setFaCostSubCatCode(faCostSubCategory.getFaCostSubCatCode());
     }
 
     public String getInstitutionalFringeCoaCodeExt() {

@@ -233,6 +233,9 @@
     <reference-descriptor name="crossOrganization" class-ref="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="crossOrganizationCode" />
     </reference-descriptor>
+    <reference-descriptor name="faCostSubCategory" class-ref="edu.arizona.kfs.coa.businessobject.FACostSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="faCostSubCatCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 </descriptor-repository> 

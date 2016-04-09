@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>CR</name>
-      <parent>FP</parent>
+      <parent>FPAD</parent>
       <label>Cash Receipt</label>
       <docHandler>${kfs.url}/financialCashReceipt.do?methodToCall=docHandler</docHandler>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashreceipt.htm</helpDefinitionURL>
@@ -11,7 +11,8 @@
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="ObjectSubTypeCode" />
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
           <role name="ObjectSubTypeCode" nextNode="CashManagement"/>
           <role name="CashManagement" nextNode="RequireChangeRequestReview" />
           <split name="RequireChangeRequestReview">
@@ -28,6 +29,10 @@
       </routePaths>
       <routeNodes>
         <start name="AdHoc" />
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
         <role name="ObjectSubTypeCode">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>

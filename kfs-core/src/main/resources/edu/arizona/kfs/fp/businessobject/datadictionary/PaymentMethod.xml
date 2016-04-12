@@ -26,8 +26,6 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="PaymentMethodAttribute-SelectControl" parent="PaymentMethod-paymentMethodCode" p:control-ref="PaymentMethodSelectControl" />
-
   <bean id="PaymentMethod-paymentMethodCode" parent="PaymentMethod-paymentMethodCode-parentBean"/>
   <bean id="PaymentMethod-paymentMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentMethodCode"/>

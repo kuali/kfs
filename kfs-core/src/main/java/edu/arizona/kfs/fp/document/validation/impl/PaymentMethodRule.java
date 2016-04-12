@@ -2,7 +2,7 @@ package edu.arizona.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -10,7 +10,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.businessobject.PaymentMethodChart;
 
-public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
+public class PaymentMethodRule extends MaintenanceDocumentRuleBase {
 
     protected static final String ERROR_NO_BANK_WHEN_INTERDEPT = "error.document.paymentmethod.no.bank.when.interdept";
     protected static final String ERROR_NOT_PDP_AND_INTERDEPT = "error.document.paymentmethod.not.pdp.and.interdept";
@@ -32,6 +32,7 @@ public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
     protected static final String ERROR_FEE_INCOBJ_REQUIRED = "error.document.paymentmethod.fee.incobj.required";
     protected static final String ERROR_FEE_ACCOUNT_REQUIRED = "error.document.paymentmethod.fee.account.required";
     protected static final String ERROR_FEE_CHART_REQUIRED = "error.document.paymentmethod.fee.chart.required";
+    protected static final String DOCUMENT_NEW_MAINTAINABLE_OBJECT = "document.newMaintainableObject";
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -39,7 +40,7 @@ public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
         PaymentMethod paymentMethod = (PaymentMethod)document.getNewMaintainableObject().getBusinessObject();
         // checks on the main record
         GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath(DOCUMENT_NEW_MAINTAINABLE_OBJECT);
         
         continueRouting &= sanityCheckFlags( paymentMethod );
         continueRouting &= checkNeedForBankCode(paymentMethod);
@@ -56,7 +57,7 @@ public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
             
             GlobalVariables.getMessageMap().removeFromErrorPath("paymentMethodCharts["+i+"]");
         }
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_NEW_MAINTAINABLE_OBJECT);
         
         return continueRouting;
     }
@@ -148,7 +149,7 @@ public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean continueAddingLine = true;
         GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath(DOCUMENT_NEW_MAINTAINABLE_OBJECT);
         if ( line instanceof PaymentMethodChart ) {
             GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_ADD_PREFIX + collectionName );
             
@@ -158,7 +159,7 @@ public class PaymentMethodRule extends KfsMaintenanceDocumentRuleBase {
             
             GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_ADD_PREFIX + collectionName );
         }
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_NEW_MAINTAINABLE_OBJECT);
         return continueAddingLine;
     }
     

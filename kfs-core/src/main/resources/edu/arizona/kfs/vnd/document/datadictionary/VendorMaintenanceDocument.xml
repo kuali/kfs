@@ -50,6 +50,7 @@
     <property name="maintainableItems">
       <list merge="true">
       	<bean parent="MaintainableFieldDefinition" p:name="extension.conflictOfInterest" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="extension.defaultB2BPaymentMethodCode" p:required="true" />
       </list>
     </property>
   </bean>    

@@ -1,6 +1,7 @@
 package edu.arizona.kfs.coa.businessobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -33,6 +34,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     private transient volatile BudgetShellCode budgetShell;
     private transient volatile CrossOrganizationCode crossOrganization;
     private transient volatile FACostSubCategory faCostSubCategory;    // FA Subcategory Object
+    private transient volatile TaxRegion taxRegionObj;
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -82,7 +84,19 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
         this.taxRegionCodeExt = taxRegionCodeExt;
     }
 
-    public String getFaCostSubCatCode() {
+    public TaxRegion getTaxRegionObj() {
+    	if (taxRegionObj == null || !StringUtils.equals(taxRegionObj.getTaxRegionCode(), taxRegionCodeExt)) {
+    		taxRegionObj = getBusinessObjectService().findBySinglePrimaryKey(TaxRegion.class, taxRegionCodeExt);
+        }
+    	return taxRegionObj;
+	}
+
+	public void setTaxRegionObj(TaxRegion taxRegionObj) {
+    	this.taxRegionObj = taxRegionObj;
+    	setTaxRegionCodeExt(taxRegionObj.getTaxRegionCode());
+	}
+
+	public String getFaCostSubCatCode() {
         return faCostSubCatCode;
     }
 

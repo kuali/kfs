@@ -15,6 +15,7 @@
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.budgetShell"         p:attributeToHighlightOnFail="extension.budgetShellCode"        />
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.crossOrganization"   p:attributeToHighlightOnFail="extension.crossOrganizationCode"  />
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.faCostSubCategory"   p:attributeToHighlightOnFail="extension.faCostSubCatCode"       />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.taxRegionObj"		p:attributeToHighlightOnFail="extension.taxRegionCodeExt" 		/>
             </list>
         </property>
     </bean>
@@ -30,6 +31,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="extension.budgetShellCode"       />
                 <bean parent="MaintainableFieldDefinition" p:name="extension.crossOrganizationCode" />
                 <bean parent="MaintainableFieldDefinition" p:name="extension.faCostSubCatCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.taxRegionCodeExt" p:required="true" />
             </list>
         </property>
     </bean>

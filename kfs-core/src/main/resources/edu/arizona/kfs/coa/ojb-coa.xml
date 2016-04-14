@@ -236,6 +236,9 @@
     <reference-descriptor name="faCostSubCategory" class-ref="edu.arizona.kfs.coa.businessobject.FACostSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="faCostSubCatCode" />
 	</reference-descriptor>
+	<reference-descriptor name="taxRegionObj" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="taxRegionCodeExt" />
+    </reference-descriptor>
 </class-descriptor>
 
 </descriptor-repository> 

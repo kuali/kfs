@@ -15,6 +15,7 @@
                 <ref bean="AccountExtension-budgetShellCode"        />
                 <ref bean="AccountExtension-crossOrganizationCode"  />
                 <ref bean="AccountExtension-faCostSubCatCode"       />
+                <ref bean="AccountExtension-taxRegionCode" 			/>
             </list>
         </property>
     </bean>
@@ -32,5 +33,11 @@
 		abstract="true" parent="FACostSubCategory-faCostSubCatCode-parentBean"   			
 		attributeName="faCostSubCatCode" label="FA Cost Subcategory"   			
 		shortLabel="FA Cost Subcat" />  
+		
+	<bean id="AccountExtension-taxRegionCode" parent="AccountExtension-taxRegionCode-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-taxRegionCode-parentBean"
+		abstract="true" parent="TaxRegion-taxRegionCode-parentBean"
+		attributeName="taxRegionObj.taxRegionCode" />
 
 </beans>

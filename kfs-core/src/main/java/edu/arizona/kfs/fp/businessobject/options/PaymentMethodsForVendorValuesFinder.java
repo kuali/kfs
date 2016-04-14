@@ -11,7 +11,7 @@ import edu.arizona.kfs.sys.businessobject.options.PaymentMethodValuesFinder;
  * Customization for UA: addition of "A" type for credit card payments.
  * 
  * @author jonathan
- * @see org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder
+ * @see org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder
  */
 public class PaymentMethodsForVendorValuesFinder extends PaymentMethodValuesFinder {
     static private Map<String,String> filterCriteria = new HashMap<String, String>();

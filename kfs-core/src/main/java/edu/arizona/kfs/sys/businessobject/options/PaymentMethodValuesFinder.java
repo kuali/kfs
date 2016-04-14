@@ -20,7 +20,7 @@ import edu.arizona.kfs.fp.businessobject.PaymentMethod;
  * Customization for UA: addition of "A" type for credit card payments.
  * 
  * @author jonathan
- * @see org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder
+ * @see org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder
  */
 public class PaymentMethodValuesFinder extends KeyValuesBase {
     private static BusinessObjectService businessObjectService;
@@ -30,7 +30,7 @@ public class PaymentMethodValuesFinder extends KeyValuesBase {
     }
     
     /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
         Collection<PaymentMethod> paymentMethods = getBusinessObjectService().findMatchingOrderBy(PaymentMethod.class, getFilterCriteria(), "paymentMethodCode", true);

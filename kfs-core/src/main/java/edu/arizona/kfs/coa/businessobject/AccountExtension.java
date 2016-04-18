@@ -25,7 +25,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
 
     // Unused Database fields
     private String fundsTypeCode;
-    private String taxRegionCodeExt;
+    private String taxRegionCode;
     private String faCostSubCatCode;
     private String institutionalFringeCoaCodeExt;
     private String institutionalFringeAccountExt;
@@ -76,24 +76,24 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
         this.fundsTypeCode = fundsTypeCode;
     }
 
-    public String getTaxRegionCodeExt() {
-        return taxRegionCodeExt;
+    public String getTaxRegionCode() {
+        return taxRegionCode;
     }
 
-    public void setTaxRegionCodeExt(String taxRegionCodeExt) {
-        this.taxRegionCodeExt = taxRegionCodeExt;
+    public void setTaxRegionCode(String taxRegionCode) {
+        this.taxRegionCode = taxRegionCode;
     }
 
     public TaxRegion getTaxRegionObj() {
-    	if (taxRegionObj == null || !StringUtils.equals(taxRegionObj.getTaxRegionCode(), taxRegionCodeExt)) {
-    		taxRegionObj = getBusinessObjectService().findBySinglePrimaryKey(TaxRegion.class, taxRegionCodeExt);
+    	if (taxRegionObj == null || !StringUtils.equals(taxRegionObj.getTaxRegionCode(), taxRegionCode)) {
+    		taxRegionObj = getBusinessObjectService().findBySinglePrimaryKey(TaxRegion.class, taxRegionCode);
         }
     	return taxRegionObj;
 	}
 
 	public void setTaxRegionObj(TaxRegion taxRegionObj) {
     	this.taxRegionObj = taxRegionObj;
-    	setTaxRegionCodeExt(taxRegionObj.getTaxRegionCode());
+    	setTaxRegionCode(taxRegionObj.getTaxRegionCode());
 	}
 
 	public String getFaCostSubCatCode() {

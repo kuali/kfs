@@ -32,7 +32,7 @@
 					<dd:primitiveAttribute source="extension.faCostSubCatCode" target="faCostSubCatCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="extension.taxRegionObj">
-					<dd:primitiveAttribute source="extension.taxRegionCodeExt" target="taxRegionCode" />
+					<dd:primitiveAttribute source="extension.taxRegionCode" target="taxRegionCode" />
 				</dd:relationship>
             </list>
         </property>
@@ -47,7 +47,7 @@
 	<dd:boAttributeRef id="Account-faCostSubCatCode-parentBean" abstract="true" parent="AccountExtension-faCostSubCatCode-parentBean" attributeName="extension.faCostSubCatCode" />
 	
 	<bean id="Account-taxRegionCode" parent="Account-taxRegionCode-parentBean" />
- 	<dd:boAttributeRef id="Account-taxRegionCode-parentBean" abstract="true" parent="AccountExtension-taxRegionCode-parentBean" attributeName="extension.taxRegionCodeExt" />
+ 	<dd:boAttributeRef id="Account-taxRegionCode-parentBean" abstract="true" parent="AccountExtension-taxRegionCode-parentBean" attributeName="extension.taxRegionCode" />
 
     <!-- Business Object Inquiry Definition -->
 
@@ -60,7 +60,7 @@
                             <dd:field attributeName="extension.budgetShellCode" />
                             <dd:field attributeName="extension.crossOrganizationCode" />
                             <dd:field attributeName="extension.faCostSubCatCode" />
-                            <dd:field attributeName="extension.taxRegionCodeExt" />
+                            <dd:field attributeName="extension.taxRegionCode" />
                         </list>
                     </property>
                 </bean>

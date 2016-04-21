@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="PaymentMethodMaintenanceDocument" parent="PaymentMethodMaintenanceDocument-parentBean"/>
+  <bean id="PaymentMethodMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.PaymentMethod"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="PaymentMethodMaintenanceDocument-Main"/>
+        <ref bean="PaymentMethodMaintenanceDocument-Charts"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>paymentMethodCode</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="PMCD"/>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="bank" p:attributeToHighlightOnFail="bankCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="feeIncomeChartOfAccounts" p:attributeToHighlightOnFail="feeIncomeChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="feeIncomeAccount" p:attributeToHighlightOnFail="feeIncomeAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="feeIncomeFinancialObject" p:attributeToHighlightOnFail="feeIncomeFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="feeExpenseFinancialObject" p:attributeToHighlightOnFail="feeExpenseFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="clearingChartOfAccounts" p:attributeToHighlightOnFail="clearingChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="clearingAccount" p:attributeToHighlightOnFail="clearingAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:collection="paymentMethodCharts" p:attributeName="clearingFinancialObject" p:attributeToHighlightOnFail="clearingFinancialObjectCode"/>
+      </list>
+    </property>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+	<property name="businessRulesClass" value="edu.arizona.kfs.fp.document.validation.impl.PaymentMethodRule"/>
+    <property name="workflowAttributes">
+    	<ref bean="PaymentMethodMaintenanceDocument-workflowAttributes"/>
+    </property>
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="PaymentMethodMaintenanceDocument-Main" parent="PaymentMethodMaintenanceDocument-Main-parentBean"/>
+  <bean id="PaymentMethodMaintenanceDocument-Main-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Main"/>
+    <property name="title" value="Payment Method"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentMethodCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentMethodName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assessedFees"/>
+        <bean parent="MaintainableFieldDefinition" p:name="processedUsingPdp"/>
+        <bean parent="MaintainableFieldDefinition" p:name="interdepartmentalPayment"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offsetUsingClearingAccount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="displayOnDisbursementVoucherDocument"/>
+        <bean parent="MaintainableFieldDefinition" p:name="displayOnVendorDocument"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PaymentMethodMaintenanceDocument-Charts" parent="PaymentMethodMaintenanceDocument-Charts-parentBean"/>
+  <bean id="PaymentMethodMaintenanceDocument-Charts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Charts"/>
+    <property name="title" value="Payment Method Chart Information"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="paymentMethodCharts"/>
+          <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.PaymentMethodChart"/>
+          <property name="summaryTitle" value="Chart/Eff. Date"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="feeIncomeChartOfAccountsCode" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="feeIncomeAccountNumber" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="feeIncomeFinancialObjectCode" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="feeExpenseFinancialObjectCode" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="feeAmount" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="clearingChartOfAccountsCode" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="clearingAccountNumber" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="clearingFinancialObjectCode" p:readOnlyAfterAdd="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+    <!-- workflow attributes for routing -->
+    <bean id="PaymentMethodMaintenanceDocument-workflowAttributes" parent="WorkflowAttributes"/>
+    	  	  
+</beans>
+

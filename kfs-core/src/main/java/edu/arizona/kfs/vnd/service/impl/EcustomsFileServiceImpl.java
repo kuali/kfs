@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -34,7 +35,7 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
 
     // private getter for error checking purposes, so that this error checking can be reused whenever this field is used.
     private String getOutputFileDirectory() throws IOException {
-        if (outputFileDirectory == null || StringUtils.isBlank(outputFileDirectory)) {
+        if (StringUtils.isBlank(outputFileDirectory)) {
             throw new IOException(ERROR_MISSING_OUTPUT_FILE_DIRECTORY);
         }
         return outputFileDirectory;
@@ -42,7 +43,7 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
 
     // private getter for error checking purposes, so that this error checking can be reused whenever this field is used.
     private String getOutputFileNamePrefix() throws IOException {
-        if (outputFileNamePrefix == null || StringUtils.isBlank(outputFileNamePrefix)) {
+        if (StringUtils.isBlank(outputFileNamePrefix)) {
             throw new IOException(ERROR_MISSING_OUTPUT_FILE_PREFIX);
         }
         return outputFileNamePrefix;
@@ -77,9 +78,15 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
         String filename = getDailyBatchDoneFileName(jobRunDate);
         File file = createFile(filename);
         FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(VendorConstants.ECUSTOMS_DONE_MESSAGE_DAILY.getBytes());
-        fileOutputStream.flush();
-        fileOutputStream.close();
+        try {
+            fileOutputStream.write(VendorConstants.ECUSTOMS_DONE_MESSAGE_DAILY.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (Exception e) {
+            LOG.error("Unable to write to daily batch done file.");
+        } finally {
+            IOUtils.closeQuietly(fileOutputStream);
+        }
     }
 
     @Override

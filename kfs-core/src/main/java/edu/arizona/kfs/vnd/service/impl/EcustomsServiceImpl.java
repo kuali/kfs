@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -133,19 +134,14 @@ public class EcustomsServiceImpl implements EcustomsService {
     public boolean createEcustomsDailyFile(String jobName, Date jobRunDate) throws Exception {
         LOG.debug("createEcustomsDailyFile(): jobRunDate=" + jobRunDate + ", start-time=" + new Date());
         boolean processVendorDetails = false;
-        try {
-            boolean deleteOldDailyDone = getEcustomsFileService().deleteOldDailyDoneFiles();
-            LOG.debug("getEcustomsFileService().deleteOldDailyDoneFiles() returned " + deleteOldDailyDone);
-            dataFile = getEcustomsFileService().getDailyBatchDataFile(jobRunDate);
-            vendorCountFile = getEcustomsFileService().getDailyBatchVendorCountFile(jobRunDate);
-            batchName = VendorConstants.ECUSTOMS_BATCH_DAILY;
-            List<VendorDetail> vendorDetails = getDailyVendorDetailList(jobRunDate);
-            processVendorDetails = processVendorDetails(jobRunDate, vendorDetails);
-            getEcustomsFileService().createDailyBatchDoneFile(jobRunDate);
-        } catch (Exception e) {
-            LOG.error("Exception: " + e.getMessage());
-            throw new Exception(e.getMessage());
-        }
+        boolean deleteOldDailyDone = getEcustomsFileService().deleteOldDailyDoneFiles();
+        LOG.debug("getEcustomsFileService().deleteOldDailyDoneFiles() returned " + deleteOldDailyDone);
+        dataFile = getEcustomsFileService().getDailyBatchDataFile(jobRunDate);
+        vendorCountFile = getEcustomsFileService().getDailyBatchVendorCountFile(jobRunDate);
+        batchName = VendorConstants.ECUSTOMS_BATCH_DAILY;
+        List<VendorDetail> vendorDetails = getDailyVendorDetailList(jobRunDate);
+        processVendorDetails = processVendorDetails(jobRunDate, vendorDetails);
+        getEcustomsFileService().createDailyBatchDoneFile(jobRunDate);
         return processVendorDetails;
     }
 
@@ -161,23 +157,15 @@ public class EcustomsServiceImpl implements EcustomsService {
     private boolean processVendorDetails(Date jobRunDate, List<VendorDetail> vendorDetails) throws IOException {
         FileOutputStream dataFileStream = new FileOutputStream(dataFile);
         List<String> outputVendorLineList = new ArrayList<String>();
-//        List<VendorDetailExtension> updatedVDEList = new ArrayList<VendorDetailExtension>();
-//        List<Note> noteList = new ArrayList<Note>();
 
         for (VendorDetail vendorDetail : vendorDetails) {
             String vendorLine = generateVendorLine(vendorDetail);
             if (!outputVendorLineList.contains(vendorLine)) {
                 outputVendorLineList.add(vendorLine);
                 dataFileStream.write(vendorLine.getBytes());
-//                VendorDetailExtension updatedVDE = updateVendorDetailExtension(vendorDetail);
                 updateVendor(vendorDetail);
-//                Note note = createNote(vendorDetail);
-//                updatedVDEList.add(updatedVDE);
-//                noteList.add(note);
             }
         }
-//        getBusinessObjectService().save(updatedVDEList);
-//        getBusinessObjectService().save(noteList);
         dataFileStream.flush();
         dataFileStream.close();
         writeVendorCountFile(outputVendorLineList.size());
@@ -195,9 +183,15 @@ public class EcustomsServiceImpl implements EcustomsService {
         FileOutputStream countFileStream = new FileOutputStream(vendorCountFile);
         String outputMessage = "Vendors added to ecustoms file = " + size;
         LOG.info(outputMessage);
-        countFileStream.write(outputMessage.getBytes());
-        countFileStream.flush();
-        countFileStream.close();
+        try {
+            countFileStream.write(outputMessage.getBytes());
+            countFileStream.flush();
+            countFileStream.close();
+        } catch (IOException e) {
+            throw new IOException(e);
+        } finally {
+            IOUtils.closeQuietly(countFileStream);
+        }
     }
 
     /**
@@ -227,6 +221,7 @@ public class EcustomsServiceImpl implements EcustomsService {
 
         for (VendorDetail vendorDetail : vendorDetails) {
             boolean wasProcessedToday = hasProcessedToday(vendorDetail);
+            LOG.trace("wasProcessedToday=" + wasProcessedToday);
             if (!wasProcessedToday) {
                 retval.add(vendorDetail);
             }
@@ -587,10 +582,16 @@ public class EcustomsServiceImpl implements EcustomsService {
         List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
         String addressType = vendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode();
         VendorAddress va = getVendorService().getVendorDefaultAddress(vendorAddresses, addressType, null);
-        String vendorCity = va.getVendorCityName();
-        String vendorState = va.getVendorStateCode();
 
+        if (va == null) {
+            LOG.error("No address was found for vendor " + vendorDetail.getVendorNumber());
+            return retval.toString();
+        }
+
+        String vendorCity = va.getVendorCityName();
         vendorCity = getCleanedData(vendorCity);
+
+        String vendorState = va.getVendorStateCode();
         vendorState = getCleanedData(vendorState);
 
         retval.append(VendorConstants.ECUSTOMS_TOKEN_CITY);
@@ -611,8 +612,12 @@ public class EcustomsServiceImpl implements EcustomsService {
         List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
         String addressType = vendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode();
         VendorAddress va = getVendorService().getVendorDefaultAddress(vendorAddresses, addressType, null);
-        String vendorCountry = va.getVendorCountryCode();
+        if (va == null) {
+            LOG.error("No address was found for vendor " + vendorDetail.getVendorNumber());
+            return retval.toString();
+        }
 
+        String vendorCountry = va.getVendorCountryCode();
         vendorCountry = getCleanedData(vendorCountry);
 
         retval.append(vendorCountry);
@@ -655,14 +660,14 @@ public class EcustomsServiceImpl implements EcustomsService {
         getBusinessObjectService().save(note);
     }
 
-    private VendorDetailExtension getVendorDetailExtension(String generatedId, String assignedId){
-       Map<String,String> fieldValues = new HashMap<String,String>();
-       fieldValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, generatedId);
-       fieldValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, assignedId);
-       VendorDetailExtension retval = getBusinessObjectService().findByPrimaryKey(VendorDetailExtension.class, fieldValues);
-       return retval;
+    private VendorDetailExtension getVendorDetailExtension(String generatedId, String assignedId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, generatedId);
+        fieldValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, assignedId);
+        VendorDetailExtension retval = getBusinessObjectService().findByPrimaryKey(VendorDetailExtension.class, fieldValues);
+        return retval;
     }
-    
+
     /**
      * add a note to indicate that this vendor was added to the eCustoms file today
      * */

@@ -11,7 +11,6 @@ import org.kuali.rice.kim.api.identity.Person;
 /**
  * This business object class was created to store information needed by batch jobs.
  *
- * @author Kevin McOmber kevinmco@email.arizona.edu
  * @author Adam Kost kosta@email.arizona.edu
  */
 public class BatchFileUploads extends TimestampedBusinessObjectBase {

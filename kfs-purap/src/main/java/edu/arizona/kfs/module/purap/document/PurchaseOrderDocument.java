@@ -14,37 +14,18 @@ public class PurchaseOrderDocument extends org.kuali.kfs.module.purap.document.P
     protected String routeCode;
     protected Building buildingObj;
 
-    /**
-     * Gets the routeCodeObj attribute. 
-     * @return Returns the routeCodeObj.
-     */
     public Building getBuildingObj() {
     	if(ObjectUtils.isNull(buildingObj)) {
     		this.refreshReferenceObject("buildingObj");
     	}
     	
-        if (buildingObj == null || !StringUtils.equals(buildingObj.getBuildingCode(), deliveryBuildingCode)) {
-        	buildingObj = getBusinessObjectService().findBySinglePrimaryKey(Building.class, deliveryBuildingCode);
-        }
         return buildingObj;
     }
 
-    /**
-     * Sets the routeCodeObj attribute value.
-     * @param routeCodeObj The routeCodeObj to set.
-     */
     public void setBuildingObj(Building buildingObj) {
-    	if(ObjectUtils.isNull(buildingObj)) {
-    		this.refreshReferenceObject("buildingObj");
-    	}
-    	
-    	this.buildingObj = buildingObj;
-        setDeliveryBuildingCode(buildingObj.getBuildingCode());
+        this.buildingObj = buildingObj;
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingDocument#getRouteCode()
-     */
     public String getRouteCode() {
     	if (StringUtils.isBlank(routeCode)) {
 	    	try{
@@ -58,9 +39,6 @@ public class PurchaseOrderDocument extends org.kuali.kfs.module.purap.document.P
         return routeCode;
     }
 
-    /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingDocument#setRouteCode(java.lang.String)
-     */
     public void setRouteCode(String routeCode) {
         this.routeCode = routeCode;
     }

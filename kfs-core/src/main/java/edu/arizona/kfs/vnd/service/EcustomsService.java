@@ -21,4 +21,14 @@ public interface EcustomsService {
      */
     public boolean createEcustomsDailyFile(String jobName, Date jobRunDate) throws Exception;
 
+    /**
+     * This method creates an eCustoms file for all vendors for annual verification.
+     *
+     * @param jobName
+     * @param jobRunDate
+     * @return true if file successfully created
+     * @throws Exception
+     */
+    public boolean createEcustomsAnnualFile(String jobName, Date jobRunDate) throws Exception;
+
 }

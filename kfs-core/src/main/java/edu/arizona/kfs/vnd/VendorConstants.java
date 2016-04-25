@@ -17,13 +17,16 @@ public class VendorConstants extends org.kuali.kfs.vnd.VendorConstants {
     public static final String ECUSTOMS_FILENAME = "eCustomsCompliance";
     public static final SimpleDateFormat ECUSTOMS_FILENAME_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
     public static final String ECUSTOMS_BATCH_DAILY = "ECUSTOMS DAILY BATCH";
+    public static final String ECUSTOMS_BATCH_ANNUAL = "ECUSTOMS ANNUAL BATCH";
 
     // eCustoms uses a windows file format so enforce carriage return/line feed for new line. default is to use the server OS line terminator
     public static final String ECUSTOMS_OUTPUT_FILE_LINE_TERMINATOR = "\r\n";
     public static final String ECUSTOMS_OUTPUT_FILE_DELIMITER = "|";
     public static final String ECUSTOMS_UNDERSCORE = "_";
     public static final String ECUSTOMS_DONE_MESSAGE_DAILY = "Ecustoms Daily Step Complete";
+    public static final String ECUSTOMS_DONE_MESSAGE_ANNUAL = "Ecustoms Annual Step Complete";
     public static final String ECUSTOMS_DAILY_JOB_NAME = "DAILY";
+    public static final String ECUSTOMS_ANNUAL_JOB_NAME = "ANNUAL";
 
     // these are search string used to find new/updated vendors based on workflow note text
     public static final String ECUSTOMS_ADD_VENDOR_NOTE_TEXT = "Add vendor document ID";

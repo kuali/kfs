@@ -1,6 +1,7 @@
 package edu.arizona.kfs.coa.businessobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -24,7 +25,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
 
     // Unused Database fields
     private String fundsTypeCode;
-    private String taxRegionCodeExt;
+    private String taxRegionCode;
     private String faCostSubCatCode;
     private String institutionalFringeCoaCodeExt;
     private String institutionalFringeAccountExt;
@@ -32,6 +33,8 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     // Helper Objects
     private transient volatile BudgetShellCode budgetShell;
     private transient volatile CrossOrganizationCode crossOrganization;
+    private transient volatile FACostSubCategory faCostSubCategory;    // FA Subcategory Object
+    private transient volatile TaxRegion taxRegionObj;
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -73,20 +76,44 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
         this.fundsTypeCode = fundsTypeCode;
     }
 
-    public String getTaxRegionCodeExt() {
-        return taxRegionCodeExt;
+    public String getTaxRegionCode() {
+        return taxRegionCode;
     }
 
-    public void setTaxRegionCodeExt(String taxRegionCodeExt) {
-        this.taxRegionCodeExt = taxRegionCodeExt;
+    public void setTaxRegionCode(String taxRegionCode) {
+        this.taxRegionCode = taxRegionCode;
     }
 
-    public String getFaCostSubCatCode() {
+    public TaxRegion getTaxRegionObj() {
+    	if (taxRegionObj == null || !StringUtils.equals(taxRegionObj.getTaxRegionCode(), taxRegionCode)) {
+    		taxRegionObj = getBusinessObjectService().findBySinglePrimaryKey(TaxRegion.class, taxRegionCode);
+        }
+    	return taxRegionObj;
+	}
+
+	public void setTaxRegionObj(TaxRegion taxRegionObj) {
+    	this.taxRegionObj = taxRegionObj;
+    	setTaxRegionCode(taxRegionObj.getTaxRegionCode());
+	}
+
+	public String getFaCostSubCatCode() {
         return faCostSubCatCode;
     }
 
     public void setFaCostSubCatCode(String faCostSubCatCode) {
         this.faCostSubCatCode = faCostSubCatCode;
+    }
+
+    public FACostSubCategory getFaCostSubCategory() {
+    	if (faCostSubCategory == null || !StringUtils.equals(faCostSubCategory.getFaCostSubCatCode(), faCostSubCatCode)) {
+    		faCostSubCategory = getBusinessObjectService().findBySinglePrimaryKey(FACostSubCategory.class, faCostSubCatCode);
+        }
+    	return faCostSubCategory;
+    }
+    
+    public void setFaCostSubCategory(FACostSubCategory faCostSubCategory) {
+    	this.faCostSubCategory = faCostSubCategory;
+    	setFaCostSubCatCode(faCostSubCategory.getFaCostSubCatCode());
     }
 
     public String getInstitutionalFringeCoaCodeExt() {

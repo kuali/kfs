@@ -8,6 +8,7 @@
 	<bean id="CashReceiptDocument-workflowAttributes" parent="CashReceiptDocument-workflowAttributes-parentBean">
 	  <property name="routingTypeDefinitions">
         <map>
+        	<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
         	<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode"/>
 			<entry key="CashManagement" value-ref="CashReceiptDocument-RoutingType-CashReceiptCampus"/>
     	</map>

@@ -9,6 +9,7 @@
             <list merge="true">
                 <ref bean="VendorDetail-exportControlsFlag" />
                 <ref bean="VendorDetail-conflictOfInterest" />
+                <ref bean="VendorDetail-defaultB2BPaymentMethodCode" />
             </list>
         </property>
     </bean>
@@ -18,6 +19,8 @@
     <dd:boAttributeRef id="VendorDetail-exportControlsFlag" parent="VendorDetailExtension-exportControlsFlag" attributeName="extension.exportControlsFlag" />
     
     <dd:boAttributeRef id="VendorDetail-conflictOfInterest" parent="VendorDetailExtension-conflictOfInterest" attributeName="extension.conflictOfInterest" />
+    
+    <dd:boAttributeRef id="VendorDetail-defaultB2BPaymentMethodCode" parent="VendorDetailExtension-defaultB2BPaymentMethodCode" attributeName="extension.defaultB2BPaymentMethodCode" />
 
 	<bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean">
 		<property name="forceUppercase" value="true" />	
@@ -47,13 +50,24 @@
 
     <bean id="VendorDetail-inquiryDefinition" parent="VendorDetail-inquiryDefinition-parentBean">
         <property name="inquirySections">
-            <list merge="true">
-                <ref bean="VendorDetail-extension"/>
+            <list>
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorDetail" />
+                <ref bean="VendorDetail-inquirySectionDefinition-extension"/>
+                <ref bean="VendorDetail-inquirySectionDefinition-address" />
+                <ref bean="VendorDetail-inquirySectionDefinition-contacts" />
+                <ref bean="VendorDetail-inquirySectionDefinition-supplierDiversities" />
+                <ref bean="VendorDetail-inquirySectionDefinition-shippingSpecialConditions" />
+                <ref bean="VendorDetail-inquirySectionDefinition-searchAlias" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorCommodityCodes" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorPhoneNumber" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorCustomerNumber" />
+                <ref bean="VendorDetail-inquirySectionDefinition-contracts" />
+                <ref bean="VendorDetail-inquirySectionDefinition-notes" />
             </list>
         </property>
     </bean>
 
-    <bean id="VendorDetail-extension" parent="InquirySectionDefinition">
+    <bean id="VendorDetail-inquirySectionDefinition-extension" parent="InquirySectionDefinition">
         <property name="title" value="Additional Attributes" />
         <property name="numberOfColumns" value="1" />
         <property name="inquiryFields">
@@ -74,6 +88,7 @@
                 <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
                 <bean parent="FieldDefinition" p:attributeName="activeIndicator" />
                 <bean parent="FieldDefinition" p:attributeName="extension.exportControlsFlag"/>
+                <bean parent="FieldDefinition" p:attributeName="extension.defaultB2BPaymentMethodCode"/>
                 <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="vendorAddresses.vendorStateCode" />
                 <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorCorpCitizenCode" />
@@ -155,6 +170,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorConfirmationIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorInactiveReasonCode" />
 				<bean parent="FieldDefinition" p:attributeName="extension.conflictOfInterest" />
+				<bean parent="FieldDefinition" p:attributeName="extension.defaultB2BPaymentMethodCode" />
 			</list>
 		</property>
 	</bean>	

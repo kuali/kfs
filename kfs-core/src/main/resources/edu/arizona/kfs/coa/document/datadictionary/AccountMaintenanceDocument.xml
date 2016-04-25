@@ -14,6 +14,8 @@
             <list merge="true">
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.budgetShell"         p:attributeToHighlightOnFail="extension.budgetShellCode"        />
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.crossOrganization"   p:attributeToHighlightOnFail="extension.crossOrganizationCode"  />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.faCostSubCategory"   p:attributeToHighlightOnFail="extension.faCostSubCatCode"       />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.taxRegionObj"		p:attributeToHighlightOnFail="extension.taxRegionCode" 			/>
             </list>
         </property>
     </bean>
@@ -28,6 +30,8 @@
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="extension.budgetShellCode"       />
                 <bean parent="MaintainableFieldDefinition" p:name="extension.crossOrganizationCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.taxRegionCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.faCostSubCatCode" />
             </list>
         </property>
     </bean>

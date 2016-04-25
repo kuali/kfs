@@ -58,6 +58,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="laborBenefitRateCategoryCode" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="sourceOfFundsTypeCode" column="FUNDS_TYPE_CD" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -221,7 +222,7 @@
     <field-descriptor name="objectId"                       column="OBJ_ID"                         jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber"                  column="VER_NBR"                        jdbc-type="BIGINT"  locking="true" />
     <field-descriptor name="fundsTypeCode"                  column="FUNDS_TYPE_CD"                  jdbc-type="VARCHAR" />
-    <field-descriptor name="taxRegionCodeExt"               column="TAX_REGION_CD"                  jdbc-type="VARCHAR" />
+    <field-descriptor name="taxRegionCode"               	column="TAX_REGION_CD"                  jdbc-type="VARCHAR" />
     <field-descriptor name="faCostSubCatCode"               column="FA_COST_SUBCAT_CD"              jdbc-type="VARCHAR" />
     <field-descriptor name="institutionalFringeCoaCodeExt"  column="INSTITUTIONAL_FRINGE_COA_CODE"  jdbc-type="VARCHAR" />
     <field-descriptor name="institutionalFringeAccountExt"  column="INSTITUTIONAL_FRINGE_ACCOUNT"   jdbc-type="VARCHAR" />
@@ -232,6 +233,12 @@
     </reference-descriptor>
     <reference-descriptor name="crossOrganization" class-ref="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="crossOrganizationCode" />
+    </reference-descriptor>
+    <reference-descriptor name="faCostSubCategory" class-ref="edu.arizona.kfs.coa.businessobject.FACostSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="faCostSubCatCode" />
+	</reference-descriptor>
+	<reference-descriptor name="taxRegionObj" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="taxRegionCode" />
     </reference-descriptor>
 </class-descriptor>
 

@@ -67,8 +67,22 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
     }
 
     @Override
+    public File getAnnualBatchDataFile(Date jobRunDate) throws IOException {
+        String filename = getAnnualBatchDataFileName(jobRunDate);
+        File file = createFile(filename);
+        return file;
+    }
+
+    @Override
     public File getDailyBatchVendorCountFile(Date jobRunDate) throws IOException {
         String filename = getDailyBatchVendorCountFileName(jobRunDate);
+        File file = createFile(filename);
+        return file;
+    }
+
+    @Override
+    public File getAnnualBatchVendorCountFile(Date jobRunDate) throws IOException {
+        String filename = getAnnualBatchVendorCountFileName(jobRunDate);
         File file = createFile(filename);
         return file;
     }
@@ -90,10 +104,42 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
     }
 
     @Override
+    public void createAnnualBatchDoneFile(Date jobRunDate) throws IOException {
+        String filename = getAnnualBatchDoneFileName(jobRunDate);
+        File file = createFile(filename);
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(VendorConstants.ECUSTOMS_DONE_MESSAGE_ANNUAL.getBytes());
+        fileOutputStream.flush();
+        fileOutputStream.close();
+    }
+
+    @Override
     public boolean deleteOldDailyDoneFiles() throws IOException {
         File outputDir = new File(getOutputFileDirectory());
         if (outputDir.exists() && outputDir.isDirectory()) {
             String filenameFilter = KFSConstants.WILDCARD_CHARACTER + VendorConstants.ECUSTOMS_DAILY_JOB_NAME + KFSConstants.WILDCARD_CHARACTER + VendorConstants.FILE_EXTENSION_DONE;
+            FileFilter filter = new SuffixFileFilter(filenameFilter);
+            File[] oldDoneFiles = outputDir.listFiles(filter);
+            if (oldDoneFiles == null) {
+                return false;
+            }
+            if (oldDoneFiles != null) {
+                for (int i = 0; i < oldDoneFiles.length; ++i) {
+                    LOG.debug("deleting file " + oldDoneFiles[i].getAbsolutePath());
+                    if (!FileUtils.deleteQuietly(oldDoneFiles[i])) {
+                        LOG.warn("unable to delete file " + oldDoneFiles[i].getAbsolutePath());
+                    }
+                }
+            }
+        }
+        return true;
+    };
+
+    @Override
+    public boolean deleteOldAnnualDoneFiles() throws IOException {
+        File outputDir = new File(getOutputFileDirectory());
+        if (outputDir.exists() && outputDir.isDirectory()) {
+            String filenameFilter = KFSConstants.WILDCARD_CHARACTER + VendorConstants.ECUSTOMS_ANNUAL_JOB_NAME + KFSConstants.WILDCARD_CHARACTER + VendorConstants.FILE_EXTENSION_DONE;
             FileFilter filter = new SuffixFileFilter(filenameFilter);
             File[] oldDoneFiles = outputDir.listFiles(filter);
             if (oldDoneFiles == null) {
@@ -133,13 +179,28 @@ public class EcustomsFileServiceImpl implements EcustomsFileService {
         return retval;
     }
 
+    private String getAnnualBatchDataFileName(Date jobRunDate) throws IOException {
+        String retval = getFileName(VendorConstants.ECUSTOMS_ANNUAL_JOB_NAME, VendorConstants.FILE_EXTENSION_DATA, jobRunDate);
+        return retval;
+    }
+
     private String getDailyBatchDoneFileName(Date jobRunDate) throws IOException {
         String retval = getFileName(VendorConstants.ECUSTOMS_DAILY_JOB_NAME, VendorConstants.FILE_EXTENSION_DONE, jobRunDate);
         return retval;
     }
 
+    private String getAnnualBatchDoneFileName(Date jobRunDate) throws IOException {
+        String retval = getFileName(VendorConstants.ECUSTOMS_ANNUAL_JOB_NAME, VendorConstants.FILE_EXTENSION_DONE, jobRunDate);
+        return retval;
+    }
+
     private String getDailyBatchVendorCountFileName(Date jobRunDate) throws IOException {
         String retval = getFileName(VendorConstants.ECUSTOMS_DAILY_JOB_NAME, VendorConstants.FILE_EXTENSION_COUNT, jobRunDate);
+        return retval;
+    }
+
+    private String getAnnualBatchVendorCountFileName(Date jobRunDate) throws IOException {
+        String retval = getFileName(VendorConstants.ECUSTOMS_ANNUAL_JOB_NAME, VendorConstants.FILE_EXTENSION_COUNT, jobRunDate);
         return retval;
     }
 

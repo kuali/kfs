@@ -145,6 +145,22 @@ public class EcustomsServiceImpl implements EcustomsService {
         return processVendorDetails;
     }
 
+    @Override
+    public boolean createEcustomsAnnualFile(String jobName, Date jobRunDate) throws Exception {
+        LOG.debug("createEcustomsDailyFile(): jobRunDate=" + jobRunDate + ", start-time=" + new Date());
+        boolean processVendorDetails = false;
+        boolean deleteOldAnnualBatch = getEcustomsFileService().deleteOldAnnualDoneFiles();
+        LOG.debug("getEcustomsFileService().deleteOldAnnualDoneFiles() returned " + deleteOldAnnualBatch);
+        dataFile = getEcustomsFileService().getAnnualBatchDataFile(jobRunDate);
+        vendorCountFile = getEcustomsFileService().getAnnualBatchVendorCountFile(jobRunDate);
+        batchName = VendorConstants.ECUSTOMS_BATCH_ANNUAL;
+
+        List<VendorDetail> vendorDetails = getAllActiveVendors();
+        processVendorDetails = processVendorDetails(jobRunDate, vendorDetails);
+        getEcustomsFileService().createAnnualBatchDoneFile(jobRunDate);
+        return processVendorDetails;
+    }
+
     /**
      * Processes the list of vendors for output.
      *
@@ -166,6 +182,7 @@ public class EcustomsServiceImpl implements EcustomsService {
                 updateVendor(vendorDetail);
             }
         }
+
         dataFileStream.flush();
         dataFileStream.close();
         writeVendorCountFile(outputVendorLineList.size());
@@ -230,6 +247,22 @@ public class EcustomsServiceImpl implements EcustomsService {
         LOG.info("Found " + retval.size() + " vendors to be processed by batch for ecustoms.");
         return retval;
 
+    }
+
+    /**
+     * Get a list of all active vendors.
+     *
+     * @param jobRunDate
+     * @return list of vendors to process for security compliance
+     * @throws WorkflowException
+     */
+    private List<VendorDetail> getAllActiveVendors() {
+        List<VendorDetail> retval = new ArrayList<VendorDetail>();
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KRADPropertyConstants.ACTIVE_INDICATOR, OjbCharBooleanConversion.DATABASE_BOOLEAN_TRUE_STRING_REPRESENTATION);
+        retval.addAll(getBusinessObjectService().findMatching(VendorDetail.class, fieldValues));
+        LOG.debug("found " + retval.size() + " active vendors.");
+        return retval;
     }
 
     /**
@@ -494,8 +527,16 @@ public class EcustomsServiceImpl implements EcustomsService {
         String vendorId = getAssembledVendorId(vendorDetail);
         String vendorPersonName = getAssembledVendorPersonName(vendorDetail);
         String vendorCompanyName = getVendorCompanyName(vendorDetail);
-        String vendorAddress = getAssembledVendorAddress(vendorDetail);
-        String vendorCountry = getVendorCountry(vendorDetail);
+        String vendorAddress = CoreConstants.EMPTY_STRING;
+        String vendorCountry = CoreConstants.EMPTY_STRING;
+
+        List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
+        String addressType = vendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode();
+        VendorAddress va = getVendorService().getVendorDefaultAddress(vendorAddresses, addressType, null);
+        if (va != null) {
+            vendorAddress = getAssembledVendorAddress(va);
+            vendorCountry = getVendorCountry(va);
+        }
 
         retval.append(vendorId);
         retval.append(VendorConstants.ECUSTOMS_OUTPUT_FILE_DELIMITER);
@@ -545,9 +586,9 @@ public class EcustomsServiceImpl implements EcustomsService {
             }
         }
 
-        retval.append(firstName);
+        retval.append(firstName.trim());
         retval.append(" ");
-        retval.append(lastName);
+        retval.append(lastName.trim());
         if (StringUtils.isBlank(retval.toString())) {
             return CoreConstants.EMPTY_STRING;
         }
@@ -574,19 +615,11 @@ public class EcustomsServiceImpl implements EcustomsService {
     }
 
     /**
-     * @param vendorDetail
+     * @param va
      * @return vendor address formatted for security compliance output file
      */
-    private String getAssembledVendorAddress(VendorDetail vendorDetail) {
+    private String getAssembledVendorAddress(VendorAddress va) {
         StringBuilder retval = new StringBuilder();
-        List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
-        String addressType = vendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode();
-        VendorAddress va = getVendorService().getVendorDefaultAddress(vendorAddresses, addressType, null);
-
-        if (va == null) {
-            LOG.error("No address was found for vendor " + vendorDetail.getVendorNumber());
-            return retval.toString();
-        }
 
         String vendorCity = va.getVendorCityName();
         vendorCity = getCleanedData(vendorCity);
@@ -604,18 +637,11 @@ public class EcustomsServiceImpl implements EcustomsService {
     }
 
     /**
-     * @param vendorDetail
+     * @param va
      * @return vendor country formatted for security compliance output file
      */
-    private String getVendorCountry(VendorDetail vendorDetail) {
+    private String getVendorCountry(VendorAddress va) {
         StringBuilder retval = new StringBuilder();
-        List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
-        String addressType = vendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode();
-        VendorAddress va = getVendorService().getVendorDefaultAddress(vendorAddresses, addressType, null);
-        if (va == null) {
-            LOG.error("No address was found for vendor " + vendorDetail.getVendorNumber());
-            return retval.toString();
-        }
 
         String vendorCountry = va.getVendorCountryCode();
         vendorCountry = getCleanedData(vendorCountry);

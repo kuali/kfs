@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType overwriteMode="true">
+            <name>ALOC</name>
+            <parent>CAMM</parent>
+            <label>Asset Location Global</label>
+            <docHandler>${kfs.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetlocationglobal.htm</helpDefinitionURL>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="Account" />
+                    <requests name="Account" nextNode="OrganizationHierarchy" />
+                    <requests name="OrganizationHierarchy" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <role name="Account">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="OrganizationHierarchy">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+</data>

@@ -32,7 +32,8 @@
           <role name="SubAccount" nextNode="Account" /> 
           <role name="Account" nextNode="AccountingOrganizationHierarchy" />
           <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
-          <role name="ObjectSubTypeCode" nextNode="Commodity" />
+          <role name="ObjectSubTypeCode" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Commodity" />
           <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" />
           <split name="AmountRequiresSeparationOfDutiesReview">
             <branch name="True">
@@ -76,6 +77,10 @@
           <activationType>P</activationType>
         </role>
         <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

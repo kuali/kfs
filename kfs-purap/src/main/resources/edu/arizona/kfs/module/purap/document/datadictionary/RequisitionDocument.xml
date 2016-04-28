@@ -14,6 +14,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
                 <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+                <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
                 <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
                 <!-- no qualifiers for separation of duties -->
     		</map>

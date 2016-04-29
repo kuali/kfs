@@ -66,25 +66,5 @@
 
     <!-- Exported Workflow Properties -->
 
-    <bean id="BudgetShellCodeMaintenanceDocument-workflowAttributes"            class="org.kuali.rice.krad.datadictionary.WorkflowAttributes">
-        <property name="searchingTypeDefinitions">
-            <list>
-                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-                    <property name="searchingAttribute">
-                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                            <property name="businessObjectClassName"        value="edu.arizona.kfs.coa.businessobject.BudgetShellCode"  />
-                            <property name="attributeName"                  value="budgetShellCode"                                     />
-                            <property name="showAttributeInSearchCriteria"  value="true"                                                />
-                            <property name="showAttributeInResultSet"       value="true"                                                />
-                        </bean>
-                    </property>
-                    <property name="documentValues">
-                        <list>
-                            <value>newMaintainableObject.businessObject.budgetShellCode</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+    <bean id="BudgetShellCodeMaintenanceDocument-workflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes"/>
 </beans>

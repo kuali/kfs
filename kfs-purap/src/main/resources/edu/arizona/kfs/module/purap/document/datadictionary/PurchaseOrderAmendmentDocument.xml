@@ -31,6 +31,7 @@
     		    <!-- no qualifiers for HasNewUnorderedItems -->
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
                 <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
     		</map>
     	</property>
 	</bean>

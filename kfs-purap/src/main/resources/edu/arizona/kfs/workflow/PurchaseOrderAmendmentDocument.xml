@@ -62,7 +62,7 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasNewUnorderedItems" />
-          <split name="HasNewUnorderedItems" nextNode="ObjectSubTypeCode">
+          <split name="HasNewUnorderedItems" nextNode="Account">
             <branch name="True">
               <role name="NewUnorderedItems" nextNode="Join" />
             </branch>
@@ -71,7 +71,28 @@
             </branch>
             <join name="Join" />
           </split>
-          <role name="ObjectSubTypeCode" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="AmountRequiresSeparationOfDutiesReview"/>
+          <split name="AmountRequiresSeparationOfDutiesReview" nextNode="ObjectSubTypeCode">
+            <branch name="True">
+              <role name="SeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoSeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+            </branch>
+            <join name="JoinSeparationOfDuties"/>
+          </split>
+          <role name="ObjectSubTypeCode" nextNode="RequiresContractManagementReview"/>
+          <split name="RequiresContractManagementReview" nextNode="CentralAdministrationReview">
+            <branch name="True">
+              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
+            </branch>
+            <join name="JoinRequiresContractManagementReview"/>
+          </split>
+          <role name="CentralAdministrationReview"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -83,6 +104,40 @@
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ContractManagement">
+          <qualifierResolverClass> org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresContractManagementReview">
+          <type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpRequiresContractManagementReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresContractManagementReview"/>
+        <role name="CentralAdministrationReview">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="AmountRequiresSeparationOfDutiesReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <join name="JoinSeparationOfDuties" />
+        <simple name="NoSeparationOfDuties">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
         <role name="ObjectSubTypeCode">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>

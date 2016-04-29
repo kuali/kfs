@@ -48,25 +48,5 @@
 
     <!-- Exported Workflow Properties -->
 
-    <bean id="CrossOrganizationCodeMaintenanceDocument-workflowAttributes"      class="org.kuali.rice.krad.datadictionary.WorkflowAttributes">
-        <property name="searchingTypeDefinitions">
-            <list>
-                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-                    <property name="searchingAttribute">
-                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                            <property name="businessObjectClassName"        value="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode"    />
-                            <property name="attributeName"                  value="crossOrganizationCode"                                       />
-                            <property name="showAttributeInSearchCriteria"  value="true"                                                        />
-                            <property name="showAttributeInResultSet"       value="true"                                                        />
-                        </bean>
-                    </property>
-                    <property name="documentValues">
-                        <list>
-                            <value>newMaintainableObject.businessObject.crossOrganizationCode</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+    <bean id="CrossOrganizationCodeMaintenanceDocument-workflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes"/>
 </beans>

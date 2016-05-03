@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.util.ObjectPopulationUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -631,6 +632,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
         }
 
+        Integer currentFiscalYear = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYear();
+        
         // convert list of PurApAccountingLine objects to SourceAccountingLineObjects
         Iterator<PurApAccountingLine> iterator = accountMap.keySet().iterator();
         List<SourceAccountingLine> sourceAccounts = new ArrayList<SourceAccountingLine>();
@@ -644,6 +647,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             KualiDecimal sourceLineTotal = accountMap.get(accountToConvert);
             SourceAccountingLine sourceLine = accountToConvert.generateSourceAccountingLine();
             sourceLine.setAmount(sourceLineTotal);
+            sourceLine.setPostingYear(currentFiscalYear);
             sourceAccounts.add(sourceLine);
         }
 

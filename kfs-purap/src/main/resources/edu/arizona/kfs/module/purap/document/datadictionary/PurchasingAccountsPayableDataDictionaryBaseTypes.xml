@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+        	   	    
+	<bean id="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+				<ref bean="RoutingAttribute-accountNumber" />
+				<ref bean="RoutingAttribute-organizationCode" />
+				<ref bean="RoutingAttribute-overrideCode" />
+				<ref bean="RoutingAttribute-fundGroupCode" />
+				<ref bean="RoutingAttribute-subFundGroupCode" />
+				<ref bean="RoutingAttribute-objectSubTypeCode" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="DocumentValuePathGroup-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy-accountingLines" />
+			</list>
+		</property>
+    </bean>
+    
+    <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+    			<property name="collectionPath" value="accountsForRouting" />
+    			<property name="documentValues">
+    				<list>
+    					<value>chartOfAccountsCode</value>
+    					<value>accountNumber</value>
+    					<value>account.organizationCode</value>
+    					<value>overrideCode</value>
+    					<value>account.subFundGroup.fundGroupCode</value>
+    					<value>account.subFundGroupCode</value>
+    					<value>objectCode.financialObjectSubTypeCode</value>
+    				</list>
+    			</property>
+    		</bean>
+    	</property>
+    </bean>
+    
+  	<bean id="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" parent="SearchingTypeDefinitions-PurchaseOrderDocumentFamily-parentBean" class="org.springframework.beans.factory.config.ListFactoryBean">
+  		<property name="sourceList">
+  			<list>
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="sensitive"/>
+					        <property name="showAttributeInSearchCriteria" value="false"/>
+					        <property name="showAttributeInResultSet" value="false"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>sensitive</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purapDocumentIdentifier"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purapDocumentIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="applicationDocumentStatus"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>documentHeader.workflowDocument.applicationDocumentStatus</value>
+    					</list>
+    				</property>
+    			</bean>
+    			 <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.ContractManager"/>
+                            <property name="attributeName" value="contractManagerName"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>contractManager.contractManagerName</value>
+                        </list>
+                    </property>
+                </bean>			
+                 <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="chartAndOrgCodeForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>chartAndOrgCodeForResult</value>
+    					</list>
+    				</property>
+    			</bean>    		 
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="requisitionIdentifier"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>requisitionIdentifier</value>
+                        </list>
+                    </property>
+                </bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">			
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="vendorName"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="postingYear"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>postingYear</value>
+    					</list>
+    				</property>
+    			</bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="vendorNumber"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>vendorNumber</value>
+                        </list>
+                    </property>
+                </bean>
+    	      	<bean id="SearchingType-PurchasingAccountsPayableDocument-chartCodeForSearching"
+    	      		  class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentChartOfAccountsCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>
+    	      	<bean id="SearchingType-PurchasingAccountsPayableDocument-organizationCodeForSearching"
+    	      		  class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentOrganizationCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+   					<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="requestorPersonName"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>requestorPersonName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+   					<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="assignedUserPrincipalName"/>
+    						<property name="showAttributeInResultSet" value="false"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>assignedUserPrincipalName</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="deliveryCampusCodeForSearch"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>deliveryCampusCodeForSearch</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="contractManagerCode"/>
+    						<property name="showAttributeInResultSet" value="false"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>contractManagerCode</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderPreviousIdentifier"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purchaseOrderPreviousIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderLastTransmitTimestamp"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purchaseOrderLastTransmitTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="deliveryRequiredDate"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>deliveryRequiredDate</value>
+    					</list>
+    				</property>
+    			</bean>  			
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="deliveryRequiredDateReasonCode"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>deliveryRequiredDateReasonCode</value>
+                        </list>
+                    </property>
+                </bean>             
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="receivingDocumentRequiredIndicatorForSearching"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>receivingDocumentRequiredIndicatorForSearching</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+                            <property name="attributeName" value="paymentRequestPositiveApprovalIndicatorForSearching"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>paymentRequestPositiveApprovalIndicatorForSearching</value>
+                        </list>
+                    </property>
+                </bean>             
+ 				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderCurrentIndicatorForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purchaseOrderCurrentIndicatorForSearching</value>
+    					</list>
+    				</property>
+    			</bean>   		
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="documentTitleForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>documentTitleForResult</value>
+    					</list>
+    				</property>
+    			</bean>   			
+    		</list>
+    	</property>
+  	</bean>
+</beans>

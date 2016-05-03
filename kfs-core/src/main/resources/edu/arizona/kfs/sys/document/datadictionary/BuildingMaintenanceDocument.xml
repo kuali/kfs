@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:dd="http://rice.kuali.org/dd" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans        
+ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd        
+  http://rice.kuali.org/dd         
+  http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="BuildingMaintenanceDocument" parent="BuildingMaintenanceDocument-parentBean">
+	<property name="maintainableSections">
+		<list merge="true">
+			<ref bean="BuildingMaintenanceDocument-ExtendedAttributes" />
+		</list>
+	</property>
+    <property name="defaultExistenceChecks">
+      <list>
+         <bean parent="ReferenceDefinition" p:attributeName="extension.routeCodeObj" p:attributeToHighlightOnFail="extension.routeCode"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="BuildingMaintenanceDocument-ExtendedAttributes" parent="BuildingMaintenanceDocument-ExtendedAttributes-parentBean"/>
+
+  <bean id="BuildingMaintenanceDocument-ExtendedAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="ExtendedAttributes"/>
+    <property name="title" value="Additional Attributes"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="extension.routeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

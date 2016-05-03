@@ -48,6 +48,7 @@ public class BudgetShellCode extends PersistableBusinessObjectBase implements Mu
     private transient volatile Person departmentHead;
     private transient volatile Person budgetAnalyst;
     private transient volatile Person budgetShellContact;
+    private transient volatile Person summaryGroup;
     private transient volatile SystemOptions systemOptions;
 
     public String getBudgetShellCode() {
@@ -250,6 +251,15 @@ public class BudgetShellCode extends PersistableBusinessObjectBase implements Mu
     public void setBudgetShellContact(Person budgetShellContact) {
         this.budgetShellContact = budgetShellContact;
         setBudgetShellContactPrincipalId(budgetShellContact.getPrincipalId());
+    }
+    
+    public Person getSummaryGroup() {
+        summaryGroup = getPersonService().updatePersonIfNecessary(summaryGroupId, summaryGroup);
+        return summaryGroup;
+    }
+    
+    public void setSummaryGroup(Person summaryGroup) {
+        this.summaryGroup = summaryGroup;
     }
 
     public SystemOptions getSystemOptions() {

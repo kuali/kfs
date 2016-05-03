@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="FACostSubCategoryMaintenanceDocument" parent="FACostSubCategoryMaintenanceDocument-parentBean" />
+  
+    <bean id="FACostSubCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+       <property name="businessObjectClass" value="edu.arizona.kfs.coa.businessobject.FACostSubCategory" />
+       <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+       <property name="maintainableSections" >
+         <list>
+             <ref bean="FACostSubCategoryMaintenanceDocument-EditFACostSubCategory" />
+         </list>
+       </property>
+       <property name="documentTypeName" value="FACS" />
+       <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+       <property name="workflowAttributes">
+    	 <ref bean="FACostSubCategoryMaintenanceDocument-workflowAttributes" />
+       </property>    
+	</bean>   
+  
+ <!-- Maintenance Section Definitions -->
+
+  <bean id="FACostSubCategoryMaintenanceDocument-EditFACostSubCategory" parent="FACostSubCategoryMaintenanceDocument-EditFACostSubCategory-parentBean" />
+
+  <bean id="FACostSubCategoryMaintenanceDocument-EditFACostSubCategory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit FA Cost Subcategory" />
+    <property name="title" value="Edit FA Cost Subcategory" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="faCostSubCatCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="faCostSubCatDesc" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+  <bean id="FACostSubCategoryMaintenanceDocument-workflowAttributes" parent="FACostSubCategoryMaintenanceDocument-workflowAttributes-parentBean" />
+
+  <bean id="FACostSubCategoryMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" />
+   
+</beans>

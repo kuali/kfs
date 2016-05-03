@@ -67,5 +67,19 @@
                 </bean>
             </list>
         </property>
+        <property name="routingTypeDefinitions">
+          <map>
+            <entry key="Purchasing" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
+            <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+            <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
+            <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+            <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
+            <entry key="Campus" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
+            <!-- no qualifiers for tax review -->
+            <!-- no qualifiers for travel review -->
+            <entry key="PaymentMethod" value-ref="DisbursementVoucherDocument-RoutingType-PaymentMethod"/>
+            <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+          </map>
+        </property>
     </bean>
 </beans>

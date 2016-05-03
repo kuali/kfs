@@ -11,7 +11,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean">
+  <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean">
         <property name="packagePrefixes">
             <list merge="true">
                 <value>edu.arizona.kfs.fp</value>
@@ -33,4 +33,26 @@
     <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
 
     <bean id="disbursementVoucherInvoiceService" class="edu.arizona.kfs.fp.service.impl.DisbursementVoucherInvoiceServiceImpl" />
+
+    <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
+
+    <bean id="procurementCardDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="procurementCardLoadStep" />
+                <ref bean="procurementCardCreateDocumentsStep" />
+                <ref bean="procurementCardRouteDocumentsStep" />
+                <ref bean="procurementCardAutoApproveDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="disbursementVoucherPreDisbursementProcessorExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="disbursementVoucherPreDisbursementProcessorExtractStep" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

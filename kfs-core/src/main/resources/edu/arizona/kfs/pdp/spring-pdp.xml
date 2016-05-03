@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" >
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpLoadPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpLoadPaymentsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="purchasingPreDisbursementImmediatesExtractJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpNightlyLoadPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpLoadPaymentsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="disbursementVoucherPreDisbursementProcessorExtractJob" value="softDependency"/>
+                <entry key="purchasingPreDisbursementExtractJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpDailyReportJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpDailyReportStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="pdpNightlyLoadPaymentsJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpLoadFederalReserveBankDataJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpDownloadFederalReserveBankFileStep" />
+                <ref bean="pdpLoadFederalReserveBankDataStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpInactivatePayeeAchAccountsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpInactivatePayeeAchAccountsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractGlTransactionsStepJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractGlTransactionsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractAchPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractAchPaymentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractCanceledChecksJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractCanceledChecksStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpClearPendingTransactionsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpClearPendingTransactionsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="pdpExtractGlTransactionsStepJob" value="softDependency"/>
+                <entry key="posterJob" value="hardDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="processPdpCancelsAndPaidJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="processPdpCancelsAndPaidStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpSendAchAdviceNotificationsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpSendAchAdviceNotificationsStep" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:dd="http://rice.kuali.org/dd" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+
+  <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean">
+  	<property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController"/>
+  </bean>
+	
+	<!-- workflow attributes for routing -->
+  <bean id="PaymentRequestDocument-workflowAttributes" parent="PaymentRequestDocument-workflowAttributes-parentBean">
+  	<property name="routingTypeDefinitions">
+    	<map>
+    		<!-- no qualifiers for RequiresImageAttachment -->
+            <!-- no qualifiers for PurchaseWasReceived -->
+    		<entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount"/>
+    		<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
+    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
+    		<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+    		<entry key="AutoApprove" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
+            <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
+    	</map>
+    </property>
+  </bean>
+</beans>
+

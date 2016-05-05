@@ -41,4 +41,7 @@
 	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
 	<bean id="orgReviewRoleService-parentBean" class="edu.arizona.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
 	
+	<bean id="organizationFundReviewRoleTypeService" parent="organizationFundReviewRoleTypeService-parentBean"/>
+	<bean id="organizationFundReviewRoleTypeService-parentBean" parent="organizationHierarchyAwareRoleTypeService" class="edu.arizona.kfs.coa.identity.OrganizationFundReviewRoleTypeServiceImpl" abstract="true"/>
+	
 </beans>

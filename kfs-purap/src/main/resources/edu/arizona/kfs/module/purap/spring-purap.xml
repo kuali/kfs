@@ -19,6 +19,11 @@
             <list>
             </list>
         </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/purap/ojb-purap.xml</value>
+            </list>
+        </property>
 	</bean>
 
     <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
@@ -103,5 +108,5 @@
             </list>
         </property>
     </bean>
-	
+    	
 </beans>

@@ -1,5 +1,19 @@
 <descriptor-repository version="1.0">
 
+    <class-descriptor class="edu.arizona.kfs.sys.businessobject.BatchFileUploads" table="SYS_BATCH_FILE_UPLOADS_T">
+        <field-descriptor name="id" column="BATCH_FILE_UPLOADS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="BATCH_FILE_UPLOADS_ID" autoincrement="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="batchFileName" column="BATCH_FILE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="batchDate" column="BATCH_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="transactionCount" column="TRANS_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="batchTotalAmount" column="BATCH_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="submiterUserId" column="SBMTR_USR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileProcessTimestamp" column="FILE_PROC_TS" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="batchName" column="BATCH_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.Building" table="SH_BUILDING_T">
 	    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 	    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

@@ -50,13 +50,24 @@
 
     <bean id="VendorDetail-inquiryDefinition" parent="VendorDetail-inquiryDefinition-parentBean">
         <property name="inquirySections">
-            <list merge="true">
-                <ref bean="VendorDetail-extension"/>
+            <list>
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorDetail" />
+                <ref bean="VendorDetail-inquirySectionDefinition-extension"/>
+                <ref bean="VendorDetail-inquirySectionDefinition-address" />
+                <ref bean="VendorDetail-inquirySectionDefinition-contacts" />
+                <ref bean="VendorDetail-inquirySectionDefinition-supplierDiversities" />
+                <ref bean="VendorDetail-inquirySectionDefinition-shippingSpecialConditions" />
+                <ref bean="VendorDetail-inquirySectionDefinition-searchAlias" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorCommodityCodes" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorPhoneNumber" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorCustomerNumber" />
+                <ref bean="VendorDetail-inquirySectionDefinition-contracts" />
+                <ref bean="VendorDetail-inquirySectionDefinition-notes" />
             </list>
         </property>
     </bean>
 
-    <bean id="VendorDetail-extension" parent="InquirySectionDefinition">
+    <bean id="VendorDetail-inquirySectionDefinition-extension" parent="InquirySectionDefinition">
         <property name="title" value="Additional Attributes" />
         <property name="numberOfColumns" value="1" />
         <property name="inquiryFields">

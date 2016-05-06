@@ -100,7 +100,7 @@
         <property name="required"           value="true"                                    />
         <property name="maxLength"          value="45"                                      />
         <property name="validationPattern">
-            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition"            p:size="50"                />
@@ -115,7 +115,7 @@
         <property name="required"           value="false"                                   />
         <property name="maxLength"          value="1000"                                    />
         <property name="validationPattern">
-            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextareaControlDefinition"            p:size="1000"               />
@@ -143,7 +143,7 @@
         <property name="required"           value="true"                                    />
         <property name="maxLength"          value="55"                                      />
         <property name="validationPattern">
-            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition"            p:size="60"                 />

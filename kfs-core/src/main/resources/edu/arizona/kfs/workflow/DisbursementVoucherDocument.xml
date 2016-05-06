@@ -24,7 +24,8 @@
           </split>
           <role name="Account" nextNode="AccountingOrganizationHierarchy" />
           <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
-          <role name="ObjectSubTypeCode" nextNode="RequiresTaxReview" />
+          <role name="ObjectSubTypeCode" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="RequiresTaxReview" />
           <split name="RequiresTaxReview" nextNode="Award">
             <branch name="True">
               <role name="Tax" nextNode="JoinRequiresTaxReview" />
@@ -96,6 +97,10 @@
         <role name="Award">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+         <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+         <activationType>P</activationType>
         </role>
         <split name="RequiresTravelReview">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>

@@ -28,6 +28,12 @@
                 <value>edu/arizona/kfs/vnd/ojb-vnd.xml</value>
             </list>
         </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>eCustomsDailyJob</value>
+                <value>eCustomsAnnualJob</value>
+            </list>
+        </property>
 	</bean>
 	
 	<bean id="vendorService" class="edu.arizona.kfs.vnd.document.service.impl.VendorServiceImpl">
@@ -42,5 +48,34 @@
         </property>
         <property name="documentService" ref="documentService"/>
     </bean>
-    
+
+    <bean id="ecustomsService" class="edu.arizona.kfs.vnd.service.impl.EcustomsServiceImpl">
+        <property name="defaultLastRunDate" value="${ecustoms.last.run.date.default}" />
+        <property name="batchFileName" value="${ecustoms.output.file.prefix}" />
+    </bean>
+
+    <bean id="ecustomsFileService" class="edu.arizona.kfs.vnd.service.impl.EcustomsFileServiceImpl">
+        <property name="outputFileDirectory" value="${ecustoms.output.directory}" />
+        <property name="outputFileNamePrefix" value="${ecustoms.output.file.prefix}" />
+    </bean>
+
+    <bean id="eCustomsDailyJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="eCustomsDailyStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eCustomsAnnualJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="eCustomsAnnualStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eCustomsDailyStep" class="edu.arizona.kfs.vnd.batch.EcustomsDailyStep" parent="step" />
+    <bean id="eCustomsAnnualStep" class="edu.arizona.kfs.vnd.batch.EcustomsAnnualStep" parent="step" />
+
 </beans>

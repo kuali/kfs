@@ -80,10 +80,10 @@
 
     <bean id="remoteBatchJobInvoker" class="edu.arizona.kfs.sys.batch.RemoteBatchJobInvoker">
         <property name="directoryToWatch">
-            <value>${work.directory}/control</value>
+            <value>${batchinvoker.directory.towatch}</value>
         </property>
         <property name="historyDirectory">
-            <value>${work.directory}/control/history</value>
+            <value>${batchinvoker.directory.history}</value>
         </property>
         <property name="runFileSuffix">
             <value>.run</value>

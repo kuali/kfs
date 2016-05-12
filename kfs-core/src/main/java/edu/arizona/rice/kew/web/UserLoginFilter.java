@@ -152,7 +152,14 @@ public class UserLoginFilter implements Filter {
      * establishes the backdoor user on the established user id if backdoor capabilities are valid.
      */
     private void establishBackdoorUser(HttpServletRequest request) {
-        final String backdoor = request.getParameter(KRADConstants.BACKDOOR_PARAMETER);
+
+        String backdoor = request.getParameter(KRADConstants.BACKDOOR_PARAMETER);
+        String principalName = getPrincipalNam(request);
+        if(StringUtils.isNotBlank(principalName)  && StringUtils.isNotBlank(backdoor) && principalName.equals(backdoor)) {
+            // No need to set backdoor for yourself, which caused issues under UAF-2095
+            return;
+        }
+
         if (StringUtils.isNotBlank(backdoor)) {
 
             boolean isNotPrd = !getKualiConfigurationService().getPropertyValueAsString( KRADConstants.PROD_ENVIRONMENT_CODE_KEY )
@@ -167,9 +174,6 @@ public class UserLoginFilter implements Filter {
                 );
 
                 if ( backdoorIsEnabled ) {
-
-                    String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(
-                            new QName("kimAuthenticationService"))).getPrincipalName(request);
 
                     Principal principal = getIdentityService().getPrincipalByPrincipalName(principalName);
 
@@ -190,6 +194,11 @@ public class UserLoginFilter implements Filter {
                 }
             }
         }
+    }
+
+    private String getPrincipalNam(HttpServletRequest request){
+        return ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(
+                new QName("kimAuthenticationService"))).getPrincipalName(request);
     }
 
     /**

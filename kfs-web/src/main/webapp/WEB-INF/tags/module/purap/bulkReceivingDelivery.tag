@@ -42,6 +42,9 @@
 	                <td align=left valign=middle class="datacell"> 
 	                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" property="document.deliveryToName" readOnly="true" /><br>
 	                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingName}" property="document.deliveryBuildingName" readOnly="true" /><br>
+	                	<c:if test="${! empty KualiForm.document.routeCode}">
+							<kul:htmlAttributeLabel attributeEntry="${documentAttributes.routeCode}" /><kul:htmlControlAttribute attributeEntry="${documentAttributes.routeCode}" property="document.routeCode" readOnly="true" /><br/>
+						</c:if>
 	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" property="document.deliveryBuildingLine1Address" readOnly="true" />&nbsp;
 	                   	<c:if test="${! empty KualiForm.document.deliveryBuildingLine2Address}">                   	
 	                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" property="document.deliveryBuildingLine2Address" readOnly="true" />,&nbsp;
@@ -186,7 +189,7 @@
                         <c:if test="${fullEntryMode}">
                             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                                 lookupParameters="document.deliveryCampus:campusCode"
-                                fieldConversions="buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode,buildingAddressCountryCode:document.deliveryCountryCode"/>&nbsp;&nbsp;
+                                fieldConversions="extension.routeCode:document.routeCode,buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode,buildingAddressCountryCode:document.deliveryCountryCode"/>&nbsp;&nbsp;
                             <html:image property="methodToCall.useOtherDeliveryBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-buildingnotfound.gif" alt="building not found" styleClass="tinybutton"/>
                         </c:if>
                     </td>           
@@ -198,7 +201,17 @@
 	                    	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
-				
+				<tr>
+					<th align=right valign=middle class="bord-l-b">
+						<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routeCode}" /></div>
+					</th>
+					<td align=left valign=middle class="datacell">
+						<kul:htmlControlAttribute attributeEntry="${documentAttributes.routeCode}"
+						property="document.routeCode" readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>&nbsp;
+					</td>
+					<th align=right valign=middle class="bord-l-b">&nbsp;</th>
+					<td align=left valign=middle class="datacell">&nbsp;</td>
+				</tr>
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingLine1Address}"/></div>

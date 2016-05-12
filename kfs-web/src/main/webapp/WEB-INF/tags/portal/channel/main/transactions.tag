@@ -61,17 +61,19 @@
 	        <li><portal:portalLink displayTitle="true" title="Shop Catalogs" url="${ConfigProperties.application.url}/b2b.do?methodToCall=shopCatalogs" /></li>
 	    </ul>
     </c:if>
-     <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
-         <strong>Travel</strong><br />
-         <ul class="chan">
-             <li><portal:portalLink displayTitle="true" title="Entertainment Reimbursement" url="${ConfigProperties.application.url}/temTravelEntertainment.do?methodToCall=docHandler&command=initiate&docTypeName=ENT" /></li>
-             <li><portal:portalLink displayTitle="true" title="Moving and Relocation Reimbursement" url="${ConfigProperties.application.url}/temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
-             <li><portal:portalLink displayTitle="true" title="Travel Arranger" url="${ConfigProperties.application.url}/temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
-             <li><portal:portalLink displayTitle="true" title="Travel Authorization" url="${ConfigProperties.application.url}/temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
-             <c:if test="${ConfigProperties.travel.reimbursement.initiatelink.enabled == 'true'}">
-                 <li><portal:portalLink displayTitle="true" title="Travel Reimbursement" url="${ConfigProperties.application.url}/temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
-             </c:if>
-         </ul>
-   	 </c:if>
+    <c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
+	    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
+	        <strong>Travel</strong><br />
+	        <ul class="chan">
+	            <li><portal:portalLink displayTitle="true" title="Entertainment Reimbursement" url="${ConfigProperties.application.url}/temTravelEntertainment.do?methodToCall=docHandler&command=initiate&docTypeName=ENT" /></li>
+	            <li><portal:portalLink displayTitle="true" title="Moving and Relocation Reimbursement" url="${ConfigProperties.application.url}/temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
+	            <li><portal:portalLink displayTitle="true" title="Travel Arranger" url="${ConfigProperties.application.url}/temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
+	            <li><portal:portalLink displayTitle="true" title="Travel Authorization" url="${ConfigProperties.application.url}/temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
+	            <c:if test="${ConfigProperties.travel.reimbursement.initiatelink.enabled == 'true'}">
+	                <li><portal:portalLink displayTitle="true" title="Travel Reimbursement" url="${ConfigProperties.application.url}/temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
+	            </c:if>
+	        </ul>
+	  	 </c:if>
+   </c:if>
 </div>
 <channel:portalChannelBottom />

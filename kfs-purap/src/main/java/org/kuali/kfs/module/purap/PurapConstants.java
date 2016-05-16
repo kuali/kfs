@@ -138,6 +138,7 @@ public class PurapConstants {
         public static final String APPDOC_AWAIT_COMMODITY_CODE_REVIEW = "Awaiting Commodity Code";
         public static final String APPDOC_AWAIT_SEP_OF_DUTY_REVIEW = "Awaiting Separation of Duties";
         public static final String APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN = "Awaiting Contract Manager Assignment";
+        public static final String APPDOC_AWAIT_SUB_FUND_REVIEW = "Awaiting Sub Fund";
 
         public static final String APPDOC_DAPRVD_CONTENT = "Disapproved Content";
         public static final String APPDOC_DAPRVD_HAS_ACCOUNTING_LINES = "Disapproved Accounting Lines";
@@ -146,6 +147,7 @@ public class PurapConstants {
         public static final String APPDOC_DAPRVD_CHART = "Disapproved Base Org Review";
         public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved Commodity Code";
         public static final String APPDOC_DAPRVD_SEP_OF_DUTY = "Disapproved Separation of Duties";
+        public static final String APPDOC_DAPRVD_SUB_FUND = "Disapproved Sub Fund";
 
         public static HashMap<String, String> getAllAppDocStatuses(){
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
@@ -161,6 +163,7 @@ public class PurapConstants {
             appDocStatusMap.put(APPDOC_AWAIT_COMMODITY_CODE_REVIEW, APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
             appDocStatusMap.put(APPDOC_AWAIT_SEP_OF_DUTY_REVIEW, APPDOC_AWAIT_SEP_OF_DUTY_REVIEW);
             appDocStatusMap.put(APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN, APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
+            appDocStatusMap.put(APPDOC_AWAIT_SUB_FUND_REVIEW, APPDOC_AWAIT_SUB_FUND_REVIEW);
             appDocStatusMap.put(APPDOC_DAPRVD_CONTENT, APPDOC_DAPRVD_CONTENT);
             appDocStatusMap.put(APPDOC_DAPRVD_HAS_ACCOUNTING_LINES, APPDOC_DAPRVD_HAS_ACCOUNTING_LINES);
             appDocStatusMap.put(APPDOC_DAPRVD_SUB_ACCT, APPDOC_DAPRVD_SUB_ACCT);
@@ -168,6 +171,7 @@ public class PurapConstants {
             appDocStatusMap.put(APPDOC_DAPRVD_CHART, APPDOC_DAPRVD_CHART);
             appDocStatusMap.put(APPDOC_DAPRVD_COMMODITY_CODE, APPDOC_DAPRVD_COMMODITY_CODE);
             appDocStatusMap.put(APPDOC_DAPRVD_SEP_OF_DUTY, APPDOC_DAPRVD_SEP_OF_DUTY);
+            appDocStatusMap.put(APPDOC_DAPRVD_SUB_FUND, APPDOC_DAPRVD_SUB_FUND);
 
             return appDocStatusMap;
         }
@@ -180,6 +184,7 @@ public class PurapConstants {
         public static final String NODE_HAS_ACCOUNTING_LINES = "Initiator";
         public static final String NODE_ORG_REVIEW = "AccountingOrganizationHierarchy";
         public static final String NODE_COMMODITY_CODE_REVIEW = "Commodity";
+        public static final String NODE_SUB_FUND = "SubFund";
 
         public static HashMap<String, String> getRequistionAppDocStatuses() {
             HashMap<String, String> reqAppDocStatusMap;
@@ -192,6 +197,7 @@ public class PurapConstants {
             reqAppDocStatusMap.put(NODE_ORG_REVIEW, APPDOC_DAPRVD_CHART);
             reqAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW, APPDOC_DAPRVD_COMMODITY_CODE);
             reqAppDocStatusMap.put(NODE_SEPARATION_OF_DUTIES, APPDOC_DAPRVD_SEP_OF_DUTY);
+            reqAppDocStatusMap.put(NODE_SUB_FUND, APPDOC_DAPRVD_SUB_FUND);
             reqAppDocStatusMap.put(APPDOC_IN_PROCESS,  APPDOC_IN_PROCESS);
             reqAppDocStatusMap.put(APPDOC_CLOSED, APPDOC_CLOSED);
             reqAppDocStatusMap.put(APPDOC_CANCELLED, APPDOC_CANCELLED);

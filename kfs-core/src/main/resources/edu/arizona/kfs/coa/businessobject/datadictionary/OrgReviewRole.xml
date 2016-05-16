@@ -42,18 +42,13 @@
 	</property>    
   </bean>
 
-  <bean id="OrgReviewRole-reviewRolesIndicator" parent="OrgReviewRole-reviewRolesIndicator-parentBean" />
-  <bean id="OrgReviewRole-reviewRolesIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="reviewRolesIndicator" />
-		<property name="label" value="Review Types" />
-		<property name="shortLabel" value="Review Types" />
-		<property name="required" value="true" />
+  <bean id="OrgReviewRole-reviewRolesIndicator" parent="OrgReviewRole-reviewRolesIndicator-parentBean">
 		<property name="control">
 			<bean parent="RadioControlDefinition"
 				p:valuesFinderClass="edu.arizona.kfs.coa.businessobject.options.OrgReviewRolesValuesFinder"
 				p:includeKeyInLabel="true" />
 		</property>
-	</bean>
+  </bean>
 			
   <bean id="OrgReviewRole-fundGroupCode" parent="OrgReviewRole-fundGroupCode-parentBean"/>
   <bean id="OrgReviewRole-fundGroupCode-parentBean" parent="KfsKimAttributes-fundGroupCode" abstract="true" p:name="fundGroupCode" p:required="false"/>

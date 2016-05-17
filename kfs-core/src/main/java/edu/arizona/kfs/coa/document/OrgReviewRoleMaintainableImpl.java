@@ -1,8 +1,15 @@
 package edu.arizona.kfs.coa.document;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -56,27 +63,85 @@ public class OrgReviewRoleMaintainableImpl extends org.kuali.kfs.coa.document.Or
         setBusinessObject(orr);
     }
 	
-	@Override
-	protected void prepareFieldsCommon(Field field, boolean shouldReviewTypesFieldBeReadOnly, boolean hasAccountingOrganizationHierarchy){
-        if ( field == null ) {
-            throw new IllegalArgumentException( "The Field parameter may not be null." );
-        }
+	/**
+     * Override the getSections method on this maintainable so that the document type name field
+     * can be set to read-only for
+     *
+     * KRAD Conversion: Inquirable performs conditionally preparing the fields for different role modes
+     * or to display/hide fields on the inquiry.
+     * The field definitions are NOT declared in data dictionary.
+     */
+    @Override
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
+        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
 
-        if(!shouldReviewTypesFieldBeReadOnly) {
-            return; // nothing to make read only
-        }
+        String closestOrgReviewRoleParentDocumentTypeName = getOrgReviewRoleService().getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
+        boolean isFSTransDoc = StringUtils.equals( orr.getFinancialSystemDocumentTypeCode(), KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT)
+                || StringUtils.equals( KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT, closestOrgReviewRoleParentDocumentTypeName);
+        boolean hasAccountingOrganizationHierarchy = isFSTransDoc || getOrgReviewRoleService().hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
 
-        if(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
-            field.setReadOnly(true);
-        } else if( !hasAccountingOrganizationHierarchy
-                && (OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                        OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                        OrgReviewRole.FUND_GROUP_FIELD_NAME.equals(field.getPropertyName()) ||
-                        OrgReviewRole.SUB_FUND_GROUP_FIELD_NAME.equals(field.getPropertyName()) ||
-                        OrgReviewRole.OBJECT_SUB_TYPE_FIELD_NAME.equals(field.getPropertyName()) ||
-                        OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName()))) {
-            field.setReadOnly(true);
+        boolean shouldReviewTypesFieldBeReadOnly = isFSTransDoc
+                || getOrgReviewRoleService().hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) 
+                || getOrgReviewRoleService().hasOrganizationFundReview(orr.getFinancialSystemDocumentTypeCode()) 
+                || hasAccountingOrganizationHierarchy
+                || (StringUtils.isNotBlank(closestOrgReviewRoleParentDocumentTypeName)
+                        && StringUtils.equals(closestOrgReviewRoleParentDocumentTypeName, KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
+
+        //If oldMaintainable is null, it means we are trying to get sections for the old part
+        //If oldMaintainable is not null, it means we are trying to get sections for the new part
+        //Refer to KualiMaintenanceForm lines 288-294
+        if(oldMaintainable!=null){
+            if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForCreateRoleMemberMode(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            } else if(orr.isDelegate() && (orr.isCopy() || StringUtils.isBlank( orr.getDelegationMemberId() )) ){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForCreateDelegationMode(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            } else if(orr.isEditRoleMember()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForEditRoleMember(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            } else if(orr.isEditDelegation()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForEditDelegation(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            }
+        } else if ( orr.isCreateRoleMember() || orr.isCopyRoleMember() || orr.isEditRoleMember()) {
+            // If the member being edited is not a delegate, do not show the delegation type code
+            for (Section section : sections) {
+                for (Row row : section.getRows()) {
+                    for (Field field : row.getFields()) {
+                        if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
+                            field.setFieldType(Field.HIDDEN);
+                        }
+                    }
+                }
+            }
         }
+        return sections;
     }
 	
 	@Override

@@ -94,10 +94,6 @@ public class OrganizationFundReviewRoleTypeServiceImpl extends OrganizationHiera
         return this.documentTypeService;
     }
     
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
     @Override
     public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
     	List<KimAttributeField> fields = super.getAttributeDefinitions(kimTypeId);

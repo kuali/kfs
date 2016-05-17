@@ -26,6 +26,13 @@ public class OrgReviewRoleRule extends org.kuali.kfs.coa.document.validation.imp
 			putFieldError(OrgReviewRole.SUB_FUND_GROUP_FIELD_NAME, "error.member.fundgroup.subfundgroup.bothentered");
 			valid = false;
 		}
+		
+		for(String roleName : orr.getRoleNamesToConsider()) {
+			if(StringUtils.equals(roleName, KFSConstants.SysKimApiConstants.ORGANIZATION_FUND_REVIEWER_ROLE_NAME) && StringUtils.isBlank(orr.getFundGroupCode()) && StringUtils.isBlank(orr.getSubFundGroupCode())) {
+				putFieldError(KfsKimAttributes.SUB_FUND_GROUP_CODE, "error.member.fundgroup.subfundgroup.onerequired");
+				valid = false;
+			}
+		}
 		return valid;
 	}
 	
@@ -41,7 +48,8 @@ public class OrgReviewRoleRule extends org.kuali.kfs.coa.document.validation.imp
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             if ( StringUtils.equals( KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName())
-                    || StringUtils.equals( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName() ) ) {
+                    || StringUtils.equals( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName() )
+                    || StringUtils.equals(KFSConstants.SysKimApiConstants.ORGANIZATION_FUND_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName())) {
                 putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.recursiveRole" );
             } else {
                 if(orr.getRole() == null){
@@ -63,12 +71,6 @@ public class OrgReviewRoleRule extends org.kuali.kfs.coa.document.validation.imp
                                 } );
                 valid = false;
             }
-        }
-        for(String roleName : orr.getRoleNamesToConsider()) {
-        	if(StringUtils.equals(roleName, KFSConstants.SysKimApiConstants.ORGANIZATION_FUND_REVIEWER_ROLE_NAME) && StringUtils.isBlank(orr.getFundGroupCode()) && StringUtils.isBlank(orr.getSubFundGroupCode())) {
-        		putFieldError(KfsKimAttributes.SUB_FUND_GROUP_CODE, "error.member.fundgroup.subfundgroup.onerequired");
-        		valid = false;
-        	}
         }
         
         return valid;

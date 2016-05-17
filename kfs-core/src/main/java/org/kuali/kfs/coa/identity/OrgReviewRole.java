@@ -35,7 +35,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import edu.arizona.kfs.sys.identity.KfsKimAttributes;
@@ -557,6 +557,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE);
             } else if(isOrgReviewRoleIndicator()) {
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE);
+            } else if(isOrgFundReviewRoleIndicator()) {
+            	setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_FUND_ONLY_CODE);
             }
         }
     }
@@ -701,6 +703,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public boolean isBothReviewRolesIndicator() {
         return getRoleNamesToConsider()!=null &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME) &&
+            getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_FUND_REVIEWER_ROLE_NAME) &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
     /**
@@ -710,6 +713,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public boolean isOrgReviewRoleIndicator() {
         return getRoleNamesToConsider()!=null &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+    }
+    
+    /**
+     * Gets the orgFundReviewRoleIndicator attribute.
+     * @return Returns the orgFundReviewRoleIndicator
+     */
+    public boolean isOrgFundReviewRoleIndicator() {
+    	return getRoleNamesToConsider() != null &&
+    			getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_FUND_REVIEWER_ROLE_NAME);
     }
     /**
      * Gets the actionTypeCode attribute.

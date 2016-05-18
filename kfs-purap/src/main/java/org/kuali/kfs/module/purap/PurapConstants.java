@@ -283,6 +283,7 @@ public class PurapConstants {
         public static final String APPDOC_DAPRVD_CG_APPROVAL = "Disapproved C and G";
         public static final String APPDOC_DAPRVD_BUDGET = "Disapproved Budget";
         public static final String APPDOC_DAPRVD_TAX = "Disapproved Tax";
+        public static final String APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE = "Disapproved Object Sub-Type";
         public static final String APPDOC_CANCELLED = "Cancelled";
         public static final String APPDOC_VOID = "Void";
         public static final String APPDOC_IN_PROCESS = "In Process";
@@ -297,6 +298,7 @@ public class PurapConstants {
         public static final String APPDOC_AWAIT_PURCHASING_REVIEW = "Awaiting Purchasing Approval";
         public static final String APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW = "Awaiting New Unordered Item Review";
         public static final String APPDOC_AWAIT_COMMODITY_CODE_REVIEW = "Awaiting Commodity Code Approval";
+        public static final String APPDOC_AWAIT_OBJECT_SUB_TYPE_CODE_REVIEW = "Awaiting Object Sub-Type";
         public static final String APPDOC_FAX_ERROR = "Error occurred sending fax";
         public static final String APPDOC_QUOTE = "Out for Quote";
         public static final String APPDOC_CXML_ERROR = "Error occurred sending cxml";
@@ -326,6 +328,7 @@ public class PurapConstants {
             appDocStatusMap.put(APPDOC_DAPRVD_CG_APPROVAL, APPDOC_DAPRVD_CG_APPROVAL);
             appDocStatusMap.put(APPDOC_DAPRVD_BUDGET, APPDOC_DAPRVD_BUDGET);
             appDocStatusMap.put(APPDOC_DAPRVD_TAX, APPDOC_DAPRVD_TAX);
+            appDocStatusMap.put(APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE, APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);
             appDocStatusMap.put(APPDOC_CANCELLED, APPDOC_CANCELLED);
             appDocStatusMap.put(APPDOC_VOID, APPDOC_VOID);
             appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
@@ -340,6 +343,7 @@ public class PurapConstants {
             appDocStatusMap.put(APPDOC_AWAIT_PURCHASING_REVIEW, APPDOC_AWAIT_PURCHASING_REVIEW);
             appDocStatusMap.put(APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW, APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW);
             appDocStatusMap.put(APPDOC_AWAIT_COMMODITY_CODE_REVIEW, APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_OBJECT_SUB_TYPE_CODE_REVIEW, APPDOC_AWAIT_OBJECT_SUB_TYPE_CODE_REVIEW);
             appDocStatusMap.put(APPDOC_FAX_ERROR, APPDOC_FAX_ERROR);
             appDocStatusMap.put(APPDOC_QUOTE, APPDOC_QUOTE);
             appDocStatusMap.put(APPDOC_CXML_ERROR, APPDOC_CXML_ERROR);
@@ -371,6 +375,7 @@ public class PurapConstants {
         public static final String NODE_BUDGET_OFFICE_REVIEW = "Budget";
         public static final String NODE_VENDOR_TAX_REVIEW = "Tax";
         public static final String NODE_DOCUMENT_TRANSMISSION = "JoinVendorIsEmployeeOrNonResidentAlien";
+        public static final String NODE_OBJECT_SUB_TYPE_CODE = "ObjectSubTypeCode";
 
         public static final HashMap<String, String> getPurchaseOrderAppDocDisapproveStatuses(){
 
@@ -383,6 +388,7 @@ public class PurapConstants {
             poAppDocStatusMap.put(NODE_CONTRACTS_AND_GRANTS_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL);
             poAppDocStatusMap.put(NODE_BUDGET_OFFICE_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_BUDGET);
             poAppDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_TAX);
+            poAppDocStatusMap.put(NODE_OBJECT_SUB_TYPE_CODE, PurchaseOrderStatuses.APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CANCELLED,  PurchaseOrderStatuses.APPDOC_CANCELLED);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_VOID,  PurchaseOrderStatuses.APPDOC_VOID);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_IN_PROCESS,  PurchaseOrderStatuses.APPDOC_IN_PROCESS);
@@ -402,6 +408,7 @@ public class PurapConstants {
             INCOMPLETE_STATUSES.add(APPDOC_AWAIT_PURCHASING_REVIEW);
             INCOMPLETE_STATUSES.add(APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW);
             INCOMPLETE_STATUSES.add(APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_OBJECT_SUB_TYPE_CODE_REVIEW);
             INCOMPLETE_STATUSES.add(APPDOC_FAX_ERROR);
             INCOMPLETE_STATUSES.add(APPDOC_QUOTE);
             INCOMPLETE_STATUSES.add(APPDOC_CXML_ERROR);
@@ -425,6 +432,7 @@ public class PurapConstants {
             COMPLETE_STATUSES.add(APPDOC_DAPRVD_COMMODITY_CODE);
             COMPLETE_STATUSES.add(APPDOC_DAPRVD_PURCHASING);
             COMPLETE_STATUSES.add(APPDOC_DAPRVD_TAX);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);
             COMPLETE_STATUSES.add(APPDOC_OPEN);
             COMPLETE_STATUSES.add(APPDOC_PENDING_PAYMENT_HOLD);
             COMPLETE_STATUSES.add(APPDOC_PENDING_REMOVE_HOLD);

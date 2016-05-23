@@ -41,11 +41,13 @@
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Electronic Payment Claim" url="${ConfigProperties.application.url}/electronicFundTransfer.do?methodToCall=start" /></li>
 	</ul>
-	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">	   
-    <strong>Travel</strong>
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Travel Agency Audit and Correction" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    </ul>
+	<c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
+		<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">	   
+	    <strong>Travel</strong>
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Travel Agency Audit and Correction" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	    </ul>
+	    </c:if>
     </c:if>
 </div>
 <channel:portalChannelBottom />

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="LineItemReceivingDocument" parent="LineItemReceivingDocument-parentBean">
+    <property name="documentClass" value="edu.arizona.kfs.module.purap.document.LineItemReceivingDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="LineItemReceivingDocument-routeCode"/>
+      </list>
+    </property>
+  </bean>
+  
+  	<!-- Attribute Definitions -->
+   <bean id="LineItemReceivingDocument-routeCode" parent="LineItemReceivingDocument-routeCode-parentBean"/>
+   
+   <bean id="LineItemReceivingDocument-routeCode-parentBean" abstract="true" parent="AttributeDefinition"> 
+		<property name="name" value="routeCode" /> 
+		<property name="label" value="Route Code" /> 
+		<property name="shortLabel" value="Route Code" />
+		<property name="maxLength" value="3" /> 
+		<property name="control"> 
+			<bean parent="TextControlDefinition" p:size="14" /> 
+		</property> 
+	</bean>
+
+</beans>

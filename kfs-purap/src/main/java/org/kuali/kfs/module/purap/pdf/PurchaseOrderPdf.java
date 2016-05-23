@@ -418,7 +418,14 @@ public class PurchaseOrderPdf extends PurapPdf {
             if (po.isDeliveryBuildingOtherIndicator()) {
                 deliveryBuildingName = "";
             }
-            shipToInfo.append("     " + deliveryBuildingName + "Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
+            String routeCode = null;
+            if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderDocument)
+            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderDocument)po).getRouteCode() + " ";
+            else if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
+            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderAmendmentDocument)po).getRouteCode() + " ";
+            else if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderRetransmitDocument)
+            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderRetransmitDocument)po).getRouteCode() + " ";
+            shipToInfo.append("     " + deliveryBuildingName +",Route Code :" + routeCode + ",Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
             shipToInfo.append("     " + po.getDeliveryBuildingLine1Address() + "\n");
             if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {
                 shipToInfo.append("     " + po.getDeliveryBuildingLine2Address() + "\n");

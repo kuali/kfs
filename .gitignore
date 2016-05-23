@@ -26,3 +26,4 @@ sftp-config.json
 *.tmproject
 tmtags
 **/target/
+.gitignore

@@ -53,6 +53,11 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
+	<!-- KFSCD-6 Block a Many to Many transfer within the TF & YETF documents -->	
+	<bean id="TransferOfFunds-transferAccountingLinesCountValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsAccountingLinesCountValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+		
 	<bean id="TransferOfFunds-objectSubTypeValueAllowedValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsObjectSubTypeValueAllowedValidation">
 		<property name="transferOfFundsService" ref="transferOfFundsService" />
 		<property name="parameterService" ref="parameterService" />

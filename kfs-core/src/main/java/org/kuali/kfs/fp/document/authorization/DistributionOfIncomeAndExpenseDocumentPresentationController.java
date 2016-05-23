@@ -23,18 +23,24 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class DistributionOfIncomeAndExpenseDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
+    protected static volatile ElectronicPaymentClaimingService electronicPaymentClaimingService;
+    
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
@@ -70,6 +76,7 @@ public class DistributionOfIncomeAndExpenseDocumentPresentationController extend
         
         if (StringUtils.isNotBlank(docInError)) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
         return documentActions;
     }
@@ -95,4 +102,55 @@ public class DistributionOfIncomeAndExpenseDocumentPresentationController extend
 
         return super.canEdit(document);
     }
+
+    @Override
+    public boolean canCopy(Document document) {
+        boolean canCopy = super.canCopy(document);
+        if (canCopy) {
+            boolean isNotElectronicFundsAccount = isNotElectronicFundsAccount(document);
+            return isNotElectronicFundsAccount;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
+        boolean canErrorCorrect = super.canErrorCorrect(document);
+        if (canErrorCorrect) {
+            boolean isNotElectronicFundsAccount = isNotElectronicFundsAccount(document);
+            return isNotElectronicFundsAccount;
+        }
+        return false;
+    }
+
+    /**
+     * This method determines if any of the accounting lines on the document
+     * represent an electronic payment
+     * 
+     * @param document
+     * @return
+     */
+    protected boolean isNotElectronicFundsAccount(Document document) {
+        DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument = (DistributionOfIncomeAndExpenseDocument) document;
+        List<AccountingLine> accountingLines = distributionOfIncomeAndExpenseDocument.getSourceAccountingLines();
+        for (AccountingLine accountingLine : accountingLines) {
+            if (getElectronicPaymentClaimingService().representsElectronicFundAccount(accountingLine)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * retrieves the ElectronicPaymentClaimingService. If
+     * 
+     * @return Returns a ElectronicPaymentClaimingService.
+     */
+    public ElectronicPaymentClaimingService getElectronicPaymentClaimingService() {
+        if (electronicPaymentClaimingService == null) {
+            electronicPaymentClaimingService = SpringContext.getBean(ElectronicPaymentClaimingService.class);
+        }
+        return electronicPaymentClaimingService;
+    }
+
 }

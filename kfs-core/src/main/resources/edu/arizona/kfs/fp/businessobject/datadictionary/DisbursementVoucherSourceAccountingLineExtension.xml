@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="DisbursementVoucherSourceAccountingLineExtension" parent="DisbursementVoucherSourceAccountingLineExtension-parentBean"/>
+
+    <bean id="DisbursementVoucherSourceAccountingLineExtension-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLineExtension"/>
+        <property name="objectLabel" value="Disbursement Voucher Accounting Line Invoice Extension"/>
+        <property name="attributes">
+        <list>
+            <ref bean="DisbursementVoucherSourceAccountingLineExtension-invoiceNumber"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="DisbursementVoucherSourceAccountingLineExtension-invoiceNumber" parent="DisbursementVoucherSourceAccountingLineExtension-invoiceNumber-parentBean"/>
+    <bean id="DisbursementVoucherSourceAccountingLineExtension-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Invoice Number"/>
+        <property name="shortLabel" value="Invoice Number"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+</beans>

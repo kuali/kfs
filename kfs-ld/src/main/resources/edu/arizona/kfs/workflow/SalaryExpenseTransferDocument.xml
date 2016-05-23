@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>ST</name>
+      <parent>LD</parent>
+      <label>Salary Expense Transfer</label>
+      <docHandler>${kfs.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsalaryexpensetransfer.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
+          <role name="ObjectSubTypeCode" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" nextNode="RequiresWorkstudyReview" />
+          <split name="RequiresWorkstudyReview">
+            <branch name="True">
+              <role name="Workstudy" nextNode="JoinRequiresWorkstudyReview" />
+            </branch>
+            <branch name="False">
+              <simple name="RequiresWorkstudyNoOp" nextNode="JoinRequiresWorkstudyReview" />
+            </branch>
+            <join name="JoinRequiresWorkstudyReview" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresWorkstudyReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Workstudy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresWorkstudyReview" />
+        <simple name="RequiresWorkstudyNoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

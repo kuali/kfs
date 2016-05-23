@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CR</name>
+      <parent>FPAD</parent>
+      <label>Cash Receipt</label>
+      <docHandler>${kfs.url}/financialCashReceipt.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashreceipt.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
+          <role name="ObjectSubTypeCode" nextNode="CashManagement"/>
+          <role name="CashManagement" nextNode="RequireChangeRequestReview" />
+          <split name="RequireChangeRequestReview">
+            <branch name="True">
+              <role name="ChangeRequest" nextNode="JoinRequireChangeRequestReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="JoinRequireChangeRequestReview" />
+            </branch>
+            <join name="JoinRequireChangeRequestReview" />
+          </split>
+          
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="CashManagement">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <!-- don't need mandatoryRoute -->
+        </role>
+        <split name="RequireChangeRequestReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ChangeRequest">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>
+            P
+            <!-- P means workflow action request is sent in parallel to all qualified role members -->
+          </activationType>
+        </role>
+        <join name="JoinRequireChangeRequestReview" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

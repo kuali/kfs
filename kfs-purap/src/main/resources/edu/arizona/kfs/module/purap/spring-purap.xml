@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean">
+		<property name="packagePrefixes">
+			<list merge="true">
+				<value>edu.arizona.kfs.module.purap</value>
+			</list>
+		</property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/module/purap/document/datadictionary/*.xml</value>
+			</list>
+		</property>
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/purap/ojb-purap.xml</value>
+            </list>
+        </property>
+	</bean>
+
+    <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="faxPendingDocumentStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoClosePurchaseOrdersJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoClosePurchaseOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoCloseRecurringOrdersJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoCloseRecurringOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purchasingPreDisbursementImmediatesExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="approveLineItemReceivingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="approveLineItemReceivingStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purchasingPreDisbursementExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
+                <ref bean="purchasingPreDisbursementExtractStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="autoApprovePaymentRequestsJob" value="softDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="autoApprovePaymentRequestsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoApprovePaymentRequestsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="receivingPaymentRequestJob" value="softDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="receivingPaymentRequestJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="receivingPaymentRequestStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="electronicInvoiceExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="electronicInvoiceExtractStep" />
+            </list>
+        </property>
+    </bean>
+    	
+</beans>

@@ -5,6 +5,9 @@
  xmlns:dd="http://rice.kuali.org/dd" 
  xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
+    <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean">
+        <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.GeneralErrorCorrectionDocumentPresentationController"/>
+    </bean>
   
   <!-- workflow attributes for routing -->
   <bean id="GeneralErrorCorrectionDocument-workflowAttributes" parent="GeneralErrorCorrectionDocument-workflowAttributes-parentBean">

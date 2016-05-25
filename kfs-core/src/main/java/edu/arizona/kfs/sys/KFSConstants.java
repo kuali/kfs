@@ -1,13 +1,15 @@
 package edu.arizona.kfs.sys;
 
-import org.kuali.kfs.sys.KFSConstants.CoreModuleNamespaces;
-
 public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
 
     public static final String INVOICE_NUMBER = "Invoice Number";
     public static final String DUPLICATE_INVOICE_QUESTION_ID = "DVDuplicateInvoice";
-    
-    public static class SysKimApiConstants{
+
+    public static final String GL_ENTRY_IMPORTING = "glEntryImporting";
+    public static final String NULL_STRING = "null";
+    public static final String PATH_SEPERATOR = "/";
+
+    public static class SysKimApiConstants {
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
         public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";
         public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";
@@ -29,7 +31,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
         public static final String SUB_FUND_REVIEWER = "Sub-Fund Reviewer";
         public static final String ORGANIZATION_FUND_REVIEWER_ROLE_NAME = "Organization Fund Reviewer";
     }
-    
+
     public class RouteLevelNames {
         public static final String ACCOUNT = "Account";
         public static final String ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
@@ -37,10 +39,10 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
         public static final String PROJECT_MANAGEMENT = "ProjectManagement";
         public static final String ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
         public static final String PAYMENT_METHOD = "PaymentMethod";
-        public static final String ORGANIZATION_FUND_REVIEW = "OrganizationFundReview";   
+        public static final String ORGANIZATION_FUND_REVIEW = "OrganizationFundReview";
     }
-    
-    public static class COAConstants{
+
+    public static class COAConstants {
         public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE = "A";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_TEXT = "Organization Accounting Only";
         public static final String ORG_REVIEW_ROLE_ORG_ONLY_CODE = "O";
@@ -53,7 +55,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
 
         public final static String DEFAULT_CHART_METHOD = "1";
         public final static String DEFAULT_PRIMARY_DEPT_METHOD = "2";
-        public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3"; 
+        public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
 
     }
 

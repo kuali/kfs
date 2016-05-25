@@ -12,4 +12,6 @@ public class KFSPropertyConstants extends org.kuali.kfs.sys.KFSPropertyConstants
     public static final String BATCH_FILE_UPLOADS_BATCH_FILE_NAME = "batchFileName";
     public static final String BATCH_FILE_UPLOADS_FILE_PROCESS_TIMESTAMP = "fileProcessTimestamp";
 
+    public static final String GEC_DOCUMENT_NUMBER = "gecDocumentNumber";
+
 }

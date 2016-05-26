@@ -133,7 +133,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     }
 
     public BudgetShellCode getBudgetShell() {
-        if (budgetShell == null || !StringUtils.equals(budgetShell.getBudgetShellCode(), budgetShellCode)) {
+        if (budgetShell == null || !StringUtils.equals(budgetShell.getCode(), budgetShellCode)) {
             budgetShell = getBusinessObjectService().findBySinglePrimaryKey(BudgetShellCode.class, budgetShellCode);
         }
         return budgetShell;
@@ -141,11 +141,11 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
 
     public void setBudgetShell(BudgetShellCode budgetShell) {
         this.budgetShell = budgetShell;
-        setBudgetShellCode(budgetShell.getBudgetShellCode());
+        setBudgetShellCode(budgetShell.getCode());
     }
 
     public CrossOrganizationCode getCrossOrganization() {
-        if (crossOrganization == null || !StringUtils.equals(crossOrganization.getCrossOrganizationCode(), crossOrganizationCode)) {
+        if (crossOrganization == null || !StringUtils.equals(crossOrganization.getCode(), crossOrganizationCode)) {
             crossOrganization = getBusinessObjectService().findBySinglePrimaryKey(CrossOrganizationCode.class, crossOrganizationCode);
         }
         return crossOrganization;
@@ -153,7 +153,7 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
 
     public void setCrossOrganization(CrossOrganizationCode crossOrganization) {
         this.crossOrganization = crossOrganization;
-        setCrossOrganizationCode(crossOrganization.getCrossOrganizationCode());
+        setCrossOrganizationCode(crossOrganization.getCode());
     }
 
     protected BusinessObjectService getBusinessObjectService() {

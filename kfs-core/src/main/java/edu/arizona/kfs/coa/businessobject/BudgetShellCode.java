@@ -5,7 +5,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+
 
 /**
  * UAF-120 / MOD-FP0072-01 : Budget Shell and Cross Organization Attributes for
@@ -14,15 +15,13 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * @author Jonathan Keller <keller.jonathan@gmail.com>
  * @author Adam Kost <kosta@email.arizona.edu>
  */
-public class BudgetShellCode extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class BudgetShellCode extends KualiCodeBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 1L;
     private static transient volatile PersonService personService;
 
     // Database fields
-    private String budgetShellCode;
-    private String budgetShellDescription;
-    private String budgetShellLongDescription;
+    private String description;
     private String groupCode;
     private String groupName;
     private Integer fiscalYearClosed;
@@ -50,29 +49,21 @@ public class BudgetShellCode extends PersistableBusinessObjectBase implements Mu
     private transient volatile Person budgetShellContact;
     private transient volatile Person summaryGroup;
     private transient volatile SystemOptions systemOptions;
-
+    
     public String getBudgetShellCode() {
-        return budgetShellCode;
+        return getCode();
+    }
+    
+    public void setBudgetShellCode( String budgetShellCode ) {
+        setCode( budgetShellCode );
     }
 
-    public void setBudgetShellCode(String budgetShellCode) {
-        this.budgetShellCode = budgetShellCode;
+    public String getDescription() {
+        return description;
     }
 
-    public String getBudgetShellDescription() {
-        return budgetShellDescription;
-    }
-
-    public void setBudgetShellDescription(String budgetShellDescription) {
-        this.budgetShellDescription = budgetShellDescription;
-    }
-
-    public String getBudgetShellLongDescription() {
-        return budgetShellLongDescription;
-    }
-
-    public void setBudgetShellLongDescription(String budgetShellLongDescription) {
-        this.budgetShellLongDescription = budgetShellLongDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getGroupCode() {

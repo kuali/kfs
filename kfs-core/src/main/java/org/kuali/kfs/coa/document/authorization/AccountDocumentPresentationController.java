@@ -20,11 +20,16 @@ package org.kuali.kfs.coa.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccountDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
@@ -37,15 +42,22 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
         return readOnlyPropertyNames;
     }
 
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.kns.bo.BusinessObject)
-//     */
-//    @Override
-//    public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
-//        Set<String> hiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
-//        setLaborBenefitRateCategoryCodeHidden(hiddenPropertyNames);
-//        return hiddenPropertyNames;
-//    }
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.kns.bo.BusinessObject)
+     */
+    @Override
+    public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
+        Set<String> hiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
+        
+        String sourceOfFundsParmValue = getParameterService().getParameterValueAsString(Account.class, KFSParameterKeyConstants.CoaParameterConstants.DISPLAY_SOURCE_OF_FUNDS_IND);
+
+        if (StringUtils.equalsIgnoreCase(sourceOfFundsParmValue, KFSConstants.ParameterValues.YES)) {
+            hiddenPropertyNames.remove(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+        } else {
+            hiddenPropertyNames.add(KFSPropertyConstants.SOURCE_OF_FUNDS_TYPE_CODE);
+        }
+        return hiddenPropertyNames;
+    }
 
     /**
      * 

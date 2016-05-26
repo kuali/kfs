@@ -831,7 +831,7 @@
 	
 	<bean id="employeeDerivedRoleTypeService" parent="employeeDerivedRoleTypeService-parentBean"/>
 	
-    <bean id="employeeDerivedRoleTypeService-parentBean" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl" abstract="true" />
+    <bean id="employeeDerivedRoleTypeService-parentBean" class="edu.arizona.kfs.sys.identity.UaEmployeeDerivedRoleTypeServiceImpl" abstract="true" />
     
     <bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
 	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.kfs.sys.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>

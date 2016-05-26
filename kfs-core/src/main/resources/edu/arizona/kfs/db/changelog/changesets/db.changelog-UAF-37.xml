@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+		
+	<changeSet id="UAF-37" author="Julie Wingate">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRCR_PARM_T
+					WHERE parm_nm='ALLOW_MANY_TO_MANY_TRANSFERS_IND'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			UAF-37 Block a Many to Many transfer within the TF and YETF documents
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="ALLOW_MANY_TO_MANY_TRANSFERS_IND"/>
+			<column name="OBJ_ID" value="UAF-37-1"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="Specifies whether or not many-to-many transfers are allowed on the Transfer of Funds and Year End Transfer of Funds documents. Set the parameter to Y to allow many to many transfers."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>parm_nm='ALLOW_MANY_TO_MANY_TRANSFERS_IND'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+</databaseChangeLog>

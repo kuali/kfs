@@ -33,7 +33,7 @@ import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
-import org.kuali.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -163,6 +163,15 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return getDocumentTypeService().hasRouteNodeForDocumentTypeName(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY, documentTypeName);
     }
 
+    @Override
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasOrganizationFundReview}'+#p0")
+    public boolean hasOrganizationFundReview(final String documentTypeName) {
+    	  if(StringUtils.isBlank(documentTypeName)) {
+              return false;
+          }
+          return getDocumentTypeService().hasRouteNodeForDocumentTypeName(KFSConstants.RouteLevelNames.ORGANIZATION_FUND_REVIEW, documentTypeName);
+    }
+    
     @Override
     @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ClosestOrgReviewRoleParentDocumentTypeName}'+#p0")
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){

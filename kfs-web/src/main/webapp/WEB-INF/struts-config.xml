@@ -66,7 +66,7 @@
 		<form-bean name="YearEndTransferOfFundsForm"
 			type="org.kuali.kfs.fp.document.web.struts.YearEndTransferOfFundsForm" />
 		<form-bean name="GeneralErrorCorrectionForm"
-			type="org.kuali.kfs.fp.document.web.struts.GeneralErrorCorrectionForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.GeneralErrorCorrectionForm" />
 		<form-bean name="YearEndGeneralErrorCorrectionForm"
 			type="org.kuali.kfs.fp.document.web.struts.YearEndGeneralErrorCorrectionForm" />
 		<form-bean name="DistributionOfIncomeAndExpenseForm"
@@ -369,6 +369,29 @@
 	</global-forwards>
 
 	<action-mappings>
+        <action path="/financialGeneralErrorCorrection"
+            name="GeneralErrorCorrectionForm"
+            input="/jsp/fp/GeneralErrorCorrection.jsp"
+            type="edu.arizona.kfs.fp.document.web.struts.GeneralErrorCorrectionAction"
+            scope="request"
+            parameter="methodToCall"
+            validate="true" 
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/fp/GeneralErrorCorrection.jsp" />
+        </action>
+
+        <action path="/gecEntryLookup" 
+            name="MultipleValueLookupForm"
+            type="edu.arizona.kfs.gl.web.struts.GecEntryLookupAction"
+            scope="request"
+            input="/jsp/gl/gecEntryMultipleValueLookup.jsp"
+            parameter="methodToCall"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/gl/gecEntryMultipleValueLookup.jsp" />
+        </action>
+
 		<!-- Core Action Mappings -->
 		<action path="/portal" name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
@@ -785,6 +808,11 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/fp/CashManagementStatus.jsp" />
 		</action>
+
+        <action path="/purapPaymentRequest" name="PaymentRequestForm" type="edu.arizona.kfs.module.purap.document.web.struts.PaymentRequestAction" scope="request" attribute="KualiForm">
+             <set-property property="cancellable" value="true" />
+             <forward name="basic" path="/jsp/module/purap/PaymentRequest.jsp" /> 
+        </action>
 
 		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.{1}Action"

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean">
+          <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.module.ld</value>               
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/overrides/*.xml</value>
+                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/overrides/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/ld/document/datadictionary/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborNightlyOutJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborNightlyOutStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborScrubberJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="createLaborBackupGroupStep" />
+                <ref bean="laborPreScrubberStep" />
+                <ref bean="laborScrubberSortStep" />
+                <ref bean="laborScrubberStep" />
+                <ref bean="laborDemergerSortStep" />
+                <ref bean="laborDemergerStep" />
+                <ref bean="aggregateLaborScrubberReportsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborEnterpriseFeedJob" value="hardDependency" />
+                <entry key="laborNightlyOutJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborEnterpriseFeedJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborEnterpriseFeedStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborPosterJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborPosterSortStep" />
+                <ref bean="laborPosterStep" />
+                <ref bean="laborFileRenameStep" />
+                <ref bean="laborBalanceSummaryStep" />
+                <ref bean="aggregateLaborPosterReportsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborScrubberJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborBalancingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborBalancingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborPosterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborFeedJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborFeedStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborPosterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="clearLaborPendingEntriesJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborClearGLEntryStep" />
+                <ref bean="clearLaborPendingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborFeedJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+</beans>

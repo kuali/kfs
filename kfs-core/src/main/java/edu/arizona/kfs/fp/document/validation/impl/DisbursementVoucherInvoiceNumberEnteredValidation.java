@@ -17,7 +17,6 @@ public class DisbursementVoucherInvoiceNumberEnteredValidation extends Accountin
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        boolean superValidate = super.validate(event);
         DisbursementVoucherDocument accountingDocument = (DisbursementVoucherDocument) getAccountingDocumentForValidation();
 
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
@@ -32,7 +31,7 @@ public class DisbursementVoucherInvoiceNumberEnteredValidation extends Accountin
                 return false;
             }
         }
-        return superValidate;
+        return true;
     }
 
 }

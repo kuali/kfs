@@ -10,7 +10,10 @@
         <preConditions onError="MARK_RAN" onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM KRCR_PARM_T
-                    WHERE parm_nm='DOCUMENT_TYPES'
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='DOCUMENT_TYPES'
+                        AND APPL_ID='KFS'
             </sqlCheck>
         </preConditions>
         <comment>
@@ -30,7 +33,11 @@
         </insert>
         <rollback>
             <delete tableName="KRCR_PARM_T">
-                <where>parm_nm='DOCUMENT_TYPES'</where>
+                <where>NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='DOCUMENT_TYPES'
+                        AND APPL_ID='KFS'
+                </where>
             </delete>
         </rollback>
     </changeSet>
@@ -39,7 +46,10 @@
         <preConditions onError="MARK_RAN" onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM KRCR_PARM_T
-                    WHERE parm_nm='ORIGIN_CODES'
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='ORIGIN_CODES'
+                        AND APPL_ID='KFS'
             </sqlCheck>
         </preConditions>
         <comment>
@@ -59,7 +69,11 @@
         </insert>
         <rollback>
             <delete tableName="KRCR_PARM_T">
-                <where>parm_nm='ORIGIN_CODES'</where>
+                <where>NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='ORIGIN_CODES'
+                        AND APPL_ID='KFS'
+                </where>
             </delete>
         </rollback>
     </changeSet>

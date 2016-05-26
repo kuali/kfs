@@ -8,6 +8,7 @@
   <!-- Here we will include all changesets in the proper order -->
   <!-- include file="changesets/db.changelog-UAF-###.xml" -->
   
+  <include file="changesets/db.changelog-UAF-1790.xml" />
   <include file="changesets/db.changelog-UAF-387.xml" />
   <include file="changesets/db.changelog-UAF-37.xml" />
   <include file="changesets/db.changelog-UAF-41.xml" />

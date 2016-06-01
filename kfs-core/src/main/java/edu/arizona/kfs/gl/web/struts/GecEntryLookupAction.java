@@ -26,10 +26,8 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
-import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LookupService;
@@ -37,7 +35,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRuleConstants;
-import edu.arizona.kfs.gl.businessobject.Entry;
+import edu.arizona.kfs.gl.businessobject.EntryLiteBo;
+import edu.arizona.kfs.gl.businessobject.lookup.EntryLiteBoHelperServiceImpl;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 /**
@@ -94,18 +93,18 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Collection<Entry> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
-        Collection<Entry> c = super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
+    protected Collection<EntryLiteBo> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
+        Collection<EntryLiteBo> c = super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
         if (c == null || c.isEmpty()) {
             LOG.debug("No results found.");
-            return new ArrayList<Entry>();
+            return new ArrayList<EntryLiteBo>();
         }
 
-        List<Entry> entries = new ArrayList<Entry>(c);
-        List<Entry> entriesToRemove = new ArrayList<Entry>();
-        List<Entry> entriesToDisable = new ArrayList<Entry>();
+        List<EntryLiteBo> entries = new ArrayList<EntryLiteBo>(c);
+        List<EntryLiteBo> entriesToRemove = new ArrayList<EntryLiteBo>();
+        List<EntryLiteBo> entriesToDisable = new ArrayList<EntryLiteBo>();
 
-        for (Entry e : entries) {
+        for (EntryLiteBo e : entries) {
             boolean removeEntry = removeEntry(e);
             boolean disableEntry = disableEntry(e);
             if (removeEntry) {
@@ -116,8 +115,9 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
             }
         }
 
-        removeRecords(entriesToRemove, entries, resultTable, multipleValueLookupForm);
+        removeRecords(entriesToRemove, entries, resultTable);
         disableRecords(entriesToDisable, resultTable, multipleValueLookupForm);
+        EntryLiteBoHelperServiceImpl.addInquiryLinksToRecords(resultTable);
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
 
         Map<String, String> displayedEntryIds = generateEntryIdMap(entries);
@@ -125,9 +125,9 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return entries;
     }
 
-    private Map<String, String> generateEntryIdMap(List<Entry> entries) {
+    private Map<String, String> generateEntryIdMap(List<EntryLiteBo> entries) {
         Map<String, String> retval = new HashMap<String, String>();
-        for (Entry entry : entries) {
+        for (EntryLiteBo entry : entries) {
             retval.put(entry.getEntryId(), entry.getEntryId());
         }
         return retval;
@@ -165,7 +165,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
      * @param entry
      * @return
      */
-    private boolean removeEntry(Entry entry) {
+    private boolean removeEntry(EntryLiteBo entry) {
         LOG.debug("Determining if entry should be removed: " + entry.toString());
         ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
 
@@ -186,7 +186,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         boolean isOffsetDescription = KFSConstants.GL_PE_OFFSET_STRING.equalsIgnoreCase(entry.getTransactionLedgerEntryDescription());
         boolean isOffsetAccountEntry = isOffsetAccountEntry(bankAccountList, entry);
         if (isOffsetDescription || isOffsetAccountEntry) {
-            LOG.debug("offsetDescription=[" + isOffsetDescription + ", " + entry.getTransactionLedgerEntryDescription() + "]; isOffsetAccountEntry=[" + isOffsetAccountEntry + ", " + entry.getAccountNumber()+"]");
+            LOG.debug("offsetDescription=[" + isOffsetDescription + ", " + entry.getTransactionLedgerEntryDescription() + "]; isOffsetAccountEntry=[" + isOffsetAccountEntry + ", " + entry.getAccountNumber() + "]");
             return true;
         }
 
@@ -201,7 +201,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return false;
     }
 
-    private boolean isOffsetAccountEntry(List<Bank> bankAccountList, Entry entry) {
+    private boolean isOffsetAccountEntry(List<Bank> bankAccountList, EntryLiteBo entry) {
         for (Bank bankAccount : bankAccountList) {
             if (bankAccount.getBankAccountNumber().equals(entry.getAccountNumber())) {
                 return true;
@@ -216,7 +216,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
      * @param entry
      * @return
      */
-    private boolean disableEntry(Entry entry) {
+    private boolean disableEntry(EntryLiteBo entry) {
         LOG.debug("Determining if entry should be disabled: " + entry.toString());
         String gecDocumentNumber = entry.getGecDocumentNumber();
         if (StringUtils.isBlank(gecDocumentNumber)) {
@@ -253,13 +253,13 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return docHeader.getDocRouteStatus();
     }
 
-    private void removeRecords(List<Entry> entriesToRemove, List<Entry> entries, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
-        for (Entry entryToRemove : entriesToRemove) {
+    private void removeRecords(List<EntryLiteBo> entriesToRemove, List<EntryLiteBo> entries, List<ResultRow> resultTable) {
+        for (EntryLiteBo entryToRemove : entriesToRemove) {
             entries.remove(entryToRemove);
             Iterator<ResultRow> iter = resultTable.iterator();
             while (iter.hasNext()) {
                 ResultRow currentRow = iter.next();
-                boolean isSameEntry = compareEntryToRow(entryToRemove, currentRow);
+                boolean isSameEntry = EntryLiteBoHelperServiceImpl.compareEntryBoToRow(entryToRemove, currentRow);
                 if (isSameEntry) {
                     iter.remove();
                 }
@@ -267,66 +267,22 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         }
     }
 
-    private void disableRecords(List<Entry> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
+    private void disableRecords(List<EntryLiteBo> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
         if (entriesToDisable.isEmpty()) {
             LOG.debug("entriesToRemove is Empty");
             return;
         }
-        for (Entry entryToDisable : entriesToDisable) {
+        for (EntryLiteBo entryToDisable : entriesToDisable) {
             for (ResultRow row : resultTable) {
-                boolean isSameEntry = compareEntryToRow(entryToDisable, row);
+                boolean isSameEntry = EntryLiteBoHelperServiceImpl.compareEntryBoToRow(entryToDisable, row);
                 if (isSameEntry) {
                     row.setReturnUrl(StringUtils.EMPTY);
                     row.setRowReturnable(false);
-                    int col = getColumnIndexByProperty(row.getColumns(), KFSPropertyConstants.GEC_DOCUMENT_NUMBER);
-                    row.getColumns().get(col).setPropertyValue(entryToDisable.getGecDocumentNumber());
-                    row.getColumns().get(col).setPropertyURL(KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + entryToDisable.getGecDocumentNumber() + KRADConstants.DOCHANDLER_URL_CHUNK);
+                    EntryLiteBoHelperServiceImpl.setFieldValue(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER, entryToDisable.getGecDocumentNumber());
                     LOG.debug("gecDocumentNumber=" + entryToDisable.getGecDocumentNumber());
-                    HtmlData columnAnchor = new HtmlData.AnchorHtmlData(KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + entryToDisable.getGecDocumentNumber() + KRADConstants.DOCHANDLER_URL_CHUNK, KRADConstants.EMPTY_STRING);
-                    row.getColumns().get(col).setColumnAnchor(columnAnchor);
                 }
             }
         }
-    }
-
-    private boolean compareEntryToRow(Entry entry, ResultRow row) {
-        List<Column> columnList = row.getColumns();
-        boolean isSameEntry = true;
-
-        isSameEntry &= isPropertyEqual(entry.getUniversityFiscalYear().toString(), KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, columnList);
-        isSameEntry &= isPropertyEqual(entry.getChartOfAccountsCode(), KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getAccountNumber(), KFSPropertyConstants.ACCOUNT_NUMBER, columnList);
-        isSameEntry &= isPropertyEqual(entry.getSubAccountNumber(), KFSPropertyConstants.SUB_ACCOUNT_NUMBER, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialSubObjectCode(), KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialBalanceTypeCode(), KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getUniversityFiscalPeriodCode(), KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialDocumentTypeCode(), KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getFinancialSystemOriginationCode(), KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, columnList);
-        isSameEntry &= isPropertyEqual(entry.getDocumentNumber(), KFSPropertyConstants.DOCUMENT_NUMBER, columnList);
-        isSameEntry &= isPropertyEqual(entry.getTransactionLedgerEntrySequenceNumber().toString(), KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, columnList);
-
-        return isSameEntry;
-    }
-
-    private boolean isPropertyEqual(String entryPropertyValue, String propertyName, List<Column> columnList) {
-        int col = getColumnIndexByProperty(columnList, propertyName);
-        if (col == -1) {
-            return true;
-        }
-        String columnValue = columnList.get(col).getPropertyValue();
-        boolean isEqual = StringUtils.equals(entryPropertyValue, columnValue);
-        return isEqual;
-    }
-
-    private int getColumnIndexByProperty(List<Column> columnList, String propertyName) {
-        for (int i = 0; i < columnList.size(); i++) {
-            if (StringUtils.equals(propertyName, columnList.get(i).getPropertyName())) {
-                return i;
-            }
-        }
-        return -1;// not in the list
     }
 
 }

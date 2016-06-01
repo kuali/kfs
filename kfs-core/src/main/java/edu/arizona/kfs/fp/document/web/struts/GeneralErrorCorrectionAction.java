@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
@@ -23,7 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.gl.businessobject.Entry;
+import edu.arizona.kfs.gl.businessobject.EntryLiteBo;
 import edu.arizona.kfs.sys.KFSConstants;
 
 /**
@@ -195,7 +196,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
                 continue;
             }
 
-            Entry result = Entry.getEntry(selectedEntryId);
+            Entry result = EntryLiteBo.getEntry(selectedEntryId);
             if (result != null) {
                 retvals.add(result);
             }

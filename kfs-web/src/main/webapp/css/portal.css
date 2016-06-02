@@ -60,85 +60,8 @@ a:active
 	text-decoration: underline;
 }
 
-.alignright
-{
-	margin-top: 0;
-	text-align: right;
-}
-
 .small { font-size: .9em; }
 
-
-
-#portchancont table
-{
-		
-}
-
-#portchancont td
-{
-	padding-left: 12px;
-	
-
-}
-
-#topcontrols
-{
-	position: absolute;
-	top: 0;
-	right: 0;
-	text-align: right;
-	background-image:  url("../images-portal/topcontrolback.gif");
-	background-repeat: no-repeat;
-	height: 22px;
-	padding-left: 60px;
-	padding-right: 20px;
-	padding-top: 3px;
-}
-
-#topcontrols input.loginbox
-{
-	border: 1px solid #666666;
-	height: 14px;
-	font-size: 80%;
-	background-color: #FBF8E0;
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-}
-
-#topcontrols input.loginbutton
-{
-	border: none;
-	background-color: #FBF8E0;
-	margin: 0;
-	padding: 0;
-	vertical-align: middle;
-}
-
-#topcontrols a:link
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#topcontrols a:visited
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#topcontrols a:hover
-{
-	color: #990000;
-	text-decoration: underline;
-}
-
-#topcontrols a:active
-{
-	color: #333333;
-	text-decoration: underline;
-}
 
 #search
 {
@@ -444,164 +367,19 @@ h1, h2
 	text-decoration: underline;
 }
 
-#footer-nav
-{
-	background-image:   url("../images-portal/leftback.gif");
-	background-repeat: no-repeat;
-	height: 20px;
-	background-color: #003366;
-}
-
-#footer-nav-focus
-{
-	background-image:   url("../images-portal/bl-bevel-focus.gif");
-	background-repeat: no-repeat;
-	height: 20px;
-	background-color: #003366;
-	background-position: left bottom;
-}
-
-#footer-nav  a:link
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#footer-nav  a:visited
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#footer-nav  a:hover
-{
-	color: #990000;
-	text-decoration: underline;
-}
-
-#footer-nav  a:active
-{
-	color: #333333;
-	text-decoration: underline;
-}
-
-#footer-nav-focus  a:link
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#footer-nav-focus  a:visited
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#footer-nav-focus  a:hover
-{
-	color: #990000;
-	text-decoration: underline;
-}
-
-#footer-nav-focus  a:active
-{
-	color: #333333;
-	text-decoration: underline;
-}
-
-div.leftswoop
-{
-	background:   url("../images-portal/subnav-left.gif") no-repeat left top;
-	padding: 0 0 0 9px;
-	float: left;
-	position: relative;
-	left: 40%;
-	right: 60%;
-	bottom: 2px;
-}
-
-html>body div.leftswoop
-{
-	background:   url("../images-portal/subnav-left.gif") no-repeat left top;
-	padding: 0 0 0 9px;
-	float: left;
-	position: relative;
-	left: 40%;
-	right: 60%;
-	bottom: 3px;
-}
-
-span.rightswoop
-{
-	float: left;
-	display: block;
-	background:   url("../images-portal/subnav-right.gif") no-repeat right top;
-	padding: 5px 15px 4px 6px;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.centerfootnav { width: 300px; }
-
-div#leftbox
-{
-	left: 0px;
-	padding-top: 0px;
-	margin: 0;
-	width: 169px;
-}
 
 .leftback { background-image:   url("../images-portal/leftback.gif"); }
 .leftback-focus { background-image:   url("../images-portal/leftback-focus.gif"); }
 td.content { padding-bottom: 40px; }
 
-#middlebox
-{
-	margin: 0px 0px 0px 169px;
-	background-color: #FFFFFF;
-}
-
-div#rightbox
-{
-	position: absolute;
-	right: 0px;
-	width: 30%;
-	background-color: #FFFFFF;
-}
 
 /** 'portlet' block **/
 
 
 
-
-
-#portlets-left-column
-{
-	margin: 0 0 0 12px;
-	padding: 0;
-	width: 49%;
-	float: left;
-}
-
-#portlets-right-column
-{
-	margin: 0 12px 0 0;
-	padding: 0;
-	width: 50%;
-	float: right;
-}
-
 .portlet
 {
 	margin: 20px 10px 0px;
-	padding: 0px;
-	border: 1px solid #999999;
-}
-
-
-.portlet-iframe
-{
-	margin:  0px;
 	padding: 0px;
 	border: 1px solid #999999;
 }
@@ -638,143 +416,6 @@ div#rightbox
 	float: right;
 }
 
-.portlet-nav { float: left; }
-
-#navcontainer
-{
-	margin: 0px;
-	padding: 0px;
-	width: 169px;
-}
-
-#navcontainer ul
-{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-#navcontainer li
-{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-#navcontainer a
-{
-	display: block;
-	padding: 4px 0px 4px 12px;
-	width: 169px;
-	border-bottom: 1px solid #333333;
-	background-image:   url("../images-portal/subnav-back.gif");
-	background-position: right;
-	text-decoration: none;
-	color: #FFFFFF;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-}
-
-html>body #navcontainer a
-{
-	display: block;
-	padding: 4px 0px 4px 12px;
-	width: 157px;
-	border-bottom: 1px solid #333333;
-	background-image:   url("../images-portal/subnav-back.gif");
-	background-position: right;
-	text-decoration: none;
-	color: #FFFFFF;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-
-}
-
-
-#navcontainer a.current
-{
-	display: block;
-	padding: 4px 0px 4px 12px;
-	width: 169px;
-	border-bottom: 1px solid #333333;
-	background-image:   url("../images-portal/subnav-back1.gif");
-	background-position: right;
-	text-decoration: none;
-	color: #000000;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	font-weight: bold;
-}
-
-html>body #navcontainer a.current
-{
-	display: block;
-	padding: 4px 0px 4px 12px;
-	width: 157px;
-	border-bottom: 1px solid #333333;
-	background-image:   url("../images-portal/subnav-back1.gif");
-	background-position: right;
-	text-decoration: none;
-	color: #000000;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	font-weight: bold;
-}
-
-
-
-
-#navcontainer a:link, #navlist a:visited
-{
-	color: #EEE;
-	text-decoration: none;
-}
-
-#navcontainer a:hover
-{
-	background-image:   url("../images-portal/subnav-back1.gif");
-	color: #000000;
-}
-
-#misclinks
-{
-	padding-top: 30px;
-	padding-left: 8px;
-}
-
-#misclinks li { list-style-image:   url("../images-portal/bullet.gif"); }
-
-#misclinks a:link
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#misclinks a:visited
-{
-	color: #000000;
-	text-decoration: none;
-}
-
-#misclinks a:hover
-{
-	color: #990000;
-	text-decoration: underline;
-}
-
-#misclinks a:active
-{
-	color: #333333;
-	text-decoration: underline;
-}
 
 /** 'portlet' block: portlet mode and window state controls **/
 div.portlet-head { height: 40px; }
@@ -795,24 +436,6 @@ h2.portlet-title
 	white-space: nowrap;
 }
 
-div.portlet-modify
-{
-	float: right;
-	margin-right: 10px;
-	margin-left: 10px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-
-.dddlist
-{
-	width: 68px;
-	font-size: 10px;
-	background-color: #e5e5e5;
-	height: 14px;
-	border: 1px solid #999999;
-	float: right;
-}
 
 .portlet .body { padding: 10px; }
 .portlet .header span.min { background: url(../images/min.png) no-repeat; }
@@ -821,26 +444,6 @@ div.portlet-modify
 .portlet .header span.view { background: url(../images/view.png) no-repeat; }
 .portlet .header span.edit { background: url(../images/edit.png) no-repeat; }
 .portlet .header span.help { background: url(../images/help.png) no-repeat; }
-
-
-.bord-lb {
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-bottom-color: #A8B2BC;
-	border-left-color: #A8B2BC;
-}
-.bord-rt {
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-top-color: #A8B2BC;
-	border-right-color: #A8B2BC;
-}
-
-
 
 
 ul.chan {

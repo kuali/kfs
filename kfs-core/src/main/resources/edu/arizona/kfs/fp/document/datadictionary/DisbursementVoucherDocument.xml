@@ -15,7 +15,14 @@
         <property name="documentClass" value="edu.arizona.kfs.fp.document.DisbursementVoucherDocument" />
         <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
         <property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
+        <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController"/>
     </bean>
+    
+    <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean">
+    	<property name="control"> 
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.PaymentMethodsForDVValuesFinder" p:includeKeyInLabel="false"/>
+		</property>
+	</bean>
 
     <bean id="DisbursementVoucherDocument-sourceAccountingLineGroup" parent="DisbursementVoucherDocument-sourceAccountingLineGroup-parentBean">  
         <property name="accountingLineClass" value="edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLine"/>
@@ -50,6 +57,19 @@
     <bean id="DisbursementVoucherDocument-workflowAttributes" parent="DisbursementVoucherDocument-workflowAttributes-parentBean">
         <property name="searchingTypeDefinitions">
             <list merge="true">
+             	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+	   				<property name="searchingAttribute">
+	   					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+	   						<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
+	   						<property name="attributeName" value="disbVchrPaymentMethodCode"/>
+	   					</bean>
+	   				</property>
+	   				<property name="documentValues">
+	   					<list>
+	   						<value>disbVchrPaymentMethodCode</value>
+	   					</list>
+	   				</property>
+	   			</bean>
                 <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">

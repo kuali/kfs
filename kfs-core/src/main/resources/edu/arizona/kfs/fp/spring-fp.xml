@@ -36,6 +36,8 @@
 
     <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
 
+	<bean id="paymentMethodGeneralLedgerPendingEntryService" class="edu.arizona.kfs.fp.service.impl.PaymentMethodGeneralLedgerPendingEntryServiceImpl" />
+ 
     <bean id="procurementCardDocumentJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

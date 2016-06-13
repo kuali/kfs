@@ -186,6 +186,28 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0-m5.1</version>
+        <configuration>
+          <!-- Keep maven submodules at the same version as the parent POM -->
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <pushFeatures>true</pushFeatures>
+          <pushReleases>true</pushReleases>
+          <pushHotfixes>true</pushHotfixes>
+          <!-- Prevents deployments from dev workstations so that they can be done
+               by CI server -->
+          <noDeploy>true</noDeploy>
+          <flowInitContext>
+            <developBranchName>ua-development</developBranchName>
+            <masterBranchName>ua-master</masterBranchName>
+          </flowInitContext>
+          <allowSnapshots>true</allowSnapshots>
+          <defaultOriginUrl>scm:git:git@github.com:ua-eas/kfs.git</defaultOriginUrl>
+          <enableSshAgent>true</enableSshAgent>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>-Xms1024m -Xmx1024m</argLine>

@@ -1,13 +1,7 @@
 package edu.arizona.kfs.module.purap.document;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -19,42 +13,12 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import edu.arizona.kfs.sys.businessobject.BuildingExtension;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PurchaseOrderAmendmentDocument extends org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument {
-
     private static final long serialVersionUID = -1995809378517425032L;
-
-    protected String routeCode;
-    protected Building buildingObj;
-
-    public Building getBuildingObj() {
-        if (ObjectUtils.isNull(buildingObj)) {
-            this.refreshReferenceObject("buildingObj");
-        }
-        return buildingObj;
-    }
-
-    public void setBuildingObj(Building buildingObj) {
-        this.buildingObj = buildingObj;
-    }
-
-    public String getRouteCode() {
-        if (StringUtils.isBlank(routeCode)) {
-            try {
-                BuildingExtension be = (BuildingExtension) (buildingObj.getExtension());
-                routeCode = be.getRouteCode();
-            } catch (Exception e) {
-                LOG.debug("Routing Code was not Retrieved");
-            }
-        }
-
-        return routeCode;
-    }
-
-    public void setRouteCode(String routeCode) {
-        this.routeCode = routeCode;
-    }
 
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {

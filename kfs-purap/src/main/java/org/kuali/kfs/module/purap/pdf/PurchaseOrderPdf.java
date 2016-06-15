@@ -18,18 +18,18 @@
  */
 package org.kuali.kfs.module.purap.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.ExceptionConverter;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -44,18 +44,17 @@ import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Base class to handle pdf for purchase order documents.
@@ -418,13 +417,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             if (po.isDeliveryBuildingOtherIndicator()) {
                 deliveryBuildingName = "";
             }
-            String routeCode = null;
-            if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderDocument)
-            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderDocument)po).getRouteCode() + " ";
-            else if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
-            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderAmendmentDocument)po).getRouteCode() + " ";
-            else if(po instanceof edu.arizona.kfs.module.purap.document.PurchaseOrderRetransmitDocument)
-            	routeCode = ((edu.arizona.kfs.module.purap.document.PurchaseOrderRetransmitDocument)po).getRouteCode() + " ";
+            String routeCode = po.getRouteCode();
             shipToInfo.append("     " + deliveryBuildingName +",Route Code :" + routeCode + ",Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
             shipToInfo.append("     " + po.getDeliveryBuildingLine1Address() + "\n");
             if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {

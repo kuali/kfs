@@ -18,15 +18,6 @@
  */
 package org.kuali.kfs.module.purap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
@@ -40,6 +31,15 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -128,7 +128,7 @@ public class PurapConstants {
     public static class RequisitionStatuses {
         // Added for updating app doc status for disapproved
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED = "Cancelled";
+        public static final String APPDOC_CANCELLED = "Canceled";
         public static final String APPDOC_CLOSED = "Closed";
         public static final String APPDOC_AWAIT_FISCAL_REVIEW = "Awaiting Fiscal Officer";
         public static final String APPDOC_AWAIT_CONTENT_REVIEW = "Awaiting Content Approval";
@@ -284,7 +284,7 @@ public class PurapConstants {
         public static final String APPDOC_DAPRVD_BUDGET = "Disapproved Budget";
         public static final String APPDOC_DAPRVD_TAX = "Disapproved Tax";
         public static final String APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE = "Disapproved Object Sub-Type";
-        public static final String APPDOC_CANCELLED = "Cancelled";
+        public static final String APPDOC_CANCELLED = "Canceled";
         public static final String APPDOC_VOID = "Void";
         public static final String APPDOC_IN_PROCESS = "In Process";
         public static final String APPDOC_CHANGE_IN_PROCESS = "Change in Process";
@@ -317,7 +317,7 @@ public class PurapConstants {
         public static final String APPDOC_PENDING_RETRANSMIT = "Pending Retransmit";
         public static final String APPDOC_RETIRED_VERSION = "Retired Version";
         public static final String APPDOC_PENDING_VOID = "Pending Void";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Canceled - In Process";
 
         public static HashMap<String, String> getAllAppDocStatuses(){
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
@@ -619,8 +619,8 @@ public class PurapConstants {
     public static final class PaymentRequestStatuses {
         public static final String APPDOC_INITIATE = "Initiated";
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
-        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Canceled - In Process";
+        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Canceled";
         public static final String APPDOC_DEPARTMENT_APPROVED = "Department-Approved";
         public static final String APPDOC_AUTO_APPROVED = "Auto-Approved";
         public static final String APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW = "Awaiting AP Review"; // Waiting for Accounts Payable approval
@@ -799,7 +799,7 @@ public class PurapConstants {
         public static final String APPDOC_IN_PROCESS = "In Process";
         public static final String APPDOC_AWAITING_PO_OPEN_STATUS = "Awaiting Purchase Order Open Status";
         public static final String APPDOC_COMPLETE = "Complete";
-        public static final String APPDOC_CANCELLED = "Cancelled";
+        public static final String APPDOC_CANCELLED = "Canceled";
     }
 
     public static class CorrectionReceivingDocumentStrings{
@@ -870,9 +870,9 @@ public class PurapConstants {
     public static class CreditMemoStatuses {
         public static final String APPDOC_INITIATE = "Initiated";
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Canceled - In Process";
         public static final String APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL = "Void";
-        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
+        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Canceled";
         public static final String APPDOC_COMPLETE = "Complete";
         public static final String APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW = "Awaiting AP Review"; // Waiting for Accounts Payable approval
 

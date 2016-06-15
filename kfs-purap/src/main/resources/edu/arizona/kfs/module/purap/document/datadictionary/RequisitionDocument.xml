@@ -6,8 +6,7 @@ xmlns:dd="http://rice.kuali.org/dd"
 xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 	
 	<bean id="RequisitionDocument" parent="RequisitionDocument-parentBean">
-	    <property name="documentClass" value="edu.arizona.kfs.module.purap.document.RequisitionDocument"/>
-	    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+	    <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="RequisitionDocument-routeCode"/>

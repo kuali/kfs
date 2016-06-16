@@ -10,6 +10,7 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.api.identity.Person;
@@ -54,13 +55,13 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends org.k
                 
                 // check to see if current user is a primary delegate
                 if (!isValid) {
-                    AccountDelegate primaryDelegate = accountService.getPrimaryDelegationByExample(currentAccountDelegate, accountingLineTotal);
+                    AccountDelegate primaryDelegate = getAccountService().getPrimaryDelegationByExample(currentAccountDelegate, accountingLineTotal);
                     isValid = checkPrimaryDelegate(primaryDelegate, financialSystemUser);
                 }
                 
                 // check to see if current user is a secondary delegate
                 if (!isValid) {
-                    List<AccountDelegate> secondaryDelegates = accountService.getSecondaryDelegationsByExample(currentAccountDelegate, accountingLineTotal);
+                    List<AccountDelegate> secondaryDelegates = getAccountService().getSecondaryDelegationsByExample(currentAccountDelegate, accountingLineTotal);
                     isValid = checkSecondaryDelegates(secondaryDelegates, financialSystemUser);
                 }                                
             }
@@ -147,15 +148,11 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends org.k
      * @return Returns the accountService.
      */
     public AccountService getAccountService() {
+    	if(accountService == null) {
+    		accountService = SpringContext.getBean(AccountService.class);
+    	}
         return accountService;
     }
 
-    /**
-     * Sets the accountService attribute value.
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
 }
 

@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -35,14 +35,17 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
     private static final Logger LOG = Logger.getLogger(PaymentMethodGeneralLedgerPendingEntryServiceImpl.class);
 
     protected static final String DEFAULT_PAYMENT_METHOD_IF_MISSING = "A"; // check/ACH
-    public static final String PRNC = "PRNC";
-    public static final String CMNC = "CMNC";
+    protected static final String PRNC = "PRNC";
+    protected static final String CMNC = "CMNC";
+    protected static final String AP_CREDIT_CARD_BANK_CODE = "0007";
+    protected static final String AP_CREDIT_CARD_PAYMENT_METHOD_CODE = "C";
     
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected ObjectCodeService objectCodeService;
     protected ParameterService parameterService;
     protected BusinessObjectService businessObjectService;
     protected BankService bankService;
+    protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
     
 
     public boolean isPaymentMethodProcessedUsingPdp(String paymentMethodCode) {
@@ -292,11 +295,11 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
                 
                 // Exclude use tax PREQ/CM with AP PCard and Use Tax
                 if ((apOffsetEntry.getFinancialDocumentTypeCode().equals(PRNC) || apOffsetEntry.getFinancialDocumentTypeCode().equals(CMNC)) 
-                        && pm.getPaymentMethodCode().equals("C")) {
-                    PurchasingAccountsPayableDocument papd = (PurchasingAccountsPayableDocument) document;
-                    if (papd.isUseTaxIndicator()) {
-                        apOffsetEntry.setTransactionLedgerEntryAmount(papd.getTotalPreTaxDollarAmount().abs());
-                    }
+                        && pm.getPaymentMethodCode().equals(AP_CREDIT_CARD_PAYMENT_METHOD_CODE)) {
+                	if (getPurchasingAccountsPayableModuleService().hasUseTax(document.getDocumentHeader().getDocumentNumber())) {
+                        KualiDecimal totalPreTaxDollarAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
+                        apOffsetEntry.setTransactionLedgerEntryAmount(totalPreTaxDollarAmount);
+                	}
                 }
                    
                 document.addPendingEntry(apOffsetEntry);
@@ -329,7 +332,7 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
         // Overage amounts are posting to the wrong account
         // After a similar problem was experienced with Unit Price Overage corrections, it was
         // decided that a PRNC with bank 0007 (AP Credit Card) should never create bank offsets 
-        if (documentTypeCode.equals(PRNC) && bankCode.equals("0007")) {
+        if (documentTypeCode.equals(PRNC) && bankCode.equals(AP_CREDIT_CARD_BANK_CODE)) {
         	return success;
         }
         
@@ -338,22 +341,21 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
         if ( bankOffsetAmount == null ) {
             // When it's a use tax PRNC or CMNC, create the bank offset for the total pre tax amount.
             if(PRNC.equals(documentTypeCode) || CMNC.equals(documentTypeCode)) {
-                PurchasingAccountsPayableDocument papd = (PurchasingAccountsPayableDocument) document;
-                if(papd.isUseTaxIndicator()) {
-                    if(PRNC.equals(documentTypeCode)) {
-			if (reverseCharge) {
-			    bankOffsetAmount = papd.getTotalPreTaxDollarAmount();
-			} else {
-			    bankOffsetAmount = papd.getTotalPreTaxDollarAmount().negated();
-			}
-                    } else if (CMNC.equals(documentTypeCode)) {
-			if (reverseCharge) {
-			    bankOffsetAmount = papd.getTotalPreTaxDollarAmount().negated();
-			} else {
-			    bankOffsetAmount = papd.getTotalPreTaxDollarAmount();
-			}
-                    }
-                }
+	            if (getPurchasingAccountsPayableModuleService().hasUseTax(document.getDocumentHeader().getDocumentNumber())) {
+	            	if(PRNC.equals(documentTypeCode)) {
+	            		if (reverseCharge) {
+	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
+	            		} else {
+	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber()).negated();
+	            		}
+	            	} else if (CMNC.equals(documentTypeCode)) {
+	            		if (reverseCharge) {
+	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber()).negated();
+	            		} else {
+	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
+	            		}
+	            	}
+	            }
             }
             
             if(bankOffsetAmount == null) {
@@ -391,6 +393,10 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
         return generalLedgerPendingEntryService;
     }
     
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+    	this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
+    }
+    
     protected ObjectCodeService getObjectCodeService() {
         if ( objectCodeService == null ) {
             objectCodeService = SpringContext.getBean(ObjectCodeService.class);
@@ -398,11 +404,19 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
         return objectCodeService;
     }
     
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+    	this.objectCodeService = objectCodeService;
+    }
+    
     protected ParameterService getParameterService() {
         if ( parameterService == null ) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+    	this.parameterService = parameterService;
     }
 
     protected BusinessObjectService getBusinessObjectService() {
@@ -412,11 +426,30 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
         return businessObjectService;
     }
     
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+    	this.businessObjectService = businessObjectService;
+    }
+    
     protected BankService getBankService() {
         if ( bankService == null ) {
             bankService = SpringContext.getBean(BankService.class);
         }
         return bankService;
+    }
+    
+    public void setBankService(BankService bankService) {
+    	this.bankService = bankService;
+    }
+    
+    protected PurchasingAccountsPayableModuleService getPurchasingAccountsPayableModuleService() {
+    	if ( purchasingAccountsPayableModuleService == null ) {
+    		purchasingAccountsPayableModuleService = SpringContext.getBean(PurchasingAccountsPayableModuleService.class);
+    	}
+    	return purchasingAccountsPayableModuleService;
+    }
+
+    public void setPurchasingAccountsPayableModuleService(PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService) {
+        this.purchasingAccountsPayableModuleService = purchasingAccountsPayableModuleService;
     }
 }
 

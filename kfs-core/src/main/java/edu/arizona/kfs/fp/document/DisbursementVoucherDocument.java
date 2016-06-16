@@ -25,7 +25,16 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
+
+/**
+ * Document class override to ensure that the bank code is synchronized with the
+ * payment method code.
+ */
+// This annotation is needed to make parameter lookups work properly
+@COMPONENT( component = "DisbursementVoucher" )
 public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument {
 
     public static final String DOCUMENT_TYPE_DV_NON_CHECK = "DVNC";
@@ -178,6 +187,18 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
                     // Ensure the bank code now matches the new payment method code
                     synchronizeBankCodeWithPaymentMethod();
                 }
+            }
+        }
+    }
+    
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        
+        // set the paid date when the DV will not go through PDP 
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (!getPaymentMethodGeneralLedgerPendingEntryService().isPaymentMethodProcessedUsingPdp(getDisbVchrPaymentMethodCode())) {
+                setPaidDate(getDateTimeService().getCurrentSqlDate());                
             }
         }
     }

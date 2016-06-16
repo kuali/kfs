@@ -79,4 +79,16 @@ public class PurchasingAccountsPayableModuleServiceNoOp implements PurchasingAcc
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
+
+	@Override
+	public boolean hasUseTax(String documentNumber) {
+		LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+		return false;
+	}
+
+	@Override
+	public KualiDecimal getTotalPreTaxDollarAmount(String documentNumber) {
+		LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+		return null;
+	}
 }

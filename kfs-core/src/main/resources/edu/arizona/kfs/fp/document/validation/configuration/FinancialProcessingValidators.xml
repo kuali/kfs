@@ -8,6 +8,7 @@
 
 	<bean id="DisbursementVoucher-accountingLineAccessibleValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAccessibleValidation" abstract="true" >
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="accountService" ref="accountService" />
 	</bean>
 	
 </beans>

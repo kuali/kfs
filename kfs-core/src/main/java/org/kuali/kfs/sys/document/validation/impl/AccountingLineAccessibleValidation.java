@@ -37,10 +37,7 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.*;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -58,7 +55,10 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * Indicates what is being done to an accounting line. This allows the same method to be used for different actions.
      */
     public enum AccountingLineAction {
-        ADD(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD), DELETE(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE), UPDATE(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+        ADD(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD),
+        DELETE(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE),
+        UPDATE(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE),
+        REVIEW(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_REVIEW);
 
         public final String accessibilityErrorKey;
 
@@ -199,6 +199,8 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
             return AccountingLineAction.UPDATE.accessibilityErrorKey;
         } else if (event instanceof DeleteAccountingLineEvent) {
             return AccountingLineAction.DELETE.accessibilityErrorKey;
+        } else if (event instanceof ReviewAccountingLineEvent) {
+            return AccountingLineAction.REVIEW.accessibilityErrorKey;
         } else {
             return "";
         }

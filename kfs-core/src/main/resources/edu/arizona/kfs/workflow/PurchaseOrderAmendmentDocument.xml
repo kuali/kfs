@@ -27,6 +27,7 @@
           <status>Disapproved Commodity Code</status>
           <status>Disapproved Purchasing</status>
           <status>Disapproved Tax</status>
+          <status>Disapproved Object Sub-Type</status>
           <status>Open</status>
           <status>Pending Amendment</status>
           <status>Pending Close</status>
@@ -48,6 +49,7 @@
           <status>Awaiting C and G Approval</status>
           <status>Awaiting Budget Approval</status>
           <status>Awaiting Tax Approval</status>
+          <status>Awaiting Object Sub-Type</status>
           <status>Error occurred sending cxml</status>
           <status>Error occurred sending fax</status>
           <status>Out for Quote</status>

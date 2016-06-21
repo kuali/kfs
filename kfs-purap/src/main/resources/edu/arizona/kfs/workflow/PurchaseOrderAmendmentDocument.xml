@@ -17,8 +17,8 @@
       <routingVersion>2</routingVersion>
       <validApplicationStatuses>
         <category name="COMPLETE STATUSES">
-          <status>Cancelled</status>
-          <status>Cancelled Change</status>
+          <status>Canceled</status>
+          <status>Canceled Change</status>
           <status>Change in Process</status>
           <status>Closed</status>
           <status>Disapproved Budget</status>

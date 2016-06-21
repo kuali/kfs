@@ -91,4 +91,5 @@ public interface PurchasingAccountsPayableModuleService {
      */
     public KualiDecimal getTotalPaidAmountToRequisitions(List<String> documentNumbers);
 
+    public List<String> findPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber);
 }

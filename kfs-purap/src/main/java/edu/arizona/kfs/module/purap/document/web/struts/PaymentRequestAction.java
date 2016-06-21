@@ -59,7 +59,6 @@ public class PaymentRequestAction extends org.kuali.kfs.module.purap.document.we
         if (PurapConstants.PREQ_DUPLICATE_DV_QUESTION.equals(question)) {
             if (ConfirmationQuestion.NO.equals(buttonClicked)) {
                 paymentRequestDocument.getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
-                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.INVOICE_NUMBER, PurapKeyConstants.MESSAGE_PREQ_DUPLICATE_DV_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             } else {
                 return null;
@@ -69,7 +68,7 @@ public class PaymentRequestAction extends org.kuali.kfs.module.purap.document.we
         PaymentRequestDocument preq = ((PaymentRequestForm) form).getPaymentRequestDocument();
         ArrayList<String> matchingDVs = findMatchingDisbursementVouchersWithInvoiceNumber(preq);
         if (matchingDVs != null && !matchingDVs.isEmpty()) {
-            String questionText = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_DUPLICATE_INVOICE);
+            String questionText = getConfigurationService().getPropertyValueAsString(PurapKeyConstants.MESSAGE_PREQ_DUPLICATE_DV_INVOICE);
 
             String args = toCommaDelimitedString(matchingDVs);
             questionText = MessageFormat.format(questionText, args);

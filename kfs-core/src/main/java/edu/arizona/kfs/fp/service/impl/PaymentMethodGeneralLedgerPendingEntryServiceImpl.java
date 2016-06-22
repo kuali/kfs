@@ -14,6 +14,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
@@ -22,8 +23,8 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.businessobject.PaymentMethodChart;
@@ -42,7 +43,7 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
     
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected ObjectCodeService objectCodeService;
-    protected ParameterService parameterService;
+    protected OptionsService optionsService;
     protected BusinessObjectService businessObjectService;
     protected BankService bankService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
@@ -138,6 +139,8 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
     protected boolean generateFeeAssessmentEntries(PaymentMethod pm, AccountingDocument document, GeneralLedgerPendingEntry templatePendingEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean reverseEntries) {
         LOG.debug("generateForeignDraftChargeEntries started");
         
+        Integer fiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
+        SystemOptions options = optionsService.getOptions(fiscalYear);
         PaymentMethodChart pmc = pm.getPaymentMethodChartInfo(templatePendingEntry.getChartOfAccountsCode(), new java.sql.Date( document.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate().getTime()));
         if ( pmc == null ) {
             LOG.warn( "No Applicable PaymentMethodChart found for chart: " + templatePendingEntry.getChartOfAccountsCode() + " and date: " + document.getDocumentHeader().getWorkflowDocument().getDateCreated() );
@@ -160,7 +163,7 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
             chargeEntry.setFinancialObjectCode(feeExpenseObjectCode);
             chargeEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
             chargeEntry.setTransactionLedgerEntryDescription( StringUtils.left( "Automatic debit for " + pm.getPaymentMethodName() + " fee", 40 ));
-            chargeEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            chargeEntry.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
     
             // retrieve object type
             ObjectCode objectCode = getObjectCodeService().getByPrimaryIdForCurrentYear(chargeEntry.getChartOfAccountsCode(), chargeEntry.getFinancialObjectCode());
@@ -205,7 +208,7 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
             feeIncomeEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());       
             feeIncomeEntry.setTransactionLedgerEntryAmount(feeAmount);
             feeIncomeEntry.setTransactionDebitCreditCode(reverseEntries?GL_DEBIT_CODE:GL_CREDIT_CODE);
-            feeIncomeEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            feeIncomeEntry.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
     
             document.addPendingEntry(feeIncomeEntry);
             sequenceHelper.increment();
@@ -230,9 +233,11 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
     protected Map<String,KualiDecimal> getNonOffsetActualTotalsByChart(GeneralLedgerPostingDocument glPostingDocument) {
+    	Integer fiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
+        SystemOptions options = optionsService.getOptions(fiscalYear);
         Map<String,KualiDecimal> totals = new HashMap<String, KualiDecimal>();
         for (GeneralLedgerPendingEntry glpe : glPostingDocument.getGeneralLedgerPendingEntries()) {
-            if ( KFSConstants.BALANCE_TYPE_ACTUAL.equals(glpe.getFinancialBalanceTypeCode()) ) {
+            if ( options.getActualFinancialBalanceTypeCd().equals(glpe.getFinancialBalanceTypeCode()) ) {
                 if ( !glpe.isTransactionEntryOffsetIndicator() ) {
                     if ( !totals.containsKey(glpe.getChartOfAccountsCode() ) ) {
                         totals.put(glpe.getChartOfAccountsCode(), KualiDecimal.ZERO);
@@ -255,7 +260,10 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
      * @param sequenceHelper helper class to keep track of GLPE sequence
      */
     public boolean generateClearingAccountOffsetEntries(PaymentMethod pm, AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, Map<String,KualiDecimal> actualTotalsByChart) {
-        if ( actualTotalsByChart == null ) {
+    	Integer fiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
+        SystemOptions options = optionsService.getOptions(fiscalYear);
+        
+    	if ( actualTotalsByChart == null ) {
             actualTotalsByChart = getNonOffsetActualTotalsByChart(document);
         }
 
@@ -291,14 +299,14 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
                 apOffsetEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
                 apOffsetEntry.setTransactionLedgerEntryAmount(offsetAmount.abs());
                 apOffsetEntry.setTransactionDebitCreditCode(offsetAmount.isNegative()?KFSConstants.GL_DEBIT_CODE:KFSConstants.GL_CREDIT_CODE);
-                apOffsetEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+                apOffsetEntry.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
                 
                 // Exclude use tax PREQ/CM with AP PCard and Use Tax
                 if ((apOffsetEntry.getFinancialDocumentTypeCode().equals(PRNC) || apOffsetEntry.getFinancialDocumentTypeCode().equals(CMNC)) 
                         && pm.getPaymentMethodCode().equals(AP_CREDIT_CARD_PAYMENT_METHOD_CODE)) {
                 	if (getPurchasingAccountsPayableModuleService().hasUseTax(document.getDocumentHeader().getDocumentNumber())) {
                         KualiDecimal totalPreTaxDollarAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
-                        apOffsetEntry.setTransactionLedgerEntryAmount(totalPreTaxDollarAmount);
+                        apOffsetEntry.setTransactionLedgerEntryAmount(totalPreTaxDollarAmount.abs());
                 	}
                 }
                    
@@ -342,17 +350,18 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
             // When it's a use tax PRNC or CMNC, create the bank offset for the total pre tax amount.
             if(PRNC.equals(documentTypeCode) || CMNC.equals(documentTypeCode)) {
 	            if (getPurchasingAccountsPayableModuleService().hasUseTax(document.getDocumentHeader().getDocumentNumber())) {
+	            	KualiDecimal totalPreTaxDollarAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
 	            	if(PRNC.equals(documentTypeCode)) {
 	            		if (reverseCharge) {
-	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
+	            			bankOffsetAmount = totalPreTaxDollarAmount;
 	            		} else {
-	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber()).negated();
+	            			bankOffsetAmount = totalPreTaxDollarAmount.negated();
 	            		}
 	            	} else if (CMNC.equals(documentTypeCode)) {
 	            		if (reverseCharge) {
-	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber()).negated();
+	            			bankOffsetAmount = totalPreTaxDollarAmount.negated();
 	            		} else {
-	            			bankOffsetAmount = getPurchasingAccountsPayableModuleService().getTotalPreTaxDollarAmount(document.getDocumentHeader().getDocumentNumber());
+	            			bankOffsetAmount = totalPreTaxDollarAmount;
 	            		}
 	            	}
 	            }
@@ -408,15 +417,8 @@ public class PaymentMethodGeneralLedgerPendingEntryServiceImpl implements Paymen
     	this.objectCodeService = objectCodeService;
     }
     
-    protected ParameterService getParameterService() {
-        if ( parameterService == null ) {
-            parameterService = SpringContext.getBean(ParameterService.class);
-        }
-        return parameterService;
-    }
-    
-    public void setParameterService(ParameterService parameterService) {
-    	this.parameterService = parameterService;
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 
     protected BusinessObjectService getBusinessObjectService() {

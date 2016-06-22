@@ -18,14 +18,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 
@@ -33,11 +32,10 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
  * Document class override to ensure that the bank code is synchronized with the
  * payment method code.
  */
-// This annotation is needed to make parameter lookups work properly
-@COMPONENT( component = "DisbursementVoucher" )
 public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument {
 
     public static final String DOCUMENT_TYPE_DV_NON_CHECK = "DVNC";
+    public static final String BANK = "bank";
     
     private static final long serialVersionUID = 8820340507728738505L;
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
@@ -48,8 +46,8 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         LOG.debug("DisbursementVoucherDocument.prepareForSave()");
         super.prepareForSave();
 
-        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
-        DocumentAuthorizer docAuth = documentHelperService.getDocumentAuthorizer(this);
+        DocumentDictionaryService documentDictionaryService = SpringContext.getBean(DocumentDictionaryService.class);
+        DocumentAuthorizer docAuth = documentDictionaryService.getDocumentAuthorizer(this);
 
         // First, only do this if the document is in initiated status - after that, we don't want to 
         // accidentally reset the bank code
@@ -59,16 +57,16 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             // if so, don't synchronize since we can't tell whether the value coming in
             // was entered by the user or not.        
             if ( !docAuth.isAuthorizedByTemplate(this, 
-                    KFSConstants.ParameterNamespaces.KFS, 
+                    KFSConstants.CoreModuleNamespaces.KFS, 
                     KFSConstants.PermissionTemplate.EDIT_BANK_CODE.name, 
                     GlobalVariables.getUserSession().getPrincipalId()  ) ) {
                 synchronizeBankCodeWithPaymentMethod();        
             } else {
-                refreshReferenceObject( "bank" );
+                refreshReferenceObject( BANK );
             }
         } 
         else{           
-            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(this);
+            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentDictionaryService.getDocumentPresentationController(this);
             if(presentationController.getEditModes(this).contains(KFSConstants.Authorization.PAYMENT_METHOD_EDIT_MODE)){
                 synchronizeBankCodeWithPaymentMethod();
             }
@@ -88,7 +86,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         if ( bank != null ) {
             if ( !StringUtils.equals(bank.getBankCode(), getDisbVchrBankCode()) ) {
                 setDisbVchrBankCode(bank.getBankCode());
-                refreshReferenceObject( "bank" );
+                refreshReferenceObject( BANK );
             }
         } else {
             // no bank code, no bank needed

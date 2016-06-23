@@ -91,4 +91,10 @@ public class PurchasingAccountsPayableModuleServiceNoOp implements PurchasingAcc
 		LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
 		return null;
 	}
+    
+    @Override
+    public List<String> findPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
+    	LOG.warn( "Using No-op " + getClass().getSimpleName() + " service. " );
+    	return Collections.emptyList();
+    }
 }

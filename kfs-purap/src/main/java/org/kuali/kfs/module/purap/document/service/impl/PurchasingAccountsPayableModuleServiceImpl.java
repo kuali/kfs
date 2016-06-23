@@ -64,7 +64,19 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     protected PurapService purapService;
     protected DocumentService documentService;
     protected BusinessObjectService businessObjectService;
+    protected PaymentRequestService paymentRequestService;
 
+	public List<String> findPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
+		List<String> preqDocumentNumbers = new ArrayList<String>();
+		List<PaymentRequestDocument> preqDocuments = getPaymentRequestService().getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
+		
+		for(PaymentRequestDocument preqDocument : preqDocuments) {
+			preqDocumentNumbers.add(preqDocument.getDocumentNumber());
+		}
+		
+		return preqDocumentNumbers;
+	}
+    
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer,
      *      java.util.List)
@@ -292,6 +304,14 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     	}
     	return totalPreTaxDollarAmount;
     }
+    
+    public PaymentRequestService getPaymentRequestService() {
+		if(paymentRequestService == null) {
+			paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
+		}
+		
+		return paymentRequestService;
+	}
 
 }
 

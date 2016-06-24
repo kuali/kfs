@@ -58,7 +58,7 @@ public class PaymentRequestAction extends org.kuali.kfs.module.purap.document.we
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         if (PurapConstants.PREQ_DUPLICATE_DV_QUESTION.equals(question)) {
             if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                paymentRequestDocument.getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+            	paymentRequestDocument.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             } else {
                 return null;

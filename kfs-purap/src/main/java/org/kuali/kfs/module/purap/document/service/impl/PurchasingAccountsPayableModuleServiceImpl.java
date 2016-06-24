@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,14 +26,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -267,6 +273,36 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    @Override
+    public boolean hasUseTax(String documentNumber) {
+    	boolean hasUseTax = false;
+    	try {
+	    	PurchasingAccountsPayableDocument papd = (PurchasingAccountsPayableDocument) documentService.getByDocumentHeaderId(documentNumber);
+	    	if (ObjectUtils.isNotNull(papd)) {
+	    		if (papd.isUseTaxIndicator()) {
+	    			hasUseTax = true;
+	    		}
+	    	}
+    	} catch(WorkflowException e) {
+    		throw new RuntimeException("A workflow exception was thrown when trying to retrieve document [" + documentNumber + "].", e);
+    	}
+    	return hasUseTax;
+    }
+    
+    @Override
+    public KualiDecimal getTotalPreTaxDollarAmount(String documentNumber) {
+    	KualiDecimal totalPreTaxDollarAmount = KualiDecimal.ZERO;
+    	try {
+	    	PurchasingAccountsPayableDocument papd = (PurchasingAccountsPayableDocument) documentService.getByDocumentHeaderId(documentNumber);
+	    	if (ObjectUtils.isNotNull(papd)) {
+	    		totalPreTaxDollarAmount = papd.getTotalPreTaxDollarAmount();
+	    	}
+    	} catch(WorkflowException e) {
+    		throw new RuntimeException("A workflow exception was thrown when trying to retrieve document [" + documentNumber + "].", e);	
+    	}
+    	return totalPreTaxDollarAmount;
     }
     
     public PaymentRequestService getPaymentRequestService() {

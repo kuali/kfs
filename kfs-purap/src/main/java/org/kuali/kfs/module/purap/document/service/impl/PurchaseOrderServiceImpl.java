@@ -1902,37 +1902,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseFullyDisencumberedOrders()
-     */
-    @Override
-    public boolean autoCloseFullyDisencumberedOrders() {
-        LOG.debug("autoCloseFullyDisencumberedOrders() started");
-
-        List<AutoClosePurchaseOrderView> autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
-
-        // we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
-        // KFSMI-7533
-        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(autoCloseList);
-
-        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
-            if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
-                LOG.info("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
-                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
-                String annotation = "This PO was automatically closed in batch.";
-                String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-                PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
-                createNoteForAutoCloseOrders(document, annotation);
-                createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
-
-            }
-        }
-
-        LOG.debug("autoCloseFullyDisencumberedOrders() ended");
-
-        return true;
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseRecurringOrders()
      */
     @Override
@@ -2199,7 +2168,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
      * @param annotation The string to appear on the note to be attached to the purchase order.
      */
-    protected void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
+    public void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
             // documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
@@ -2210,6 +2179,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.error("createNoteForAutoCloseRecurringOrders " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }
+    }
+
+    @Override
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrdersForAutoClose() {
+        return purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
     }
 
     /**

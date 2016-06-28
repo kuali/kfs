@@ -31,10 +31,10 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     private String institutionalFringeAccountExt;
 
     // Helper Objects
-    private transient volatile BudgetShellCode budgetShell;
-    private transient volatile CrossOrganizationCode crossOrganization;
-    private transient volatile FACostSubCategory faCostSubCategory;    // FA Subcategory Object
-    private transient volatile TaxRegion taxRegionObj;
+    private BudgetShellCode budgetShell;
+    private CrossOrganizationCode crossOrganization;
+    private FACostSubCategory faCostSubCategory;    // FA Subcategory Object
+    private TaxRegion taxRegionObj;
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -105,15 +105,11 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     }
 
     public FACostSubCategory getFaCostSubCategory() {
-    	if (faCostSubCategory == null || !StringUtils.equals(faCostSubCategory.getFaCostSubCatCode(), faCostSubCatCode)) {
-    		faCostSubCategory = getBusinessObjectService().findBySinglePrimaryKey(FACostSubCategory.class, faCostSubCatCode);
-        }
     	return faCostSubCategory;
     }
     
     public void setFaCostSubCategory(FACostSubCategory faCostSubCategory) {
     	this.faCostSubCategory = faCostSubCategory;
-    	setFaCostSubCatCode(faCostSubCategory.getFaCostSubCatCode());
     }
 
     public String getInstitutionalFringeCoaCodeExt() {
@@ -133,27 +129,19 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     }
 
     public BudgetShellCode getBudgetShell() {
-        if (budgetShell == null || !StringUtils.equals(budgetShell.getBudgetShellCode(), budgetShellCode)) {
-            budgetShell = getBusinessObjectService().findBySinglePrimaryKey(BudgetShellCode.class, budgetShellCode);
-        }
         return budgetShell;
     }
 
     public void setBudgetShell(BudgetShellCode budgetShell) {
         this.budgetShell = budgetShell;
-        setBudgetShellCode(budgetShell.getBudgetShellCode());
     }
 
     public CrossOrganizationCode getCrossOrganization() {
-        if (crossOrganization == null || !StringUtils.equals(crossOrganization.getCrossOrganizationCode(), crossOrganizationCode)) {
-            crossOrganization = getBusinessObjectService().findBySinglePrimaryKey(CrossOrganizationCode.class, crossOrganizationCode);
-        }
         return crossOrganization;
     }
 
     public void setCrossOrganization(CrossOrganizationCode crossOrganization) {
         this.crossOrganization = crossOrganization;
-        setCrossOrganizationCode(crossOrganization.getCrossOrganizationCode());
     }
 
     protected BusinessObjectService getBusinessObjectService() {

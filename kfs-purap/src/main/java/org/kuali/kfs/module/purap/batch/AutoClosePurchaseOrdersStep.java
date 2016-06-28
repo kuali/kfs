@@ -20,7 +20,7 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.batch.service.AutoClosePurchaseOrderService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -30,7 +30,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
  */
 public class AutoClosePurchaseOrdersStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoClosePurchaseOrdersStep.class);
-    private PurchaseOrderService purchaseOrderService;
+    private AutoClosePurchaseOrderService autoClosePurchaseOrderService;
 
     public AutoClosePurchaseOrdersStep() {
         super();
@@ -42,7 +42,7 @@ public class AutoClosePurchaseOrdersStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return purchaseOrderService.autoCloseFullyDisencumberedOrders();
+        return getAutoClosePurchaseOrderService().autoCloseFullyDisencumberedOrders();
     }
 
     /**
@@ -65,8 +65,12 @@ public class AutoClosePurchaseOrdersStep extends AbstractStep {
         }
     }
 
-    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-        this.purchaseOrderService = purchaseOrderService;
+    public AutoClosePurchaseOrderService getAutoClosePurchaseOrderService() {
+        return autoClosePurchaseOrderService;
+    }
+
+    public void setAutoClosePurchaseOrderService(AutoClosePurchaseOrderService autoClosePurchaseOrderService) {
+        this.autoClosePurchaseOrderService = autoClosePurchaseOrderService;
     }
 
 }

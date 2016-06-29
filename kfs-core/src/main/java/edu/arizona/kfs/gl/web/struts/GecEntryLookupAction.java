@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,9 +35,9 @@ import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRuleConstants;
-import edu.arizona.kfs.gl.businessobject.EntryLiteBo;
-import edu.arizona.kfs.gl.businessobject.lookup.EntryLiteBoHelperServiceImpl;
+import edu.arizona.kfs.gl.GeneralLedgerConstants;
+import edu.arizona.kfs.gl.businessobject.GecEntry;
+import edu.arizona.kfs.gl.businessobject.lookup.GecEntryHelperServiceImpl;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 /**
@@ -91,46 +92,77 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return businessObjectService;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected Collection<EntryLiteBo> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
-        Collection<EntryLiteBo> c = super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
+    protected Collection<GecEntry> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
+        super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
+        Collection<GecEntry> list = filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return list;
+    }
+
+    protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.selectAll(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+    @Override
+    protected List<ResultRow> unselectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.unselectAll(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+    @Override
+    protected List<ResultRow> switchToPage(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.switchToPage(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+    @Override
+    protected List<ResultRow> sort(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.sort(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Collection<GecEntry> filterResults(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage) {
+        Collection<GecEntry> c = (Collection<GecEntry>) multipleValueLookupForm.getLookupable().performLookup(multipleValueLookupForm, new ArrayList<ResultRow>(), true);
         if (c == null || c.isEmpty()) {
             LOG.debug("No results found.");
-            return new ArrayList<EntryLiteBo>();
+            return new ArrayList<GecEntry>();
         }
 
-        List<EntryLiteBo> entries = new ArrayList<EntryLiteBo>(c);
-        List<EntryLiteBo> entriesToRemove = new ArrayList<EntryLiteBo>();
-        List<EntryLiteBo> entriesToDisable = new ArrayList<EntryLiteBo>();
+        List<GecEntry> entries = new ArrayList<GecEntry>(c);
+        List<GecEntry> entriesToRemove = new ArrayList<GecEntry>();
+        List<GecEntry> entriesToDisable = new ArrayList<GecEntry>();
 
-        for (EntryLiteBo e : entries) {
+        for (GecEntry e : entries) {
             boolean removeEntry = removeEntry(e);
-            boolean disableEntry = disableEntry(e);
             if (removeEntry) {
                 entriesToRemove.add(e);
             }
+        }
+        removeRecords(entriesToRemove, entries, resultTable);
+
+        for (GecEntry e : entries) {
+            if (e.getGecDocumentNumber() == null) {
+                String gecDocumentNumber = GecEntryHelperServiceImpl.findGecDocumentNumber(e.getDocumentNumber());
+                e.setGecDocumentNumber(gecDocumentNumber);
+            }
+            boolean disableEntry = disableEntry(e);
             if (disableEntry) {
                 entriesToDisable.add(e);
             }
         }
-
-        removeRecords(entriesToRemove, entries, resultTable);
         disableRecords(entriesToDisable, resultTable, multipleValueLookupForm);
-        EntryLiteBoHelperServiceImpl.addInquiryLinksToRecords(resultTable);
+
+        GecEntryHelperServiceImpl.addInquiryLinksToRecords(resultTable);
+
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
 
-        Map<String, String> displayedEntryIds = generateEntryIdMap(entries);
-        multipleValueLookupForm.setCompositeObjectIdMap(displayedEntryIds);
         return entries;
-    }
-
-    private Map<String, String> generateEntryIdMap(List<EntryLiteBo> entries) {
-        Map<String, String> retval = new HashMap<String, String>();
-        for (EntryLiteBo entry : entries) {
-            retval.put(entry.getEntryId(), entry.getEntryId());
-        }
-        return retval;
     }
 
     @Override
@@ -165,43 +197,160 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
      * @param entry
      * @return
      */
-    private boolean removeEntry(EntryLiteBo entry) {
+    protected boolean removeEntry(GecEntry entry) {
         LOG.debug("Determining if entry should be removed: " + entry.toString());
-        ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
 
-        // GEC Validation
-        boolean objectTypeValid = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES, entry.getFinancialObjectTypeCode()).evaluationSucceeds();
-        boolean objectTypeValidBySubType = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, GeneralErrorCorrectionDocumentRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
-        boolean objectSubTypeValid = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES, code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
-        boolean documentTypeValid = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.DOCUMENT_TYPES, entry.getFinancialDocumentTypeCode()).evaluationSucceeds();
-        boolean originationCodeValid = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.ORIGIN_CODES, entry.getFinancialSystemOriginationCode()).evaluationSucceeds();
-
-        if (!objectTypeValid || !objectTypeValidBySubType || !objectSubTypeValid || !documentTypeValid || !originationCodeValid) {
-            LOG.debug("objectTypeValid=" + objectTypeValid + "; objectTypeValidBySubType=" + objectTypeValidBySubType + "; objectSubTypeValid=" + objectSubTypeValid + "; documentTypeValid=" + documentTypeValid + "; originationCodeValid=" + originationCodeValid);
+        // Valid Entry lookup criteria
+        boolean checkLookupFields = checkLookupFields(entry);
+        if (checkLookupFields == true) {
+            LOG.debug("Entry not valid by the lookup field values specifications.");
             return true;
         }
 
+        // Parameter Based Validation
+        boolean checkParameters = checkParameters(entry);
+        if (checkParameters == true) {
+            LOG.debug("Entry not valid by the parameters");
+            return true;
+        }
         // Exclude offset entries.
-        List<Bank> bankAccountList = (List<Bank>) getLookupService().findCollectionBySearchUnbounded(Bank.class, new HashMap<String, String>());
-        boolean isOffsetDescription = KFSConstants.GL_PE_OFFSET_STRING.equalsIgnoreCase(entry.getTransactionLedgerEntryDescription());
-        boolean isOffsetAccountEntry = isOffsetAccountEntry(bankAccountList, entry);
-        if (isOffsetDescription || isOffsetAccountEntry) {
-            LOG.debug("offsetDescription=[" + isOffsetDescription + ", " + entry.getTransactionLedgerEntryDescription() + "]; isOffsetAccountEntry=[" + isOffsetAccountEntry + ", " + entry.getAccountNumber() + "]");
-            return true;
-        }
-
-        // Entry lookup criteria
-        boolean balanceTypeValid = getSystemOptions().getActualFinancialBalanceTypeCd().equals(entry.getFinancialBalanceTypeCode());
-        boolean entryAmoutIsZero = entry.getTransactionLedgerEntryAmount().isZero();
-        if (!balanceTypeValid || entryAmoutIsZero) {
-            LOG.debug("balanceTypeValid=" + balanceTypeValid + "; entryAmoutIsZero=" + entryAmoutIsZero);
+        boolean checkOffset = checkOffset(entry);
+        if (checkOffset == true) {
+            LOG.debug("Entry not valid because it is an offset.");
             return true;
         }
 
         return false;
     }
 
-    private boolean isOffsetAccountEntry(List<Bank> bankAccountList, EntryLiteBo entry) {
+    protected boolean checkLookupFields(GecEntry entry) {
+        boolean isFiscalYearValid = isFiscalYearValid(entry);
+        if (isFiscalYearValid == false) {
+            LOG.debug("Fiscal Year not valid per Specifications.");
+            return true;
+        }
+
+        boolean isbalanceTypeValid = getSystemOptions().getActualFinancialBalanceTypeCd().equals(entry.getFinancialBalanceTypeCode());
+        if (isbalanceTypeValid == false) {
+            LOG.debug("Balance Type Code not valid per Specifications.");
+            return true;
+        }
+
+        boolean isEntryAmoutIsZero = entry.getTransactionLedgerEntryAmount().isZero();
+        if (isEntryAmoutIsZero == true) {
+            LOG.debug("Entry Amount not valid per Specifications.");
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isFiscalYearValid(GecEntry entry) {
+        boolean isFiscalYearValid = getSystemOptions().getUniversityFiscalYear().toString().equals(entry.getUniversityFiscalYear().toString());
+        return isFiscalYearValid;
+    }
+
+    protected boolean checkParameters(GecEntry entry) {
+        boolean isObjectTypeValid = isObjectTypeValid(entry);
+        if (!isObjectTypeValid) {
+            LOG.debug("isObjectTypeValid=" + isObjectTypeValid);
+            return true;
+        }
+
+        boolean isObjectSubTypeValid = isObjectSubTypeValid(entry);
+        if (!isObjectSubTypeValid) {
+            LOG.debug("isObjectSubTypeValid=" + isObjectSubTypeValid);
+            return true;
+        }
+
+        boolean isObjectTypeValidBySubType = isObjectTypeValidBySubType(entry);
+        if (!isObjectTypeValidBySubType) {
+            LOG.debug("isObjectTypeValidBySubType=" + isObjectTypeValidBySubType);
+            return true;
+        }
+
+        boolean isDocumentTypeValid = isDocumentTypeValid(entry);
+        if (!isDocumentTypeValid) {
+            LOG.debug("isDocumentTypeValid=" + isDocumentTypeValid);
+            return true;
+        }
+
+        boolean isOriginationCodeValid = isOriginationCodeValid(entry);
+        if (!isOriginationCodeValid) {
+            LOG.debug("isOriginationCodeValid=" + isOriginationCodeValid);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean isObjectTypeValid(GecEntry entry) {
+        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_TYPE_CODES, entry.getFinancialObjectTypeCode()).evaluationSucceeds();
+        return retval;
+    }
+
+    protected boolean isObjectSubTypeValid(GecEntry entry) {
+        ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_SUB_TYPE_CODES, code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
+        return retval;
+    }
+
+    protected boolean isObjectTypeValidBySubType(GecEntry entry) {
+        ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
+        return retval;
+    }
+
+    protected boolean isDocumentTypeValid(GecEntry entry) {
+        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.DOCUMENT_TYPES, entry.getFinancialDocumentTypeCode()).evaluationSucceeds();
+        return retval;
+    }
+
+    protected boolean isOriginationCodeValid(GecEntry entry) {
+        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.ORIGIN_CODES, entry.getFinancialSystemOriginationCode()).evaluationSucceeds();
+        return retval;
+    }
+
+    /**
+     * This method checks the entry to see if it is an Offset entry, and therefore should not be listed in the search results.
+     * 
+     * @param entry
+     * @return true if the entry should be removed from the search results.
+     */
+    protected boolean checkOffset(GecEntry entry) {
+        boolean isOffsetDefinition = isOffsetDefinition(entry);
+        if (isOffsetDefinition) {
+            LOG.debug("isOffsetDefinition=" + isOffsetDefinition);
+            return true;
+        }
+
+        boolean isOffsetAccountEntry = isOffsetAccountEntry(entry);
+        if (isOffsetAccountEntry) {
+            LOG.debug("isOffsetAccountEntry=" + isOffsetAccountEntry);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean isOffsetDefinition(GecEntry entry) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, entry.getUniversityFiscalYear().toString());
+        primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
+        primaryKeys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, entry.getFinancialDocumentTypeCode());
+        primaryKeys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, entry.getFinancialBalanceTypeCode());
+        OffsetDefinition offsetDefinition = getBusinessObjectService().findByPrimaryKey(OffsetDefinition.class, primaryKeys);
+        if (offsetDefinition == null || offsetDefinition.getFinancialObjectCode() == null || entry.getFinancialObjectCode() == null) {
+            return false;
+        }
+        if (offsetDefinition.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isOffsetAccountEntry(GecEntry entry) {
+        List<Bank> bankAccountList = (List<Bank>) getLookupService().findCollectionBySearchUnbounded(Bank.class, new HashMap<String, String>());
         for (Bank bankAccount : bankAccountList) {
             if (bankAccount.getBankAccountNumber().equals(entry.getAccountNumber())) {
                 return true;
@@ -211,13 +360,14 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * Disable the entry selection based on custom logic
+     * Disable the entry selection based on custom logic as defined in the specifications.
      *
      * @param entry
      * @return
      */
-    private boolean disableEntry(EntryLiteBo entry) {
+    private boolean disableEntry(GecEntry entry) {
         LOG.debug("Determining if entry should be disabled: " + entry.toString());
+
         String gecDocumentNumber = entry.getGecDocumentNumber();
         if (StringUtils.isBlank(gecDocumentNumber)) {
             return false;
@@ -253,13 +403,20 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return docHeader.getDocRouteStatus();
     }
 
-    private void removeRecords(List<EntryLiteBo> entriesToRemove, List<EntryLiteBo> entries, List<ResultRow> resultTable) {
-        for (EntryLiteBo entryToRemove : entriesToRemove) {
+    /**
+     * Removes the selected records (listed in entriesToRemove) from the results.
+     * 
+     * @param entriesToRemove
+     * @param entries
+     * @param resultTable
+     */
+    private void removeRecords(List<GecEntry> entriesToRemove, List<GecEntry> entries, List<ResultRow> resultTable) {
+        for (GecEntry entryToRemove : entriesToRemove) {
             entries.remove(entryToRemove);
             Iterator<ResultRow> iter = resultTable.iterator();
             while (iter.hasNext()) {
                 ResultRow currentRow = iter.next();
-                boolean isSameEntry = EntryLiteBoHelperServiceImpl.compareEntryBoToRow(entryToRemove, currentRow);
+                boolean isSameEntry = GecEntryHelperServiceImpl.compareGecEntryToRow(entryToRemove, currentRow);
                 if (isSameEntry) {
                     iter.remove();
                 }
@@ -267,18 +424,25 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         }
     }
 
-    private void disableRecords(List<EntryLiteBo> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
+    /**
+     * Disables the checkbox of the selected records (listed in entriesToDisable) in the results.
+     * 
+     * @param entriesToRemove
+     * @param entries
+     * @param resultTable
+     */
+    private void disableRecords(List<GecEntry> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
         if (entriesToDisable.isEmpty()) {
             LOG.debug("entriesToRemove is Empty");
             return;
         }
-        for (EntryLiteBo entryToDisable : entriesToDisable) {
+        for (GecEntry entryToDisable : entriesToDisable) {
             for (ResultRow row : resultTable) {
-                boolean isSameEntry = EntryLiteBoHelperServiceImpl.compareEntryBoToRow(entryToDisable, row);
+                boolean isSameEntry = GecEntryHelperServiceImpl.compareGecEntryToRow(entryToDisable, row);
                 if (isSameEntry) {
                     row.setReturnUrl(StringUtils.EMPTY);
                     row.setRowReturnable(false);
-                    EntryLiteBoHelperServiceImpl.setFieldValue(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER, entryToDisable.getGecDocumentNumber());
+                    GecEntryHelperServiceImpl.setFieldValue(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER, entryToDisable.getGecDocumentNumber());
                     LOG.debug("gecDocumentNumber=" + entryToDisable.getGecDocumentNumber());
                 }
             }

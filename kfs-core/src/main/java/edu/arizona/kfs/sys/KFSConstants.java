@@ -59,5 +59,9 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
         public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
 
     }
+    
+    public static class Authorization {
+    	public static String PAYMENT_METHOD_EDIT_MODE = "paymentMethodEditMode";
+    }
 
 }

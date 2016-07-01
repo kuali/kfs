@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -25,6 +26,7 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
 
     private static transient volatile DisbursementVoucherInvoiceService disbursementVoucherInvoiceService;
     private static transient volatile ConfigurationService configurationService;
+    private static transient volatile PurchasingAccountsPayableModuleService purapModuleService;
 
     private static DisbursementVoucherInvoiceService getDisbursementVoucherInvoiceService() {
         if (disbursementVoucherInvoiceService == null) {
@@ -45,7 +47,7 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
         boolean result = super.doPrompts(document);
 
         result &= checkDisbursementVoucherInvoiceNumberRequired((DisbursementVoucherDocument) document);
-        result &= checkDisbursementVoucherInvoiceNumberDuplicate((DisbursementVoucherDocument) document);
+        result &= checkInvoiceNumberDuplicate((DisbursementVoucherDocument) document);
 
         return result;
     }
@@ -68,14 +70,36 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
     }
 
     @SuppressWarnings("deprecation")
-    private boolean checkDisbursementVoucherInvoiceNumberDuplicate(DisbursementVoucherDocument document) {
+    private boolean checkInvoiceNumberDuplicate(DisbursementVoucherDocument document) {
 
-        ArrayList<String> matchingDvs = findDVsWithMatchingInvoice(document);
-
-        if (!matchingDvs.isEmpty()) {
+        ArrayList<String> matchingDVs = new ArrayList<String>();
+        ArrayList<String> matchingPreqs = new ArrayList<String>();
+        for (DisbursementVoucherSourceAccountingLine sourceAccountingLine : (List<DisbursementVoucherSourceAccountingLine>) document.getSourceAccountingLines()) {
+            DisbursementVoucherSourceAccountingLineExtension extension = sourceAccountingLine.getExtension();
+            String invoiceNumber = extension.getInvoiceNumber();
+            if (StringUtils.isNotBlank(invoiceNumber)) {
+                ArrayList<String> listDisbursementVouchers = findDisbursementVouchersWithInvoiceNumber(document, invoiceNumber);
+                for (String documentNumber : listDisbursementVouchers) {
+                    if (!documentNumber.equals(document.getDocumentNumber()) && !matchingDVs.contains(documentNumber)) {
+                        matchingDVs.add(documentNumber);
+                    }
+                }
+                
+                List<String> listPaymentRequests = findPaymentRequestsWithInvoiceNumber(document, invoiceNumber);
+                if (listPaymentRequests != null && listPaymentRequests.size() > 0) {
+                	for(String documentNumber : listPaymentRequests) {
+                		if(!documentNumber.equals(document.getDocumentNumber()) && !matchingPreqs.contains(documentNumber)) {
+                			matchingPreqs.add(documentNumber);
+                		}
+                	}
+                }
+            }
+        }
+        
+        if (!matchingDVs.isEmpty() || !matchingPreqs.isEmpty()) {
             String questionText = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_DUPLICATE_INVOICE);
 
-            Object[] args = { toCommaDelimitedString(matchingDvs) };
+            Object[] args = { toCommaDelimitedString(matchingDVs), toCommaDelimitedString(matchingPreqs) };
             questionText = MessageFormat.format(questionText, args);
 
             boolean okToProceed = super.askOrAnalyzeYesNoQuestion(KFSConstants.DUPLICATE_INVOICE_QUESTION_ID, questionText);
@@ -87,29 +111,11 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
         return true;
     }
 
-    private String toCommaDelimitedString(ArrayList<String> matchingDvs) {
-        if (matchingDvs == null || matchingDvs.isEmpty()) {
+    private String toCommaDelimitedString(ArrayList<String> documentIds) {
+        if (documentIds == null || documentIds.isEmpty()) {
             return KFSConstants.NOT_AVAILABLE_STRING;
         }
-        return StringUtils.join(matchingDvs, KFSConstants.COMMA);
-    }
-
-    @SuppressWarnings("unchecked")
-    private ArrayList<String> findDVsWithMatchingInvoice(DisbursementVoucherDocument document) {
-        ArrayList<String> matchingDVs = new ArrayList<String>();
-        for (DisbursementVoucherSourceAccountingLine sourceAccountingLine : (List<DisbursementVoucherSourceAccountingLine>) document.getSourceAccountingLines()) {
-            DisbursementVoucherSourceAccountingLineExtension extension = sourceAccountingLine.getExtension();
-            String invoiceNumber = extension.getInvoiceNumber();
-            if (StringUtils.isNotBlank(invoiceNumber)) {
-                ArrayList<String> listDisbursementVouchers = findDisbursementVouchersWithInvoiceNumber(document, invoiceNumber);
-                for (String documentNumber : listDisbursementVouchers) {
-                    if (!documentNumber.equals(document.getDocumentNumber()) && !matchingDVs.contains(documentNumber)) {
-                        matchingDVs.add(documentNumber);
-                    }
-                }
-            }
-        }
-        return matchingDVs;
+        return StringUtils.join(documentIds, KFSConstants.COMMA);
     }
 
     private ArrayList<String> findDisbursementVouchersWithInvoiceNumber(DisbursementVoucherDocument document, String invoiceNumber) {
@@ -117,4 +123,20 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
         ArrayList<String> listDisbursementVouchers = (ArrayList<String>) getDisbursementVoucherInvoiceService().findDisbursementVouchersWithInvoiceNumber(payeeDetail.getDisbVchrPayeeIdNumber(), payeeDetail.getDisbursementVoucherPayeeTypeCode(), invoiceNumber);
         return listDisbursementVouchers;
     }
+    
+    private List<String> findPaymentRequestsWithInvoiceNumber(DisbursementVoucherDocument document, String invoiceNumber) {
+    	DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
+    	List<String> listPaymentRequests = (List<String>) getPurchasingAccountsPayableModuleService().findPaymentRequestsByVendorNumberInvoiceNumber(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), payeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger(), invoiceNumber);
+    	return listPaymentRequests;
+    }
+    
+    
+    public static PurchasingAccountsPayableModuleService getPurchasingAccountsPayableModuleService() {
+    	if(purapModuleService == null) {
+    		purapModuleService = SpringContext.getBean(PurchasingAccountsPayableModuleService.class);
+    	}
+    	
+    	return purapModuleService;
+    }
+    	
 }

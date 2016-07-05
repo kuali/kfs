@@ -1677,8 +1677,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                     if (!fiscalOfficerIds.contains(principalId)) {
                         fiscalOfficerIds.add(principalId);
+
                         AccountDelegate accountDelegate = getAccountPrimaryDelegate(account);
-                        String accountDelegatePrincipalId = accountDelegate.getAccountDelegateSystemId();
+                        String accountDelegatePrincipalId = null;
+                        if(ObjectUtils.isNotNull(accountDelegate)) {
+                            // Accounts aren't guaranteed to have a delegate
+                            accountDelegatePrincipalId = accountDelegate.getAccountDelegateSystemId();
+                        }
+
                         if (principalIsActive(accountDelegatePrincipalId)) {
                                 String delegateName = getPersonService().getPerson(accountDelegate.getAccountDelegateSystemId()).getPrincipalName();
                                 String annotationText = "Delegation of: " + KFSConstants.CoreModuleNamespaces.KFS  + KFSConstants.BLANK_SPACE + KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME + KFSConstants.BLANK_SPACE + account.getChartOfAccountsCode() + KFSConstants.BLANK_SPACE + account.getAccountNumber() + KFSConstants.BLANK_SPACE + "to principal" + KFSConstants.BLANK_SPACE + delegateName;

@@ -11,7 +11,6 @@ public class GeneralErrorCorrectionForm extends org.kuali.kfs.fp.document.web.st
 
     private Integer universityFiscalYear;
     private String glDocId;
-    protected String lookupResultsSequenceNumber;
     private final String universityFiscalPeriodCodeLookupOverride = "*";
 
     public Integer getUniversityFiscalYear() {
@@ -28,14 +27,6 @@ public class GeneralErrorCorrectionForm extends org.kuali.kfs.fp.document.web.st
 
     public void setGlDocId(String glDocId) {
         this.glDocId = glDocId;
-    }
-
-    public String getLookupResultsSequenceNumber() {
-        return lookupResultsSequenceNumber;
-    }
-
-    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
-        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
     public String getUniversityFiscalPeriodCodeLookupOverride() {

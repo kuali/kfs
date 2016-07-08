@@ -2,6 +2,7 @@ package edu.arizona.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -12,13 +13,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -159,28 +165,68 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
                     SourceAccountingLine line = copyEntryToAccountingLine(entry);
                     insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
                 }
+                // next refresh should not retrieve these objects.
+                gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
             }
         }
 
+        resequenceAccountingLines(gecForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * This method is used to transform a retrieved Entry to a Source Accounting Line, reversing the debit/credit code in the process.
+     * 
+     * @param entry
+     * @return
+     */
     private SourceAccountingLine copyEntryToAccountingLine(Entry entry) {
         SourceAccountingLine retval = new SourceAccountingLine();
         retval.setChartOfAccountsCode(entry.getChartOfAccountsCode());
         retval.setAccountNumber(entry.getAccountNumber());
-        retval.setSubAccountNumber(entry.getSubAccountNumber());
+        if (!entry.getSubAccountNumber().equals(KFSConstants.BLANK_SUBACCOUNT)) {
+            retval.setSubAccountNumber(entry.getSubAccountNumber());
+        }
         retval.setFinancialObjectCode(entry.getFinancialObjectCode());
-        retval.setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
-        retval.setProjectCode(entry.getProjectCode());
+        if (!entry.getFinancialSubObjectCode().equals(KFSConstants.BLANK_SUBOBJECT)) {
+            retval.setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
+        }
+        if (!entry.getProjectCode().equals(KFSConstants.BLANK_PROJECT_CODE)) {
+            retval.setProjectCode(entry.getProjectCode());
+        }
         retval.setOrganizationReferenceId(entry.getOrganizationReferenceId());
         retval.setAmount(entry.getTransactionLedgerEntryAmount());
         retval.setReferenceOriginCode(entry.getFinancialSystemOriginationCode());
         retval.setReferenceNumber(entry.getDocumentNumber());
         retval.setFinancialDocumentLineDescription(entry.getTransactionLedgerEntryDescription());
-        retval.setDebitCreditCode(entry.getTransactionDebitCreditCode());
+        String debitCreditCode = reverseDebitCreditCode(entry.getTransactionDebitCreditCode());
+        retval.setDebitCreditCode(debitCreditCode);
         retval.setBalanceTypeCode(entry.getFinancialBalanceTypeCode());
+        // copy helper objects
+        retval.setChart(entry.getChart());
+        retval.setAccount(entry.getAccount());
+        retval.setObjectCode(entry.getFinancialObject());
+        retval.setReferenceOrigin(entry.getReferenceOriginationCode());
+
+        retval.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        retval.refreshReferenceObject(KFSPropertyConstants.SUB_OBJECT_CODE);
+        retval.refreshReferenceObject(KFSPropertyConstants.PROJECT_CODE);
         return retval;
+    }
+
+    private String reverseDebitCreditCode(String transactionDebitCreditCode) {
+        if (transactionDebitCreditCode.equals(KFSConstants.GL_DEBIT_CODE)) {
+            return KFSConstants.GL_CREDIT_CODE;
+        }
+        if (transactionDebitCreditCode.equals(KFSConstants.GL_CREDIT_CODE)) {
+            return KFSConstants.GL_DEBIT_CODE;
+        }
+        /*
+         * the transaction Debit/Credit Code should always be either Debit (D) or
+         * Credit (C). If for some reason it's not, we're just going to pass
+         * that value back.
+         */
+        return transactionDebitCreditCode;
     }
 
     /**
@@ -206,4 +252,190 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         return retvals;
     }
 
+    /**
+     * Copies content from one accounting line to the other. Ignores Source or Target information.
+     *
+     * @param source
+     *            line to copy from
+     * @param target
+     *            new line to copy data to
+     */
+    protected void copyAccountingLine(AccountingLine source, AccountingLine target) {
+        target.setChartOfAccountsCode(source.getChartOfAccountsCode());
+        target.setAccountNumber(source.getAccountNumber());
+        target.setSubAccountNumber(source.getSubAccountNumber());
+        target.setFinancialObjectCode(source.getFinancialObjectCode());
+        target.setFinancialSubObjectCode(source.getFinancialSubObjectCode());
+        target.setProjectCode(source.getProjectCode());
+        target.setOrganizationReferenceId(source.getOrganizationReferenceId());
+        target.setAmount(source.getAmount());
+        target.setReferenceOriginCode(source.getReferenceOriginCode());
+        target.setReferenceNumber(source.getReferenceNumber());
+        target.setFinancialDocumentLineDescription(source.getFinancialDocumentLineDescription());
+        target.setDebitCreditCode(source.getDebitCreditCode());
+        target.setBalanceTypeCode(source.getBalanceTypeCode());
+        // copy helper objects
+        target.setChart(source.getChart());
+        target.setAccount(source.getAccount());
+        target.setSubAccount(source.getSubAccount());
+        target.setObjectCode(source.getObjectCode());
+        target.setSubObjectCode(source.getSubObjectCode());
+        target.setProject(source.getProject());
+        target.setReferenceOrigin(source.getReferenceOrigin());
+    }
+
+    /**
+     * Copies content from one accounting line to the other, but reverses debit/credit code. Ignores Source or Target information.
+     *
+     * @param source
+     *            line to copy from
+     * @param target
+     *            new line to copy data to
+     */
+    protected void reverseAccountingLine(AccountingLine source, AccountingLine target) {
+        target.setChartOfAccountsCode(source.getChartOfAccountsCode());
+        target.setAccountNumber(source.getAccountNumber());
+        target.setSubAccountNumber(source.getSubAccountNumber());
+        target.setFinancialObjectCode(source.getFinancialObjectCode());
+        target.setFinancialSubObjectCode(source.getFinancialSubObjectCode());
+        target.setProjectCode(source.getProjectCode());
+        target.setOrganizationReferenceId(source.getOrganizationReferenceId());
+        target.setAmount(source.getAmount());
+        target.setReferenceOriginCode(source.getReferenceOriginCode());
+        target.setReferenceNumber(source.getReferenceNumber());
+        target.setFinancialDocumentLineDescription(source.getFinancialDocumentLineDescription());
+        String debitCreditCode = reverseDebitCreditCode(source.getDebitCreditCode());
+        target.setDebitCreditCode(debitCreditCode);
+        target.setBalanceTypeCode(source.getBalanceTypeCode());
+        // copy helper objects
+        target.setChart(source.getChart());
+        target.setAccount(source.getAccount());
+        target.setSubAccount(source.getSubAccount());
+        target.setObjectCode(source.getObjectCode());
+        target.setSubObjectCode(source.getSubObjectCode());
+        target.setProject(source.getProject());
+        target.setReferenceOrigin(source.getReferenceOrigin());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resequenceAccountingLines(GeneralErrorCorrectionForm gecForm) {
+        AccountingDocument document = gecForm.getFinancialDocument();
+
+        int newIndex = 0;
+        List<AccountingLine> sourceLines = document.getSourceAccountingLines();
+        for (AccountingLine line : sourceLines) {
+            newIndex++;
+            line.setSequenceNumber(newIndex);
+        }
+
+        newIndex = 0;
+        List<AccountingLine> targetLines = document.getTargetAccountingLines();
+        for (AccountingLine line : targetLines) {
+            newIndex++;
+            line.setSequenceNumber(newIndex);
+        }
+    }
+
+    // Action buttons:
+
+    public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        for (Object line : gecForm.getFinancialDocument().getSourceAccountingLines()) {
+            AccountingLine sourceLine = (AccountingLine) line;
+            AccountingLine targetLine = (AccountingLine) gecForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
+            reverseAccountingLine(sourceLine, targetLine);
+            insertAccountingLine(false, gecForm, targetLine);
+            processAccountingLineOverrides(targetLine);
+        }
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        gecForm.getFinancialDocument().getSourceAccountingLines().clear();
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        gecForm.getFinancialDocument().getTargetAccountingLines().clear();
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward performBalanceInquiryForSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.performBalanceInquiryForSourceLine(mapping, form, request, response);
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+
+        resequenceAccountingLines(gecForm);
+        return forward;
+    }
+
+    @Override
+    public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        ActionForward forward = super.performBalanceInquiryForTargetLine(mapping, form, request, response);
+
+        resequenceAccountingLines(gecForm);
+        return forward;
+    }
+
+    @Override
+    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        int deleteIndex = getLineToDelete(request);
+        deleteAccountingLine(true, gecForm, deleteIndex);
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward deleteTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        ActionForward forward = super.deleteTargetLine(mapping, form, request, response);
+
+        resequenceAccountingLines(gecForm);
+        return forward;
+    }
+
+    public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        GeneralErrorCorrectionDocument gecDocument = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+
+        int index = getSelectedLine(request);
+        AccountingLine sourceLine = gecDocument.getSourceAccountingLine(index);
+        AccountingLine targetLine = (AccountingLine) gecForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
+
+        reverseAccountingLine(sourceLine, targetLine);
+        insertAccountingLine(false, gecForm, targetLine);
+        processAccountingLineOverrides(targetLine);
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward insertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        GeneralErrorCorrectionDocument gecDocument = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+
+        int index = getSelectedLine(request);
+        AccountingLine originalLine = gecDocument.getTargetAccountingLine(index);
+        AccountingLine targetLine = (AccountingLine) gecForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
+
+        copyAccountingLine(originalLine, targetLine);
+        targetLine.setAmount(KualiDecimal.ZERO);
+        insertAccountingLine(false, gecForm, targetLine);
+        processAccountingLineOverrides(targetLine);
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

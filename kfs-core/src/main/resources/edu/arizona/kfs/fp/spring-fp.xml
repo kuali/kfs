@@ -31,6 +31,7 @@
     </bean>
 
     <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+    <import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
 
     <bean id="disbursementVoucherInvoiceService" class="edu.arizona.kfs.fp.service.impl.DisbursementVoucherInvoiceServiceImpl" />
 

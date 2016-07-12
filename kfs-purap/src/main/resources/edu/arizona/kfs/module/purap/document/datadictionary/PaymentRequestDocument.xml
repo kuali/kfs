@@ -7,7 +7,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
 
 
   <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean">
+  	<property name="documentClass" value="edu.arizona.kfs.module.purap.document.PaymentRequestDocument"/> 
+	<property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/> 
   	<property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController"/>
+    <property name="attributes">
+		<list merge="true">
+			<bean parent="PaymentMethodAttribute-SelectControl"/>
+		</list>
+	</property>
   </bean>
 	
 	<!-- workflow attributes for routing -->
@@ -24,6 +31,22 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
             <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
     	</map>
     </property>
+    <property name="searchingTypeDefinitions">
+    	<list merge="true">
+    		<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
+		      <property name="searchingAttribute">
+		          <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+		              <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.PaymentRequestDocument"/>
+		              <property name="attributeName" value="paymentMethodCode"/>                        
+		          </bean>
+		      </property>
+		      <property name="documentValues">
+		          <list>
+		              <value>paymentMethodCode</value>
+		          </list>
+		      </property>
+		  </bean>
+    	</list>
+    </property>
   </bean>
 </beans>
-

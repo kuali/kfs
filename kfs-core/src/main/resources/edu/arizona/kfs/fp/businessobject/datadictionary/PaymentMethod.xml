@@ -26,6 +26,14 @@
 
 <!-- Attribute Definitions -->
 
+	<!--
+		New singleton for the payment method values finder, can be referenced by all uses.
+	-->
+	<bean name="PaymentMethodSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.sys.businessobject.options.PaymentMethodValuesFinder" />
+	<bean name="PaymentMethodsForDVSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.PaymentMethodsForDVValuesFinder" />
+	<bean name="PaymentMethodsForVendorSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.PaymentMethodsForVendorValuesFinder" />
+	<bean id="PaymentMethodAttribute-SelectControl" parent="PaymentMethod-paymentMethodCode" p:control-ref="PaymentMethodSelectControl" />
+
   <bean id="PaymentMethod-paymentMethodCode" parent="PaymentMethod-paymentMethodCode-parentBean"/>
   <bean id="PaymentMethod-paymentMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentMethodCode"/>

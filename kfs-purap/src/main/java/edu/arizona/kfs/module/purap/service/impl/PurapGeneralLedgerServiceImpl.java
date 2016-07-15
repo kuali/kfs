@@ -11,6 +11,8 @@ import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.KRADConstants;
+import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
@@ -23,14 +25,18 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
 
 
 public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapGeneralLedgerServiceImpl.class);
+	public static final String BANK_CODE = "bankCode";
 	
 	protected PurapUseTaxEntryArchiveService purapUseTaxEntryArchiveService;
+	protected PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService;
 	
 	
     @Override
@@ -216,8 +222,50 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
             else if (CANCEL_PAYMENT_REQUEST.equals(processType)) {
                 SpringContext.getBean(PurapAccountRevisionService.class).cancelPaymentRequestAccountRevisions(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
             }
-        }
+            
+            // generate any document level GL entries (offsets or fee charges)
+            // we would only want to do this when booking the actuals (not the encumbrances)
+            if (preq.getGeneralLedgerPendingEntries() == null || preq.getGeneralLedgerPendingEntries().size() < 2) {
+                LOG.warn("No gl entries for accounting lines.");
+            } else {
+                // Upon a modify, we need to skip re-assessing any fees
+                // in fact, we need to skip making any of these entries since there could be a combination
+                // of debits and credit entries in the entry list - this will cause problems if the first is a
+                // credit since it uses that to determine the sign of all the other transactions
 
+                // upon create, build the entries normally
+                if ( CREATE_PAYMENT_REQUEST.equals(processType) ) {
+                	paymentMethodGeneralLedgerPendingEntryService.generatePaymentMethodSpecificDocumentGeneralLedgerPendingEntries(
+                            preq,((edu.arizona.kfs.module.purap.document.PaymentRequestDocument)preq).getPaymentMethodCode(),preq.getBankCode(), KRADConstants.DOCUMENT_PROPERTY_NAME + "." + BANK_CODE, preq.getGeneralLedgerPendingEntry(0), false, false, sequenceHelper);
+                } else if ( MODIFY_PAYMENT_REQUEST.equals(processType) ) {
+                    // upon modify, we need to calculate the deltas here and pass them in so the appropriate adjustments are created
+                    KualiDecimal bankOffsetAmount = KualiDecimal.ZERO;
+                    Map<String,KualiDecimal> changesByChart = new HashMap<String, KualiDecimal>();
+                    if (ObjectUtils.isNotNull(summaryAccounts) && !summaryAccounts.isEmpty()) {
+                        for ( SummaryAccount a : (List<SummaryAccount>)summaryAccounts ) {
+                            bankOffsetAmount = bankOffsetAmount.add(a.getAccount().getAmount());
+                            if ( changesByChart.get( a.getAccount().getChartOfAccountsCode() ) == null ) {
+                                changesByChart.put( a.getAccount().getChartOfAccountsCode(), a.getAccount().getAmount() );
+                            } else {
+                                changesByChart.put( a.getAccount().getChartOfAccountsCode(), changesByChart.get( a.getAccount().getChartOfAccountsCode() ).add( a.getAccount().getAmount() ) );
+                            }
+                        }
+                    }
+
+                    paymentMethodGeneralLedgerPendingEntryService.generatePaymentMethodSpecificDocumentGeneralLedgerPendingEntries(
+                            preq,((edu.arizona.kfs.module.purap.document.PaymentRequestDocument)preq).getPaymentMethodCode(),preq.getBankCode(), KRADConstants.DOCUMENT_PROPERTY_NAME + "." + BANK_CODE, preq.getGeneralLedgerPendingEntry(0), true, false, sequenceHelper, bankOffsetAmount, changesByChart );
+                } else if ( CANCEL_PAYMENT_REQUEST.equals(processType) ) {
+                    // if cancelling, need to back out all charges
+                    paymentMethodGeneralLedgerPendingEntryService.generatePaymentMethodSpecificDocumentGeneralLedgerPendingEntries(
+                            preq,((edu.arizona.kfs.module.purap.document.PaymentRequestDocument)preq).getPaymentMethodCode(),preq.getBankCode(), KRADConstants.DOCUMENT_PROPERTY_NAME + "." + BANK_CODE, preq.getGeneralLedgerPendingEntry(0), false, true, sequenceHelper );
+                }
+            }
+            preq.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+            // ensure that they all have approved status like other PREQ entries (the payment method service can not assume this)
+            for ( GeneralLedgerPendingEntry glpe : preq.getGeneralLedgerPendingEntries() ) {
+                glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+            }
+        }
 
         // Manually save GL entries for Payment Request and encumbrances
         saveGLEntries(preq.getGeneralLedgerPendingEntries());
@@ -225,7 +273,104 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
         return success;
     }
     
+    @Override
+    protected boolean generateEntriesCreditMemo(VendorCreditMemoDocument cm, boolean isCancel) {
+        LOG.debug("generateEntriesCreditMemo() started");
+
+        cm.setGeneralLedgerPendingEntries(new ArrayList());
+
+        boolean success = true;
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(cm.getDocumentNumber()));
+
+        if (!cm.isSourceVendor()) {
+            LOG.debug("generateEntriesCreditMemo() create encumbrance entries for CM against a PO or PREQ (not vendor)");
+            PurchaseOrderDocument po = null;
+            if (cm.isSourceDocumentPurchaseOrder()) {
+                LOG.debug("generateEntriesCreditMemo() PO type");
+                po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPurchaseOrderIdentifier());
+            }
+            else if (cm.isSourceDocumentPaymentRequest()) {
+                LOG.debug("generateEntriesCreditMemo() PREQ type");
+                po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPaymentRequestDocument().getPurchaseOrderIdentifier());
+            }
+
+            // for CM cancel or create, do not book encumbrances if PO is CLOSED, but do update the amounts on the PO
+            List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
+            if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus()))) {
+                if (encumbrances != null) {
+                    cm.setGenerateEncumbranceEntries(true);
+
+                    // even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts
+                    // from
+                    // the map so Debits on negatives = a credit
+                    cm.setDebitCreditCodeForGLEntries(KFSConstants.GL_DEBIT_CODE);
+
+                    for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
+                        AccountingLine accountingLine = (AccountingLine) iter.next();
+                        if (accountingLine.getAmount().compareTo(ZERO) != 0) {
+                            cm.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
+                            sequenceHelper.increment(); // increment for the next line
+                        }
+                    }
+                }
+            }
+        }
+
+        List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotalsNoUseTax(cm);
+        if (summaryAccounts != null) {
+            LOG.debug("generateEntriesCreditMemo() now book the actuals");
+            cm.setGenerateEncumbranceEntries(false);
+
+            if (!isCancel) {
+                // on create, use CREDIT code
+                cm.setDebitCreditCodeForGLEntries(KFSConstants.GL_CREDIT_CODE);
+            }
+            else {
+                // on cancel, use DEBIT code
+                cm.setDebitCreditCodeForGLEntries(KFSConstants.GL_DEBIT_CODE);
+            }
+
+            for (Iterator iter = summaryAccounts.iterator(); iter.hasNext();) {
+                SummaryAccount summaryAccount = (SummaryAccount) iter.next();
+                cm.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
+                sequenceHelper.increment(); // increment for the next line
+            }
+            // generate offset accounts for use tax if it exists (useTaxContainers will be empty if not a use tax document)
+            List<UseTaxContainer> useTaxContainers = purapAccountingService.generateUseTaxAccount(cm);
+            for (UseTaxContainer useTaxContainer : useTaxContainers) {
+                PurApItemUseTax offset = useTaxContainer.getUseTax();
+                List<SourceAccountingLine> accounts = useTaxContainer.getAccounts();
+                for (SourceAccountingLine sourceAccountingLine : accounts) {
+                    cm.generateGeneralLedgerPendingEntries(sourceAccountingLine, sequenceHelper, useTaxContainer.getUseTax());
+                    sequenceHelper.increment(); // increment for the next line
+                }
+
+            }
+            
+            // generate any document level GL entries (offsets or fee charges)
+            // we would only want to do this when booking the actuals (not the encumbrances)
+            cm.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+
+            // manually save cm account change tables (CAMS needs this)
+            if (!isCancel) {
+                SpringContext.getBean(PurapAccountRevisionService.class).saveCreditMemoAccountRevisions(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
+            }
+            else {
+                SpringContext.getBean(PurapAccountRevisionService.class).cancelCreditMemoAccountRevisions(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
+            }
+        }
+
+        saveGLEntries(cm.getGeneralLedgerPendingEntries());
+
+        LOG.debug("generateEntriesCreditMemo() ended");
+        return success;
+    }
+    
     public void setPurapUseTaxEntryArchiveService(PurapUseTaxEntryArchiveService purapUseTaxEntryArchiveService) {
         this.purapUseTaxEntryArchiveService = purapUseTaxEntryArchiveService;
+    }
+    
+    public void setPaymentMethodGeneralLedgerPendingEntryService(PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService) {
+        this.paymentMethodGeneralLedgerPendingEntryService  = paymentMethodGeneralLedgerPendingEntryService;
     }
 }

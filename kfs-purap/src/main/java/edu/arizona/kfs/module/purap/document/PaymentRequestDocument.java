@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -170,6 +172,37 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
                 synchronizeBankCodeWithPaymentMethod();
             }
         }
+    }
+    
+    @Override
+    protected String getCustomDocumentTitle() {
+
+        // set the workflow document title
+        String poNumber = getPurchaseOrderIdentifier().toString();
+        String vendorName = StringUtils.trimToEmpty(getVendorName());
+        // Changing to Total Dollar Amount as this will reflect pre-tax amount for use tax transactions  
+        String preqAmount = getTotalDollarAmount().toString();
+
+        String documentTitle = "";
+        Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+
+        // if this doc is final or will be final
+        if (CollectionUtils.isEmpty(nodeNames) || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
+            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
+        }
+        else {
+            PurApAccountingLine theAccount = getFirstAccount();
+            String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
+            String subAccountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getSubAccountNumber()) : "");
+            String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
+            String payDate = getDateTimeService().toDateString(getPaymentRequestPayDate());
+            String indicator = getTitleIndicator();
+            // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
+            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).
+                    append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" ").append(subAccountNumber)
+                    .append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+        }
+        return documentTitle;
     }
 
     @Override

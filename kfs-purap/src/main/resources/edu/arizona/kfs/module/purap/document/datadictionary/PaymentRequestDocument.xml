@@ -8,7 +8,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
 
   <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean">
   	<property name="documentClass" value="edu.arizona.kfs.module.purap.document.PaymentRequestDocument"/> 
-	<property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/> 
   	<property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController"/>
     <property name="attributes">
 		<list merge="true">

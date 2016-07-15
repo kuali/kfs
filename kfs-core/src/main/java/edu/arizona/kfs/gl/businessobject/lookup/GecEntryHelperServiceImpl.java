@@ -1,12 +1,15 @@
 package edu.arizona.kfs.gl.businessobject.lookup;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
@@ -14,41 +17,135 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.gl.businessobject.EntryLiteBo;
+import edu.arizona.kfs.gl.businessobject.GecEntry;
+import edu.arizona.kfs.gl.businessobject.lite.AccountingLineLiteBo;
+import edu.arizona.kfs.gl.businessobject.lite.DocumentHeaderLiteBo;
+import edu.arizona.kfs.gl.businessobject.lite.DocumentTypeLiteBo;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 @SuppressWarnings("deprecation")
-public class EntryLiteBoHelperServiceImpl {
+public class GecEntryHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryLiteBoHelperServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GecEntryHelperServiceImpl.class);
+
+    private static transient volatile BusinessObjectService businessObjectService;
+
+    private static BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public static String findGecDocumentNumber(String documentNumber) {
+        LOG.debug("Searching for GEC Document Number of " + documentNumber);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.REFERENCE_NUMBER, documentNumber);
+        Collection<AccountingLineLiteBo> accountingLineList = getBusinessObjectService().findMatching(AccountingLineLiteBo.class, fieldValues);
+
+        LOG.debug("Checking each accounting line that uses " + documentNumber + " as the reference Number.");
+        for (AccountingLineLiteBo accountingLine : accountingLineList) {
+            String gecDocumentNumber = accountingLine.getDocumentNumber();
+            LOG.debug("Checking to see if " + gecDocumentNumber + " is a GEC.");
+            DocumentHeaderLiteBo docHeader = getBusinessObjectService().findBySinglePrimaryKey(DocumentHeaderLiteBo.class, gecDocumentNumber);
+            if (docHeader != null) {
+                String docTypeId = docHeader.getDocumentTypeId();
+                DocumentTypeLiteBo docType = getBusinessObjectService().findBySinglePrimaryKey(DocumentTypeLiteBo.class, docTypeId);
+                String documentTypeName = docType.getName();
+                if (documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION)) {
+                    LOG.debug("GEC Document Number " + gecDocumentNumber + " found for Document Number " + documentNumber + ".");
+                    return gecDocumentNumber;
+                }
+            }
+        }
+        LOG.debug("No GEC Document Number found for Document Number " + documentNumber + ".");
+        return KFSConstants.EMPTY_STRING;
+    }
+
+    public static String generateObjectId(GecEntry entry) {
+        StringBuilder retval = new StringBuilder();
+        retval.append(entry.getUniversityFiscalYear());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getChartOfAccountsCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getAccountNumber());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getSubAccountNumber());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialObjectCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialSubObjectCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialBalanceTypeCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialObjectTypeCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getUniversityFiscalPeriodCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialDocumentTypeCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getFinancialSystemOriginationCode());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getDocumentNumber());
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        retval.append(entry.getTransactionLedgerEntrySequenceNumber());
+        return retval.toString();
+    }
+
+    /**
+     * retrieves the Entry corresponding to the given objectId.
+     *
+     * @param objectId
+     * @return
+     */
+    public static Entry getEntry(String objectId) {
+        String[] primaryKeyFields = objectId.split(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
+        String universityFiscalYear = primaryKeyFields[0];
+        String chartOfAccountsCode = primaryKeyFields[1];
+        String accountNumber = primaryKeyFields[2];
+        String subAccountNumber = primaryKeyFields[3];
+        String financialObjectCode = primaryKeyFields[4];
+        String financialSubObjectCode = primaryKeyFields[5];
+        String financialBalanceTypeCode = primaryKeyFields[6];
+        String financialObjectTypeCode = primaryKeyFields[7];
+        String universityFiscalPeriodCode = primaryKeyFields[8];
+        String financialDocumentTypeCode = primaryKeyFields[9];
+        String financialSystemOriginationCode = primaryKeyFields[10];
+        String documentNumber = primaryKeyFields[11];
+        String transactionLedgerEntrySequenceNumber = primaryKeyFields[12];
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, financialSubObjectCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, financialBalanceTypeCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, financialObjectTypeCode);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, universityFiscalPeriodCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, financialDocumentTypeCode);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, financialSystemOriginationCode);
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        fieldValues.put(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, transactionLedgerEntrySequenceNumber);
+
+        Entry entry = getBusinessObjectService().findByPrimaryKey(Entry.class, fieldValues);
+        return entry;
+    }
 
     public static void addInquiryLinksToRecords(List<ResultRow> resultTable) {
         for (ResultRow row : resultTable) {
             setFieldInquiryURL(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER);
-            setFieldInquiryURL(row, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-            setFieldInquiryURL(row, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.ACCOUNT_NUMBER);
-            setFieldInquiryURL(row, KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.DOCUMENT_NUMBER);
-            setFieldInquiryURL(row, KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            setFieldInquiryURL(row, KFSPropertyConstants.PROJECT_CODE);
         }
     }
 
-    public static boolean compareEntryBoToRow(EntryLiteBo entry, ResultRow row) {
+    public static boolean compareGecEntryToRow(GecEntry entry, ResultRow row) {
         List<Column> columnList = row.getColumns();
         boolean isSameEntry = true;
 

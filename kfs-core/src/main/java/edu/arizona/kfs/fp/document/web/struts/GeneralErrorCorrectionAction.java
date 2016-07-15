@@ -18,13 +18,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.gl.businessobject.EntryLiteBo;
+import edu.arizona.kfs.gl.businessobject.lookup.GecEntryHelperServiceImpl;
 import edu.arizona.kfs.sys.KFSConstants;
 
 /**
@@ -76,7 +77,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         // when we return from the lookup, our next request's method to call is going to be refresh
         financialDocumentForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
         // parse out business object class name for lookup
         String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
@@ -145,10 +146,10 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Set<String> entryIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                Set<String> objectIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
                 // Retrieving selected data from table.
-                rawValues = retrieveSelectedResultBOs(entryIds);
+                rawValues = retrieveSelectedResultBOs(objectIds);
 
                 if (rawValues == null || rawValues.isEmpty()) {
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -183,20 +184,20 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
     }
 
     /**
-     * Custom retrieve for Entry - using entryId instead of objectId since Entry does not have an objectId
+     * Custom retrieve for Entry - Entry table does not have an objectId field.
      *
-     * @param setOfSelectedEntryIds
+     * @param setOfSelectedObjectIds
      * @return
      */
-    private Collection<Entry> retrieveSelectedResultBOs(Set<String> setOfSelectedEntryIds) {
+    private Collection<Entry> retrieveSelectedResultBOs(Set<String> setOfSelectedObjectIds) {
         ArrayList<Entry> retvals = new ArrayList<Entry>();
 
-        for (String selectedEntryId : setOfSelectedEntryIds) {
-            if (selectedEntryId == null || selectedEntryId.equals(KFSConstants.NULL_STRING)) {
+        for (String selectedObjectId : setOfSelectedObjectIds) {
+            if (selectedObjectId == null || selectedObjectId.equals(KFSConstants.NULL_STRING)) {
                 continue;
             }
 
-            Entry result = EntryLiteBo.getEntry(selectedEntryId);
+            Entry result = GecEntryHelperServiceImpl.getEntry(selectedObjectId);
             if (result != null) {
                 retvals.add(result);
             }

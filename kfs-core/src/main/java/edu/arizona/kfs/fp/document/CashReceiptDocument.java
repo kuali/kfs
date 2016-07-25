@@ -1,36 +1,14 @@
 package edu.arizona.kfs.fp.document;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
-import org.kuali.kfs.fp.businessobject.CoinDetail;
-import org.kuali.kfs.fp.businessobject.CurrencyDetail;
-import org.kuali.kfs.fp.businessobject.DepositCashReceiptControl;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
-import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
-import org.kuali.kfs.fp.service.CheckService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krms.impl.repository.ActionBo;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CashReceiptDocument extends org.kuali.kfs.fp.document.CashReceiptDocument {
@@ -38,24 +16,31 @@ public class CashReceiptDocument extends org.kuali.kfs.fp.document.CashReceiptDo
     /**
      * Retrieve this cash receipt document's collection of checks from the database
      *
+     * @param primarykeyMap Map of the primary keys for check details
+     * @param sortProperty the property to sort check details by
+     * @param sortAscending boolean indicating whether to sort ascending
      * @return the collection of checks for this cash receipt document
      */
-    protected List<Check> retrieveChecks() { 	
-    	return (List<Check>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(CheckBase.class, getCheckDetailskPrimaryKey(), "financialDocumentDepositLineNumber", true);
-    }	  
-    
+    protected List<Check> retrieveChecks(Map primarykeyMap, String sortProperty, boolean sortAscending) { 	
+    	return (List<Check>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(CheckBase.class, primarykeyMap, sortProperty, sortAscending);    	
+    }			
+               
     /**
      * Generate the primary key for a set of check details related to this document
      *
+     * @param documentNumberKey the key for documentNumber
+     * @param documentNumberValue the value for documentNumber
+     * @param docTypeCodeKey the key for document type code
+     * @param docTypeCodeValue the value for document type code
      * @return a map with a representation of the proper primary key
      */
-    protected Map getCheckDetailskPrimaryKey() {
+    protected Map getCheckDetailskPrimaryKey(String documentNumberKey, String documentNumberValue, String docTypeCodeKey, String docTypeCodeValue) {
         Map pk = new HashMap();
-        pk.put("documentNumber", this.getDocumentNumber());
-        pk.put("financialDocumentTypeCode", CashReceiptDocument.DOCUMENT_TYPE);
+        pk.put(documentNumberKey, documentNumberValue);
+        pk.put(docTypeCodeKey, docTypeCodeValue);    
         return pk;
-    }    
-             
+    }       
+       
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
      */
@@ -64,7 +49,7 @@ public class CashReceiptDocument extends org.kuali.kfs.fp.document.CashReceiptDo
         super.processAfterRetrieve();
         
         // Retrieve checks from DB for current document
-        setChecks(retrieveChecks());
+        setChecks(retrieveChecks(getCheckDetailskPrimaryKey("documentNumber", this.getDocumentNumber(), KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CashReceiptDocument.DOCUMENT_TYPE), KFSPropertyConstants.FINANCIAL_DOCUMENT_DEPOSIT_LINE_NUMBER, true));        
         
         // set to checkTotal mode if no checks
         List<Check> checkList = getChecks();
@@ -78,6 +63,6 @@ public class CashReceiptDocument extends org.kuali.kfs.fp.document.CashReceiptDo
         }
         refreshCashDetails();
     }    
-    
+               
 }
 

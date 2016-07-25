@@ -68,7 +68,7 @@
 		<form-bean name="GeneralErrorCorrectionForm"
 			type="edu.arizona.kfs.fp.document.web.struts.GeneralErrorCorrectionForm" />
 		<form-bean name="YearEndGeneralErrorCorrectionForm"
-			type="org.kuali.kfs.fp.document.web.struts.YearEndGeneralErrorCorrectionForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.YearEndGeneralErrorCorrectionForm" />
 		<form-bean name="DistributionOfIncomeAndExpenseForm"
 			type="org.kuali.kfs.fp.document.web.struts.DistributionOfIncomeAndExpenseForm" />
 		<form-bean name="YearEndDistributionOfIncomeAndExpenseForm"

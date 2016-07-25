@@ -20,6 +20,7 @@ public class GeneralErrorCorrectionDocumentPresentationController extends org.ku
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
+        editModes.add(KFSConstants.GeneralErrorCorrectionEditMode.ERROR_CERTIFICATE_TAB_ENTRY);
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {

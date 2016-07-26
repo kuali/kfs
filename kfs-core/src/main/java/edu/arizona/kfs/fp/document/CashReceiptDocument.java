@@ -34,8 +34,8 @@ public class CashReceiptDocument extends org.kuali.kfs.fp.document.CashReceiptDo
      * @param docTypeCodeValue the value for document type code
      * @return a map with a representation of the proper primary key
      */
-    protected Map getCheckDetailskPrimaryKey(String documentNumberKey, String documentNumberValue, String docTypeCodeKey, String docTypeCodeValue) {
-        Map pk = new HashMap();
+    protected Map<String, String> getCheckDetailskPrimaryKey(String documentNumberKey, String documentNumberValue, String docTypeCodeKey, String docTypeCodeValue) {
+        Map<String, String> pk = new HashMap<String, String>();
         pk.put(documentNumberKey, documentNumberValue);
         pk.put(docTypeCodeKey, docTypeCodeValue);    
         return pk;

@@ -162,7 +162,19 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
 
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
 
+        Map<String, String> compositeObjectIdMap = generateCompositeObjectIdMap(resultTable);
+        multipleValueLookupForm.setCompositeObjectIdMap(compositeObjectIdMap);
+
         return entries;
+    }
+
+    private Map<String, String> generateCompositeObjectIdMap(List<ResultRow> resultTable) {
+        Map<String, String> compositeObjectIdMap = new HashMap<String, String>();
+        for (ResultRow row : resultTable) {
+            String objId = row.getObjectId();
+            compositeObjectIdMap.put(objId, objId);
+        }
+        return compositeObjectIdMap;
     }
 
     @Override

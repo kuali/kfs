@@ -71,7 +71,7 @@ public class GeneralErrorCorrectionErrorCertificationValidation extends GenericV
 		
 		// if there is a transaction older than DEFAULT_NUMBER_OF_DAYS_ERROR_CERTIFICATION_TAB_REQUIRED and Error Certification tab is partially filled
 		if (olderThanOriginal && ((numBlankFields > 0) && (numBlankFields <= KFSConstants.ErrorCertificationConstants.NUM_ERROR_CERT_FIELDS))) {
-			GlobalVariables.getMessageMap().putErrorForSectionId("document.errorCertification", KFSKeyConstants.ERROR_ERROR_CERT_DATE_PARAM_TRIGGERED, "error.errorCert.dateParamTriggered");
+			GlobalVariables.getMessageMap().putErrorForSectionId("document.errorCertification", KFSKeyConstants.ERROR_ERROR_CERT_DATE_PARAM_TRIGGERED, KFSKeyConstants.ERROR_ERROR_CERT_DATE_PARAM_TRIGGERED);
 		}
 		
 		return success;
@@ -97,7 +97,7 @@ public class GeneralErrorCorrectionErrorCertificationValidation extends GenericV
 	public boolean defaultNumberOfDaysCheck(GeneralErrorCorrectionDocument currDocument, List<AccountingLineBase> accountingLines, Integer daysFromParameter, boolean checkSubFund) throws EntryNotFoundException {
 		Date originalDate;
 		
-		for(AccountingLineBase currentLine : (List<AccountingLineBase>) accountingLines) {
+		for(AccountingLineBase currentLine : accountingLines) {
 			originalDate = getOriginalTransactionDate(currentLine);
 			LOG.debug("transaction date: " + originalDate);
 			

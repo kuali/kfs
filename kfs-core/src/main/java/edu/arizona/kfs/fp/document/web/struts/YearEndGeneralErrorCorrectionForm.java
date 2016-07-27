@@ -1,5 +1,7 @@
 package edu.arizona.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.sys.KFSConstants;
+
 public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionForm {
 
 	public YearEndGeneralErrorCorrectionForm() {
@@ -8,7 +10,7 @@ public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionFor
 	
 	@Override
 	protected String getDefaultDocumentTypeName() {
-		return "YEGE";
+		return KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
 	}
 	
 }

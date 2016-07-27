@@ -1,13 +1,8 @@
 package edu.arizona.kfs.fp.document.validation.impl;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;

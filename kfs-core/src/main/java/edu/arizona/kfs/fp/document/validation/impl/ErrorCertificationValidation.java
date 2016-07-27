@@ -12,8 +12,6 @@ import edu.arizona.kfs.sys.KFSKeyConstants;
 
 public class ErrorCertificationValidation extends GenericValidation {
 	
-	private static int NUM_ERROR_CERT_FIELDS = 4;
-	
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ErrorCertificationValidation.class);
 	
 	public boolean validate(AttributedDocumentEvent event) {

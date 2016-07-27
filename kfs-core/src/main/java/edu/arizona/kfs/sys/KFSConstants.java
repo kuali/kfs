@@ -67,4 +67,15 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
         public static String PAYMENT_METHOD_EDIT_MODE = "paymentMethodEditMode";
     }
 
+    public static class GeneralErrorCorrectionDocumentConstants {
+    	public static final String GENERATE_ERROR_CERTIFICATION_STMT_ID = "GenerateErrorCertStmt";
+    }
+    
+    public static class ErrorCertificationConstants {
+    	public static final int NUM_ERROR_CERT_FIELDS = 4;
+    }
+    
+    public static class GeneralErrorCorrectionEditMode {
+    	public static final String ERROR_CERTIFICATE_TAB_ENTRY = "errorCertTabEntry";
+    }
 }

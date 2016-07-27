@@ -11,6 +11,15 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+    <bean id="GeneralErrorCorrection-routeDocumentValidation" parent="GeneralErrorCorrection-routeDocumentValidation-parentBean" scope="prototype">
+		<property name="validations">
+			<list merge="true">
+				<bean parent="GeneralErrorCorrection-errorCertificationValidation" scope="prototype"/>
+				<bean parent="GeneralErrorCorrection-errorCertificationTabValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+    
     <bean id="GeneralErrorCorrection-addAccountingLineValidation" parent="GeneralErrorCorrection-addAccountingLineValidation-parentBean" scope="prototype">
         <property name="validations">
             <list>
@@ -28,8 +37,51 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="GeneralErrorCorrection-referenceNumberValidation" scope="prototype">
+  			  		<property name="parameterProperties">
+  			  			<list>
+  			  				<bean parent="validationFieldConversion">
+  			  					<property name="sourceEventProperty" value="accountingLine"/>
+  			  					<property name="targetValidationProperty" value="accountingLineForValidation"/>
+  			  				</bean>
+  			  			</list>
+  			  		</property>
+  			  	</bean>
             </list>
         </property>
     </bean>
-
+  
+  <bean id="GeneralErrorCorrection-updateAccountingLineValidation" parent="GeneralErrorCorrection-updateAccountingLineValidation-parentBean" scope="prototype" >
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype"/>
+				<bean parent="GeneralErrorCorrection-referenceNumberValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine"/>
+								<property name="targetValidationProperty" value="accountingLineForValidation"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="GeneralErrorCorrection-referenceNumberValidation" scope="prototype" parent="GeneralErrorCorrection-referenceNumberValidation-parentBean"/>
+	<bean id="GeneralErrorCorrection-referenceNumberValidation-parentBean" class="edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionRefNumberValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+	
+	<bean id="GeneralErrorCorrection-errorCertificationValidation" scope="prototype" parent="GeneralErrorCorrection-errorCertificationValidation-parentBean"/>
+	<bean id="GeneralErrorCorrection-errorCertificationValidation-parentBean" class="edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionErrorCertificationValidation" abstract="true">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+	
+	<bean id="GeneralErrorCorrection-errorCertificationTabValidation" scope="prototype" parent="GeneralErrorCorrection-errorCertificationTabValidation-parentBean"/>
+	<bean id="GeneralErrorCorrection-errorCertificationTabValidation-parentBean" class="edu.arizona.kfs.fp.document.validation.impl.ErrorCertificationValidation" abstract="true" />
+	
 </beans>

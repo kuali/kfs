@@ -9,6 +9,9 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String DOC_FORM_KEY_VALUE_88888888 = "88888888";
     public static final String NULL_STRING = "null";
     public static final String PATH_SEPERATOR = "/";
+    public static final String BLANK_SUBACCOUNT = "-----";
+    public static final String BLANK_SUBOBJECT = "---";
+    public static final String BLANK_PROJECT_CODE = "----------";
 
     public static class SysKimApiConstants {
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
@@ -59,9 +62,9 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
         public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
 
     }
-    
+
     public static class Authorization {
-    	public static String PAYMENT_METHOD_EDIT_MODE = "paymentMethodEditMode";
+        public static String PAYMENT_METHOD_EDIT_MODE = "paymentMethodEditMode";
     }
 
     public static class GeneralErrorCorrectionDocumentConstants {

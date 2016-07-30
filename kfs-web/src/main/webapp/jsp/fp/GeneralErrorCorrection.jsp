@@ -78,6 +78,8 @@
   	
 	<fp:capitalAssetModifyTab readOnly="${readOnly}"/>  
 
+	<fp:errorCertification documentAttributes="${DataDictionary.ErrorCertification.attributes}" />
+	
 	<gl:generalLedgerPendingEntries />
 
 	<kul:notes />

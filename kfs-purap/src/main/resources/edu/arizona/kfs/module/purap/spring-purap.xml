@@ -108,5 +108,17 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="purapUseTaxEntryArchiveService" class="edu.arizona.kfs.module.purap.service.impl.PurapUseTaxEntryArchiveServiceImpl">
+	</bean>
+	
+	
+    <bean id="purapGeneralLedgerService" parent="purapGeneralLedgerService-parentBean" class="edu.arizona.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
+        <property name="purapUseTaxEntryArchiveService" ref="purapUseTaxEntryArchiveService"/>
+        <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService"/>
+    </bean>
+    
+    <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
+    </bean>
     	
 </beans>

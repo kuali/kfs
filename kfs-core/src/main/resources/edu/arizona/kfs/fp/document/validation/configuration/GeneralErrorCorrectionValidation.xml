@@ -95,5 +95,6 @@
 
 	<bean id="GeneralErrorCorrection-errorCertificationTabValidation" scope="prototype" parent="GeneralErrorCorrection-errorCertificationTabValidation-parentBean"/>
 	<bean id="GeneralErrorCorrection-errorCertificationTabValidation-parentBean" class="edu.arizona.kfs.fp.document.validation.impl.ErrorCertificationValidation" abstract="true" />
-
+	
 </beans>
+

@@ -6,8 +6,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
     <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean">
-        <property name="documentClass" value="edu.arizona.kfs.fp.document.GeneralErrorCorrectionDocument"/>
-        <property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentPreRules"/>
+		<property name="documentClass" value="edu.arizona.kfs.fp.document.GeneralErrorCorrectionDocument"/>
+    	<property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentPreRules"/>
         <property name="allowsErrorCorrection" value="false" />
         <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.GeneralErrorCorrectionDocumentPresentationController" />
         <property name="allowsCopy" value="false" />

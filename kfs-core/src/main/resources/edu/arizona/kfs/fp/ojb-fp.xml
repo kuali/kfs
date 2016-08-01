@@ -398,10 +398,6 @@
     </reference-descriptor>
 
     <reference-descriptor name="errorCertification" class-ref="edu.arizona.kfs.fp.businessobject.ErrorCertification" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-    	<foreignkey field-ref="errorCertID"/>
-    </reference-descriptor>
-
-    <reference-descriptor name="errorCertification" class-ref="edu.arizona.kfs.fp.businessobject.ErrorCertification" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     	<foreignkey field-ref="errorCertID"/>  	
     </reference-descriptor>
 

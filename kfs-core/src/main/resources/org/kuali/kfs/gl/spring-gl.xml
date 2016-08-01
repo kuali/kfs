@@ -467,7 +467,7 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-    <bean id="glCollectorHelperService-parentBean" class="edu.arizona.kfs.gl.service.impl.CollectorHelperServiceImpl" abstract="true">
+    <bean id="glCollectorHelperService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.CollectorHelperServiceImpl" abstract="true">
 		<property name="collectorDetailService">
 			<ref bean="glCollectorDetailService" />
 		</property>

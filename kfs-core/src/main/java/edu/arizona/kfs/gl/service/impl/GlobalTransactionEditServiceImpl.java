@@ -38,6 +38,7 @@ public class GlobalTransactionEditServiceImpl implements GlobalTransactionEditSe
     private BusinessObjectService boService;
     private ParameterService parmService;
     private HomeOriginationService originService;
+    private String serviceName;
 
 
     public GlobalTransactionEditServiceImpl() {
@@ -222,6 +223,14 @@ public class GlobalTransactionEditServiceImpl implements GlobalTransactionEditSe
 
     public void setOriginService(HomeOriginationService originService) {
         this.originService = originService;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
     }
 
 }

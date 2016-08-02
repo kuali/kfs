@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KFSPurapDocumentSearchCustomizer</name>
+      <label>KFS Purchasing Document Search Customizer</label>
+      <className>{http://kfs.kuali.org/kfs/v5_0}KFSPurapDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+      <applicationId>KFS</applicationId>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PurapFinancialSystemSearchableAttribute</name>
+      <className>{http://kfs.kuali.org/kfs/v5_0}PurapFinancialSystemSearchableAttribute</className>
+      <label>Purchasing Searchable Attribute</label>
+      <description>Purchasing Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+      <applicationId>KFS</applicationId>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>NoFyiActionListAttribute</name>
+      <className>{http://kfs.kuali.org/kfs/v5_0}PurchaseOrderActionListAttribute</className>
+      <label>No FYI</label>
+      <description>No FYI Action List Attribute</description>
+      <type>ActionListAttribute</type>
+      <applicationId>KFS</applicationId>
+    </ruleAttribute>
+  </ruleAttributes>
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PO</name>
@@ -9,17 +34,6 @@
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorder.htm</helpDefinitionURL>
       <docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpurchaseorders.htm</docSearchHelpURL>
       <active>true</active>
-      <attributes>
-        <attribute>
-          <name>PurapFinancialSystemSearchableAttribute</name>
-        </attribute>
-        <attribute>
-          <name>KFSPurapDocumentSearchCustomizer</name>
-        </attribute>
-        <attribute>
-          <name>NoFyiActionListAttribute</name>
-        </attribute>
-      </attributes>
       <routingVersion>2</routingVersion>
 	  <validApplicationStatuses>
 	  	<!--  Incomplete status start -->

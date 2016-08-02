@@ -49,8 +49,10 @@ public class YearEndDistributionOfIncomeAndExpenseDocumentPresentationController
             if (!ObjectUtils.nullSafeEquals(previousFiscalYear, ((LedgerPostingDocument)document).getPostingYear())) {
                 return false;
             }
+            boolean isNotElectronicFundsAccount = isNotElectronicFundsAccount(document);
+            return isNotElectronicFundsAccount;
         }
-        return result;
+        return false;
     }
 
 }

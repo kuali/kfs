@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
+    <bean id="vndModuleConfiguration" parent="vndModuleConfiguration-parentBean">	
+        <property name="packagePrefixes">
+            <list merge="true">
+				<value>edu.arizona.kfs.vnd</value>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/vnd/businessobject/datadictionary/*.xml</value>
+				<value>classpath:edu/arizona/kfs/vnd/document/datadictionary/*.xml</value>                
+			</list>
+		</property>		
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/vnd/ojb-vnd.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>eCustomsDailyJob</value>
+                <value>eCustomsAnnualJob</value>
+            </list>
+        </property>
+	</bean>
+	
+	<bean id="vendorService" class="edu.arizona.kfs.vnd.document.service.impl.VendorServiceImpl">
+		<property name="vendorService">
+			<bean class="org.kuali.kfs.vnd.document.service.impl.VendorServiceImpl">
+		        <property name="vendorDao" ref="vendorDao"/>
+        		<property name="businessObjectService" ref="businessObjectService"/>
+       			<property name="documentService" ref="documentService"/>
+       			<property name="dateTimeService" ref="dateTimeService"/>
+       			<property name="noteService" ref="noteService"/>
+ 		   </bean>
+        </property>
+        <property name="documentService" ref="documentService"/>
+    </bean>
+
+    <bean id="ecustomsService" class="edu.arizona.kfs.vnd.service.impl.EcustomsServiceImpl">
+        <property name="defaultLastRunDate" value="${ecustoms.last.run.date.default}" />
+        <property name="batchFileName" value="${ecustoms.output.file.prefix}" />
+    </bean>
+
+    <bean id="ecustomsFileService" class="edu.arizona.kfs.vnd.service.impl.EcustomsFileServiceImpl">
+        <property name="outputFileDirectory" value="${ecustoms.output.directory}" />
+        <property name="outputFileNamePrefix" value="${ecustoms.output.file.prefix}" />
+    </bean>
+
+    <bean id="eCustomsDailyJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="eCustomsDailyStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eCustomsAnnualJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="eCustomsAnnualStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eCustomsDailyStep" class="edu.arizona.kfs.vnd.batch.EcustomsDailyStep" parent="step" />
+    <bean id="eCustomsAnnualStep" class="edu.arizona.kfs.vnd.batch.EcustomsAnnualStep" parent="step" />
+
+</beans>

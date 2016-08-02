@@ -1,0 +1,116 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="FACostSubCategory" parent="FACostSubCategory-parentBean"/>
+
+    <bean id="FACostSubCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.coa.businessobject.FACostSubCategory"/>
+		<property name="boNotesEnabled" value="true"/>
+        <property name="inquiryDefinition">
+            <ref bean="FACostSubCategory-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="FACostSubCategory-lookupDefinition"/>
+        </property>
+		<property name="titleAttribute" value="faCostSubCatCode" />
+        <property name="objectLabel" value="FA Cost Sub-Category"/>
+        <property name="attributes">
+            <list>
+                <ref bean="FACostSubCategory-active"/>
+                <ref bean="FACostSubCategory-faCostSubCatCode"/>
+                <ref bean="FACostSubCategory-faCostSubCatDesc"/>
+            </list>
+        </property>
+    </bean>
+
+  <!-- Attribute Definitions -->
+  <bean id="FACostSubCategory-faCostSubCatCode" parent="FACostSubCategory-faCostSubCatCode-parentBean" />	
+
+  <bean id="FACostSubCategory-faCostSubCatCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    	<property name="name" value="faCostSubCatCode" />
+    	<property name="label" value="FA Cost Sub-Category Code" />
+    	<property name="shortLabel" value="FA Cost SubCat Cd" />
+		<property name="maxLength" value="3" />
+		<property name="control"> 
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+		<property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="forceUppercase" value="true" />        
+  </bean>
+  
+  <bean id="FACostSubCategory-active" parent="FACostSubCategory-active-parentBean" />
+
+  <bean id="FACostSubCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />  
+  </bean>
+  
+  <bean id="FACostSubCategory-faCostSubCatDesc" parent="FACostSubCategory-faCostSubCatDesc-parentBean" />
+
+  <bean id="FACostSubCategory-faCostSubCatDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="faCostSubCatDesc" />
+    <property name="label" value="FA Cost Sub-Category Description" />
+    <property name="shortLabel" value="FA Cost Sub-Cat Desc." />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
+    </property>        
+  </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="FACostSubCategory-inquiryDefinition" parent="FACostSubCategory-inquiryDefinition-parentBean"/>
+
+    <bean id="FACostSubCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="FA Cost Sub-Category Inquiry"/>
+         <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="General Information"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="faCostSubCatCode"/>                            
+                            <bean parent="FieldDefinition" p:attributeName="faCostSubCatDesc"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                          </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="FACostSubCategory-lookupDefinition" parent="FACostSubCategory-lookupDefinition-parentBean"/>
+
+    <bean id="FACostSubCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="FA Cost Sub-Category Lookup"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition"></bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="faCostSubCatCode"/>
+                <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="faCostSubCatCode"/>
+                <bean parent="FieldDefinition" p:attributeName="faCostSubCatDesc"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>
+

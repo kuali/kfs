@@ -62,5 +62,11 @@
 		
 	<bean parent="roleTypeServiceCallback" 
 		p:callbackService-ref="contractsAndGrantsResponsibilityRoleTypeService" p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="organizationFundReviewRoleTypeService" p:localServiceName="organizationFundReviewRoleTypeService" />
+	
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="objectSubTypeCodeRoleTypeService" p:localServiceName="objectSubTypeCodeRoleTypeService" />
                            	 
 </beans>

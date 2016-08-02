@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" >
+        <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.gl</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+                <value>classpath:edu/arizona/kfs/gl/businessobject/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/gl/ojb-gl.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="collectorJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="collectorStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="nightlyOutJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="nightlyOutStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="autoClosePurchaseOrdersJob" value="softDependency" />
+                <entry key="autoCloseRecurringOrdersJob" value="softDependency" />
+                <entry key="processPdpCancelsAndPaidJob" value="hardDependency"/>
+                <entry key="assetDepreciationBatchJob" value="hardDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="scrubberJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="createBackupGroupStep" />
+                <ref bean="preScrubberStep" />
+                <ref bean="scrubberSortStep" />
+                <ref bean="scrubberStep" />
+                <ref bean="demergerSortStep" />
+                <ref bean="demergerStep" />
+                <ref bean="aggregateGlScrubberReportsStep"/>
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="enterpriseFeedJob" value="hardDependency"/>
+                <entry key="collectorJob" value="softDependency" />
+                <entry key="nightlyOutJob" value="hardDependency" />
+                <entry key="clearLaborPendingEntriesJob" value="hardDependency" />
+                <entry key="pdpExtractGlTransactionsStepJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="posterJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="posterSortStep" />
+                <ref bean="posterEntriesStep" />
+                <ref bean="posterReversalStep" />
+                <ref bean="posterIndirectCostRecoveryGenerationStep" />
+                <ref bean="icrSortStep" />
+                <ref bean="posterIndirectCostRecoveryEntriesStep" />
+                <ref bean="icrEncumbranceFeedStep" />
+                <ref bean="icrEncumbranceSortStep" />
+                <ref bean="posterIcrEncumbranceEntriesStep" />
+                <ref bean="fileRenameStep" />
+                <ref bean="posterSummaryReportStep" />
+                <ref bean="aggregateGlPosterReportsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="scrubberJob" value="hardDependency" />
+                <entry key="sufficientFundsAccountUpdateJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="posterBalancingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="posterBalancingStep"/>
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="posterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="sufficientFundsAccountUpdateJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="sufficientFundsAccountUpdateStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="nightlyOutJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="clearPendingEntriesJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="clearPendingEntriesStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="posterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="enterpriseFeedJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="enterpriseFeedStep" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

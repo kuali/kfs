@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+	<changeSet id="UAF-2404" author="Mark Moen">
+        <comment>
+            The SOF field on the Account Extension table to be made "nullable"
+        </comment>
+		<dropNotNullConstraint tableName="CA_ACCOUNT_EXT_T" columnName="FUNDS_TYPE_CD"/>
+		<rollback>
+			<addNotNullConstraint tableName="CA_ACCOUNT_EXT_T" columnName="FUNDS_TYPE_CD"/>
+		</rollback>
+    </changeSet>
+</databaseChangeLog>

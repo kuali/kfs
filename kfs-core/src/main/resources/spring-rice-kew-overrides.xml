@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - The Kuali Financial System, a comprehensive financial management system for higher education.
+  - 
+  - Copyright 2005-2014 The Kuali Foundation
+  - 
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  - 
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  - 
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- UAF-6 - Performance improvements to improve user experience for AWS deployment -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="false">
+
+
+    <bean id="enDocumentSearchDAO" class="edu.arizona.rice.kew.docsearch.dao.impl.DocumentSearchDAOJdbcImpl">
+        <property name="dataSource" ref="kewDataSource" />
+
+        <!-- set this to false to use default (legacy DocumentSearchGenerator) search logic -->
+        <property name="useInternalSearch" value="true"/>
+        
+        <!-- set to true to allow any db specific code (hints such as oracle PARALLEL) to be used -->
+        <property name="databaseSpecificCodeAllowed" value="true"/>
+        
+        <property name="customFetchSize" value="100"/>
+    </bean>
+    
+    <bean id="documentSearchCriteriaProcessor" class="org.kuali.rice.kew.docsearch.DocumentSearchCriteriaProcessorKEWAdapter"/>
+    <bean id="documentSearchCriteriaTranslator" class="org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaTranslatorImpl"/>
+    <bean id="rice.kew.import.enDocumentSearchService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="enDocumentSearchService"/>
+    
+    <bean id="documentSearchCriteriaBoLookupableHelperService"
+        class="edu.arizona.rice.kew.impl.document.search.DocumentSearchCriteriaBoLookupableHelperService" scope="prototype">
+        <property name="documentSearchCriteriaProcessor" ref="documentSearchCriteriaProcessor"/>
+        <property name="documentSearchCriteriaTranslator" ref="documentSearchCriteriaTranslator"/>
+        <property name="documentSearchService" ref="rice.kew.import.enDocumentSearchService"/>
+    </bean>
+
+    <bean id="documentSearchCriteriaBoLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref local="documentSearchCriteriaBoLookupableHelperService" />
+        </property>
+        <property name="extraOnLoad" value="storeCurrentDocTypeNameOnLoad()"/>
+    </bean>
+</beans>

@@ -118,6 +118,7 @@
 			</property> 
 		</bean>        
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
+        <dd:maintField attributeName="sourceOfFundsTypeCode"/>
         <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountRestrictedStatusDate"/>
         <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>

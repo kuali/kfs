@@ -111,7 +111,6 @@ import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -1661,7 +1660,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Set<String> fiscalOfficerIds = new HashSet<String>();
         Set<Account> accounts = new HashSet<Account>();
         try {
-            if(reqInitiator!=null) {
+            if(principalIsActive(reqInitiator)) {
                 po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
             }
 
@@ -1678,13 +1677,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                     if (!fiscalOfficerIds.contains(principalId)) {
                         fiscalOfficerIds.add(principalId);
+
                         AccountDelegate accountDelegate = getAccountPrimaryDelegate(account);
-                        if (ObjectUtils.isNotNull(accountDelegate)) {
-                                String delegateName =KimApiServiceLocator.getPersonService().getPerson(accountDelegate.getAccountDelegateSystemId()).getPrincipalName();
-                                String annotationText = "Delegation of: " + KFSConstants.CoreModuleNamespaces.KFS  + KFSConstants.BLANK_SPACE + KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME + KFSConstants.BLANK_SPACE + account.getChartOfAccountsCode() + KFSConstants.BLANK_SPACE + account.getAccountNumber() + KFSConstants.BLANK_SPACE + "to principal" + KFSConstants.BLANK_SPACE + delegateName;
-                                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), accountDelegate.getAccountDelegateSystemId(), annotationText, "Fiscal Officer Notification");
+                        String accountDelegatePrincipalId = null;
+                        if(ObjectUtils.isNotNull(accountDelegate)) {
+                            // Accounts aren't guaranteed to have a delegate
+                            accountDelegatePrincipalId = accountDelegate.getAccountDelegateSystemId();
                         }
-                        else {
+
+                        if (principalIsActive(accountDelegatePrincipalId)) {
+                                String delegateName = getPersonService().getPerson(accountDelegate.getAccountDelegateSystemId()).getPrincipalName();
+                                String annotationText = "Delegation of: " + KFSConstants.CoreModuleNamespaces.KFS  + KFSConstants.BLANK_SPACE + KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME + KFSConstants.BLANK_SPACE + account.getChartOfAccountsCode() + KFSConstants.BLANK_SPACE + account.getAccountNumber() + KFSConstants.BLANK_SPACE + "to principal" + KFSConstants.BLANK_SPACE + delegateName;
+                                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), accountDelegatePrincipalId, annotationText, "Fiscal Officer Notification");
+                        }
+                        else if(principalIsActive(principalId)) {
                             String annotationText = KFSConstants.CoreModuleNamespaces.KFS + KFSConstants.BLANK_SPACE + KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME +  KFSConstants.BLANK_SPACE + account.getChartOfAccountsCode() + KFSConstants.BLANK_SPACE + account.getAccountNumber();
                             po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), principalId, annotationText, "Fiscal Officer Notification");
                         }
@@ -1701,6 +1707,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
     }
+
+
+    private boolean principalIsActive(String principalId) {
+        if(principalId == null) {
+            return false;
+        }
+
+        Person person = getPersonService().getPerson(principalId);
+        if(ObjectUtils.isNull(person)){
+            return false;
+        }
+
+        return person.isActive();
+    }
+
 
     private AccountDelegate getAccountPrimaryDelegate(Account account) {
         AccountDelegate delegateExample = new AccountDelegate();
@@ -1899,37 +1920,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
 
         }// endfor
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseFullyDisencumberedOrders()
-     */
-    @Override
-    public boolean autoCloseFullyDisencumberedOrders() {
-        LOG.debug("autoCloseFullyDisencumberedOrders() started");
-
-        List<AutoClosePurchaseOrderView> autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
-
-        // we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
-        // KFSMI-7533
-        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(autoCloseList);
-
-        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
-            if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
-                LOG.info("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
-                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
-                String annotation = "This PO was automatically closed in batch.";
-                String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-                PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
-                createNoteForAutoCloseOrders(document, annotation);
-                createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
-
-            }
-        }
-
-        LOG.debug("autoCloseFullyDisencumberedOrders() ended");
-
-        return true;
     }
 
     /**
@@ -2199,17 +2189,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
      * @param annotation The string to appear on the note to be attached to the purchase order.
      */
-    protected void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
+    public void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
-            // documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
             noteService.save(noteObj);
+            purchaseOrderDocument.addNote(noteObj);
+            documentService.saveDocumentNotes(purchaseOrderDocument);
         }
         catch (Exception e) {
             String errorMessage = "Error creating and saving close note for purchase order with document service";
             LOG.error("createNoteForAutoCloseRecurringOrders " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }
+    }
+
+    @Override
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrdersForAutoClose() {
+        return purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
     }
 
     /**

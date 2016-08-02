@@ -20,7 +20,6 @@ package org.kuali.kfs.sys.service.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
@@ -42,9 +41,9 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * Override of BusinessObjectAuthorizationServiceImpl to allow document authorizers to build qualifiers for checks in {@link #canFullyUnmaskField(org.kuali.rice.kim.api.identity.Person, Class, String, org.kuali.rice.krad.document.Document)}
+ * Override of BusinessObjectAuthorizationServiceImpl to allow document authorizers to build qualifiers for checks in {@link #canFullyUnmaskField(Person, Class, String, Document)}
  * The developer of this class apologizes for its tortuous complexity - it was all to get TemProfile to work...
- * and {@link #canPartiallyUnmaskField(org.kuali.rice.kim.api.identity.Person, Class, String, org.kuali.rice.krad.document.Document)}
+ * and {@link #canPartiallyUnmaskField(Person, Class, String, Document)}
  */
 public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl {
     protected volatile PermissionService permissionServiceForUs;
@@ -54,26 +53,35 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Overridden to defer to canFullyUnmaskFieldForBusinessObject and canPartiallyUnmaskFieldForBusinessObject
-     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#considerBusinessObjectFieldUnmaskAuthorization(java.lang.Object, org.kuali.rice.kim.api.identity.Person, org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions, java.lang.String, org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#considerBusinessObjectFieldUnmaskAuthorization(Object, Person, BusinessObjectRestrictions, String, Document)
+     * 
+     * @param dataObject
+     * @param user
+     * @param businessObjectRestrictions
+     * @param propertyPrefix
+     * @param document 
      */
     @Override
     protected void considerBusinessObjectFieldUnmaskAuthorization(Object dataObject, Person user, BusinessObjectRestrictions businessObjectRestrictions, String propertyPrefix, Document document) {
-        final DataDictionaryEntryBase objectEntry = (dataObject instanceof org.kuali.rice.krad.document.Document) ?
-                getDataDictionaryService().getDataDictionary().getDocumentEntry(getDataDictionaryService().getDocumentTypeNameByClass(dataObject.getClass())) :
-                getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(dataObject.getClass().getName());
+        // UAF-6.0 upgrade - null data object causes the application to throw NullPointerException
+        if (dataObject != null) {
+            final DataDictionaryEntryBase objectEntry = (dataObject instanceof Document) ?
+                    getDataDictionaryService().getDataDictionary().getDocumentEntry(getDataDictionaryService().getDocumentTypeNameByClass(dataObject.getClass())) :
+                    getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(dataObject.getClass().getName());
 
-        BusinessObject permissionTarget = (dataObject instanceof BusinessObject) ? (BusinessObject)dataObject : document;
+            BusinessObject permissionTarget = (dataObject instanceof BusinessObject) ? (BusinessObject)dataObject : document;
 
-        for (String attributeName : objectEntry.getAttributeNames()) {
-            AttributeDefinition attributeDefinition = objectEntry.getAttributeDefinition(attributeName);
-            if (attributeDefinition.getAttributeSecurity() != null) {
-                if (attributeDefinition.getAttributeSecurity().isMask() &&
-                        !canFullyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
-                    businessObjectRestrictions.addFullyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getMaskFormatter());
-                }
-                if (attributeDefinition.getAttributeSecurity().isPartialMask() &&
-                        !canPartiallyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
-                    businessObjectRestrictions.addPartiallyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getPartialMaskFormatter());
+            for (String attributeName : objectEntry.getAttributeNames()) {
+                AttributeDefinition attributeDefinition = objectEntry.getAttributeDefinition(attributeName);
+                if (attributeDefinition.getAttributeSecurity() != null) {
+                    if (attributeDefinition.getAttributeSecurity().isMask() &&
+                            !canFullyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
+                        businessObjectRestrictions.addFullyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getMaskFormatter());
+                    }
+                    if (attributeDefinition.getAttributeSecurity().isPartialMask() &&
+                            !canPartiallyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
+                        businessObjectRestrictions.addPartiallyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getPartialMaskFormatter());
+                    }
                 }
             }
         }
@@ -81,7 +89,13 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Defers to canFullyUnmaskFieldForBusinessObject
-     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#canFullyUnmaskField(org.kuali.rice.kim.api.identity.Person, java.lang.Class, java.lang.String, org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#canFullyUnmaskField(Person, Class, String, Document)
+     * 
+     * @param user
+     * @param dataObjectClass
+     * @param fieldName
+     * @param document
+     * @return 
      */
     @Override
     public boolean canFullyUnmaskField(Person user, Class<?> dataObjectClass, String fieldName, Document document) {
@@ -90,7 +104,13 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Defers to canPartiallyUnmaskFieldForBusinessObject
-     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#canPartiallyUnmaskField(org.kuali.rice.kim.api.identity.Person, java.lang.Class, java.lang.String, org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl#canPartiallyUnmaskField(Person, Class, String, Document)
+     * 
+     * @param user
+     * @param dataObjectClass
+     * @param fieldName
+     * @param document
+     * @return 
      */
     @Override
     public boolean canPartiallyUnmaskField(Person user, Class<?> dataObjectClass, String fieldName, Document document) {
@@ -231,6 +251,8 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Renamed to avoid shadowing
+     * 
+     * @return 
      */
     protected boolean isNonProductionEnvAndUnmaskingTurnedOffForUs(){
         return !getKualiConfigurationServiceForUs().getPropertyValueAsString(KRADConstants.PROD_ENVIRONMENT_CODE_KEY)
@@ -241,6 +263,8 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Renamed to avoid shadowing
+     * 
+     * @return 
      */
     protected PermissionService getPermissionServiceForUs() {
         if (permissionServiceForUs == null) {
@@ -252,6 +276,8 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
 
     /**
      * Renamed to avoid shadowing
+     * 
+     * @return 
      */
     protected ConfigurationService getKualiConfigurationServiceForUs() {
         if (kualiConfigurationServiceForUs == null) {

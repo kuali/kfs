@@ -25,6 +25,7 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="confirmed" value="${KualiForm.document.confirmed}" />
 <c:set var="cashReceiptAttributes" value="${DataDictionary['CashReceiptDocument'].attributes}" />
+<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
 
 <%-- 
 	We should show both the original and confirmed details after CashManagerment confirmation; only that neither column would be editable.
@@ -125,7 +126,8 @@
 					<c:if test="${showConfirm}">
 						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedCoinAmount" /></td>
 					</c:if>
-				</tr>												
+				</tr>
+				<c:if test="${displayCashReceiptDenominationDetail}">												
 				<tr>
 					<th>
 					<div align="right"><strong><kul:htmlAttributeLabel
@@ -180,7 +182,8 @@
 					<c:if test="${showConfirm}">
 						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedChangeAmount" /></td>
 					</c:if>
-				</tr>												
+				</tr>
+				</c:if>												
 				<tr>
 					<th>
 					<div align="right"><strong><kul:htmlAttributeLabel
@@ -229,7 +232,7 @@
 		displayHidden="${displayHidden}" 
 		confirmMode="${confirmMode}"/>
 		
-	<c:if test="${changeRequestMode}">	
+	<c:if test="${changeRequestMode and displayCashReceiptDenominationDetail}">	
 		<kul:tab tabTitle="Change Request" defaultOpen="${KualiForm.document.changeRequested}" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CHANGE_REQUEST_ERRORS}">
 			<c:if test="${confirmMode}"> <%-- we only show copy buttons in CashManager Confirm Mode --%>
 				<div class="tab-container">

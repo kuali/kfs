@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-1790-1" author="Adam Kost">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='DOCUMENT_TYPES'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-1790 General Error Correction Step 1 (Lookup and Validation) Parameter DOCUMENT_TYPES
+        </comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP"/>
+            <column name="CMPNT_CD" value="GeneralErrorCorrection"/>
+            <column name="PARM_NM" value="DOCUMENT_TYPES"/>
+            <column name="OBJ_ID" value="UAF-1790-1"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="JV;SET;ICA"/>
+            <column name="PARM_DESC_TXT" value="List of document types that cannot have their ledger entries be corrected using GEC."/>
+            <column name="EVAL_OPRTR_CD" value="D"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='DOCUMENT_TYPES'
+                        AND APPL_ID='KFS'
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="UAF-1790-2" author="Adam Kost">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='ORIGIN_CODES'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-1790 General Error Correction Step 1 (Lookup and Validation) Parameter ORIGIN_CODES
+        </comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP"/>
+            <column name="CMPNT_CD" value="GeneralErrorCorrection"/>
+            <column name="PARM_NM" value="ORIGIN_CODES"/>
+            <column name="OBJ_ID" value="UAF-1790-2"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="UE;SW;SP;NC;EP"/>
+            <column name="PARM_DESC_TXT" value="List of origination codes that are not valid for use with GEC."/>
+            <column name="EVAL_OPRTR_CD" value="D"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='ORIGIN_CODES'
+                        AND APPL_ID='KFS'
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

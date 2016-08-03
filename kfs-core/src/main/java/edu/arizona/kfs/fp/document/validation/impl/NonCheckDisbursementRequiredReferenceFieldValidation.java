@@ -19,17 +19,13 @@
 package edu.arizona.kfs.fp.document.validation.impl;
 
 import edu.arizona.kfs.gl.service.GlobalTransactionEditService;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 
 
 public class NonCheckDisbursementRequiredReferenceFieldValidation extends org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementRequiredReferenceFieldValidation {
@@ -39,26 +35,8 @@ public class NonCheckDisbursementRequiredReferenceFieldValidation extends org.ku
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-
+        boolean valid = super.validate(event);
         NonCheckDisbursementDocument document = (NonCheckDisbursementDocument) event.getDocument();
-
-        boolean valid = true;
-        Class clazz = null;
-        BusinessObjectEntry boe;
-
-        if (getAccountingLineForValidation().isSourceAccountingLine()) {
-            clazz = document.getSourceAccountingLineClass();
-        } else if (getAccountingLineForValidation().isTargetAccountingLine()) {
-            clazz = document.getTargetAccountingLineClass();
-        }
-
-        boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(clazz.getName());
-
-        if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
-            putRequiredPropertyError(boe, REFERENCE_NUMBER);
-            valid = false;
-        }
-
         Message msg = getGlobalTransactionEditService().isAccountingLineAllowable((AccountingLineBase) getAccountingLineForValidation(), document.getFinancialDocumentTypeCode());
         if (msg != null) {
             GlobalVariables.getMessageMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_CUSTOM, msg.getMessage());

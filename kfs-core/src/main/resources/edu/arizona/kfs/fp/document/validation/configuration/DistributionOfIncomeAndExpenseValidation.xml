@@ -22,7 +22,7 @@
   <bean id="DistributionOfIncomeAndExpense-addAccountingLineValidation" parent="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" scope="prototype">
     <property name="validations">
       <list>
-        <bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype"/>
+        <bean parent="AccountingDocument-AddCapitalAccountingLines-DefaultValidation" scope="prototype"/>
         <bean parent="AccountingDocument-globalTransactionAccountingLineValuesAllowedValidation" scope="prototype">
           <property name="accountingDocumentParameterPropertyName" value="document"/>
           <property name="accountingLineParameterPropertyName" value="accountingLine"/>
@@ -35,7 +35,7 @@
   <bean id="DistributionOfIncomeAndExpense-updateAccountingLineValidation" parent="DistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" scope="prototype">
     <property name="validations">
       <list>
-        <bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype"/>
+        <bean parent="AccountingDocument-UpdateCapitalAccountingLines-DefaultValidation" scope="prototype"/>
         <bean parent="AccountingDocument-globalTransactionAccountingLineValuesAllowedValidation" scope="prototype">
           <property name="accountingDocumentParameterPropertyName" value="document"/>
           <property name="accountingLineParameterPropertyName" value="accountingLine"/>

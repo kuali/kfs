@@ -16,6 +16,7 @@
     <bean id="GeneralErrorCorrection-addAccountingLineValidation" parent="GeneralErrorCorrection-addAccountingLineValidation-parentBean" scope="prototype">
         <property name="validations">
             <list>
+				<bean parent="AccountingDocument-AddCapitalAccountingLines-DefaultValidation" />
                 <bean parent="GeneralErrorCorrection-objectTypeValidation" scope="prototype">
                     <property name="parameterProperties">
                         <list>
@@ -51,7 +52,7 @@
   <bean id="GeneralErrorCorrection-updateAccountingLineValidation" parent="GeneralErrorCorrection-updateAccountingLineValidation-parentBean" scope="prototype" >
 		<property name="validations">
 			<list>
-				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype"/>
+				<bean parent="AccountingDocument-UpdateCapitalAccountingLines-DefaultValidation" scope="prototype"/>
 				<bean parent="GeneralErrorCorrection-referenceNumberValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

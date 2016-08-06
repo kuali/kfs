@@ -67,8 +67,6 @@
         <value>RequisitionDocument</value>
         <value>SalaryExpenseTransferDocument</value>
         <value>ServiceBillingDocument</value>
-        <value>UaRequisitionDocument</value>
-        <value>UaDisbursementVoucherDocument</value>
         <value>YearEndBenefitExpenseTransferDocument</value>
         <value>YearEndBudgetAdjustmentDocument</value>
         <value>YearEndDistributionOfIncomeAndExpenseDocument</value>

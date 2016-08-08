@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  	<bean id="VendorCreditMemoDocument" parent="VendorCreditMemoDocument-parentBean">
+	  	<property name="documentClass" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument" />
+		<property name="attributes">
+			<list merge="true">
+				<bean parent="PaymentMethodAttribute-SelectControl"/>
+			</list>
+		</property>
+    </bean>           
+
+    <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean">
+    	<property name="required" value="false"/>
+    </bean>
+  
+    <bean id="VendorCreditMemoDocument-workflowAttributes" parent="VendorCreditMemoDocument-workflowAttributes-parentBean">
+	    <property name="searchingTypeDefinitions">
+	    	<list merge="true"> 	
+	            <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
+	                <property name="searchingAttribute">
+	                    <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+	                        <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument"/>
+	                        <property name="attributeName" value="paymentMethodCode"/>	                       
+	                    </bean>
+	                </property>
+	                <property name="documentValues">
+	                    <list>
+	                        <value>paymentMethodCode</value>
+	                    </list>
+	                </property>
+	            </bean>      			
+	   		</list>
+	   	</property>
+    </bean>	
+
+</beans>

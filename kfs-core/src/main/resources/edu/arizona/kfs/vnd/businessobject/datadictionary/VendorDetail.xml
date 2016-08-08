@@ -10,11 +10,17 @@
                 <ref bean="VendorDetail-exportControlsFlag" />
                 <ref bean="VendorDetail-conflictOfInterest" />
                 <ref bean="VendorDetail-defaultB2BPaymentMethodCode" />
+                <ref bean="VendorDetail-azSalesTaxLicense" />
+                <ref bean="VendorDetail-tucSalesTaxLicense" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
+
+    <dd:boAttributeRef id="VendorDetail-azSalesTaxLicense" parent="VendorDetailExtension-azSalesTaxLicense-parentBean" attributeName="extension.azSalesTaxLicense" />
+
+    <dd:boAttributeRef id="VendorDetail-tucSalesTaxLicense" parent="VendorDetailExtension-tucSalesTaxLicense-parentBean" attributeName="extension.tucSalesTaxLicense" />
 
     <dd:boAttributeRef id="VendorDetail-exportControlsFlag" parent="VendorDetailExtension-exportControlsFlag" attributeName="extension.exportControlsFlag" />
     
@@ -72,6 +78,8 @@
         <property name="numberOfColumns" value="1" />
         <property name="inquiryFields">
             <list>
+                <bean parent="FieldDefinition" p:attributeName="extension.azSalesTaxLicense" />
+                <bean parent="FieldDefinition" p:attributeName="extension.tucSalesTaxLicense" />
                 <bean parent="FieldDefinition" p:attributeName="extension.exportControlsFlag" />
             </list>
         </property>
@@ -173,5 +181,5 @@
 				<bean parent="FieldDefinition" p:attributeName="extension.defaultB2BPaymentMethodCode" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 </beans>

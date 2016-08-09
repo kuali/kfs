@@ -76,6 +76,30 @@
         </property>
     </bean>
 
+	<bean id="glBudgetAdjustmentTransactionDao" parent="platformAwareDao" class="edu.arizona.kfs.gl.dataaccess.impl.BudgetAdjustmentTransactionDaoOjb"/>
+	
+	<bean id="budgetAdjustmentTransactionReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction"/>
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="universityFiscalYear" value="YEAR"/>
+				<entry key="chartOfAccountsCode" value="COA"/>
+				<entry key="accountNumber" value="ACCOUNT"/>
+				<entry key="subAccountNumber" value="SACCT"/>
+				<entry key="financialObjectCode" value="OBJ"/>
+				<entry key="financialSubObjectCode" value="SOBJ"/>
+				<entry key="financialBalanceTypeCode" value="BT"/>
+				<entry key="financialObjectTypeCode" value="OT"/>
+				<entry key="universityFiscalPeriodCode" value="PRD"/>
+				<entry key="financialDocumentTypeCode" value="DTYP"/>
+				<entry key="documentNumber" value="RBC #"/>
+				<entry key="transactionLedgerEntrySequenceNumber" value="SEQ #"/>
+				<entry key="organizationDocumentNumber" value="DOC #"/>
+			</map>
+		</property>
+		<property name="columnCount" value="13" />
+	</bean>
+
     <bean id="posterJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

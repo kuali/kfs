@@ -37,19 +37,12 @@
     </bean>
 
     <bean id="salaryTransferPeriodValidationService" parent="salaryTransferPeriodValidationService-parentBean" />
-    <bean id="salaryTransferPeriodValidationService-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.SalaryTransferPeriodValidationServiceImpl" abstract="true">
+    <bean id="salaryTransferPeriodValidationService-parentBean" class="edu.arizona.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl" abstract="true">
         <property name="effortCertificationService" ref="effortCertificationModuleService"/>
         <property name="documentService" ref="documentService"/>
         <property name="noteService" ref="noteService"/>
         <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
-    </bean>
-
-    <bean id="globalTransactionEditService" parent="globalTransactionEditService-parentBean" />
-    <bean id="globalTransactionEditService-parentBean" p:serviceName="globalTransactionEditService" class="edu.arizona.kfs.gl.service.impl.GlobalTransactionEditServiceImpl" abstract="true">
-        <property name="boService" ref="businessObjectService" />
-        <property name="parmService" ref="parameterService" />
-        <property name="originService" ref="homeOriginationService" />
     </bean>
 
     <bean id="laborNightlyOutJob" parent="unscheduledJobDescriptor">

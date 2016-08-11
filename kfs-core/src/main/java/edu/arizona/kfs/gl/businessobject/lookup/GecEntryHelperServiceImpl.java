@@ -58,7 +58,7 @@ public class GecEntryHelperServiceImpl {
                 String docTypeId = docHeader.getDocumentTypeId();
                 DocumentTypeLiteBo docType = getBusinessObjectService().findBySinglePrimaryKey(DocumentTypeLiteBo.class, docTypeId);
                 String documentTypeName = docType.getName();
-                if (documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION)) {
+                if (documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION) || documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION)) {
                     LOG.debug("GEC Document Number " + gecDocumentNumber + " found for Document Number " + documentNumber + ".");
                     return gecDocumentNumber;
                 }

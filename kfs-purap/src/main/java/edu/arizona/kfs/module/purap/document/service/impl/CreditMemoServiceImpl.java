@@ -82,6 +82,7 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
                 // if this is a UA CM document and the source is a new UA payment request document, copy the payment method code
                 if ( document instanceof edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument && document.getPaymentRequestDocument() instanceof PaymentRequestDocument ) {
                     ((edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument)document).setPaymentMethodCode(((PaymentRequestDocument)document.getPaymentRequestDocument()).getPaymentMethodCode());
+                    ((edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument)document).synchronizeBankCodeWithPaymentMethod();
                 }
             }
             else {

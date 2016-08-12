@@ -24,16 +24,6 @@ public class BankCodeValidation extends org.kuali.kfs.sys.document.validation.im
     
     protected static PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService;
 
-    /**
-     * Performs required, exists, and active validation of bank code. Also validates bank for deposit or disbursement indicator if
-     * requested.
-     * 
-     * @param bankCode value to validate
-     * @param bankCodeProperty property to associate errors with
-     * @param requireDeposit true if the bank code should support deposits
-     * @param requireDisbursement true if the bank code should support disbursements
-     * @return true if bank code passes all validations, false if any fail
-     */
     public static boolean validate(String bankCode, String bankCodeProperty, boolean requireDeposit, boolean requireDisbursement) {
         return validate(bankCode, bankCodeProperty, null, requireDeposit, requireDisbursement);
     }
@@ -44,7 +34,7 @@ public class BankCodeValidation extends org.kuali.kfs.sys.document.validation.im
      * 
      * @param bankCode value to validate
      * @param bankCodeProperty property to associate errors with
-     * @param required true if the bank code is required
+     * @param paymentMethodCode the given payment method code
      * @param requireDeposit true if the bank code should support deposits
      * @param requireDisbursement true if the bank code should support disbursements
      * @return true if bank code passes all validations, false if any fail

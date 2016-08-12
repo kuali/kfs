@@ -625,14 +625,6 @@
 	        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 	        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
 	    </reference-descriptor>
-	<!--
-	    <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-	        <foreignkey field-ref="purchaseOrderIdentifier" />
-	    </reference-descriptor>
-	    <reference-descriptor name="paymentRequestDocument" class-ref="org.kuali.kfs.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-	        <foreignkey field-ref="paymentRequestIdentifier" />
-	    </reference-descriptor>
-	-->
 	    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
 	    	<foreignkey field-ref="bankCode" />
 	    </reference-descriptor>

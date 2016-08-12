@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="glCollectorHelperService" parent="glCollectorHelperService-parentBean" />
-    <bean id="glCollectorHelperService-parentBean" class="edu.arizona.kfs.gl.service.impl.CollectorHelperServiceImpl" abstract="true">
+    <bean id="glCollectorHelperService-parentBean" class="edu.arizona.kfs.gl.batch.service.impl.CollectorHelperServiceImpl" abstract="true">
         <property name="collectorDetailService" ref="glCollectorDetailService"/>
         <property name="originEntryService" ref="originEntryService"/>
         <property name="originEntryGroupService" ref="originEntryGroupService"/>

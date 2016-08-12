@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.arizona.kfs.gl.service.impl;
+package edu.arizona.kfs.gl.batch.service.impl;
 
 import edu.arizona.kfs.gl.service.GlobalTransactionEditService;
 import org.kuali.kfs.gl.batch.CollectorBatch;

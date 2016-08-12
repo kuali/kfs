@@ -51,7 +51,7 @@ public class ErrorCertification extends PersistableBusinessObjectBase {
 	public void setErrorCorrectionReason(String errorCorrectionReason) {
 		this.errorCorrectionReason = errorCorrectionReason;
 	}
-	
+
 	protected LinkedHashMap<String, String> toStringMapper() {
 		LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
 		

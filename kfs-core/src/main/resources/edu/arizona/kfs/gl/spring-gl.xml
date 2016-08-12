@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" >
         <property name="packagePrefixes">
@@ -20,6 +13,7 @@
         <property name="dataDictionaryPackages">
             <list merge="true">
                 <value>classpath:edu/arizona/kfs/gl/businessobject/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/gl/document/datadictionary/*.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -27,6 +21,42 @@
                 <value>edu/arizona/kfs/gl/ojb-gl.xml</value>
             </list>
         </property>
+    </bean>
+
+    <bean id="globalTransactionEditService" parent="globalTransactionEditService-parentBean" />
+    <bean id="globalTransactionEditService-parentBean" p:serviceName="globalTransactionEditService" class="edu.arizona.kfs.gl.service.impl.GlobalTransactionEditServiceImpl" abstract="true">
+        <property name="boService" ref="businessObjectService" />
+        <property name="parmService" ref="parameterService" />
+        <property name="originService" ref="homeOriginationService" />
+    </bean>
+
+    <bean id="glCollectorHelperService" parent="glCollectorHelperService-parentBean" />
+    <bean id="glCollectorHelperService-parentBean" class="edu.arizona.kfs.gl.batch.service.impl.CollectorHelperServiceImpl" abstract="true">
+        <property name="collectorDetailService" ref="glCollectorDetailService"/>
+        <property name="originEntryService" ref="originEntryService"/>
+        <property name="originEntryGroupService" ref="originEntryGroupService"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="collectorScrubberService" ref="glCollectorScrubberService"/>
+        <property name="batchInputFileService" ref="batchInputFileService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="preScrubberService" ref="preScrubberService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
+        <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+    </bean>
+
+    <bean id="scrubberValidator" parent="scrubberValidator-parentBean" />
+    <bean id="scrubberValidator-parentBean" class="edu.arizona.kfs.gl.service.impl.ScrubberValidatorImpl" abstract="true">
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="universityDateDao" ref="universityDateDao"/>
+        <property name="originationCodeService" ref="originationCodeService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="persistenceStructureService" ref="persistenceStructureService"/>
+        <property name="balanceTypService" ref="balanceTypService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
     </bean>
 
     <bean id="collectorJob" parent="unscheduledJobDescriptor">

@@ -734,7 +734,7 @@
 
 		<action path="/laborLedgerCorrection" name="LaborCorrectionForm"
 			input="/jsp/gl/Correction.jsp"
-			type="org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionAction"
+			type="edu.arizona.kfs.module.ld.document.web.struts.LaborCorrectionAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/gl/Correction.jsp" />

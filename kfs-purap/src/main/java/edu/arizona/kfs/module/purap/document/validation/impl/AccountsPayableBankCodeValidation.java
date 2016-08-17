@@ -44,7 +44,9 @@ public class AccountsPayableBankCodeValidation extends org.kuali.kfs.module.pura
                 }
             }
         } else {
-            isValid = BankCodeValidation.validate(apDocument.getBankCode(), AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX + PurapPropertyConstants.BANK_CODE, false, true);
+        	if (isDocumentTypeUsingBankCode(apDocument)) {
+        		isValid = BankCodeValidation.validate(apDocument.getBankCode(), AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX + PurapPropertyConstants.BANK_CODE, false, true);
+        	}
         }
 
         return isValid;

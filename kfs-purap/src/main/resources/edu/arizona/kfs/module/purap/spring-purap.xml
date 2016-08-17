@@ -27,6 +27,8 @@
 	</bean>
 
     <import resource="document/validation/configuration/RequisitionValidation.xml"/>
+    <import resource="document/validation/configuration/PurapValidatorDefinitions.xml"/>
+	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml"/>
 
     <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
         <property name="steps">
@@ -121,8 +123,6 @@
     
     <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
     </bean>
-    
-    <import resource="document/validation/configuration/PurapValidatorOverrides.xml" />
     
 	<bean id="creditMemoService" class="edu.arizona.kfs.module.purap.document.service.impl.CreditMemoServiceImpl">
         <property name="accountsPayableService" ref="accountsPayableService" />

@@ -9,38 +9,54 @@
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentrequest.htm</helpDefinitionURL>
       <docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentrequests.htm</docSearchHelpURL>
       <active>true</active>
+      	  <routingVersion>2</routingVersion>
+		  <validApplicationStatuses>
+	      	<status>Initiated</status>
+	      	<status>In Process</status>
+	      	<status>Canceled In Process</status>
+	      	<status>Canceled</status>
+	      	<status>Department-Approved</status>
+	      	<status>Auto-Approved</status>
+	      	<status>Awaiting AP Review</status>
+	      	<status>Awaiting Receiving</status>
+	      	<status>Awaiting Sub-Account Manager Approval</status>
+	      	<status>Awaiting Fiscal Officer Approval</status>
+	      	<status>Awaiting Chart Approval</status>
+	      	<status>Awaiting Tax Approval</status>
+			<status>Awaiting Object Sub-Type</status>
+	      	<status>Pending Route Electronic Invoice</status>
+		  </validApplicationStatuses>
       <policies>
         <policy>
           <name>DOCUMENT_STATUS_POLICY</name>
-          <stringValue>APP</stringValue>
+          <stringValue>app</stringValue>
         </policy>
       </policies>
-      <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresImageAttachment" />
+          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
           <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
             <branch name="True">
-              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" />
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving" />
             </branch>
             <branch name="False">
-              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" />
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving"/>
             </branch>
             <join name="JoinRequiresImageAttachment" />
           </split>
           <split name="PurchaseWasReceived" nextNode="SubAccount">
             <branch name="True">
-              <role name="Receiving" nextNode="JoinReceiving" />
+              <role name="Receiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
             </branch>
             <branch name="False">
-              <simple name="NoOpReceiving" nextNode="JoinReceiving" />
+              <simple name="NoOpReceiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
             </branch>
             <join name="JoinReceiving" />
           </split>
-          <role name="SubAccount" nextNode="Account" />
-          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
-          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
-          <role name="ObjectSubTypeCode" nextNode="VendorIsEmployeeOrNonResidentAlien"/>
+          <role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Approval"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Chart Approval"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" nextAppDocStatus="Awaiting Object Sub-Type"/>
+          <role name="ObjectSubTypeCode" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
           <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="RequiresAutoApprovalNotification">
             <branch name="True">
               <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />

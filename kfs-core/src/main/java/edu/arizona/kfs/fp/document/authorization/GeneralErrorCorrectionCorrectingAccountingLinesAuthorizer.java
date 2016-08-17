@@ -42,11 +42,6 @@ public class GeneralErrorCorrectionCorrectingAccountingLinesAuthorizer extends C
     }
 
     @Override
-    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {
-        return false;
-    }
-
-    @Override
     public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
         boolean retval = super.hasEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editableLine, editablePage, currentUser);
         return retval;

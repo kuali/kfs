@@ -16,5 +16,9 @@ public class GeneralLedgerConstants extends org.kuali.kfs.gl.GeneralLedgerConsta
         public static final String CAPITALIZATION_OFFSET_BY_CHART = "CAPITALIZATION_OFFSET_BY_CHART";
 
     }
+    
+    public static final String CASH_TRANSFER_ORIGINATION_CODES = "ORIGINATION";
+    public static final String CASH_TRANSFER_DOC_TYPE_CODES = "DOCUMENT_TYPES_REQUIRING_CREATION_OF_CASH_TRANSFER_ENTRIES";
+    
 
 }

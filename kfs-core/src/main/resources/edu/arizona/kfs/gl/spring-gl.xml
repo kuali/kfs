@@ -76,6 +76,59 @@
         </property>
     </bean>
 
+	<bean id="glBudgetAdjustmentTransactionDao" parent="platformAwareDao" class="edu.arizona.kfs.gl.dataaccess.impl.BudgetAdjustmentTransactionDaoOjb"/>
+	
+	<bean id="glBudgetAdjustmentCashTransferService" parent="glBudgetAdjustmentCashTransferService-parentBean"/>
+	<bean id="glBudgetAdjustmentCashTransferService-parentBean" abstract="true" class="edu.arizona.kfs.gl.batch.service.impl.BudgetAdjustmentCashTransferServiceImpl">
+		<property name="budgetAdjustmentTransactionDao">
+			<ref bean="glBudgetAdjustmentTransactionDao" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="runDateService">
+			<ref bean="glRunDateService"/>
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>		
+	</bean>
+	
+	<bean id="glBudgetAdjustmentExtractStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentExtractStep" parent="step">
+		<property name="budgetAdjustmentCashTransferService">
+			<ref bean="glBudgetAdjustmentCashTransferService" />
+		</property>
+	</bean>
+	
+	<bean id="budgetAdjustmentTransactionReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction"/>
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="universityFiscalYear" value="YEAR"/>
+				<entry key="chartOfAccountsCode" value="COA"/>
+				<entry key="accountNumber" value="ACCOUNT"/>
+				<entry key="subAccountNumber" value="SACCT"/>
+				<entry key="financialObjectCode" value="OBJ"/>
+				<entry key="financialSubObjectCode" value="SOBJ"/>
+				<entry key="financialBalanceTypeCode" value="BT"/>
+				<entry key="financialObjectTypeCode" value="OT"/>
+				<entry key="universityFiscalPeriodCode" value="PRD"/>
+				<entry key="financialDocumentTypeCode" value="DTYP"/>
+				<entry key="documentNumber" value="RBC #"/>
+				<entry key="transactionLedgerEntrySequenceNumber" value="SEQ #"/>
+				<entry key="organizationDocumentNumber" value="DOC #"/>
+			</map>
+		</property>
+		<property name="columnCount" value="13" />
+	</bean>
+
     <bean id="posterJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

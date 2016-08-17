@@ -27,6 +27,7 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 	private String financialObjectTypeCode;
 	private String universityFiscalPeriodCode;
 	private String financialDocumentTypeCode;
+	private String financialSystemOriginationCode;
 	private String documentNumber;
 	private Integer transactionLedgerEntrySequenceNumber;
 	private String transactionLedgerEntryDescription;
@@ -140,6 +141,14 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 
 	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
 		this.financialDocumentTypeCode = financialDocumentTypeCode;
+	}
+
+	public String getFinancialSystemOriginationCode() {
+		return financialSystemOriginationCode;
+	}
+
+	public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
+		this.financialSystemOriginationCode = financialSystemOriginationCode;
 	}
 
 	public String getDocumentNumber() {

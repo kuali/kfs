@@ -1,10 +1,7 @@
 package edu.arizona.kfs.fp.document.authorization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSKeyConstants;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -17,8 +14,10 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import edu.arizona.kfs.sys.KFSConstants;
-import edu.arizona.kfs.sys.KFSKeyConstants;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GeneralErrorCorrectionReversingAccountingLinesAuthorizer extends CapitalAccountingLinesAuthorizerBase {
 
@@ -33,6 +32,16 @@ public class GeneralErrorCorrectionReversingAccountingLinesAuthorizer extends Ca
         if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
             return StringUtils.equalsIgnoreCase(workflowDocument.getInitiatorPrincipalId(), currentUser.getPrincipalId());
         }
+        return false;
+    }
+
+    @Override
+    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {
+        return false;
+    }
+
+    @Override
+    public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
         return false;
     }
 

@@ -27,10 +27,10 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,14 +48,13 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.module.ld.batch.service
      */
     public List<Message> validateTransaction(OriginEntryInformation originEntry, OriginEntryInformation scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
-        List<Message> errors = new ArrayList<Message>();
         continuationAccountIndicator = false;
 
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
 
         // gl scrubber validation
-        errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator, laborAccountingCycleCachingService);
+        List<Message> errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator, laborAccountingCycleCachingService);
 
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
@@ -88,7 +87,7 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.module.ld.batch.service
             errors.add(err);
         }
 
-        err = validateGTEAccount(laborOriginEntry, laborScrubbedEntry, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
+        err = validateGTEAccount(laborScrubbedEntry);
         if (err != null) {
             errors.add(err);
         }
@@ -96,29 +95,29 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.module.ld.batch.service
         return errors;
     }
 
-    protected Message validateGTEAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborScrubbedEntry, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message validateGTEAccount(LaborOriginEntry originEntry) {
         LOG.debug("validateGTEAccount() started");
-        laborOriginEntry.refreshReferenceObject("account");
-        laborOriginEntry.refreshReferenceObject("financialObject");
-        Account account = laborOriginEntry.getAccount();
+        originEntry.refreshReferenceObject("account");
+        originEntry.refreshReferenceObject("financialObject");
+        Account account = originEntry.getAccount();
         account.refreshReferenceObject("subFundGroup");
 
         if (ObjectUtils.isNull(account)) {
-            throw new IllegalArgumentException("This account specified " + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + " does not exist. For sequence " + laborOriginEntry.getTransactionLedgerEntrySequenceNumber());
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Account", originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber()});
         }
-        if (ObjectUtils.isNull(laborOriginEntry.getFinancialObject())) {
-            throw new IllegalArgumentException("This account specified " + laborOriginEntry.getFinancialObjectCode() + "-" + laborOriginEntry.getAccountNumber() + " does not exist. For sequence " + laborOriginEntry.getTransactionLedgerEntrySequenceNumber());
+        if (ObjectUtils.isNull(originEntry.getFinancialObject())) {
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Object Code", originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode()});
         }
         if (ObjectUtils.isNull(account.getSubFundGroup())) {
-            throw new IllegalArgumentException("This account specified " + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + " does not exist. For sequence " + laborOriginEntry.getTransactionLedgerEntrySequenceNumber());
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Sub Fund", account.getSubFundGroupCode()});
         }
 
-        Message result = globalTransactionEditService.isAccountingLineAllowable(laborOriginEntry.getFinancialSystemOriginationCode(),
+        Message result = globalTransactionEditService.isAccountingLineAllowable(originEntry.getFinancialSystemOriginationCode(),
                 account.getSubFundGroup().getFundGroupCode(),
                 account.getSubFundGroupCode(),
-                laborOriginEntry.getFinancialDocumentTypeCode(),
-                laborOriginEntry.getFinancialObject().getFinancialObjectTypeCode(),
-                laborOriginEntry.getFinancialObject().getFinancialObjectSubTypeCode());
+                originEntry.getFinancialDocumentTypeCode(),
+                originEntry.getFinancialObject().getFinancialObjectTypeCode(),
+                originEntry.getFinancialObject().getFinancialObjectSubTypeCode());
         return result;
     }
 

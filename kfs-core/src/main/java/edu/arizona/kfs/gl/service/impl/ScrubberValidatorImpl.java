@@ -24,6 +24,7 @@ import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -203,7 +204,7 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.gl.service.impl.Scrubbe
             errors.add(err);
         }
 
-        err = validateGTEAccount((OriginEntryFull) originEntry);
+        err = validateGTEAccount((OriginEntryFull) scrubbedEntry);
         if (err != null) {
             errors.add(err);
         }
@@ -219,15 +220,14 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.gl.service.impl.Scrubbe
         account.refreshReferenceObject("subFundGroup");
 
         if(ObjectUtils.isNull(account)){
-            throw new IllegalArgumentException("This account specified "+originEntry.getChartOfAccountsCode()+"-"+originEntry.getAccountNumber()+" does not exist. For sequence "+originEntry.getTransactionLedgerEntrySequenceNumber());
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Account", originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber()});
         }
         if(ObjectUtils.isNull(originEntry.getFinancialObject())){
-            throw new IllegalArgumentException("This account specified "+originEntry.getFinancialObjectCode()+"-"+originEntry.getAccountNumber()+" does not exist. For sequence "+originEntry.getTransactionLedgerEntrySequenceNumber());
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Object Code", originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode()});
         }
         if(ObjectUtils.isNull(account.getSubFundGroup())){
-            throw new IllegalArgumentException("This account specified "+originEntry.getChartOfAccountsCode()+"-"+originEntry.getAccountNumber()+" does not exist. For sequence "+originEntry.getTransactionLedgerEntrySequenceNumber());
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Sub Fund", account.getSubFundGroupCode()});
         }
-
 
         Message result = globalTransactionEditService.isAccountingLineAllowable(originEntry.getFinancialSystemOriginationCode(),
                 account.getSubFundGroup().getFundGroupCode(),

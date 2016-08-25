@@ -95,6 +95,10 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>		
 	</bean>
 	
+	<bean id="glBudgetAdjustmentMergeSortStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentMergeSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	</bean>
+	
 	<bean id="glBudgetAdjustmentExtractStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentExtractStep" parent="step">
 		<property name="budgetAdjustmentCashTransferService">
 			<ref bean="glBudgetAdjustmentCashTransferService" />
@@ -194,5 +198,5 @@
             </list>
         </property>
     </bean>
-
+    
 </beans>

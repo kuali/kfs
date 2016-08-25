@@ -13,26 +13,7 @@ public interface BudgetAdjustmentTransactionDao {
 	 * @param ba a budget adjustment transaction to save
 	 */
 	public void save(BudgetAdjustmentTransaction ba);
-	
-	/**
-	 * Find the maximum transactionLedgerEntrySequenceNumber 
-	 * in the entry table for a specific transaction.  This is 
-	 * used to make sure that rows added have a unique primary key.
-	 * 
-	 * @param t a transaction to find the maximum sequence number for
-	 * @return the max sequence number for the given transaction
-	 */
-	public int getMaxSequenceNumber(Transaction t);
-	
-	/**
-	 * Looks up the budget adjustment transaction that matches the keys 
-	 * from the given transaction.
-	 * 
-	 * @param t the given transaction
-	 * @return the budget adjustment transaction that matches the keys of that transaction
-	 */
-	public BudgetAdjustmentTransaction getByTransaction(Transaction t);
-	
+		
 	/**
 	 * Returns all budget adjustment transactions currently in the database
 	 * 
@@ -41,12 +22,12 @@ public interface BudgetAdjustmentTransactionDao {
 	public Iterator getAllBudgetAdjustmentTransactions();
 	
 	/**
-	 * Returns all budget adjustment transactions for a particular RBC Number
+	 * Returns all budget adjustment transactions for a particular document number
 	 * 
-	 * @param rbcNumber
+	 * @param docNumber
 	 * @return an iterator of budget adjustment transaction records
 	 */
-	public Iterator getByRBCNumber(String rbcNumber);
+	public Iterator getByDocNumber(String docNumber);
 	
 	/**
 	 * Deletes a budget adjustment transaction record

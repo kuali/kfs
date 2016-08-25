@@ -22,7 +22,6 @@ public class GeneralLedgerConstants extends org.kuali.kfs.gl.GeneralLedgerConsta
     
     // Batch File System
     public static final String CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE = "gl_bacashtrans";
-    public static final String BATRAN_POSTER_INPUT_FILE = "gl_sortbatran";
-    public static final String BATRAN_POSTER_ERROR_OUTPUT_FILE = "gl_batranerrs";
+    public static final String CASH_TRANSFER_TRANSACTIONS_ERROR_OUTPUT_FILE = "gl_batranerrs";
     
 }

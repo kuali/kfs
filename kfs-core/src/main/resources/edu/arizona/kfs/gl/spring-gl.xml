@@ -27,6 +27,27 @@
                 <value>edu/arizona/kfs/gl/ojb-gl.xml</value>
             </list>
         </property>
+        <property name="jobNames">
+			<list>
+				<value>enterpriseFeedJob</value>
+				<value>collectorJob</value>
+				<value>nightlyOutJob</value>
+				<value>budgetAdjustmentCashTransferJob</value>
+				<value>scrubberJob</value>
+				<value>posterJob</value>
+				<value>posterBalancingJob</value>
+				<value>sufficientFundsAccountUpdateJob</value>
+                <value>sufficientFundsFullRebuildJob</value>
+                <value>clearPendingEntriesJob</value>
+				<value>encumbranceForwardJob</value>
+				<value>balanceForwardJob</value>
+				<value>nominalActivityClosingJob</value>
+				<value>organizationReversionPriorYearAccountJob</value>
+				<value>organizationReversionCurrentYearAccountJob</value>
+				<value>manualPurgeJob</value>
+				<value>posterBalancingHistorySyncJob</value>
+            </list>
+		</property>
     </bean>
 
     <bean id="collectorJob" parent="unscheduledJobDescriptor">
@@ -53,6 +74,16 @@
         </property>
     </bean>
 
+	<bean id="budgetAdjustmentCashTransferJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glBudgetAdjustmentMergeSortStep"/>
+				<ref bean="glBudgetAdjustmentExtractStep"/>
+				<ref bean="glBudgetAdjustmentGenerationStep"/>
+			</list>
+		</property>
+	</bean>
+	
     <bean id="scrubberJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

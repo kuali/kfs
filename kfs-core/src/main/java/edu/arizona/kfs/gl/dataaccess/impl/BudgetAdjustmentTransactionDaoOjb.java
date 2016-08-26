@@ -43,7 +43,7 @@ public class BudgetAdjustmentTransactionDaoOjb extends PlatformAwareDaoBaseOjb i
 	/**
 	 * Returns all budget adjustment transactions for a particular document Number
 	 * 
-	 * @param doccNumber
+	 * @param docNumber
 	 * @return an iterator of Budget adjustment Transaction records
 	 * @see edu.arizona.kfs.gl.dataaccess.BudgetAdjustmentTransactionDao#getByDocNumber(String)
 	 */
@@ -51,7 +51,6 @@ public class BudgetAdjustmentTransactionDaoOjb extends PlatformAwareDaoBaseOjb i
 		LOG.debug("getByRBCNumber() started");
 		
 		Criteria crit = new Criteria();
-		crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, doccNumber);
 		crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, docNumber);
 		
 		QueryByCriteria qbc = QueryFactory.newQuery(BudgetAdjustmentTransaction.class, crit);

@@ -16,6 +16,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants;
 import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants;
@@ -47,6 +49,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentCashTransferServiceImpl.class);
 
     protected BudgetAdjustmentTransactionDao budgetAdjustmentTransactionDao;
+    protected ObjectCodeService objectCodeService;
     protected OptionsService optionsService;
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
@@ -79,6 +82,11 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
          
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         int line = 0;
+        int reportBudgetAdjustDocLoaded = 0;
+        int reportBudgetAdjustDocErrors = 0;
+        int maxSequenceId = 0;
+        String saveDocNumber = new String("");
+        		
         try {
         	while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
         		if (!org.apache.commons.lang.StringUtils.isEmpty(GLEN_RECORD) && !org.apache.commons.lang.StringUtils.isBlank(GLEN_RECORD.trim())) {
@@ -92,7 +100,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                 		 //parsing error, write error and continue	   
                 		 reportWriterService.writeError(originEntry, parsingError);
                 		 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-                    	 continue;
+                		 reportBudgetAdjustDocErrors++;
+                		 continue;
                      }
                      
                      if (isBudgetAdjustmentTransaction(originEntry)) {
@@ -104,18 +113,51 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 	                        	 //no income stream info, write error and continue	                        	
 	                             Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
 	                             reportWriterService.writeError(originEntry, errorMsg);
-	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                        	 continue;
+	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                             reportBudgetAdjustDocErrors++;
+	                             continue;
 	                         }
                          }
                          
-                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                    	
+                         //check to make sure that Object Type Code is present (BO input may not have this)
+                         if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
+                        	 String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
+                        	 if (ObjectUtils.isNull(financialObjectTypeCode)) {
+                        		//no valid Object Code info, write error and continue	                        	
+	                             Message errorMsg = new Message("No Object Code information found for this record.", Message.TYPE_FATAL);
+	                             reportWriterService.writeError(originEntry, errorMsg);
+	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                             reportBudgetAdjustDocErrors++;
+	                             continue;
+                        	 }
+                        	 else {
+                        		 originEntry.setFinancialObjectTypeCode(financialObjectTypeCode);
+                        	 }
+                         }
+                         
+                         // Make sure the row will be unique when adding to the budget adjustment table by adjusting the transaction sequence id
+                         if (originEntry.getDocumentNumber().equals(saveDocNumber)) {
+                        	 maxSequenceId++;
+                         }
+                         else {
+                        	 maxSequenceId = 1;
+                        	 saveDocNumber = originEntry.getDocumentNumber();
+                         }                         
+                         originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId));
+                         
+                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         
                     	 try {
                              budgetAdjustmentTransactionDao.save(ba);
+                             reportBudgetAdjustDocLoaded++;
                          }
                          catch (RuntimeException re) {
-                             LOG.error("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage());
-                             throw new RuntimeException("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage(), re);
+                        	 //error adding budget adjustment record, write error and continue
+                        	 LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: " + re.getMessage());
+                             Message errorMsg = new Message("Error adding budget adjustment record for this record.", Message.TYPE_FATAL);
+                             reportWriterService.writeError(originEntry, errorMsg);
+                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                             reportBudgetAdjustDocErrors++;
+                             continue;
                          }
                      }
                      
@@ -124,6 +166,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              INPUT_GLE_FILE_br.close();
              INPUT_GLE_FILE.close();
              OUTPUT_ERR_FILE_ps.close();
+             reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                        %,9d", line);
+             reportWriterService.writeStatisticLine("GLBA RECORDS INSERTED (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
+             reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                          %,9d", reportBudgetAdjustDocErrors);
          }
          catch (IOException e) {
              throw new RuntimeException(e);
@@ -157,7 +202,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
             	 reportOriginEntryGenerated = generateCashTransferGeneralLedgerEntries(docNumberList, runDate, OUTPUT_GLE_FILE_ps);
             	 
             	 // create a done file
-                 String budgetAdjustmentCashTransferDoneFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
+                 String budgetAdjustmentCashTransferDoneFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
                  File doneFile = new File (budgetAdjustmentCashTransferDoneFileName);
                  if (!doneFile.exists()) {
                      try {
@@ -172,9 +217,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
            
              //delete all budget adjustment transactions  
              budgetAdjustmentTransactionDao.deleteAllBudgetAdjustmentTransactions();
-             OUTPUT_GLE_FILE_ps.close();             
-             reportWriterService.writeStatisticLine("GLBA RBC TRANS LOADED           (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
-             reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                                   %,9d", reportOriginEntryGenerated);             
+             OUTPUT_GLE_FILE_ps.close();
+             reportWriterService.writeStatisticLine("GLBA TRANSACTIONS LOADED        (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
+             reportWriterService.writeStatisticLine("CASH TRANSFER TRANSACTIONS GENERATED                     %,9d", reportOriginEntryGenerated);             
 
          }
          catch (FileNotFoundException e) {
@@ -189,8 +234,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
       *
      * @return docNumberList list of unique budget adjustment document numbers      
      */
-    protected List<String> retrieveUniqueDocumentNumbersList() {   
-    	 int reportBudgetAdjustTranRetrieved = 0;
+    protected List<String> retrieveUniqueDocumentNumbersList() {     	
     	 Iterator budgetAdjustmentTransactions;
     	 List<String> docNumberList = new ArrayList<String>();
     	 
@@ -206,8 +250,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction();
              try {
                  ba = (BudgetAdjustmentTransaction) budgetAdjustmentTransactions.next();
-                 reportBudgetAdjustTranRetrieved++;
-                 
+                                  
                  if (!docNumberList.contains(ba.getDocumentNumber())) {
                 	 docNumberList.add(ba.getDocumentNumber());                     
                  }                      
@@ -221,8 +264,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                  errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
                  reportWriterService.writeError(ba, errorList);
              }
-         }
-         reportWriterService.writeStatisticLine("GLBA RECORDS READ               (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustTranRetrieved);
+         }         
          return docNumberList;
     }
     
@@ -306,11 +348,10 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                                 	
                         String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
                             baAccount.getIncomeStreamAccountNumber() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
-                            ba.getUniversityFiscalYear() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
+                            String.valueOf(ba.getUniversityFiscalYear().intValue()) + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
                             ba.getUniversityFiscalPeriodCode();
                         // place record in balance map
-                        incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(ba, incomeStreamBalance.get(incomeStreamKey)));   
-                    
+                        incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(ba, incomeStreamBalance.get(incomeStreamKey)));                   
                     }
                     else {
                     	List errorList = new ArrayList();
@@ -480,7 +521,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         }
          
         // Does the balance type code indicate that this transaction is for current budget?
-        if (!transaction.getFinancialBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
+        if (!transaction.getFinancialBalanceTypeCode().equals(options.getBudgetCheckingBalanceTypeCd())) {
         	return false;
         }                   
                
@@ -498,8 +539,26 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
        
     }
     
+    protected String getFinancialObjectTypeCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {    
+    	String financialObjectTypeCode = null;
+    	
+	    ObjectCode objectCode = getObjectCodeService().getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+	    if (ObjectUtils.isNotNull(objectCode)) {   	    
+	    	financialObjectTypeCode = objectCode.getFinancialObjectTypeCode();
+	    }
+	    return financialObjectTypeCode;
+    }
+    
     public void setBudgetAdjustmentTransactionDao(BudgetAdjustmentTransactionDao budgetAdjustmentTransactionDao) {
         this.budgetAdjustmentTransactionDao = budgetAdjustmentTransactionDao;
+    }
+        
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+    
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
     }
    
     public void setOptionsService(OptionsService optionsService) {

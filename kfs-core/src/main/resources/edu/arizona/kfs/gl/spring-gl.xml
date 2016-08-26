@@ -103,6 +103,10 @@
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>		
 	</bean>
+	
+	<bean id="glBudgetAdjustmentMergeSortStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentMergeSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	</bean>
 		
 	<bean id="budgetAdjustmentTransactionReportHelper" parent="businessObjectReportHelper">
 		<property name="dataDictionaryBusinessObjectClass" value="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction"/>

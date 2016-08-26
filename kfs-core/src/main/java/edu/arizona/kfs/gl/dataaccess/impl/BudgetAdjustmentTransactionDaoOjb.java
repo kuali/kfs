@@ -6,7 +6,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction;
@@ -19,7 +18,7 @@ public class BudgetAdjustmentTransactionDaoOjb extends PlatformAwareDaoBaseOjb i
 	public BudgetAdjustmentTransactionDaoOjb() {
 		super();
 	}
-		
+	
 	/**
 	 * Fetches all budget adjustment transactions currently in the database
 	 * 
@@ -42,17 +41,18 @@ public class BudgetAdjustmentTransactionDaoOjb extends PlatformAwareDaoBaseOjb i
 	}
 	
 	/**
-	 * Returns all budget adjustment transactions for a particular document number
+	 * Returns all budget adjustment transactions for a particular document Number
 	 * 
 	 * @param doccNumber
 	 * @return an iterator of Budget adjustment Transaction records
-	 * @see edu.arizona.kfs.gl.dataaccess.BudgetAdjustmentTransactionDao#getByRBCNumber(String)
+	 * @see edu.arizona.kfs.gl.dataaccess.BudgetAdjustmentTransactionDao#getByDocNumber(String)
 	 */
-	public Iterator getByDocNumber(String doccNumber) {
-		LOG.debug("getByDocNumber() started");
+	public Iterator getByDocNumber(String docNumber) {
+		LOG.debug("getByRBCNumber() started");
 		
 		Criteria crit = new Criteria();
 		crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, doccNumber);
+		crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, docNumber);
 		
 		QueryByCriteria qbc = QueryFactory.newQuery(BudgetAdjustmentTransaction.class, crit);
 		return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);

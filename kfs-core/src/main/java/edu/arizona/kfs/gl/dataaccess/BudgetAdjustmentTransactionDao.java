@@ -2,8 +2,6 @@ package edu.arizona.kfs.gl.dataaccess;
 
 import java.util.Iterator;
 
-import org.kuali.kfs.gl.businessobject.Transaction;
-
 import edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction;
 
 public interface BudgetAdjustmentTransactionDao {
@@ -22,9 +20,9 @@ public interface BudgetAdjustmentTransactionDao {
 	public Iterator getAllBudgetAdjustmentTransactions();
 	
 	/**
-	 * Returns all budget adjustment transactions for a particular document number
+	 * Returns all budget adjustment transactions for a particular document Number
 	 * 
-	 * @param docNumber
+	 * @param doccNumber
 	 * @return an iterator of budget adjustment transaction records
 	 */
 	public Iterator getByDocNumber(String docNumber);

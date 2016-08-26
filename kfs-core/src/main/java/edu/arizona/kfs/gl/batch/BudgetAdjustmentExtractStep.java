@@ -1,12 +1,9 @@
 package edu.arizona.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 import edu.arizona.kfs.gl.batch.service.BudgetAdjustmentCashTransferService;
-
 
 public class BudgetAdjustmentExtractStep extends AbstractWrappedBatchStep {
 	protected BudgetAdjustmentCashTransferService budgetAdjustmentCashTransferService;

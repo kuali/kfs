@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -43,24 +43,25 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 		super();
 	}
 	
-	public BudgetAdjustmentTransaction(Transaction t) {
-		setUniversityFiscalYear(t.getUniversityFiscalYear());
-		setChartOfAccountsCode(t.getChartOfAccountsCode());
-		setAccountNumber(t.getAccountNumber());
-		setSubAccountNumber(t.getSubAccountNumber());
-		setFinancialObjectCode(t.getFinancialObjectCode());
-		setFinancialSubObjectCode(t.getFinancialSubObjectCode());
-		setFinancialBalanceTypeCode(t.getFinancialBalanceTypeCode());
-		setFinancialObjectTypeCode(t.getFinancialObjectTypeCode());
-		setUniversityFiscalPeriodCode(t.getUniversityFiscalPeriodCode());
-		setFinancialDocumentTypeCode(t.getFinancialDocumentTypeCode());
-		setDocumentNumber(t.getDocumentNumber());
-		setTransactionLedgerEntrySequenceNumber(t.getTransactionLedgerEntrySequenceNumber());
-		setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
-		setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
-		setTransactionDate(t.getTransactionDate());
-		setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
-		setProjectCode(t.getProjectCode());
+	public BudgetAdjustmentTransaction(OriginEntryFull originEntryFull) {
+		setUniversityFiscalYear(originEntryFull.getUniversityFiscalYear());
+		setChartOfAccountsCode(originEntryFull.getChartOfAccountsCode());
+		setAccountNumber(originEntryFull.getAccountNumber());
+		setSubAccountNumber(originEntryFull.getSubAccountNumber());
+		setFinancialObjectCode(originEntryFull.getFinancialObjectCode());
+		setFinancialSubObjectCode(originEntryFull.getFinancialSubObjectCode());
+		setFinancialBalanceTypeCode(originEntryFull.getFinancialBalanceTypeCode());
+		setFinancialObjectTypeCode(originEntryFull.getFinancialObjectTypeCode());
+		setUniversityFiscalPeriodCode(originEntryFull.getUniversityFiscalPeriodCode());
+		setFinancialDocumentTypeCode(originEntryFull.getFinancialDocumentTypeCode());
+		setFinancialSystemOriginationCode(originEntryFull.getFinancialSystemOriginationCode());
+		setDocumentNumber(originEntryFull.getDocumentNumber());
+		setTransactionLedgerEntrySequenceNumber(originEntryFull.getTransactionLedgerEntrySequenceNumber());
+		setTransactionLedgerEntryDescription(originEntryFull.getTransactionLedgerEntryDescription());
+		setTransactionLedgerEntryAmount(originEntryFull.getTransactionLedgerEntryAmount());
+		setTransactionDate(originEntryFull.getTransactionDate());
+		setOrganizationDocumentNumber(originEntryFull.getOrganizationDocumentNumber());
+		setProjectCode(originEntryFull.getProjectCode());
 	}
 	
 	public Integer getUniversityFiscalYear() {
@@ -142,15 +143,15 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
 		this.financialDocumentTypeCode = financialDocumentTypeCode;
 	}
-
-	public String getFinancialSystemOriginationCode() {
-		return financialSystemOriginationCode;
-	}
-
-	public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
-		this.financialSystemOriginationCode = financialSystemOriginationCode;
-	}
-
+		
+    public String getFinancialSystemOriginationCode() {
+        return financialSystemOriginationCode;
+    }
+   
+    public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
+        this.financialSystemOriginationCode = financialSystemOriginationCode;
+    }    
+   
 	public String getDocumentNumber() {
 		return documentNumber;
 	}

@@ -42,7 +42,6 @@ import edu.arizona.kfs.gl.batch.service.BudgetAdjustmentCashTransferService;
 import edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction;
 import edu.arizona.kfs.gl.dataaccess.BudgetAdjustmentTransactionDao;
 
-
 @Transactional
 public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustmentCashTransferService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentCashTransferServiceImpl.class);
@@ -63,9 +62,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     @Override
     public void extractAndSaveBudgetAdjustmentEntries() {
     	     
-    	//String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BUDGET_ADJUSTMENT_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.CASH_TRANSFER_TRANSACTIONS_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+    	String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BUDGET_ADJUSTMENT_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.CASH_TRANSFER_TRANSACTIONS_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         
         FileReader INPUT_GLE_FILE = null;
         PrintStream OUTPUT_ERR_FILE_ps;
@@ -91,35 +89,36 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                 	 parsingError = originEntry.setFromTextFileForBatch(GLEN_RECORD, line);
                 	 
                 	 if (parsingError.size() > 0) {
-                         String messages = "";
-                         for(Message msg : parsingError) {messages += msg + " ";}
-                         throw new RuntimeException("extractAndSaveBudgetAdjustmentEntries - exception happened in parsing process: " + messages);
+                		 //parsing error, write error and continue	   
+                		 reportWriterService.writeError(originEntry, parsingError);
+                		 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                    	 continue;
                      }
                      
                      if (isBudgetAdjustmentTransaction(originEntry)) {
-                    	 Account baAccount = originEntry.getAccount();
                     	 
-                    	  //check to make sure that Account has Income Stream information
-                         if (ObjectUtils.isNotNull(baAccount.getIncomeStreamFinancialCoaCode()) && ObjectUtils.isNotNull(baAccount.getIncomeStreamAccountNumber())) {
-                        
-	                    	 BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                    	
-	                    	 try {
-	                             budgetAdjustmentTransactionDao.save(ba);
-	                         }
-	                         catch (RuntimeException re) {
-	                             LOG.error("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage());
-	                             throw new RuntimeException("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage(), re);
+                    	//check to make sure that Account has Income Stream information
+                    	 Account baAccount = originEntry.getAccount();    	 
+                         if (ObjectUtils.isNotNull(baAccount)) {                        
+                        	 if (ObjectUtils.isNull(baAccount.getIncomeStreamFinancialCoaCode()) || ObjectUtils.isNull(baAccount.getIncomeStreamAccountNumber())) {             	
+	                        	 //no income stream info, write error and continue	                        	
+	                             Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
+	                             reportWriterService.writeError(originEntry, errorMsg);
+	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                        	 continue;
 	                         }
                          }
-                         else {
-                        	 //write error
-                        	 List errorList = new ArrayList();
-                             errorList.add(new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL));
-                             reportWriterService.writeError(originEntry, errorList);
-                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                         
+                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                    	
+                    	 try {
+                             budgetAdjustmentTransactionDao.save(ba);
                          }
-               	      
+                         catch (RuntimeException re) {
+                             LOG.error("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage());
+                             throw new RuntimeException("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage(), re);
+                         }
                      }
+                     
                  }
              }
              INPUT_GLE_FILE_br.close();
@@ -145,7 +144,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         int reportOriginEntryGenerated = 0;
     	   	
     	 try {
-    		 PrintStream OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    		 PrintStream OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
     		     		              
              //retrieve unique document numbers list             
              List<String> docNumberList = retrieveUniqueDocumentNumbersList();            
@@ -530,7 +529,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }    
-   
+
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }

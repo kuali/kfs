@@ -480,7 +480,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         }
          
         // Does the balance type code indicate that this transaction is for current budget?
-        if (!transaction.getFinancialBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
+        if (!transaction.getFinancialBalanceTypeCode().equals(options.getBudgetCheckingBalanceTypeCd())) {
         	return false;
         }                   
                

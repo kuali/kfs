@@ -132,9 +132,6 @@ public class BudgetAdjustmentMergeSortStep extends AbstractStep {
 		while ((len = sourceFile.read(buffer)) >= 0) {
 			outputFile.write(buffer, 0, len);
 		}
-		
-		sourceFile.close();
-		outputFile.close();
 	}
 	
 	public void setBatchFileDirectoryName(String batchFileDirectoryName) {

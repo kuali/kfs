@@ -16,6 +16,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants;
 import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants;
@@ -47,6 +49,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentCashTransferServiceImpl.class);
 
     protected BudgetAdjustmentTransactionDao budgetAdjustmentTransactionDao;
+    protected ObjectCodeService objectCodeService;
     protected OptionsService optionsService;
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
@@ -109,7 +112,19 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 	                         }
                          }
                          
-                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                    	
+                         //check to make sure that Object Type Code is present (BO input may not have this)
+                         if (ObjectUtils.isNull(originEntry.getFinancialObjectTypeCode())) {
+                        	 String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
+                        	 if (ObjectUtils.isNull(financialObjectTypeCode)) {
+                        		//no valid Object Code info, write error and continue	                        	
+	                             Message errorMsg = new Message("No Object Code information found for this record.", Message.TYPE_FATAL);
+	                             reportWriterService.writeError(originEntry, errorMsg);
+	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                        	 continue;
+                        	 }
+                         }
+                         
+                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         
                     	 try {
                              budgetAdjustmentTransactionDao.save(ba);
                          }
@@ -498,8 +513,26 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
        
     }
     
+    protected String getFinancialObjectTypeCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {    
+    	String financialObjectTypeCode = null;
+    	
+	    ObjectCode objectCode = getObjectCodeService().getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+	    if (ObjectUtils.isNotNull(objectCode)) {   	    
+	    	financialObjectTypeCode = objectCode.getFinancialObjectTypeCode();
+	    }
+	    return financialObjectTypeCode;
+    }
+    
     public void setBudgetAdjustmentTransactionDao(BudgetAdjustmentTransactionDao budgetAdjustmentTransactionDao) {
         this.budgetAdjustmentTransactionDao = budgetAdjustmentTransactionDao;
+    }
+        
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+    
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
     }
    
     public void setOptionsService(OptionsService optionsService) {

@@ -113,6 +113,9 @@
 	<bean id="glBudgetAdjustmentCashTransferService-parentBean" abstract="true" class="edu.arizona.kfs.gl.batch.service.impl.BudgetAdjustmentCashTransferServiceImpl">
 		<property name="budgetAdjustmentTransactionDao">
 			<ref bean="glBudgetAdjustmentTransactionDao" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
 		</property>	
 		<property name="optionsService">
 			<ref bean="optionsService" />

@@ -151,7 +151,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                              reportBudgetAdjustDocLoaded++;
                          }
                          catch (RuntimeException re) {
-                        	//error adding budget adjustment record, write error and continue
+                        	 //error adding budget adjustment record, write error and continue
                         	 LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: " + re.getMessage());
                              Message errorMsg = new Message("Error adding budget adjustment record for this record.", Message.TYPE_FATAL);
                              reportWriterService.writeError(originEntry, errorMsg);
@@ -166,7 +166,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              INPUT_GLE_FILE_br.close();
              INPUT_GLE_FILE.close();
              OUTPUT_ERR_FILE_ps.close();
-             reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", line);
+             reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                        %,9d", line);
              reportWriterService.writeStatisticLine("GLBA RECORDS INSERTED (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
              reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                          %,9d", reportBudgetAdjustDocErrors);
          }
@@ -351,7 +351,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                                 	
                         String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
                             baAccount.getIncomeStreamAccountNumber() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
-                            ba.getUniversityFiscalYear() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
+                            String.valueOf(ba.getUniversityFiscalYear().intValue()) + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
                             ba.getUniversityFiscalPeriodCode();
                         // place record in balance map
                         incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(ba, incomeStreamBalance.get(incomeStreamKey)));   

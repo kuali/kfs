@@ -80,6 +80,7 @@
 				<ref bean="glBudgetAdjustmentMergeSortStep"/>
 				<ref bean="glBudgetAdjustmentExtractStep"/>
 				<ref bean="glBudgetAdjustmentGenerationStep"/>
+				<ref bean="glAggregateBudgetAdjustmentReportsStep" />
 			</list>
 		</property>
 	</bean>
@@ -166,7 +167,7 @@
 	
 	<bean id="glBudgetAdjustmentGenerationReportWriterService" parent="glBudgetAdjustmentGenerationReportWriterService-parentBean"/>
 	<bean id="glBudgetAdjustmentGenerationReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="filePath" value="${temp.directory}"/>
 		<property name="fileNamePrefix" value="budgetAdjustmentCashTransfer_"/>
         <property name="title" value="Budget Adjustment Cash Transfer Generation Report"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
@@ -174,7 +175,8 @@
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
         		<entry key="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" value="budgetAdjustmentTransactionReportHelper"/>
         	</map>
-       	</property>       	
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>       	
     </bean>
     
     <bean id="glBudgetAdjustmentExtractStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentExtractStep" parent="wrappedStep">
@@ -193,6 +195,16 @@
 			</list>
 		</property>
 		<property name="budgetAdjustmentCashTransferService" ref="glBudgetAdjustmentCashTransferService" />
+	</bean>
+	
+	<bean id="glAggregateBudgetAdjustmentReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
+	    <property name="outputFilePath" value="${reports.directory}/gl"/>
+	    <property name="outputFilePrefix" value="budgetAdjustmentCashTransfer_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${temp.directory}"/>
+	    <property name="inputFilePrefix" value="budgetAdjustmentCashTransfer_"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
 	</bean>
 
     <bean id="posterJob" parent="unscheduledJobDescriptor">

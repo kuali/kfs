@@ -82,6 +82,11 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
          
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         int line = 0;
+        int reportBudgetAdjustDocLoaded = 0;
+        int reportBudgetAdjustDocErrors = 0;
+        int maxSequenceId = 0;
+        String saveDocNumber = new String("");
+        		
         try {
         	while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
         		if (!org.apache.commons.lang.StringUtils.isEmpty(GLEN_RECORD) && !org.apache.commons.lang.StringUtils.isBlank(GLEN_RECORD.trim())) {
@@ -95,7 +100,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                 		 //parsing error, write error and continue	   
                 		 reportWriterService.writeError(originEntry, parsingError);
                 		 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-                    	 continue;
+                		 reportBudgetAdjustDocErrors++;
+                		 continue;
                      }
                      
                      if (isBudgetAdjustmentTransaction(originEntry)) {
@@ -107,33 +113,51 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 	                        	 //no income stream info, write error and continue	                        	
 	                             Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
 	                             reportWriterService.writeError(originEntry, errorMsg);
-	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                        	 continue;
+	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                             reportBudgetAdjustDocErrors++;
+	                             continue;
 	                         }
                          }
                          
                          //check to make sure that Object Type Code is present (BO input may not have this)
-                         if (ObjectUtils.isNull(originEntry.getFinancialObjectTypeCode())) {
+                         if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
                         	 String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
                         	 if (ObjectUtils.isNull(financialObjectTypeCode)) {
                         		//no valid Object Code info, write error and continue	                        	
 	                             Message errorMsg = new Message("No Object Code information found for this record.", Message.TYPE_FATAL);
 	                             reportWriterService.writeError(originEntry, errorMsg);
-	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                        	 continue;
+	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                             reportBudgetAdjustDocErrors++;
+	                             continue;
                         	 }
                         	 else {
                         		 originEntry.setFinancialObjectTypeCode(financialObjectTypeCode);
                         	 }
                          }
                          
+                         // Make sure the row will be unique when adding to the budget adjustment table by adjusting the transaction sequence id
+                         if (originEntry.getDocumentNumber().equals(saveDocNumber)) {
+                        	 maxSequenceId++;
+                         }
+                         else {
+                        	 maxSequenceId = 1;
+                        	 saveDocNumber = originEntry.getDocumentNumber();
+                         }                         
+                         originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId));
+                         
                          BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         
                     	 try {
                              budgetAdjustmentTransactionDao.save(ba);
+                             reportBudgetAdjustDocLoaded++;
                          }
                          catch (RuntimeException re) {
-                             LOG.error("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage());
-                             throw new RuntimeException("extractAndSaveBudgetAdjustmentEntries Stopped: " + re.getMessage(), re);
+                        	//error adding budget adjustment record, write error and continue
+                        	 LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: " + re.getMessage());
+                             Message errorMsg = new Message("Error adding budget adjustment record for this record.", Message.TYPE_FATAL);
+                             reportWriterService.writeError(originEntry, errorMsg);
+                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                             reportBudgetAdjustDocErrors++;
+                             continue;
                          }
                      }
                      
@@ -142,6 +166,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              INPUT_GLE_FILE_br.close();
              INPUT_GLE_FILE.close();
              OUTPUT_ERR_FILE_ps.close();
+             reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", line);
+             reportWriterService.writeStatisticLine("GLBA RECORDS INSERTED (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
+             reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                          %,9d", reportBudgetAdjustDocErrors);
          }
          catch (IOException e) {
              throw new RuntimeException(e);
@@ -191,8 +218,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              //delete all budget adjustment transactions  
              budgetAdjustmentTransactionDao.deleteAllBudgetAdjustmentTransactions();
              OUTPUT_GLE_FILE_ps.close();             
-             reportWriterService.writeStatisticLine("GLBA RBC TRANS LOADED           (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
-             reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                                   %,9d", reportOriginEntryGenerated);             
+             reportWriterService.writeStatisticLine("GLBA TRANSACTIONS LOADED        (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
+             reportWriterService.writeStatisticLine("CASH TRANSFER TRANSACTIONS GENERATED                     %,9d", reportOriginEntryGenerated);             
 
          }
          catch (FileNotFoundException e) {

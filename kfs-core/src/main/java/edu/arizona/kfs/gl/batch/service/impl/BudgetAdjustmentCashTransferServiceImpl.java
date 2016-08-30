@@ -122,6 +122,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 	                        	 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
 	                        	 continue;
                         	 }
+                        	 else {
+                        		 originEntry.setFinancialObjectTypeCode(financialObjectTypeCode);
+                        	 }
                          }
                          
                          BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         

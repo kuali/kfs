@@ -140,5 +140,7 @@
         <property name="workflowDocumentService" ref="workflowDocumentService" />
         <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
+    
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
 </beans>

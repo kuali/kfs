@@ -122,6 +122,7 @@
     </bean>
     
     <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
+    	<property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
     
 	<bean id="creditMemoService" class="edu.arizona.kfs.module.purap.document.service.impl.CreditMemoServiceImpl">

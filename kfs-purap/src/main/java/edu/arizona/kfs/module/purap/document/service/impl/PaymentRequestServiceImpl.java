@@ -102,7 +102,10 @@ public class PaymentRequestServiceImpl extends org.kuali.kfs.module.purap.docume
     	}
         return paymentMethodGeneralLedgerPendingEntryService;
     }
-
+    
+    public void setPaymentMethodGeneralLedgerPendingEntryService(PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService) {
+        this.paymentMethodGeneralLedgerPendingEntryService = paymentMethodGeneralLedgerPendingEntryService;
+    }
     
     /**
      * Update to baseline method to additionally set the payment method when the vendor is changed.

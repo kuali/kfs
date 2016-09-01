@@ -58,7 +58,7 @@ public class GecEntryHelperServiceImpl {
                 String docTypeId = docHeader.getDocumentTypeId();
                 DocumentTypeLiteBo docType = getBusinessObjectService().findBySinglePrimaryKey(DocumentTypeLiteBo.class, docTypeId);
                 String documentTypeName = docType.getName();
-                if (documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION)) {
+                if (documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION) || documentTypeName.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION)) {
                     LOG.debug("GEC Document Number " + gecDocumentNumber + " found for Document Number " + documentNumber + ".");
                     return gecDocumentNumber;
                 }
@@ -70,6 +70,8 @@ public class GecEntryHelperServiceImpl {
 
     public static String generateObjectId(GecEntry entry) {
         StringBuilder retval = new StringBuilder();
+        retval.append(KFSConstants.ENTRY_IDENTIFIER);
+        retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
         retval.append(entry.getUniversityFiscalYear());
         retval.append(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
         retval.append(entry.getChartOfAccountsCode());
@@ -106,19 +108,19 @@ public class GecEntryHelperServiceImpl {
      */
     public static Entry getEntry(String objectId) {
         String[] primaryKeyFields = objectId.split(SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER);
-        String universityFiscalYear = primaryKeyFields[0];
-        String chartOfAccountsCode = primaryKeyFields[1];
-        String accountNumber = primaryKeyFields[2];
-        String subAccountNumber = primaryKeyFields[3];
-        String financialObjectCode = primaryKeyFields[4];
-        String financialSubObjectCode = primaryKeyFields[5];
-        String financialBalanceTypeCode = primaryKeyFields[6];
-        String financialObjectTypeCode = primaryKeyFields[7];
-        String universityFiscalPeriodCode = primaryKeyFields[8];
-        String financialDocumentTypeCode = primaryKeyFields[9];
-        String financialSystemOriginationCode = primaryKeyFields[10];
-        String documentNumber = primaryKeyFields[11];
-        String transactionLedgerEntrySequenceNumber = primaryKeyFields[12];
+        String universityFiscalYear = primaryKeyFields[1];
+        String chartOfAccountsCode = primaryKeyFields[2];
+        String accountNumber = primaryKeyFields[3];
+        String subAccountNumber = primaryKeyFields[4];
+        String financialObjectCode = primaryKeyFields[5];
+        String financialSubObjectCode = primaryKeyFields[6];
+        String financialBalanceTypeCode = primaryKeyFields[7];
+        String financialObjectTypeCode = primaryKeyFields[8];
+        String universityFiscalPeriodCode = primaryKeyFields[9];
+        String financialDocumentTypeCode = primaryKeyFields[10];
+        String financialSystemOriginationCode = primaryKeyFields[11];
+        String documentNumber = primaryKeyFields[12];
+        String transactionLedgerEntrySequenceNumber = primaryKeyFields[13];
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);

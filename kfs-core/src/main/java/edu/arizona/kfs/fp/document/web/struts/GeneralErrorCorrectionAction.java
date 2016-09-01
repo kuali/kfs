@@ -153,25 +153,40 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
                 Set<String> objectIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                boolean isEntryObjectIds = isEntryObjectIds(objectIds);
+                // if the ID starts with GL_ENTRY_T, this object is a General Ledger Entry. These
+                // objects do not have a static Id and need to be acquired via special methods.
+                if (isEntryObjectIds) {
 
-                // Retrieving selected data from table.
-                rawValues = retrieveSelectedResultBOs(objectIds);
+                    // Retrieving selected data from table.
+                    rawValues = retrieveSelectedResultBOs(objectIds);
 
-                if (rawValues == null || rawValues.isEmpty()) {
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    if (rawValues == null || rawValues.isEmpty()) {
+                        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    }
+                    GeneralErrorCorrectionDocument gecDoc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+                    for (Entry entry : rawValues) {
+                        SourceAccountingLine line = copyEntryToAccountingLine(entry);
+                        line.setDocumentNumber(gecDoc.getDocumentNumber());
+                        insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
+                    }
+                    // next refresh should not attempt to retrieve these objects.
+                    gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
                 }
-
-                for (Entry entry : rawValues) {
-                    SourceAccountingLine line = copyEntryToAccountingLine(entry);
-                    insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
-                }
-                // next refresh should not retrieve these objects.
-                gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
             }
         }
 
         resequenceAccountingLines(gecForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    private boolean isEntryObjectIds(Set<String> objectIds) {
+        for (String objectId : objectIds) {
+            if (objectId.startsWith(KFSConstants.ENTRY_IDENTIFIER)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -182,6 +197,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
      */
     private SourceAccountingLine copyEntryToAccountingLine(Entry entry) {
         SourceAccountingLine retval = new SourceAccountingLine();
+        retval.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
         retval.setChartOfAccountsCode(entry.getChartOfAccountsCode());
         retval.setAccountNumber(entry.getAccountNumber());
         if (!entry.getSubAccountNumber().equals(KFSConstants.BLANK_SUBACCOUNT)) {
@@ -207,6 +223,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         retval.setAccount(entry.getAccount());
         retval.setObjectCode(entry.getFinancialObject());
         retval.setReferenceOrigin(entry.getReferenceOriginationCode());
+        retval.setBalanceTyp(entry.getBalanceType());
 
         retval.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         retval.refreshReferenceObject(KFSPropertyConstants.SUB_OBJECT_CODE);
@@ -242,7 +259,6 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
             if (selectedObjectId == null || selectedObjectId.equals(KFSConstants.NULL_STRING)) {
                 continue;
             }
-
             Entry result = GecEntryHelperServiceImpl.getEntry(selectedObjectId);
             if (result != null) {
                 retvals.add(result);
@@ -261,31 +277,11 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
      *            new line to copy data to
      */
     protected void copyAccountingLine(AccountingLine source, AccountingLine target) {
-        target.setChartOfAccountsCode(source.getChartOfAccountsCode());
-        target.setAccountNumber(source.getAccountNumber());
-        target.setSubAccountNumber(source.getSubAccountNumber());
-        target.setFinancialObjectCode(source.getFinancialObjectCode());
-        target.setFinancialSubObjectCode(source.getFinancialSubObjectCode());
-        target.setProjectCode(source.getProjectCode());
-        target.setOrganizationReferenceId(source.getOrganizationReferenceId());
-        target.setAmount(source.getAmount());
-        target.setReferenceOriginCode(source.getReferenceOriginCode());
-        target.setReferenceNumber(source.getReferenceNumber());
-        target.setFinancialDocumentLineDescription(source.getFinancialDocumentLineDescription());
-        target.setDebitCreditCode(source.getDebitCreditCode());
-        target.setBalanceTypeCode(source.getBalanceTypeCode());
-        // copy helper objects
-        target.setChart(source.getChart());
-        target.setAccount(source.getAccount());
-        target.setSubAccount(source.getSubAccount());
-        target.setObjectCode(source.getObjectCode());
-        target.setSubObjectCode(source.getSubObjectCode());
-        target.setProject(source.getProject());
-        target.setReferenceOrigin(source.getReferenceOrigin());
+        target.copyFrom(source);
     }
 
     /**
-     * Copies content from one accounting line to the other, but reverses debit/credit code. Ignores Source or Target information.
+     * Copies content from one accounting line to the other, but reverses debit/credit code and changes the line type from source to target.
      *
      * @param source
      *            line to copy from
@@ -293,28 +289,10 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
      *            new line to copy data to
      */
     protected void reverseAccountingLine(AccountingLine source, AccountingLine target) {
-        target.setChartOfAccountsCode(source.getChartOfAccountsCode());
-        target.setAccountNumber(source.getAccountNumber());
-        target.setSubAccountNumber(source.getSubAccountNumber());
-        target.setFinancialObjectCode(source.getFinancialObjectCode());
-        target.setFinancialSubObjectCode(source.getFinancialSubObjectCode());
-        target.setProjectCode(source.getProjectCode());
-        target.setOrganizationReferenceId(source.getOrganizationReferenceId());
-        target.setAmount(source.getAmount());
-        target.setReferenceOriginCode(source.getReferenceOriginCode());
-        target.setReferenceNumber(source.getReferenceNumber());
-        target.setFinancialDocumentLineDescription(source.getFinancialDocumentLineDescription());
+        target.copyFrom(source);
+        target.setFinancialDocumentLineTypeCode(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
         String debitCreditCode = reverseDebitCreditCode(source.getDebitCreditCode());
         target.setDebitCreditCode(debitCreditCode);
-        target.setBalanceTypeCode(source.getBalanceTypeCode());
-        // copy helper objects
-        target.setChart(source.getChart());
-        target.setAccount(source.getAccount());
-        target.setSubAccount(source.getSubAccount());
-        target.setObjectCode(source.getObjectCode());
-        target.setSubObjectCode(source.getSubObjectCode());
-        target.setProject(source.getProject());
-        target.setReferenceOrigin(source.getReferenceOrigin());
     }
 
     @SuppressWarnings("unchecked")

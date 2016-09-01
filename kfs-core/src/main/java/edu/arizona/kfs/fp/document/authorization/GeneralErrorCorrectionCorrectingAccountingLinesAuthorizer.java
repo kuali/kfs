@@ -1,10 +1,6 @@
 package edu.arizona.kfs.fp.document.authorization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.arizona.kfs.sys.KFSConstants;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -15,7 +11,10 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 
-import edu.arizona.kfs.sys.KFSConstants;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GeneralErrorCorrectionCorrectingAccountingLinesAuthorizer extends CapitalAccountingLinesAuthorizerBase {
 

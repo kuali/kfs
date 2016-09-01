@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="GlobalTransactionEditMaintenanceDocument" parent="GlobalTransactionEditMaintenanceDocument-parentBean"/>
+	<bean id="GlobalTransactionEditMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="edu.arizona.kfs.gl.businessobject.GlobalTransactionEdit"/>
+        <property name="maintainableClass" value="edu.arizona.kfs.gl.document.GlobalTransactionEditMaintainableImpl"/>
+		<property name="maintainableSections">
+			<list>
+				<ref bean="GlobalTransactionEditMaintenanceDocument-EditGlobalTransactionEdit"/>
+				<ref bean="GlobalTransactionEditMaintenanceDocument-EditObjectCodeRule"/>
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>originCode</value>
+				<value>fundGroupCode</value>
+				<value>subFundGroupCode</value>
+			</list>
+		</property>
+		
+		<property name="documentTypeName" value="GTEM"/>
+		<property name="workflowAttributes">
+			<ref bean="GlobalTransactionEditMaintenanceDocument-workflowAttributes"/>
+		</property>
+	</bean>
+
+<!-- Maintenance Section Definitions -->
+	<bean id="GlobalTransactionEditMaintenanceDocument-EditGlobalTransactionEdit" parent="GlobalTransactionEditMaintenanceDocument-EditGlobalTransactionEdit-parentBean"/>
+	<bean id="GlobalTransactionEditMaintenanceDocument-EditGlobalTransactionEdit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="editGlobalTransactionEdit"/>
+		<property name="title" value="Edit Global Transaction Edit"/>
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="originCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="fundGroupCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="subFundGroupCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="GlobalTransactionEditMaintenanceDocument-EditObjectCodeRule" parent="GlobalTransactionEditMaintenanceDocument-EditObjectCodeRule-parentBean"/>
+	<bean id="GlobalTransactionEditMaintenanceDocument-EditObjectCodeRule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="editObjectCodeRules"/>
+		<property name="title" value="Edit Object Code Rules"/>
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="globalTransactionEditDetails" />
+					<property name="includeAddLine" value="false" />
+					<property name="attributeToHighlightOnDuplicateKey" value="documentTypeCode"/>
+					<property name="businessObjectClass" value="edu.arizona.kfs.gl.businessobject.GlobalTransactionEditDetail"/>
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="documentTypeCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="objectTypeCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="objectSubTypeCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="objectCodeRulePurpose"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+	<!-- workflow attributes -->
+	<bean id="GlobalTransactionEditMaintenanceDocument-workflowAttributes" parent="GlobalTransactionEditMaintenanceDocument-workflowAttributes-parentBean"/>
+	<bean id="GlobalTransactionEditMaintenanceDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true"/>
+</beans>

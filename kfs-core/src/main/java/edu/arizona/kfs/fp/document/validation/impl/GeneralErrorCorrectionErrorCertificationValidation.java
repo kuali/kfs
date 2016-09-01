@@ -52,7 +52,7 @@ public class GeneralErrorCorrectionErrorCertificationValidation extends GenericV
 			LOG.debug("olderThanOriginal for source accounting lines: " + olderThanOriginal);
 			
 			// if all source accounting lines are younger than the days specified in the parameter, check target accounting lines
-			if(olderThanOriginal) {
+			if(!olderThanOriginal) {
 				acctLines = currDocument.getTargetAccountingLines();
 				checkSubFund = true;
 				olderThanOriginal = !defaultNumberOfDaysCheck(currDocument, acctLines, daysFromParameter, checkSubFund);
@@ -131,6 +131,7 @@ public class GeneralErrorCorrectionErrorCertificationValidation extends GenericV
 	protected Date getOriginalTransactionDate(AccountingLineBase currentLine) throws EntryNotFoundException {
 		Map criteria = new HashMap();
 		criteria.put(KRADPropertyConstants.DOCUMENT_NUMBER, currentLine.getReferenceNumber());
+		criteria.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, currentLine.getReferenceOriginCode());
 		
 		Collection<Entry> results = getBusinessObjectService().findMatching(Entry.class, criteria);
 		if((results == null) || (results.size() == 0)) {

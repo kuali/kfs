@@ -190,4 +190,60 @@
 	</reference-descriptor>
 </class-descriptor>
 
+    <class-descriptor class="edu.arizona.kfs.gl.businessobject.GlobalTransactionEdit" table="GL_GLBL_TRANS_EDIT_T">
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="originCode" column="REF_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="fundGroupCode" column="FUND_GRP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+        <reference-descriptor name="origin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="originCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="fundGroup" class-ref="org.kuali.kfs.coa.businessobject.FundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="fundGroupCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="subFundGroupCode"/>
+        </reference-descriptor>
+
+        <collection-descriptor name="globalTransactionEditDetails" proxy="true" element-class-ref="edu.arizona.kfs.gl.businessobject.GlobalTransactionEditDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="documentType" sort="ASC"/>
+            <orderby name="objectType" sort="ASC"/>
+            <orderby name="objectSubType" sort="ASC"/>
+            <inverse-foreignkey field-ref="originCode"/>
+            <inverse-foreignkey field-ref="fundGroupCode"/>
+            <inverse-foreignkey field-ref="subFundGroupCode"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.gl.businessobject.GlobalTransactionEditDetail" table="GL_GLBL_TRANS_RULES_T">
+        <field-descriptor name="originCode" column="REF_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="fundGroupCode" column="FUND_GRP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="documentTypeCode" column="DOC_TYP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="objectTypeCode" column="OBJ_TYP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="objectSubTypeCode" column="OBJ_SUB_TYP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="objectCodeRulePurpose" column="OBJ_CD_RULE_PURPOSE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+        <reference-descriptor name="globalTransactionEdit" class-ref="edu.arizona.kfs.gl.businessobject.GlobalTransactionEdit" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="originCode"/>
+            <foreignkey field-ref="fundGroupCode"/>
+            <foreignkey field-ref="subFundGroupCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="documentType" class-ref="org.kuali.rice.kew.doctype.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="documentTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="objectType" class-ref="org.kuali.kfs.coa.businessobject.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="objectTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="objectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjectSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="objectSubTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+
 </descriptor-repository>

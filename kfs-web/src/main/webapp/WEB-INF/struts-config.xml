@@ -381,9 +381,32 @@
             <forward name="basic" path="/jsp/fp/GeneralErrorCorrection.jsp" />
         </action>
 
+        <action path="/financialYearEndGeneralErrorCorrection"
+            name="YearEndGeneralErrorCorrectionForm"
+            input="/jsp/fp/YearEndGeneralErrorCorrection.jsp"
+            type="edu.arizona.kfs.fp.document.web.struts.YearEndGeneralErrorCorrectionAction"
+            scope="request"
+            parameter="methodToCall"
+            validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/fp/YearEndGeneralErrorCorrection.jsp" />
+        </action>
+
         <action path="/gecEntryLookup" 
             name="MultipleValueLookupForm"
             type="edu.arizona.kfs.gl.web.struts.GecEntryLookupAction"
+            scope="request"
+            input="/jsp/gl/gecEntryMultipleValueLookup.jsp"
+            parameter="methodToCall"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/gl/gecEntryMultipleValueLookup.jsp" />
+        </action>
+
+        <action path="/yegecEntryLookup"
+            name="MultipleValueLookupForm"
+            type="edu.arizona.kfs.gl.web.struts.YegecEntryLookupAction"
             scope="request"
             input="/jsp/gl/gecEntryMultipleValueLookup.jsp"
             parameter="methodToCall"
@@ -711,7 +734,7 @@
 
 		<action path="/laborLedgerCorrection" name="LaborCorrectionForm"
 			input="/jsp/gl/Correction.jsp"
-			type="org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionAction"
+			type="edu.arizona.kfs.module.ld.document.web.struts.LaborCorrectionAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/gl/Correction.jsp" />

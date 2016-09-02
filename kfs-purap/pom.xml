@@ -3,7 +3,7 @@
   <parent>
     <artifactId>kfs</artifactId>
     <groupId>org.kuali.kfs</groupId>
-    <version>ua-release17-SNAPSHOT</version>
+    <version>ua-release18-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 

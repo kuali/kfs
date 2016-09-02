@@ -630,6 +630,7 @@ public class PurapConstants {
         public static final String APPDOC_AWAITING_ORG_REVIEW = "Awaiting Chart Approval"; // Waiting for Chart/Org approval
         public static final String APPDOC_AWAITING_TAX_REVIEW = "Awaiting Tax Approval"; // Waiting for Vendor Tax approval
         public static final String APPDOC_PENDING_E_INVOICE = "Pending Route Electronic Invoice";
+        public static final String APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW = "Awaiting Object Sub-Type";
 
         public static HashMap<String, String> getAllAppDocStatuses(){
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
@@ -647,6 +648,7 @@ public class PurapConstants {
             appDocStatusMap.put(APPDOC_AWAITING_ORG_REVIEW, APPDOC_AWAITING_ORG_REVIEW);
             appDocStatusMap.put(APPDOC_AWAITING_TAX_REVIEW, APPDOC_AWAITING_TAX_REVIEW);
             appDocStatusMap.put(APPDOC_PENDING_E_INVOICE, APPDOC_PENDING_E_INVOICE);
+            appDocStatusMap.put(APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW, APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW);
 
             return appDocStatusMap;
         }
@@ -657,6 +659,7 @@ public class PurapConstants {
         public static final String NODE_ACCOUNT_REVIEW = "Account";
         public static final String NODE_ORG_REVIEW = "AccountingOrganizationHierarchy";
         public static final String NODE_VENDOR_TAX_REVIEW = "Tax";
+        public static final String NODE_OBJECT_SUB_TYPE_CODE = "ObjectSubTypeCode";
 
         // keep these in the order of potential routing
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
@@ -671,6 +674,7 @@ public class PurapConstants {
             AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, false),
             AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW, false),
             AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ORG_REVIEW, false),
+            AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW, false),
             AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW, false),
             DEPARTMENT_APPROVED(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED, false),
             AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, false), ;
@@ -719,7 +723,7 @@ public class PurapConstants {
 
         public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { APPDOC_AUTO_APPROVED, APPDOC_DEPARTMENT_APPROVED };
 
-        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { APPDOC_IN_PROCESS, APPDOC_DEPARTMENT_APPROVED, APPDOC_AUTO_APPROVED, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_AWAITING_RECEIVING_REVIEW, APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, APPDOC_AWAITING_FISCAL_REVIEW, APPDOC_AWAITING_ORG_REVIEW, APPDOC_AWAITING_TAX_REVIEW };
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { APPDOC_IN_PROCESS, APPDOC_DEPARTMENT_APPROVED, APPDOC_AUTO_APPROVED, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_AWAITING_RECEIVING_REVIEW, APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, APPDOC_AWAITING_FISCAL_REVIEW, APPDOC_AWAITING_ORG_REVIEW, APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW, APPDOC_AWAITING_TAX_REVIEW };
 
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
@@ -754,6 +758,7 @@ public class PurapConstants {
             STATUSES_ENROUTE.add(APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW);
             STATUSES_ENROUTE.add(APPDOC_AWAITING_FISCAL_REVIEW);
             STATUSES_ENROUTE.add(APPDOC_AWAITING_ORG_REVIEW);
+            STATUSES_ENROUTE.add(APPDOC_AWAITING_OBJECT_SUB_TYPE_CODE_REVIEW);
             STATUSES_ENROUTE.add(APPDOC_AWAITING_TAX_REVIEW);
 
             STATUSES_POSTROUTE.add(APPDOC_DEPARTMENT_APPROVED);
@@ -770,6 +775,7 @@ public class PurapConstants {
             appDocStatusMap.put(NODE_SUB_ACCOUNT_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_ACCOUNT_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_ORG_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
+            appDocStatusMap.put(NODE_OBJECT_SUB_TYPE_CODE, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
 
             return appDocStatusMap;

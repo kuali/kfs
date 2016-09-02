@@ -18,19 +18,8 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.businessobject.*;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
@@ -39,15 +28,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
-import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.PayeeType;
-import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
-import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.businessobject.*;
 import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
@@ -70,6 +51,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService
@@ -373,12 +361,16 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     /**
      * Set default fields on account line and perform account field existence checks
      *
+     * KATTS Note: Making this private to exmplify the fact that UA extension needs a different
+     *             method signature than the default found here -- this is the compramise to
+     *             avoid changing actual logic of foundation code.
+     *
      * @param paymentFile payment file object
      * @param customer payment customer
      * @param paymentAccountDetail <code>PaymentAccountDetail</code> object to process
      * @param warnings <code>List</code> list of accumulated warning messages
      */
-    protected void processAccountSoftEdits(PaymentFileLoad paymentFile, CustomerProfile customer, PaymentAccountDetail paymentAccountDetail, List<String> warnings) {
+    private void processAccountSoftEdits(PaymentFileLoad paymentFile, CustomerProfile customer, PaymentAccountDetail paymentAccountDetail, List<String> warnings) {
         List<PaymentAccountHistory> changeRecords = paymentAccountDetail.getAccountHistory();
 
         // uppercase chart

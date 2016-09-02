@@ -57,35 +57,35 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
     private static transient volatile SystemOptions systemOptions;
     private static transient volatile BusinessObjectService businessObjectService;
 
-    private static ParameterEvaluatorService getParameterEvaluatorService() {
+    protected static ParameterEvaluatorService getParameterEvaluatorService() {
         if (parameterEvaluatorService == null) {
             parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
         }
         return parameterEvaluatorService;
     }
 
-    private static ObjectCodeService getObjectCodeService() {
+    protected static ObjectCodeService getObjectCodeService() {
         if (objectCodeService == null) {
             objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         }
         return objectCodeService;
     }
 
-    private static LookupService getLookupService() {
+    protected static LookupService getLookupService() {
         if (lookupService == null) {
             lookupService = SpringContext.getBean(LookupService.class);
         }
         return lookupService;
     }
 
-    private static SystemOptions getSystemOptions() {
+    protected static SystemOptions getSystemOptions() {
         if (systemOptions == null) {
             systemOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         }
         return systemOptions;
     }
 
-    private static BusinessObjectService getBusinessObjectService() {
+    protected static BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         }
@@ -257,7 +257,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return false;
     }
 
-    private boolean isFiscalYearValid(GecEntry entry) {
+    protected boolean isFiscalYearValid(GecEntry entry) {
         boolean isFiscalYearValid = getSystemOptions().getUniversityFiscalYear().toString().equals(entry.getUniversityFiscalYear().toString());
         return isFiscalYearValid;
     }

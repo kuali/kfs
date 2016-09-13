@@ -39,7 +39,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release17-SNAPSHOT</version>
+  <version>ua-release18-SNAPSHOT</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
@@ -114,7 +114,7 @@
     <jstl-api.version>1.2</jstl-api.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
-    <kfs.help.version>ua-release1-SNAPSHOT</kfs.help.version>
+    <kfs.help.version>ua-release1</kfs.help.version>
     <liquibase.version>3.3.2</liquibase.version>
     <mysql.groupId>mysql</mysql.groupId>
     <mysql.artifactId>mysql-connector-java</mysql.artifactId>

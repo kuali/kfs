@@ -87,9 +87,14 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.module.ld.batch.service
             errors.add(err);
         }
 
-        err = validateGTEAccount(laborScrubbedEntry);
-        if (err != null) {
-            errors.add(err);
+        // Per v6 spec, labor entries are not to be GTE validated. Further, to keep with v3 behavior
+        // and work done under KITT-2330, Dont go through GTE validation if other errors exist -- this
+        // helps ensure reports appear as they have in the past
+        if (!laborIndicator && (errors == null || errors.isEmpty())) {
+            err = validateGTEAccount(laborScrubbedEntry);
+            if (err != null) {
+                errors.add(err);
+            }
         }
 
         return errors;
@@ -97,19 +102,16 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.module.ld.batch.service
 
     protected Message validateGTEAccount(LaborOriginEntry originEntry) {
         LOG.debug("validateGTEAccount() started");
-        originEntry.refreshReferenceObject("account");
-        originEntry.refreshReferenceObject("financialObject");
-        Account account = originEntry.getAccount();
-        account.refreshReferenceObject("subFundGroup");
 
+        Account account = originEntry.getAccount();
         if (ObjectUtils.isNull(account)) {
-            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Account", originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber()});
-        }
-        if (ObjectUtils.isNull(originEntry.getFinancialObject())) {
-            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Object Code", originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode()});
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Account", originEntry.getAccountNumber()});
         }
         if (ObjectUtils.isNull(account.getSubFundGroup())) {
             return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Sub Fund", account.getSubFundGroupCode()});
+        }
+        if (ObjectUtils.isNull(originEntry.getFinancialObject())) {
+            return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Object Code", originEntry.getFinancialObjectCode()});
         }
 
         Message result = globalTransactionEditService.isAccountingLineAllowable(originEntry.getFinancialSystemOriginationCode(),

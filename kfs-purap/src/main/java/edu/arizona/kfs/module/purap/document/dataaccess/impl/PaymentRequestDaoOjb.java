@@ -64,6 +64,7 @@ public class PaymentRequestDaoOjb extends org.kuali.kfs.module.purap.document.da
         return (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(edu.arizona.kfs.module.purap.document.PaymentRequestDocument.class, criteria));
     }
     
+    @Override
     public List<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 

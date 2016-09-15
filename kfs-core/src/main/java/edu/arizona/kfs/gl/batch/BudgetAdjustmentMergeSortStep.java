@@ -14,6 +14,7 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.batch.ScrubberSortComparator;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.springframework.util.StopWatch;
 
 import edu.arizona.kfs.gl.GeneralLedgerConstants;
 
@@ -24,6 +25,9 @@ public class BudgetAdjustmentMergeSortStep extends AbstractStep {
 	
 	@Override
 	public boolean execute(String jobName, Date jobRunDate) {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start(jobName);
+		
 		String budgetOfficeFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ENTERPRISE_FEED + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 		String laborLedgerFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 		String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BUDGET_ADJUSTMENT_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -54,6 +58,8 @@ public class BudgetAdjustmentMergeSortStep extends AbstractStep {
 			}
 		}
 		
+		LOG.info("Files exist -" + " Budget office done file: " + budgetOfficeDoneFileExists + ". Labor ledger done file: " + laborLedgerDoneFileExists + ".");
+		
 		// checks to see which files actually exists in the directory
 		// then pulls the necessary .data files to be processed and put into the output file.
 		if (laborLedgerDoneFileExists && budgetOfficeDoneFileExists) {	
@@ -61,20 +67,23 @@ public class BudgetAdjustmentMergeSortStep extends AbstractStep {
 			
 			try {
 				mergeFiles(laborLedgerFileName, budgetOfficeFileName, mergedFile);
+				LOG.info("Merge of Labor Ledger and Budget Office files completed.");
 			} catch (Exception e) {
-				LOG.error( "Exception merging the files", e );
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 			
 			BatchSortUtil.sortTextFileWithFields(mergedFile, outputFile, new ScrubberSortComparator());
+			LOG.info("Sort of merged file completed.");
 			
 		} else if (laborLedgerDoneFileExists && !budgetOfficeDoneFileExists) {
 			// if only the labor ledger .done file exists, process the Labor Ledger File	
-			BatchSortUtil.sortTextFileWithFields(laborLedgerFileName, outputFile, new ScrubberSortComparator());		
+			BatchSortUtil.sortTextFileWithFields(laborLedgerFileName, outputFile, new ScrubberSortComparator());	
+			LOG.info("Budget Office file does not exist.  Sort of Labor Ledger file completed.");
 			
 		} else if (budgetOfficeDoneFileExists && !laborLedgerDoneFileExists) {
 			// if only the budget office .done file exists, process the Budget Office File
 			BatchSortUtil.sortTextFileWithFields(budgetOfficeFileName, outputFile, new ScrubberSortComparator());
+			LOG.info("Labor Ledger file does not exist.  Sort of Budget Office file completed.");
 			
 		} else {
 			// if neither .done file exists, produce an empty file then process the file
@@ -85,16 +94,22 @@ public class BudgetAdjustmentMergeSortStep extends AbstractStep {
 			try {
 				emptyFile.createNewFile();
 			} catch (IOException e) {
-				LOG.error("Error creating the temp file", e);
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 			
 			BatchSortUtil.sortTextFileWithFields(emptyFileName, outputFile, new ScrubberSortComparator());
 			
 			// deletes the new temp file once processed.
 			FileUtils.deleteQuietly(emptyFile);
+			
+			LOG.info("Neither the Labor Ledger and Budget Office files exist.  Empty file create/sort completed and temp file deleted.");
 		}
 				
+		stopWatch.stop();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("BudgetAdjustmentMergeSort step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+		}
+		
 		return true;
 	}
 	

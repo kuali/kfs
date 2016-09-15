@@ -63,7 +63,10 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
      * and saves those transactions to holding table GL_BUDGET_ADJUST_TRN_T.
      */
     @Override
-    public void extractAndSaveBudgetAdjustmentEntries() {
+    public void extractAndSaveBudgetAdjustmentEntries() {    	
+    	if (LOG.isDebugEnabled()) {
+    		LOG.debug("extractAndSaveBudgetAdjustmentEntries() started");
+        }
     	     
     	String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BUDGET_ADJUSTMENT_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.CASH_TRANSFER_TRANSACTIONS_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
@@ -72,12 +75,14 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         PrintStream OUTPUT_ERR_FILE_ps;
         String GLEN_RECORD;
         BufferedReader INPUT_GLE_FILE_br;
+        
         try {
         	INPUT_GLE_FILE = new FileReader(inputFile);
         	OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        	LOG.error("extractAndSaveBudgetAdjustmentEntries exception: ", e);
+        	throw new RuntimeException(e);
         }
          
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
@@ -89,90 +94,96 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         		
         try {
         	while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
-        		if (!org.apache.commons.lang.StringUtils.isEmpty(GLEN_RECORD) && !org.apache.commons.lang.StringUtils.isBlank(GLEN_RECORD.trim())) {
-                	 line++;
-                	 GLEN_RECORD = org.apache.commons.lang.StringUtils.rightPad(GLEN_RECORD, 183, ' ');
-                	 OriginEntryFull originEntry = new OriginEntryFull();
-                	 List<Message> parsingError = new ArrayList();
-                	 parsingError = originEntry.setFromTextFileForBatch(GLEN_RECORD, line);
+        		if (StringUtils.isNotEmpty(GLEN_RECORD) && StringUtils.isNotBlank(GLEN_RECORD.trim())) {        			
+        			line++;
+                	// Just in case, to prevent field mapping problems in org.kuali.kfs.gl.businessobject.OriginEntryFull.setFromTextFileForBatch(line, lineNumber);
+                	GLEN_RECORD = StringUtils.rightPad(GLEN_RECORD, 183, ' ');
+                	OriginEntryFull originEntry = new OriginEntryFull();
+                	List<Message> parsingError = new ArrayList();
+                	parsingError = originEntry.setFromTextFileForBatch(GLEN_RECORD, line);
                 	 
-                	 if (parsingError.size() > 0) {
-                		 //parsing error, write error and continue	   
-                		 reportWriterService.writeError(originEntry, parsingError);
-                		 createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-                		 reportBudgetAdjustDocErrors++;
-                		 continue;
-                     }
+                	if (parsingError.size() > 0) {                		
+		        		//parsing error, write error and continue	   
+		        		reportWriterService.writeError(originEntry, parsingError);
+		        		createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+		        		reportBudgetAdjustDocErrors++;
+		        		continue;
+                    }
                      
-                     if (isBudgetAdjustmentTransaction(originEntry)) {
-                    	 
+                    if (isBudgetAdjustmentTransaction(originEntry)) {
+                    	
                     	//check to make sure that Account has Income Stream information
-                    	 Account baAccount = originEntry.getAccount();    	 
-                         if (ObjectUtils.isNotNull(baAccount)) {                        
-                        	 if (ObjectUtils.isNull(baAccount.getIncomeStreamFinancialCoaCode()) || ObjectUtils.isNull(baAccount.getIncomeStreamAccountNumber())) {             	
-	                        	 //no income stream info, write error and continue	                        	
-	                             Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
-	                             reportWriterService.writeError(originEntry, errorMsg);
-	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                             reportBudgetAdjustDocErrors++;
-	                             continue;
-	                         }
-                         }
+                    	Account baAccount = originEntry.getAccount();    	 
+                        if (ObjectUtils.isNotNull(baAccount)) {
+                        	if (ObjectUtils.isNull(baAccount.getIncomeStreamFinancialCoaCode()) || ObjectUtils.isNull(baAccount.getIncomeStreamAccountNumber())) {             	
+	                        	//no income stream info, write error and continue	                        	
+	                            Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
+	                            reportWriterService.writeError(originEntry, errorMsg);
+	                            createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                            reportBudgetAdjustDocErrors++;
+	                            continue;
+	                        }
+                        }
                          
-                         //check to make sure that Object Type Code is present (BO input may not have this)
-                         if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
-                        	 String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
-                        	 if (ObjectUtils.isNull(financialObjectTypeCode)) {
-                        		//no valid Object Code info, write error and continue	                        	
-	                             Message errorMsg = new Message("No Object Code information found for this record.", Message.TYPE_FATAL);
-	                             reportWriterService.writeError(originEntry, errorMsg);
-	                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                             reportBudgetAdjustDocErrors++;
-	                             continue;
-                        	 }
-                        	 else {
-                        		 originEntry.setFinancialObjectTypeCode(financialObjectTypeCode);
-                        	 }
-                         }
+                        //check to make sure that Object Type Code is present (BO input may not have this)
+                        if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
+                        	String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
+                        	if (ObjectUtils.isNull(financialObjectTypeCode)) {
+	                    		//no valid Object Code info, write error and continue	                        	
+	                            Message errorMsg = new Message("No Object Code information found for this record.", Message.TYPE_FATAL);
+	                            reportWriterService.writeError(originEntry, errorMsg);
+	                            createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+	                            reportBudgetAdjustDocErrors++;
+	                            continue;
+                        	}
+                        	else {
+	                        	originEntry.setFinancialObjectTypeCode(financialObjectTypeCode);
+                        	}
+                        }
                          
-                         // Make sure the row will be unique when adding to the budget adjustment table by adjusting the transaction sequence id
-                         if (originEntry.getDocumentNumber().equals(saveDocNumber)) {
-                        	 maxSequenceId++;
-                         }
-                         else {
-                        	 maxSequenceId = 1;
-                        	 saveDocNumber = originEntry.getDocumentNumber();
-                         }                         
-                         originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId));
+                        // Make sure the row will be unique when adding to the budget adjustment table by adjusting the transaction sequence id
+                        if (originEntry.getDocumentNumber().equals(saveDocNumber)) {
+                        	maxSequenceId++;
+                        }
+                        else {
+                        	maxSequenceId = 1;
+                        	saveDocNumber = originEntry.getDocumentNumber();
+                        }                         
+                        originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId));
                          
-                         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         
-                    	 try {
-                             budgetAdjustmentTransactionDao.save(ba);
-                             reportBudgetAdjustDocLoaded++;
-                         }
-                         catch (RuntimeException re) {
-                        	 //error adding budget adjustment record, write error and continue
-                        	 LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: " + re.getMessage());
-                             Message errorMsg = new Message("Error adding budget adjustment record for this record.", Message.TYPE_FATAL);
-                             reportWriterService.writeError(originEntry, errorMsg);
-                             createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-                             reportBudgetAdjustDocErrors++;
-                             continue;
-                         }
-                     }
+                        BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction(originEntry);                         
+                    	try {
+                            budgetAdjustmentTransactionDao.save(ba);
+                            reportBudgetAdjustDocLoaded++;
+                        }
+                        catch (RuntimeException re) {
+                        	//error adding budget adjustment record, write error and continue
+                        	LOG.error("extractAndSaveBudgetAdjustmentEntries exception: ", re);
+                            Message errorMsg = new Message("Error adding budget adjustment record for this record.", Message.TYPE_FATAL);
+                            reportWriterService.writeError(originEntry, errorMsg);
+                            createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                            reportBudgetAdjustDocErrors++;
+                            continue;
+                        }
+                    }
                      
-                 }
-             }
-             INPUT_GLE_FILE_br.close();
-             INPUT_GLE_FILE.close();
-             OUTPUT_ERR_FILE_ps.close();
-             reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                        %,9d", line);
-             reportWriterService.writeStatisticLine("GLBA RECORDS INSERTED (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
-             reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                          %,9d", reportBudgetAdjustDocErrors);
-         }
-         catch (IOException e) {
-             throw new RuntimeException(e);
-         }         
+                }
+            }
+            INPUT_GLE_FILE_br.close();
+            INPUT_GLE_FILE.close();
+            OUTPUT_ERR_FILE_ps.close();
+            reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                        %,9d", line);
+            reportWriterService.writeStatisticLine("GLBA RECORDS INSERTED (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
+            reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                          %,9d", reportBudgetAdjustDocErrors);
+        }
+        catch (IOException e) {
+        	LOG.error("extractAndSaveBudgetAdjustmentEntries exception: ", e);
+        	throw new RuntimeException(e);
+        } 
+        
+        if (LOG.isDebugEnabled()) {
+     		LOG.debug("extractAndSaveBudgetAdjustmentEntries() completed");
+        }
     }
 
     /**
@@ -181,21 +192,23 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
      */
     @Override
     public void generateBudgetAdjustmentCashTransferTransactions() {
-    	LOG.debug("generateBudgetAdjustmentCashTransferTransactions() started");
-        
+    	if (LOG.isDebugEnabled()) {
+    		LOG.debug("generateBudgetAdjustmentCashTransferTransactions() started");
+        }
+    	        
         Date executionDate = dateTimeService.getCurrentSqlDate();
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
         int reportBudgetAdjustDocLoaded = 0;
         int reportOriginEntryGenerated = 0;
     	   	
-    	 try {
+    	try {
     		 PrintStream OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.CASH_TRANSFER_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
     		     		              
-             //retrieve unique document numbers list             
+             //retrieve unique document numbers list so we can group and process records by document number              
              List<String> docNumberList = retrieveUniqueDocumentNumbersList();            
              
              // don't try to create an entries file or a done file if no budget adjustment transactions were found.
-             if (ObjectUtils.isNotNull(docNumberList) && !docNumberList.isEmpty()) {
+             if (!docNumberList.isEmpty()) {
             	 reportBudgetAdjustDocLoaded = docNumberList.size();
             
             	 //now that we have a list of the document numbers, generate cash transfer transactions for each document number in file
@@ -207,8 +220,10 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                  if (!doneFile.exists()) {
                      try {
                          doneFile.createNewFile();
-                     } catch (IOException e) {
-                         throw new RuntimeException("Error creating cash transfer done file", e);
+                     } 
+                     catch (IOException e) {                    	 
+                    	 LOG.error("Error creating cash transfer done file: ", e);
+                     	 throw new RuntimeException(e);                        
                      }
             	 
                  }                
@@ -221,10 +236,19 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              reportWriterService.writeStatisticLine("GLBA TRANSACTIONS LOADED        (GL_BUDGET_ADJUST_TRN_T) %,9d", reportBudgetAdjustDocLoaded);
              reportWriterService.writeStatisticLine("CASH TRANSFER TRANSACTIONS GENERATED                     %,9d", reportOriginEntryGenerated);             
 
-         }
-         catch (FileNotFoundException e) {
-             throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + e.getMessage(), e);
-         }
+        }
+        catch (FileNotFoundException e) {
+        	LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: ", e);
+        	throw new RuntimeException(e);
+        }
+    	catch (IOException e) {
+        	LOG.error("generateBudgetAdjustmentCashTransferTransactions exception: ", e);
+        	throw new RuntimeException(e);
+        } 
+    	 
+    	if (LOG.isDebugEnabled()) {
+    		LOG.debug("generateBudgetAdjustmentCashTransferTransactions() completed");
+        }
     }
     
     /**
@@ -242,8 +266,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
              budgetAdjustmentTransactions = budgetAdjustmentTransactionDao.getAllBudgetAdjustmentTransactions();
          }
          catch (RuntimeException re) {
-             LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage());
-             throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage(), re);
+             LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
+             throw new RuntimeException(re);
          }
          
          while (budgetAdjustmentTransactions.hasNext()) {
@@ -256,14 +280,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                  }                      
              }
              catch (RuntimeException re) {
-                 LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage());
-                 throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage(), re);
-             }
-             catch (Exception e) {
-                 List errorList = new ArrayList();
-                 errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
-                 reportWriterService.writeError(ba, errorList);
-             }
+                 LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
+                 throw new RuntimeException(re);
+             }             
          }         
          return docNumberList;
     }
@@ -278,18 +297,24 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
      * @return count of cash transfer entries generated    
      */
     protected int generateCashTransferGeneralLedgerEntries(List<String> docNumberList, Date runDate, PrintStream group) {
+    	if (LOG.isDebugEnabled()) {
+    		LOG.debug("generateCashTransferGeneralLedgerEntries() started");
+        }
         
-        // check on-off tof flag
+    	// check on-off tof flag
     	boolean generateTransfer = parameterService.getParameterValueAsBoolean(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
-        int reportOriginEntryGenerated = 0;
+    	int reportOriginEntryGenerated = 0;
         String documentNumber = null;
         Iterator budgetAdjustmentTransactions;        
         
-        if (generateTransfer) {
-            
+        if (generateTransfer) {        	
+        	if (LOG.isDebugEnabled()) {
+        		LOG.debug("generateCashTransferGeneralLedgerEntries() generate transfer of funds entries parameter is set to true, generating cash transfer entries.");
+            }
+        	
         	for (Iterator iter = docNumberList.iterator(); iter.hasNext();) {
-        		
-                try {
+        		        		
+                try {                	
                 	documentNumber = (String)iter.next();
                     budgetAdjustmentTransactions = budgetAdjustmentTransactionDao.getByDocNumber(documentNumber);
                     
@@ -310,14 +335,17 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                     } //for incomeStreamMap
                 }
                 catch (RuntimeException re) {
-                    LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage());
-                    throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage(), re);
+                    LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
+                    throw new RuntimeException(re);
                 }  
                 
             } //for docNumberList
         	
         } // if generateTransfer
         
+        if (LOG.isDebugEnabled()) {
+    		LOG.debug("generateCashTransferGeneralLedgerEntries() completed");
+        }
         return reportOriginEntryGenerated;
     }
     
@@ -361,14 +389,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                 }
            }
            catch (RuntimeException re) {
-               LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage());
-               throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage(), re);
-           }
-           catch (Exception e) {
-               List errorList = new ArrayList();
-               errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
-               reportWriterService.writeError(ba, errorList);
-           }
+               LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
+               throw new RuntimeException(re);
+           }           
         }
         return incomeStreamBalance;
     }   
@@ -410,13 +433,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         
         while (budgetAdjustmentTransactions.hasNext()) {            
             try {
-                ba = (BudgetAdjustmentTransaction) budgetAdjustmentTransactions.next();                 
-                Account baAccount = ba.getAccount();
-                if (baAccount.getIncomeStreamFinancialCoaCode().equals(incomeString[0]) && 
-                        baAccount.getIncomeStreamAccountNumber().equals(incomeString[1]) &&
-                        ba.getUniversityFiscalYear().equals(new Integer(incomeString[2])) &&
-                        ba.getUniversityFiscalPeriodCode().equals(incomeString[3])) {
-                    
+                ba = (BudgetAdjustmentTransaction) budgetAdjustmentTransactions.next();
+                if (isRecordTransactionMatch(ba, incomeString)) {                   
                     //matching transaction found 
                     //write transaction to assurance report                    
                     reportWriterService.writeTableRow(ba);                     
@@ -466,21 +484,16 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                        reportOriginEntryGenerated++;                                                              
                    }
                    catch (IOException ioe) {
-                       LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + ioe.getMessage());
-                       throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + ioe.getMessage(), ioe);
+                       LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", ioe);
+                       throw new RuntimeException(ioe);
                    }                   
                    
                 } //matching transaction found 
             }
             catch (RuntimeException re) {
-                LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage());
-                throw new RuntimeException("generateBudgetAdjustmentCashTransferTransactions Stopped: " + re.getMessage(), re);
-            }
-            catch (Exception ex) {
-                List errorList = new ArrayList();
-                errorList.add(new Message(ex.toString() + " occurred for this record.", Message.TYPE_FATAL));
-                reportWriterService.writeError(ba, errorList);
-            }
+                LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
+                throw new RuntimeException(re);
+            }            
         }
         return reportOriginEntryGenerated;
     }
@@ -490,15 +503,16 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
             group.printf("%s\n", oef.getLine());
         }
         catch (Exception e) {
-            throw new IOException(e.toString());
+            throw new IOException(e);
         }
     }
     
     protected void createOutputEntry(String line, PrintStream ps) throws IOException {
         try {
             ps.printf("%s\n", line);
-        } catch (Exception e) {
-            throw new IOException(e.toString());
+        } 
+        catch (Exception e) {
+        	throw new IOException(e);            
         }
     }
     
@@ -538,6 +552,28 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         return true;  // still here?  then I guess we don't have an exclusion
        
     }
+    
+    /**
+     * This will determine if this record is a match for the 
+     * 
+     * @param ba the record to test for a match
+     * @param incomeString a string array that contains the key values for the transaction currently being processed
+     * @return true if this record is a match for the transaction currently being processed; false if otherwise
+     */
+    public boolean isRecordTransactionMatch(BudgetAdjustmentTransaction ba, String[] incomeString) {
+    	boolean recordMatches = false;
+    	Account baAccount = ba.getAccount();
+    	 
+        if (baAccount.getIncomeStreamFinancialCoaCode().equals(incomeString[0]) && 
+        		baAccount.getIncomeStreamAccountNumber().equals(incomeString[1]) &&
+        		ba.getUniversityFiscalYear().equals(new Integer(incomeString[2])) &&
+        		ba.getUniversityFiscalPeriodCode().equals(incomeString[3])) {
+        	recordMatches = true;        	 
+        }
+        
+        return recordMatches;
+    }
+    	   	
     
     protected String getFinancialObjectTypeCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {    
     	String financialObjectTypeCode = null;

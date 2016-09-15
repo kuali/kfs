@@ -27,6 +27,8 @@
         </property>
     </bean>
 
+    <import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+
     <bean id="scheduleJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

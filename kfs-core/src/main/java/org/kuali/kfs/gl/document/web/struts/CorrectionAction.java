@@ -19,27 +19,7 @@
 
 package org.kuali.kfs.gl.document.web.struts;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.arizona.kfs.gl.service.GlobalTransactionEditService;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.commons.lang.StringUtils;
@@ -47,12 +27,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.CorrectionChange;
-import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
-import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.gl.businessobject.*;
 import org.kuali.kfs.gl.businessobject.options.CorrectionGroupEntriesFinder;
 import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
@@ -82,6 +59,12 @@ import org.kuali.rice.krad.comparator.TemporalValueComparator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
@@ -301,6 +284,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (!checkInputGroupPersistedForDocumentSave(correctionForm)) {
             return false;
         }
+
+        if (!checkGlobalTransactionValidation(correctionForm)) {
+            return false;
+        }
+
         // Get the output group if necessary
         if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
             if (!correctionForm.isRestrictedFunctionalityMode() && correctionForm.getDataLoadedFlag() && !correctionForm.getShowOutputFlag()) {
@@ -329,6 +317,44 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         return true;
     }
+
+    protected boolean checkGlobalTransactionValidation(CorrectionForm correctionForm) {
+        boolean result = true;
+        Message message = null;
+        int lineNum = 1;
+        List<OriginEntryFull> allEntries = correctionForm.getAllEntries();
+        GlobalTransactionEditService globalTransactionEditService = SpringContext.getBean(GlobalTransactionEditService.class);
+
+        for (OriginEntryFull oe : allEntries) {
+            oe.refreshReferenceObject("account");
+            oe.refreshReferenceObject("financialObject");
+            Account account = oe.getAccount();
+            account.refreshReferenceObject("subFundGroup");
+
+            if(ObjectUtils.isNull(account)){
+                throw new IllegalArgumentException("This account specified "+oe.getChartOfAccountsCode()+"-"+oe.getAccountNumber()+" does not exist. For sequence "+oe.getTransactionLedgerEntrySequenceNumber());
+            }
+            if(ObjectUtils.isNull(oe.getFinancialObject())){
+                throw new IllegalArgumentException("This account specified "+oe.getFinancialObjectCode()+"-"+oe.getAccountNumber()+" does not exist. For sequence "+oe.getTransactionLedgerEntrySequenceNumber());
+            }
+            if(ObjectUtils.isNull(account.getSubFundGroup())){
+                throw new IllegalArgumentException("This account specified "+oe.getChartOfAccountsCode()+"-"+oe.getAccountNumber()+" does not exist. For sequence "+oe.getTransactionLedgerEntrySequenceNumber());
+            }
+            message = globalTransactionEditService.isAccountingLineAllowable(oe.getFinancialSystemOriginationCode(),
+                    account.getSubFundGroup().getFundGroupCode(),
+                    account.getSubFundGroupCode(),
+                    oe.getFinancialDocumentTypeCode(),
+                    oe.getFinancialObject().getFinancialObjectTypeCode(),
+                    oe.getFinancialObject().getFinancialObjectSubTypeCode());
+            if (message != null) {
+                GlobalVariables.getMessageMap().putError("searchResults", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { message.getMessage(), "on line "+lineNum});
+                result = false;
+            }
+            lineNum++;
+        }
+        return result;
+    }
+
 
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1908,5 +1934,5 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     public ActionForward superSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.save(mapping, form, request, response);
     }
-    
+
 }

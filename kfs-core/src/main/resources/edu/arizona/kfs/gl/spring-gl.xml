@@ -25,7 +25,7 @@
         	<list merge="true">
         		<value>budgetAdjustmentCashTransferJob</value>
         	</list>
-		</property>
+        </property>
     </bean>
 
     <bean id="globalTransactionEditService" parent="globalTransactionEditService-parentBean" />

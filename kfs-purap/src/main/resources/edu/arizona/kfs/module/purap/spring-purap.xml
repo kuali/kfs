@@ -140,5 +140,8 @@
         <property name="workflowDocumentService" ref="workflowDocumentService" />
         <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
+    
+    <bean id="receivingService" parent="receivingService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+    </bean>
     	
 </beans>

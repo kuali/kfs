@@ -162,6 +162,34 @@
     <field-descriptor name="authorizer" column="AUTHORIZER" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<class-descriptor class="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" table="GL_BUDGET_ADJUST_TRN_T">
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jbdc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
+	<field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
+	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+</class-descriptor>
+
     <class-descriptor class="edu.arizona.kfs.gl.businessobject.GlobalTransactionEdit" table="GL_GLBL_TRANS_EDIT_T">
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

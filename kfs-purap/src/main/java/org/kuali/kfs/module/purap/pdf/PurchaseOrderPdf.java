@@ -18,18 +18,18 @@
  */
 package org.kuali.kfs.module.purap.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.ExceptionConverter;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -44,18 +44,17 @@ import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Base class to handle pdf for purchase order documents.
@@ -146,7 +145,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 // New nestedHeaderTable row, spans both columns
                 p = new Paragraph();
                 p.add(new Chunk("Contract Manager: ", ver_11_normal));
-                p.add(new Chunk(po.getContractManager().getContractManagerName(), cour_7_normal));
+                p.add(new Chunk(po.getContractManager().getContractManagerName(), ver_10_normal));
                 cell = new PdfPCell(p);
                 cell.setColspan(2);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -208,7 +207,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         String contractManagerSignatureImage = pdfParameters.getContractManagerSignatureImage();
 
         try {
-            Document doc = this.getDocument(9, 9, 70, 36);
+            Document doc = this.getDocument(4, 1, 45, 20);
             PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
             this.createPdf(po, doc, writer, statusInquiryUrl, campusName, contractLanguage, logoImage, directorSignatureImage, directorName, directorTitle, contractManagerSignatureImage, isRetransmit, environment, retransmitItems);
         }
@@ -255,7 +254,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         String pdfFileName = pdfTransmitParameters.getPdfFileName();
 
         try {
-            Document doc = this.getDocument(9, 9, 70, 36);
+            Document doc = this.getDocument(4, 1, 45, 20);
             PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(pdfFileLocation + pdfFileName));
             this.createPdf(po, doc, writer, statusInquiryUrl, campusName, contractLanguage, logoImage, directorSignatureImage, directorName, directorTitle, contractManagerSignatureImage, isRetransmit, environment);
         }
@@ -342,6 +341,8 @@ public class PurchaseOrderPdf extends PurapPdf {
         writer.setPageEvent(this); // Passing in "this" lets it know about the po, campusName, etc.
 
         document.open();
+        document.add(new Paragraph(" ", ver_9_normal));
+        document.add(new Paragraph(" ", ver_9_normal));
 
         PdfPCell cell;
         Paragraph p = new Paragraph();
@@ -358,19 +359,19 @@ public class PurchaseOrderPdf extends PurapPdf {
         StringBuffer vendorInfo = new StringBuffer();
         vendorInfo.append("\n");
         if (StringUtils.isNotBlank(po.getVendorName())) {
-            vendorInfo.append("     " + po.getVendorName() + "\n");
+            vendorInfo.append("    " + po.getVendorName() + "\n");
         }
 
-        vendorInfo.append("     ATTN: " + po.getVendorAttentionName() + "\n");
+        vendorInfo.append("    ATTN: " + po.getVendorAttentionName() + "\n");
 
         if (StringUtils.isNotBlank(po.getVendorLine1Address())) {
-            vendorInfo.append("     " + po.getVendorLine1Address() + "\n");
+            vendorInfo.append("    " + po.getVendorLine1Address() + "\n");
         }
         if (StringUtils.isNotBlank(po.getVendorLine2Address())) {
-            vendorInfo.append("     " + po.getVendorLine2Address() + "\n");
+            vendorInfo.append("    " + po.getVendorLine2Address() + "\n");
         }
         if (StringUtils.isNotBlank(po.getVendorCityName())) {
-            vendorInfo.append("     " + po.getVendorCityName());
+            vendorInfo.append("    " + po.getVendorCityName());
         }
         if (StringUtils.isNotBlank(po.getVendorStateCode())) {
             vendorInfo.append(", " + po.getVendorStateCode());
@@ -391,8 +392,8 @@ public class PurchaseOrderPdf extends PurapPdf {
             vendorInfo.append("\n\n");
         }
         p = new Paragraph();
-        p.add(new Chunk(" Vendor", ver_5_normal));
-        p.add(new Chunk(vendorInfo.toString(), cour_7_normal));
+        p.add(new Chunk(" Vendor", ver_9_bold));
+        p.add(new Chunk(vendorInfo.toString(), cour_11_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
@@ -418,7 +419,8 @@ public class PurchaseOrderPdf extends PurapPdf {
             if (po.isDeliveryBuildingOtherIndicator()) {
                 deliveryBuildingName = "";
             }
-            shipToInfo.append("     " + deliveryBuildingName + "Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
+            String routeCode = po.getRouteCode();
+            shipToInfo.append("     " + deliveryBuildingName +",Route Code :" + routeCode + ",Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
             shipToInfo.append("     " + po.getDeliveryBuildingLine1Address() + "\n");
             if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {
                 shipToInfo.append("     " + po.getDeliveryBuildingLine2Address() + "\n");
@@ -439,55 +441,55 @@ public class PurchaseOrderPdf extends PurapPdf {
         */
 
         p = new Paragraph();
-        p.add(new Chunk("  Shipping Address", ver_5_normal));
-        p.add(new Chunk(shipToInfo.toString(), cour_7_normal));
+        p.add(new Chunk("  Shipping Address", ver_9_bold));
+        p.add(new Chunk(shipToInfo.toString(), cour_11_normal));
         cell = new PdfPCell(p);
         infoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Shipping Terms\n", ver_5_normal));
+        p.add(new Chunk("  Shipping Terms\n", ver_9_bold));
         if (po.getVendorShippingPaymentTerms() != null && po.getVendorShippingTitle() != null) {
-            p.add(new Chunk("     " + po.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsDescription(), cour_7_normal));
-            p.add(new Chunk(" - " + po.getVendorShippingTitle().getVendorShippingTitleDescription(), cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsDescription(), cour_11_normal));
+            p.add(new Chunk(" - " + po.getVendorShippingTitle().getVendorShippingTitleDescription(), cour_11_normal));
         }
         else if (po.getVendorShippingPaymentTerms() != null && po.getVendorShippingTitle() == null) {
-            p.add(new Chunk("     " + po.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsDescription(), cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsDescription(), cour_11_normal));
         }
         else if (po.getVendorShippingTitle() != null && po.getVendorShippingPaymentTerms() == null) {
-            p.add(new Chunk("     " + po.getVendorShippingTitle().getVendorShippingTitleDescription(), cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorShippingTitle().getVendorShippingTitleDescription(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Payment Terms\n", ver_5_normal));
+        p.add(new Chunk("  Payment Terms\n", ver_9_bold));
         if (po.getVendorPaymentTerms() != null) {
-            p.add(new Chunk("     " + po.getVendorPaymentTerms().getVendorPaymentTermsDescription(), cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorPaymentTerms().getVendorPaymentTermsDescription(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Delivery Required By\n", ver_5_normal));
+        p.add(new Chunk("  Delivery Required By\n", ver_9_bold));
 
         if (po.getDeliveryRequiredDate() != null && po.getDeliveryRequiredDateReason() != null) {
-            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_7_normal));
-            p.add(new Chunk(" - " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_7_normal));
+            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_11_normal));
+            p.add(new Chunk(" - " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_11_normal));
         }
         else if (po.getDeliveryRequiredDate() != null && po.getDeliveryRequiredDateReason() == null) {
-            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_7_normal));
+            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_11_normal));
         }
         else if (po.getDeliveryRequiredDate() == null && po.getDeliveryRequiredDateReason() != null) {
-            p.add(new Chunk("     " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_7_normal));
+            p.add(new Chunk("     " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  ", ver_5_normal));
+        p.add(new Chunk("  ", ver_9_bold));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
@@ -498,7 +500,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         nestedInfoTable.setSplitLate(false);
 
         p = new Paragraph();
-        p.add(new Chunk("  Order Date\n", ver_5_normal));
+        p.add(new Chunk("  Order Date\n", ver_9_bold));
 
         String orderDate = "";
         if (po.getPurchaseOrderInitialOpenTimestamp() != null) {
@@ -509,33 +511,33 @@ public class PurchaseOrderPdf extends PurapPdf {
             orderDate = sdf.format(getDateTimeService().getCurrentSqlDate());
         }
 
-        p.add(new Chunk("     " + orderDate, cour_7_normal));
+        p.add(new Chunk("     " + orderDate, cour_11_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         nestedInfoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Customer #\n", ver_5_normal));
+        p.add(new Chunk("  Customer #\n", ver_9_bold));
         if (po.getVendorCustomerNumber() != null) {
-            p.add(new Chunk("     " + po.getVendorCustomerNumber(), cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorCustomerNumber(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         nestedInfoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Delivery Instructions\n", ver_5_normal));
+        p.add(new Chunk("  Delivery Instructions\n", ver_9_bold));
         if (StringUtils.isNotBlank(po.getDeliveryInstructionText())) {
-            p.add(new Chunk("     " + po.getDeliveryInstructionText(), cour_7_normal));
+            p.add(new Chunk("     " + po.getDeliveryInstructionText(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         nestedInfoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Contract ID\n", ver_5_normal));
+        p.add(new Chunk("  Contract ID\n", ver_9_bold));
         if (po.getVendorContract() != null) {
-            p.add(new Chunk(po.getVendorContract().getVendorContractName(), cour_7_normal));
+            p.add(new Chunk(po.getVendorContract().getVendorContractName(), cour_11_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -561,9 +563,9 @@ public class PurchaseOrderPdf extends PurapPdf {
             billToInfo.append("\n     " + po.getBillingEmailAddress());
         }
         p = new Paragraph();
-        p.add(new Chunk("  Billing Address", ver_5_normal));
-        p.add(new Chunk("     " + billToInfo.toString(), cour_7_normal));
-        p.add(new Chunk("\n Invoice status inquiry: " + statusInquiryUrl, ver_6_normal));
+        p.add(new Chunk("  Billing Address", ver_9_bold));
+        p.add(new Chunk("     " + billToInfo.toString(), cour_11_normal));
+        p.add(new Chunk("\n Invoice status inquiry: " + statusInquiryUrl, ver_9_bold));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
@@ -575,9 +577,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         notesStipulationsTable.setSplitLate(false);
 
         p = new Paragraph();
-        p.add(new Chunk("  Vendor Note(s)\n", ver_5_normal));
+        p.add(new Chunk("  Vendor Note(s)\n", ver_9_bold));
         if (po.getVendorNoteText() != null) {
-            p.add(new Chunk("     " + po.getVendorNoteText() + "\n", cour_7_normal));
+            p.add(new Chunk("     " + po.getVendorNoteText() + "\n", cour_11_normal));
         }
 
         PdfPCell tableCell = new PdfPCell(p);
@@ -587,9 +589,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         notesStipulationsTable.addCell(tableCell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Vendor Stipulations and Information\n", ver_5_normal));
+        p.add(new Chunk("  Vendor Stipulations and Information\n", ver_9_bold));
         if ((po.getPurchaseOrderBeginDate() != null) && (po.getPurchaseOrderEndDate() != null)) {
-            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_7_normal));
+            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_11_normal));
 
         }
         Collection<PurchaseOrderVendorStipulation> vendorStipulationsList = po.getPurchaseOrderVendorStipulations();
@@ -598,7 +600,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             for (PurchaseOrderVendorStipulation povs : vendorStipulationsList) {
                 vendorStipulations.append("     " + povs.getVendorStipulationDescription() + "\n");
             }
-            p.add(new Chunk("     " + vendorStipulations.toString(), cour_7_normal));
+            p.add(new Chunk("     " + vendorStipulations.toString(), cour_11_normal));
         }
 
         tableCell = new PdfPCell(p);
@@ -627,31 +629,31 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.setWidths(itemsWidths);
         itemsTable.setSplitLate(false);
 
-        tableCell = new PdfPCell(new Paragraph("Item\nNo.", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("Item\nNo.", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
-        tableCell = new PdfPCell(new Paragraph("Quantity", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("Quantity", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
-        tableCell = new PdfPCell(new Paragraph("UOM", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("UOM", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
-        tableCell = new PdfPCell(new Paragraph("Description", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("Description", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
-        tableCell = new PdfPCell(new Paragraph("Unit Cost", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("Unit Cost", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
-        tableCell = new PdfPCell(new Paragraph("Extended Cost", ver_5_normal));
+        tableCell = new PdfPCell(new Paragraph("Extended Cost", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
 
         if (!po.isUseTaxIndicator()){
-            tableCell = new PdfPCell(new Paragraph("Tax Amount", ver_5_normal));
+            tableCell = new PdfPCell(new Paragraph("Tax Amount", ver_9_bold));
             tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             itemsTable.addCell(tableCell);
 
-            tableCell = new PdfPCell(new Paragraph("Total Amount", ver_5_normal));
+            tableCell = new PdfPCell(new Paragraph("Total Amount", ver_9_bold));
             tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             itemsTable.addCell(tableCell);
         }
@@ -677,31 +679,31 @@ public class PurchaseOrderPdf extends PurapPdf {
 
                 // Above the line item types items display the line number; other types don't.
                 if (poi.getItemType().isLineItemIndicator()) {
-                    tableCell = new PdfPCell(new Paragraph(poi.getItemLineNumber().toString(), cour_7_normal));
+                    tableCell = new PdfPCell(new Paragraph(poi.getItemLineNumber().toString(), cour_11_normal));
                 }
                 else {
-                    tableCell = new PdfPCell(new Paragraph(" ", cour_7_normal));
+                    tableCell = new PdfPCell(new Paragraph(" ", cour_11_normal));
                 }
                 tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemsTable.addCell(tableCell);
                 String quantity = (poi.getItemQuantity() != null) ? poi.getItemQuantity().toString() : " ";
-                tableCell = new PdfPCell(new Paragraph(quantity, cour_7_normal));
+                tableCell = new PdfPCell(new Paragraph(quantity, cour_11_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 tableCell.setNoWrap(true);
                 itemsTable.addCell(tableCell);
-                tableCell = new PdfPCell(new Paragraph(poi.getItemUnitOfMeasureCode(), cour_7_normal));
+                tableCell = new PdfPCell(new Paragraph(poi.getItemUnitOfMeasureCode(), cour_11_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemsTable.addCell(tableCell);
 
-                tableCell = new PdfPCell(new Paragraph(" " + description, cour_7_normal));
+                tableCell = new PdfPCell(new Paragraph(" " + description, cour_11_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 itemsTable.addCell(tableCell);
                 String unitPrice = poi.getItemUnitPrice().setScale(4, BigDecimal.ROUND_HALF_UP).toString();
-                tableCell = new PdfPCell(new Paragraph(unitPrice + " ", cour_7_normal));
+                tableCell = new PdfPCell(new Paragraph(unitPrice + " ", cour_9_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tableCell.setNoWrap(true);
                 itemsTable.addCell(tableCell);
-                tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getExtendedPrice()) + " ", cour_7_normal));
+                tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getExtendedPrice()) + " ", cour_9_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tableCell.setNoWrap(true);
                 itemsTable.addCell(tableCell);
@@ -709,12 +711,12 @@ public class PurchaseOrderPdf extends PurapPdf {
                 if (!po.isUseTaxIndicator()){
                     KualiDecimal taxAmount = poi.getItemTaxAmount();
                     taxAmount = taxAmount == null ? KualiDecimal.ZERO : taxAmount;
-                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(taxAmount) + " ", cour_7_normal));
+                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(taxAmount) + " ", cour_9_normal));
                     tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     tableCell.setNoWrap(true);
                     itemsTable.addCell(tableCell);
 
-                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getTotalAmount()) + " ", cour_7_normal));
+                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getTotalAmount()) + " ", cour_9_normal));
                     tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     tableCell.setNoWrap(true);
                     itemsTable.addCell(tableCell);
@@ -745,7 +747,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
 
-            tableCell = new PdfPCell(new Paragraph("Total Prior to Tax: ", ver_10_normal));
+            tableCell = new PdfPCell(new Paragraph("Total Prior to Tax: ", ver_9_bold));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             itemsTable.addCell(tableCell);
             itemsTable.addCell(" ");
@@ -756,7 +758,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             else {
                 totalDollarAmount = po.getTotalPreTaxDollarAmount();
             }
-            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_7_normal));
+            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_9_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             tableCell.setNoWrap(true);
             itemsTable.addCell(tableCell);
@@ -768,7 +770,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
 
-            tableCell = new PdfPCell(new Paragraph("Total Tax: ", ver_10_normal));
+            tableCell = new PdfPCell(new Paragraph("Total Tax: ", ver_9_bold));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             itemsTable.addCell(tableCell);
             itemsTable.addCell(" ");
@@ -779,7 +781,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             else {
                 totalDollarAmount = po.getTotalTaxAmount();
             }
-            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_7_normal));
+            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_9_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             tableCell.setNoWrap(true);
             itemsTable.addCell(tableCell);
@@ -796,7 +798,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             itemsTable.addCell(" ");
         }
 
-        tableCell = new PdfPCell(new Paragraph("Total order amount: ", ver_10_normal));
+        tableCell = new PdfPCell(new Paragraph("Total order amount: ", ver_9_bold));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
         itemsTable.addCell(" ");
@@ -807,7 +809,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         else {
             totalDollarAmount = po.getTotalDollarAmount();
         }
-        tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_7_normal));
+        tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_9_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         tableCell.setNoWrap(true);
         itemsTable.addCell(tableCell);
@@ -828,8 +830,8 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // Contract language.
         LOG.debug("createPdf() contract language started.");
-        document.add(new Paragraph(contractLanguage, ver_6_normal));
-        document.add(new Paragraph("\n", ver_6_normal));
+        document.add(new Paragraph(contractLanguage, ver_10_normal));
+        document.add(new Paragraph("\n", ver_10_normal));
 
         // ***** Signatures table *****
         LOG.debug("createPdf() signatures table started.");
@@ -842,7 +844,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         // Director signature and "for more info" line; only on APOs
         if (po.getPurchaseOrderAutomaticIndicator()) {
             // Empty cell.
-            cell = new PdfPCell(new Paragraph(" ", cour_7_normal));
+            cell = new PdfPCell(new Paragraph(" ", cour_10_normal));
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
 
@@ -850,12 +852,12 @@ public class PurchaseOrderPdf extends PurapPdf {
             if (StringUtils.isBlank(po.getInstitutionContactName()) || StringUtils.isBlank(po.getInstitutionContactPhoneNumber()) || StringUtils.isBlank(po.getInstitutionContactEmailAddress())) {
                 //String emailAddress = displayRequestorEmail ? "  " + po.getRequestorPersonEmailAddress() : "";
                 //p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  " + po.getRequestorPersonPhoneNumber() + emailAddress, cour_7_normal);
-                p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  " + po.getRequestorPersonPhoneNumber() + "  " + po.getRequestorPersonEmailAddress(), cour_7_normal);
+                p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  " + po.getRequestorPersonPhoneNumber() + "  " + po.getRequestorPersonEmailAddress(), cour_10_normal);
             }
             else {
                 //String emailAddress = displayRequestorEmail ? "  " + po.getInstitutionContactEmailAddress() : "";
                 //p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  " + po.getInstitutionContactPhoneNumber() + emailAddress, cour_7_normal);
-                p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  " + po.getInstitutionContactPhoneNumber() + "  " + po.getInstitutionContactEmailAddress(), cour_7_normal);
+                p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  " + po.getInstitutionContactPhoneNumber() + "  " + po.getInstitutionContactEmailAddress(), cour_10_normal);
             }
             cell = new PdfPCell(p);
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -888,7 +890,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             signaturesTable.addCell(cell);
 
             // Empty cell.
-            cell = new PdfPCell(new Paragraph(" ", cour_7_normal));
+            cell = new PdfPCell(new Paragraph(" ", cour_10_normal));
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
         }
@@ -899,12 +901,12 @@ public class PurchaseOrderPdf extends PurapPdf {
             LOG.debug("createPdf() directorName parameter: " + directorName);
         }
         if (po.getPurchaseOrderAutomaticIndicator()) { // The signature is on the pdf; use small font.
-            p.add(new Chunk(directorName, ver_6_normal));
-        }
-        else { // The signature isn't on the pdf; use larger font.
             p.add(new Chunk(directorName, ver_10_normal));
         }
-        p.add(new Chunk("\n" + directorTitle, ver_4_normal));
+        else { // The signature isn't on the pdf; use larger font.
+            p.add(new Chunk(directorName, ver_11_normal));
+        }
+        p.add(new Chunk("\n" + directorTitle, ver_10_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -941,7 +943,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(po.getContractManager().getContractManagerName() + "  " + po.getContractManager().getContractManagerPhoneNumber(), cour_7_normal));
+            cell = new PdfPCell(new Paragraph(po.getContractManager().getContractManagerName() + "  " + po.getContractManager().getContractManagerPhoneNumber(), cour_11_normal));
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             cell.setVerticalAlignment(Element.ALIGN_TOP);
             cell.setBorderWidth(0);

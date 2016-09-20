@@ -1115,6 +1115,7 @@ public class KFSPropertyConstants {
     public static final String SOURCE_ACCOUNTING_LINES = "sourceAccountingLines";
     public static final String SOURCE_ACCOUNTING_LINES_SECTION_TITLE = "sourceAccountingLinesSectionTitle";
     public static final String SOURCE_CODE = "sourceCode";
+    public static final String SOURCE_OF_FUNDS_TYPE_CODE = "sourceOfFundsTypeCode";
     public static final String SOURCE_TOTAL = "sourceTotal";
     public static final String SPSI_USER = "spsiUser";
     public static final String STATE = "state";
@@ -1297,6 +1298,19 @@ public class KFSPropertyConstants {
     public static final String SALES_TAX = "salesTax";
     public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
 
+    //Added by Electronic Payment Claim mod
+    public static final String PAYMENT_CLAIM_STATUS_CODE = "paymentClaimStatusCode";
+    public static final String RANGE_LOWER_BOUND_KEY_PREFIX = "rangeLowerBoundKeyPrefix_";
+    public static final String GENERATING_ACCOUNTING_LINE = "generatingAccountingLine";
+    public static final String GENERATING_ADVANCE_DEPOSIT_DETAIL = "generatingAdvanceDepositDetail";
+    public static final String FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE = "financialDocumentAdvanceDepositDate";
+    public static final String PAYMENT_CLAIM_AMOUNT_FROM = "amountFrom";
+    public static final String PAYMENT_CLAIM_AMOUNT_TO = "amountTo";
+    public static final String ADVANCE_DEPOSITS = "advanceDeposits";
+
+    public static final String HAS_DOCUMENTATION = "hasDocumentation";
+    public static final String CHOSEN_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_CODE = "chosenElectronicPaymentClaimingDocumentCode";
+    public static final String CLAIMS = "claims";
 
     public static class SubAccountImport {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

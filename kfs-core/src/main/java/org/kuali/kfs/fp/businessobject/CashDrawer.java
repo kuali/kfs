@@ -51,6 +51,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentTwoDollarAmount;
     private KualiDecimal financialDocumentOneDollarAmount;
     private KualiDecimal financialDocumentOtherDollarAmount;
+    private KualiDecimal financialDocumentDollarAmount;
 
     private KualiDecimal financialDocumentHundredCentAmount;
     private KualiDecimal financialDocumentFiftyCentAmount;
@@ -59,6 +60,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentFiveCentAmount;
     private KualiDecimal financialDocumentOneCentAmount;
     private KualiDecimal financialDocumentOtherCentAmount;
+    private KualiDecimal financialDocumentCentAmount;
 
     private KualiDecimal financialDocumentMiscellaneousAdvanceAmount;
 
@@ -440,6 +442,14 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {
         this.financialDocumentOtherDollarAmount = financialDocumentOtherDollarAmount;
     }
+    
+    public KualiDecimal getFinancialDocumentDollarAmount() {
+        return financialDocumentOtherDollarAmount;
+    }
+
+    public void setFinancialDocumentDollarAmount(KualiDecimal financialDocumentDollarAmount) {
+        this.financialDocumentOtherDollarAmount = financialDocumentDollarAmount;
+    }
 
 
     /**
@@ -649,6 +659,14 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
         this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
+    }
+    
+    public KualiDecimal getFinancialDocumentCentAmount() {
+        return financialDocumentOtherCentAmount;
+    }
+
+    public void setFinancialDocumentCentAmount(KualiDecimal financialDocumentCentAmount) {
+        this.financialDocumentOtherCentAmount = financialDocumentCentAmount;
     }
 
 

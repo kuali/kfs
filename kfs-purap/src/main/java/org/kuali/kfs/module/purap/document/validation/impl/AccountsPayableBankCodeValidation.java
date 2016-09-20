@@ -57,7 +57,7 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
      * @param apDocument
      * @return true if {@link KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES} contains this document type
      */
-    private boolean isDocumentTypeUsingBankCode(AccountsPayableDocumentBase apDocument) {
+    protected boolean isDocumentTypeUsingBankCode(AccountsPayableDocumentBase apDocument) {
         String documentTypeName = apDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
         return evaluator.evaluationSucceeds();

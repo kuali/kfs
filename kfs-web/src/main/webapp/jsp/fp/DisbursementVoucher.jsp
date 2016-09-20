@@ -67,6 +67,7 @@
 	<c:set var="paymentHandlingEntryMode" value="${canEdit && KualiForm.editingMode['paymentHandlingEntry']}" scope="request" />
 	<c:set var="voucherDeadlineEntryMode" value="${canEdit && KualiForm.editingMode['voucherDeadlineEntry']}" scope="request" />
 	<c:set var="specialHandlingChangingEntryMode" value="${canEdit && KualiForm.editingMode['specialHandlingChangingEntry']}" scope="request" />
+	<c:set var="paymentMethodEditMode" value="${canEdit && KualiForm.editingMode['paymentMethodEditMode']}" scope="request" />
 	<c:set var="immediateDisbursementEntryMode" value="${canEdit && KualiForm.editingMode['immediateDisbursementEntryMode']}" scope="request"/>
 	
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"

@@ -22,6 +22,8 @@
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="showCashDrawerSummary" required="false" %>
 
+<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
+
 <c:if test="${empty showCashDrawerSummary}">
   <c:set var="showCashDrawerSummary" value="false" />
 </c:if>
@@ -33,6 +35,8 @@
   <h3>Cash Drawer Currency/Coin</h3>
 
 <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
+<c:choose>
+<c:when test="${displayCashReceiptDenominationDetail}">
   <tr>
     <th colspan="4" class="tab-subhead">Currency</th>
     <th colspan="3" class="tab-subhead">Coin</th>
@@ -168,6 +172,34 @@
           </td>
           <td colspan="3">&nbsp;</td>
         </tr>
+       </c:when>
+       <c:otherwise>
+       	<tr>
+	       	<th style="border-right: 0 none black; width: 2em">&nbsp;</th>
+	       	<th style="border-left: 0 none black">&nbsp;</th>
+	       	<th>Amount</th>
+	       	<th>&nbsp;</th>
+	       	<th>Amount</th>
+	       	<th colspan="2">&nbsp;</th>
+       	</tr>
+       	<tr>
+       	  <td>&nbsp;</td>
+          <td>
+            <kul:htmlAttributeLabel labelFor="${cashDrawerProperty}.financialDocumentDollarAmount" attributeEntry="${cashDrawerAttributes.financialDocumentDollarAmount}" />
+          </td>
+          <td>
+            $<kul:htmlControlAttribute property="${cashDrawerProperty}.financialDocumentDollarAmount" attributeEntry="${cashDrawerAttributes.financialDocumentDollarAmount}" readOnly="${readOnly}" />
+          </td>
+          <td>
+            <kul:htmlAttributeLabel labelFor="${cashDrawerProperty}.financialDocumentCentAmount" attributeEntry="${cashDrawerAttributes.financialDocumentCentAmount}" />
+          </td>
+          <td>
+            $<kul:htmlControlAttribute property="${cashDrawerProperty}.financialDocumentCentAmount" attributeEntry="${cashDrawerAttributes.financialDocumentCentAmount}" readOnly="${readOnly}" />
+          </td>
+          <td colspan="2">&nbsp;</td>
+        </tr>
+       </c:otherwise>
+       </c:choose>
         
         <%-- cash drawer summary information --%>
         <c:if test="${showCashDrawerSummary}">

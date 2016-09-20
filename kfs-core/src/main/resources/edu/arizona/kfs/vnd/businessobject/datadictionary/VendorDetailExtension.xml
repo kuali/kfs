@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="VendorDetailExtension" parent="VendorDetailExtension-parentBean" />
+    <bean id="VendorDetailExtension-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.vnd.businessobject.VendorDetailExtension" />
+        <property name="objectLabel" value="Vendor" />
+        <property name="attributes">
+            <list>
+                <ref bean="VendorDetailExtension-vendorHeaderGeneratedIdentifier" />
+                <ref bean="VendorDetailExtension-vendorDetailAssignedIdentifier" />
+                <ref bean="VendorDetailExtension-exportControlsFlag" />
+                <ref bean="VendorDetailExtension-conflictOfInterest" />
+                <ref bean="VendorDetailExtension-defaultB2BPaymentMethodCode" />
+                <ref bean="VendorDetailExtension-azSalesTaxLicense" />
+                <ref bean="VendorDetailExtension-tucSalesTaxLicense" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="VendorDetailExtension-vendorHeaderGeneratedIdentifier" parent="VendorDetail-vendorHeaderGeneratedIdentifier-parentBean" />
+
+    <bean id="VendorDetailExtension-vendorDetailAssignedIdentifier" parent="VendorDetail-vendorDetailAssignedIdentifier-parentBean" />
+
+    <bean id="VendorDetailExtension-exportControlsFlag" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="exportControlsFlag" />
+        <property name="label" value="Export Controls Flag" />
+        <property name="shortLabel" value="Exp. Ctl." />
+    </bean>
+    
+    <bean id="VendorDetailExtension-conflictOfInterest" parent="AttributeDefinition">
+		<property name="name" value="conflictOfInterest" />
+		<property name="label" value="Conflict of Interest" />
+		<property name="shortLabel" value="Conflict of Interest" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.vnd.businessobject.options.ConflictOfInterestTypeValuesFinder" p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="VendorDetailExtension-defaultB2BPaymentMethodCode" parent="VendorDetailExtension-defaultB2BPaymentMethodCode-parentBean" />
+	<bean id="VendorDetailExtension-defaultB2BPaymentMethodCode-parentBean" abstract="true" parent="PaymentMethod-paymentMethodCode">
+		<property name="name" value="defaultB2BPaymentMethodCode" />
+		<property name="label" value="Default Payment Method" />
+		<property name="shortLabel" value="Dflt Pmt Mthd" />
+		<property name="control">
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.PaymentMethodsForVendorValuesFinder" />
+		</property>
+	</bean>
+
+    <bean id="VendorDetailExtension-azSalesTaxLicense" parent="VendorDetailExtension-azSalesTaxLicense-parentBean"/>
+    <bean id="VendorDetailExtension-azSalesTaxLicense-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="azSalesTaxLicense"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="State Sales Tax License Number"/>
+        <property name="shortLabel" value="State Tax#"/>
+        <property name="maxLength" value="11"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+    <bean id="VendorDetailExtension-tucSalesTaxLicense" parent="VendorDetailExtension-tucSalesTaxLicense-parentBean"/>
+    <bean id="VendorDetailExtension-tucSalesTaxLicense-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="tucSalesTaxLicense"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="City Sales Tax License Number"/>
+        <property name="shortLabel" value="City Tax#"/>
+        <property name="maxLength" value="7"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+</beans>

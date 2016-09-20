@@ -98,6 +98,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE = "error.document.transferOfFunds.mandatoryTransfersDoNotBalance";
     public static final String ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE = "error.document.transferOfFunds.nonMandatoryTransfersDoNotBalance";
     public static final String ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES = "error.document.transferOfFunds.invalidObjectTypeCodes";
+    // KFSCD-6 Block a Many to Many transfer within the TF & YETF documents
+    public static final String ERROR_DOCUMENT_TOF_ACCOUNTING_LINES_COUNT_MULTIPLE = "error.document.transferOfFunds.accountingLinesCountMultiple";
     public static final String ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION = "error.document.internalBilling.capitalObjectInIncomeSection";
     public static final String ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE = "error.document.incorrectReversalDate";
     public static final String ERROR_DOCUMENT_NO_OFFSET_DEFINITION = "error.document.noOffsetDefinition";
@@ -121,6 +123,7 @@ public class KFSKeyConstants {
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD = "error.accountingLine.inaccessibleAdd";
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE = "error.accountingLine.inaccessibleDelete";
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE = "error.accountingLine.inaccessibleUpdate";
+    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_REVIEW = "error.accountingLine.inaccessibleReview";
     public static final String ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE = "error.accountingLine.deleteLastAccessible";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED = "error.document.accountingLineTotalChanged";
     public static final String ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED = "error.document.singleAccountingLineSectionTotalChanged";
@@ -440,6 +443,7 @@ public class KFSKeyConstants {
 
     public static final class ElectronicPaymentClaim {
         public static final String ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.no.chosen.claiming.doctype";
+        public static final String ERROR_EFT_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.chosen.claiming.doctype";
         public static final String ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST = "error.bo.eft.pre.claiming.document.does.not.exist";
         public static final String ERROR_NO_DOCUMENTATION = "error.bo.eft.no.documentation";
         public static final String MESSAGE_EFT_CLAIMING_DOCUMENTATION = "message.bo.eft.claimant.documentation";
@@ -694,6 +698,7 @@ public class KFSKeyConstants {
         public static final String MSG_VERIFIED_AND_AWAITING_DEPOSIT = "message.document.cashReceipt.verifiedAndAwaitingDeposit";
         public static final String MSG_VERIFIED_AND_DEPOSITED = "message.document.cashReceipt.verifiedAndDeposited";
         public static final String MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED = "message.document.cashReceipt.cashDrawerClosedVerificationNotAllowed";
+        public static final String MSG_CASH_DRAWER_LOCKED_VERIFICATION_NOT_ALLOWED = "message.document.cashReceipt.cashDrawerLockedVerificationNotAllowed";
         public static final String ERROR_ZERO_CHECK_AMOUNT = "error.document.cashReceipt.zeroCheckAmount";
         public static final String ERROR_NEGATIVE_CHECK_AMOUNT = "error.document.cashReceipt.negativeCheckAmount";
         public static final String ERROR_NEGATIVE_CASH_DETAIL_AMOUNT = "error.document.cashReceipt.negativeCashDetailAmount";

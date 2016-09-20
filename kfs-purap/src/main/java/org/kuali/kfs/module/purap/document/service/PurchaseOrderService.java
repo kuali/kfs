@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -362,13 +363,24 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public void processACMReq(ContractManagerAssignmentDocument acmDoc);
 
     /**
-     * This gets a list of Purchase Orders in Open status and checks to see if their
-     * line item encumbrances are all fully disencumbered and if so then the Purchase
-     * Order is closed and notes added to indicate the change occurred in batch
+     * Creates and add a note to the purchase order document using the annotation String in the input parameter. This method is used
+     * by the autoCloseRecurringOrders() and autoCloseFullyDisencumberedOrders to add a note to the purchase order to indicate that
+     * the purchase order was closed by the batch job.
      *
-     * @return boolean true if the job is completed successfully and false otherwise.
+     * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
+     * @param annotation The string to appear on the note to be attached to the purchase order.
      */
-    public boolean autoCloseFullyDisencumberedOrders();
+    public void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation);
+
+    /**
+     * This method gets all the PurchaseOrderView objects that relate to POs
+     * with no recurring payment type, status of 'OPEN', and total encumbrance
+     * of 0 that do not have any of the excluded vendor choice codes.
+     *
+     * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
+     * @return List of PurchaseOrderAutoClose objects
+     */
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrdersForAutoClose();
 
 
     /**

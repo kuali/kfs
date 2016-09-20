@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">	
+	<documentType>
+      <name>PORH</name>
+      <parent>PO</parent>
+      <label>Purchase Order Remove Payment Hold</label>
+      <docHandler>${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<category name="INCOMPLETE STATUSES">
+	  	  <status>In Process</status>
+		  <status>Awaiting Fiscal Officer Review</status>
+		  <status>Awaiting New Unordered Item Review</status>
+		  <status>Awaiting Purchasing Approval</status>
+		  <status>Awaiting Commodity Code Approval</status>
+		  <status>Awaiting C and G Approval</status>
+		  <status>Awaiting Budget Approval</status>
+		  <status>Awaiting Tax Approval</status>
+		  <status>Error occurred sending cxml</status>
+		  <status>Error occurred sending fax</status>
+		  <status>Out for Quote</status>
+		  <status>Payment Hold</status>
+		  <status>Pending Fax</status>
+		  <status>Pending Print</status>
+		  <status>Pending cxml</status>
+		  <status>Waiting for Department</status>
+		  <status>Waiting for Vendor</status>
+		</category>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+	  	<category name="COMPLETE STATUSES">
+		  <status>Canceled</status>
+		  <status>Canceled Change</status>
+		  <status>Change in Process</status>
+		  <status>Closed</status>
+		  <status>Disapproved Budget</status>
+		  <status>Disapproved C and G</status>
+		  <status>Disapproved Change</status>
+		  <status>Disapproved Commodity Code</status>
+		  <status>Disapproved Purchasing</status>
+		  <status>Disapproved Tax</status>
+		  <status>Open</status>
+		  <status>Pending Amendment</status>
+		  <status>Pending Close</status>
+		  <status>Pending Payment Hold</status>
+		  <status>Pending Remove Hold</status>
+		  <status>Pending Reopen</status>
+		  <status>Pending Retransmit</status>
+		  <status>Pending Void</status>
+		  <status>Retired Version</status>
+		  <status>Void</status>
+		</category>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountsPayable"/>
+          <role name="AccountsPayable"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountsPayable">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+	</documentType>
+  </documentTypes>
+</data>

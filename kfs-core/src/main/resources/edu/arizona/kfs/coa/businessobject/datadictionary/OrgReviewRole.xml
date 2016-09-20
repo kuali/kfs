@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	
+  <bean id="OrgReviewRole" parent="OrgReviewRole-parentBean" p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" p:lookupDefinition-ref="OrgReviewRole-lookupDefinition">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="OrgReviewRole-fundGroupCode"/>
+        <ref bean="OrgReviewRole-subFundGroupCode"/>
+        <ref bean="OrgReviewRole-financialObjectSubTypeCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+      	<bean parent="RelationshipDefinition">
+      		<property name="objectAttributeName" value="fundGroup"/>
+      		<property name="primitiveAttributes">
+      			<list>
+      				<bean parent="PrimitiveAttributeDefinition" p:sourceName="fundGroupCode" p:targetName="code"/>
+      			</list>
+      		</property>
+      	</bean>
+      	<bean parent="RelationshipDefinition">
+      		<property name="objectAttributeName" value="subFundGroup"/>
+      		<property name="primitiveAttributes">
+      			<list>
+      				<bean parent="PrimitiveAttributeDefinition" p:sourceName="subFundGroupCode" p:targetName="subFundGroupCode"/>
+      			</list>
+      		</property>
+      	</bean>
+      	<bean parent="RelationshipDefinition">
+      		<property name="objectAttributeName" value="objectSubType"/>
+      		<property name="primitiveAttributes">
+      			<list>
+      				<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialObjectSubTypeCode" p:targetName="code"/>
+      			</list>
+      		</property>
+      	</bean>
+      </list>
+	</property>    
+  </bean>
+
+  <bean id="OrgReviewRole-reviewRolesIndicator" parent="OrgReviewRole-reviewRolesIndicator-parentBean">
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="edu.arizona.kfs.coa.businessobject.options.OrgReviewRolesValuesFinder"
+				p:includeKeyInLabel="true" />
+		</property>
+  </bean>
+			
+  <bean id="OrgReviewRole-fundGroupCode" parent="OrgReviewRole-fundGroupCode-parentBean"/>
+  <bean id="OrgReviewRole-fundGroupCode-parentBean" parent="KfsKimAttributes-fundGroupCode" abstract="true" p:name="fundGroupCode" p:required="false"/>
+	
+  <bean id="OrgReviewRole-subFundGroupCode" parent="OrgReviewRole-subFundGroupCode-parentBean"/>
+  <bean id="OrgReviewRole-subFundGroupCode-parentBean" parent="KfsKimAttributes-subFundGroupCode" abstract="true" p:name="subFundGroupCode" p:required="false"/>
+	
+  <bean id="OrgReviewRole-financialObjectSubTypeCode" parent="OrgReviewRole-financialObjectSubTypeCode-parentBean"/>
+  <bean id="OrgReviewRole-financialObjectSubTypeCode-parentBean" parent="KfsKimAttributes-objectSubTypeCode" abstract="true" p:name="financialObjectSubTypeCode" p:required="false"/>
+
+  <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean">
+    <property name="lookupFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="fundGroupCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalName"/>
+  	    <bean parent="FieldDefinition" p:attributeName="principalMemberName" p:hidden="true"/>
+        <bean parent="FieldDefinition" p:attributeName="roleMemberRoleId"/>
+        <bean parent="FieldDefinition" p:attributeName="roleMemberRoleNamespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="roleMemberRoleName" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="groupMemberGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="groupMemberGroupNamespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="groupMemberGroupName" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="delegate"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="orgReviewRoleInquiryTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="fundGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="memberName"/>
+        <bean parent="FieldDefinition" p:attributeName="actionTypeCodeDescription"/>
+       	<bean parent="FieldDefinition" p:attributeName="priorityNumberToDisplay"/>
+       	<bean parent="FieldDefinition" p:attributeName="fromAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="toAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="overrideCode"/>
+        <bean parent="FieldDefinition" p:attributeName="delegationTypeCodeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails" parent="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails-parentBean" 
+  		p:title="Organization Review Details" p:numberOfColumns="2">
+  		<property name="inquiryFields">
+  			<list>
+  				<dd:field attributeName="chartOfAccountsCode" />
+  				<dd:field attributeName="fundGroupCode" />
+  				<dd:field attributeName="organizationCode" />
+  				<dd:field attributeName="subFundGroupCode" />
+  				<dd:field attributeName="financialSystemDocumentTypeCode" />
+  				<dd:field attributeName="financialObjectSubTypeCode" />
+  				<dd:field attributeName="reviewRolesIndicator" />
+  			</list>
+  		</property>
+  </bean>
+</beans>

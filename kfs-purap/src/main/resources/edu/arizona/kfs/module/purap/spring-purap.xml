@@ -142,6 +142,9 @@
         <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
     
+    <bean id="receivingService" parent="receivingService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+    </bean>
+
     <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
 </beans>

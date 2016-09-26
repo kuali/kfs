@@ -204,9 +204,14 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.gl.service.impl.Scrubbe
             errors.add(err);
         }
 
-        err = validateGTEAccount((OriginEntryFull) scrubbedEntry);
-        if (err != null) {
-            errors.add(err);
+        // Per v6 spec, labor entries are not to be GTE validated. Further, to keep with v3 behavior
+        // and work done under KITT-2330, Dont go through GTE validation if other errors exist -- this
+        // helps ensure reports appear as they have in the past
+        if (!laborIndicator && (errors == null || errors.isEmpty())) {
+            err = validateGTEAccount((OriginEntryFull) originEntry);
+            if (err != null) {
+                errors.add(err);
+            }
         }
 
         return errors;
@@ -214,10 +219,7 @@ public class ScrubberValidatorImpl extends org.kuali.kfs.gl.service.impl.Scrubbe
 
     protected Message validateGTEAccount(OriginEntryFull originEntry) {
         LOG.debug("validateGTEAccount() started");
-        originEntry.refreshReferenceObject("account");
-        originEntry.refreshReferenceObject("financialObject");
         Account account = originEntry.getAccount();
-        account.refreshReferenceObject("subFundGroup");
 
         if(ObjectUtils.isNull(account)){
             return MessageBuilder.buildMessageWithPlaceHolder(edu.arizona.kfs.sys.KFSKeyConstants.ERROR_GLOBAL_TRANSACTION_EDIT_SCRUBBER_INVALID_VALUES, Message.TYPE_FATAL, new Object[] {"Account", originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber()});

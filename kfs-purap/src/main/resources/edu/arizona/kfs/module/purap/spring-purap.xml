@@ -122,6 +122,7 @@
     </bean>
     
     <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
+    	<property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
     
 	<bean id="creditMemoService" class="edu.arizona.kfs.module.purap.document.service.impl.CreditMemoServiceImpl">
@@ -140,5 +141,10 @@
         <property name="workflowDocumentService" ref="workflowDocumentService" />
         <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
     </bean>
+    
+    <bean id="receivingService" parent="receivingService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+    </bean>
+
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
 </beans>

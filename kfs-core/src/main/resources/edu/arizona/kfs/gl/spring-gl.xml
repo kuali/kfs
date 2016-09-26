@@ -2,7 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" >
         <property name="packagePrefixes">
@@ -20,6 +24,11 @@
             <list merge="true">
                 <value>edu/arizona/kfs/gl/ojb-gl.xml</value>
             </list>
+        </property>
+        <property name="jobNames">
+        	<list merge="true">
+        		<value>budgetAdjustmentCashTransferJob</value>
+        	</list>
         </property>
     </bean>
 
@@ -83,6 +92,17 @@
         </property>
     </bean>
 
+	<bean id="budgetAdjustmentCashTransferJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glBudgetAdjustmentMergeSortStep"/>
+				<ref bean="glBudgetAdjustmentExtractStep"/>
+				<ref bean="glBudgetAdjustmentGenerationStep"/>
+				<ref bean="glAggregateBudgetAdjustmentReportsStep" />
+			</list>
+		</property>
+	</bean>
+	
     <bean id="scrubberJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -105,6 +125,130 @@
             </map>
         </property>
     </bean>
+
+	<bean id="glBudgetAdjustmentTransactionDao" parent="platformAwareDao" class="edu.arizona.kfs.gl.dataaccess.impl.BudgetAdjustmentTransactionDaoOjb"/>
+	
+	<bean id="glBudgetAdjustmentCashTransferService" parent="glBudgetAdjustmentCashTransferService-parentBean"/>
+	<bean id="glBudgetAdjustmentCashTransferService-parentBean" abstract="true" class="edu.arizona.kfs.gl.batch.service.impl.BudgetAdjustmentCashTransferServiceImpl">
+		<property name="budgetAdjustmentTransactionDao">
+			<ref bean="glBudgetAdjustmentTransactionDao" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>	
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>		
+		<property name="runDateService">
+			<ref bean="glRunDateService"/>
+		</property>		
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>		
+	</bean>	
+	
+	<bean id="glBudgetAdjustmentMergeSortStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentMergeSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	</bean>
+		
+	<bean id="budgetAdjustmentTransactionReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction"/>
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="universityFiscalYear" value="YEAR"/>
+				<entry key="chartOfAccountsCode" value="COA"/>
+				<entry key="accountNumber" value="ACCOUNT"/>
+				<entry key="subAccountNumber" value="SACCT"/>
+				<entry key="financialObjectCode" value="OBJ"/>
+				<entry key="financialSubObjectCode" value="SOBJ"/>
+				<entry key="financialBalanceTypeCode" value="BT"/>
+				<entry key="financialObjectTypeCode" value="OT"/>
+				<entry key="universityFiscalPeriodCode" value="PRD"/>
+				<entry key="financialDocumentTypeCode" value="DTYP"/>
+				<entry key="documentNumber" value="RBC #"/>
+				<entry key="transactionLedgerEntrySequenceNumber" value="SEQ #"/>
+				<entry key="organizationDocumentNumber" value="DOC #"/>
+			</map>
+		</property>
+		<property name="columnCount" value="13" />
+	</bean>
+	
+	<bean id="glBudgetAdjustmentExtractService" parent="glBudgetAdjustmentExtractService-parentBean"/>
+	<bean id="glBudgetAdjustmentExtractService-parentBean" abstract="true"  parent="glBudgetAdjustmentCashTransferService">
+		<property name="reportWriterService">
+			<ref bean="glBudgetAdjustmentExtractReportWriterService" />
+		</property>
+	</bean>	
+	
+	<bean id="glBudgetAdjustmentExtractReportWriterService" parent="glBudgetAdjustmentExtractReportWriterService-parentBean"/>
+	<bean id="glBudgetAdjustmentExtractReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="budgetAdjustmentCashTransfer_01_extract"/>
+        <property name="title" value="Budget Adjustment Cash Transfer Extract Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" value="budgetAdjustmentTransactionReportHelper"/>
+        	</map>
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>       	
+    </bean>
+    
+    <bean id="glBudgetAdjustmentGenerationService" parent="glBudgetAdjustmentGenerationService-parentBean"/>
+	<bean id="glBudgetAdjustmentGenerationService-parentBean" abstract="true"  parent="glBudgetAdjustmentCashTransferService">
+		<property name="reportWriterService">
+			<ref bean="glBudgetAdjustmentGenerationReportWriterService" />
+		</property>
+	</bean>	
+    
+	<bean id="glBudgetAdjustmentGenerationReportWriterService" parent="glBudgetAdjustmentGenerationReportWriterService-parentBean"/>
+	<bean id="glBudgetAdjustmentGenerationReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="budgetAdjustmentCashTransfer_02_generation"/>
+        <property name="title" value="Budget Adjustment Cash Transfer Generation Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" value="budgetAdjustmentTransactionReportHelper"/>
+        	</map>
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>       	
+    </bean>
+    
+    <bean id="glBudgetAdjustmentExtractStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentExtractStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>				
+				<ref bean="glBudgetAdjustmentExtractReportWriterService" />
+			</list>
+		</property>
+		<property name="budgetAdjustmentCashTransferService" ref="glBudgetAdjustmentExtractService" />
+	</bean>	
+	
+	<bean id="glBudgetAdjustmentGenerationStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentGenerationStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>				
+				<ref bean="glBudgetAdjustmentGenerationReportWriterService" />
+			</list>
+		</property>
+		<property name="budgetAdjustmentCashTransferService" ref="glBudgetAdjustmentGenerationService" />
+	</bean>
+	
+	<bean id="glAggregateBudgetAdjustmentReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
+	    <property name="outputFilePath" value="${reports.directory}/gl"/>
+	    <property name="outputFilePrefix" value="budgetAdjustmentCashTransfer_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${temp.directory}"/>
+	    <property name="inputFilePrefix" value="budgetAdjustmentCashTransfer_"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
+	</bean>
 
     <bean id="posterJob" parent="unscheduledJobDescriptor">
         <property name="steps">

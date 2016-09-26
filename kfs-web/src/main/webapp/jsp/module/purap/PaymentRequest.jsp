@@ -85,6 +85,8 @@
 	    <purap:customPaymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
     	
         <gl:generalLedgerPendingEntries />
+        
+        <sys:docuware />
 
 		<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.PaymentRequestDocument.attachmentTypesValuesFinderClass}" />
         

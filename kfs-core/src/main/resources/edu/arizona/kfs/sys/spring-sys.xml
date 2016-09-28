@@ -25,9 +25,37 @@
             <list>
             </list>
         </property>
+        <property name="jobNames">
+        	<list merge="true">
+        		<value>roomImportJob</value>
+        	</list>
+        </property>
     </bean>
 
     <import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+    
+    <bean id="roomImportJob" parent="unscheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="roomImportStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roomImportStep" class="edu.arizona.kfs.sys.batch.RoomImportStep" parent="step">
+    	<property name="roomImportService">
+    		<ref bean="roomImportService" />
+    	</property>
+    </bean>
+    
+    <bean id="roomImportService" class="edu.arizona.kfs.sys.batch.service.impl.RoomImportServiceImpl">
+    	<property name="barchFileDirectoryName" value="${staging.directory}/sys/import" />
+    	<property name="reportDirectoryName" value="${reports.directory}/sys" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="ddService" ref="dataDictionaryService" />
+    	<property name="dateTimeService" ref="dateTimeService" />
+    	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
+    </bean>
 
     <bean id="scheduleJob" parent="unscheduledJobDescriptor">
         <property name="steps">

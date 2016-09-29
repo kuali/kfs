@@ -1,0 +1,135 @@
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+ <bean id="ProcurementCardDefault" parent="ProcurementCardDefault-parentBean" />
+ 	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" />
+	<property name="attributes">
+    	<list merge="true">
+    		<ref bean="ProcurementCardDefault-creditCardLastFour" />
+    		<ref bean="ProcurementCardDefault-cardHolderSystemId"/>
+ 			<ref bean="ProcurementCardDefault-cardholderUser.principalName"/>
+			<ref bean="ProcurementCardDefault-cardholderUser.name"/>
+			<ref bean="ProcurementCardDefault-organizationCode"/>
+			<ref bean="ProcurementCardDefault-reconcilerGroupId"/>
+			<ref bean="ProcurementCardDefault-reconcilerGroup.id"/>
+			<ref bean="ProcurementCardDefault-reconcilerGroup.name"/>      	
+            <ref bean="ProcurementCardDefault-cardMonthlyNumber" />			
+			<ref bean="ProcurementCardDefault-cardCancelCode"/>
+ 			<ref bean="ProcurementCardDefault-cardOpenDate"/>
+			<ref bean="ProcurementCardDefault-cardCancelDate"/>
+			<ref bean="ProcurementCardDefault-cardExpireDate"/>
+        </list>
+    </property>
+    <property name="relationships">
+ 		<list>
+			<dd:relationship objectAttribute="cardholderUser">
+				<dd:primitiveAttribute source="cardHolderSystemId" target="principalId"/>
+ 				<dd:supportAttribute source="cardholderUser.principalName" target="principalName" identifier="true"/>
+ 				<dd:supportAttribute source="cardholderUser.name" target="name"/>
+ 			</dd:relationship>
+ 			<dd:relationship objectAttribute="reconcilerGroup">
+ 				<dd:primitiveAttribute source="reconcilerGroup.id" target="id"/>
+ 				<dd:supportAttribute source="reconcilerGroup.name" target="name" identifier="true"/>
+ 			</dd:relationship>
+ 		</list>
+ 	</property>
+</bean>
+
+<bean id="ProcurementCardDefault-creditCardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="attributeSecurity">
+  		<bean parent="AttributeSecurity">
+    		<property name="mask" value="true" /> 
+  			<property name="maskFormatter">
+   				<bean parent="MaskFormatterSubString" p:maskCharacter="*" p:maskLength="12" />
+    		</property>
+    	</bean>
+    </property>  
+</bean>
+
+<bean id="ProcurementCardDefault-creditCardLastFour" parent="ProcurementCardDefault-creditCardLastFour-parentBean" />
+<bean id="ProcurementCardDefault-creditCardLastFour-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditCardLastFour" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Card Number Last Four" />
+    <property name="shortLabel" value="Num Last Four" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+</bean>
+
+<bean id="ProcurementCardDefault-cardHolderSystemId" parent="ProcurementCardDefault-cardHolderSystemId-parentBean" />
+<bean id="ProcurementCardDefault-cardHolderSystemId-parentBean" abstract="true" parent="PersonImpl-principalId">
+	<property name="name" value="cardHolderSystemId" />
+	<property name="label" value="Cardholders Net ID" />
+	<property name="shortLabel" value="CardHoldId" />
+	<property name="control" >
+		<bean parent="HiddenControlDefinition" />
+	</property>
+</bean>
+
+<bean id="ProcurementCardDefault-cardholderUser.principalName" parent="ProcurementCardDefault-cardholderUser.principalName-parentBean" />
+<dd:boAttributeRef id="ProcurementCardDefault-cardholderUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
+	attributeName="cardholderUser.principalName"
+	label="Cardholders Net ID"
+	shortLabel="NetID"
+	required="true">
+	<dd:user universalIdAttribute="cardHolderSystemId" userObjectAttribute="cardholderUser" />
+</dd:boAttributeRef>
+
+<bean id="ProcurementCardDefault-cardholderUser.name" parent="ProcurementCardDefault-cardholderUser.name-parentBean" />
+<bean id="ProcurementCardDefault-cardholderUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+	<property name="name" value="cardholderUser.name" />
+	<property name="label" value="Cardholder Name" />
+	<property name="required" value="false" />
+</bean>
+ 
+<bean id="ProcurementCardDefault-organizationCode" parent="ProcurementCardDefault-organizationCode-parentBean" />
+<bean id="ProcurementCardDefault-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+	<property name="label" value="Default Org Code" />
+</bean>
+
+<bean id="ProcurementCardDefault-cardCycleVolumeLimit-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="cardCycleVolLimit" />
+	<property name="validationPattern" >
+		<bean parent="NumericValidationPattern" />
+	</property>
+</bean>
+
+<bean id="ProcurementCardDefault-cardMonthlyNumber" parent="ProcurementCardDefault-cardMonthlyNumber-parentBean" />
+<bean id="ProcurementCardDefault-cardMonthlyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="cardMonthlyNumber" />
+	<property name="label" value="Monthly Number" />
+	<property name="shortLabel" value="Monthly Num" />
+	<property name="validationPattern" >
+		<bean parent="NumericValidationPattern" />
+	</property>
+	<property name="control" >
+		<bean parent="TextControlDefinition"
+			p:size="16" />
+     </property>
+   </bean>
+
+
+</beans>

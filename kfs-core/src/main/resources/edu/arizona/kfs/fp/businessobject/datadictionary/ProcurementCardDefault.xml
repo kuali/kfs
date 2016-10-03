@@ -83,7 +83,7 @@
 	<bean id="ProcurementCardDefault-creditCardLastFour-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="creditCardLastFour" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Number Last Four" />
+		<property name="label" value="Procurement Card Number Last Four" />
 		<property name="shortLabel" value="Num Last Four" />
 		<property name="maxLength" value="4" />
 		<property name="control" >

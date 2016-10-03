@@ -68,7 +68,7 @@
           <td valign=top><bean:write name="KualiForm" property="document.transactionEntries[${ctr}].transactionDate" /></td>
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionReferenceNumber}"/></div></th>
           <td valign=top>
-            <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail" 
+            <kul:inquiry boClassName="edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
 				<bean:write name="KualiForm" property="document.transactionEntries[${ctr}].transactionReferenceNumber" />

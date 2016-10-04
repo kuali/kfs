@@ -60,6 +60,10 @@
 		</ul>
     </c:when>
     </c:choose>
+    <strong>Financial Processing</strong>
+    <ul class="chan">
+    	<li><portal:portalLink displayTitle="true" title="Shipping Accounts" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.pdp.businessobject.ShippingAccount&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>   
+     </ul>
     <c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
 		<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
 		    <strong>Travel</strong><br/>

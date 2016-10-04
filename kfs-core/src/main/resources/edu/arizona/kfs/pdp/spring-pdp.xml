@@ -7,7 +7,17 @@
     <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" >
     	<property name="dataDictionaryPackages">
     		<list merge="true">
-    			<value>edu/arizona/kfs/pdp/document/datadictionary</value>
+    			<value>classpath:edu/arizona/kfs/pdp/businessobject/datadictionary/*.xml</value>
+    		</list>
+    	</property>
+    	<property name="packagePrefixes">
+    		<list merge="true">
+    			<value>edu.arizona.kfs.pdp</value>
+    		</list>
+    	</property>
+    	<property name="databaseRepositoryFilePaths">
+    		<list merge="true">
+    			<value>edu/arizona/kfs/pdp/ojb-pdp.xml</value>
     		</list>
     	</property>
         <property name="triggerNames">

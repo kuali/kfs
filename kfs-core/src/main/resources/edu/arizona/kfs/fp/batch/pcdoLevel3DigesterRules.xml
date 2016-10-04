@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="transactions">
+        <object-create-rule classname="java.util.ArrayList" />
+
+        <pattern value="transaction">
+            <object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTransaction" />
+
+            <call-method-rule pattern="transactionCreditCardNumber" methodname="setTransactionCreditCardNumber" paramcount="0" />
+            <call-method-rule pattern="financialDocumentTotalAmount" methodname="setFinancialDocumentTotalAmount" paramcount="0" />
+            <call-method-rule pattern="transactionDebitCreditCode" methodname="setTransactionDebitCreditCode" paramcount="0" />
+            <call-method-rule pattern="chartOfAccountsCode" methodname="setChartOfAccountsCode" paramcount="0" />
+            <call-method-rule pattern="accountNumber" methodname="setAccountNumber" paramcount="0" />
+            <call-method-rule pattern="subAccountNumber" methodname="setSubAccountNumber" paramcount="0" />
+            <call-method-rule pattern="financialObjectCode" methodname="setFinancialObjectCode" paramcount="0" />
+            <call-method-rule pattern="financialSubObjectCode" methodname="setFinancialSubObjectCode" paramcount="0" />
+            <call-method-rule pattern="projectCode" methodname="setProjectCode" paramcount="0" />
+            <call-method-rule pattern="transactionCycleStartDate" methodname="setTransactionCycleStartDate" paramcount="0" />
+            <call-method-rule pattern="transactionCycleEndDate" methodname="setTransactionCycleEndDate" paramcount="0" />
+            <call-method-rule pattern="cardHolderName" methodname="setCardHolderName" paramcount="0" />
+            <call-method-rule pattern="transactionDate" methodname="setTransactionDate" paramcount="0" paramtypes="java.sql.Date" />
+            <call-method-rule pattern="transactionReferenceNumber" methodname="setTransactionReferenceNumber" paramcount="0" />
+            <call-method-rule pattern="transactionMerchantCategoryCode" methodname="setTransactionMerchantCategoryCode" paramcount="0" />
+            <call-method-rule pattern="transactionPostingDate" methodname="setTransactionPostingDate" paramcount="0" paramtypes="java.sql.Date" />
+            <call-method-rule pattern="transactionOriginalCurrencyCode" methodname="setTransactionOriginalCurrencyCode" paramcount="0" />
+            <call-method-rule pattern="transactionBillingCurrencyCode" methodname="setTransactionBillingCurrencyCode" paramcount="0" />
+            <call-method-rule pattern="transactionOriginalCurrencyAmount" methodname="setTransactionOriginalCurrencyAmount" paramcount="0" />
+            <call-method-rule pattern="transactionCurrencyExchangeRate" methodname="setTransactionCurrencyExchangeRate" paramcount="0" />
+            <call-method-rule pattern="transactionSettlementAmount" methodname="setTransactionSettlementAmount" paramcount="0" />
+            <call-method-rule pattern="transactionSalesTaxAmount" methodname="setTransactionSalesTaxAmount" paramcount="0" />
+            <call-method-rule pattern="transactionTaxExemptIndicator" methodname="setTransactionTaxExemptIndicator" paramcount="0" />
+            <call-method-rule pattern="transactionPurchaseIdentifierIndicator" methodname="setTransactionPurchaseIdentifierIndicator" paramcount="0" />
+            <call-method-rule pattern="transactionPurchaseIdentifierDescription" methodname="setTransactionPurchaseIdentifierDescription" paramcount="0" />
+            <call-method-rule pattern="transactionUnitContactName" methodname="setTransactionUnitContactName" paramcount="0" />
+            <call-method-rule pattern="transactionTravelAuthorizationCode" methodname="setTransactionTravelAuthorizationCode" paramcount="0" />
+            <call-method-rule pattern="transactionPointOfSaleCode" methodname="setTransactionPointOfSaleCode" paramcount="0" />
+            <call-method-rule pattern="vendorName" methodname="setVendorName" paramcount="0" />
+            <call-method-rule pattern="vendorLine1Address" methodname="setVendorLine1Address" paramcount="0" />
+            <call-method-rule pattern="vendorLine2Address" methodname="setVendorLine2Address" paramcount="0" />
+            <call-method-rule pattern="vendorCityName" methodname="setVendorCityName" paramcount="0" />
+            <call-method-rule pattern="vendorStateCode" methodname="setVendorStateCode" paramcount="0" />
+            <call-method-rule pattern="vendorZipCode" methodname="setVendorZipCode" paramcount="0" />
+            <call-method-rule pattern="vendorOrderNumber" methodname="setVendorOrderNumber" paramcount="0" />
+            <call-method-rule pattern="visaVendorIdentifier" methodname="setVisaVendorIdentifier" paramcount="0" />
+            <call-method-rule pattern="cardHolderAlternateName" methodname="setCardHolderAlternateName" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine1Address" methodname="setCardHolderLine1Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine2Address" methodname="setCardHolderLine2Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderCityName" methodname="setCardHolderCityName" paramcount="0" />
+            <call-method-rule pattern="cardHolderStateCode" methodname="setCardHolderStateCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderZipCode" methodname="setCardHolderZipCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderWorkPhoneNumber" methodname="setCardHolderWorkPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="cardLimit" methodname="setCardLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleAmountLimit" methodname="setCardCycleAmountLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleVolumeLimit" methodname="setCardCycleVolumeLimit" paramcount="0" />
+            <call-method-rule pattern="cardStatusCode" methodname="setCardStatusCode" paramcount="0" />
+            <call-method-rule pattern="cardNoteText" methodname="setCardNoteText" paramcount="0" />
+            <call-method-rule pattern="invoiceNumber" methodname="setInvoiceNumber" paramcount="0" />
+            <call-method-rule pattern="orderDate" methodname="setOrderDate" paramcount="0" />
+            <call-method-rule pattern="purchaseTime" methodname="setPurchaseTime" paramcount="0" />
+            <call-method-rule pattern="shipPostal" methodname="setShipPostal" paramcount="0" />
+            <call-method-rule pattern="destinationPostal" methodname="setDestinationPostal" paramcount="0" />
+            <call-method-rule pattern="destinationCountryCode" methodname="setDestinationCountryCode" paramcount="0" />
+            <call-method-rule pattern="taxAmount" methodname="setTaxAmount" paramcount="0" />
+            <call-method-rule pattern="taxRate" methodname="setTaxRate" paramcount="0" />
+            <call-method-rule pattern="discountAmount" methodname="setDiscountAmount" paramcount="0" />
+            <call-method-rule pattern="freightAmount" methodname="setFreightAmount" paramcount="0" />
+            <call-method-rule pattern="dutyAmount" methodname="setDutyAmount" paramcount="0" />   
+            <call-method-rule pattern="userEffectiveDate" methodname="setUserEffectiveDate" paramcount="0" />
+            <call-method-rule pattern="userAmount" methodname="setUserAmount" paramcount="0" />   
+            <call-method-rule pattern="oilBrandName" methodname="setOilBrandName" paramcount="0" />
+            <call-method-rule pattern="odometerReading" methodname="setOdometerReading" paramcount="0" />            
+            <call-method-rule pattern="fleetId" methodname="setFleetId" paramcount="0" />
+            <call-method-rule pattern="messageId" methodname="setMessageId" paramcount="0" />
+            <call-method-rule pattern="usage" methodname="setUsage" paramcount="0" />
+            <call-method-rule pattern="fuelServiceType" methodname="setFuelServiceType" paramcount="0" />            
+            <call-method-rule pattern="fuelProductCd" methodname="setFuelProductCd" paramcount="0" />
+            <call-method-rule pattern="productTypeCd" methodname="setProductTypeCd" paramcount="0" />
+            <call-method-rule pattern="fuelQuantity" methodname="setFuelQuantity" paramcount="0" />
+            <call-method-rule pattern="fuelUnitOfMeasure" methodname="setFuelUnitOfMeasure" paramcount="0" />
+            <call-method-rule pattern="fuelUnitPrice" methodname="setFuelUnitPrice" paramcount="0" />
+            <call-method-rule pattern="fuelSaleAmount" methodname="setFuelSaleAmount" paramcount="0" />
+            <call-method-rule pattern="fuelDiscountAmount" methodname="setFuelDiscountAmount" paramcount="0" />
+            <call-method-rule pattern="taxAmount1" methodname="setTaxAmount1" paramcount="0" />
+            <call-method-rule pattern="taxAmount2" methodname="setTaxAmount2" paramcount="0" />            
+            <call-method-rule pattern="totalAmount" methodname="setTotalAmount" paramcount="0" />  
+            <call-method-rule pattern="genericEffectiveDate" methodname="setGenericEffectiveDate" paramcount="0" />
+            <call-method-rule pattern="genericData" methodname="setGenericData" paramcount="0" />  
+            <call-method-rule pattern="arriveDate" methodname="setArriveDate" paramcount="0" />
+            <call-method-rule pattern="departureDate" methodname="setDepartureDate" paramcount="0" />
+            <call-method-rule pattern="folioNum" methodname="setFolioNum" paramcount="0" />
+            <call-method-rule pattern="propertyPhoneNum" methodname="setPropertyPhoneNum" paramcount="0" />
+            <call-method-rule pattern="customerServiceNum" methodname="setCustomerServiceNum" paramcount="0" />
+            <call-method-rule pattern="prePaidAmt" methodname="setPrePaidAmt" paramcount="0" />            
+            <call-method-rule pattern="roomRate" methodname="setRoomRate" paramcount="0" />
+            <call-method-rule pattern="roomTax" methodname="setRoomTax" paramcount="0" />
+            <call-method-rule pattern="programCode" methodname="setProgramCode" paramcount="0" />
+            <call-method-rule pattern="callCharges" methodname="setCallCharges" paramcount="0" />
+            <call-method-rule pattern="foodSvcCharges" methodname="setFoodSvcCharges" paramcount="0" />
+            <call-method-rule pattern="miniBarCharges" methodname="setMiniBarCharges" paramcount="0" />
+            <call-method-rule pattern="giftShopCharges" methodname="setGiftShopCharges" paramcount="0" />
+            <call-method-rule pattern="laundryCharges" methodname="setLaundryCharges" paramcount="0" />
+            <call-method-rule pattern="healthClubCharges" methodname="setHealthClubCharges" paramcount="0" />
+            <call-method-rule pattern="movieCharges" methodname="setMovieCharges" paramcount="0" />
+            <call-method-rule pattern="busCtrCharges" methodname="setBusCtrCharges" paramcount="0" />
+            <call-method-rule pattern="parkingCharges" methodname="setParkingCharges" paramcount="0" />
+            <call-method-rule pattern="otherCode" methodname="setOtherCode" paramcount="0" />
+            <call-method-rule pattern="otherCharges" methodname="setOtherCharges" paramcount="0" />
+            <call-method-rule pattern="adjustmentAmount" methodname="setAdjustmentAmount" paramcount="0" />  
+            <call-method-rule pattern="checkOutDate" methodname="setCheckOutDate" paramcount="0" />
+            <call-method-rule pattern="rentalAgreementNum" methodname="setRentalAgreementNum" paramcount="0" />
+            <call-method-rule pattern="renterName" methodname="setRenterName" paramcount="0" />
+            <call-method-rule pattern="returnCity" methodname="setReturnCity" paramcount="0" />
+            <call-method-rule pattern="returnState" methodname="setReturnState" paramcount="0" />
+            <call-method-rule pattern="returnCountry" methodname="setReturnCountry" paramcount="0" />
+            <call-method-rule pattern="returnDate" methodname="setReturnDate" paramcount="0" />
+            <call-method-rule pattern="returnLocation" methodname="setReturnLocation" paramcount="0" />
+            <call-method-rule pattern="customerSvcNum" methodname="setCustomerSvcNum" paramcount="0" />
+            <call-method-rule pattern="rentalClass" methodname="setRentalClass" paramcount="0" />
+            <call-method-rule pattern="dailyRate" methodname="setDailyRate" paramcount="0" />
+            <call-method-rule pattern="weeklyRate" methodname="setWeeklyRate" paramcount="0" />
+            <call-method-rule pattern="ratePerMile" methodname="setRatePerMile" paramcount="0" />
+            <call-method-rule pattern="maxFreeMiles" methodname="setMaxFreeMiles" paramcount="0" />
+            <call-method-rule pattern="totalMiles" methodname="setTotalMiles" paramcount="0" />
+            <call-method-rule pattern="oneWayCharges" methodname="setOneWayCharges" paramcount="0" />
+            <call-method-rule pattern="insuranceCharges" methodname="setInsuranceCharges" paramcount="0" />
+            <call-method-rule pattern="regularCharges" methodname="setRegularCharges" paramcount="0" />
+            <call-method-rule pattern="towingCharges" methodname="setTowingCharges" paramcount="0" />
+            <call-method-rule pattern="extraCharges" methodname="setExtraCharges" paramcount="0" />
+            <call-method-rule pattern="lateReturnFee" methodname="setLateReturnFee" paramcount="0" />
+            <call-method-rule pattern="adjustCode" methodname="setAdjustCode" paramcount="0" />
+            <call-method-rule pattern="adjustAmount" methodname="setAdjustAmount" paramcount="0" />
+            <call-method-rule pattern="progCode" methodname="setProgCode" paramcount="0" />
+            <call-method-rule pattern="phoneCharges" methodname="setPhoneCharges" paramcount="0" />
+            <call-method-rule pattern="othrCharges" methodname="setOthrCharges" paramcount="0" />
+            <call-method-rule pattern="totalTaxAmount" methodname="setTotalTaxAmount" paramcount="0" /> 
+            <call-method-rule pattern="passengerName" methodname="setPassengerName" paramcount="0" />
+            <call-method-rule pattern="departDate" methodname="setDepartDate" paramcount="0" />
+            <call-method-rule pattern="departureCity" methodname="setDepartureCity" paramcount="0" />
+            <call-method-rule pattern="agencyCode" methodname="setAgencyCode" paramcount="0" />
+            <call-method-rule pattern="agencyName" methodname="setAgencyName" paramcount="0" />
+            <call-method-rule pattern="ticketNumber" methodname="setTicketNumber" paramcount="0" />
+            <call-method-rule pattern="customerCode" methodname="setCustomerCode" paramcount="0" />
+            <call-method-rule pattern="issueDate" methodname="setIssueDate" paramcount="0" />
+            <call-method-rule pattern="issuingCarrier" methodname="setIssuingCarrier" paramcount="0" />
+            <call-method-rule pattern="totalFare" methodname="setTotalFare" paramcount="0" />
+            <call-method-rule pattern="totalFees" methodname="setTotalFees" paramcount="0" />
+            <call-method-rule pattern="totalTaxes" methodname="setTotalTaxes" paramcount="0" />
+            
+            <pattern value="addItem">
+				<object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTranAddItem" />
+				
+	            <call-method-rule pattern="itemCommodityCode" methodname="setItemCommodityCode" paramcount="0" />
+	            <call-method-rule pattern="itemProductCode" methodname="setItemProductCode" paramcount="0" />
+	            <call-method-rule pattern="itemDescription" methodname="setItemDescription" paramcount="0" />
+	            <call-method-rule pattern="itemQuantity" methodname="setItemQuantity" paramcount="0" />
+	            <call-method-rule pattern="itemUnitCode" methodname="setItemUnitCode" paramcount="0" />
+	            <call-method-rule pattern="itemAmount" methodname="setItemAmount" paramcount="0" />
+	            <call-method-rule pattern="itemDebitCreditCode" methodname="setItemDebitCreditCode" paramcount="0" />
+	            <call-method-rule pattern="itemTaxRate" methodname="setItemTaxRate" paramcount="0" />
+	            <call-method-rule pattern="itemTaxAmount" methodname="setItemTaxAmount" paramcount="0" />
+	            <call-method-rule pattern="itemDiscountAmount" methodname="setItemDiscountAmount" paramcount="0" />
+	            <call-method-rule pattern="itemExtendedAmount" methodname="setItemExtendedAmount" paramcount="0" />
+	           	
+				<set-next-rule methodname="addProcurementCardTranAddItem" />
+			</pattern>   
+			
+			<pattern value="nonFuel">
+				<object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTranNonFuel" />
+				
+	            <call-method-rule pattern="nonFuelProductCode" methodname="setNonFuelProductCode" paramcount="0" />
+	            <call-method-rule pattern="itemDesc" methodname="setItemDesc" paramcount="0" />
+	            <call-method-rule pattern="itemQuant" methodname="setItemQuant" paramcount="0" />
+	            <call-method-rule pattern="itemUnitOfMeasure" methodname="setItemUnitOfMeasure" paramcount="0" />
+	            <call-method-rule pattern="taxRateApplied" methodname="setTaxRateApplied" paramcount="0" />
+	            <call-method-rule pattern="itemTaxAmt" methodname="setItemTaxAmt" paramcount="0" />
+	            <call-method-rule pattern="alternateTaxId" methodname="setAlternateTaxId" paramcount="0" />
+	            <call-method-rule pattern="itemDiscountAmt" methodname="setItemDiscountAmt" paramcount="0" />
+	            <call-method-rule pattern="itemTotal" methodname="setItemTotal" paramcount="0" />	            
+	           	
+				<set-next-rule methodname="addProcurementCardTranNonFuel" />
+			</pattern> 
+			
+			<pattern value="shipService">
+				<object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTranShipSvc" />
+				
+	            <call-method-rule pattern="courierName" methodname="setCourierName" paramcount="0" />
+	            <call-method-rule pattern="trackingNumber" methodname="setTrackingNumber" paramcount="0" />
+	            <call-method-rule pattern="serviceDescription" methodname="setServiceDescription" paramcount="0" />
+	            <call-method-rule pattern="pickupDate" methodname="setPickupDate" paramcount="0" />
+	            <call-method-rule pattern="originZip" methodname="setOriginZip" paramcount="0" />
+	            <call-method-rule pattern="originCountryCd" methodname="setOriginCountryCd" paramcount="0" />
+	            <call-method-rule pattern="destinationZip" methodname="setDestinationZip" paramcount="0" />
+	            <call-method-rule pattern="destinationCountryCd" methodname="setDestinationCountryCd" paramcount="0" />
+	            <call-method-rule pattern="netAmount" methodname="setNetAmount" paramcount="0" />
+	            <call-method-rule pattern="taxAmt" methodname="setTaxAmt" paramcount="0" />	 
+	            <call-method-rule pattern="discAmt" methodname="setDiscAmt" paramcount="0" />	 
+	            <call-method-rule pattern="numberOfPackages" methodname="setNumberOfPackages" paramcount="0" />
+	            <call-method-rule pattern="weight" methodname="setWeight" paramcount="0" />
+	            <call-method-rule pattern="unitsOfMeasure" methodname="setUnitsOfMeasure" paramcount="0" />	 
+	            <call-method-rule pattern="senderName" methodname="setSenderName" paramcount="0" />	 
+	            <call-method-rule pattern="senderAddress" methodname="setSenderAddress" paramcount="0" />
+	            <call-method-rule pattern="receiverName" methodname="setReceiverName" paramcount="0" />
+	            <call-method-rule pattern="receiverAddress" methodname="setReceiverAddress" paramcount="0" />	 
+	            <call-method-rule pattern="customerRefNumber" methodname="setCustomerRefNumber" paramcount="0" />	 
+	                   	
+				<set-next-rule methodname="addProcurementCardTranShipSvc" />
+			</pattern>
+			
+			<pattern value="tempService">
+				<object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTranTempSvc" />
+				
+	            <call-method-rule pattern="weekEndingDate" methodname="setWeekEndingDate" paramcount="0" />
+	            <call-method-rule pattern="serviceDesc" methodname="setServiceDesc" paramcount="0" />
+	            <call-method-rule pattern="employeeName" methodname="setEmployeeName" paramcount="0" />
+	            <call-method-rule pattern="regularRate" methodname="setRegularRate" paramcount="0" />
+	            <call-method-rule pattern="regularHours" methodname="setRegularHours" paramcount="0" />
+	            <call-method-rule pattern="overtimeRate" methodname="setOvertimeRate" paramcount="0" />
+	            <call-method-rule pattern="overtimeHours" methodname="setOvertimeHours" paramcount="0" />
+	            <call-method-rule pattern="miscExpenseAmt" methodname="setMiscExpenseAmt" paramcount="0" />
+	            <call-method-rule pattern="subTotalAmt" methodname="setSubTotalAmt" paramcount="0" />
+	            <call-method-rule pattern="salesTaxAmt" methodname="setSalesTaxAmt" paramcount="0" />	 
+	            <call-method-rule pattern="discountAmt" methodname="setDiscountAmt" paramcount="0" />	 
+	            <call-method-rule pattern="startDate" methodname="setStartDate" paramcount="0" />
+	            <call-method-rule pattern="supervisor" methodname="setSupervisor" paramcount="0" />
+	            <call-method-rule pattern="timeSheetNumber" methodname="setTimeSheetNumber" paramcount="0" />	 
+	            <call-method-rule pattern="commodityCode" methodname="setCommodityCode" paramcount="0" />	 
+	            <call-method-rule pattern="jobCode" methodname="setJobCode" paramcount="0" />
+	           	                   	
+				<set-next-rule methodname="addProcurementCardTranTempSvc" />
+			</pattern>          
+			
+			<pattern value="transportLeg">
+				<object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardTranTransportLeg" />
+				
+	            <call-method-rule pattern="carrierCode" methodname="setCarrierCode" paramcount="0" />
+	            <call-method-rule pattern="serviceClass" methodname="setServiceClass" paramcount="0" />
+	            <call-method-rule pattern="departCity" methodname="setDepartCity" paramcount="0" />
+	            <call-method-rule pattern="conjunctionTicket" methodname="setConjunctionTicket" paramcount="0" />
+	            <call-method-rule pattern="exchangeTicket" methodname="setExchangeTicket" paramcount="0" />
+	            <call-method-rule pattern="destinationCity" methodname="setDestinationCity" paramcount="0" />
+	            <call-method-rule pattern="fareBasisCode" methodname="setFareBasisCode" paramcount="0" />
+	            <call-method-rule pattern="flightNumber" methodname="setFlightNumber" paramcount="0" />
+	            <call-method-rule pattern="departTime" methodname="setDepartTime" paramcount="0" />
+	            <call-method-rule pattern="departTimeSegment" methodname="setDepartTimeSegment" paramcount="0" />
+	            <call-method-rule pattern="arriveTime" methodname="setArriveTime" paramcount="0" />
+	            <call-method-rule pattern="arriveTimeSegment" methodname="setArriveTimeSegment" paramcount="0" />
+	            <call-method-rule pattern="fare" methodname="setFare" paramcount="0" />
+	            <call-method-rule pattern="fees" methodname="setFees" paramcount="0" />
+	            <call-method-rule pattern="taxes" methodname="setTaxes" paramcount="0" />
+	            <call-method-rule pattern="endorsements" methodname="setEndorsements" paramcount="0" />
+	            <call-method-rule pattern="controlCode" methodname="setControlCode" paramcount="0" />
+	            	           	
+				<set-next-rule methodname="addProcurementCardTranTransportLeg" />
+			</pattern>                     
+
+            <set-next-rule methodname="add" />
+        </pattern>
+
+    </pattern>
+</digester-rules>

@@ -5,6 +5,11 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" >
+    	<property name="dataDictionaryPackages">
+    		<list merge="true">
+    			<value>edu/arizona/kfs/pdp/document/datadictionary</value>
+    		</list>
+    	</property>
         <property name="triggerNames">
             <list>
             </list>

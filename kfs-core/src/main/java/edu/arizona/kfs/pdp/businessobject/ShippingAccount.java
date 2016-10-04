@@ -11,6 +11,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -125,7 +126,7 @@ public class ShippingAccount extends PersistableBusinessObjectBase {
 	}
 	
 	public Person getContactUser() {
-		contactUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(contactPrincipalId, contactUser);
+		contactUser = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(contactPrincipalId, contactUser);
 		return contactUser;
 	}
 	
@@ -183,7 +184,7 @@ public class ShippingAccount extends PersistableBusinessObjectBase {
 	
 	public Person getAccountFiscalOfficerUser() {
 		if (ObjectUtils.isNotNull(account) && StringUtils.isNotBlank(account.getAccountFiscalOfficerSystemIdentifier())) {
-			accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(account.getAccountFiscalOfficerSystemIdentifier(), accountFiscalOfficerUser);
+			accountFiscalOfficerUser = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(account.getAccountFiscalOfficerSystemIdentifier(), accountFiscalOfficerUser);
 			return accountFiscalOfficerUser;
 		}
 		else {

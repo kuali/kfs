@@ -162,7 +162,7 @@
             p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.ProcurementCardStatusValuesFinder"
             p:includeKeyInLabel="true" />
     </property>
-  </bean
+  </bean>
 
 	<bean id="ProcurementCardDefault-reconcilerGroupId" parent="ProcurementCardDefault-reconcilerGroupId-parentBean" />
 	<bean id="ProcurementCardDefault-reconcilerGroupId-parentBean" parent="Group-id" abstract="true" >

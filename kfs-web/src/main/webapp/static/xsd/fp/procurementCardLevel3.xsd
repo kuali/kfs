@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/kfs/fp/procurementCardLevel3"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
+    xmlns="http://www.kuali.org/kfs/fp/procurementCardLevel3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="http://www.kuali.org/kfs/sys/types @externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="http://www.kuali.org/kfs/sys/ddTypes @externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
+    
+    <xsd:element name="transactionCreditCardNumber" type="xsd:normalizedString"/>
+    <xsd:element name="financialDocumentTotalAmount" type="xsd:decimal"/>
+    <xsd:element name="transactionDebitCreditCode" type="xsd:normalizedString"/>
+    <xsd:element name="chartOfAccountsCode" type="xsd:normalizedString"/>
+    <xsd:element name="accountNumber" type="xsd:normalizedString"/>
+    <xsd:element name="subAccountNumber" type="xsd:normalizedString"/>
+    <xsd:element name="financialObjectCode" type="xsd:normalizedString"/>
+    <xsd:element name="financialSubObjectCode" type="xsd:normalizedString"/>
+    <xsd:element name="projectCode" type="xsd:normalizedString"/>
+    <xsd:element name="transactionCycleStartDate" type="xsd:date"/>
+    <xsd:element name="transactionCycleEndDate" type="xsd:date"/>
+    <xsd:element name="cardHolderName" type="xsd:normalizedString"/>
+    <xsd:element name="transactionDate" type="xsd:date"/>
+    <xsd:element name="transactionReferenceNumber" type="xsd:normalizedString"/>
+    <xsd:element name="transactionMerchantCategoryCode" type="xsd:normalizedString"/>
+    <xsd:element name="transactionPostingDate" type="xsd:date"/>
+    <xsd:element name="transactionOriginalCurrencyCode" type="xsd:normalizedString"/>
+    <xsd:element name="transactionBillingCurrencyCode" type="xsd:normalizedString"/>
+    <xsd:element name="transactionOriginalCurrencyAmount" type="xsd:decimal"/>
+    <xsd:element name="transactionCurrencyExchangeRate" type="xsd:decimal"/>
+    <xsd:element name="transactionSettlementAmount" type="xsd:decimal"/>
+    <xsd:element name="transactionSalesTaxAmount" type="xsd:decimal"/>
+    <xsd:element name="transactionTaxExemptIndicator" type="xsd:normalizedString"/>
+    <xsd:element name="transactionPurchaseIdentifierIndicator" type="xsd:normalizedString"/>
+    <xsd:element name="transactionPurchaseIdentifierDescription" type="xsd:normalizedString"/>
+    <xsd:element name="transactionUnitContactName" type="xsd:normalizedString"/>
+    <xsd:element name="transactionTravelAuthorizationCode" type="xsd:normalizedString"/>
+    <xsd:element name="transactionPointOfSaleCode" type="xsd:normalizedString"/>
+    <xsd:element name="vendorName" type="xsd:normalizedString"/>
+    <xsd:element name="vendorLine1Address" type="xsd:normalizedString"/>
+    <xsd:element name="vendorLine2Address" type="xsd:normalizedString"/>
+    <xsd:element name="vendorCityName" type="xsd:normalizedString"/>
+    <xsd:element name="vendorStateCode" type="xsd:normalizedString"/>
+    <xsd:element name="vendorZipCode" type="xsd:normalizedString"/>
+    <xsd:element name="vendorOrderNumber" type="xsd:normalizedString"/>
+    <xsd:element name="visaVendorIdentifier" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderAlternateName" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderLine1Address" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderLine2Address" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderCityName" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderStateCode" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderZipCode" type="xsd:normalizedString"/>
+    <xsd:element name="cardHolderWorkPhoneNumber" type="xsd:normalizedString"/>
+    <xsd:element name="cardLimit" type="xsd:decimal"/>
+    <xsd:element name="cardCycleAmountLimit" type="xsd:decimal"/>
+    <xsd:element name="cardCycleVolumeLimit" type="xsd:decimal"/>
+    <xsd:element name="cardStatusCode" type="xsd:normalizedString"/>
+    <xsd:element name="cardNoteText" type="xsd:normalizedString"/>
+    
+    <!-- Procurement Card Level 3 Addendum Header fields - Record/Addendum Type UA=40 -->   
+    <xsd:element name="invoiceNumber" type="xsd:normalizedString"/>
+    <xsd:element name="orderDate" type="xsd:date"/>
+    <xsd:element name="purchaseTime" type="xsd:normalizedString"/>
+    <xsd:element name="shipPostal" type="xsd:normalizedString"/>
+    <xsd:element name="destinationPostal" type="xsd:normalizedString"/>
+    <xsd:element name="destinationCountryCode" type="xsd:normalizedString"/>
+    <xsd:element name="taxAmount" type="xsd:decimal"/>
+    <xsd:element name="taxRate" type="xsd:decimal"/>
+    <xsd:element name="discountAmount" type="xsd:decimal"/>
+    <xsd:element name="freightAmount" type="xsd:decimal"/>
+    <xsd:element name="dutyAmount" type="xsd:decimal"/>
+    
+    <!-- Procurement Card Level 3 Addendum Item fields - Record/Addendum Type UA=41,CSU=1 -->   
+    <xsd:element name="itemCommodityCode" type="xsd:normalizedString"/>
+    <xsd:element name="itemProductCode" type="xsd:normalizedString"/>
+    <xsd:element name="itemDescription" type="xsd:normalizedString"/>
+    <xsd:element name="itemQuantity" type="xsd:decimal"/>
+    <xsd:element name="itemUnitCode" type="xsd:normalizedString"/>
+    <xsd:element name="itemAmount" type="xsd:decimal"/>
+    <xsd:element name="itemDebitCreditCode" type="xsd:normalizedString"/>
+    <xsd:element name="itemTaxRate" type="xsd:decimal"/>
+    <xsd:element name="itemTaxAmount" type="xsd:decimal"/>
+    <xsd:element name="itemDiscountAmount" type="xsd:decimal"/>
+    <xsd:element name="itemExtendedAmount" type="xsd:decimal"/>
+    
+    <!-- Procurement Card Level 3 User Amounts fields - Record/Addendum Type CSU=11 -->   
+    <xsd:element name="userEffectiveDate" type="xsd:date"/>
+    <xsd:element name="userAmount" type="xsd:decimal"/>
+    
+    <!-- Procurement Card Level 3 Fuel fields - Record Type UA=70 -->   
+    <xsd:element name="oilBrandName" type="xsd:normalizedString"/>
+    <xsd:element name="odometerReading" type="xsd:normalizedString"/>
+    <xsd:element name="fleetId" type="xsd:normalizedString"/>
+    <xsd:element name="messageId" type="xsd:normalizedString"/>
+    <xsd:element name="usage" type="xsd:normalizedString"/>
+    <xsd:element name="fuelServiceType" type="xsd:normalizedString"/>
+    <xsd:element name="fuelProductCd" type="xsd:normalizedString"/>
+    <xsd:element name="productTypeCd" type="xsd:normalizedString"/>
+    <xsd:element name="fuelQuantity" type="xsd:decimal"/>
+    <xsd:element name="fuelUnitOfMeasure" type="xsd:integer"/>
+    <xsd:element name="fuelUnitPrice" type="xsd:decimal"/>
+    <xsd:element name="fuelSaleAmount" type="xsd:decimal"/>
+    <xsd:element name="fuelDiscountAmount" type="xsd:decimal"/>
+    <xsd:element name="taxAmount1" type="xsd:decimal"/>
+    <xsd:element name="taxAmount2" type="xsd:decimal"/>
+    <xsd:element name="totalAmount" type="xsd:decimal"/>
+    
+    <!-- Procurement Card Level 3 Generic fields - Record/Addendum Type CSU=5  --> 
+    <xsd:element name="genericEffectiveDate" type="xsd:date"/>
+    <xsd:element name="genericData" type="xsd:normalizedString"/>
+    
+    <!-- Procurement Card Level 3 Lodging fields - Record/Addendum Type UA=90,CSU=3  --> 
+    <xsd:element name="arriveDate" type="xsd:date"/>
+    <xsd:element name="departureDate" type="xsd:date"/>
+    <xsd:element name="folioNum" type="xsd:normalizedString"/>
+    <xsd:element name="propertyPhoneNum" type="xsd:normalizedString"/>
+    <xsd:element name="customerServiceNum" type="xsd:normalizedString"/>
+    <xsd:element name="prePaidAmt" type="xsd:decimal"/>
+    <xsd:element name="roomRate" type="xsd:decimal"/>
+    <xsd:element name="roomTax" type="xsd:decimal"/>
+    <xsd:element name="programCode" type="xsd:normalizedString"/>
+    <xsd:element name="callCharges" type="xsd:decimal"/>
+    <xsd:element name="foodSvcCharges" type="xsd:decimal"/>
+    <xsd:element name="miniBarCharges" type="xsd:decimal"/>
+    <xsd:element name="giftShopCharges" type="xsd:decimal"/>
+    <xsd:element name="laundryCharges" type="xsd:decimal"/>
+    <xsd:element name="healthClubCharges" type="xsd:decimal"/>
+    <xsd:element name="movieCharges" type="xsd:decimal"/>
+    <xsd:element name="busCtrCharges" type="xsd:decimal"/>
+    <xsd:element name="parkingCharges" type="xsd:decimal"/>
+    <xsd:element name="otherCode" type="xsd:normalizedString"/>
+    <xsd:element name="otherCharges" type="xsd:decimal"/>
+    <xsd:element name="adjustmentAmount" type="xsd:decimal"/>
+    
+     <!-- Procurement Card Level 3 Non Fuel fields - Record/Addendum Type UA=71  -->     
+    <xsd:element name="nonFuelProductCode" type="xsd:normalizedString"/>
+    <xsd:element name="itemDesc" type="xsd:normalizedString"/>
+    <xsd:element name="itemQuant" type="xsd:normalizedString"/>
+    <xsd:element name="itemUnitOfMeasure" type="xsd:normalizedString"/>
+    <xsd:element name="taxRateApplied" type="xsd:normalizedString"/>
+    <xsd:element name="itemTaxAmt" type="xsd:decimal"/>
+    <xsd:element name="alternateTaxId" type="xsd:normalizedString"/>
+    <xsd:element name="itemDiscountAmt" type="xsd:decimal"/>
+    <xsd:element name="itemTotal" type="xsd:decimal"/>   
+    
+    <!-- Procurement Card Level 3 Rental fields - Record/Addendum Type UA=100,CSU=4  --> 
+    <xsd:element name="checkOutDate" type="xsd:date"/>
+    <xsd:element name="rentalAgreementNum" type="xsd:normalizedString"/>
+    <xsd:element name="renterName" type="xsd:normalizedString"/>
+    <xsd:element name="returnCity" type="xsd:normalizedString"/>
+    <xsd:element name="returnState" type="xsd:normalizedString"/>
+    <xsd:element name="returnCountry" type="xsd:normalizedString"/>
+    <xsd:element name="returnDate" type="xsd:date"/>
+    <xsd:element name="returnLocation" type="xsd:normalizedString"/>
+    <xsd:element name="customerSvcNum" type="xsd:normalizedString"/>
+    <xsd:element name="rentalClass" type="xsd:normalizedString"/>
+    <xsd:element name="dailyRate" type="xsd:decimal"/>
+    <xsd:element name="weeklyRate" type="xsd:decimal"/>
+    <xsd:element name="ratePerMile" type="xsd:decimal"/>
+    <xsd:element name="maxFreeMiles" type="xsd:normalizedString"/>
+    <xsd:element name="totalMiles" type="xsd:normalizedString"/>
+    <xsd:element name="oneWayCharges" type="xsd:decimal"/>
+    <xsd:element name="insuranceCharges" type="xsd:decimal"/>
+    <xsd:element name="regularCharges" type="xsd:decimal"/>
+    <xsd:element name="towingCharges" type="xsd:decimal"/>
+    <xsd:element name="extraCharges" type="xsd:decimal"/>
+    <xsd:element name="lateReturnFee" type="xsd:decimal"/>
+    <xsd:element name="adjustCode" type="xsd:normalizedString"/>
+    <xsd:element name="adjustAmount" type="xsd:decimal"/>
+    <xsd:element name="progCode" type="xsd:normalizedString"/>
+    <xsd:element name="phoneCharges" type="xsd:decimal"/>
+    <xsd:element name="othrCharges" type="xsd:decimal"/>
+    <xsd:element name="totalTaxAmount" type="xsd:decimal"/>
+    
+     <!-- Procurement Card Level 3 Ship Services fields - Record/Addendum Type UA=60 -->   
+    <xsd:element name="courierName" type="xsd:normalizedString"/>
+    <xsd:element name="trackingNumber" type="xsd:normalizedString"/>
+    <xsd:element name="serviceDescription" type="xsd:normalizedString"/>
+    <xsd:element name="pickupDate" type="xsd:date"/>
+    <xsd:element name="originZip" type="xsd:normalizedString"/>
+    <xsd:element name="originCountryCd" type="xsd:normalizedString"/>
+    <xsd:element name="destinationZip" type="xsd:normalizedString"/>
+    <xsd:element name="destinationCountryCd" type="xsd:normalizedString"/>
+    <xsd:element name="netAmount" type="xsd:decimal"/>
+    <xsd:element name="taxAmt" type="xsd:decimal"/>
+    <xsd:element name="discAmt" type="xsd:decimal"/>
+    <xsd:element name="numberOfPackages" type="xsd:integer"/>
+    <xsd:element name="weight" type="xsd:normalizedString"/>  
+    <xsd:element name="unitsOfMeasure" type="xsd:normalizedString"/>
+    <xsd:element name="senderName" type="xsd:normalizedString"/>
+    <xsd:element name="senderAddress" type="xsd:normalizedString"/>
+    <xsd:element name="receiverName" type="xsd:normalizedString"/>
+    <xsd:element name="receiverAddress" type="xsd:normalizedString"/>
+    <xsd:element name="customerRefNumber" type="xsd:normalizedString"/> 
+    
+     <!-- Procurement Card Level 3 Temp Services fields - Record/Addendum Type UA=50 --> 
+    <xsd:element name="weekEndingDate" type="xsd:date"/>    
+    <xsd:element name="serviceDesc" type="xsd:normalizedString"/>    
+    <xsd:element name="employeeName" type="xsd:normalizedString"/>    
+    <xsd:element name="regularRate" type="xsd:decimal"/>
+    <xsd:element name="regularHours" type="xsd:decimal"/>
+    <xsd:element name="overtimeRate" type="xsd:decimal"/>
+    <xsd:element name="overtimeHours" type="xsd:decimal"/>
+    <xsd:element name="miscExpenseAmt" type="xsd:decimal"/>
+    <xsd:element name="subTotalAmt" type="xsd:decimal"/>
+    <xsd:element name="salesTaxAmt" type="xsd:decimal"/>
+    <xsd:element name="discountAmt" type="xsd:decimal"/>
+    <xsd:element name="startDate" type="xsd:date"/>    
+    <xsd:element name="supervisor" type="xsd:normalizedString"/>
+    <xsd:element name="timeSheetNumber" type="xsd:normalizedString"/>
+    <xsd:element name="commodityCode" type="xsd:normalizedString"/>
+    <xsd:element name="jobCode" type="xsd:normalizedString"/>
+    
+    <!-- Procurement Card Level 3 Transport fields - Record/Addendum Type UA=80,CSU=2  --> 
+    <xsd:element name="passengerName" type="xsd:normalizedString"/>
+    <xsd:element name="departDate" type="xsd:date"/>
+    <xsd:element name="departureCity" type="xsd:normalizedString"/>
+    <xsd:element name="agencyCode" type="xsd:normalizedString"/>
+    <xsd:element name="agencyName" type="xsd:normalizedString"/>    
+    <xsd:element name="ticketNumber" type="xsd:normalizedString"/>
+    <xsd:element name="customerCode" type="xsd:normalizedString"/>
+    <xsd:element name="issueDate" type="xsd:date"/>
+    <xsd:element name="issuingCarrier" type="xsd:normalizedString"/>
+    <xsd:element name="totalFare" type="xsd:decimal"/>
+    <xsd:element name="totalFees" type="xsd:decimal"/>
+    <xsd:element name="totalTaxes" type="xsd:decimal"/>
+    
+     <!-- Procurement Card Level 3 Transport Leg fields - Record/Addendum Type UA=81,CSU=21 -->   
+    <xsd:element name="carrierCode" type="xsd:normalizedString"/>
+    <xsd:element name="serviceClass" type="xsd:normalizedString"/>
+    <xsd:element name="departCity" type="xsd:normalizedString"/>
+    <xsd:element name="conjunctionTicket" type="xsd:normalizedString"/>
+    <xsd:element name="exchangeTicket" type="xsd:normalizedString"/>
+    <xsd:element name="destinationCity" type="xsd:normalizedString"/>
+    <xsd:element name="fareBasisCode" type="xsd:normalizedString"/>
+    <xsd:element name="flightNumber" type="xsd:normalizedString"/>
+    <xsd:element name="departTime" type="xsd:normalizedString"/>
+    <xsd:element name="departTimeSegment" type="xsd:normalizedString"/>
+    <xsd:element name="arriveTime" type="xsd:normalizedString"/>
+    <xsd:element name="arriveTimeSegment" type="xsd:normalizedString"/>
+    <xsd:element name="fare" type="xsd:decimal"/>
+    <xsd:element name="fees" type="xsd:decimal"/>
+    <xsd:element name="taxes" type="xsd:decimal"/>
+    <xsd:element name="endorsements" type="xsd:normalizedString"/>
+    <xsd:element name="controlCode" type="xsd:normalizedString"/>
+    
+    <!-- definition of complex type elements -->
+    
+    <xsd:element name="transactions">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="transaction"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="addItem">
+	    <xsd:complexType>
+	   		<xsd:sequence>
+	   			<xsd:element maxOccurs="1" minOccurs="0" ref="itemCommodityCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemProductCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemDescription" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemQuantity" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemUnitCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemAmount" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemDebitCreditCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemTaxRate" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemTaxAmount" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemDiscountAmount" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemExtendedAmount" />
+	    	</xsd:sequence>
+	    </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="nonFuel">
+	    <xsd:complexType>
+	   		<xsd:sequence>
+	   			<xsd:element maxOccurs="1" minOccurs="0" ref="nonFuelProductCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemDesc" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemQuant" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemUnitOfMeasure" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="taxRateApplied" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemTaxAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="alternateTaxId" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemDiscountAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="itemTotal" />				
+	    	</xsd:sequence>
+	    </xsd:complexType>
+    </xsd:element> 
+    
+    <xsd:element name="shipService">
+	    <xsd:complexType>
+	   		<xsd:sequence>
+	   			<xsd:element maxOccurs="1" minOccurs="0" ref="courierName" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="trackingNumber" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="serviceDescription" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="pickupDate" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="originZip" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="originCountryCd" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="destinationZip" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="destinationCountryCd" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="netAmount" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="taxAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="discAmt" />				
+				<xsd:element maxOccurs="1" minOccurs="0" ref="numberOfPackages" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="weight" />				
+				<xsd:element maxOccurs="1" minOccurs="0" ref="unitsOfMeasure" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="senderName" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="senderAddress" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="receiverName" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="receiverAddress" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="customerRefNumber" />
+	    	</xsd:sequence>
+	    </xsd:complexType>
+    </xsd:element>  
+    
+     <xsd:element name="tempService">
+	    <xsd:complexType>
+	   		<xsd:sequence>
+	   			<xsd:element maxOccurs="1" minOccurs="0" ref="weekEndingDate" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="serviceDesc" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="employeeName" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="regularRate" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="regularHours" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="overtimeRate" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="overtimeHours" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="miscExpenseAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="subTotalAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="salesTaxAmt" />				
+				<xsd:element maxOccurs="1" minOccurs="0" ref="discountAmt" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="startDate" />				
+				<xsd:element maxOccurs="1" minOccurs="0" ref="supervisor" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="timeSheetNumber" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="commodityCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="jobCode" />
+	    	</xsd:sequence>
+	    </xsd:complexType>
+    </xsd:element>        
+         
+    <xsd:element name="transportLeg">
+	    <xsd:complexType>
+	   		<xsd:sequence>
+	   			<xsd:element maxOccurs="1" minOccurs="0" ref="carrierCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="serviceClass" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="departCity" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="conjunctionTicket" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="exchangeTicket" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="destinationCity" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="fareBasisCode" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="flightNumber" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="departTime" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="departTimeSegment" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="arriveTime" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="arriveTimeSegment" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="fare" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="fees" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="taxes" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="endorsements" />
+				<xsd:element maxOccurs="1" minOccurs="0" ref="controlCode" />
+	    	</xsd:sequence>
+	    </xsd:complexType>
+    </xsd:element>      
+         
+    <xsd:element name="transaction">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- Procurement Card basic transaction fields - Record/Addendum Type UA=30,CSU=0 -->  
+               <xsd:element maxOccurs="1" minOccurs="1" ref="transactionCreditCardNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="financialDocumentTotalAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionDebitCreditCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="chartOfAccountsCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="accountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="financialObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="financialSubObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="projectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCycleStartDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCycleEndDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderName" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="transactionDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionReferenceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionMerchantCategoryCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPostingDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionOriginalCurrencyCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionBillingCurrencyCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionOriginalCurrencyAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCurrencyExchangeRate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionSettlementAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionSalesTaxAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionTaxExemptIndicator" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPurchaseIdentifierIndicator" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPurchaseIdentifierDescription" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionUnitContactName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionTravelAuthorizationCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPointOfSaleCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorLine1Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorLine2Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorCityName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorStateCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorZipCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorOrderNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="visaVendorIdentifier" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderAlternateName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine1Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine2Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderCityName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderStateCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderZipCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderWorkPhoneNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleAmountLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleVolumeLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardStatusCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardNoteText" />
+               
+                <!-- Procurement Card Level 3 Addendum Header fields - Record/Addendum Type UA=40 -->   
+               <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="orderDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="purchaseTime" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipPostal" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="destinationPostal" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="destinationCountryCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="taxAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="taxRate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="discountAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="freightAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="dutyAmount" />
+               
+                <!-- Procurement Card Level 3 Addendum Items - Record/Addendum Type UA=41,CSU=1 -->   
+               <xsd:element maxOccurs="unbounded" minOccurs="0" ref="addItem"/>      		   
+               
+                <!-- Procurement Card Level 3 User Amounts fields - Record/Addendum Type CSU=11 -->   
+               <xsd:element maxOccurs="1" minOccurs="0" ref="userEffectiveDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="userAmount" />
+               
+               <!-- Procurement Card Level 3 Fuel fields - Record Type UA=70 -->                  
+               <xsd:element maxOccurs="1" minOccurs="0" ref="oilBrandName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="odometerReading" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="fleetId" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="messageId" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="usage" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="fuelServiceType" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="fuelProductCd" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="productTypeCd" />             
+   			   <xsd:element maxOccurs="1" minOccurs="0" ref="fuelQuantity" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="fuelUnitOfMeasure" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="fuelUnitPrice" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="fuelSaleAmount" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="fuelDiscountAmount" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="taxAmount1" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="taxAmount2" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalAmount" />
+     		   
+     		   <!-- Procurement Card Level 3 Generic fields - Record/Addendum Type CSU=5  -->     
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="genericEffectiveDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="genericData" />
+     		   
+     		    <!-- Procurement Card Level 3 Lodging fields - Record/Addendum Type UA=90,CSU=3  --> 
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="arriveDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="departureDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="folioNum" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="propertyPhoneNum" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="customerServiceNum" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="prePaidAmt" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="roomRate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="roomTax" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="programCode" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="callCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="foodSvcCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="miniBarCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="giftShopCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="laundryCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="healthClubCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="movieCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="busCtrCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="parkingCharges" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="otherCode" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="otherCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="adjustmentAmount" />
+     		   
+     		    <!-- Procurement Card Level 3 Non Fuel Items - Record/Addendum Type UA=71  -->   
+               <xsd:element maxOccurs="unbounded" minOccurs="0" ref="nonFuel"/>      		   
+                    		   
+     		   <!-- Procurement Card Level 3 Rental fields - Record/Addendum Type UA=100,CSU=4  -->   
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="checkOutDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="rentalAgreementNum" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="renterName" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="returnCity" /> 
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="returnState" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="returnCountry" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="returnDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="returnLocation" />  
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="customerSvcNum" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="rentalClass" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="dailyRate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="weeklyRate" /> 
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="ratePerMile" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="maxFreeMiles" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalMiles" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="oneWayCharges" /> 
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="insuranceCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="regularCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="towingCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="extraCharges" />  
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="lateReturnFee" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="adjustCode" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="adjustAmount" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="progCode" />      
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="phoneCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="othrCharges" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalTaxAmount" />
+     		   
+     		    <!-- Procurement Card Level 3 Ship Service Items - Record/Addendum Type UA=60 --> 
+			   <xsd:element maxOccurs="unbounded" minOccurs="0" ref="shipService"/>     
+     		   
+     		   <!-- Procurement Card Level 3 Temp Service Items - Record/Addendum Type UA=50 --> 
+			   <xsd:element maxOccurs="unbounded" minOccurs="0" ref="tempService"/>     
+     		   
+     		    <!-- Procurement Card Level 3 Transport fields - Record/Addendum Type UA=80,CSU=2 -->      		   
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="passengerName" /> 
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="departDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="departureCity" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="agencyCode" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="agencyName" />  
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="ticketNumber" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="customerCode" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="issueDate" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="issuingCarrier" />      
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalFare" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalFees" />
+     		   <xsd:element maxOccurs="1" minOccurs="0" ref="totalTaxes" />    		        		   
+
+			    <!-- Procurement Card Level 3 Transport Legs - Record/Addendum Type UA=81,CSU=21 --> 
+			   <xsd:element maxOccurs="unbounded" minOccurs="0" ref="transportLeg"/>      		   
+    		   	
+             </xsd:sequence>  
+        </xsd:complexType>
+    </xsd:element>    
+
+</xsd:schema>
+

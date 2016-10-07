@@ -3,7 +3,7 @@
   <parent>
     <artifactId>kfs</artifactId>
     <groupId>org.kuali.kfs</groupId>
-    <version>ua-release18</version>
+    <version>ua-release19</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -83,6 +83,57 @@
     </plugins>
   </build>
 
+<profiles>
+
+	<!--
+	Improvement for UAF-2892- Way To Allow For Environment-Specific log4j.xml File Overrides
+	-->
+
+	<!--
+	Dev Profile used for  log4j.xml File Overrides
+	-->
+   <profile>
+    <id>dev</id>
+     <activation>
+      <property>
+        <name>environment</name>
+        <value>dev_true</value>
+      </property>
+    </activation>
+   <build>
+   <resources>
+        <resource>
+            <directory>src/main/dev</directory>
+            <targetPath>.</targetPath>
+            <filtering>false</filtering>
+        </resource>
+    </resources>  
+   </build>
+  </profile>
+  
+	<!--
+	Test Profile used for  log4j.xml File Overrides
+	-->
+     <profile>
+    <id>tst</id>
+     <activation>
+      <property>
+        <name>environment</name>
+        <value>tst_true</value>
+      </property>
+    </activation>
+   <build>
+   <resources>
+        <resource>
+            <directory>src/main/tst</directory>
+            <targetPath>.</targetPath>
+            <filtering>false</filtering>
+        </resource>
+    </resources>  
+   </build>
+  </profile>
+</profiles>
+  
   <dependencies>
     <dependency>
       <groupId>org.kuali.kfs</groupId>

@@ -100,4 +100,8 @@
         <property name="schedulerService" ref="schedulerService" />
     </bean>
 
+	<bean id="docuwareService" 	class="edu.arizona.kfs.sys.service.impl.DocuwareServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
 </beans>

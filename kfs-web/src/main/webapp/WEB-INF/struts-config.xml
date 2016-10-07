@@ -240,7 +240,7 @@
 		<form-bean name="PurchaseOrderForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm" />
 		<form-bean name="PaymentRequestForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm" />
+			type="edu.arizona.kfs.module.purap.document.web.struts.PaymentRequestForm" />
 		<form-bean name="VendorCreditMemoForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
 		<form-bean name="LineItemReceivingForm"

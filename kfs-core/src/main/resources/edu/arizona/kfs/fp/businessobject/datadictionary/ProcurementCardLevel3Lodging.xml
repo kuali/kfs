@@ -1,0 +1,222 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardLevel3Lodging" parent="ProcurementCardLevel3Lodging-parentBean" />
+  
+  <bean id="ProcurementCardLevel3Lodging-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Lodging" />
+  	<property name="objectLabel" value="Procurement Card Lodging" />
+  	<property name="attributes" >
+  		<list>
+  			<ref bean="ProcurementCardLevel3Lodging-documentNumber" />
+  			<ref bean="ProcurementCardLevel3Lodging-financialDocumentTransactionLineNumber" />
+  			<ref bean="ProcurementCardLevel3Lodging-arriveDate" />
+  			<ref bean="ProcurementCardLevel3Lodging-departureDate" />
+  			<ref bean="ProcurementCardLevel3Lodging-folioNum" />
+  			<ref bean="ProcurementCardLevel3Lodging-propertyPhoneNum" />
+  			<ref bean="ProcurementCardLevel3Lodging-customerServiceNum" />
+  			<ref bean="ProcurementCardLevel3Lodging-prePaidAmt" />
+  			<ref bean="ProcurementCardLevel3Lodging-roomRate" />
+  			<ref bean="ProcurementCardLevel3Lodging-roomTax" />
+  			<ref bean="ProcurementCardLevel3Lodging-programCode" />
+  			<ref bean="ProcurementCardLevel3Lodging-callCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-foodSvcCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-miniBarCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-giftShopCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-laundryCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-healthClubCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-movieCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-busCtrCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-parkingCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-otherCode" />
+  			<ref bean="ProcurementCardLevel3Lodging-otherCharges" />
+  			<ref bean="ProcurementCardLevel3Lodging-adjustmentAmount" />
+  		</list>
+  	</property>
+  </bean>
+  
+<!-- Attribute Definitions -->  
+  <bean id="ProcurementCardLevel3Lodging-documentNumber" parent="ProcurementCardLevel3Lodging-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3Lodging-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber"/>
+  
+  <bean id="ProcurementCardLevel3Lodging-arriveDate" parent="ProcurementCardLevel3Lodging-arriveDate-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-arriveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  	<property name="name" value="arriveDate" />
+  	<property name="label" value="Arrive Date" />
+  	<property name="shortLabel" value="Date" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-departureDate" parent="ProcurementCardLevel3Lodging-departureDate-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-departureDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  	<property name="name" value="departureDate" />
+  	<property name="label" value="Departure Date" />
+  	<property name="shortLabel" value="Dept Date" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-folioNum" parent="ProcurementCardLevel3Lodging-folioNum-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-folioNum-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="folioNum" />
+  	<property name="label" value="Folio Number" />
+  	<property name="shortLabel" value="Folio Num" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-propertyPhoneNum" parent="ProcurementCardLevel3Lodging-propertyPhoneNum-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-propertyPhoneNum-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="propertyPhoneNum" />
+  	<property name="label" value="Property Phone Number" />
+  	<property name="shortLabel" value="Phone Num" />
+  	<property name="maxLength" value="25" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="27" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-customerServiceNum" parent="ProcurementCardLevel3Lodging-customerServiceNum-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-customerServiceNum-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="customerServiceNum" />
+  	<property name="label" value="Customer Service Number" />
+  	<property name="shortLabel" value="Cust Svc Num" />
+  	<property name="maxLength" value="25" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="27" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-prePaidAmt" parent="ProcurementCardLevel3Lodging-prePaidAmt-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-prePaidAmt-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="prePaidAmt" />
+  	<property name="label" value="Prepaid Amount" />
+  	<property name="shortLabel" value="Prepaid Amt"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-roomRate" parent="ProcurementCardLevel3Lodging-roomRate-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-roomRate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="roomRate" />
+  	<property name="label" value="Room Rate" />
+  	<property name="shortLabel" value="Rate" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-roomTax" parent="ProcurementCardLevel3Lodging-roomTax-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-roomTax-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="roomTax" />
+  	<property name="label" value="Room Tax" />
+  	<property name="shortLabel" value="Tax" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-programCode" parent="ProcurementCardLevel3Lodging-programCode-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-programCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="programCode" />
+  	<property name="label" value="Program Code" />
+  	<property name="shortLabel" value="Program Cd" />
+  	<property name="maxLength" value="2" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="4" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-callCharges" parent="ProcurementCardLevel3Lodging-callCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-callCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="callCharges" />
+  	<property name="label" value="Call Charges" />
+  	<property name="shortLabel" value="Call Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-foodSvcCharges" parent="ProcurementCardLevel3Lodging-foodSvcCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-foodSvcCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="foodSvcCharges" />
+  	<property name="label" value="Food Service Charges" />
+  	<property name="shortLabel" value="Food Svc Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-miniBarCharges" parent="ProcurementCardLevel3Lodging-miniBarCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-miniBarCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="miniBarCharges" />
+  	<property name="label" value="Bar/Mini Bar Charges" />
+  	<property name="shortLabel" value="Bar Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-giftShopCharges" parent="ProcurementCardLevel3Lodging-giftShopCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-giftShopCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="giftShopCharges" />
+  	<property name="label" value="Gift Shop Charges" />
+  	<property name="shortLabel" value="Gift Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-laundryCharges" parent="ProcurementCardLevel3Lodging-laundryCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-laundryCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="laundryCharges" />
+  	<property name="label" value="Laundry Charges" />
+  	<property name="shortLabel" value="Laundry Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-healthClubCharges" parent="ProcurementCardLevel3Lodging-healthClubCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-healthClubCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="healthClubCharges" />
+  	<property name="label" value="Health Club Charges" />
+  	<property name="shortLabel" value="Health Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-movieCharges" parent="ProcurementCardLevel3Lodging-movieCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-movieCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="movieCharges" />
+  	<property name="label" value="Movie Charges" />
+  	<property name="shortLabel" value="Movie Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-busCtrCharges" parent="ProcurementCardLevel3Lodging-busCtrCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-busCtrCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="busCtrCharges" />
+  	<property name="label" value="Business Center Charges" />
+  	<property name="shortLabel" value="Bus Ctr Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-parkingCharges" parent="ProcurementCardLevel3Lodging-parkingCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-parkingCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="parkingCharges" />
+  	<property name="label" value="Parking Charges" />
+  	<property name="shortLabel" value="Parking Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-otherCode" parent="ProcurementCardLevel3Lodging-otherCode-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-otherCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="otherCode" />
+  	<property name="label" value="Other Code" />
+  	<property name="shortLabel" value="Other Cd" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="5" />
+  	</property>
+  </bean>  
+  
+  <bean id="ProcurementCardLevel3Lodging-otherCharges" parent="ProcurementCardLevel3Lodging-otherCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-otherCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="otherCharges" />
+  	<property name="label" value="Other Charges" />
+  	<property name="shortLabel" value="Other Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Lodging-adjustmentAmount" parent="ProcurementCardLevel3Lodging-adjustmentAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Lodging-adjustmentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="adjustmentAmount" />
+  	<property name="label" value="Adjustment Amount" />
+  	<property name="shortLabel" value="Adjust Amt" />
+  </bean>
+  
+</beans>

@@ -1,0 +1,156 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+  <bean id="ProcurementCardLevel3NonFuel" parent="ProcurementCardLevel3NonFuel-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3NonFuel" />
+  	<property name="inquiryDefinition" >
+  		<ref bean="ProcurementCardLevel3NonFuel-inquiryDefinition" />
+  	</property>
+  	<property name="objectLabel" value="Procurement Card Non Fuel" />
+  	<property name="attributes" >
+  	  <list>
+  	  	<ref bean="ProcurementCardLevel3AddItem-documentNumber" />
+  	  	<ref bean="ProcurementCardLevel3AddItem-financialDocumentTransactionLineNumber" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-sequenceNumber" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-nonFuelProductCode" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemDesc" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemQuant" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemUnitOfMeasure" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-taxRateApplied" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemTaxAmt" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-alternateTaxId" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemDiscountAmt" />
+  	  	<ref bean="ProcurementCardLevel3NonFuel-itemTotal" />
+  	  </list>
+  	</property>
+  </bean>
+  
+<!-- Attribute Definitions -->  
+  <bean id="ProcurementCardLevel3NonFuel-documentNumber" parent="ProcurementCardLevel3NonFuel-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3NonFuel-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber"/>
+  
+  <bean id="ProcurementCardLevel3NonFuel-sequenceNumber" parent="ProcurementCardLevel3NonFuel-sequenceNumber-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-sequenceNumber-parentBean" abstract="true" parent="ProcurementCardLevel3AddItem-sequenceNumber">
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-nonFuelProductCode" parent="ProcurementCardLevel3NonFuel-nonFuelProductCode-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-nonFuelProductCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFuelProductCode" />
+    <property name="label" value="Non Fuel Product Code" />
+    <property name="shortLabel" value="Prod Cd" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="5" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemDesc" parent="ProcurementCardLevel3NonFuel-itemDesc-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemDesc-parentBean" abstract="true" parent="ProcurementCardLevel3AddItem-itemDescription">
+  	<property name="name" value="itemDesc" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemQuant" parent="ProcurementCardLevel3NonFuel-itemQuant-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemQuant-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemQuant" />
+  	<property name="label" value="Item Quantity" />
+  	<property name="shortLabel" value="Quantity" />
+  	<property name="maxLength" value="6" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="8" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemUnitOfMeasure" parent="ProcurementCardLevel3NonFuel-itemUnitOfMeasure-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemUnitOfMeasure-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemUnitOfMeasure" />
+  	<property name="label" value="Unit of Measure" />
+  	<property name="shortLabel" value="Unit" />
+  	<property name="maxLength" value="3" />
+  	<property name="control">
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-taxRateApplied" parent="ProcurementCardLevel3NonFuel-taxRateApplied-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-taxRateApplied-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="taxRateApplied" />
+  	<property name="label" value="Tax Rate Applied" />
+  	<property name="shortLabel" value="Tax Rate" />
+  	<property name="maxLength" value="5" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="7" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemTaxAmt" parent="ProcurementCardLevel3NonFuel-itemTaxAmt-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemTaxAmt-parentBean" abstract="true" parent="ProcurementCardLevel3Add-taxAmount">
+  	<property name="name" value="itemTaxAmt" />
+  	<property name="label" value="Tax Amount" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-alternateTaxId" parent="ProcurementCardLevel3NonFuel-alternateTaxId-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-alternateTaxId-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="alternateTaxId" />
+  	<property name="label" value="Alternate Tax ID" />
+  	<property name="shortLabel" value="Alt Tax ID" />
+  	<property name="maxLength" value="20" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="22" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemDiscountAmt" parent="ProcurementCardLevel3NonFuel-itemDiscountAmt-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemDiscountAmt-parentBean" abstract="true" parent="ProcurementCardLevel3Add-discountAmount">
+  	<property name="name" value="itemDiscountAmt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3NonFuel-itemTotal" parent="ProcurementCardLevel3NonFuel-itemTotal-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-itemTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="itemTotal" />
+  	<property name="label" value="Item Total" />
+  	<property name="shortLabel" value="Item Total" />
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->  
+  <bean id="ProcurementCardLevel3NonFuel-inquiryDefinition" parent="ProcurementCardLevel3NonFuel-inquiryDefinition-parentBean" />
+  <bean id="ProcurementCardLevel3NonFuel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  	<property name="title" value="Procurement Card Non Fuel Inquiry" />
+  	<property name="inquirySections" >
+  	  <list>
+  	  	<bean parent="InquirySectionDefinition">
+  	  	  <property name="title" value="Procurement Card Non Fuel" />
+  	  	  <property name="numberOfColumns" value="4" />
+  	  	  <property name="inquiryFields">
+  	  	  	<list>
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="nonFuelProductCode" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemDesc" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemQuant" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasure" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="taxRateApplied" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemTaxAmt" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="alternateTaxId" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemDiscountAmt" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemTotal" />
+  	  	  	</list>
+  	  	  </property>
+  	  	</bean>
+  	  </list>
+  	</property>
+  </bean>
+  
+</beans>

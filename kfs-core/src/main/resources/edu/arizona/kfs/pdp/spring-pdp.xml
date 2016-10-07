@@ -24,6 +24,11 @@
             <list>
             </list>
         </property>
+        <property name="jobNames">
+			<list merge="true">
+				<value>processShippingInvoiceJob</value>				
+			</list>
+		</property>
     </bean>
 
     <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
@@ -155,5 +160,78 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="processShippingInvoiceJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="shippingInvoiceLoadStep" />
+			</list>
+		</property>
+	</bean>
+    	
+    <bean id="shippingInputFileType" class="edu.arizona.kfs.pdp.batch.ShippingInputFileType">
+    	<property name="directoryPath">
+	    	<value>${staging.directory}/pdp/shipping</value>
+	    </property>
+	    <property name="fileExtension">
+	    	<value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	    	<value>edu/arizona/kfs/pdp/batch/shippingDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	    	<value>${externalizable.static.content.url}/xsd/pdp/shipping.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	    	<ref bean="dateTimeService"/>
+	    </property>
+	</bean>
+	
+	<bean id="shippingInvoiceDao" parent="platformAwareDao" class="edu.arizona.kfs.pdp.dataaccess.impl.ShippingInvoiceDaoOjb" />
+	
+	<bean id="shippingInvoiceLoadService" class="edu.arizona.kfs.pdp.batch.service.impl.ShippingInvoiceLoadServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="shippingInputFileType">
+			<ref bean="shippingInputFileType" />
+		</property>	
+	</bean>
+
+	<bean id="shippingInvoiceProcessService" class="edu.arizona.kfs.pdp.batch.service.impl.ShippingInvoiceProcessServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>		
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="shippingInvoiceDao">
+			<ref bean="shippingInvoiceDao" />
+		</property>
+	</bean>	
+	
+	<bean id="shippingInvoiceLoadStep" class="edu.arizona.kfs.pdp.batch.ShippingInvoiceLoadStep" parent="step">
+		<property name="shippingInvoiceLoadService">
+			<ref bean="shippingInvoiceLoadService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="shippingInputFileType">
+		    <ref bean="shippingInputFileType" />
+		</property>
+        <property name="shippingInvoiceProcessServiceService">
+            <ref bean="shippingInvoiceProcessService" />
+        </property>	
+	</bean>	
 
 </beans>

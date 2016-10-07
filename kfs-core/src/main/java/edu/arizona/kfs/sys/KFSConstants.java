@@ -20,7 +20,11 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String DOCUWARE_TABLE = "table";
     public static final String DOCUWARE_IDVALUE = "idvalue";
     
-
+    //Shipping Constants   
+    public static final String SHIP_FILE_TYPE_IDENTIFIER = "shippingInputFileType";
+    public static final String SHIPPING_FILE_NAME = "extract_for_shipping";
+    public static final String SHIPPING_INVOICE_ORIGIN_CODE = "SH";
+    
     public static class SysKimApiConstants {
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
         public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";

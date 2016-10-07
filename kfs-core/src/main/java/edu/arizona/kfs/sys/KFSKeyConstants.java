@@ -21,5 +21,8 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     //CM
     public static final String WARNING_BANK_NOT_REQUIRED = "warning.document.disbursementvoucher.bank.not.required";
     public static final String ERROR_BANK_REQUIRED_PER_PAYMENT_METHOD = "error.document.disbursementvoucher.bank.required";
+    
+    // Shipping Account
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_SHIP = "message.batchUpload.title.shipping";
 
 }

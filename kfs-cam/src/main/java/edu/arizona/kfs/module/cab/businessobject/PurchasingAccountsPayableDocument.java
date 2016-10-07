@@ -14,7 +14,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurchasingAccountsPayableDocument extends org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument {
 	
-	@Override
+    @Override
     public String getStatusDescription() {
 
         if (StringUtils.isNotBlank(this.statusDescription)) {

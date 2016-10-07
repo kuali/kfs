@@ -16,7 +16,7 @@ import org.kuali.rice.krad.lookup.LookupUtils;
 
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl {
 	
-	@Override
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // update status code from user input value to DB value.
         updateStatusCodeCriteria(fieldValues);

@@ -14,7 +14,7 @@ import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 
 public class BatchExtractServiceImpl extends org.kuali.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl {
 	
@@ -50,8 +50,8 @@ public class BatchExtractServiceImpl extends org.kuali.kfs.module.cab.batch.serv
             apDoc = findCreditMemoDocument(entry);
         }
     	else if (CabConstants.PRNC.equals(entry.getFinancialDocumentTypeCode())) {
-    	// find PRNC
-    	apDoc = findPrncDocument(entry);
+	    	// find PRNC
+	    	apDoc = findPrncDocument(entry);
     	}
     	
         if (apDoc == null) {

@@ -12,7 +12,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.lookup.LookupUtils;
 
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl {
 	

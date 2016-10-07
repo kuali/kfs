@@ -7,8 +7,8 @@ import org.apache.commons.lang.StringUtils;
 import edu.arizona.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
+import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.util.ObjectUtils;
 

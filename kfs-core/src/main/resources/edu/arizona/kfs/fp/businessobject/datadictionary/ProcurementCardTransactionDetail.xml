@@ -298,7 +298,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" />
-  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" parent="ProcurementCardLevel3Lodging-programCode" abstract="true">
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" parent="ProcurementCardLevel3Lodging-roomTax" abstract="true">
   	<property name="name" value="procurementCardLevel3Lodging.roomTax" />
   </bean>
   
@@ -584,6 +584,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationPostal" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationCountryCode" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxRate" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.discountAmount" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.freightAmount" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.dutyAmount" />

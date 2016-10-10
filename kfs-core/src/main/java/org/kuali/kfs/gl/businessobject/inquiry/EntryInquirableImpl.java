@@ -22,10 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the
@@ -150,10 +154,42 @@ public class EntryInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
 
                 return getDocTypeInquiryUrl(docTypeCode);
             }
+        } else if (edu.arizona.kfs.sys.KFSPropertyConstants.GEC_DOCUMENT_NUMBER.equals(attributeName)) {
+            return getGecDocNumberInquiryUrl(businessObject);
         }
 
         return super.getInquiryUrl(businessObject, attributeName);
     }
     
-    
+
+    /*
+     * Set HREF for gecDocumentNumber when an entry comes through -- since gecDocumentNumber is not a PK,
+     * the framwwork won't handle it natively. Also, done in kuali package, since Entry is so core it couldn't be
+     * overridden in a sane way, likewise had to handle this case here. (No way to inject this, and a change would
+     * end up having huge breadth and depth.)
+     */
+    @SuppressWarnings("deprecation")// HtmlData
+    private HtmlData getGecDocNumberInquiryUrl(BusinessObject businessObject) {
+
+        // We're returning an HtmlData no matter what, though we'll add a link if possible
+        HtmlData.AnchorHtmlData inquiryHref = new HtmlData.AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
+
+        // Guard against being bit -- we should only ever see an Entry here, if not, handle it gracefully
+        if (businessObject == null || !(businessObject instanceof Entry)) {
+            return inquiryHref;
+        }
+
+        // Try to set a URL/title to the associated GEC doc, if present
+        Entry entry = (Entry)businessObject;
+        String gecDocumentNumber = entry.getGecDocumentNumber();
+        if (StringUtils.isNotBlank(gecDocumentNumber)) {
+            String href = KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + gecDocumentNumber + KRADConstants.DOCHANDLER_URL_CHUNK;
+            String title = "show inquiry for GEC Document Number=" + gecDocumentNumber; //following title convention
+            inquiryHref.setHref(href);
+            inquiryHref.setTitle(title);
+        }
+
+        return inquiryHref;
+    }
+
 }

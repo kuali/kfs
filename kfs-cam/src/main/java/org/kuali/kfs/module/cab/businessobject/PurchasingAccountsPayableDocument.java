@@ -58,7 +58,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private boolean active;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
-    private String statusDescription;
+    protected String statusDescription;
     private String capitalAssetSystemTypeCodeFromPurAp;
 
     public PurchasingAccountsPayableDocument() {

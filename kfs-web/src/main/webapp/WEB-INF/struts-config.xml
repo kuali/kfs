@@ -86,7 +86,7 @@
 		<form-bean name="PreEncumbranceForm"
 			type="org.kuali.kfs.fp.document.web.struts.PreEncumbranceForm" />
 		<form-bean name="DisbursementVoucherForm"
-			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.DisbursementVoucherForm" />
 		<form-bean name="CashManagementForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
 		<form-bean name="CashManagementStatusForm"

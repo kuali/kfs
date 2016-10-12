@@ -1,0 +1,188 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardLevel3AddItem" parent="ProcurementCardLevel3AddItem-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3AddItem" />
+  	<property name="inquiryDefinition">
+  		<ref bean="ProcurementCardLevel3AddItem-inquiryDefinition" />
+  	</property>
+  	<property name="objectLabel" value="Procurement Card Addendum Item" />
+  	<property name="attributes">
+  		<list>
+  			<ref bean="ProcurementCardLevel3AddItem-documentNumber" />
+  			<ref bean="ProcurementCardLevel3AddItem-financialDocumentTransactionLineNumber" />
+  			<ref bean="ProcurementCardLevel3AddItem-sequenceNumber" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemCommodityCode" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemProductCode" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemDescription" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemQuantity" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemUnitCode" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemAmount" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemDebitCreditCode" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemTaxRate" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemTaxAmount" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemDiscountAmount" />
+  			<ref bean="ProcurementCardLevel3AddItem-itemExtendedAmount" />
+  		</list>
+  	</property>
+  </bean>
+  
+<!-- Attribute Definitions -->
+  <bean id="ProcurementCardLevel3AddItem-documentNumber" parent="ProcurementCardLevel3AddItem-documentNumber-parentBean"/>
+  <bean id="ProcurementCardLevel3AddItem-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3AddItem-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber"/>
+  
+  <bean id="ProcurementCardLevel3AddItem-sequenceNumber" parent="ProcurementCardLevel3AddItem-sequenceNumber-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="sequenceNumber" />
+  	<property name="forceUppercase" value="true" />
+  	<property name="label" value="Row" />
+  	<property name="shortLabel" value="Row" />
+  	<property name="maxLength" value="6" />
+  	<property name="validationPattern">
+  		<bean parent="NumericValidationPattern" />
+  	</property>
+  	<property name="control">
+  		<bean parent="TextControlDefinition" 
+  			  p:size="8" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemCommodityCode" parent="ProcurementCardLevel3AddItem-itemCommodityCode-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemCommodityCode" />
+  	<property name="label" value="Commodity Code" />
+  	<property name="shortLabel" value="Comm Cd" />
+  	<property name="maxLength" value="12" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="14" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemProductCode" parent="ProcurementCardLevel3AddItem-itemProductCode-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemProductCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemProductCode" />
+  	<property name="label" value="Product Code" />
+  	<property name="shortLabel" value="Prod Cd" />
+  	<property name="maxLength" value="12" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="14" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemDescription" parent="ProcurementCardLevel3AddItem-itemDescription-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemDescription" />
+  	<property name="label" value="Description" />
+  	<property name="shortLabel" value="Desc" />
+  	<property name="maxLength" value="35" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="37" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemQuantity" parent="ProcurementCardLevel3AddItem-itemQuantity-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemQuantity" />
+  	<property name="forceUppercase" value="true" />
+  	<property name="label" value="Quantity" />
+  	<property name="shortLabel" value="Quantity" />
+  	<property name="maxLength" value="19" />
+  	<property name="validationPattern" >
+  		<bean parent="FloatingPointValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="21" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemUnitCode" parent="ProcurementCardLevel3AddItem-itemUnitCode-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemUnitCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="itemUnitCode" />
+  	<property name="label" value="Unit of Measure" />
+  	<property name="shortLabel" value="Unit" />
+  	<property name="maxLength" value="12" />
+  	<property name="control">
+  		<bean parent="TextControlDefinition"
+  			  p:size="14" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemAmount" parent="ProcurementCardLevel3AddItem-itemAmount-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="itemAmount" />
+  	<property name="label" value="Price Each" />
+  	<property name="shortLabel" value="Price" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemDebitCreditCode" parent="ProcurementCardLevel3AddItem-itemDebitCreditCode-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemDebitCreditCode-parentBean" abstract="true" parent="ProcurementCardTransaction-transactionDebitCreditCode">
+  	<property name="name" value="itemDebitCreditCode" />
+  	<property name="label" value="Debit Credit Code" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemTaxRate" parent="ProcurementCardLevel3AddItem-itemTaxRate-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemTaxRate-parentBean" abstract="true" parent="ProcurementCardLevel3Add-taxRate">
+  	<property name="name" value="itemTaxRate" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemTaxAmount" parent="ProcurementCardLevel3AddItem-itemTaxAmount-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemTaxAmount-parentBean" abstract="true" parent="ProcurementCardLevel3Add-taxAmount">
+  	<property name="name" value="itemTaxAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemDiscountAmount" parent="ProcurementCardLevel3AddItem-itemDiscountAmount-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemDiscountAmount-parentBean" abstract="true" parent="ProcurementCardLevel3Add-discountAmount">
+  	<property name="name" value="itemDiscountAmount" />
+  	<property name="label" value="Discount Per Line" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3AddItem-itemExtendedAmount" parent="ProcurementCardLevel3AddItem-itemExtendedAmount-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-itemExtendedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="itemExtendedAmount" />
+  	<property name="label" value="Extension" />
+  	<property name="shortLabel" value="Ext Amt" />
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->  
+  <bean id="ProcurementCardLevel3AddItem-inquiryDefinition" parent="ProcurementCardLevel3AddItem-inquiryDefinition-parentBean" />
+  <bean id="ProcurementCardLevel3AddItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  	<property name="title" value="Procurement Card Items Inquiry" />
+  	<property name="inquirySections">
+  	  <list>
+  	  	<bean parent="InquirySectionDefinition">
+  	  	  <property name="title" value="Procurement Card Items" />
+  	  	  <property name="numberOfColumns" value="4" />
+  	  	  <property name="inquiryFields" >
+  	  	  	<list>
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemCommodityCode" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemProductCode" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemDescription" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemUnitCode" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemAmount" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemTaxRate" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemTaxAmount" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemDiscountAmount" />
+  	  	  	  <bean parent="FieldDefinition" p:attributeName="itemExtendedAmount" />
+  	  	  	</list>
+  	  	  </property>
+  	  	</bean>
+	  </list>
+  	</property>
+  </bean>
+
+</beans>

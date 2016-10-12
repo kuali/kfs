@@ -40,6 +40,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
@@ -214,12 +215,15 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
         setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
 
-        // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
-        AccountService acctserv = SpringContext.getBean(AccountService.class);
-        if (StringUtils.isEmpty(getChartOfAccountsCode()) && StringUtils.isNotEmpty(getAccountNumber()) && !acctserv.accountsCanCrossCharts()) {
+        if (StringUtils.isNotEmpty(getAccountNumber())) {
+            AccountService acctserv = SpringContext.getBean(AccountService.class);
             Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
             if (account != null) {
-                setChartOfAccountsCode(account.getChartOfAccountsCode());
+                setAccount(account);
+                if (StringUtils.isEmpty(getChartOfAccountsCode()) && !acctserv.accountsCanCrossCharts()) {
+                    // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
+                    setChartOfAccountsCode(account.getChartOfAccountsCode());
+                }
             }
         }
 
@@ -232,6 +236,15 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         setFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
         setFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
         setDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
+
+        Integer universityFiscalYear = getUniversityFiscalYear();
+        String chartOfAccountsCode = getChartOfAccountsCode();
+        String financialObjectCode = getFinancialObjectCode();
+        if (universityFiscalYear != null && StringUtils.isNotBlank(financialObjectCode) && StringUtils.isNotBlank(chartOfAccountsCode)) {
+            ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+            ObjectCode objectCode = objectCodeService.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+            setFinancialObject(objectCode);
+        }
 
         // don't trim sequenceNumber because SpaceTransactionEntrySequenceNumber is "     "
         if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)))) {

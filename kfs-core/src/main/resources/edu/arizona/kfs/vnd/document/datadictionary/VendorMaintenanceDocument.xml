@@ -35,6 +35,9 @@
         <property name="title" value="Additional Attributes" />
         <property name="maintainableItems">
             <list>
+                <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Vendor Sales Tax" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.azSalesTaxLicense" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.tucSalesTaxLicense" />
                 <bean parent="MaintainableFieldDefinition" p:name="extension.exportControlsFlag" />
             </list>
         </property>

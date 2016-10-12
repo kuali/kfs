@@ -57,11 +57,11 @@
 			              <bean parent="InquiryCollectionDefinition" p:attributeName="awards" p:businessObjectClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
 			                <property name="inquiryFields">
 			                  <list>
-			                    <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.awardTitle"/>
-			                    <bean parent="FieldDefinition" p:attributeName="projectDirectorName"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.primeAgency.reportingName"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.grantNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.proposalFederalPassThroughIndicator"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.federalPassThroughAgencyNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.grantNumber"/>
 			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>			                    
 			                  </list>
 			                </property>

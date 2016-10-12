@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"	
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean">
 		<property name="packagePrefixes">
@@ -25,6 +25,10 @@
             </list>
         </property>
 	</bean>
+
+    <import resource="document/validation/configuration/RequisitionValidation.xml"/>
+    <import resource="document/validation/configuration/PurapValidatorDefinitions.xml"/>
+	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml"/>
 
     <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
         <property name="steps">
@@ -108,5 +112,39 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="purapUseTaxEntryArchiveService" class="edu.arizona.kfs.module.purap.service.impl.PurapUseTaxEntryArchiveServiceImpl"/>
+	
+	
+    <bean id="purapGeneralLedgerService" parent="purapGeneralLedgerService-parentBean" class="edu.arizona.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
+        <property name="purapUseTaxEntryArchiveService" ref="purapUseTaxEntryArchiveService"/>
+        <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService"/>
+    </bean>
+    
+    <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
+    	<property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
+    </bean>
+    
+	<bean id="creditMemoService" class="edu.arizona.kfs.module.purap.document.service.impl.CreditMemoServiceImpl">
+        <property name="accountsPayableService" ref="accountsPayableService" />
+		<property name="creditMemoDao" ref="creditMemoDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="documentService" ref="documentService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="noteService" ref="noteService" />
+        <property name="paymentRequestService" ref="paymentRequestService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" />
+        <property name="purapService" ref="purapService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="vendorService" ref="vendorService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
+    </bean>
+    
+    <bean id="receivingService" parent="receivingService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+    </bean>
+
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
 </beans>

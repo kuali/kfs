@@ -49,7 +49,13 @@
   </c:if>
 
   <td class="${style}">
+	<c:if test="${readOnly}">
+		<span id="${property}">
+	</c:if>
     <kul:htmlControlAttribute attributeEntry="${DataDictionary.Bank.attributes.bankCode}" property="${property}" readOnly="${readOnly}" onblur="loadBankInfo(document.forms['KualiForm'], '${property}', '${objectProperty}');" />
+    <c:if test="${readOnly}">
+		</span>
+	</c:if>
     <c:if test="${not readOnly}">
       &nbsp;
       <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Bank" fieldConversions="bankCode:${property},bankName:${objectProperty}.bankName" lookupParameters="${lookupParameters}" readOnlyFields="${readOnlyFields}" autoSearch="true"/>

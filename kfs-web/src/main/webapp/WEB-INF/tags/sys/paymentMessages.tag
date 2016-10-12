@@ -18,9 +18,28 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type="text/javascript" src="dwr/interface/PaymentMethodGeneralLedgerPendingEntryService.js"></script>
+
 <%-- helpful messages --%>
 <script type="text/javascript">
   function paymentMethodMessages(selectedMethod) {
+		if ( selectedMethod != "" ) {
+			var dwrReply = {
+				callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {
+						setRecipientValue( "document.disbVchrBankCode", data.bankCode );
+						setRecipientValue( "document.bank", data.bankName );
+					} else {
+						setRecipientValue( "document.disbVchrBankCode", "" );
+						setRecipientValue( "document.bank", "" );
+					}
+				},
+				errorHandler:function( errorMessage ) { 
+					window.status = errorMessage;
+				}
+			};
+			PaymentMethodGeneralLedgerPendingEntryService.getBankForPaymentMethod( selectedMethod, dwrReply );
+		}
     if (selectedMethod == 'W') {
 		alert('<bean:message key="message.payment.feewarning"/>');
     }

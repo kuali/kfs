@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean">
           <property name="packagePrefixes">
@@ -22,6 +17,32 @@
                 <value>classpath:edu/arizona/kfs/module/ld/document/datadictionary/*.xml</value>
             </list>
         </property>
+    </bean>
+
+    <bean id="laborGLScrubberValidator" parent="laborGLScrubberValidator-parentBean" />
+    <bean id="laborGLScrubberValidator-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl" parent="scrubberValidator" abstract="true" />
+
+    <bean id="laborScrubberValidator" parent="laborScrubberValidator-parentBean" />
+    <bean id="laborScrubberValidator-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl" abstract="true">
+        <property name="scrubberValidator" ref="laborGLScrubberValidator"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="persistenceStructureService" ref="persistenceStructureService"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="balanceTypService" ref="balanceTypService"/>
+        <property name="optionsService" ref="optionsService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
+    </bean>
+
+    <bean id="salaryTransferPeriodValidationService" parent="salaryTransferPeriodValidationService-parentBean" />
+    <bean id="salaryTransferPeriodValidationService-parentBean" class="edu.arizona.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl" abstract="true">
+        <property name="effortCertificationService" ref="effortCertificationModuleService"/>
+        <property name="documentService" ref="documentService"/>
+        <property name="noteService" ref="noteService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
     </bean>
 
     <bean id="laborNightlyOutJob" parent="unscheduledJobDescriptor">

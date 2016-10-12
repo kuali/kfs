@@ -49,8 +49,6 @@ public class DisbursementVoucherCoverSheetServiceImpl extends org.kuali.kfs.fp.d
         
         String check_total = document.getDisbVchrCheckTotalAmount().toString();
 
-        String currency = new PaymentMethodValuesFinder().getKeyLabel(document.getDisbVchrPaymentMethodCode());
-
         String address = retrieveAddress(document.getDisbursementVoucherDocumentationLocationCode());
 
         // retrieve attachment label

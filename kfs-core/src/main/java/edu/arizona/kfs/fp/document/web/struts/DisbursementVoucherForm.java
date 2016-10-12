@@ -5,13 +5,11 @@ import edu.arizona.kfs.sys.KFSConstants;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 
 
 public class DisbursementVoucherForm extends org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherForm.class);
-
-    private String docuwareTableParam;
 
     /**
      * Constructs a DisbursementVoucherForm

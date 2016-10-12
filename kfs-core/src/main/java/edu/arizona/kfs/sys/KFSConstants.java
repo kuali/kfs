@@ -19,6 +19,8 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String DOCUWARE_TABLE_PARAMETER = "DOCUWARE_TABLE_PARAMETER";
     public static final String DOCUWARE_TABLE = "table";
     public static final String DOCUWARE_IDVALUE = "idvalue";
+    public static final String DOCUWARE_DV_DOC_TYPE = "DV";
+    public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";
     
 
     public static class SysKimApiConstants {

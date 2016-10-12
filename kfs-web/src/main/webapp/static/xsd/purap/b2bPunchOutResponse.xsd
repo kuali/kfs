@@ -26,28 +26,20 @@
 
 <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xsd/sys/xml.xsd"/>
 <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
-<!-- Works: -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" /> -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://localhost:8080/kfs-web-dev/static/xsd/sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="http://localhost:8080/kfs-web-dev/static/xsd/purap/purapTypes.xsd" /> -->
 
 
-<!-- Don't work -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xsd/sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" /> -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../purap/purapTypes.xsd" /> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="./purapTypes.xsd" /> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="purapTypes.xsd" /> -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="@externalizable.static.content.url@/xsd/sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="@externalizable.static.content.url@/xsd/purap/purapTypes.xsd" /> -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="${externalizable.static.content.url}/xsd/sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="${externalizable.static.content.url}/xsd/purap/purapTypes.xsd" /> -->
-
-<!-- Untested -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="@application.url@/static/xsd/sys/xml.xsd" /> -->
-<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="/@app.context.name@/static/xsd/sys/xml.xsd"/> -->
-<!-- <xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="/@app.context.name@/static/xsd/purap/purapTypes.xsd" /> -->
+<!-- Simple Data Types -->
+	<xsd:simpleType name="statusCodeType">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="statusTextType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="200"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
 	
 	<xsd:element name="cXML">
@@ -61,8 +53,8 @@
 						  <xsd:complexType>
 						  	<xsd:simpleContent>
 						  		<xsd:extension base="xsd:string">
-						  			<xsd:attribute name="code" type="purap:statusCodeType" />
-						  			<xsd:attribute name="text" type="purap:statusTextType" />
+						  			<xsd:attribute name="code" type="statusCodeType" />
+						  			<xsd:attribute name="text" type="statusTextType" />
 						  		</xsd:extension>
 						  	</xsd:simpleContent>
 						  </xsd:complexType>

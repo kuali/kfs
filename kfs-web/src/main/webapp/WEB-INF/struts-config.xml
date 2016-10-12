@@ -242,7 +242,7 @@
 		<form-bean name="PaymentRequestForm"
 			type="edu.arizona.kfs.module.purap.document.web.struts.PaymentRequestForm" />
 		<form-bean name="VendorCreditMemoForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
+			type="edu.arizona.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
 		<form-bean name="LineItemReceivingForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.LineItemReceivingForm" />
 		<form-bean name="CorrectionReceivingForm"

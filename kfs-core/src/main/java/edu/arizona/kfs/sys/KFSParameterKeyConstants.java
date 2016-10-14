@@ -8,4 +8,8 @@ public class KFSParameterKeyConstants extends org.kuali.kfs.sys.KFSParameterKeyC
     	public static final String ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND = "ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND";
     }
 	
+	public static final class ShippingConstants {
+		public static final String SHIPPING_COMPANIES = "SHIPPING_COMPANIES";
+	}
+	
 }

@@ -52,14 +52,17 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		PrintWriter outReportWriter = null; 
 		BuildingExtension buildingExt;
 		CampusBo campus;
-		Map<String, String> routecodeToCampuscodeMap;
-		routecodeToCampuscodeMap = buildingAndRoomImportDaoOjb.PopulateRoutecodeToCampusCodeMap();
+		Map<String, String> routecodeToCampuscodeMap = buildingAndRoomImportDaoOjb.PopulateRoutecodeToCampusCodeMap();
 		
 		try{
 			outReportWriter = setupReportOutputFiles(outReportWriter);
 			outReportErrorWriter = setupErrorReportOutputFiles(outReportErrorWriter);
 			writetoReportOutputFilesHeader(outReportWriter, outReportErrorWriter);
 			Collection<ArchibusBuildings> archibusBuildings = businessObjectService.findAll(ArchibusBuildings.class);
+			
+			if(archibusBuildings.isEmpty()){
+				LOG.debug("Collection of ArchibusBuilding is empty.");
+			}
 			// This will lool for all records in Archibus building then do an update or insert into buildings
 			for (ArchibusBuildings archBuilding : archibusBuildings) {
 				reportMsg = "";
@@ -447,32 +450,32 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 	private void writetoReportOutputFilesHeader(PrintWriter outReportWriter, PrintWriter outErrorReportWriter) {
 		String title = "             BUILDING IMPORT REPORT";
 		String header = "CampusCode     BuildingCode   Info:";
-		outReportWriter.format("%s\n", title);
-		outErrorReportWriter.format("%S\n", title);
-		outReportWriter.format("%s\n", header);
-		outErrorReportWriter.format("%s\n", header);
+		outReportWriter.format("%s%n", title, "%s%n");
+		outErrorReportWriter.format("%S%n", title, "%s%n");
+		outReportWriter.format("%s%n", header);
+		outErrorReportWriter.format("%s%n", header);
 	}
 	
 	private void writetoErrorReportOutputFile(PrintWriter outReportErrorWriter, String reportMsg, String campusCode, String buildingCode, String msg) {
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(buildingCode, 15, "");
 		reportMsg += msg;
-		outReportErrorWriter.format("%s\n", reportMsg);
+		outReportErrorWriter.format("%s%n", reportMsg);
 	}
 	
 	private void writetoReportOutputFile(PrintWriter outReportWriter, String reportMsg, String campusCode, String buildingCode, String msg) {
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(buildingCode, 15, "");
 		reportMsg += msg;
-		outReportWriter.format("%s\n", reportMsg);
+		outReportWriter.format("%s%n", reportMsg);
 	}
 	
 	private void writetoReportOutputFile(PrintWriter outReportWriter, String reportMsg) {
-		outReportWriter.format("%s\n", reportMsg);
+		outReportWriter.format("%s%n", reportMsg);
 	}
 	
 	private void writetoErrorReportOutputFile(PrintWriter outReportErrorWriter, String reportMsg) {
-		outReportErrorWriter.format("%s\n", reportMsg);
+		outReportErrorWriter.format("%s%n", reportMsg);
 	}
 
 	public String getBatchFileDirectoryName() {

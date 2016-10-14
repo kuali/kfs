@@ -92,7 +92,7 @@
 		<form-bean name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm" />
 		<form-bean name="ProcurementCardForm"
-			type="org.kuali.kfs.fp.document.web.struts.ProcurementCardForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.ProcurementCardForm" />
 		<form-bean name="BudgetAdjustmentForm"
 			type="org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentForm" />
 		<form-bean name="YearEndBudgetAdjustmentForm"

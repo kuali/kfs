@@ -97,7 +97,6 @@
  	<bean id="ShippingAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
  		<property name="required" value="true"/>
  	</bean>
- 	
  	<bean id="ShippingAccount-accountFiscalOfficerUserPrincipalId" parent="ShippingAccount-accountFiscalOfficerUserPrincipalId-parentBean"/>
  	
  	<bean id="ShippingAccount-accountFiscalOfficerUserPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
@@ -135,9 +134,9 @@
  	<bean id="ShippingAccount-account.organization.organizationName-parentBean" parent="Organization-organizationName">
  		<property name="name" value="account.organization.organizationName"/>
  	</bean>
- 	<bean id="ShippingAccount-financialObjectCode"	parent="ShippingAccount-financialObjecCode-parentBean"/>
+ 	<bean id="ShippingAccount-financialObjectCode"	parent="ShippingAccount-financialObjectCode-parentBean"/>
  	
- 	<bean id="ShippingAccount-financialObjecCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+ 	<bean id="ShippingAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
  	<bean id="ShippingAccount-chartOfAccountsCode" parent="ShippingAccount-chartOfAccountsCode-parentBean"/>
  	
  	<bean id="ShippingAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>

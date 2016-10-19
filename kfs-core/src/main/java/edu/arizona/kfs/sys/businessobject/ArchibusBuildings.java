@@ -19,6 +19,7 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 	private String active;
 	private String routeCode;
 	
+	//equals() will compare if kfs building differs in any way to archibus building
 	public boolean equals(Building building) {
 		String archBuild;
 		String kfsBuild;
@@ -35,7 +36,6 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 		if (!this.buildingAddressZipCode.equalsIgnoreCase(building.getBuildingAddressZipCode())) {
 			return false; 
 		}
-		
 		if ("USA".equalsIgnoreCase(this.buildingAddressCountryCode) && "US".equalsIgnoreCase(building.getBuildingAddressCountryCode())) {
 		}
 		else {
@@ -43,7 +43,6 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 				return false;
 			}
 		}
-		
 		if (this.buildingName.length() > 40) {
 			archBuild = this.buildingName.substring(0, 39);
 		}
@@ -73,15 +72,14 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 		else {
 			archBuild = this.routeCode;
 		}
- 		if (this.active.equalsIgnoreCase(kfsBuild)) {
- 			return false;
+		if (this.active.equalsIgnoreCase(kfsBuild)) {
+			return false;
  		}
- 		
- 		if (this.active.equalsIgnoreCase("A") && building.isActive()) {
- 			return true;
+		if (this.active.equalsIgnoreCase("A") && building.isActive()) {
+			return true;
  		}
- 		else {
- 			return false;
+		else {
+			return false;
  		}
 	}
 	
@@ -92,94 +90,93 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 		m.put("buildingCode", this.buildingCode);
 		return m; 
 	}
-
+	
 	public String getCampusCode() {
 		return campusCode;
 	}
-
+	
 	public void setCampusCode(String campusCode) {
 		this.campusCode = campusCode;
 	}
-
+	
 	public String getBuildingCode() {
 		return buildingCode;
 	}
-
+	
 	public void setBuildingCode(String buildingCode) {
 		this.buildingCode = buildingCode;
 	}
-
+	
 	public String getBuildingId() {
 		return buildingId;
 	}
-
+	
 	public void setBuildingId(String buildingId) {
 		this.buildingId = buildingId;
 	}
-
+	
 	public String getBuildingName() {
 		return buildingName;
 	}
-
+	
 	public void setBuildingName(String buildingName) {
 		this.buildingName = buildingName;
 	}
-
+	
 	public String getBuildingStreetAddress() {
 		return buildingStreetAddress;
 	}
-
+	
 	public void setBuildingStreetAddress(String buildingStreetAddress) {
 		this.buildingStreetAddress = buildingStreetAddress;
 	}
-
+	
 	public String getBuildingAddressCityName() {
 		return buildingAddressCityName;
 	}
-
+	
 	public void setBuildingAddressCityName(String buildingAddressCityName) {
 		this.buildingAddressCityName = buildingAddressCityName;
 	}
-
+	
 	public String getBuildingAddressStateCode() {
 		return buildingAddressStateCode;
 	}
-
+	
 	public void setBuildingAddressStateCode(String buildingAddressStateCode) {
 		this.buildingAddressStateCode = buildingAddressStateCode;
 	}
-
+	
 	public String getBuildingAddressZipCode() {
 		return buildingAddressZipCode;
 	}
-
+	
 	public void setBuildingAddressZipCode(String buildingAddressZipCode) {
 		this.buildingAddressZipCode = buildingAddressZipCode;
 	}
-
+	
 	public String getBuildingAddressCountryCode() {
 		return buildingAddressCountryCode;
 	}
-
+	
 	public void setBuildingAddressCountryCode(String buildingAddressCountryCode) {
 		this.buildingAddressCountryCode = buildingAddressCountryCode;
 	}
-
+	
 	public String getActive() {
 		return active;
 	}
-
+	
 	public void setActive(String active) {
 		this.active = active;
 	}
-
+	
 	public String getRouteCode() {
 		return routeCode;
 	}
-
+	
 	public void setRouteCode(String routeCode) {
 		this.routeCode = routeCode;
 	}
 
-	
 }

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-//import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ import edu.arizona.kfs.sys.batch.service.BuildingImportService;
 import edu.arizona.kfs.sys.businessobject.ArchibusBuildings;
 import edu.arizona.kfs.sys.businessobject.BuildingExtension;
 import edu.arizona.kfs.sys.businessobject.RouteCode;
-import edu.arizona.kfs.sys.dataaccess.impl.BuildingAndRoomImportsDaoOjb;
+import edu.arizona.kfs.sys.dataaccess.BuildingAndRoomImportsDao;
 
 @Transactional
 public class BuildingImportServiceImpl implements BuildingImportService {
@@ -39,11 +38,10 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 	private BusinessObjectService businessObjectService;
 	private DataDictionaryService ddService;
 	private DateTimeService dateTimeService; 
-	private BuildingAndRoomImportsDaoOjb buildingAndRoomImportDaoOjb;
-//	private SimpleDateFormat sdf; //not being used
+	private BuildingAndRoomImportsDao buildingAndRoomImportDao;
 	
 	public boolean prepareBuildingImport() {
-		Building building;
+		Building building = null;
 		Building buildingCodeMatch;
 		String routeCodeValue;
 		String campusCode;
@@ -52,31 +50,24 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		PrintWriter outReportWriter = null; 
 		BuildingExtension buildingExt;
 		CampusBo campus;
-		Map<String, String> routecodeToCampuscodeMap = buildingAndRoomImportDaoOjb.PopulateRoutecodeToCampusCodeMap();
+		Map<String, String> routecodeToCampuscodeMap = buildingAndRoomImportDao.PopulateRoutecodeToCampusCodeMap();
 		
 		try{
 			outReportWriter = setupReportOutputFiles(outReportWriter);
 			outReportErrorWriter = setupErrorReportOutputFiles(outReportErrorWriter);
 			writetoReportOutputFilesHeader(outReportWriter, outReportErrorWriter);
 			Collection<ArchibusBuildings> archibusBuildings = businessObjectService.findAll(ArchibusBuildings.class);
-			
-			if(archibusBuildings.isEmpty()){
-				LOG.debug("Collection of ArchibusBuilding is empty.");
-			}
-			// This will lool for all records in Archibus building then do an update or insert into buildings
+						
+			// This will look for all records in Archibus building then do an update or insert into buildings
 			for (ArchibusBuildings archBuilding : archibusBuildings) {
 				reportMsg = "";
-				building = null;
-				LOG.debug("Processing Record: " + archBuilding.toString());
 				
-				if (archBuilding.getBuildingCode().equalsIgnoreCase("207")) {
-					System.out.println("Debug This");
-				}
 				// Look for a valid routecode in kfs
 				routeCodeValue = archBuilding.getRouteCode();
+				
 				RouteCode routecode = (RouteCode) businessObjectService.findBySinglePrimaryKey(RouteCode.class, routeCodeValue);
 				
-				// stop if routecode is not set up in KFS
+				// report error if routecode is not set up in KFS
 				if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue) && ObjectUtils.isNull(routecode)) {
 					LOG.debug("Routecode value of " + routeCodeValue + " is not set up in KFS.");
 					writetoErrorReportOutputFile(outReportErrorWriter, reportMsg, archBuilding.getCampusCode(), archBuilding.getBuildingCode(), "Routecode value of " + routeCodeValue + " is not set up in KFS.");
@@ -84,7 +75,6 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 				}
 				// if building is active then continue trough
 				if (KFSParameterKeyConstants.STRING_A.equalsIgnoreCase(archBuilding.getActive())) {
-					
 					if(StringUtils.isBlank(routecodeToCampuscodeMap.get(routeCodeValue))) {
 						campusCode = KFSParameterKeyConstants.MAIN_CAMPUSCODE;
 					}
@@ -93,7 +83,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 						
 						// Look for a valid Campus Code in KFS
 						Map<String, String> pkeys = new HashMap<String, String>();
-                        pkeys.put("campusCode", campusCode);
+                        pkeys.put("code", campusCode);
                         pkeys.put("active", "Y");
                         campus = (CampusBo) businessObjectService.findByPrimaryKey(CampusBo.class, pkeys);
 						
@@ -131,12 +121,18 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 						insertBuilding(building, routeCodeValue, campusCode, reportMsg, outReportWriter, buildingExt, archBuilding);
 					}
 					else {
-						
 						if(!archBuilding.equals(building)) {
 							updateBuilding(building, routeCodeValue, campusCode, reportMsg, outReportWriter, archBuilding, routecode);
 						}
 					}
 				}
+			}
+			LOG.debug("Exit For Loop " + archibusBuildings.size());
+			
+			//loop through all kfs buildings if they are not in archibus buildings, then disable the kfs building
+			Collection<Building> kfsBuildings = businessObjectService.findAll(Building.class);
+			for (Building kfsBuilding : kfsBuildings) {
+				disableKFSBuildingsNotInArchibus(outReportWriter, kfsBuilding);
 			}
 		}
 		catch (Exception e) {
@@ -212,7 +208,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		reportMsg += StringUtils.rightPad(archBuilding.getBuildingCode(), 15, "");
 		
 		Boolean isBuildingCodeRequired = ddService.isAttributeRequired(Building.class, "buildingCode");
-		Integer maxBuildingCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingcode");
+		Integer maxBuildingCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingCode");
 		Boolean isBuildingNameRequired = ddService.isAttributeRequired(Building.class, "buildingName");
 		Integer maxBuildingNameLen = ddService.getAttributeMaxLength(Building.class, "buildingName");
 		Boolean isBuildingStreetAddressRequired = ddService.isAttributeRequired(Building.class, "buildingStreetAddress");
@@ -224,7 +220,6 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		Boolean isBuildingAddressZipCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressZipCode");
 		Integer maxBuildingAddressZipCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressZipCode");
 		Boolean isBuildingAddressCountryCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressCountryCode");
-//		Integer maxBuildingAddressCountryCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressCountryCode");
 		
 		if (isAttributeNotValid(isBuildingCodeRequired, archBuilding.getBuildingCode())) {
 			valid = false;
@@ -268,7 +263,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		}
 		if (isAttributeNotValid(isBuildingAddressZipCodeRequired, archBuilding.getBuildingAddressZipCode())) {
 			valid = false; 
-			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is Not Valid, ";
+			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is Not Valid, ";;
 		}
 		if (isAttributeLenToLong(maxBuildingAddressZipCodeLen, archBuilding.getBuildingAddressZipCode().length())) {
 			valid = false;
@@ -297,7 +292,6 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		if (!building.isActive()) {
 			reportMsg += "Active(" + building.isActive() + "), ";
 			building.setActive(true);
-			//;
 		}
 		if (!archBuilding.getBuildingStreetAddress().equalsIgnoreCase(archBuilding.getBuildingStreetAddress())) {
 			reportMsg += "BuildingStreetAddress(" + building.getBuildingStreetAddress() + "), ";
@@ -316,6 +310,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			building.setBuildingAddressZipCode(archBuilding.getBuildingAddressZipCode());
 		}
 		if (archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode()) && kfsUsCountryCode.equalsIgnoreCase(building.getBuildingAddressCountryCode())) {
+			reportMsg += "Archibus USA and KFS US, KFS BuildingCountryCode stays as US, ";
 		}
 		else {
 			reportMsg += "BuildingAddressCountryCode(" + building.getBuildingAddressCountryCode() + "), " ; 
@@ -351,8 +346,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 				buildingExt.setRouteCodeObj(routecode);
 			}
 			else {
-				buildingExt.setRouteCode(null);
-				buildingExt.setRouteCodeObj(null);
+				buildingExt.setRouteCode("");
 			}
 		}
 		LOG.info("Updating (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() +","+ building.getBuildingCode() +","+ building.getCampusCode() +","+ building.getBuildingAddressCityName() +","+ building.getBuildingAddressStateCode() +","+ building.getBuildingAddressZipCode() +","+ building.getBuildingAddressCountryCode() +","+ building.isActive() +","+ building.getBuildingStreetAddress() +")");
@@ -367,9 +361,6 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		ArchibusBuildings archibusBuilding;
 		String reportMsg;
 		
-		if (kfsBuilding.getBuildingCode().equalsIgnoreCase("201")) {
-			System.out.println("Debug buildingCode 201");
-		}
 		reportMsg = "";
 		LOG.debug("Processing Record: " + kfsBuilding.toString());
 		
@@ -514,8 +505,8 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		this.ddService = ddService;
 	}
 
-	public void setBuildingAndRoomImportDao(BuildingAndRoomImportsDaoOjb buildingAndRoomImportDaoOjb) {
-		this.buildingAndRoomImportDaoOjb = buildingAndRoomImportDaoOjb;
+	public void setBuildingAndRoomImportDao(BuildingAndRoomImportsDao buildingAndRoomImportDao) {
+		this.buildingAndRoomImportDao = buildingAndRoomImportDao;
 	}
 
 	public BusinessObjectService getBusinessObjectService() {

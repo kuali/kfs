@@ -51,7 +51,7 @@
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	</class-descriptor>
-
+	
 	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusBuildings" table="PS_UA_DPT_KFS_BLDG ">
 		<field-descriptor name="buildingCode" column="BL_ID_ALPHA" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="buildingId" column="BL_ID" jdbc-type="VARCHAR" />

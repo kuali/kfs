@@ -15,12 +15,12 @@ public class BuildingAndRoomImportsDaoOjb implements BuildingAndRoomImportsDao {
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
-
-
+	
+	//Returns a list of routeCodes with their respective campusCode
 	public Map<String, String> PopulateRoutecodeToCampusCodeMap() {
 		Map<String, String> routecodeToCampuscodeMap = new HashMap<String, String>();
-		
 		String[] keyPairs = parameterService.getParameterValueAsString(BuildingImportStep.class, "ROUTE_CODE_BY_CAMPUS_CODE").split(";");
+		
 		for(String keyValues : keyPairs) {
 			String[] tokens = keyValues.split("=");
 			String campusCode = tokens[0];
@@ -33,4 +33,5 @@ public class BuildingAndRoomImportsDaoOjb implements BuildingAndRoomImportsDao {
 		}
 		return routecodeToCampuscodeMap;
 	}
+	
 }

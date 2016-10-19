@@ -33,7 +33,7 @@
     </bean>
 	
     <import resource="document/validation/configuration/FinancialSystemValidators.xml" />
-
+    
     <bean id="buildingImportJob" parent="unscheduledJobDescriptor">
     	<property name="steps">
     		<list>
@@ -58,7 +58,7 @@
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
     </bean>
-       
+    
     <bean id="buildingAndRoomImportDao" class="edu.arizona.kfs.sys.dataaccess.impl.BuildingAndRoomImportsDaoOjb">
     	<property name="parameterService" ref="parameterService" />
     </bean>

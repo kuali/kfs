@@ -58,11 +58,11 @@
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
     </bean>
-    
+
     <bean id="buildingAndRoomImportDao" class="edu.arizona.kfs.sys.dataaccess.impl.BuildingAndRoomImportsDaoOjb">
     	<property name="parameterService" ref="parameterService" />
     </bean>
-    
+
     <bean id="scheduleJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>

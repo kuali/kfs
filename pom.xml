@@ -12,7 +12,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU Affero General Public License for more details.
+  GNU Affero General Public License for more details.
    
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses />.
@@ -22,7 +22,7 @@
   <modules>
     <module>kfs-core</module>
     <module>kfs-purap</module>
-    <module>kfs-ar</module>
+   <module>kfs-ar</module>
     <module>kfs-cam</module>
     <module>kfs-cg</module>
     <module>kfs-ec</module>
@@ -39,7 +39,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release20-SNAPSHOT</version>
+  <version>ua-release20</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>

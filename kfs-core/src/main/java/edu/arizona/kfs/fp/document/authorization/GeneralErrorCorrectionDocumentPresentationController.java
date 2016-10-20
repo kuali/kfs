@@ -23,7 +23,10 @@ public class GeneralErrorCorrectionDocumentPresentationController extends org.ku
         editModes.add(KFSConstants.GeneralErrorCorrectionEditMode.ERROR_CERTIFICATE_TAB_ENTRY);
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+        boolean isInitiated = workflowDocument.isInitiated();
+        boolean isSaved = workflowDocument.isSaved();
+        boolean isCompletionRequested = workflowDocument.isCompletionRequested();
+        if (isInitiated || isSaved || isCompletionRequested) {
             editModes.add(KFSConstants.GL_ENTRY_IMPORTING);
         }
 

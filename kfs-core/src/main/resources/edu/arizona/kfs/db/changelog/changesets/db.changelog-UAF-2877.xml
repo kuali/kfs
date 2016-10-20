@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2877" author="Adam Kost">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-PDP'
+                        AND CMPNT_CD='Batch'
+                        AND PARM_NM='FROM_EMAIL_ADDRESS'
+                        AND VAL='kfsbsateam@list.arizona.edu'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2877 Batch Format Checks/ACH Will Not Complete
+        </comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="kfsbsateam@list.arizona.edu" />
+            <where>NMSPC_CD='KFS-PDP' AND CMPNT_CD='Batch' AND PARM_NM='FROM_EMAIL_ADDRESS'</where>
+        </update>
+        <rollback>
+            <update tableName="KRCR_PARM_T">
+                <column name="VAL" value="" />
+                <where>NMSPC_CD='KFS-PDP' AND CMPNT_CD='Batch' AND PARM_NM='FROM_EMAIL_ADDRESS'</where>
+            </update>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -566,6 +566,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	<property name="label" value="Tax Exempt Indicator"/>
   </bean>
   
+    <bean id="ProcurementCardTransactionDetail-transactionPostingDate" parent="ProcurementCardTransactionDetail-transactionPostingDate-parentBean">
+        <property name="label" value="Post Date" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber" parent="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean">
+        <property name="label" value="Transaction ID Number" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean">
+        <property name="label" value="Sales Tax Amount" />
+    </bean>
+
 <!-- Business Object Inquiry Definition -->
 
   <bean id="ProcurementCardTransactionDetail-inquiryDefinition" parent="ProcurementCardTransactionDetail-inquiryDefinition-parentBean">

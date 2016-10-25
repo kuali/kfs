@@ -58,5 +58,26 @@
     <bean id="purApInfoService" class="edu.arizona.kfs.module.cab.document.service.impl.PurApInfoServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="purApLineDocumentService"  parent="purApLineDocumentService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="purApLineService" ref="purApLineService" />
+		<property name="purApInfoService" ref="purApInfoService" />
+		<property name="documentService" ref="documentService" />
+		<property name="assetGlobalService" ref="assetGlobalService" />
+		<property name="assetService" ref="assetService" />
+	</bean>  
+	
+	<bean id="glLineService"  parent="glLineService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="assetGlobalService" ref="assetGlobalService"/>
+		<property name="objectTypeService" ref="objectTypeService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="documentHeaderService" ref="documentHeaderService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+		<property name="capitalAssetInformationDao" ref="capitalAssetInformationDao"/>
+		<property name="assetService" ref="assetService" />
+	</bean> 
 
 </beans>

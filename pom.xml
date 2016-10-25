@@ -12,7 +12,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU Affero General Public License for more details.
+  GNU Affero General Public License for more details.
    
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses />.
@@ -22,7 +22,7 @@
   <modules>
     <module>kfs-core</module>
     <module>kfs-purap</module>
-    <module>kfs-ar</module>
+   <module>kfs-ar</module>
     <module>kfs-cam</module>
     <module>kfs-cg</module>
     <module>kfs-ec</module>
@@ -39,7 +39,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release20-SNAPSHOT</version>
+  <version>ua-release21-SNAPSHOT</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
@@ -103,7 +103,7 @@
     <barcode4j.version>2.1</barcode4j.version>
     <commons-cli.version>1.0</commons-cli.version>
     <commons.net.ftp.version>2.0</commons.net.ftp.version>
-    <commons-transaction.version>1.2</commons-transaction.version>
+   <commons-transaction.version>1.2</commons-transaction.version>
     <itext.version>1.4.8</itext.version>
     <jasperreports.version>2.0.4</jasperreports.version>
     <javamelody.core.version>1.49.0</javamelody.core.version>
@@ -114,7 +114,7 @@
     <jstl-api.version>1.2</jstl-api.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
-    <kfs.help.version>ua-release2-SNAPSHOT</kfs.help.version>
+    <kfs.help.version>ua-release3-SNAPSHOT</kfs.help.version>
     <liquibase.version>3.3.2</liquibase.version>
     <mysql.groupId>mysql</mysql.groupId>
     <mysql.artifactId>mysql-connector-java</mysql.artifactId>

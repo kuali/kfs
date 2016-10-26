@@ -1,6 +1,5 @@
 package edu.arizona.kfs.sys.batch.service.impl;
 
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,9 +36,9 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 	private String reportDirectoryName;
 	private BusinessObjectService businessObjectService;
 	private DataDictionaryService ddService;
-	private DateTimeService dateTimeService; 
+	private DateTimeService dateTimeService;
 	private BuildingAndRoomImportsDao buildingAndRoomImportDao;
-	
+
 	public boolean prepareBuildingImport() {
 		Building building = null;
 		Building buildingCodeMatch;
@@ -47,64 +46,62 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		String campusCode;
 		String reportMsg;
 		PrintWriter outReportErrorWriter = null;
-		PrintWriter outReportWriter = null; 
+		PrintWriter outReportWriter = null;
 		BuildingExtension buildingExt;
 		CampusBo campus;
 		Map<String, String> routecodeToCampuscodeMap = buildingAndRoomImportDao.PopulateRoutecodeToCampusCodeMap();
-		
-		try{
+
+		try {
 			outReportWriter = setupReportOutputFiles(outReportWriter);
 			outReportErrorWriter = setupErrorReportOutputFiles(outReportErrorWriter);
-			writetoReportOutputFilesHeader(outReportWriter, outReportErrorWriter);
+			writetoReportOutputFilesHeader(outReportWriter,outReportErrorWriter);
 			Collection<ArchibusBuildings> archibusBuildings = businessObjectService.findAll(ArchibusBuildings.class);
-						
-			// This will look for all records in Archibus building then do an update or insert into buildings
+
+			// This will look for all records in Archibus building then do an
+			// update or insert into buildings
 			for (ArchibusBuildings archBuilding : archibusBuildings) {
+				LOG.info("Processing Record: " + archBuilding.toString());
 				reportMsg = "";
-				
-				// Look for a valid routecode in kfs
 				routeCodeValue = archBuilding.getRouteCode();
-				
+
 				RouteCode routecode = (RouteCode) businessObjectService.findBySinglePrimaryKey(RouteCode.class, routeCodeValue);
-				
+
 				// report error if routecode is not set up in KFS
 				if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue) && ObjectUtils.isNull(routecode)) {
-					LOG.debug("Routecode value of " + routeCodeValue + " is not set up in KFS.");
 					writetoErrorReportOutputFile(outReportErrorWriter, reportMsg, archBuilding.getCampusCode(), archBuilding.getBuildingCode(), "Routecode value of " + routeCodeValue + " is not set up in KFS.");
 					continue;
 				}
 				// if building is active then continue trough
 				if (KFSParameterKeyConstants.STRING_A.equalsIgnoreCase(archBuilding.getActive())) {
-					if(StringUtils.isBlank(routecodeToCampuscodeMap.get(routeCodeValue))) {
+					if (StringUtils.isBlank(routecodeToCampuscodeMap.get(routeCodeValue))) {
 						campusCode = KFSParameterKeyConstants.MAIN_CAMPUSCODE;
-					}
+					} 
 					else {
 						campusCode = routecodeToCampuscodeMap.get(routeCodeValue);
-						
+
 						// Look for a valid Campus Code in KFS
 						Map<String, String> pkeys = new HashMap<String, String>();
-                        pkeys.put("code", campusCode);
-                        pkeys.put("active", "Y");
-                        campus = (CampusBo) businessObjectService.findByPrimaryKey(CampusBo.class, pkeys);
-						
+						pkeys.put("code", campusCode);
+						pkeys.put("active", "Y");
+						campus = (CampusBo) businessObjectService.findByPrimaryKey(CampusBo.class, pkeys);
+
 						if (ObjectUtils.isNull(campus)) {
-							LOG.debug("Campus Code is not valid, record not saved to building");
 							reportMsg += "Campus Code of " + campusCode + " is invalid in kfs.";
 							writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
 							continue;
-						}	
+						}
 					}
 					// validate to update or insert
 					Map<String, String> keys = new HashMap<String, String>();
 					keys.put("campusCode", campusCode);
 					keys.put("buildingCode", archBuilding.getBuildingCode());
 					building = (Building) businessObjectService.findByPrimaryKey(Building.class, keys);
-					
+
 					keys.clear();
 					keys.put("buildingCode", archBuilding.getBuildingCode());
 					keys.put("active", "Y");
 					buildingCodeMatch = (Building) businessObjectService.findByPrimaryKey(Building.class, keys);
-					
+
 					if (ObjectUtils.isNull(building) && ObjectUtils.isNotNull(buildingCodeMatch)) {
 						writetoErrorReportOutputFile(outReportErrorWriter, reportMsg, campusCode, archBuilding.getBuildingCode(), "There is a building in KFS with building code " + archBuilding.getBuildingCode() + " But the campus is " + buildingCodeMatch.getCampusCode());
 						continue;
@@ -113,43 +110,45 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 					if (!isValid(archBuilding, outReportErrorWriter, campusCode)) {
 						continue;
 					}
-					//Insert a new record here
+					// Insert a new record here
 					if (ObjectUtils.isNull(building)) {
 						buildingExt = new BuildingExtension();
-						LOG.debug("New Building so adding NO_RM_LC to room and saving building");
+						LOG.info("New Building so adding NO_RM_LC to room and saving building");
 						building = new Building();
 						insertBuilding(building, routeCodeValue, campusCode, reportMsg, outReportWriter, buildingExt, archBuilding);
-					}
+					} 
 					else {
-						if(!archBuilding.equals(building)) {
+						if (!archBuilding.equals(building)) {
 							updateBuilding(building, routeCodeValue, campusCode, reportMsg, outReportWriter, archBuilding, routecode);
 						}
 					}
 				}
 			}
-			LOG.debug("Exit For Loop " + archibusBuildings.size());
-			
-			//loop through all kfs buildings if they are not in archibus buildings, then disable the kfs building
+
+			// loop through all kfs buildings if they are not in archibus
+			// buildings, then disable the kfs building
 			Collection<Building> kfsBuildings = businessObjectService.findAll(Building.class);
 			for (Building kfsBuilding : kfsBuildings) {
 				disableKFSBuildingsNotInArchibus(outReportWriter, kfsBuilding);
 			}
-		}
+		} 
 		catch (Exception e) {
 			LOG.error("Problem occured in prepareBuildingImport() " + e.getMessage());
 			throw new RuntimeException("Problem occured in prepareBuildingImport() " + e.getMessage(), e);
-		}
+		} 
 		finally {
 			outReportErrorWriter.close();
 			outReportWriter.close();
 		}
 		return true;
 	}
-	
-	private void insertBuilding(Building building, String routeCodeValue, String campusCode, String reportMsg, PrintWriter outReportWriter, BuildingExtension buildingExt, ArchibusBuildings archBuilding) {
+
+	private void insertBuilding(Building building, String routeCodeValue,
+			String campusCode, String reportMsg, PrintWriter outReportWriter,
+			BuildingExtension buildingExt, ArchibusBuildings archBuilding) {
 		if (archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode())) {
 			building.setBuildingAddressCountryCode(kfsUsCountryCode);
-		}
+		} 
 		else {
 			building.setBuildingAddressCountryCode(archBuilding.getBuildingAddressCountryCode());
 		}
@@ -161,7 +160,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		building.setBuildingAddressStateCode(archBuilding.getBuildingAddressStateCode());
 		building.setBuildingAddressZipCode(archBuilding.getBuildingAddressZipCode());
 		building.setActive(true);
-		
+
 		// if routeCode needs to be updated
 		if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue)) {
 			buildingExt.setRouteCode(routeCodeValue);
@@ -169,10 +168,10 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			buildingExt.setBuildingCode(building.getBuildingCode());
 			building.setExtension(buildingExt);
 		}
-		LOG.info("Inserting (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() +","+ building.getBuildingCode() +","+ building.getCampusCode() +"," + building.getBuildingAddressCityName() +","+ building.getBuildingAddressStateCode() +","+ building.getBuildingAddressZipCode() +","+ building.getBuildingAddressCountryCode() +","+ building.isActive() +","+ building.getBuildingStreetAddress() +")");
+		LOG.info("Inserting (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + ")");
 		businessObjectService.save(building);
 		writetoReportOutputFile(outReportWriter, reportMsg, campusCode, archBuilding.getBuildingCode(), "New Building added to KFS along with room NO_RM_LC");
-		
+
 		// check to see if there is a room of "NO_RM_LC" for this building
 		Map<String, String> kes = new HashMap<String, String>();
 		kes.put("campusCode", campusCode);
@@ -180,8 +179,8 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		kes.put("buildingRoomNumber", KFSParameterKeyConstants.NO_ROOM_LOCATION);
 		Room matchingroom = (Room) businessObjectService.findByPrimaryKey(Room.class, kes);
 		Room room;
-		
-		//Insert room of NO_RM_LC for all new buildings
+
+		// Insert room of NO_RM_LC for all new buildings
 		if (ObjectUtils.isNull(matchingroom)) {
 			room = new Room();
 			room.setCampusCode(campusCode);
@@ -189,7 +188,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			room.setBuildingRoomNumber(KFSParameterKeyConstants.NO_ROOM_LOCATION);
 			room.setActive(true);
 			businessObjectService.save(room);
-		}
+		} 
 		else { // update room for new building
 			matchingroom = new Room();
 			matchingroom.setCampusCode(campusCode);
@@ -199,14 +198,13 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			businessObjectService.save(matchingroom);
 		}
 	}
-	
+
 	private boolean isValid(ArchibusBuildings archBuilding, PrintWriter outReportErrorWriter, String campusCode) {
-		boolean valid = true; 
 		String reportMsg = "";
-		
+
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(archBuilding.getBuildingCode(), 15, "");
-		
+
 		Boolean isBuildingCodeRequired = ddService.isAttributeRequired(Building.class, "buildingCode");
 		Integer maxBuildingCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingCode");
 		Boolean isBuildingNameRequired = ddService.isAttributeRequired(Building.class, "buildingName");
@@ -220,75 +218,58 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		Boolean isBuildingAddressZipCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressZipCode");
 		Integer maxBuildingAddressZipCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressZipCode");
 		Boolean isBuildingAddressCountryCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressCountryCode");
-		
-		if (isAttributeNotValid(isBuildingCodeRequired, archBuilding.getBuildingCode())) {
+		Integer maxBuildingAddressCountryCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressCountryCode");
+
+		if (!isAttributeValid(isBuildingCodeRequired, archBuilding.getBuildingCode(), archBuilding.getBuildingCode().length(), maxBuildingCodeLen, reportMsg, outReportErrorWriter, "BuildingCode(") || 
+			!isAttributeValid(isBuildingNameRequired, archBuilding.getBuildingName(), archBuilding.getBuildingName().length(), maxBuildingNameLen, reportMsg, outReportErrorWriter, "BuildingName(") || 
+			!isAttributeValid(isBuildingStreetAddressRequired, archBuilding.getBuildingStreetAddress(), archBuilding.getBuildingStreetAddress().length(), maxBuildingStreetAddressLen, reportMsg, outReportErrorWriter, "BuildingStreetAddress(") || 
+			!isAttributeValid(isBuildingAddressCityNameRequired, archBuilding.getBuildingAddressCityName(), archBuilding.getBuildingAddressCityName().length(), maxBuildingAddressCityNameLen, reportMsg, outReportErrorWriter, "BuildingAddressCityName(") || 
+			!isAttributeValid(isBuildingAddressStateCodeRequired, archBuilding.getBuildingAddressStateCode(), archBuilding.getBuildingAddressStateCode().length(), maxBuildingAddressStateCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressStateCode(") || 
+			!isAttributeValid(isBuildingAddressZipCodeRequired, archBuilding.getBuildingAddressZipCode(), archBuilding.getBuildingAddressZipCode().length(), maxBuildingAddressZipCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressZipCode(") || 
+			!isAttributeValid(isBuildingAddressCountryCodeRequired, archBuilding.getBuildingAddressCountryCode(), archBuilding.getBuildingAddressCountryCode().length(), maxBuildingAddressCountryCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressCountryCode(")) {
+
+			return false;
+		}
+		return true;
+	}
+
+	private Boolean isAttributeValid(Boolean isAttributeRequired, String attributeValue, Integer attributeLen, Integer maxAttributeLen, String reportMsg, PrintWriter outReportErrorWriter, String validationMessage) {
+		boolean valid = true;
+		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
+			reportMsg += validationMessage.concat(attributeValue) + ") is required, ";
 			valid = false;
-			reportMsg += "BuildingCode(" + archBuilding.getBuildingCode() + ") is Not Valid, ";
 		}
-		if(isAttributeLenToLong(maxBuildingCodeLen, archBuilding.getBuildingCode().length())) {
-			valid = false;
-			reportMsg += "BuildingCode(" + archBuilding.getBuildingCode() + ") is longer than " + maxBuildingCodeLen + ", ";
+
+		if (validationMessage.equalsIgnoreCase("BuildingAddressCountryCode(")) {
+			if (!attributeValue.equalsIgnoreCase("USA") && attributeLen > maxAttributeLen) {
+				reportMsg += validationMessage.concat(attributeValue) + ") is longer than " + maxAttributeLen + ", ";
+				valid = false;
+			}
+		} 
+		else {
+			if (attributeLen > maxAttributeLen) {
+				reportMsg += validationMessage.concat(attributeValue) + ") is longer than " + maxAttributeLen + ", ";
+				valid = false;
+			}
 		}
-		if (isAttributeNotValid(isBuildingNameRequired, archBuilding.getBuildingName())) {
-			valid = false; 
-			reportMsg += "BuildingName(" + archBuilding.getBuildingName() + ") is Not Valid, ";
-		}
-		if (isAttributeLenToLong(maxBuildingNameLen, archBuilding.getBuildingName().length())) {
-			valid = false;
-			reportMsg += "BuildingName(" + archBuilding.getBuildingName() + ") is longer than " + maxBuildingNameLen + ", ";
-		}
-		if (isAttributeNotValid(isBuildingStreetAddressRequired, archBuilding.getBuildingStreetAddress())) {
-			valid = false; 
-			reportMsg += "BuildingStreetAddress(" + archBuilding.getBuildingStreetAddress() + ") is Not Valid, ";
-		}
-		if (isAttributeLenToLong(maxBuildingStreetAddressLen, archBuilding.getBuildingStreetAddress().length())) {
-			valid = false;
-			reportMsg += "BuildingStreetAddress(" + archBuilding.getBuildingStreetAddress() + ") is longer than " + maxBuildingStreetAddressLen + ", ";
-		}
-		if (isAttributeNotValid(isBuildingAddressCityNameRequired, archBuilding.getBuildingAddressCityName())) {
-			valid = false; 
-			reportMsg += "BuildingAddressCityName(" + archBuilding.getBuildingAddressCityName() + ") is Not Valid, ";
-		}
-		if (isAttributeLenToLong(maxBuildingAddressCityNameLen, archBuilding.getBuildingAddressCityName().length())) {
-			valid = false;
-			reportMsg += "BuildingAddressCityName(" + archBuilding.getBuildingAddressCityName() + ") is longer than " + maxBuildingAddressCityNameLen + ", ";
-		}
-		if (isAttributeNotValid(isBuildingAddressStateCodeRequired, archBuilding.getBuildingAddressStateCode())) {
-			valid = false; 
-			reportMsg += "BuildingAddressStateCode(" + archBuilding.getBuildingAddressStateCode() + ") is Not Valid, ";
-		}
-		if (isAttributeLenToLong(maxBuildingAddressStateCodeLen, archBuilding.getBuildingAddressStateCode().length())) {
-			valid = false;
-			reportMsg += "BuildingAddressStateCode(" + archBuilding.getBuildingAddressStateCode() + ") is longer than " + maxBuildingAddressStateCodeLen + ", ";
-		}
-		if (isAttributeNotValid(isBuildingAddressZipCodeRequired, archBuilding.getBuildingAddressZipCode())) {
-			valid = false; 
-			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is Not Valid, ";;
-		}
-		if (isAttributeLenToLong(maxBuildingAddressZipCodeLen, archBuilding.getBuildingAddressZipCode().length())) {
-			valid = false;
-			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is longer than " + maxBuildingAddressZipCodeLen + ", ";
-		}
-		if (isAttributeNotValid(isBuildingAddressCountryCodeRequired, archBuilding.getBuildingAddressCountryCode())) {
-			valid = false; 
-			reportMsg += "BuildingAddressCountyCode(" + archBuilding.getBuildingAddressCountryCode() + ") is Not Valid, ";
-		}
+
 		if (!valid) {
 			writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
+			return valid;
 		}
 		return valid;
 	}
-	
+
 	private void updateBuilding(Building building, String routeCodeValue, String campusCode, String reportMsg, PrintWriter outReportWriter, ArchibusBuildings archBuilding, RouteCode routecode) {
 		BuildingExtension buildingExt;
 		buildingExt = (BuildingExtension) building.getExtension();
-		LOG.debug("Building exists so just saving building if there were changes");
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(archBuilding.getBuildingCode(), 15, "");
 		reportMsg += "Updated KFS building and overwrote these field: ";
-		String archBuild;
-		String kfsBuild;
 		
+		String archBuild = "";
+		String kfsBuild = "";
+
 		if (!building.isActive()) {
 			reportMsg += "Active(" + building.isActive() + "), ";
 			building.setActive(true);
@@ -309,39 +290,22 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			reportMsg += "BuildingAddressZipCode(" + building.getBuildingAddressZipCode() + "), ";
 			building.setBuildingAddressZipCode(archBuilding.getBuildingAddressZipCode());
 		}
-		if (archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode()) && kfsUsCountryCode.equalsIgnoreCase(building.getBuildingAddressCountryCode())) {
-			reportMsg += "Archibus USA and KFS US, KFS BuildingCountryCode stays as US, ";
-		}
-		else {
-			reportMsg += "BuildingAddressCountryCode(" + building.getBuildingAddressCountryCode() + "), " ; 
-			if (archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode())) {
-				building.setBuildingAddressCountryCode(kfsUsCountryCode);
-			}
-			else {
-				building.setBuildingAddressCountryCode(archBuilding.getBuildingAddressCountryCode());
-			}
-		}
-		
+
 		if (!archBuilding.getBuildingName().equalsIgnoreCase(building.getBuildingName())) {
 			reportMsg += "BuildingName(" + building.getBuildingName() + "), ";
 			building.setBuildingName(archBuilding.getBuildingName());
 		}
-		
+
 		if (StringUtils.isNotBlank(buildingExt.getRouteCode())) {
 			kfsBuild = buildingExt.getRouteCode();
 		}
-		else {
-			kfsBuild = "";
-		}
-		if (KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue)) {
-			archBuild = "";
-		}
-		else {
+		if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue)) {
 			archBuild = routeCodeValue;
 		}
+
 		if (!archBuild.equalsIgnoreCase(kfsBuild)) {
 			if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue)) {
-				reportMsg += "RouteCode(" +buildingExt.getRouteCode() + "), ";
+				reportMsg += "RouteCode(" + buildingExt.getRouteCode() + "), ";
 				buildingExt.setRouteCode(archBuilding.getRouteCode());
 				buildingExt.setRouteCodeObj(routecode);
 			}
@@ -349,36 +313,53 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 				buildingExt.setRouteCode("");
 			}
 		}
-		LOG.info("Updating (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() +","+ building.getBuildingCode() +","+ building.getCampusCode() +","+ building.getBuildingAddressCityName() +","+ building.getBuildingAddressStateCode() +","+ building.getBuildingAddressZipCode() +","+ building.getBuildingAddressCountryCode() +","+ building.isActive() +","+ building.getBuildingStreetAddress() +")");
+		if (!(archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode()) && kfsUsCountryCode.equalsIgnoreCase(building.getBuildingAddressCountryCode()))) {
+			reportMsg += "BuildingAddressCountryCode(" + building.getBuildingAddressCountryCode() + "), ";
+			if (archibusUsaCountryCode.equalsIgnoreCase(archBuilding.getBuildingAddressCountryCode())) {
+				building.setBuildingAddressCountryCode(kfsUsCountryCode);
+			} 
+			else {
+				building.setBuildingAddressCountryCode(archBuilding.getBuildingAddressCountryCode());
+			}
+		}
+
+		LOG.info("Updating (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + ")");
 		buildingExt.setCampusCode(campusCode);
 		buildingExt.setBuildingCode(building.getBuildingCode());
 		businessObjectService.save(building);
 		businessObjectService.save(buildingExt);
-		writetoReportOutputFile(outReportWriter, reportMsg);
+
+		// Because Archibus country code is USA and KFS US, this does not get
+		// updated. So if a building's only difference is that Country code is
+		// US and not USA, then this does not get added to the report.
+		if (!reportMsg.matches("(?s).*Updated KFS building and overwrote these field: ")) {
+			writetoReportOutputFile(outReportWriter, reportMsg);
+		}
 	}
-	
+
 	private void disableKFSBuildingsNotInArchibus(PrintWriter outReportWriter, Building kfsBuilding) {
 		ArchibusBuildings archibusBuilding;
 		String reportMsg;
-		
+
 		reportMsg = "";
-		LOG.debug("Processing Record: " + kfsBuilding.toString());
-		
-		//look for a valid active archibus building.  There is no campusCode in Archibus
+		LOG.info("Processing Record: " + kfsBuilding.toString());
+
+		// look for a valid active archibus building. There is no campusCode in
+		// Archibus
 		Map<String, String> keys = new HashMap<String, String>();
 		keys.put("buildingCode", kfsBuilding.getBuildingCode());
 		keys.put("active", "A");
 		archibusBuilding = (ArchibusBuildings) businessObjectService.findByPrimaryKey(ArchibusBuildings.class, keys);
-		
+
 		if (ObjectUtils.isNull(archibusBuilding)) {
 			if (kfsBuilding.isActive()) {
-				LOG.debug("inactivating building in kfs that does not exist in Archibus");
+				LOG.info("inactivating building in kfs that does not exist in Archibus");
 				kfsBuilding.setActive(false);
 				businessObjectService.save(kfsBuilding);
 				writetoReportOutputFile(outReportWriter, reportMsg, kfsBuilding.getCampusCode(), kfsBuilding.getBuildingCode(), "inactivating building, and associated rooms, in kfs. Building not in Archibus.");
 			}
-			//Disable all rooms for this building that is now inactive
-			Map<String, String> fieldValues = new HashMap <String, String>();
+			// Disable all rooms for this building that is now inactive
+			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("buildingCode", kfsBuilding.getBuildingCode());
 			Collection<Room> rooms = (Collection<Room>) businessObjectService.findMatching(Room.class, fieldValues);
 			for (Room room : rooms) {
@@ -387,84 +368,63 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			}
 		}
 	}
-	
-	private Boolean isAttributeLenToLong(Integer maxLen, Integer attributeLen) {
-		if (attributeLen > maxLen) {
-			return true;
-		}
-		return false;
-	}
-	
-	private Boolean isAttributeNotValid(Boolean isAttributeRequired, String attributeValue) {
-		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
-			return true;
-		}
-		return false;
-	}
-	
+
 	private PrintWriter setupErrorReportOutputFiles(PrintWriter outErrorReportWriter) {
 		try {
 			String outputErrorFile = reportDirectoryName + File.separator + "buildingImportErrorReport_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + ".txt";
 			outErrorReportWriter = new PrintWriter(new BufferedWriter(new FileWriter(outputErrorFile)));
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		LOG.debug("Exit setupReportOutputFile() " + System.currentTimeMillis());
 		return outErrorReportWriter;
 	}
-	
+
 	private PrintWriter setupReportOutputFiles(PrintWriter outReportWriter) {
 		try {
 			String outputFile = reportDirectoryName + File.separator + "buildingImportSuccessReport_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + ".txt";
 			outReportWriter = new PrintWriter(new BufferedWriter(new FileWriter(outputFile)));
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		LOG.debug("Exit setupReportOutputFile() " + System.currentTimeMillis());
 		return outReportWriter;
 	}
-	
+
 	private void writetoReportOutputFilesHeader(PrintWriter outReportWriter, PrintWriter outErrorReportWriter) {
 		String title = "             BUILDING IMPORT REPORT";
 		String header = "CampusCode     BuildingCode   Info:";
 		outReportWriter.format("%s%n", title, "%s%n");
-		outErrorReportWriter.format("%S%n", title, "%s%n");
+		outErrorReportWriter.format("%s%n", title, "%s%n");
 		outReportWriter.format("%s%n", header);
 		outErrorReportWriter.format("%s%n", header);
 	}
-	
+
 	private void writetoErrorReportOutputFile(PrintWriter outReportErrorWriter, String reportMsg, String campusCode, String buildingCode, String msg) {
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(buildingCode, 15, "");
 		reportMsg += msg;
 		outReportErrorWriter.format("%s%n", reportMsg);
 	}
-	
+
 	private void writetoReportOutputFile(PrintWriter outReportWriter, String reportMsg, String campusCode, String buildingCode, String msg) {
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(buildingCode, 15, "");
 		reportMsg += msg;
 		outReportWriter.format("%s%n", reportMsg);
 	}
-	
+
 	private void writetoReportOutputFile(PrintWriter outReportWriter, String reportMsg) {
 		outReportWriter.format("%s%n", reportMsg);
 	}
-	
+
 	private void writetoErrorReportOutputFile(PrintWriter outReportErrorWriter, String reportMsg) {
 		outReportErrorWriter.format("%s%n", reportMsg);
 	}
@@ -512,12 +472,9 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
 	}
-	
+
 	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;		
+		this.businessObjectService = businessObjectService;
 	}
 
-	
-	
-	
 }

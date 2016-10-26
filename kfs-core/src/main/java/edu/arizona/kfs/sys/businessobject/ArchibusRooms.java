@@ -14,65 +14,64 @@ public class ArchibusRooms extends PersistableBusinessObjectBase {
 	private String buildingRoomType;
 	private String buildingRoomDepartment;
 	private String buildingRoomDescription;
-	
+
 	private ArchibusBuildings archibusBuildings;
-	
+
 	public boolean equals(Room room) {
 		String kfsRoomValue = null;
-		String ArchRoomValue = null;
-		
+		String archRoomValue = null;
+
 		if (this.buildingRoomDepartment.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(this.buildingRoomDepartment)) {
-			ArchRoomValue = "";
-		}
+			archRoomValue = "";
+		} 
 		else {
-			ArchRoomValue = this.buildingRoomDepartment;
+			archRoomValue = this.buildingRoomDepartment;
 		}
 		if (StringUtils.isBlank(room.getBuildingRoomDepartment())) {
 			kfsRoomValue = "";
-		}
+		} 
 		else {
 			kfsRoomValue = room.getBuildingRoomDepartment();
 		}
-		if (!ArchRoomValue.equalsIgnoreCase(kfsRoomValue)) {
+		if (!archRoomValue.equalsIgnoreCase(kfsRoomValue)) {
 			return false;
 		}
-		
+
 		if (this.buildingRoomType.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(this.buildingRoomType)) {
-			ArchRoomValue = "";
-		}
+			archRoomValue = "";
+		} 
 		else {
-			ArchRoomValue = this.buildingRoomType;
+			archRoomValue = this.buildingRoomType;
 		}
 		if (StringUtils.isBlank(room.getBuildingRoomType())) {
 			kfsRoomValue = "";
-		}
+		} 
 		else {
 			kfsRoomValue = room.getBuildingRoomType();
 		}
-		if (!ArchRoomValue.equalsIgnoreCase(kfsRoomValue)) {
+		if (!archRoomValue.equalsIgnoreCase(kfsRoomValue)) {
 			return false;
 		}
-		
+
 		if (this.buildingRoomDescription.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(this.buildingRoomDescription)) {
-			ArchRoomValue = "";
-		}
+			archRoomValue = "";
+		} 
 		else {
-			ArchRoomValue = this.buildingRoomDescription;
+			archRoomValue = this.buildingRoomDescription;
 		}
 		if (StringUtils.isBlank(room.getBuildingRoomDescription())) {
 			kfsRoomValue = "";
 		}
 		else {
-			kfsRoomValue = room.getBuildingRoomDescription(); 
+			kfsRoomValue = room.getBuildingRoomDescription();
 		}
-		if (!ArchRoomValue.equalsIgnoreCase(kfsRoomValue)) {
+		if (!archRoomValue.equalsIgnoreCase(kfsRoomValue)) {
 			return false;
 		}
-		
+
 		if (room.isActive()) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -131,5 +130,5 @@ public class ArchibusRooms extends PersistableBusinessObjectBase {
 		m.put("buildingCode", this.buildingCode);
 		return m;
 	}
-	
+
 }

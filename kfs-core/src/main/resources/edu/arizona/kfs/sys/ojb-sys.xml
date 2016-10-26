@@ -65,5 +65,13 @@
 		<field-descriptor name="routeCode" column="ROUTE_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="BL_STATUS" jdbc-type="VARCHAR" />
 	</class-descriptor>
-
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusRooms" table="PS_UA_DPT_KFS_ROOM">
+		<field-descriptor name="buildingCode" column="BL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomNumber" column="RM_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomType" column="RM_USE" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDepartment" column="DP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDescription" column="NAME_ROOM" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
 </descriptor-repository>

@@ -28,6 +28,7 @@
         <property name="jobNames">
         	<list merge="true">
         		<value>buildingImportJob</value>
+        		<value>roomImportJob</value>
         	</list>
         </property>        
     </bean>
@@ -51,6 +52,29 @@
     <bean id="buildingImportService" class="edu.arizona.kfs.sys.batch.service.impl.BuildingImportServiceImpl">
     	<property name="archibusUsaCountryCode" value="USA" />
     	<property name="kfsUsCountryCode" value="US" />
+    	<property name="batchFileDirectoryName" value="${staging.directory}/sys/import" />
+    	<property name="reportDirectoryName" value="${reports.directory}/sys" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="ddService" ref="dataDictionaryService" />
+    	<property name="dateTimeService" ref="dateTimeService" />
+    	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
+    </bean>
+    
+    <bean id="roomImportJob" parent="unscheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="roomImportStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roomImportStep" class="edu.arizona.kfs.sys.batch.RoomImportStep" parent="step">
+    	<property name="roomImportService">
+    		<ref bean="roomImportService" />
+    	</property>
+    </bean>
+    
+    <bean id="roomImportService" class="edu.arizona.kfs.sys.batch.service.impl.RoomImportServiceImpl">
     	<property name="batchFileDirectoryName" value="${staging.directory}/sys/import" />
     	<property name="reportDirectoryName" value="${reports.directory}/sys" />
     	<property name="businessObjectService" ref="businessObjectService" />

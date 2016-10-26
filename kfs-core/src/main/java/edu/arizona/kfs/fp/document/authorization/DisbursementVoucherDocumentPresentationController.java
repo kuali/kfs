@@ -2,7 +2,7 @@ package edu.arizona.kfs.fp.document.authorization;
 
 import java.util.Set;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import edu.arizona.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.rice.krad.document.Document;
 import edu.arizona.kfs.sys.KFSConstants;
 
@@ -11,6 +11,7 @@ public class DisbursementVoucherDocumentPresentationController extends org.kuali
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
+        editModes.add(KFSConstants.VIEW_DOCUWARE);
         this.addPaymentMethodEditMode(document, editModes);
 
         return editModes;

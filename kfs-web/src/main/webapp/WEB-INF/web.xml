@@ -299,6 +299,11 @@
   	</listener>
 
     <!-- SERVLET DEFINITIONS -->
+    <servlet>
+		<servlet-name>DocuwareCaller</servlet-name>
+		<servlet-class>edu.arizona.kfs.sys.web.servlet.DocuwareCaller</servlet-class>
+	</servlet>
+    
 
   <servlet>
     <servlet-name>action</servlet-name>
@@ -416,6 +421,12 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>3</load-on-startup>
   </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>DocuwareCaller</servlet-name>
+	<url-pattern>/DocuwareCaller</url-pattern>
+  </servlet-mapping>
+  
 
   <servlet-mapping>
     <servlet-name>remoting</servlet-name>

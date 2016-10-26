@@ -38,5 +38,46 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="batchExtractService" class="edu.arizona.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl">
+    	<property name="extractDao" ref="extractDao" />
+		<property name="purchasingAccountsPayableItemAssetDao" ref="purchasingAccountsPayableItemAssetDao" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="purApLineService" ref="purApLineService" />
+		<property name="purApInfoService" ref="purApInfoService" />
+	</bean>
+	
+	<bean id="generalLedgerEntryLookupableHelperService" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
+    </bean>
+    
+    <bean id="purchasingAccountsPayableReportDao" parent="platformAwareDao" class="edu.arizona.kfs.module.cab.dataaccess.impl.PurchasingAccountsPayableReportDaoOjb">
+    </bean>
+    
+    <bean id="purApInfoService" class="edu.arizona.kfs.module.cab.document.service.impl.PurApInfoServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="purApLineDocumentService"  parent="purApLineDocumentService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="purApLineService" ref="purApLineService" />
+		<property name="purApInfoService" ref="purApInfoService" />
+		<property name="documentService" ref="documentService" />
+		<property name="assetGlobalService" ref="assetGlobalService" />
+		<property name="assetService" ref="assetService" />
+	</bean>  
+	
+	<bean id="glLineService"  parent="glLineService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="assetGlobalService" ref="assetGlobalService"/>
+		<property name="objectTypeService" ref="objectTypeService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="documentHeaderService" ref="documentHeaderService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+		<property name="capitalAssetInformationDao" ref="capitalAssetInformationDao"/>
+		<property name="assetService" ref="assetService" />
+	</bean> 
 
 </beans>

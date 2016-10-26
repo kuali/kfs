@@ -86,13 +86,13 @@
 		<form-bean name="PreEncumbranceForm"
 			type="org.kuali.kfs.fp.document.web.struts.PreEncumbranceForm" />
 		<form-bean name="DisbursementVoucherForm"
-			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.DisbursementVoucherForm" />
 		<form-bean name="CashManagementForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
 		<form-bean name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm" />
 		<form-bean name="ProcurementCardForm"
-			type="org.kuali.kfs.fp.document.web.struts.ProcurementCardForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.ProcurementCardForm" />
 		<form-bean name="BudgetAdjustmentForm"
 			type="org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentForm" />
 		<form-bean name="YearEndBudgetAdjustmentForm"
@@ -240,9 +240,9 @@
 		<form-bean name="PurchaseOrderForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm" />
 		<form-bean name="PaymentRequestForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm" />
+			type="edu.arizona.kfs.module.purap.document.web.struts.PaymentRequestForm" />
 		<form-bean name="VendorCreditMemoForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
+			type="edu.arizona.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
 		<form-bean name="LineItemReceivingForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.LineItemReceivingForm" />
 		<form-bean name="CorrectionReceivingForm"

@@ -277,19 +277,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           	<property name="numberOfColumns" value="1" />
           	<property name="inquiryFields" >
             	<list>
-            		<bean parent="FieldDefinition"
-						p:attributeName="chartOfAccountsCode" />
-					<bean parent="FieldDefinition"
-						p:attributeName="accountNumber" />
-					<bean parent="FieldDefinition"
-						p:attributeName="subAccountNumber" />
-					<bean parent="FieldDefinition"
-						p:attributeName="financialObjectCode" />
-					<bean parent="FieldDefinition"
-						p:attributeName="financialSubObjectCode" />
-					<bean parent="FieldDefinition"
- 						p:attributeName="projectCode" />                                           
-					<bean parent="FieldDefinition" p:attributeName="active" />
+            		<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="projectCode" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
             	</list>
             </property>
         </bean>

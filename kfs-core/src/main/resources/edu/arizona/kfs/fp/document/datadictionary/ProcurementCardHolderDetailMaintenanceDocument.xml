@@ -52,7 +52,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="creditCardLastFour" p:unconditionallyReadOnly="true" p:required="false"  />
         <bean parent="MaintainableFieldDefinition" p:name="cardHolderName" p:unconditionallyReadOnly="true" p:required="false" />
         <bean parent="MaintainableFieldDefinition" p:name="cardHolderAlternateName" p:unconditionallyReadOnly="true" p:required="false" />
-        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:unconditionallyReadOnly="false" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="false" />
@@ -61,7 +61,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="cardHolderSystemId" p:unconditionallyReadOnly="true" p:required="true"  />
         <bean parent="MaintainableFieldDefinition" p:name="cardholderUser.principalName" p:unconditionallyReadOnly="true" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="reconcilerGroupId" p:unconditionallyReadOnly="true" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="reconcilerGroup.name" p:required="true" p:overrideFieldConversions="groupId:reconcilerGroupId,groupName:reconcilerGroup.name" p:overrideLookupClass="org.kuali.rice.kim.impl.group.GroupBo" />
+        <bean parent="MaintainableFieldDefinition" p:name="reconcilerGroup.name" p:required="true" p:overrideFieldConversions="id:reconcilerGroupId,name:reconcilerGroup.name" p:overrideLookupClass="org.kuali.rice.kim.impl.group.GroupBo" />
         <bean parent="MaintainableFieldDefinition" p:name="cardLimit" p:unconditionallyReadOnly="true" p:required="false"  />
         <bean parent="MaintainableFieldDefinition" p:name="cardCycleAmountLimit" p:unconditionallyReadOnly="true" p:required="false"  />
         <bean parent="MaintainableFieldDefinition" p:name="cardCycleVolLimit" p:unconditionallyReadOnly="true" p:required="false"  />

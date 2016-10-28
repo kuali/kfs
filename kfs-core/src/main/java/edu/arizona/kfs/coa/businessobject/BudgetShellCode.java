@@ -97,16 +97,6 @@ public class BudgetShellCode extends KualiCodeBase implements MutableInactivatab
         this.reportableGroup = reportableGroup;
     }
 
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public String getVicePresidentPrincipalId() {
         return vicePresidentPrincipalId;
     }

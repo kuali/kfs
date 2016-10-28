@@ -68,15 +68,6 @@ public class CrossOrganizationCode extends KualiCodeBase implements Inactivatabl
         this.leaderPrincipalId = leaderPrincipalId;
     }
 
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Chart getChart() {
         if (chart == null || !StringUtils.equals(chart.getChartOfAccountsCode(), chartOfAccountsCode)) {
             chart = getChartService().getByPrimaryId(chartOfAccountsCode);

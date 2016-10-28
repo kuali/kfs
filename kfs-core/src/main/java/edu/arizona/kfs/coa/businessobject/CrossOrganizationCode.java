@@ -30,7 +30,6 @@ public class CrossOrganizationCode extends KualiCodeBase implements Inactivatabl
     private String chartOfAccountsCode;
     private String organizationCode;
     private String leaderPrincipalId;
-    private boolean active;
 
     // Helper objects
     private transient volatile Chart chart;
@@ -41,7 +40,7 @@ public class CrossOrganizationCode extends KualiCodeBase implements Inactivatabl
         return getCode();
     }
     
-    public void sertCrossOrganizationCode( String crossOrganizationCode ) {
+    public void setCrossOrganizationCode( String crossOrganizationCode ) {
         setCode( crossOrganizationCode );
     }
 

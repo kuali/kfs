@@ -26,7 +26,6 @@ public class BudgetShellCode extends KualiCodeBase implements MutableInactivatab
     private String groupName;
     private Integer fiscalYearClosed;
     private boolean reportableGroup;
-    private boolean active;
     private String vicePresidentPrincipalId;
     private String departmentHeadPrincipalId;
     private String budgetAnalystPrincipalId;

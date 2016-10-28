@@ -1,0 +1,140 @@
+<!--
+   - The Kuali Financial System, a comprehensive financial management system for higher education.
+   - 
+   - Copyright 2005-2014 The Kuali Foundation
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd    http://rice.kuali.org/dd    http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument" parent="ProcurementCardDefaultMaintenanceDocument-parentBean" />
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardDefaultCommon" />
+        <ref bean="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardHolder" />
+        <ref bean="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardAccounting" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">    
+     <list>
+      	<bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" />
+      	<bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" />
+      	<bean parent="ReferenceDefinition" p:attributeName="subAccount" p:attributeToHighlightOnFail="subAccountNumber" />
+      	<bean parent="ReferenceDefinition" p:attributeName="objectCode" p:attributeToHighlightOnFail="financialObjectCode" />
+      	<bean parent="ReferenceDefinition" p:attributeName="subObjectCode" p:attributeToHighlightOnFail="financialSubObjectCode" />
+      	<bean parent="ReferenceDefinition" p:attributeName="project" p:attributeToHighlightOnFail="projectCode"/>
+     </list>      
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>creditCardNumber</value>
+      </list>
+    </property>   
+    <property name="documentTypeName" value="PCDM" />
+    <property name="businessRulesClass" value="edu.arizona.kfs.fp.document.validation.impl.ProcurementCardDefaultRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDefaultMaintenanceDocumentPresentationController"/>
+    <property name="workflowAttributes">
+    	<ref bean="ProcurementCardDefaultMaintenanceDocument-workflowAttributes" />
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardDefaultCommon" parent="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardDefaultCommon-parentBean" />
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardDefaultCommon-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Procurement Card Default Settings" />
+    <property name="title" value="Edit Procurement Card Default Settings" />
+    <property name="maintainableItems" >
+      <list>
+      	<bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.fp.businessobject.defaultvalue.NextProcurementCardDefaultIdFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="creditCardNumber" p:required="true" />              
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderName" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y" /> 
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardHolder" parent="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardHolder-parentBean" />
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardHolder-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="KFS-FP_ProcurementCardDefault-EditProcurementCardHolder" />
+    <property name="title" value="Edit Default Procurement Card Holder Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderAlternateName" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderLine1Address" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderLine2Address" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderCityName" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderStateCode" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderZipCode" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="cardHolderWorkPhoneNumber" p:required="false" />            
+        <bean parent="MaintainableFieldDefinition" p:name="cardLimit" p:required="false" />  
+        <bean parent="MaintainableFieldDefinition" p:name="cardCycleAmountLimit" p:required="false" /> 
+        <bean parent="MaintainableFieldDefinition" p:name="cardCycleVolumeLimit" p:required="false" />  
+        <bean parent="MaintainableFieldDefinition" p:name="cardStatusCode" p:required="false" />  
+        <bean parent="MaintainableFieldDefinition" p:name="cardNoteText" p:required="false" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardAccounting" parent="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardAccounting-parentBean" />
+
+  <bean id="ProcurementCardDefaultMaintenanceDocument-EditProcurementCardAccounting-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="KFS-FP_ProcurementCardDefault-EditProcurementCardAccounting" />
+    <property name="title" value="Edit Procurement Card Default Account Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false"  />
+        <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:required="false"  />
+        <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:required="false" />             
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="ProcurementCardDefaultMaintenanceDocument-workflowAttributes" parent="ProcurementCardDefaultMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ProcurementCardDefaultMaintenanceDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
+  	 <property name="searchingTypeDefinitions">
+    	<list>    		
+        	<bean parent="SearchingTypeDefinition">                    
+            	<property name="searchingAttribute">
+                	<bean parent="SearchingAttribute">
+                    	<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault"/>
+                        <property name="attributeName" value="creditCardNumber"/>
+                  	</bean>
+             	</property>
+                <property name="documentValues">
+                	<list>
+                		<value>newMaintainableObject.businessObject.creditCardNumber</value>   
+                    </list>
+                </property>
+        	</bean>       			
+    	</list>
+  	</property>
+  </bean>
+</beans>

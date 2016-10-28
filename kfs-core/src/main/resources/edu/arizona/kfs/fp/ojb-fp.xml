@@ -352,10 +352,11 @@
 </class-descriptor>
 
   <class-descriptor class="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" table="FP_PRCRMNT_CARD_DFLT_T">
-    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+<!-- primarykey="true" -->
+    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="creditCardLastFour" column="CC_LAST_FOUR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="cardHolderSystemId" column="CARD_HLDR_NET_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="cardHolderName" column="CARD_HLDR_NM" jdbc-type="VARCHAR" />
@@ -1185,7 +1186,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.fp.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">
+<class-descriptor class="edu.arizona.kfs.fp.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1196,7 +1197,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="procurementCardHolder" class-ref="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <reference-descriptor name="procurementCardHolder" class-ref="edu.arizona.kfs.fp.businessobject.ProcurementCardHolder" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -1217,7 +1218,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" table="FP_PRCRMNT_CARD_HLDR_T">
+<class-descriptor class="edu.arizona.kfs.fp.businessobject.ProcurementCardHolder" table="FP_PRCRMNT_CARD_HLDR_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1238,6 +1239,9 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+    <reference-descriptor name="procurementCardDefault" class-ref="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="transactionCreditCardNumber" />
+    </reference-descriptor>
     <!-- the chart, account, and subaccount fields in this table are potientally invalid and when references are setup and not found OJB seems to be settting the primitive field to blank-->
 </class-descriptor>
 

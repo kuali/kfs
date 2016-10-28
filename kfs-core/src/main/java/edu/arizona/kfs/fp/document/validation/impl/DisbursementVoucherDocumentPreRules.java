@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Document;
 
 import edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLine;
@@ -116,5 +118,44 @@ public class DisbursementVoucherDocumentPreRules extends org.kuali.kfs.fp.docume
     	
     	return purapModuleService;
     }
+    
+    @Override
+    protected boolean checkNonEmployeeTravelTabState(DisbursementVoucherDocument dvDocument) {
+    	boolean tabStatesOK = true;
     	
+    	DisbursementVoucherNonEmployeeTravel dvNonEmplTrav = dvDocument.getDvNonEmployeeTravel();
+    	if (!hasNonEmployeeTravelValues(dvNonEmplTrav)) {
+    		return true;
+    	}
+    	
+    	String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+    	List<String> nonEmpltravelPaymentReasonCodes = new ArrayList<String>(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM));
+    	
+    	if (nonEmpltravelPaymentReasonCodes == null || !nonEmpltravelPaymentReasonCodes.contains(paymentReasonCode)) {
+    		String nonEmplTravReasonStr = getValidPaymentReasonsAsString(nonEmpltravelPaymentReasonCodes);
+    		
+    		String paymentReasonName = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName();
+    		Object[] args = { "payment reason", "'" + paymentReasonName + "'", "Non-Employee Travel", nonEmplTravReasonStr };
+    		
+    		String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
+    		questionText = MessageFormat.format(questionText, args);
+    		
+    		boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);
+    		
+    		if (clearTab) {
+    			DisbursementVoucherNonEmployeeTravel blankDvNonEmplTrav = new DisbursementVoucherNonEmployeeTravel();
+    			blankDvNonEmplTrav.setDocumentNumber(dvNonEmplTrav.getDocumentNumber());
+    			blankDvNonEmplTrav.setVersionNumber(dvNonEmplTrav.getVersionNumber());
+    			dvDocument.setDvNonEmployeeTravel(blankDvNonEmplTrav);
+    		}
+    		else {
+    			//return to document if the user doesn't want to clear the Non Employee Travel tab
+    			super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+    			tabStatesOK = false;
+    		}
+    	}
+    	
+    	return tabStatesOK;
+    }
+
 }

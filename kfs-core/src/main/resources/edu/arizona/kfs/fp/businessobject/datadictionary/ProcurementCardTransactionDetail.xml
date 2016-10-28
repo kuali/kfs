@@ -298,7 +298,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" />
-  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" parent="ProcurementCardLevel3Lodging-programCode" abstract="true">
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" parent="ProcurementCardLevel3Lodging-roomTax" abstract="true">
   	<property name="name" value="procurementCardLevel3Lodging.roomTax" />
   </bean>
   
@@ -566,6 +566,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	<property name="label" value="Tax Exempt Indicator"/>
   </bean>
   
+    <bean id="ProcurementCardTransactionDetail-transactionPostingDate" parent="ProcurementCardTransactionDetail-transactionPostingDate-parentBean">
+        <property name="label" value="Post Date" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber" parent="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean">
+        <property name="label" value="Transaction ID Number" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean">
+        <property name="label" value="Sales Tax Amount" />
+    </bean>
+
 <!-- Business Object Inquiry Definition -->
 
   <bean id="ProcurementCardTransactionDetail-inquiryDefinition" parent="ProcurementCardTransactionDetail-inquiryDefinition-parentBean">
@@ -584,6 +596,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationPostal" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationCountryCode" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxRate" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.discountAmount" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.freightAmount" />
   						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.dutyAmount" />

@@ -28,7 +28,7 @@
         </property>
         <property name="lockingKeys">
             <list>
-                <value>budgetShellCode</value>
+                <value>code</value>
             </list>
         </property>
     </bean>
@@ -40,8 +40,8 @@
         <property name="title"  value="Edit Budget Shell Code" />
         <property name="maintainableItems">
             <list>
-                <bean parent="MaintainableFieldDefinition"  p:name="budgetShellCode"                    p:required="true"   />
-                <bean parent="MaintainableFieldDefinition"  p:name="budgetShellDescription"             p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="code"                    p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="name"             p:required="true"   />
                 <bean parent="MaintainableFieldDefinition"  p:name="groupCode"                          p:required="true"   />
                 <bean parent="MaintainableFieldDefinition"  p:name="groupName"                          p:required="true"   />
                 <bean parent="MaintainableFieldDefinition"  p:name="summaryGroupCode" 					p:required="false"	/>
@@ -57,7 +57,7 @@
                 <bean parent="MaintainableFieldDefinition"  p:name="internalIndicator" 					p:defaultValue="N" 	/>
                 <bean parent="MaintainableFieldDefinition"  p:name="fiscalYearClosed"                                       />
                 <bean parent="MaintainableFieldDefinition"  p:name="active"                             p:defaultValue="Y"  />
-                <bean parent="MaintainableFieldDefinition"  p:name="budgetShellLongDescription"                             />
+                <bean parent="MaintainableFieldDefinition"  p:name="description" p:required="false" />
                 <bean parent="MaintainableFieldDefinition"  p:name="notes" 								p:required="false"  />
                 <bean parent="MaintainableFieldDefinition"  p:name="comments" 							p:required="false"  />
             </list>

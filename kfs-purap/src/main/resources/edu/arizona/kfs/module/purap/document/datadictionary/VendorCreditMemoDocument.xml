@@ -3,6 +3,7 @@
 
   	<bean id="VendorCreditMemoDocument" parent="VendorCreditMemoDocument-parentBean">
 	  	<property name="documentClass" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument" />
+	  	<property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController"/>
 		<property name="attributes">
 			<list merge="true">
 				<bean parent="PaymentMethodAttribute-SelectControl"/>

@@ -94,5 +94,20 @@
 			<ref bean="procurementCardInputFileType" />
 		</property>
 	</bean>
+	
+	<bean id="disbursementVoucherCoverSheetService" class="edu.arizona.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="parameterEvaluatorService">
+			<ref bean="parameterEvaluatorService" />
+		</property>
+	</bean>
 
 </beans>

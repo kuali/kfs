@@ -18,5 +18,9 @@
       		<bean parent="AnyCharacterValidationPattern"/>
     	</property>
 	</bean>
+
+    <bean id="ProcurementCardVendor-visaVendorIdentifier" parent="ProcurementCardVendor-visaVendorIdentifier-parentBean">
+        <property name="label" value="Vendor ID" />
+    </bean>
 	
 </beans>

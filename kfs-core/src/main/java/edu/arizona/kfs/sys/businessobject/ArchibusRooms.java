@@ -124,8 +124,8 @@ public class ArchibusRooms extends PersistableBusinessObjectBase {
 		this.archibusBuildings = archibusBuildings;
 	}
 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap m = new LinkedHashMap();
+	protected LinkedHashMap<String, String> toStringMapper() {
+		LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
 		m.put("roomNumber", this.buildingRoomDepartment);
 		m.put("buildingCode", this.buildingCode);
 		return m;

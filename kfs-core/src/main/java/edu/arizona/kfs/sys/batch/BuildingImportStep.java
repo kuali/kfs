@@ -14,11 +14,8 @@ public class BuildingImportStep extends AbstractStep {
 	public void setBuildingImportService(BuildingImportService buildingImportService) {
 		this.buildingImportService = buildingImportService;
 	}
-
-	public BuildingImportService getBuildingImportService() {
-		return buildingImportService;
-	}
-
+	
+	@Override
 	public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start(jobName);

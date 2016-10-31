@@ -11,6 +11,7 @@ public class RoomImportStep extends AbstractStep {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoomImportStep.class);
 	private RoomImportService roomImportService;
 
+	@Override
 	public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 		StopWatch stopwatch = new StopWatch();
 		stopwatch.start(jobName);

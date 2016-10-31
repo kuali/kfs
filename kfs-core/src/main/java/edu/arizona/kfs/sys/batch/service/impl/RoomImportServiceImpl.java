@@ -70,6 +70,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 				Collection<ArchibusBuildings> archibusBuildings = (Collection<ArchibusBuildings>) businessObjectService.findMatching(ArchibusBuildings.class, fieldValues);
 
 				if (archibusBuildings.size() < 1) {
+					LOG.debug("There is no building for BL_ID of " + archibusRoom.getBuildingCode());
 					reportMsg += "There is no building for BL_ID of " + archibusRoom.getBuildingCode() + ".  Room not added: " + archibusRoom.getBuildingRoomNumber();
 					writetoErrorReportOutputFile(outReportErrorWriter, 	reportMsg);
 					continue;
@@ -97,6 +98,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 					campus = (CampusBo) businessObjectService.findByPrimaryKey(CampusBo.class, pkeys);
 
 					if (ObjectUtils.isNull(campus)) {
+						LOG.debug("Campus Code is not valid, record not saved to building");
 						reportMsg += "Campus Code of " + campusCode + " is invalid in KFS.";
 						writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
 						continue;
@@ -131,6 +133,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 
 				// Do an insert to room
 				if (ObjectUtils.isNull(matchingRoom)) {
+					LOG.debug("New Room added to KFS");
 					matchingRoom = new Room();
 					insertRoom(buildingCode, campusCode, matchingRoom, reportMsg, outReportWriter, archibusRoom);
 				} else {
@@ -163,6 +166,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(buildingCode, 15, "");
 		reportMsg += StringUtils.rightPad(archibusRoom.getBuildingRoomNumber(), 15, "");
+		LOG.debug("Room exists, so updating Room");
 		
 		// See which fields were updated and report them
 		reportMsg += "Updated KFS room and overwrote these field: ";
@@ -221,7 +225,6 @@ public class RoomImportServiceImpl implements RoomImportService {
 			reportMsg += "Active(false)";
 			matchingRoom.setActive(true);
 		}
-		
 		businessObjectService.save(matchingRoom);
 		writetoReportOutputFile(outReportWriter, reportMsg);
 	}
@@ -248,6 +251,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 	}
 
 	private boolean isValid(ArchibusRooms archibusRoom, PrintWriter outReportErrorWriter, String campusCode, String buildingCode) {
+		boolean valid = true;
 		String reportMsg = "";
 
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
@@ -264,32 +268,50 @@ public class RoomImportServiceImpl implements RoomImportService {
 		Integer maxBuildingRoomDepartmentLen = ddService.getAttributeMaxLength(Room.class, "buildingRoomDepartment");
 		Boolean isBuildingRoomDescriptionRequired = ddService.isAttributeRequired(Room.class, "buildingRoomDescription");
 		Integer maxBuildingRoomDescriptionLen = ddService.getAttributeMaxLength(Room.class, "buildingRoomDescription");
-
-		if (!isAttributeValid(isBuildingCodeRequired, archibusRoom.getBuildingCode(), archibusRoom.getBuildingCode().length(), maxBuildingCodeLen, reportMsg, outReportErrorWriter, "BuildingCode(") || 
-			!isAttributeValid(isBuildingRoomNumberRequired, archibusRoom.getBuildingRoomNumber(), archibusRoom.getBuildingRoomNumber().length(), maxBuildingRoomNumberLen, reportMsg, outReportErrorWriter, "BuildingRoomNumber(") || 
-			!isAttributeValid(isBuildingRoomTypeRequired, archibusRoom.getBuildingRoomType(), archibusRoom.getBuildingRoomType().length(), maxBuildingRoomTypeLen, reportMsg, outReportErrorWriter, "BuildingRoomType(") || 
-			!isAttributeValid(isBuildingRoomDepartmentRequired, archibusRoom.getBuildingRoomDepartment(), archibusRoom.getBuildingRoomDepartment().length(), maxBuildingRoomDepartmentLen, reportMsg, outReportErrorWriter, "BuildingRoomDepartment(") || 
-			!isAttributeValid(isBuildingRoomDescriptionRequired, archibusRoom.getBuildingRoomDescription(), archibusRoom.getBuildingRoomDescription().length(), maxBuildingRoomDescriptionLen, reportMsg, outReportErrorWriter, "BuildingRoomDescription(")) {
-
-			return false;
+		
+		if (isAttributeNotValid(isBuildingCodeRequired, archibusRoom.getBuildingCode())) {
+			valid = false; 
+			reportMsg += "BuildingCode(" + archibusRoom.getBuildingCode() + ") is Not Valid, ";
 		}
-		return true;
-	}
-
-	private Boolean isAttributeValid(Boolean isAttributeRequired, String attributeValue, Integer attributeLen, Integer maxAttributeLen, String reportMsg, PrintWriter outReportErrorWriter, String validationMessage) {
-		boolean valid = true;
-		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
-			reportMsg += validationMessage.concat(attributeValue) + ") is required, ";
+		if (isAttributeLenTooLong(maxBuildingCodeLen, archibusRoom.getBuildingCode().length())) {
+			valid = false; 
+			reportMsg += "BuildingCode(" + archibusRoom.getBuildingCode() + ") is longer than " + maxBuildingCodeLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingRoomNumberRequired, archibusRoom.getBuildingRoomNumber())) {
+			valid = false; 
+			reportMsg += "BuidlingRoomNumber(" + archibusRoom.getBuildingRoomNumber() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingRoomNumberLen, archibusRoom.getBuildingRoomNumber().length())) {
+			valid = false; 
+			reportMsg += "BuildingRoomNumber("	+ archibusRoom.getBuildingRoomNumber() + ") is longer than " + maxBuildingRoomNumberLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingRoomTypeRequired, archibusRoom.getBuildingRoomType())) {
+			valid = false; 
+			reportMsg += "BuildingRoomType(" + archibusRoom.getBuildingRoomType() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingRoomTypeLen, archibusRoom.getBuildingRoomType().length())) {
 			valid = false;
+			reportMsg += "BuidlingRoomType(" + archibusRoom.getBuildingRoomType() + ") is longer than " + maxBuildingRoomTypeLen + ", ";
 		}
-		if (attributeLen > maxAttributeLen) {
-			reportMsg += validationMessage.concat(attributeValue) + ") is longer than " + maxAttributeLen + ", ";
+		if (isAttributeNotValid(isBuildingRoomDepartmentRequired, archibusRoom.getBuildingRoomDepartment())) {
+			valid = false; 
+			reportMsg += "BuildingRoomDepartment(" + archibusRoom.getBuildingRoomDepartment() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingRoomDepartmentLen, archibusRoom.getBuildingRoomDepartment().length())) {
 			valid = false;
+			reportMsg += "BuildingRoomDepartment(" + archibusRoom.getBuildingRoomDepartment() + ") is longer than " + maxBuildingRoomDepartmentLen + ", ";
 		}
-
+		if (isAttributeNotValid(isBuildingRoomDescriptionRequired, archibusRoom.getBuildingRoomDescription())) {
+			valid = false; 
+			reportMsg += "BuildingRoomDescription(" + archibusRoom.getBuildingRoomDescription() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingRoomDescriptionLen, archibusRoom.getBuildingRoomDescription().length())) {
+			valid = false;
+			reportMsg += "BuildingRoomDescription(" + archibusRoom.getBuildingRoomDescription() + ") is longer than " + maxBuildingRoomDescriptionLen + ", ";
+		}
+		
 		if (!valid) {
 			writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
-			return valid;
 		}
 		return valid;
 	}
@@ -346,6 +368,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 			LOG.error("Error in RoomImportServiceImpl in method setUp prepareRoomImport. Exception");
 			throw new RuntimeException(e);
 		}
+		LOG.debug("Exit setupErrorReportOutputFiles() " + System.currentTimeMillis());
 		return outErrorReportWriter;
 	}
 
@@ -366,6 +389,7 @@ public class RoomImportServiceImpl implements RoomImportService {
 			LOG.error("Error in RoomImportServiceImpl in method setUp prepareRoomImport. Exception");
 			throw new RuntimeException(e);
 		}
+		LOG.debug("Exit setupReportOutputFiles() " + System.currentTimeMillis());
 		return outReportWriter;
 	}
 
@@ -402,6 +426,20 @@ public class RoomImportServiceImpl implements RoomImportService {
 		outReportWriter.format("%s%n", reportMsg);
 	}
 
+	private Boolean isAttributeLenTooLong(Integer maxLen, Integer attributeLen) {
+		if (attributeLen > maxLen) {
+			return true;
+		}
+		return false;
+	}
+	
+	private Boolean isAttributeNotValid(Boolean isAttributeRequired, String attributeValue) {
+		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
+			return true;
+		}
+		return false;
+	}
+	
 	public String getReportDirectoryName() {
 		return reportDirectoryName;
 	}

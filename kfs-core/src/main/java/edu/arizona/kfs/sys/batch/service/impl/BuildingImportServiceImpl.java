@@ -68,6 +68,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 
 				// report error if routecode is not set up in KFS
 				if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue) && ObjectUtils.isNull(routecode)) {
+					LOG.debug("Routecode value of " + routeCodeValue + " is not set up in KFS.");
 					writetoErrorReportOutputFile(outReportErrorWriter, reportMsg, archBuilding.getCampusCode(), archBuilding.getBuildingCode(), "Routecode value of " + routeCodeValue + " is not set up in KFS.");
 					continue;
 				}
@@ -86,6 +87,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 						campus = (CampusBo) businessObjectService.findByPrimaryKey(CampusBo.class, pkeys);
 
 						if (ObjectUtils.isNull(campus)) {
+							LOG.debug("Campus code is not valid, record not saved to building");
 							reportMsg += "Campus Code of " + campusCode + " is invalid in kfs.";
 							writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
 							continue;
@@ -200,6 +202,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 	}
 
 	private boolean isValid(ArchibusBuildings archBuilding, PrintWriter outReportErrorWriter, String campusCode) {
+		boolean valid = true;
 		String reportMsg = "";
 
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
@@ -218,55 +221,72 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		Boolean isBuildingAddressZipCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressZipCode");
 		Integer maxBuildingAddressZipCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressZipCode");
 		Boolean isBuildingAddressCountryCodeRequired = ddService.isAttributeRequired(Building.class, "buildingAddressCountryCode");
-		Integer maxBuildingAddressCountryCodeLen = ddService.getAttributeMaxLength(Building.class, "buildingAddressCountryCode");
 
-		if (!isAttributeValid(isBuildingCodeRequired, archBuilding.getBuildingCode(), archBuilding.getBuildingCode().length(), maxBuildingCodeLen, reportMsg, outReportErrorWriter, "BuildingCode(") || 
-			!isAttributeValid(isBuildingNameRequired, archBuilding.getBuildingName(), archBuilding.getBuildingName().length(), maxBuildingNameLen, reportMsg, outReportErrorWriter, "BuildingName(") || 
-			!isAttributeValid(isBuildingStreetAddressRequired, archBuilding.getBuildingStreetAddress(), archBuilding.getBuildingStreetAddress().length(), maxBuildingStreetAddressLen, reportMsg, outReportErrorWriter, "BuildingStreetAddress(") || 
-			!isAttributeValid(isBuildingAddressCityNameRequired, archBuilding.getBuildingAddressCityName(), archBuilding.getBuildingAddressCityName().length(), maxBuildingAddressCityNameLen, reportMsg, outReportErrorWriter, "BuildingAddressCityName(") || 
-			!isAttributeValid(isBuildingAddressStateCodeRequired, archBuilding.getBuildingAddressStateCode(), archBuilding.getBuildingAddressStateCode().length(), maxBuildingAddressStateCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressStateCode(") || 
-			!isAttributeValid(isBuildingAddressZipCodeRequired, archBuilding.getBuildingAddressZipCode(), archBuilding.getBuildingAddressZipCode().length(), maxBuildingAddressZipCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressZipCode(") || 
-			!isAttributeValid(isBuildingAddressCountryCodeRequired, archBuilding.getBuildingAddressCountryCode(), archBuilding.getBuildingAddressCountryCode().length(), maxBuildingAddressCountryCodeLen, reportMsg, outReportErrorWriter, "BuildingAddressCountryCode(")) {
-
-			return false;
-		}
-		return true;
-	}
-
-	private Boolean isAttributeValid(Boolean isAttributeRequired, String attributeValue, Integer attributeLen, Integer maxAttributeLen, String reportMsg, PrintWriter outReportErrorWriter, String validationMessage) {
-		boolean valid = true;
-		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
-			reportMsg += validationMessage.concat(attributeValue) + ") is required, ";
+		if (isAttributeNotValid(isBuildingCodeRequired, archBuilding.getBuildingCode())) {
 			valid = false;
+			reportMsg += "BuildingCode(" + archBuilding.getBuildingCode() + ") is Not Valid, ";
 		}
-
-		if (validationMessage.equalsIgnoreCase("BuildingAddressCountryCode(")) {
-			if (!attributeValue.equalsIgnoreCase("USA") && attributeLen > maxAttributeLen) {
-				reportMsg += validationMessage.concat(attributeValue) + ") is longer than " + maxAttributeLen + ", ";
-				valid = false;
-			}
-		} 
-		else {
-			if (attributeLen > maxAttributeLen) {
-				reportMsg += validationMessage.concat(attributeValue) + ") is longer than " + maxAttributeLen + ", ";
-				valid = false;
-			}
+		if (isAttributeLenTooLong(maxBuildingCodeLen, archBuilding.getBuildingCode().length())) {
+			valid = false;
+			reportMsg += "BuildingName(" + archBuilding.getBuildingCode() + ") is longer than " + maxBuildingCodeLen + ", ";
 		}
-
+		if (isAttributeNotValid(isBuildingNameRequired, archBuilding.getBuildingName())) {
+			valid = false; 
+			reportMsg += "BuildingName(" + archBuilding.getBuildingName() + ") is Not valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingNameLen, archBuilding.getBuildingName().length())) {
+			valid = false;
+			reportMsg += "BuildingName(" + archBuilding.getBuildingName() + ") is longer than " + maxBuildingNameLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingStreetAddressRequired, archBuilding.getBuildingStreetAddress())) {
+			valid = false;
+			reportMsg += "BuildingStreetAddres(" + archBuilding.getBuildingStreetAddress() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingStreetAddressLen, archBuilding.getBuildingStreetAddress().length())) {
+			valid = false; 
+			reportMsg += "BuildingStreetAddress(" + archBuilding.getBuildingStreetAddress() + ") is longer than " + maxBuildingStreetAddressLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingAddressCityNameRequired, archBuilding.getBuildingAddressCityName())) {
+			valid = false;
+			reportMsg += "BuildingAddressCityName(" + archBuilding.getBuildingAddressCityName() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingAddressCityNameLen, archBuilding.getBuildingAddressCityName().length())) {
+			valid = false;
+			reportMsg += "BuildingAddressCityName(" + archBuilding.getBuildingAddressCityName() + ") is longer than " + maxBuildingAddressCityNameLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingAddressStateCodeRequired, archBuilding.getBuildingAddressStateCode())) {
+			valid = false; 
+			reportMsg += "BuildingAddressStateCode(" + archBuilding.getBuildingAddressStateCode() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingAddressStateCodeLen, archBuilding.getBuildingAddressStateCode().length())) {
+			valid = false; 
+			reportMsg += "BuildingAddressStateCode(" + archBuilding.getBuildingAddressStateCode() + ") is longer than " + maxBuildingAddressStateCodeLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingAddressZipCodeRequired, archBuilding.getBuildingAddressZipCode())) {
+			valid = false; 
+			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is Not Valid, ";
+		}
+		if (isAttributeLenTooLong(maxBuildingAddressZipCodeLen, archBuilding.getBuildingAddressZipCode().length())) {
+			valid = false; 
+			reportMsg += "BuildingAddressZipCode(" + archBuilding.getBuildingAddressZipCode() + ") is longer than " + maxBuildingAddressZipCodeLen + ", ";
+		}
+		if (isAttributeNotValid(isBuildingAddressCountryCodeRequired, archBuilding.getBuildingAddressCountryCode())) {
+			valid = false;
+			reportMsg += "BuildingAddressCountryCode(" + archBuilding.getBuildingAddressCountryCode() + ") is Not Valid, ";
+		}
 		if (!valid) {
 			writetoErrorReportOutputFile(outReportErrorWriter, reportMsg);
-			return valid;
 		}
 		return valid;
 	}
-
+	
 	private void updateBuilding(Building building, String routeCodeValue, String campusCode, String reportMsg, PrintWriter outReportWriter, ArchibusBuildings archBuilding, RouteCode routecode) {
 		BuildingExtension buildingExt;
 		buildingExt = (BuildingExtension) building.getExtension();
+		LOG.debug("Building exists so just saving building if there were changes.");
 		reportMsg += StringUtils.rightPad(campusCode, 15, "");
 		reportMsg += StringUtils.rightPad(archBuilding.getBuildingCode(), 15, "");
 		reportMsg += "Updated KFS building and overwrote these field: ";
-		
 		String archBuild = "";
 		String kfsBuild = "";
 
@@ -274,7 +294,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			reportMsg += "Active(" + building.isActive() + "), ";
 			building.setActive(true);
 		}
-		if (!archBuilding.getBuildingStreetAddress().equalsIgnoreCase(archBuilding.getBuildingStreetAddress())) {
+		if (!archBuilding.getBuildingStreetAddress().equalsIgnoreCase(building.getBuildingStreetAddress())) {
 			reportMsg += "BuildingStreetAddress(" + building.getBuildingStreetAddress() + "), ";
 			building.setBuildingStreetAddress(archBuilding.getBuildingStreetAddress());
 		}
@@ -299,8 +319,14 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		if (StringUtils.isNotBlank(buildingExt.getRouteCode())) {
 			kfsBuild = buildingExt.getRouteCode();
 		}
+		else {
+			kfsBuild = "";
+		}
 		if (!KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(routeCodeValue)) {
 			archBuild = routeCodeValue;
+		}
+		else {
+			archBuild = "";
 		}
 
 		if (!archBuild.equalsIgnoreCase(kfsBuild)) {
@@ -331,7 +357,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 
 		// Because Archibus country code is USA and KFS US, this does not get
 		// updated. So if a building's only difference is that Country code is
-		// US and not USA, then this does not get added to the report.
+		// US and not USA, then this does not get added to the report. Confirmed by BA
 		if (!reportMsg.matches("(?s).*Updated KFS building and overwrote these field: ")) {
 			writetoReportOutputFile(outReportWriter, reportMsg);
 		}
@@ -348,7 +374,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		// Archibus
 		Map<String, String> keys = new HashMap<String, String>();
 		keys.put("buildingCode", kfsBuilding.getBuildingCode());
-		keys.put("active", "A");
+		keys.put("active", KFSParameterKeyConstants.STRING_A);
 		archibusBuilding = (ArchibusBuildings) businessObjectService.findByPrimaryKey(ArchibusBuildings.class, keys);
 
 		if (ObjectUtils.isNull(archibusBuilding)) {
@@ -368,6 +394,20 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			}
 		}
 	}
+	
+	private Boolean isAttributeLenTooLong(Integer maxLen, Integer attributeLen) {
+		if (attributeLen > maxLen) {
+			return true;
+		}
+		return false;
+	}
+	
+	private Boolean isAttributeNotValid(Boolean isAttributeRequired, String attributeValue) {
+		if ((attributeValue.equalsIgnoreCase(KFSParameterKeyConstants.HYPHEN) || StringUtils.isBlank(attributeValue)) && isAttributeRequired) {
+			return true;
+		}
+		return false;
+	}
 
 	private PrintWriter setupErrorReportOutputFiles(PrintWriter outErrorReportWriter) {
 		try {
@@ -380,7 +420,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		LOG.debug("Exit setupReportOutputFile() " + System.currentTimeMillis());
+		LOG.debug("Exit setupErrorReportOutputFile() " + System.currentTimeMillis());
 		return outErrorReportWriter;
 	}
 
@@ -395,6 +435,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		LOG.debug("Exit setupReportOutputFile() " + System.currentTimeMillis());
 		return outReportWriter;
 	}
 

@@ -8,12 +8,14 @@
         <property name="businessObjectClass"    value="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" />
         <property name="inquiryDefinition"      ref="CrossOrganizationCode-inquiryDefinition" />
         <property name="lookupDefinition"       ref="CrossOrganizationCode-lookupDefinition" />
-        <property name="titleAttribute"         value="crossOrganizationCode" />
+        <property name="titleAttribute"         value="code" />
         <property name="objectLabel"            value="Cross Organization Code" />
         <property name="attributes">
             <list>
-                <ref bean="CrossOrganizationCode-crossOrganizationCode"         />
-                <ref bean="CrossOrganizationCode-crossOrganizationDescription"  />
+                <ref bean="CrossOrganizationCode-code"         />
+                <ref bean="CrossOrganizationCode-crossOrganizationCode"/>
+                <ref bean="CrossOrganizationCode-name"  />
+                <ref bean="CrossOrganizationCode-codeAndDescription"/>
                 <ref bean="CrossOrganizationCode-chartOfAccountsCode"           />
                 <ref bean="CrossOrganizationCode-organizationCode"              />
                 <ref bean="CrossOrganizationCode-organization.codeAndDescription"/>
@@ -42,8 +44,8 @@
 
     <!-- Attribute Definitions -->
 
-    <bean id="CrossOrganizationCode-crossOrganizationCode"              parent="AttributeDefinition">
-        <property name="name"               value="crossOrganizationCode"                   />
+    <bean id="CrossOrganizationCode-code"              parent="AttributeDefinition">
+        <property name="name"               value="code"                   />
         <property name="label"              value="Cross Organization Code"                 />
         <property name="shortLabel"         value="Cross Org Code"                          />
         <property name="forceUppercase"     value="true"                                    />
@@ -56,9 +58,11 @@
             <bean parent="TextControlDefinition"            p:size="5"                  />
         </property>
     </bean>
+    
+    <bean id="CrossOrganizationCode-crossOrganizationCode" parent="CrossOrganizationCode-code" p:name="crossOrganizationCode"/>
 
-    <bean id="CrossOrganizationCode-crossOrganizationDescription"       parent="AttributeDefinition">
-        <property name="name"               value="crossOrganizationDescription"            />
+    <bean id="CrossOrganizationCode-name"       parent="AttributeDefinition">
+        <property name="name"               value="name"            />
         <property name="label"              value="Cross Organization Description"          />
         <property name="shortLabel"         value="Cross Org Desc"                          />
         <property name="forceUppercase"     value="false"                                   />
@@ -70,6 +74,16 @@
         <property name="control">
             <bean parent="TextControlDefinition"            p:size="40"                 />
         </property>
+    </bean>
+    
+    <bean id="CrossOrganizationCode-codeAndDescription" parent="AttributeDefinition">
+    	<property name="name" value="codeAndDescription"/>
+    	<property name="label" value="Cross Organization Code"/>
+    	<property name="shortLabel" value="Cross Org Code"/>
+    	<property name="maxLength" value="45"/>
+    	<property name="control">
+    		<bean parent="TextControlDefinition" p:size="45"/>
+    	</property>
     </bean>
 
     <bean id="CrossOrganizationCode-chartOfAccountsCode"                parent="Chart-chartOfAccountsCode">
@@ -129,8 +143,8 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields">
                         <list>
-                            <bean parent="FieldDefinition" p:attributeName="crossOrganizationCode"                                  />
-                            <bean parent="FieldDefinition" p:attributeName="crossOrganizationDescription"                           />
+                            <bean parent="FieldDefinition" p:attributeName="code"                                  />
+                            <bean parent="FieldDefinition" p:attributeName="name"                           />
                             <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"  p:forceInquiry="true" />
                             <bean parent="FieldDefinition" p:attributeName="leader.principalName"                                   />
                             <bean parent="FieldDefinition" p:attributeName="leader.name"                                            />
@@ -147,12 +161,12 @@
     <bean id="CrossOrganizationCode-lookupDefinition"  parent="LookupDefinition">
         <property name="title" value="Cross Organization Code Lookup" />
         <property name="defaultSort">
-                <bean parent="SortDefinition"   p:attributeName="crossOrganizationCode"                                 />
+                <bean parent="SortDefinition"   p:attributeName="code"                                 />
         </property>
         <property name="lookupFields">
             <list>
-                <bean parent="FieldDefinition"  p:attributeName="crossOrganizationCode"                                 />
-                <bean parent="FieldDefinition"  p:attributeName="crossOrganizationDescription"                          />
+                <bean parent="FieldDefinition"  p:attributeName="code"                                 />
+                <bean parent="FieldDefinition"  p:attributeName="name"                          />
                 <bean parent="FieldDefinition"  p:attributeName="chartOfAccountsCode"                                   />
                 <bean parent="FieldDefinition"  p:attributeName="organizationCode"                                      />
                 <bean parent="FieldDefinition"  p:attributeName="leader.principalName"                                  />
@@ -161,8 +175,8 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="FieldDefinition"  p:attributeName="crossOrganizationCode"                                 />
-                <bean parent="FieldDefinition"  p:attributeName="crossOrganizationDescription"                          />
+                <bean parent="FieldDefinition"  p:attributeName="code"                                 />
+                <bean parent="FieldDefinition"  p:attributeName="name"                          />
                 <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription" p:forceInquiry="true"  />
                 <bean parent="FieldDefinition"  p:attributeName="leader.name"                   p:forceInquiry="true"   />
                 <bean parent="FieldDefinition"  p:attributeName="active"                                                />

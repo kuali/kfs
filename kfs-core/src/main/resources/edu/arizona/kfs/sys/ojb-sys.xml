@@ -51,5 +51,27 @@
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	</class-descriptor>
-
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusBuildings" table="PS_UA_DPT_KFS_BLDG ">
+		<field-descriptor name="buildingCode" column="BL_ID_ALPHA" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingId" column="BL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusCode" column="CAMPUS_ID_NUM" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingName" column="SHORT_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingStreetAddress" column="ADDRESS_1" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressCityName" column="CITY_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressStateCode" column="STATE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressZipCode" column="ZIP" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressCountryCode" column="CTRY_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="routeCode" column="ROUTE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="BL_STATUS" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusRooms" table="PS_UA_DPT_KFS_ROOM">
+		<field-descriptor name="buildingCode" column="BL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomNumber" column="RM_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomType" column="RM_USE" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDepartment" column="DP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDescription" column="NAME_ROOM" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
 </descriptor-repository>

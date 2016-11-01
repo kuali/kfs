@@ -17,9 +17,12 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-			 xmlns:dd="http://rice.kuali.org/dd"
-			 xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="ProcurementCardDefault" parent="ProcurementCardDefault-parentBean" >
 		<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" />
@@ -51,6 +54,9 @@
 					<dd:primitiveAttribute source="reconcilerGroup.id" target="id"/>
 					<dd:supportAttribute source="reconcilerGroup.name" target="name" identifier="true"/>
 				</dd:relationship>
+        <dd:relationship objectAttribute="account">
+          <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode"/>
+        </dd:relationship>
 			</list>
 		</property>
 	</bean>
@@ -183,6 +189,17 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
+
+	<bean id="ProcurementCardDefault-chartOfAccountsCode" parent="ProcurementCardDefault-chartOfAccountsCode-parentBean" />
+  <bean id="ProcurementCardDefault-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="label" value="Default Chart" />
+    <property name="shortLabel" value="Dflt Chrt" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
 
 	<bean id="ProcurementCardDefault-reconcilerGroup.name" parent="ProcurementCardDefault-reconcilerGroup.name-parentBean" />
 	<bean id="ProcurementCardDefault-reconcilerGroup.name-parentBean" parent="Group-name" abstract="true">

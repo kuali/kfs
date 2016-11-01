@@ -53,7 +53,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="ProcurementCardDefault-cardCycleAmountLimit" />        
         <ref bean="ProcurementCardDefault-cardCycleVolumeLimit" /> 
         <ref bean="ProcurementCardDefault-cardStatusCode" /> 
-        <ref bean="ProcurementCardDefault-cardNoteText" /> 
+        <ref bean="ProcurementCardDefault-cardNoteText" />
         <ref bean="ProcurementCardDefault-chartOfAccountsCode" />
         <ref bean="ProcurementCardDefault-accountNumber" />             
         <ref bean="ProcurementCardDefault-subAccountNumber" />   
@@ -171,9 +171,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="MCC Groups" />
     <property name="shortLabel" value="MCC Groups" />    
   </bean>
-  
+
   <bean id="ProcurementCardDefault-chartOfAccountsCode" parent="ProcurementCardDefault-chartOfAccountsCode-parentBean" />
-     
+
   <bean id="ProcurementCardDefault-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="label" value="Default Chart" />
     <property name="shortLabel" value="Dflt Chrt" />
@@ -314,7 +314,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"        
               p:attributeName="cardHolderName" />
         <bean parent="FieldDefinition"
-              p:attributeName="cardHolderAlternateName" /> 
+              p:attributeName="cardHolderAlternateName" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -341,7 +341,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"              
               p:attributeName="cardCycleAmountLimit" />   
         <bean parent="FieldDefinition"
-              p:attributeName="cardLimit" />             
+              p:attributeName="cardLimit" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

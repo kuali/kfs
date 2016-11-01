@@ -13,7 +13,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.List;
 
-public class ProcurementCardHolderDetailRule extends MaintenanceDocumentRuleBase {
+public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
 
     private ProcurementCardDefault newProcurementCardDefault;
 

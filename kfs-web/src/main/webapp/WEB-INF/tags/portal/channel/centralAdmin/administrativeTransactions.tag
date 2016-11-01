@@ -34,5 +34,9 @@
 			<li><portal:portalLink displayTitle="true" title="Labor Ledger Correction Process" url="${ConfigProperties.application.url}/laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LLCP" /></li>
     	</ul>    
 	</c:if>    
+	<strong>1099 Process</strong>
+	<ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Payer" url="${ConfigProperties.aplication.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.tax.businessobject.Payer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	</ul>
 </div>
 <channel:portalChannelBottom />

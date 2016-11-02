@@ -34,7 +34,7 @@
         <value>creditCardNumber</value>
       </list>
     </property>
-    <property name="documentTypeName" value="PCDH" />
+    <property name="documentTypeName" value="PCDM" />
     <property name="businessRulesClass" value="edu.arizona.kfs.fp.document.validation.impl.ProcurementCardDefaultRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="workflowAttributes">

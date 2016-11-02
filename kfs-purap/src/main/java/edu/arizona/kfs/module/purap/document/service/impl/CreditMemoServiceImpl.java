@@ -5,25 +5,31 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.PurapConstants;
 import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
-
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
-import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-
 
 
 public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.service.impl.CreditMemoServiceImpl {
@@ -166,4 +172,85 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
             }
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#calculateCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument)
+     */
+    @SuppressWarnings("unchecked")
+	@Override
+    public void calculateCreditMemo(VendorCreditMemoDocument cmDocument) {
+
+        cmDocument.updateExtendedPriceOnItems();
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
+            // make sure restocking fee is negative
+            if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
+                if (item.getItemUnitPrice() != null) {
+                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                    item.setItemUnitPrice(item.getItemUnitPrice().abs().negate());
+                }
+            }
+        }
+
+        //calculate tax if cm not based on vendor
+        if (cmDocument.isSourceVendor() == false) {
+            purapService.calculateTax(cmDocument);
+        }
+
+        // proration
+        if (cmDocument.isSourceVendor()) {
+            // no proration on vendor
+            return;
+        }
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
+
+            // skip above the line
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
+            if (item.getItemType().isLineItemIndicator()) {
+                continue;
+            }
+
+            if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
+                KualiDecimal totalAmount = KualiDecimal.ZERO;
+                List<PurApAccountingLine> distributedAccounts = null;
+                List<SourceAccountingLine> summaryAccounts = null;
+                                
+                totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();                
+              	if ((totalAmount != null) && ((KualiDecimal.ZERO.compareTo(totalAmount)) == 0)) {
+              		// UNENCUMBERED CASE : if Purchase Order is Zero Dollar i.e Unencumbered then use the contents of the Credit Memo itself instead 
+              		PurchaseOrderDocument poDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
+              		List<PurchaseOrderItem> poItems =  poDocument.getItems();
+              		totalAmount = KualiDecimal.ZERO;
+              		for (PurchaseOrderItem poItem : poItems){																
+              			// Total Only Above the Line
+              			if (poItem.getItemType().isLineItemIndicator()) {
+              				totalAmount = totalAmount.add(poItem.getItemInvoicedTotalAmount()); 
+              			}							              				              			
+              		}    
+
+              		// PO is zero dollar unencumbered hence has no line detail amounts to prorate so use Credit memo itself line detail instead					
+              		purapAccountingService.updateAccountAmounts(cmDocument);					
+              		summaryAccounts = purapAccountingService.generateSummary(cmDocument.getItems());	                                        
+              		distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);						
+              	}
+              	else {
+              		// ENCUMBERED CASE : Not UnEncumbered i.e IS ENCUMBERED hence safe to use SourceDocument for accounting line fill and pro-ration
+              		purapAccountingService.updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
+              		summaryAccounts = purapAccountingService.generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
+              		distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);
+              	}
+
+              	if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
+                    item.setSourceAccountingLines(distributedAccounts);
+                }
+                
+                // update again now that distribute is finished. Needed for UnEncumbered Additional Items to re-proportion
+                purapAccountingService.updateAccountAmounts(cmDocument);                                
+            }  
+        }
+        // end proration
+    }
+
 }

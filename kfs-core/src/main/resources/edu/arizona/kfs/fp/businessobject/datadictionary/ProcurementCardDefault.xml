@@ -17,9 +17,12 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-			 xmlns:dd="http://rice.kuali.org/dd"
-			 xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="ProcurementCardDefault" parent="ProcurementCardDefault-parentBean" >
 		<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" />
@@ -51,6 +54,9 @@
 					<dd:primitiveAttribute source="reconcilerGroup.id" target="id"/>
 					<dd:supportAttribute source="reconcilerGroup.name" target="name" identifier="true"/>
 				</dd:relationship>
+        <dd:relationship objectAttribute="account">
+          <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode"/>
+        </dd:relationship>
 			</list>
 		</property>
 	</bean>
@@ -184,6 +190,17 @@
 		</property>
 	</bean>
 
+	<bean id="ProcurementCardDefault-chartOfAccountsCode" parent="ProcurementCardDefault-chartOfAccountsCode-parentBean" />
+  <bean id="ProcurementCardDefault-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="label" value="Default Chart" />
+    <property name="shortLabel" value="Dflt Chrt" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
 	<bean id="ProcurementCardDefault-reconcilerGroup.name" parent="ProcurementCardDefault-reconcilerGroup.name-parentBean" />
 	<bean id="ProcurementCardDefault-reconcilerGroup.name-parentBean" parent="Group-name" abstract="true">
 		<property name="name" value="reconcilerGroup.name" />
@@ -246,12 +263,10 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-										p:attributeName="id"/>
-							<bean parent="FieldDefinition"
-										p:attributeName="creditCardLastFour" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderName" />
+							<bean parent="FieldDefinition" p:attributeName="creditCardNumber" />
+							<bean parent="FieldDefinition" p:attributeName="cardholderUser.principalName" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderName" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderAlternateName" />
 						</list>
 					</property>
 				</bean>
@@ -260,67 +275,50 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-										p:attributeName="cardholderUser.principalName" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderAlternateName" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderLine1Address" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderLine2Address" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderCityName" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderStateCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderZipCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardHolderWorkPhoneNumber" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardLimit" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardCycleAmountLimit" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardCycleVolumeLimit" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardStatusCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardNoteText" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardOpenDate" />
-							<bean parent="FieldDefinition"
-										p:attributeName="cardExpireDate" />
-							<bean parent="FieldDefinition"
-										p:attributeName="organizationCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="reconcilerGroup.name" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderLine1Address" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderLine2Address" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderCityName" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderStateCode" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderZipCode" />
+							<bean parent="FieldDefinition" p:attributeName="cardHolderWorkPhoneNumber" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Accounting Default Information" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
-						<list>
-							<bean parent="FieldDefinition"
-										p:attributeName="chartOfAccountsCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="accountNumber" />
-							<bean parent="FieldDefinition"
-										p:attributeName="subAccountNumber" />
-							<bean parent="FieldDefinition"
-										p:attributeName="financialObjectCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="financialSubObjectCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="projectCode" />
-							<bean parent="FieldDefinition"
-										p:attributeName="active" />
-							<bean parent="FieldDefinition"
-										p:attributeName="organizationCode" />
-						</list>
-					</property>
-				</bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Procurement Card Default Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="cardStatusCode" />
+              <bean parent="FieldDefinition" p:attributeName="cardLimit" />
+              <bean parent="FieldDefinition" p:attributeName="cardCycleAmountLimit" />
+              <bean parent="FieldDefinition" p:attributeName="cardCycleVolLimit" />
+              <bean parent="FieldDefinition" p:attributeName="cardMonthlyNumber" />
+              <bean parent="FieldDefinition" p:attributeName="cardOpenDate" />
+              <bean parent="FieldDefinition" p:attributeName="cardExpireDate" />
+              <bean parent="FieldDefinition" p:attributeName="cardCancelDate" />
+              <bean parent="FieldDefinition" p:attributeName="cardCancelCode" />
+              <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Accounting Default Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="reconcilerGroup.name" />
+              <bean parent="FieldDefinition" p:attributeName="cardNoteText" />
+              <bean parent="FieldDefinition" p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition" p:attributeName="projectCode" />
+            </list>
+          </property>
+        </bean>
 			</list>
 		</property>
 	</bean>
@@ -368,8 +366,6 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-							p:attributeName="id"/>
-				<bean parent="FieldDefinition"
 							p:attributeName="creditCardNumber"  />
 				<bean parent="FieldDefinition"
 							p:attributeName="cardStatusCode" />
@@ -380,7 +376,7 @@
 				<bean parent="FieldDefinition"
 							p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition"
-							p:attributeName="cardCycleVolumeLimit" />
+							p:attributeName="cardCycleVolLimit" />
 				<bean parent="FieldDefinition"
 							p:attributeName="cardMonthlyNumber" />
 				<bean parent="FieldDefinition"

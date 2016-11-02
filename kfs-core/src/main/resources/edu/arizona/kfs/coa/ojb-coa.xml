@@ -178,10 +178,10 @@
 
 <!-- Includes field descriptor information for all fields in this database table. -->
 <class-descriptor class="edu.arizona.kfs.coa.businessobject.BudgetShellCode" table="CA_BUDGET_SHELL_CD_T">
-    <field-descriptor name="budgetShellCode"                column="BUDGET_SHELL_CD"                jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="code"                column="BUDGET_SHELL_CD"                jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId"                       column="OBJ_ID"                         jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber"                  column="VER_NBR"                        jdbc-type="BIGINT"  locking="true" />
-    <field-descriptor name="budgetShellDescription"         column="BUDGET_SHELL_DESC"              jdbc-type="VARCHAR" />
+    <field-descriptor name="name"         column="BUDGET_SHELL_DESC"              jdbc-type="VARCHAR" />
     <field-descriptor name="vicePresidentPrincipalId"       column="VICE_PRSDNT_PRNCPL_ID"          jdbc-type="VARCHAR" />
     <field-descriptor name="departmentHeadPrincipalId"      column="DEPT_HEAD_PRNCPL_ID"            jdbc-type="VARCHAR" />
     <field-descriptor name="budgetAnalystPrincipalId"       column="BUDGET_ANALYST_PRNCPL_ID"       jdbc-type="VARCHAR" />
@@ -197,7 +197,7 @@
     <field-descriptor name="reportingLevelCode"             column="REPORTING_LVL_CD"               jdbc-type="VARCHAR" />
     <field-descriptor name="reportingLevelName"             column="REPORTING_LVL_NM"               jdbc-type="VARCHAR" />
     <field-descriptor name="internalIndicator"              column="INTERNAL_IND"                   jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="budgetShellLongDescription"     column="BUDGET_SHELL_DESCRIPTION"       jdbc-type="VARCHAR" />
+    <field-descriptor name="description"     column="BUDGET_SHELL_DESCRIPTION"       jdbc-type="VARCHAR" />
     <field-descriptor name="notes"                          column="NOTES"                          jdbc-type="VARCHAR" />
     <field-descriptor name="comments"                       column="BO_COMMENTS"                    jdbc-type="VARCHAR" />
     <reference-descriptor name="systemOptions" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -206,10 +206,10 @@
 </class-descriptor>
 
 <class-descriptor class="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" table="CA_CROSS_ORG_CD_T">
-    <field-descriptor name="crossOrganizationCode"          column="CROSS_ORG_CD"                   jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="code"          column="CROSS_ORG_CD"                   jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId"                       column="OBJ_ID"                         jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber"                  column="VER_NBR"                        jdbc-type="BIGINT"  locking="true" />
-    <field-descriptor name="crossOrganizationDescription"   column="CROSS_ORG_DESC"                 jdbc-type="VARCHAR" />
+    <field-descriptor name="name"   column="CROSS_ORG_DESC"                 jdbc-type="VARCHAR" />
     <field-descriptor name="chartOfAccountsCode"            column="FIN_COA_CD"                     jdbc-type="VARCHAR" />
     <field-descriptor name="organizationCode"               column="ORG_CD"                         jdbc-type="VARCHAR" />
     <field-descriptor name="leaderPrincipalId"              column="LEADER_PRNCPL_ID"               jdbc-type="VARCHAR" />

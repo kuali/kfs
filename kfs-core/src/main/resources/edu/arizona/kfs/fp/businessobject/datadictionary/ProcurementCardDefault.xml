@@ -201,6 +201,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
+	<bean id="ProcurementCardDefault-cardHolderCityName" parent="ProcurementCardDefault-cardHolderCityName-parentBean" />
+	<bean id="ProcurementCardDefault-cardHolderCityName-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderCityName-parentBean" >
+		<property name="label" value="Cardholder City Name" />
+	</bean>
+
+	<bean id="ProcurementCardDefault-cardHolderStateCode" parent="ProcurementCardDefault-cardHolderStateCode-parentBean" />
+	<bean id="ProcurementCardDefault-cardHolderStateCode-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderStateCode-parentBean" >
+		<property name="label" value="Cardholder State Code" />
+	</bean>
+
+	<bean id="ProcurementCardDefault-cardHolderWorkPhoneNumber" parent="ProcurementCardDefault-cardHolderWorkPhoneNumber-parentBean" />
+	<bean id="ProcurementCardDefault-cardHolderWorkPhoneNumber-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderWorkPhoneNumber-parentBean" >
+		<property name="label" value="Cardholder Work Phone Number" />
+	</bean>
+
 	<bean id="ProcurementCardDefault-cardHolderZipCode" parent="ProcurementCardDefault-cardHolderZipCode-parentBean" />
 	<bean id="ProcurementCardDefault-cardHolderZipCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="cardHolderZipCode" />

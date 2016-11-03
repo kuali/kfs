@@ -54,7 +54,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 					<dd:primitiveAttribute source="reconcilerGroup.id" target="id"/>
 					<dd:supportAttribute source="reconcilerGroup.name" target="name" identifier="true"/>
 				</dd:relationship>
-        <dd:relationship objectAttribute="account">
+        <dd:relationship objectAttribute="chartOfAccounts">
           <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode"/>
         </dd:relationship>
 			</list>
@@ -201,6 +201,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
+	<bean id="ProcurementCardDefault-cardHolderZipCode" parent="ProcurementCardDefault-cardHolderZipCode-parentBean" />
+	<bean id="ProcurementCardDefault-cardHolderZipCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="cardHolderZipCode" />
+		<property name="label" value="Cardholder Postal (ZIP) Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="required" value="false"/>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+						p:size="10" />
+		</property>
+	</bean>
+
 	<bean id="ProcurementCardDefault-reconcilerGroup.name" parent="ProcurementCardDefault-reconcilerGroup.name-parentBean" />
 	<bean id="ProcurementCardDefault-reconcilerGroup.name-parentBean" parent="Group-name" abstract="true">
 		<property name="name" value="reconcilerGroup.name" />
@@ -271,7 +283,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Card Holder Default Information" />
+					<property name="title" value="Cardholder Default Information" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>

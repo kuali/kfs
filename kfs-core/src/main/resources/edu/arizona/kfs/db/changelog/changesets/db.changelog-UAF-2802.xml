@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="UAF-2802-1" author="Natalia Ibanez">
+    <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+      <sqlCheck expectedResult="0">
+        SELECT COUNT(*) FROM KRIM_PERM_T
+          WHERE NM='Initiate Document PCDM' AND NMSPC_CD='KFS-SYS' AND ACTV_IND='Y'
+      </sqlCheck>
+    </preConditions>
+    <comment>
+      UAF-2902 Adding permission for PCDM routing should go directly to final without routing
+    </comment>
+    <insert tableName="KRIM_PERM_T">
+      <column name="PERM_ID" valueComputed="KRIM_PERM_ID_S.NEXTVAL"/>
+      <column name="PERM_TMPL_ID" value="10"/>
+      <column name="NM" value="Initiate Document PCDM"/>
+      <column name="NMSPC_CD" value="KFS-SYS"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="DESC_TXT" value="Authorizes the initiation of the Procurement Cardholder Maintenance Document."/>
+      <column name="OBJ_ID" value="UAF-2802-1"/>
+      <column name="ACTV_IND" value="Y"/>
+    </insert>
+    <insert tableName="KRIM_PERM_ATTR_DATA_T">
+      <column name="ATTR_DATA_ID" valueComputed="KRIM_ATTR_DATA_ID_S.NEXTVAL"/>
+      <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM='Initiate Document PCDM' AND OBJ_ID='UAF-2802-1')"/>
+      <column name="KIM_TYP_ID" value="3"/>
+      <column name="KIM_ATTR_DEFN_ID" value="13"/>
+      <column name="ATTR_VAL" value="PCDM"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-2"/>
+    </insert>
+    <insert tableName="KRIM_ROLE_PERM_T">
+      <column name="ROLE_PERM_ID" valueComputed="KRIM_ROLE_PERM_ID_S.NEXTVAL"/>
+      <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM='Initiate Document PCDM' AND OBJ_ID='UAF-2802-1')"/>
+      <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID from KRIM_ROLE_T WHERE ROLE_NM='UA PCard Administrator')"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-3"/>
+      <column name="ACTV_IND" value="Y"/>
+    </insert>
+
+    <rollback>
+      <delete tableName="KRIM_PERM_T">
+        <where>NM='Initiate Document PCDM' AND OBJ_ID='UAF-2802-1'</where>
+      </delete>
+      <delete tableName="KRIM_PERM_ATTR_DATA_T">
+        <where>KIM_ATTR_DEFN_ID='13' AND OBJ_ID='UAF-2802-2'</where>
+      </delete>
+      <delete tableName="KRIM_ROLE_PERM_T">
+        <where>OBJ_ID='UAF-2802-3'</where>
+      </delete>
+    </rollback>
+  </changeSet>
+
+  <changeSet id="UAF-2802-2" author="Natalia Ibanez">
+    <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+      <sqlCheck expectedResult="0">
+        SELECT COUNT(*) FROM KRIM_PERM_T
+        WHERE NM='Initiate Document PCDM' AND NMSPC_CD='KFS-SYS' AND ACTV_IND='Y'
+      </sqlCheck>
+    </preConditions>
+    <comment>
+      UAF-2902 Adding responsibility without an assigned group for PCDM routing should go directly to final without routing
+    </comment>
+    <insert tableName="KRIM_RSP_T">
+      <column name="RSP_ID" valueComputed="KRIM_RSP_ID_S.NEXTVAL"/>
+      <column name="RSP_TMPL_ID" value="1"/>
+      <column name="NM" value="Review PCDM CentralAdministrationReview"/>
+      <column name="NMSPC_CD" value="KFS-FP"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="DESC_TXT" value="Enforce a central office review of any changes to the Procurement Cardholder maintenance documents. This will not be assigned to anyone, since PCARD admin has initiate and do not want the doc to route."/>
+      <column name="OBJ_ID" value="UAF-2802-4"/>
+      <column name="ACTV_IND" value="Y"/>
+    </insert>
+    <insert tableName="KRIM_RSP_ATTR_DATA_T">
+      <column name="ATTR_DATA_ID" valueComputed="KRIM_ATTR_DATA_ID_S.NEXTVAL"/>
+      <column name="RSP_ID" valueComputed="(SELECT RSP_ID FROM KRIM_RSP_T WHERE NM='Review PCDM CentralAdministrationReview' AND OBJ_ID='UAF-2802-2')"/>
+      <column name="KIM_TYP_ID" value="7"/>
+      <column name="KIM_ATTR_DEFN_ID" value="41"/>
+      <column name="ATTR_VAL" value="false"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-5"/>
+    </insert>
+    <insert tableName="KRIM_RSP_ATTR_DATA_T">
+      <column name="ATTR_DATA_ID" valueComputed="KRIM_ATTR_DATA_ID_S.NEXTVAL"/>
+      <column name="RSP_ID" valueComputed="(SELECT RSP_ID FROM KRIM_RSP_T WHERE NM='Review PCDM CentralAdministrationReview' AND OBJ_ID='UAF-2802-2')"/>
+      <column name="KIM_TYP_ID" value="7"/>
+      <column name="KIM_ATTR_DEFN_ID" value="16"/>
+      <column name="ATTR_VAL" value="CentralAdministrationReview"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-6"/>
+    </insert>
+    <insert tableName="KRIM_RSP_ATTR_DATA_T">
+      <column name="ATTR_DATA_ID" valueComputed="KRIM_ATTR_DATA_ID_S.NEXTVAL"/>
+      <column name="RSP_ID" valueComputed="(SELECT RSP_ID FROM KRIM_RSP_T WHERE NM='Review PCDM CentralAdministrationReview' AND OBJ_ID='UAF-2802-2')"/>
+      <column name="KIM_TYP_ID" value="7"/>
+      <column name="KIM_ATTR_DEFN_ID" value="13"/>
+      <column name="ATTR_VAL" value="PCDM"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-7"/>
+    </insert>
+    <insert tableName="KRIM_RSP_ATTR_DATA_T">
+      <column name="ATTR_DATA_ID" valueComputed="KRIM_ATTR_DATA_ID_S.NEXTVAL"/>
+      <column name="RSP_ID" valueComputed="(SELECT RSP_ID FROM KRIM_RSP_T WHERE NM='Review PCDM CentralAdministrationReview' AND OBJ_ID='UAF-2802-2')"/>
+      <column name="KIM_TYP_ID" value="7"/>
+      <column name="KIM_ATTR_DEFN_ID" value="40"/>
+      <column name="ATTR_VAL" value="false"/>
+      <column name="VER_NBR" value="1"/>
+      <column name="OBJ_ID" value="UAF-2802-8"/>
+    </insert>
+
+    <rollback>
+      <delete tableName="KRIM_RSP_T">
+        <where>NM='Review PCDM CentralAdministrationReview' AND OBJ_ID='UAF-2802-4'</where>
+      </delete>
+      <delete tableName="KRIM_RSP_ATTR_DATA_T">
+        <where>KIM_ATTR_DEFN_ID='41' AND OBJ_ID='UAF-2802-5'</where>
+      </delete>
+      <delete tableName="KRIM_RSP_ATTR_DATA_T">
+        <where>KIM_ATTR_DEFN_ID='16' AND OBJ_ID='UAF-2802-6'</where>
+      </delete>
+      <delete tableName="KRIM_RSP_ATTR_DATA_T">
+        <where>KIM_ATTR_DEFN_ID='13' AND OBJ_ID='UAF-2802-7'</where>
+      </delete>
+      <delete tableName="KRIM_RSP_ATTR_DATA_T">
+        <where>KIM_ATTR_DEFN_ID='40' AND OBJ_ID='UAF-2802-8'</where>
+      </delete>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>

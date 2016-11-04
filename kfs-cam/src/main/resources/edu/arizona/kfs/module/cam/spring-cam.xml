@@ -32,5 +32,11 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="assetService"  parent="assetService-parentBean" class="edu.arizona.kfs.module.cam.document.service.impl.AssetServiceImpl">
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="paymentSummaryService" ref="paymentSummaryService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
 </beans>

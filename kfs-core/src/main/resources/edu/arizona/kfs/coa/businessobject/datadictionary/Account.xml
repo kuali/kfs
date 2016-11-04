@@ -23,10 +23,10 @@
         <property name="relationships">
             <list merge="true">
                 <dd:relationship objectAttribute="extension.budgetShell">
-                    <dd:primitiveAttribute source="extension.budgetShellCode" target="budgetShellCode" />
+                    <dd:primitiveAttribute source="extension.budgetShellCode" target="code" />
                 </dd:relationship>
                 <dd:relationship objectAttribute="extension.crossOrganization">
-                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="crossOrganizationCode" />
+                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="code" />
                 </dd:relationship>
                 <dd:relationship objectAttribute="extension.faCostSubCategory">
 					<dd:primitiveAttribute source="extension.faCostSubCatCode" target="faCostSubCatCode" />
@@ -48,7 +48,15 @@
 	
 	<bean id="Account-taxRegionCode" parent="Account-taxRegionCode-parentBean" />
  	<dd:boAttributeRef id="Account-taxRegionCode-parentBean" abstract="true" parent="AccountExtension-taxRegionCode-parentBean" attributeName="extension.taxRegionCode" />
-
+	
+	<bean id="Account-accountFiscalOfficerUser.principalName" parent="Account-accountFiscalOfficerUser.principalName-parentBean" >
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern"
+				p:allowDash="true"
+				p:allowUnderscore="true"
+				p:allowWhitespace="false"/>
+		</property>
+	</bean>
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean">

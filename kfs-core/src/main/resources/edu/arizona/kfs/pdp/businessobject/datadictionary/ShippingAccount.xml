@@ -4,8 +4,8 @@
  xmlns:p="http://www.springframework.org/schema/p"
  xmlns:dd="http://rice.kuali.org/dd"
  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
- 
- 	<bean id="ShippingAccount" parent="ShippingAccount-parentBean"/>
+
+<bean id="ShippingAccount" parent="ShippingAccount-parentBean"/>
  	
  	<bean id="ShippingAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
  		<property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingAccount"/>
@@ -89,7 +89,7 @@
  		</property>
  		<property name="required" value="true"/>
  		<property name="control">
- 			<bean parent="TextControlDefinition" p:size="11"/>
+ 			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.pdp.businessobject.options.ShippingAcctTypeValuesFinder" p:includeKeyInLabel="false"/>
  		</property>
  	</bean>
  	<bean id="ShippingAccount-accountNumber" parent="ShippingAccount-accountNumber-parentBean"/>
@@ -134,9 +134,9 @@
  	<bean id="ShippingAccount-account.organization.organizationName-parentBean" parent="Organization-organizationName">
  		<property name="name" value="account.organization.organizationName"/>
  	</bean>
- 	<bean id="ShippingAccount-financialObjectCode"	parent="ShippingAccount-financialObjecCode-parentBean"/>
+ 	<bean id="ShippingAccount-financialObjectCode"	parent="ShippingAccount-financialObjectCode-parentBean"/>
  	
- 	<bean id="ShippingAccount-financialObjecCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+ 	<bean id="ShippingAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
  	<bean id="ShippingAccount-chartOfAccountsCode" parent="ShippingAccount-chartOfAccountsCode-parentBean"/>
  	
  	<bean id="ShippingAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>

@@ -60,6 +60,8 @@
 	
 	    <gl:generalLedgerPendingEntries />
 	    
+	    <sys:docuware />
+	    
 		<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
 	    
 	    <kul:adHocRecipients />

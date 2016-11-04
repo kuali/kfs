@@ -22,8 +22,8 @@
 
     <dd:boAttributeRef id="AccountExtension-accountNumber"          parent="Account-accountNumber"                          required="true"  attributeName="accountNumber"          />
     <dd:boAttributeRef id="AccountExtension-chartOfAccountsCode"    parent="Chart-chartOfAccountsCode"                      required="true"  attributeName="chartOfAccountsCode"    />
-    <dd:boAttributeRef id="AccountExtension-budgetShellCode"        parent="BudgetShellCode-budgetShellCode"                required="false" attributeName="budgetShellCode"        />
-    <dd:boAttributeRef id="AccountExtension-crossOrganizationCode"  parent="CrossOrganizationCode-crossOrganizationCode"    required="false" attributeName="crossOrganizationCode"  />
+    <dd:boAttributeRef id="AccountExtension-budgetShellCode"        parent="BudgetShellCode-code"                required="false" attributeName="budgetShellCode"        />
+    <dd:boAttributeRef id="AccountExtension-crossOrganizationCode"  parent="CrossOrganizationCode-code"    required="false" attributeName="crossOrganizationCode"  />
 
 
 

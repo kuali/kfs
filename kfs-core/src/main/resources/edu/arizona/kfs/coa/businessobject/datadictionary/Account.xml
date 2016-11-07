@@ -23,10 +23,10 @@
         <property name="relationships">
             <list merge="true">
                 <dd:relationship objectAttribute="extension.budgetShell">
-                    <dd:primitiveAttribute source="extension.budgetShellCode" target="budgetShellCode" />
+                    <dd:primitiveAttribute source="extension.budgetShellCode" target="code" />
                 </dd:relationship>
                 <dd:relationship objectAttribute="extension.crossOrganization">
-                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="crossOrganizationCode" />
+                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="code" />
                 </dd:relationship>
                 <dd:relationship objectAttribute="extension.faCostSubCategory">
 					<dd:primitiveAttribute source="extension.faCostSubCatCode" target="faCostSubCatCode" />

@@ -25,12 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -39,7 +41,7 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -56,97 +58,101 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        boolean unbounded = false;
-        String claimingStatus = fieldValues.remove("paymentClaimStatusCode");
-        if (claimingStatus != null && !claimingStatus.equals("A")) {
-            if (claimingStatus.equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
-                fieldValues.put("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
-            } else {
-                fieldValues.put("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
+        String claimingStatus = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE);
+        if (claimingStatus != null) {
+            if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
+                fieldValues.put(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE, ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
+            }
+            if (StringUtils.equals(claimingStatus, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED)) {
+                fieldValues.put(KFSPropertyConstants.PAYMENT_CLAIM_STATUS_CODE, ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
-        String organizationReferenceId = fieldValues.remove("generatingAccountingLine.organizationReferenceId");
-        List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false);
-        if (!StringUtils.isBlank(organizationReferenceId)) {
-
-            List<PersistableBusinessObject> prunedResults = pruneResults(resultsList, organizationReferenceId);
-            resultsList = new CollectionIncomplete<PersistableBusinessObject>(prunedResults, ((CollectionIncomplete)resultsList).getActualSizeIfTruncated());
-
+        Map<String, String> advanceDepositFieldValues = getAdvanceDepositFieldValues(fieldValues);
+        List<ElectronicPaymentClaim> epcList = (List<ElectronicPaymentClaim>) lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, false, false);
+        if (advanceDepositFieldValues.size() > 0) {
+            epcList = pruneResults(epcList, advanceDepositFieldValues);
         }
+        List<PersistableBusinessObject> resultsList = new ArrayList<PersistableBusinessObject>(epcList);
         return resultsList;
     }
 
-    /**
-     * If organization reference id was present in lookup fields, only returns electronic payment claims which associate with the given organization reference id
-     * @param paymentsToPrune the Collection of electronic payment claims, still unfiltered by organization reference id
-     * @param organizationReferenceId the organization reference id to use as a filter
-     * @return the filtered results
-     */
-    protected List<PersistableBusinessObject> pruneResults(List<PersistableBusinessObject> paymentsToPrune, String organizationReferenceId) {
-        final String matchingAdvanceDepositDocumentNumbers = getAdvanceDepositsWithOrganizationReferenceId(organizationReferenceId);
-        final List<GeneratingLineHolder> generatingLineHolders = getGeneratingLinesForDocuments(matchingAdvanceDepositDocumentNumbers, organizationReferenceId);
-
-        List<PersistableBusinessObject> prunedResults = new ArrayList<PersistableBusinessObject>();
-        for (PersistableBusinessObject epcAsPBO : paymentsToPrune) {
-            final ElectronicPaymentClaim epc = (ElectronicPaymentClaim)epcAsPBO;
-
-            int count = 0;
-            boolean epcMatches = false;
-            while (count < generatingLineHolders.size() && !epcMatches) {
-                final GeneratingLineHolder generatingLine = generatingLineHolders.get(count);
-                if (generatingLine.isMommy(epc)) {
+    private List<ElectronicPaymentClaim> pruneResults(List<ElectronicPaymentClaim> epcList, Map<String, String> fieldValues) {
+        List<AdvanceDepositDocument> addList = getAdvanceDepositsWithMatchingFields(fieldValues);
+        ArrayList<ElectronicPaymentClaim> prunedResults = new ArrayList<ElectronicPaymentClaim>();
+        for (ElectronicPaymentClaim epc : epcList) {
+            for (AdvanceDepositDocument add : addList) {
+                boolean isElectronicPaymentClaimMatchAdvanceDepositDocument = isElectronicPaymentClaimMatchAdvanceDepositDocument(epc, add);
+                if (isElectronicPaymentClaimMatchAdvanceDepositDocument)
                     prunedResults.add(epc);
-                    epcMatches = true;
-                }
-
-                count += 1;
             }
         }
 
         return prunedResults;
     }
 
-    /**
-     * Finds the document ids for all AD documents which have an accounting line with the given organizationReferenceId
-     * @param organizationReferenceId the organization reference id to find advance deposit documents for
-     * @return a lookup String that holds the document numbers of the matching advance deposit documents
-     */
-    protected String getAdvanceDepositsWithOrganizationReferenceId(String organizationReferenceId) {
-        StringBuilder documentNumbers = new StringBuilder();
+    private List<AdvanceDepositDocument> getAdvanceDepositsWithMatchingFields(Map<String, String> advanceDepositFieldValues) {
+        List<AdvanceDepositDocument> advanceDepositList = (List<AdvanceDepositDocument>) getLookupService().findCollectionBySearchUnbounded(AdvanceDepositDocument.class, advanceDepositFieldValues);
+        return advanceDepositList;
+    }
 
-        Map fields = new HashMap();
-        fields.put("sourceAccountingLines.organizationReferenceId", organizationReferenceId);
-        Collection ads = getLookupService().findCollectionBySearchUnbounded(AdvanceDepositDocument.class, fields);
-        for (Object adAsObject : ads) {
-            final AdvanceDepositDocument adDoc = (AdvanceDepositDocument)adAsObject;
-            documentNumbers.append("|");
-            documentNumbers.append(adDoc.getDocumentNumber());
+    private Map<String, String> getAdvanceDepositFieldValues(Map<String, String> fieldValues) {
+        Map<String, String> returnMap = new HashMap<String, String>();
+
+        String orgRefId = fieldValues.remove(KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + KFSConstants.DELIMITER + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
+        String dateFrom = fieldValues.remove(KFSPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX + KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE);
+        String dateTo = fieldValues.remove(KFSPropertyConstants.GENERATING_ADVANCE_DEPOSIT_DETAIL + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE);
+        String description = fieldValues.remove(KFSPropertyConstants.GENERATING_ACCOUNTING_LINE + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION);
+        String amountFrom = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_FROM);
+        String amountTo = fieldValues.remove(KFSPropertyConstants.PAYMENT_CLAIM_AMOUNT_TO);
+        if (StringUtils.isNotBlank(orgRefId)) {
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, orgRefId);
         }
-
-        return documentNumbers.substring(1);
+        if (StringUtils.isNotBlank(description)) {
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION, description);
+        }
+        if (StringUtils.isNotBlank(dateTo)) {
+            returnMap.put(KFSPropertyConstants.ADVANCE_DEPOSITS + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE, dateTo);
+        } else {
+            if (StringUtils.isNotBlank(dateFrom)) {
+                returnMap.put(KFSPropertyConstants.ADVANCE_DEPOSITS + KFSConstants.DELIMITER + KFSPropertyConstants.FINANCIAL_DOCUMENT_ADVANCE_DEPOSIT_DATE, dateFrom);
+            }
+        }
+        String amount = getAmountCriteria(amountFrom, amountTo);
+        if (StringUtils.isNotBlank(amount)) {
+            returnMap.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + KFSConstants.DELIMITER + KFSPropertyConstants.AMOUNT, amount);
+        }
+        return returnMap;
     }
 
     /**
-     * Looks up all of the generating lines and stores essential information about them on documents given by the matchingAdvanceDepositDocumentNumbers parameter
-     * and matching the given organization reference id
-     * @param matchingAdvanceDepositDocumentNumbers the document numbers of matching advance deposit documents in lookup form
-     * @param organizationReferenceId the organization reference id the accounting line must match
-     * @return a List of essential information about each of the matching accounting lines
+     * Turns a from amount and to amount into a lookupable criteria
+     * 
+     * @param fromAmount
+     *            the lower bound amount
+     * @param toAmount
+     *            the upper bound amount
+     * @return a lookupable criteria
      */
-    protected List<GeneratingLineHolder> getGeneratingLinesForDocuments(String matchingAdvanceDepositDocumentNumbers, String organizationReferenceId) {
-        List<GeneratingLineHolder> holders = new ArrayList<GeneratingLineHolder>();
-
-        Map fields = new HashMap();
-        fields.put("documentNumber", matchingAdvanceDepositDocumentNumbers);
-        fields.put("organizationReferenceId", organizationReferenceId);
-
-        Collection als = getLookupService().findCollectionBySearchUnbounded(SourceAccountingLine.class, fields);
-        for (Object alAsObject : als) {
-            final SourceAccountingLine accountingLine = (SourceAccountingLine)alAsObject;
-            holders.add(new GeneratingLineHolder(accountingLine.getDocumentNumber(), accountingLine.getSequenceNumber()));
+    private String getAmountCriteria(String fromAmount, String toAmount) {
+        if (StringUtils.isNotBlank(fromAmount) && StringUtils.isNotBlank(toAmount)) {
+            return fromAmount + SearchOperator.BETWEEN.op() + toAmount;
         }
+        if (StringUtils.isNotBlank(fromAmount) && StringUtils.isBlank(toAmount)) {
+            return SearchOperator.GREATER_THAN_EQUAL.op() + fromAmount;
+        }
+        if (StringUtils.isBlank(fromAmount) && StringUtils.isNotBlank(toAmount)) {
+            return SearchOperator.LESS_THAN_EQUAL.op() + toAmount;
+        }
+        return null;
+    }
 
-        return holders;
+    private boolean isElectronicPaymentClaimMatchAdvanceDepositDocument(ElectronicPaymentClaim epc, AdvanceDepositDocument add) {
+        for (AdvanceDepositDetail detail : add.getAdvanceDeposits()) {
+            if (detail.getDocumentNumber().equals(epc.getDocumentNumber())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -155,8 +161,8 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public void validateSearchParameters(Map fieldValues) {
         // grab the backLocation and the docFormKey
-        this.setDocFormKey((String)fieldValues.get("docFormKey"));
-        this.setBackLocation((String)fieldValues.get("backLocation"));
+        this.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        this.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.validateSearchParameters(fieldValues);
     }
 
@@ -166,7 +172,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public boolean isResultReturnable(BusinessObject claimAsBO) {
         boolean result = super.isResultReturnable(claimAsBO);
-        ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsBO;
+        ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsBO;
         if (result && ((claim.getPaymentClaimStatusCode() != null && claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) || (!StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())))) {
             result = false;
         }
@@ -187,10 +193,10 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
-        for (ResultRow row : (Collection<ResultRow>)resultTable) {
+        for (ResultRow row : (Collection<ResultRow>) resultTable) {
             for (Column col : row.getColumns()) {
-                if (StringUtils.equals("referenceFinancialDocumentNumber", col.getPropertyName()) && StringUtils.isNotBlank(col.getPropertyValue())) {
-                    String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + col.getPropertyValue() + "&command=displayDocSearchView";
+                if (StringUtils.equals(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_NUMBER, col.getPropertyName()) && StringUtils.isNotBlank(col.getPropertyValue())) {
+                    String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + KRADConstants.DOCHANDLER_DO_URL + col.getPropertyValue() + KRADConstants.DOCHANDLER_URL_CHUNK;
                     AnchorHtmlData htmlData = new AnchorHtmlData(propertyURL, "", col.getPropertyValue());
                     htmlData.setTitle(col.getPropertyValue());
                     col.setColumnAnchor(htmlData);
@@ -208,30 +214,4 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         this.lookupDao = lookupDao;
     }
 
-    /**
-     * Holds information about an accounting line which created an electronic payment claim
-     */
-    protected class GeneratingLineHolder {
-        private String documentNumber;
-        private Integer lineNumber;
-
-        /**
-         * Constructs a GeneratingLineHolder
-         * @param documentNumber the document the generating line is on
-         * @param lineNumber the line number of the generating line
-         */
-        public GeneratingLineHolder(String documentNumber, Integer lineNumber) {
-            this.documentNumber = documentNumber;
-            this.lineNumber = lineNumber;
-        }
-
-        /**
-         * Determines if the given electronic payment claim was generated by the accounting line that this GeneratingLineHolder has information for
-         * @param epc the electronic payment claim to check
-         * @return true if this accounting line did generate the epc, false otherwise
-         */
-        public boolean isMommy(ElectronicPaymentClaim epc) {
-            return epc.getDocumentNumber().equals(documentNumber) && epc.getFinancialDocumentLineNumber().equals(lineNumber);
-        }
-    }
 }

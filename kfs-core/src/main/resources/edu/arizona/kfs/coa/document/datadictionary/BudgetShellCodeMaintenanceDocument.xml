@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="BudgetShellCodeMaintenanceDocument"               parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass"        value="edu.arizona.kfs.coa.businessobject.BudgetShellCode"                                          />
+        <property name="maintainableClass"          value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"                                      />
+        <property name="documentAuthorizerClass"    value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"   />
+        <property name="workflowAttributes"         ref="BudgetShellCodeMaintenanceDocument-workflowAttributes"                                         />
+        <property name="allowsNewOrCopy"            value="true"                                                                                        />
+        <property name="documentTypeName"           value="SHEL"                                                                                        />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="BudgetShellCodeMaintenanceDocument-Main" />
+            </list>
+        </property>
+        <property name="defaultExistenceChecks">
+            <list>
+                <bean parent="ReferenceDefinition"  p:attributeName="systemOptions"         p:attributeToHighlightOnFail="fiscalYearClosed"                 />
+                <bean parent="ReferenceDefinition"  p:attributeName="vicePresident"         p:attributeToHighlightOnFail="vicePresident.principalName"      />
+                <bean parent="ReferenceDefinition"  p:attributeName="departmentHead"        p:attributeToHighlightOnFail="departmentHead.principalName"     />
+                <bean parent="ReferenceDefinition"  p:attributeName="budgetAnalyst"         p:attributeToHighlightOnFail="budgetAnalyst.principalName"      />
+                <bean parent="ReferenceDefinition"  p:attributeName="budgetShellContact"    p:attributeToHighlightOnFail="budgetShellContact.principalName" />
+                <bean parent="ReferenceDefinition"  p:attributeName="summaryGroup" 			p:attributeToHighlightOnFail="summaryGroup.principalName" 		/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>code</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="BudgetShellCodeMaintenanceDocument-Main"          parent="MaintainableSectionDefinition">
+        <property name="id"     value="Main" />
+        <property name="title"  value="Edit Budget Shell Code" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition"  p:name="code"                    p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="name"             p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="groupCode"                          p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="groupName"                          p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="summaryGroupCode" 					p:required="false"	/>
+                <bean parent="MaintainableFieldDefinition"  p:name="summaryGroupName" 					p:required="false" 	/>
+                <bean parent="MaintainableFieldDefinition"  p:name="reportingLevelCode" 				p:required="false" 	/> 
+				<bean parent="MaintainableFieldDefinition"  p:name="reportingLevelName" 				p:required="false" 	/> 
+                <bean parent="MaintainableFieldDefinition"  p:name="vicePresident.principalName"                            />
+                <bean parent="MaintainableFieldDefinition"  p:name="departmentHead.principalName"                           />
+                <bean parent="MaintainableFieldDefinition"  p:name="budgetAnalyst.principalName"                            />
+                <bean parent="MaintainableFieldDefinition"  p:name="budgetShellContact.principalName"                       />
+                <bean parent="MaintainableFieldDefinition"  p:name="summaryGroup.principalName" 							/>
+                <bean parent="MaintainableFieldDefinition"  p:name="reportableGroup"                    p:defaultValue="Y"  />
+                <bean parent="MaintainableFieldDefinition"  p:name="internalIndicator" 					p:defaultValue="N" 	/>
+                <bean parent="MaintainableFieldDefinition"  p:name="fiscalYearClosed"                                       />
+                <bean parent="MaintainableFieldDefinition"  p:name="active"                             p:defaultValue="Y"  />
+                <bean parent="MaintainableFieldDefinition"  p:name="description" p:required="false" />
+                <bean parent="MaintainableFieldDefinition"  p:name="notes" 								p:required="false"  />
+                <bean parent="MaintainableFieldDefinition"  p:name="comments" 							p:required="false"  />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+
+    <bean id="BudgetShellCodeMaintenanceDocument-workflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes"/>
+</beans>

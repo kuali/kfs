@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PVEN</name>
+      <parent>VEND</parent>
+      <label>Vendor</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendorpven.htm</helpDefinitionURL>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresApproval"/>
+          <split name="RequiresApproval">
+            <branch name="True">
+              <requests name="Management" nextNode="CentralAdministrationReview"/>
+              <requests name="CentralAdministrationReview" nextNode="Initiator"/>
+              <requests name="Initiator" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="CentralAdministrationReview">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="Do Nothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

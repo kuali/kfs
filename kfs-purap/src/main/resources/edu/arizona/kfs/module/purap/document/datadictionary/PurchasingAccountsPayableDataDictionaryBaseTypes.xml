@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+        	   	    
+	<bean id="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+				<ref bean="RoutingAttribute-accountNumber" />
+				<ref bean="RoutingAttribute-organizationCode" />
+				<ref bean="RoutingAttribute-overrideCode" />
+				<ref bean="RoutingAttribute-fundGroupCode" />
+				<ref bean="RoutingAttribute-subFundGroupCode" />
+				<ref bean="RoutingAttribute-objectSubTypeCode" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="DocumentValuePathGroup-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy-accountingLines" />
+			</list>
+		</property>
+    </bean>
+    
+    <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+    			<property name="collectionPath" value="accountsForRouting" />
+    			<property name="documentValues">
+    				<list>
+    					<value>chartOfAccountsCode</value>
+    					<value>accountNumber</value>
+    					<value>account.organizationCode</value>
+    					<value>overrideCode</value>
+    					<value>account.subFundGroup.fundGroupCode</value>
+    					<value>account.subFundGroupCode</value>
+    					<value>objectCode.financialObjectSubTypeCode</value>
+    				</list>
+    			</property>
+    		</bean>
+    	</property>
+    </bean>
+
+</beans>

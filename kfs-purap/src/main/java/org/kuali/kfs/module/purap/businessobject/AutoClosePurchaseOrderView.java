@@ -18,6 +18,7 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -27,6 +28,7 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
 
     private KualiDecimal totalEncumbrance;
     private KualiDecimal totalAmount;
+    private FinancialSystemDocumentHeader documentHeader;
     
     public KualiDecimal getTotalEncumbrance() {
         return totalEncumbrance;
@@ -43,5 +45,13 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
     public void setTotalAmount(KualiDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
-    
+
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
 }

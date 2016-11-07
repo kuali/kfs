@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="CrossOrganizationCode"                            parent="BusinessObjectEntry">
+        <property name="businessObjectClass"    value="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode" />
+        <property name="inquiryDefinition"      ref="CrossOrganizationCode-inquiryDefinition" />
+        <property name="lookupDefinition"       ref="CrossOrganizationCode-lookupDefinition" />
+        <property name="titleAttribute"         value="code" />
+        <property name="objectLabel"            value="Cross Organization Code" />
+        <property name="attributes">
+            <list>
+                <ref bean="CrossOrganizationCode-code"         />
+                <ref bean="CrossOrganizationCode-crossOrganizationCode"/>
+                <ref bean="CrossOrganizationCode-name"  />
+                <ref bean="CrossOrganizationCode-codeAndDescription"/>
+                <ref bean="CrossOrganizationCode-chartOfAccountsCode"           />
+                <ref bean="CrossOrganizationCode-organizationCode"              />
+                <ref bean="CrossOrganizationCode-organization.codeAndDescription"/>
+                <ref bean="CrossOrganizationCode-leaderPrincipalId"             />
+                <ref bean="CrossOrganizationCode-leader.principalName"          />
+                <ref bean="CrossOrganizationCode-leader.name"                   />
+                <ref bean="CrossOrganizationCode-active"                        />
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <dd:relationship            objectAttribute="leader">
+                    <dd:primitiveAttribute  source="leaderPrincipalId"      target="principalId"                        />
+                    <dd:supportAttribute    source="leader.principalName"   target="principalName"  identifier="true"   />
+                    <dd:supportAttribute    source="leader.name"            target="name"                               />
+                </dd:relationship>
+                <dd:relationship            objectAttribute="chart">
+                    <dd:primitiveAttribute  source="chartOfAccountsCode"    target="chartOfAccountsCode"                />
+                </dd:relationship>
+                <dd:relationship            objectAttribute="organization">
+                    <dd:primitiveAttribute  source="organizationCode"       target="organizationCode"                   />
+                </dd:relationship>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="CrossOrganizationCode-code"              parent="AttributeDefinition">
+        <property name="name"               value="code"                   />
+        <property name="label"              value="Cross Organization Code"                 />
+        <property name="shortLabel"         value="Cross Org Code"                          />
+        <property name="forceUppercase"     value="true"                                    />
+        <property name="required"           value="true"                                    />
+        <property name="maxLength"          value="4"                                       />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="5"                  />
+        </property>
+    </bean>
+    
+    <bean id="CrossOrganizationCode-crossOrganizationCode" parent="CrossOrganizationCode-code" p:name="crossOrganizationCode"/>
+
+    <bean id="CrossOrganizationCode-name"       parent="AttributeDefinition">
+        <property name="name"               value="name"            />
+        <property name="label"              value="Cross Organization Description"          />
+        <property name="shortLabel"         value="Cross Org Desc"                          />
+        <property name="forceUppercase"     value="false"                                   />
+        <property name="required"           value="true"                                    />
+        <property name="maxLength"          value="40"                                      />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="40"                 />
+        </property>
+    </bean>
+    
+    <bean id="CrossOrganizationCode-codeAndDescription" parent="AttributeDefinition">
+    	<property name="name" value="codeAndDescription"/>
+    	<property name="label" value="Cross Organization Code"/>
+    	<property name="shortLabel" value="Cross Org Code"/>
+    	<property name="maxLength" value="45"/>
+    	<property name="control">
+    		<bean parent="TextControlDefinition" p:size="45"/>
+    	</property>
+    </bean>
+
+    <bean id="CrossOrganizationCode-chartOfAccountsCode"                parent="Chart-chartOfAccountsCode">
+        <property name="label"              value="Organization Chart"                      />
+        <property name="required"           value="true"                                    />
+    </bean>
+
+    <bean id="CrossOrganizationCode-organizationCode"                   parent="Organization-organizationCode">
+        <property name="label"              value="Organization"                            />
+        <property name="required"           value="true"                                    />
+    </bean>
+
+    <bean id="CrossOrganizationCode-organization.codeAndDescription" parent="Organization-codeAndDescription"> 
+          <property name="name"              value="organization.codeAndDescription"        />
+          <property name="label"              value="Organization"                          />
+    </bean>
+
+    <bean id="CrossOrganizationCode-leaderPrincipalId"                  parent="PersonImpl-principalId">
+        <property name="name"               value="leaderPrincipalId"                       />
+        <property name="label"              value="Leader Principal ID"                     />
+        <property name="shortLabel"         value="Ldr Prncpl ID"                           />
+        <property name="required"           value="true"                                    />
+    </bean>
+
+    <bean id="CrossOrganizationCode-leader.principalName"               parent="PersonImpl-principalName">
+        <property name="name"               value="leader.principalName"                    />
+        <property name="label"              value="Leader Principal Name"                   />
+        <property name="shortLabel"         value="Leader Principal Name"                   />
+        <property name="required"           value="false"                                   />
+        <property name="control">
+            <bean parent="KualiUserControlDefinition">
+                <property name="personNameAttributeName"    value="leader.name"             />
+                <property name="universalIdAttributeName"   value="leaderPrincipalId"       />
+                <property name="userIdAttributeName"        value="leader.principalName"    />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CrossOrganizationCode-leader.name"  parent="PersonImpl-name">
+        <property name="name"               value="leader.name"                             />
+        <property name="label"              value="Leader Name"                             />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="CrossOrganizationCode-active"                             parent="GenericAttributes-activeIndicator">
+        <property name="name"               value="active"                                  />
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="CrossOrganizationCode-inquiryDefinition" parent="InquiryDefinition">
+        <property name="title" value="Cross Organization Code Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="General Information" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="code"                                  />
+                            <bean parent="FieldDefinition" p:attributeName="name"                           />
+                            <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"  p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="leader.principalName"                                   />
+                            <bean parent="FieldDefinition" p:attributeName="leader.name"                                            />
+                            <bean parent="FieldDefinition" p:attributeName="active"                                                 />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="CrossOrganizationCode-lookupDefinition"  parent="LookupDefinition">
+        <property name="title" value="Cross Organization Code Lookup" />
+        <property name="defaultSort">
+                <bean parent="SortDefinition"   p:attributeName="code"                                 />
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition"  p:attributeName="code"                                 />
+                <bean parent="FieldDefinition"  p:attributeName="name"                          />
+                <bean parent="FieldDefinition"  p:attributeName="chartOfAccountsCode"                                   />
+                <bean parent="FieldDefinition"  p:attributeName="organizationCode"                                      />
+                <bean parent="FieldDefinition"  p:attributeName="leader.principalName"                                  />
+                <bean parent="FieldDefinition"  p:attributeName="active"                        p:defaultValue="Y"      />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition"  p:attributeName="code"                                 />
+                <bean parent="FieldDefinition"  p:attributeName="name"                          />
+                <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription" p:forceInquiry="true"  />
+                <bean parent="FieldDefinition"  p:attributeName="leader.name"                   p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="active"                                                />
+            </list>
+        </property>
+    </bean>
+</beans>

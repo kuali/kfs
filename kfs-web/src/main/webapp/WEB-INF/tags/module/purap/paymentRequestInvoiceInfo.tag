@@ -28,6 +28,7 @@
 <c:set var="fullDocumentEntryCompleted" value="${not empty KualiForm.editingMode['fullDocumentEntryCompleted']}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
+<c:set var="processedUsingPdp" value="${KualiForm.document.paymentMethod.processedUsingPdp}" />
 <c:set var="tabindexOverrideBase" value="40" />
 
 <kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INVOICE_TAB_ERRORS}">
@@ -62,10 +63,10 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
                    		attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true" 
-                   		readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		readOnly="${not (fullEntryMode or editPreExtract) or not processedUsingPdp}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                    &nbsp; &nbsp;<kul:htmlControlAttribute 
                    					attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" 
-                   					readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   					readOnly="${not (fullEntryMode or editPreExtract) or not processedUsingPdp}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                    (Immediate Pay)
                 </td>
                 <th align=right valign=middle class="bord-l-b">
@@ -122,7 +123,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
                    		attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator"  
-                   		readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		readOnly="${not (fullEntryMode or editPreExtract) or not processedUsingPdp}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<c:choose>
@@ -168,19 +169,50 @@
 			
 			<tr>
 	                <sys:bankLabel align="right"/>
-                    <sys:bankControl property="document.bankCode" objectProperty="document.bank" readOnly="${not (fullEntryMode or editPreExtract)}"/>
+							
+					<%-- Changed editability of the bank field to lock down after full entry (initiation) if the payment 			
+					will *not* be processed by PDP.  (When not, the GL entries which affect the bank accounts are created as 			
+					part of the main document, not by PDP, and there is no good way to reverse them out. --%> 			
+					<c:set var="canEditBank" value="${fullEntryMode or (editPreExtract and KualiForm.document.paymentMethod.processedUsingPdp)}" /> 			
+					<c:set var="canEditPaymentMethod" value="${fullEntryMode}" /> 
+	
+                    <sys:bankControl property="document.bankCode" objectProperty="document.bank" readOnly="${not canEditBank}"/>
                     <th align=right valign=middle class="bord-l-b">
-                        <div align="right">&nbsp;</div>
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentMethodCode}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        &nbsp;
+						<kul:htmlControlAttribute 	
+						attributeEntry="${documentAttributes.paymentMethodCode}" property="document.paymentMethodCode" 			
+						readOnly="${not canEditPaymentMethod}" tabindexOverride="${tabindexOverrideBase + 4}" 			
+						onchange="paymentMethodChanged( this.value );" />
                     </td>
                 
             </tr>
-            
-		</table> 
-		
-		
-
+			<c:if test="${(fullEntryMode or editPreExtract)}">
+		        <script type="text/javascript" src="dwr/interface/PaymentMethodGeneralLedgerPendingEntryService.js"></script>
+		        <script type="text/javascript">
+	                function paymentMethodChanged(selectedMethod) {
+		                
+                        if ( selectedMethod != "" ) {
+							 var dwrReply = {
+						         callback:function(data) {
+							         if ( data != null && typeof data == 'object' ) {
+				                         setRecipientValue( "document.bankCode", data.bankCode );
+				                         setRecipientValue( "document.bank", data.bankName );
+					                 } else {
+				                         setRecipientValue( "document.bankCode", "" );
+				                         setRecipientValue( "document.bank", "" );
+					                 }
+						         },
+						         errorHandler:function( errorMessage ) {
+					                 window.status = errorMessage;
+						         }
+							 };
+                             PaymentMethodGeneralLedgerPendingEntryService.getBankForPaymentMethod( selectedMethod, dwrReply );
+                        }
+	                }
+		        </script>
+			</c:if>
+		</table>
     </div>
 </kul:tab>

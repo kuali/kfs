@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+	<!-- Test Version 1.0 -->
+<!-- An example log4j configuration xml file for log4jdbc -->
+<!-- Logging levels are: -->
+<!-- DEBUG < INFO < WARN < ERROR < FATAL -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="LogFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${LOG4J_XML_PATH}/kfs.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+	<param name="ConversionPattern" value="%d KFS [%p] %C: %m%n"/>
+			
+        </layout>
+    </appender>
+
+    <!-- Quiet down some of the more chatty classes -->
+	
+	<!-- All Kuali Class grouped  -->
+
+	
+	
+	<logger name="org.kuali">
+        <level value="INFO"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	
+    <logger name="org.kuali.rice.ksb.messaging.RoutingTableDiffCalculator">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.ksb.messaging.RemotedServiceRegistryImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.ksb.messaging.RemoteResourceServiceLocatorImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+  
+    <logger name="org.kuali.rice.core.config.BaseConfig">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.resourceloader.BaseResourceLoader">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.config.HierarchicalConfigParser">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.util.cache">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    
+    <logger name="org.kuali.rice.kns.datadictionary.DataDictionaryBuilder">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.util.properties.PropertyHolder">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    
+    <logger name="org.kuali.rice.kns.util.ObjectUtils">
+        <level value="OFF"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.kuali.kfs.module.purap.util.PurApObjectUtils">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.docsearch.SearchableAttribute">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.engine.node.NodeJotter">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.engine.StandardWorkflowEngine">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.util.PerformanceLogger">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.document.DocumentBase">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.datadictionary.DataDictionary">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.service.impl.DocumentServiceImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.web.struts.action.KualiAction">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.web.struts.pojo.PojoPropertyUtilsBean">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.docsearch.dao.impl.DocumentSearchDAOJdbcImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.service.impl.DocumentTypeResponsibilityTypeServiceImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	    <logger name="org.kuali.rice.core.resourceloader.ResourceLoaderContainer">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.core.resourceloader.BaseResourceLoader">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.datadictionary.ExternalizableAttributeDefinitionProxy">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.core.ojb.SqlGeneratorSuffixableImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kim.service.KIMServiceLocator">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kew.service.KEWServiceLocator">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.web.struts.pojo.PojoFormBase">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.core.resourceloader">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.util.properties.PropertyTree">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.core.database.KualiTransactionInterceptor">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.ksb.messaging.ServiceDefinition">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.core.impl.config.property.JAXBConfigImpl">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.kuali.rice.kim.impl.permission.PermissionServiceImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+	
+    </logger>
+	
+	
+	
+		<!-- All Non- Kuali Class grouped  -->
+		<!-- Below can be replaced with log4j.logger.org=WARN for PRD. There a few FATAL in here   -->
+	
+		<!-- # struts  -->
+    <logger name="org.apache.struts">
+		<level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	
+	<!-- # # Spring Framework  -->
+    <logger name="org.springframework.aop">
+		<level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.beans">
+		<level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.context">
+		<level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+ 
+	<!-- # # # OJB  -->
+    <logger name="org.apache.ojb">
+		<level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.ojb.broker.core.proxy.IndirectionHandler">
+		<level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	
+	<!-- # # # CONTINUE  -->
+    <logger name="org.apache.jasper.compiler">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="edu.arizona.kfs.pdp.batch.AchPayeeBankAcctInputFileType">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.scheduling">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.quartz">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.objectweb.jotm">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.transaction.jta">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.transaction.support">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.jdbc.datasource.DataSourceUtils">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.apache.catalina.session.ManagerBase">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.scheduling.quartz.LocalDataSourceJobStore">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.apache.commons.beanutils.ConvertUtils">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.springframework.aop.framework.JdkDynamicAopProxy">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.apache.commons.beanutils.BeanUtils">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.springframework.transaction.interceptor.TransactionAspectSupport">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.springmodules.orm.ojb.PersistenceBrokerTemplate">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.apache.struts.util.PropertyMessageResources">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+    <logger name="org.springframework.web.servlet.handler.AbstractUrlHandlerMapping">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	
+    <logger name="org.springframework.aop.framework.Cglib2AopProxy">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>   
+	<logger name="com.opensymphony">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.enhydra.jdbc.xapool">
+        <level value="FATAL"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.axis">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.commons.digester.Digester">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	<logger name="org.apache.ojb.broker">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.ojb.broker.core.PersistenceBrokerImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.ws">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.apache.xml">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.displaytag">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.jgroups.protocols">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	<logger name="org.springframework.beans.factory">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="event.org.springframework.ldap.core.LdapTemplate">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="event.org.springframework.security.ldap.SpringSecurityAuthenticationSource">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="uk.ltd.getahead.dwr">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.jasig.cas.client.authentication.AuthenticationFilter">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+	<logger name="org.springframework.ldap.core.LdapTemplate">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="edu.arizona.kfs.module.ld.service.impl.EreSweepServiceImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+    <logger name="edu.arizona.kfs.module.ld.service.impl.EreSweepFileHandlerHelperImpl">
+        <level value="WARN"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+
+<!--
+    <logger name="">
+        <level value="ERROR"/>
+        <appender-ref ref="LogFile"/>
+    </logger>
+-->
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="LogFile"/>
+    </root>
+
+</log4j:configuration>
+

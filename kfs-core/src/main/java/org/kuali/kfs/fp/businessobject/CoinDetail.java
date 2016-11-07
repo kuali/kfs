@@ -41,6 +41,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentFiveCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentOneCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentOtherCentAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentHundredCentAmount = KualiDecimal.ZERO;
 
     /**
@@ -374,6 +375,14 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
         this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
+    }
+    
+    public KualiDecimal getFinancialDocumentCentAmount() {
+        return financialDocumentOtherCentAmount;
+    }
+
+    public void setFinancialDocumentCentAmount(KualiDecimal financialDocumentCentAmount) {
+        this.financialDocumentOtherCentAmount = financialDocumentCentAmount;
     }
 
 

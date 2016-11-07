@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>LLCP</name>
+      <parent>FPAD</parent>
+      <label>Labor Ledger Correction Process</label>
+      <docHandler>${kfs.url}/laborLedgerCorrection.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborledgercorrectionprocess.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CentralAdministrationReview" />
+          <role name="CentralAdministrationReview" nextNode="autoApproveForAsynchronousProcessing" />
+          <simple name="autoApproveForAsynchronousProcessing" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="CentralAdministrationReview">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <simple name="autoApproveForAsynchronousProcessing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

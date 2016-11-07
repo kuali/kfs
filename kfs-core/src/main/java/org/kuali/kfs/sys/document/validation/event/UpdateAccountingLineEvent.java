@@ -51,7 +51,7 @@ public class UpdateAccountingLineEvent extends AttributedDocumentEventBase imple
         this.accountingLine = originalAccountingLine;
         this.updatedAccountingLine = updatedAccountingLine;
     }
-    
+
     /**
      * @see org.kuali.rice.krad.rule.event.AccountingLineEvent#getAccountingLine()
      */

@@ -5,7 +5,7 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import edu.arizona.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -21,7 +21,6 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonEmployeeTravelValidation.class);
 	private ParameterService parameterService;
 
-	@Override
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
@@ -45,6 +44,14 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 		errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
 
 		getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
+		
+		LOG.info("Errors?" + errors.toString());
+		if (ObjectUtils.isNull(errors)) {
+			LOG.info("errors is empty");
+			errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+			errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+			return false;
+		}
 
 		/* travel from and to state required if country is us */
 		if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(nonEmployeeTravel.getDvTravelFromCountryCode()) && StringUtils.isBlank(nonEmployeeTravel.getDisbVchrTravelFromStateCode())) {
@@ -108,19 +115,26 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 				}
 			}
 		}
-
+		
+		if (document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() != null || document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp() != null) {
+			if (document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp().compareTo(document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp()) >= 0) {
+				LOG.info("inside last if statement");
+				errors.putError(KFSPropertyConstants.DV_PERDIEM_START_DTTM_STAMP, KFSKeyConstants.ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT);
+				isValid = false;
+			}
+		}
 		errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
 		errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
 		return isValid;
 	}
 
-	protected boolean isTravelNonEmplPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
-		ParameterEvaluator travelNonEmplPaymentReasonEvaluator = /* REFACTORME */SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+	private boolean isTravelNonEmplPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
+		ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
 		return travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
 	}
 
-	protected boolean validatePerDiemSection(DisbursementVoucherDocument document, MessageMap errors) {
+	private boolean validatePerDiemSection(DisbursementVoucherDocument document, MessageMap errors) {
 		boolean perDiemSectionComplete = true;
 
 		// Checks to see if any per diem fields are filled in
@@ -146,7 +160,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 		return perDiemSectionComplete;
 	}
 
-	protected boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, MessageMap errors) {
+	private boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, MessageMap errors) {
 		boolean personalVehicleSectionComplete = true;
 
 		// Checks to see if any per diem fields are filled in

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc" parent="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean">
 		<property name="name" value="disbVchrServicePerformedDesc" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Business Purpose" />
@@ -16,7 +16,7 @@
 		</property>
 	</bean>
 
-	<bean id="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName" parent="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName-parentBean">
 		<property name="name" value="dvServicePerformedLocName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Destination" />
@@ -28,7 +28,7 @@
 		</property>
 	</bean>
 
-	<bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName" parent="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean">
 		<property name="name" value="dvServiceRegularEmprName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Organization Name" />

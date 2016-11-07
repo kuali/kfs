@@ -64,7 +64,8 @@
       <email>kfs.product.team@kuali.co</email>
     </developer>
   </developers>
-  <prerequisites>    <maven>${maven.require.version}</maven>
+  <prerequisites> 
+     <maven>${maven.require.version}</maven>
   </prerequisites>
   <properties>
 

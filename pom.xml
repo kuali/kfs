@@ -64,8 +64,7 @@
       <email>kfs.product.team@kuali.co</email>
     </developer>
   </developers>
-  <prerequisites>
-    <maven>${maven.require.version}</maven>
+  <prerequisites>    <maven>${maven.require.version}</maven>
   </prerequisites>
   <properties>
 
@@ -114,7 +113,7 @@
     <jstl-api.version>1.2</jstl-api.version>
     <jta.version>1.1</jta.version>
     <junit.version>4.9</junit.version>
-    <kfs.help.version>ua-release3-SNAPSHOT</kfs.help.version>
+    <kfs.help.version>ua-release2</kfs.help.version>
     <liquibase.version>3.3.2</liquibase.version>
     <mysql.groupId>mysql</mysql.groupId>
     <mysql.artifactId>mysql-connector-java</mysql.artifactId>

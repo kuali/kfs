@@ -64,7 +64,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class CashManagementAction extends KualiTransactionalDocumentActionBase {
     protected static Logger LOG = Logger.getLogger(CashManagementAction.class);
-    protected static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
+    protected static final String CASH_MANAGEMENT_STATUS_PAGE = "cashManagementStatus.do";
 
     /**
      * Default constructor

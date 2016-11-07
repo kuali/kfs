@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-475" author="Josh Shaloo">
+        <comment>
+            UAF-475 add KFS-RQ namespace for document requeue job
+        </comment>
+        <sql>insert into KULOWNER.KRCR_NMSPC_T (OBJ_ID, ACTV_IND, NM, NMSPC_CD, APPL_ID) VALUES (sys_guid(), 'Y', 'Document Requeue', 'KFS-RQ', 'KFS');</sql>
+        <rollback>
+            <delete tableName="KRCR_NMSPC_T">
+                <where>NMSPC_CD='KFS-RQ'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

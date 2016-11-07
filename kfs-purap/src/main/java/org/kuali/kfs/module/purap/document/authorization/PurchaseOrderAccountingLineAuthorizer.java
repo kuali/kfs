@@ -106,22 +106,19 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
 
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-     // the fields in a new line should be always editable
+        // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
         }
 
         // check the initiation permission on the document if it is in the state of preroute, but only if
         // the PO status is not In Process.
-        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) accountingDocument).getFinancialSystemDocumentHeader().getWorkflowDocument();
-
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)accountingDocument;
-        if (!poDocument.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS) && (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
+        WorkflowDocument workflowDocument = accountingDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS) && (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
             if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDocument.getDocumentTypeName())) {
                 PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
                 purapAccount.refreshReferenceObject("purapItem");
-
-                PurchaseOrderItem item = (PurchaseOrderItem)purapAccount.getPurapItem();
+                PurchaseOrderItem item = purapAccount.getPurapItem();
                 return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
             }
             else {

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="BudgetShellCode"                                              parent="BusinessObjectEntry">
+        <property name="businessObjectClass"    value="edu.arizona.kfs.coa.businessobject.BudgetShellCode"  />
+        <property name="inquiryDefinition"      ref="BudgetShellCode-inquiryDefinition"                     />
+        <property name="lookupDefinition"       ref="BudgetShellCode-lookupDefinition"                      />
+        <property name="titleAttribute"         value="code"                                     />
+        <property name="objectLabel"            value="Budget Shell"                                        />
+        <property name="attributes">
+            <list>
+                <ref bean="BudgetShellCode-code"/>
+                <ref bean="BudgetShellCode-budgetShellCode"                     />
+                <ref bean="BudgetShellCode-name"/>
+                <ref bean="BudgetShellCode-codeAndDescription"          />
+                <ref bean="BudgetShellCode-description"/>
+                <ref bean="BudgetShellCode-groupCode"                           />
+                <ref bean="BudgetShellCode-groupName"                           />
+                <ref bean="BudgetShellCode-fiscalYearClosed"                    />
+                <ref bean="BudgetShellCode-reportableGroup"                     />
+                <ref bean="BudgetShellCode-internalIndicator"					/>
+                <ref bean="BudgetShellCode-summaryGroupCode"					/>
+                <ref bean="BudgetShellCode-summaryGroupName"					/>
+                <ref bean="BudgetShellCode-reportingLevelCode"					/>
+                <ref bean="BudgetShellCode-reportingLevelName"					/>  
+                <ref bean="BudgetShellCode-active"                              />
+                <ref bean="BudgetShellCode-notes"								/>
+                <ref bean="BudgetShellCode-comments"							/>
+                <ref bean="BudgetShellCode-vicePresidentPrincipalId"            />
+                <ref bean="BudgetShellCode-vicePresident.principalName"         />
+                <ref bean="BudgetShellCode-vicePresident.name"                  />
+                <ref bean="BudgetShellCode-departmentHeadPrincipalId"           />
+                <ref bean="BudgetShellCode-departmentHead.principalName"        />
+                <ref bean="BudgetShellCode-departmentHead.name"                 />
+                <ref bean="BudgetShellCode-budgetAnalystPrincipalId"            />
+                <ref bean="BudgetShellCode-budgetAnalyst.principalName"         />
+                <ref bean="BudgetShellCode-budgetAnalyst.name"                  />
+                <ref bean="BudgetShellCode-budgetShellContactPrincipalId"       />
+                <ref bean="BudgetShellCode-budgetShellContact.principalName"    />
+                <ref bean="BudgetShellCode-budgetShellContact.name"             />
+                <ref bean="BudgetShellCode-summaryGroupId"						/>
+                <ref bean="BudgetShellCode-summaryGroup.principalName"			/>
+                <ref bean="BudgetShellCode-summaryGroup.name"					/>
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <dd:relationship            objectAttribute="vicePresident">
+                    <dd:primitiveAttribute  source="vicePresidentPrincipalId"           target="principalId"                        />
+                    <dd:supportAttribute    source="vicePresident.principalName"        target="principalName"  identifier="true"   />
+                    <dd:supportAttribute    source="vicePresident.name"                 target="name"                               />
+                </dd:relationship>
+                <dd:relationship            objectAttribute="departmentHead">
+                    <dd:primitiveAttribute  source="departmentHeadPrincipalId"          target="principalId"                        />
+                    <dd:supportAttribute    source="departmentHead.principalName"       target="principalName"  identifier="true"   />
+                    <dd:supportAttribute    source="departmentHead.name"                target="name"                               />
+                </dd:relationship>
+                <dd:relationship            objectAttribute="budgetAnalyst">
+                    <dd:primitiveAttribute  source="budgetAnalystPrincipalId"           target="principalId"                        />
+                    <dd:supportAttribute    source="budgetAnalyst.principalName"        target="principalName"  identifier="true"   />
+                    <dd:supportAttribute    source="budgetAnalyst.name"                 target="name"                               />
+                </dd:relationship>
+                <dd:relationship            objectAttribute="budgetShellContact">
+                    <dd:primitiveAttribute  source="budgetShellContactPrincipalId"      target="principalId"                        />
+                    <dd:supportAttribute    source="budgetShellContact.principalName"   target="principalName"  identifier="true"   />
+                    <dd:supportAttribute    source="budgetShellContact.name"            target="name"                               />
+                </dd:relationship>
+                <dd:relationship objectAttribute="summaryGroup">
+					<dd:primitiveAttribute source="summaryGroupId"  target="principalId" />
+					<dd:supportAttribute source="summaryGroup.principalName" target="principalName" identifier="true" />
+					<dd:supportAttribute source="summaryGroup.name"          target="name" />
+				</dd:relationship>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="BudgetShellCode-code"                              parent="AttributeDefinition">
+        <property name="name"               value="code"                         />
+        <property name="label"              value="Budget Shell Code"                       />
+        <property name="shortLabel"         value="Bud Shl Cd"                              />
+        <property name="forceUppercase"     value="true"                                    />
+        <property name="required"           value="true"                                    />
+        <property name="maxLength"          value="10"                                      />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="12"                />
+        </property>
+    </bean>
+    
+    <bean id="BudgetShellCode-budgetShellCode" parent="BudgetShellCode-code" p:name="budgetShellCode"/>
+
+    <bean id="BudgetShellCode-name"                       parent="AttributeDefinition">
+        <property name="name"               value="name"                  />
+        <property name="label"              value="Budget Shell Name"                		/>
+        <property name="shortLabel"         value="Bud Shl Name"                            />
+        <property name="forceUppercase"     value="false"                                   />
+        <property name="required"           value="true"                                    />
+        <property name="maxLength"          value="45"                                      />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="50"                />
+        </property>
+    </bean>
+
+	<bean id="BudgetShellCode-codeAndDescription" parent="AttributeDefinition">
+		<property name="name" value="codeAndDescription"/>
+		<property name="label" value="Budget Shell Code"/>
+		<property name="shortLabel" value="Bud Shl Cd"/>
+		<property name="maxLength" value="60"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45"/>
+		</property>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+	</bean>
+
+    <bean id="BudgetShellCode-description"                   parent="GenericAttributes-genericBigText">
+        <property name="name"               value="description"              />
+        <property name="label"              value="Budget Shell Description"           		/>
+        <property name="shortLabel"         value="Description"                        />
+        <property name="required"           value="false"                                   />
+        <property name="maxLength"          value="1000"                                    />
+    </bean>
+
+    <bean id="BudgetShellCode-groupCode"                                    parent="AttributeDefinition">
+        <property name="name"               value="groupCode"                               />
+        <property name="label"              value="Group Code"                              />
+        <property name="shortLabel"         value="Grp Cd"                                  />
+        <property name="maxLength"          value="10"                                      />
+        <property name="required"           value="true"                                    />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="12"                  />
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-groupName"                                    parent="AttributeDefinition">
+        <property name="name"               value="groupName"                               />
+        <property name="label"              value="Group Name"                              />
+        <property name="shortLabel"         value="Grp Nm"                                  />
+        <property name="required"           value="true"                                    />
+        <property name="maxLength"          value="55"                                      />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"            p:size="60"                 />
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-fiscalYearClosed"                             parent="SystemOptions-universityFiscalYear">
+        <property name="name"               value="fiscalYearClosed"                        />
+        <property name="label"              value="FY Closed"                               />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-reportableGroup"                              parent="GenericAttributes-genericBoolean">
+        <property name="name"               value="reportableGroup"                         />
+        <property name="label"              value="LFB Indicator"                        	/>
+        <property name="required"           value="false"                                   />
+    </bean>
+    
+	<bean id="BudgetShellCode-internalIndicator" parent="GenericAttributes-genericBoolean">
+    	<property name="name" value="internalIndicator"/>
+	    <property name="label" value="LFB Internal Indicator"/>
+   	</bean>
+    
+    <bean id="BudgetShellCode-summaryGroupCode" parent="AttributeDefinition">
+	    <property name="name" value="summaryGroupCode"/>
+	    <property name="label" value="Summary Group Code"/>
+    	<property name="shortLabel" value="Summ Grp Cd" />
+	    <property name="maxLength" value="10"/>
+    	<property name="required" value="false" />
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="12"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="false"/>
+	    </property>
+    </bean>
+    
+    <bean id="BudgetShellCode-summaryGroupName" parent="AttributeDefinition">
+	    <property name="name" value="summaryGroupName"/>
+	    <property name="label" value="Summary Group Name"/>
+    	<property name="shortLabel" value="Summ Grp Nm" />
+    	<property name="required" value="false" />
+	    <property name="maxLength" value="55"/>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="60"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+    </bean>
+    
+    <bean id="BudgetShellCode-reportingLevelCode" parent="AttributeDefinition">
+	    <property name="name" value="reportingLevelCode"/>
+	    <property name="label" value="Reporting Level Code"/>
+    	<property name="shortLabel" value="Rpt Lvl Cd" />
+	    <property name="maxLength" value="10"/>
+    	<property name="required" value="false" />
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="12"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="false"/>
+	    </property>
+    </bean>
+
+    <bean id="BudgetShellCode-reportingLevelName" parent="AttributeDefinition">
+	    <property name="name" value="reportingLevelName"/>
+	    <property name="label" value="Reporting Level Name"/>
+    	<property name="shortLabel" value="Rpt Lvl Nm" />
+    	<property name="required" value="false" />
+	    <property name="maxLength" value="55"/>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="60"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+    </bean>  
+    
+    <bean id="BudgetShellCode-active"                                       parent="GenericAttributes-activeIndicator">
+        <property name="name"               value="active"                              />
+    </bean>
+    
+
+    
+	<bean id="BudgetShellCode-notes" parent="AttributeDefinition">
+	    <property name="name" value="notes"/>
+	    <property name="label" value="Notes"/>
+    	<property name="shortLabel" value="Notes" />
+    	<property name="required" value="false" />
+	    <property name="maxLength" value="100"/>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="105"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+    </bean>
+        
+    <bean id="BudgetShellCode-comments" parent="AttributeDefinition">
+	    <property name="name" value="comments"/>
+	    <property name="label" value="Budget Office Comments"/>
+    	<property name="shortLabel" value="Comments" />
+    	<property name="required" value="false" />
+	    <property name="maxLength" value="100"/>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="105"/>
+	    </property>
+	    <property name="validationPattern">
+	        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+    </bean>
+
+    <bean id="BudgetShellCode-vicePresidentPrincipalId"                     parent="PersonImpl-principalId">
+        <property name="name"               value="vicePresidentPrincipalId"                />
+        <property name="label"              value="Vice-President Principal ID"             />
+        <property name="shortLabel"         value="VP Prncpl ID"                            />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-vicePresident.principalName"                  parent="PersonImpl-principalName">
+        <property name="name"               value="vicePresident.principalName"             />
+        <property name="label"              value="Vice-President - NetID"                  />
+        <property name="shortLabel"         value="Vice-President - NetID"                  />
+        <property name="required"           value="false" />
+        <property name="control">
+            <bean parent="KualiUserControlDefinition">
+                <property name="personNameAttributeName"    value="vicePresident.name"                  />
+                <property name="universalIdAttributeName"   value="vicePresidentPrincipalId"            />
+                <property name="userIdAttributeName"        value="vicePresident.principalName"         />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-vicePresident.name"                           parent="PersonImpl-name">
+        <property name="name"               value="vicePresident.name"                      />
+        <property name="label"              value="Vice-President Name"                     />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-departmentHeadPrincipalId"                    parent="PersonImpl-principalId">
+        <property name="name"               value="departmentHeadPrincipalId"               />
+        <property name="label"              value="Dept Head Principal ID"                  />
+        <property name="shortLabel"         value="Dept Head Prncpl ID"                     />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-departmentHead.principalName"                 parent="PersonImpl-principalName">
+        <property name="name"               value="departmentHead.principalName"            />
+        <property name="label"              value="Dept Head - NetID"                       />
+        <property name="shortLabel"         value="Dept Head - NetID"                       />
+        <property name="required"           value="false"                                   />
+        <property name="control">
+            <bean parent="KualiUserControlDefinition">
+                <property name="personNameAttributeName"    value="departmentHead.name"                 />
+                <property name="universalIdAttributeName"   value="departmentHeadPrincipalId"           />
+                <property name="userIdAttributeName"        value="departmentHead.principalName"        />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-departmentHead.name"                          parent="PersonImpl-name">
+        <property name="name"               value="departmentHead.name"                     />
+        <property name="label"              value="Dept Head Name"                          />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-budgetAnalystPrincipalId"                     parent="PersonImpl-principalId">
+        <property name="name"               value="budgetAnalystPrincipalId"                />
+        <property name="label"              value="Budget Analyst Principal ID"             />
+        <property name="shortLabel"         value="Bdgt Analyst Prncpl ID"                  />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-budgetAnalyst.principalName"                  parent="PersonImpl-principalName">
+        <property name="name"               value="budgetAnalyst.principalName"             />
+        <property name="label"              value="Budget Analyst - NetID"                  />
+        <property name="shortLabel"         value="Budget Analyst - NetID"                  />
+        <property name="required"           value="false"                                   />
+        <property name="control">
+            <bean parent="KualiUserControlDefinition">
+                <property name="personNameAttributeName"    value="budgetAnalyst.name"                  />
+                <property name="universalIdAttributeName"   value="budgetAnalystPrincipalId"            />
+                <property name="userIdAttributeName"        value="budgetAnalyst.principalName"         />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-budgetAnalyst.name"                           parent="PersonImpl-name">
+        <property name="name"               value="budgetAnalyst.name"                      />
+        <property name="label"              value="Budget Analyst Name"                     />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-budgetShellContactPrincipalId"                parent="PersonImpl-principalId">
+        <property name="name"               value="budgetShellContactPrincipalId"           />
+        <property name="label"              value="Budget Shell Contact Principal ID"       />
+        <property name="shortLabel"         value="BSC Prncpl ID"                           />
+        <property name="required"           value="false"                                   />
+    </bean>
+
+    <bean id="BudgetShellCode-budgetShellContact.principalName"             parent="PersonImpl-principalName">
+        <property name="name"               value="budgetShellContact.principalName"        />
+        <property name="label"              value="Budget Shell Contact - NetID"            />
+        <property name="shortLabel"         value="Budget Shell Contact - NetID"            />
+        <property name="required"           value="false"                                   />
+        <property name="control">
+            <bean parent="KualiUserControlDefinition">
+                <property name="personNameAttributeName"    value="budgetShellContact.name"             />
+                <property name="universalIdAttributeName"   value="budgetShellContactPrincipalId"       />
+                <property name="userIdAttributeName"        value="budgetShellContact.principalName"    />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BudgetShellCode-budgetShellContact.name"                      parent="PersonImpl-name">
+        <property name="name"               value="budgetShellContact.name"                 />
+        <property name="label"              value="Budget Shell Contact Name"               />
+        <property name="required"           value="false"                                   />
+    </bean>
+    
+    <bean id="BudgetShellCode-summaryGroupId" parent="PersonImpl-principalId">
+	    <property name="name" value="summaryGroupId"/>
+	    <property name="label" value="Summary Group ID"/>
+    	<property name="shortLabel" value="Summ Grp ID" />
+	    <property name="required" value="false"/>
+    </bean>
+    <bean id="BudgetShellCode-summaryGroup.principalName" parent="PersonImpl-principalName">
+	    <property name="name" value="summaryGroup.principalName"/>
+	    <property name="label" value="Summary Group - NetID"/>
+	    <property name="shortLabel" value="Summary Group - NetID"/>
+	    <property name="required" value="false"/>
+	    <property name="control">
+	      <bean parent="KualiUserControlDefinition" 
+	      		p:personNameAttributeName="summaryGroup.name" 
+	      		p:universalIdAttributeName="summaryGroupId" 
+	      		p:userIdAttributeName="summaryGroup.principalName"/>
+	    </property>
+    </bean>
+    <bean id="BudgetShellCode-summaryGroup.name" parent="PersonImpl-name">
+	    <property name="name" value="summaryGroup.name"/>
+	    <property name="label" value="Summary Group Name"/>
+	    <property name="required" value="false"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="BudgetShellCode-inquiryDefinition"                            parent="InquiryDefinition">
+        <property name="title" value="Budget Shell Code Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title"              value="General Information" />
+                    <property name="numberOfColumns"    value="2" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="code"/>
+                            <bean parent="FieldDefinition" p:attributeName="name"/>
+                            <bean parent="FieldDefinition" p:attributeName="groupCode"                                              />
+                            <bean parent="FieldDefinition" p:attributeName="groupName"                                              />
+                            <bean parent="FieldDefinition" p:attributeName="summaryGroupCode"										/>
+                            <bean parent="FieldDefinition" p:attributeName="summaryGroupName"										/>
+                            <bean parent="FieldDefinition" p:attributeName="reportingLevelCode"										/>
+                            <bean parent="FieldDefinition" p:attributeName="reportingLevelName"										/>
+                            <bean parent="FieldDefinition"  p:attributeName="vicePresident.principalName"                           />
+                            <bean parent="FieldDefinition"  p:attributeName="vicePresident.name"                 p:noLookup="true"  />
+                            <bean parent="FieldDefinition"  p:attributeName="departmentHead.principalName"                          />
+                            <bean parent="FieldDefinition"  p:attributeName="departmentHead.name"                p:noLookup="true"  />
+                            <bean parent="FieldDefinition"  p:attributeName="budgetAnalyst.principalName"                           />
+                            <bean parent="FieldDefinition"  p:attributeName="budgetAnalyst.name"                 p:noLookup="true"  />
+                            <bean parent="FieldDefinition"  p:attributeName="budgetShellContact.principalName"                      />
+                            <bean parent="FieldDefinition"  p:attributeName="budgetShellContact.name"            p:noLookup="true"  />
+                            <bean parent="FieldDefinition"  p:attributeName="summaryGroup.principalName"							/>
+                            <bean parent="FieldDefinition"  p:attributeName="summaryGroup.name" 				 p:noLookup="true"	/>
+                            <bean parent="FieldDefinition" p:attributeName="reportableGroup"                                        />
+                            <bean parent="FieldDefinition" p:attributeName="internalIndicator"										/>
+                            <bean parent="FieldDefinition" p:attributeName="fiscalYearClosed"                                       />
+                            <bean parent="FieldDefinition" p:attributeName="description"/>
+                            <bean parent="FieldDefinition"  p:attributeName="notes"													/>
+                            <bean parent="FieldDefinition"  p:attributeName="comments"												/>
+                            <bean parent="FieldDefinition" p:attributeName="active"                                                 />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="BudgetShellCode-lookupDefinition"                             parent="LookupDefinition">
+        <property name="title"              value="Budget Shell Lookup"                 />
+        <property name="defaultSort">
+                <bean parent="SortDefinition"   p:attributeName="code"                                            />
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition"  p:attributeName="code"/>
+                <bean parent="FieldDefinition"  p:attributeName="name"/>
+                <bean parent="FieldDefinition"  p:attributeName="groupCode"                                                  />
+                <bean parent="FieldDefinition"  p:attributeName="groupName"                                                  />
+                <bean parent="FieldDefinition"  p:attributeName="summaryGroupCode"											 />
+                <bean parent="FieldDefinition"  p:attributeName="summaryGroupName"											 />
+                <bean parent="FieldDefinition"  p:attributeName="reportingLevelCode"										 />
+                <bean parent="FieldDefinition"  p:attributeName="reportingLevelName"									     />
+                <bean parent="FieldDefinition"  p:attributeName="vicePresident.principalName"        p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="departmentHead.principalName"       p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="budgetAnalyst.principalName"        p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="budgetShellContact.principalName"   p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="summaryGroup.principalName" 		 p:forceLookup="true" 	 />
+                <bean parent="FieldDefinition"  p:attributeName="reportableGroup"                                            />
+                <bean parent="FieldDefinition"  p:attributeName="internalIndicator"											 />
+                <bean parent="FieldDefinition"  p:attributeName="fiscalYearClosed"                                           />
+                <bean parent="FieldDefinition"  p:attributeName="active"                             p:defaultValue="Y"      />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition"  p:attributeName="code"/>
+                <bean parent="FieldDefinition"  p:attributeName="name"/>
+                <bean parent="FieldDefinition"  p:attributeName="groupCode"                                                  />
+                <bean parent="FieldDefinition"  p:attributeName="groupName"                                                  />
+                <bean parent="FieldDefinition"  p:attributeName="vicePresident.principalName"        p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="departmentHead.principalName"       p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="budgetAnalyst.principalName"        p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="budgetShellContact.principalName"   p:forceInquiry="true"   />
+                <bean parent="FieldDefinition"  p:attributeName="summaryGroup.principalName" 		 p:forceInquiry="true" 	 />
+                <bean parent="FieldDefinition"  p:attributeName="reportableGroup"                                            />
+                <bean parent="FieldDefinition"  p:attributeName="fiscalYearClosed"                                           />
+                <bean parent="FieldDefinition"  p:attributeName="active"                                                     />
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="GecEntry" parent="Entry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.gl.businessobject.GecEntry" />
+        <property name="inquiryDefinition">
+            <ref bean="GecEntry-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="GecEntry-lookupDefinition" />
+        </property>
+        <property name="objectLabel" value="EntryBo" />
+        <property name="attributes">
+            <list>
+                <ref bean="GecEntry-gecDocumentNumber" />
+                <ref bean="GecEntry-universityFiscalYear" />
+                <ref bean="GecEntry-chartOfAccountsCode" />
+                <ref bean="GecEntry-accountNumber" />
+                <ref bean="GecEntry-subAccountNumber" />
+                <ref bean="GecEntry-financialObjectCode" />
+                <ref bean="GecEntry-financialSubObjectCode" />
+                <ref bean="GecEntry-financialObjectTypeCode" />
+                <ref bean="GecEntry-financialBalanceTypeCode" />
+                <ref bean="GecEntry-universityFiscalPeriodCode" />
+                <ref bean="GecEntry-financialDocumentTypeCode" />
+                <ref bean="GecEntry-financialSystemOriginationCode" />
+                <ref bean="GecEntry-documentNumber" />
+                <ref bean="GecEntry-transactionLedgerEntrySequenceNumber" />
+                <ref bean="GecEntry-transactionLedgerEntryDescription" />
+                <ref bean="GecEntry-transactionLedgerEntryAmount" />
+                <ref bean="GecEntry-transactionDebitCreditCode" />
+                <ref bean="GecEntry-transactionDate" />
+                <ref bean="GecEntry-organizationDocumentNumber" />
+                <ref bean="GecEntry-projectCode" />
+                <ref bean="GecEntry-organizationReferenceId" />
+                <ref bean="GecEntry-referenceFinancialDocumentTypeCode" />
+                <ref bean="GecEntry-referenceFinancialSystemOriginationCode" />
+                <ref bean="GecEntry-referenceFinancialDocumentNumber" />
+                <ref bean="GecEntry-financialDocumentReversalDate" />
+                <ref bean="GecEntry-transactionEncumbranceUpdateCode" />
+                <ref bean="GecEntry-transactionPostingDate" />
+                <ref bean="GecEntry-transactionDateTimeStamp" />
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode" p:targetName="name" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="GecEntry-gecDocumentNumber" parent="DocumentHeader-documentNumber">
+        <property name="name" value="gecDocumentNumber" />
+        <property name="label" value="GEC Document Number" />
+        <property name="shortLabel" value="GEC Doc Num" />
+    </bean>
+
+    <bean id="GecEntry-universityFiscalYear" parent="Entry-universityFiscalYear" />
+
+    <bean id="GecEntry-chartOfAccountsCode" parent="Entry-chartOfAccountsCode" />
+
+    <bean id="GecEntry-accountNumber" parent="Entry-accountNumber" />
+
+    <bean id="GecEntry-subAccountNumber" parent="Entry-subAccountNumber" />
+
+    <bean id="GecEntry-financialObjectCode" parent="Entry-financialObjectCode" />
+
+    <bean id="GecEntry-financialSubObjectCode" parent="Entry-financialSubObjectCode" />
+
+    <bean id="GecEntry-financialObjectTypeCode" parent="Entry-financialObjectTypeCode" />
+
+    <bean id="GecEntry-financialBalanceTypeCode" parent="Entry-financialBalanceTypeCode" />
+
+    <bean id="GecEntry-universityFiscalPeriodCode" parent="Entry-universityFiscalPeriodCode" />
+
+    <bean id="GecEntry-financialDocumentTypeCode" parent="Entry-financialDocumentTypeCode" />
+
+    <bean id="GecEntry-financialSystemOriginationCode" parent="Entry-financialSystemOriginationCode" />
+
+    <bean id="GecEntry-documentNumber" parent="Entry-documentNumber" />
+
+    <bean id="GecEntry-transactionLedgerEntrySequenceNumber" parent="Entry-transactionLedgerEntrySequenceNumber" />
+
+    <bean id="GecEntry-transactionLedgerEntryDescription" parent="Entry-transactionLedgerEntryDescription" />
+
+    <bean id="GecEntry-transactionLedgerEntryAmount" parent="Entry-transactionLedgerEntryAmount" />
+
+    <bean id="GecEntry-transactionDebitCreditCode" parent="Entry-transactionDebitCreditCode" />
+
+    <bean id="GecEntry-transactionDate" parent="Entry-transactionDate" />
+
+    <bean id="GecEntry-organizationDocumentNumber" parent="Entry-organizationDocumentNumber" />
+
+    <bean id="GecEntry-projectCode" parent="Entry-projectCode" />
+
+    <bean id="GecEntry-organizationReferenceId" parent="Entry-organizationReferenceId" />
+
+    <bean id="GecEntry-referenceFinancialDocumentTypeCode" parent="Entry-referenceFinancialDocumentTypeCode" />
+
+    <bean id="GecEntry-referenceFinancialSystemOriginationCode" parent="Entry-referenceFinancialSystemOriginationCode" />
+
+    <bean id="GecEntry-referenceFinancialDocumentNumber" parent="Entry-referenceFinancialDocumentNumber" />
+
+    <bean id="GecEntry-financialDocumentReversalDate" parent="Entry-financialDocumentReversalDate" />
+
+    <bean id="GecEntry-transactionEncumbranceUpdateCode" parent="Entry-transactionEncumbranceUpdateCode" />
+
+    <bean id="GecEntry-transactionPostingDate" parent="Entry-transactionPostingDate" />
+
+    <bean id="GecEntry-transactionDateTimeStamp" parent="Entry-transactionDateTimeStamp" />
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="GecEntry-inquiryDefinition" parent="InquiryDefinition">
+        <property name="title" value="General Ledger Entry for GEC" />
+        <property name="inquirySections">
+            <list>
+                <ref bean="GecEntry-inquirySectionDefinition" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GecEntry-inquirySectionDefinition" parent="InquirySectionDefinition">
+        <property name="title" value="" />
+        <property name="numberOfColumns" value="1" />
+        <property name="inquiryFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+                <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="documentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber" />
+                <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription" />
+                <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDate" />
+                <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="projectCode" />
+                <bean parent="FieldDefinition" p:attributeName="organizationReferenceId" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate" />
+                <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode" />
+                <bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDateTimeStamp" p:noInquiry="true" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="GecEntry-lookupDefinition" parent="LookupDefinition">
+        <property name="title" value="General Ledger Entry Lookup for GEC" />
+        <property name="lookupableID" value="glEntryLookupable" />
+        <property name="numOfColumns" value="2" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>financialObjectCode</value>
+                        <value>financialSubObjectCode</value>
+                        <value>financialBalanceTypeCode</value>
+                        <value>financialObjectTypeCode</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
+                <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="false" />
+                <bean parent="FieldDefinition" p:attributeName="documentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" p:forceLookup="true" />
+                <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
+                <bean parent="FieldDefinition" p:attributeName="projectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
+                <bean parent="FieldDefinition" p:attributeName="organizationReferenceId" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ActualBalanceTypeOptionFinder" p:readOnly="true" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" p:treatWildcardsAndOperatorsAsLiteral="false" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="gecDocumentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+                <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" />
+                <bean parent="FieldDefinition" p:attributeName="documentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription" />
+                <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDate" />
+                <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" />
+                <bean parent="FieldDefinition" p:attributeName="projectCode" />
+                <bean parent="FieldDefinition" p:attributeName="organizationReferenceId" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" />
+                <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

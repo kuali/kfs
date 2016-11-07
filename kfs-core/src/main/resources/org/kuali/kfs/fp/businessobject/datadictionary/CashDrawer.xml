@@ -42,6 +42,7 @@
 				<ref bean="CashDrawer-financialDocumentOneCentAmount" />
 				<ref bean="CashDrawer-oneCentCount" />
 				<ref bean="CashDrawer-financialDocumentOtherCentAmount" />
+				<ref bean="CashDrawer-financialDocumentCentAmount" />
 				<ref bean="CashDrawer-financialDocumentHundredDollarAmount" />
 				<ref bean="CashDrawer-hundredDollarCount" />
 				<ref bean="CashDrawer-financialDocumentFiftyDollarAmount" />
@@ -57,6 +58,7 @@
 				<ref bean="CashDrawer-financialDocumentOneDollarAmount" />
 				<ref bean="CashDrawer-oneDollarCount" />
 				<ref bean="CashDrawer-financialDocumentOtherDollarAmount" />
+				<ref bean="CashDrawer-financialDocumentDollarAmount" />
 				<ref bean="CashDrawer-currencyTotalAmount" />
 				<ref bean="CashDrawer-coinTotalAmount" />
 				<ref bean="CashDrawer-totalAmount" />
@@ -289,6 +291,20 @@
 				p:size="6" />
 		</property>
 	</bean>
+	<bean id="CashDrawer-financialDocumentCentAmount" parent="CashDrawer-financialDocumentCentAmount-parentBean" />
+
+	<bean id="CashDrawer-financialDocumentCentAmount-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialDocumentCentAmount" />
+		<property name="label" value="Cent Amount" />
+		<property name="shortLabel" value="CntAmt" />
+		<property name="maxLength" value="6" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="8"
+				p:size="6" />
+		</property>
+	</bean>
 	<bean id="CashDrawer-financialDocumentHundredDollarAmount"
 		parent="CashDrawer-financialDocumentHundredDollarAmount-parentBean" />
 
@@ -510,6 +526,21 @@
 		<property name="name" value="financialDocumentOtherDollarAmount" />
 		<property name="label" value="Other Dollar Amount" />
 		<property name="shortLabel" value="OthrDlrAmt" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="12"
+				p:size="10" />
+		</property>
+	</bean>
+	<bean id="CashDrawer-financialDocumentDollarAmount"
+		parent="CashDrawer-financialDocumentDollarAmount-parentBean" />
+
+	<bean id="CashDrawer-financialDocumentDollarAmount-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialDocumentDollarAmount" />
+		<property name="label" value="Dollar Amount" />
+		<property name="shortLabel" value="DlrAmt" />
 		<property name="maxLength" value="10" />
 		<property name="required" value="false" />
 		<property name="control">

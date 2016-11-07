@@ -1,0 +1,302 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+  <bean id="ProcurementCardLevel3ShipSvc" parent="ProcurementCardLevel3ShipSvc-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3ShipSvc" />
+  	<property name="inquiryDefinition">
+  	  <ref bean="ProcurementCardLevel3ShipSvc-inquiryDefinition" />
+  	</property>
+  	<property name="objectLabel" value="Procurement Card Ship Services" />
+  	<property name="attributes" >
+  	  <list>
+  	    <ref bean="ProcurementCardLevel3ShipSvc-documentNumber" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-financialDocumentTransactionLineNumber" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-sequenceNumber" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-courierName" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-trackingNumber" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-serviceDescription" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-pickupDate" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-originZip" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-originCountryCd" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-destinationZip" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-destinationCountryCd" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-netAmount" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-taxAmt" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-discAmt" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-numberOfPackages" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-weight" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-unitsOfMeasure" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-senderName" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-senderAddress" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-receiverName" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-receiverAddress" />
+  	    <ref bean="ProcurementCardLevel3ShipSvc-customerRefNumber" />
+  	  </list>
+  	</property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="ProcurementCardLevel3ShipSvc-documentNumber" parent="ProcurementCardLevel3ShipSvc-documentNumber-parentBean"/>
+  <bean id="ProcurementCardLevel3ShipSvc-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3ShipSvc-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber"/>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-sequenceNumber" parent="ProcurementCardLevel3ShipSvc-sequenceNumber-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-sequenceNumber-parentBean" abstract="true" parent="ProcurementCardLevel3AddItem-sequenceNumber">
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-courierName" parent="ProcurementCardLevel3ShipSvc-courierName-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-courierName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="courierName" />
+  	<property name="label" value="Courier Name" />
+  	<property name="shortLabel" value="Courier Name" />
+  	<property name="maxLength" value="25" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="27" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-trackingNumber" parent="ProcurementCardLevel3ShipSvc-trackingNumber-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-trackingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="trackingNumber" />
+    <property name="label" value="Tracking Number" />
+    <property name="shortLabel" value="Tracking Num" />
+    <property name="maxLength" value="22" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="24" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-serviceDescription" parent="ProcurementCardLevel3ShipSvc-serviceDescription-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-serviceDescription-parentBean" abstract="true" parent="ProcurementCardLevel3TempSvc-serviceDesc">
+  	<property name="name" value="serviceDescription" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-pickupDate" parent="ProcurementCardLevel3ShipSvc-pickupDate-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-pickupDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="pickupDate" />
+    <property name="label" value="Pickup Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="12" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-originZip" parent="ProcurementCardLevel3ShipSvc-originZip-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-originZip-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="originZip" />
+    <property name="label" value="Origin Zip" />
+    <property name="shortLabel" value="Origin Zip" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="12" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-originCountryCd" parent="ProcurementCardLevel3ShipSvc-originCountryCd-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-originCountryCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="originCountryCd" />
+    <property name="label" value="Origin Country" />
+    <property name="shortLabel" value="Origin Cty" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="5" />
+    </property>
+  </bean>
+
+  <bean id="ProcurementCardLevel3ShipSvc-destinationZip" parent="ProcurementCardLevel3ShipSvc-destinationZip-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-destinationZip-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="destinationZip" />
+    <property name="label" value="Destination Zip" />
+    <property name="shortLabel" value="Dest Zip" />
+    <property name="maxLength" value="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition"
+      		p:size="12" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-destinationCountryCd" parent="ProcurementCardLevel3ShipSvc-destinationCountryCd-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-destinationCountryCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="destinationCountryCd" />
+    <property name="label" value="Destination Country" />
+    <property name="shortLabel" value="Dest Country" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="5" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-netAmount" parent="ProcurementCardLevel3ShipSvc-netAmount-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-netAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="netAmount" />
+    <property name="label" value="Net Amount" />
+    <property name="shortLabel" value="Net Amt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-taxAmt" parent="ProcurementCardLevel3ShipSvc-taxAmt-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-taxAmt-parentBean" abstract="true" parent="ProcurementCardLevel3Add-taxAmount">
+  	<property name="name" value="taxAmt" />
+  	<property name="label" value="Tax Amount" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-discAmt" parent="ProcurementCardLevel3ShipSvc-discAmt-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-discAmt-parentBean" abstract="true" parent="ProcurementCardLevel3Add-discountAmount">
+  	<property name="name" value="discAmt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-numberOfPackages" parent="ProcurementCardLevel3ShipSvc-numberOfPackages-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-numberOfPackages-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="numberOfPackages" />
+    <property name="label" value="Number of Packages" />
+    <property name="shortLabel" value="Packages" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="8" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-weight" parent="ProcurementCardLevel3ShipSvc-weight-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-weight-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="weight" />
+  	<property name="label" value="Weight" />
+  	<property name="shortLabel" value="Weight" />
+  	<property name="maxLength" value="15" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="17" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-unitsOfMeasure" parent="ProcurementCardLevel3ShipSvc-unitsOfMeasure-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-unitsOfMeasure-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="unitsOfMeasure" />
+  	<property name="label" value="Units of Measure" />
+  	<property name="shortLabel" value="Units" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-senderName" parent="ProcurementCardLevel3ShipSvc-senderName-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-senderName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="senderName" />
+    <property name="label" value="Sender Name" />
+    <property name="shortLabel" value="Sender" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="52" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-senderAddress" parent="ProcurementCardLevel3ShipSvc-senderAddress-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-senderAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="senderAddress" />
+    <property name="label" value="Sender Address" />
+    <property name="shortLabel" value="Sender Addr" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="52" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-receiverName" parent="ProcurementCardLevel3ShipSvc-receiverName-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-receiverName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receiverName" />
+    <property name="label" value="Receiver Name" />
+    <property name="shortLabel" value="Receiver" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="52" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-receiverAddress" parent="ProcurementCardLevel3ShipSvc-receiverAddress-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-receiverAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receiverAddress" />
+    <property name="label" value="Receiver Address" />
+    <property name="shortLabel" value="Receiver Addr" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="52" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3ShipSvc-customerRefNumber" parent="ProcurementCardLevel3ShipSvc-customerRefNumber-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-customerRefNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerRefNumber" />
+    <property name="label" value="Customer Reference Number" />
+    <property name="shortLabel" value="Cust Ref Num" />
+    <property name="maxLength" value="17" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="19" />
+    </property>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+  <bean id="ProcurementCardLevel3ShipSvc-inquiryDefinition" parent="ProcurementCardLevel3ShipSvc-inquiryDefinition-parentBean" />
+  <bean id="ProcurementCardLevel3ShipSvc-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  	<property name="title" value="Procurement Card Ship Services Inquiry" />
+  	<property name="inquirySections" >
+  	  <list>
+  	    <bean parent="InquirySectionDefinition">
+  	      <property name="title" value="Procurement Card Ship Services" />
+  	      <property name="numberOfColumns" value="4" />
+  	      <property name="inquiryFields" >
+  	        <list>
+  	          <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  	          <bean parent="FieldDefinition" p:attributeName="courierName" />
+  	          <bean parent="FieldDefinition" p:attributeName="trackingNumber" />
+  	          <bean parent="FieldDefinition" p:attributeName="serviceDescription" />
+  	          <bean parent="FieldDefinition" p:attributeName="pickupDate" />
+  	          <bean parent="FieldDefinition" p:attributeName="originZip" />
+  	          <bean parent="FieldDefinition" p:attributeName="originCountryCd" />
+  	          <bean parent="FieldDefinition" p:attributeName="destinationZip" />
+  	          <bean parent="FieldDefinition" p:attributeName="destinationCountryCd" />
+  	          <bean parent="FieldDefinition" p:attributeName="netAmount" />
+  	          <bean parent="FieldDefinition" p:attributeName="taxAmt" />
+  	          <bean parent="FieldDefinition" p:attributeName="discAmt" />
+  	          <bean parent="FieldDefinition" p:attributeName="numberOfPackages" />
+  	          <bean parent="FieldDefinition" p:attributeName="weight" />
+  	          <bean parent="FieldDefinition" p:attributeName="unitsOfMeasure" />
+  	          <bean parent="FieldDefinition" p:attributeName="senderName" />
+  	          <bean parent="FieldDefinition" p:attributeName="senderAddress" />
+  	          <bean parent="FieldDefinition" p:attributeName="receiverName" />
+  	          <bean parent="FieldDefinition" p:attributeName="receiverAddress" />
+  	          <bean parent="FieldDefinition" p:attributeName="customerRefNumber" />
+  	        </list>
+  	      </property>
+  	    </bean>
+  	  </list>
+  	</property>
+  </bean>
+  
+</beans>

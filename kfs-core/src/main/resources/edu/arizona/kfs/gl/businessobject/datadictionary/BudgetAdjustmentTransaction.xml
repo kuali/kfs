@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	   		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetAdjustmentTransaction" parent="BudgetAdjustmentTransaction-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction"/>    
+    <property name="objectLabel" value="Budget Adjustment Transaction"/>
+    <property name="attributes">
+      <list>
+        <ref bean="BudgetAdjustmentTransaction-universityFiscalYear"/>
+        <ref bean="BudgetAdjustmentTransaction-chartOfAccountsCode"/>
+        <ref bean="BudgetAdjustmentTransaction-accountNumber"/>
+        <ref bean="BudgetAdjustmentTransaction-subAccountNumber"/>
+        <ref bean="BudgetAdjustmentTransaction-financialObjectCode"/>
+        <ref bean="BudgetAdjustmentTransaction-financialSubObjectCode"/>
+        <ref bean="BudgetAdjustmentTransaction-financialBalanceTypeCode"/>
+        <ref bean="BudgetAdjustmentTransaction-financialObjectTypeCode"/>
+        <ref bean="BudgetAdjustmentTransaction-universityFiscalPeriodCode"/>
+        <ref bean="BudgetAdjustmentTransaction-financialDocumentTypeCode"/>
+        <ref bean="BudgetAdjustmentTransaction-documentNumber"/>
+        <ref bean="BudgetAdjustmentTransaction-transactionLedgerEntrySequenceNumber"/>
+        <ref bean="BudgetAdjustmentTransaction-transactionLedgerEntryDescription"/>
+        <ref bean="BudgetAdjustmentTransaction-transactionLedgerEntryAmount"/>
+        <ref bean="BudgetAdjustmentTransaction-transactionDate"/>
+        <ref bean="BudgetAdjustmentTransaction-organizationDocumentNumber"/>
+        <ref bean="BudgetAdjustmentTransaction-projectCode"/>           
+        <ref bean="BudgetAdjustmentTransaction-financialSystemOriginationCode"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Attribute Definitions -->
+  <bean id="BudgetAdjustmentTransaction-universityFiscalYear" parent="BudgetAdjustmentTransaction-universityFiscalYear-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-universityFiscalYear-parentBean" abstract="true" parent="Entry-universityFiscalYear"/>
+
+  <bean id="BudgetAdjustmentTransaction-chartOfAccountsCode" parent="BudgetAdjustmentTransaction-chartOfAccountsCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-chartOfAccountsCode-parentBean" abstract="true" parent="Entry-chartOfAccountsCode"/>
+
+  <bean id="BudgetAdjustmentTransaction-accountNumber" parent="BudgetAdjustmentTransaction-accountNumber-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-accountNumber-parentBean" abstract="true" parent="Entry-accountNumber"/>
+
+  <bean id="BudgetAdjustmentTransaction-subAccountNumber" parent="BudgetAdjustmentTransaction-subAccountNumber-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-subAccountNumber-parentBean" abstract="true" parent="Entry-subAccountNumber"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialObjectCode" parent="BudgetAdjustmentTransaction-financialObjectCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialObjectCode-parentBean" abstract="true" parent="Entry-financialObjectCode"/>
+  
+  <bean id="BudgetAdjustmentTransaction-financialSubObjectCode" parent="BudgetAdjustmentTransaction-financialSubObjectCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialSubObjectCode-parentBean" abstract="true" parent="Entry-financialSubObjectCode"/>
+  
+  <bean id="BudgetAdjustmentTransaction-financialBalanceTypeCode" parent="BudgetAdjustmentTransaction-financialBalanceTypeCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialBalanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode"/>
+  	
+  <bean id="BudgetAdjustmentTransaction-financialObjectTypeCode" parent="BudgetAdjustmentTransaction-financialObjectTypeCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialObjectTypeCode-parentBean" abstract="true" parent="Entry-financialObjectTypeCode"/>
+  
+  <bean id="BudgetAdjustmentTransaction-universityFiscalPeriodCode" parent="BudgetAdjustmentTransaction-universityFiscalPeriodCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-universityFiscalPeriodCode-parentBean" abstract="true" parent="Entry-universityFiscalPeriodCode"/>
+   
+  <bean id="BudgetAdjustmentTransaction-financialDocumentTypeCode" parent="BudgetAdjustmentTransaction-financialDocumentTypeCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialDocumentTypeCode-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode"/>
+
+  <bean id="BudgetAdjustmentTransaction-documentNumber" parent="BudgetAdjustmentTransaction-documentNumber-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-documentNumber-parentBean" abstract="true" parent="Entry-documentNumber"/>
+
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntrySequenceNumber" parent="BudgetAdjustmentTransaction-transactionLedgerEntrySequenceNumber-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="Entry-transactionLedgerEntrySequenceNumber"/>
+    
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntryDescription" parent="BudgetAdjustmentTransaction-transactionLedgerEntryDescription-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntryDescription-parentBean" abstract="true" parent="Entry-transactionLedgerEntryDescription"/>
+   
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntryAmount" parent="BudgetAdjustmentTransaction-transactionLedgerEntryAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-transactionLedgerEntryAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount"/>
+      
+  <bean id="BudgetAdjustmentTransaction-transactionDate" parent="BudgetAdjustmentTransaction-transactionDate-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-transactionDate-parentBean" abstract="true" parent="Entry-transactionDate"/>
+  
+  <bean id="BudgetAdjustmentTransaction-organizationDocumentNumber" parent="BudgetAdjustmentTransaction-organizationDocumentNumber-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-organizationDocumentNumber-parentBean" abstract="true" parent="Entry-organizationDocumentNumber"/>
+   
+  <bean id="BudgetAdjustmentTransaction-projectCode" parent="BudgetAdjustmentTransaction-projectCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-projectCode-parentBean" abstract="true" parent="Entry-projectCode"/>
+  
+  <bean id="BudgetAdjustmentTransaction-financialSystemOriginationCode" parent="BudgetAdjustmentTransaction-financialSystemOriginationCode-parentBean"/>
+
+  <bean id="BudgetAdjustmentTransaction-financialSystemOriginationCode-parentBean" abstract="true" parent="Entry-financialSystemOriginationCode"/>
+  
+</beans>

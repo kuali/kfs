@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="RouteCode" parent="RouteCode-parentBean"/>
+    <bean id="RouteCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.sys.businessobject.RouteCode"/>
+  		<property name="boNotesEnabled" value="true"/>
+        <property name="inquiryDefinition">
+            <ref bean="RouteCode-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="RouteCode-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="routeCode" />
+        <property name="objectLabel" value="Route Code"/>
+        <property name="attributes">
+            <list>
+                <ref bean="RouteCode-routeCode"/>
+                <ref bean="RouteCode-routeCodeDesc"/>
+                <ref bean="RouteCode-active"/>
+                
+            </list>
+        </property>
+    </bean>
+
+  <!-- Attribute Definitions -->
+  <bean id="RouteCode-routeCode" parent="RouteCode-routeCode-parentBean" /> 
+  <bean id="RouteCode-routeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+     <property name="name" value="routeCode" />
+     <property name="forceUppercase" value="true" />
+     <property name="label" value="Route Code" />
+     <property name="shortLabel" value="Route Code" />
+     <property name="maxLength" value="2" />
+     <property name="control"> 
+       <bean parent="TextControlDefinition" p:size="2" />
+     </property>
+  </bean>
+  
+  <bean id="RouteCode-routeCodeDesc" parent="RouteCode-routeCodeDesc-parentBean" />
+  <bean id="RouteCode-routeCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routeCodeDesc" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Route Code Description" />
+    <property name="shortLabel" value="Route Code Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+  </bean>
+  
+  
+  <bean id="RouteCode-active" parent="RouteCode-active-parentBean" />
+  <bean id="RouteCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active" />
+  </bean>
+  
+  
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="RouteCode-inquiryDefinition" parent="RouteCode-inquiryDefinition-parentBean"/>
+    <bean id="RouteCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Route Code Inquiry"/>
+         <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="General Information"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="routeCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="routeCodeDesc"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                          </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="RouteCode-lookupDefinition" parent="RouteCode-lookupDefinition-parentBean"/>
+    <bean id="RouteCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Route Code Lookup"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+            <property name="attributeNames" >
+          <list>
+            <value>routeCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false" />
+      </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="routeCode"/>
+                <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="routeCode"/>
+                <bean parent="FieldDefinition" p:attributeName="routeCodeDesc"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>
+

@@ -1,0 +1,221 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardLevel3Fuel" parent="ProcurementCardLevel3Fuel-parentBean" />
+  
+  <bean id="ProcurementCardLevel3Fuel-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Fuel" />
+  	<property name="objectLabel" value="Procurement Card Fuel" />
+  	<property name="attributes" >
+  		<list>
+  			<ref bean="ProcurementCardLevel3Fuel-documentNumber" />
+  			<ref bean="ProcurementCardLevel3Fuel-financialDocumentTransactionLineNumber" />
+  			<ref bean="ProcurementCardLevel3Fuel-oilBrandName" />
+  			<ref bean="ProcurementCardLevel3Fuel-odometerReading" />
+  			<ref bean="ProcurementCardLevel3Fuel-fleetId" />
+  			<ref bean="ProcurementCardLevel3Fuel-messageId" />
+  			<ref bean="ProcurementCardLevel3Fuel-usage" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelServiceType" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelProductCd" />
+  			<ref bean="ProcurementCardLevel3Fuel-productTypeCd" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelQuantity" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelUnitOfMeasure" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelUnitPrice" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelSaleAmount" />
+  			<ref bean="ProcurementCardLevel3Fuel-fuelDiscountAmount" />
+  			<ref bean="ProcurementCardLevel3Fuel-taxAmount1" />
+  			<ref bean="ProcurementCardLevel3Fuel-taxAmount2" />
+  			<ref bean="ProcurementCardLevel3Fuel-totalAmount" />
+  		</list>
+  	</property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="ProcurementCardLevel3Fuel-documentNumber" parent="ProcurementCardLevel3Fuel-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3Fuel-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" />
+  
+  <bean id="ProcurementCardLevel3Fuel-oilBrandName" parent="ProcurementCardLevel3Fuel-oilBrandName-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-oilBrandName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="oilBrandName" />
+  	<property name="label" value="Oil Brand Name" />
+  	<property name="shortLabel" value="Name" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-odometerReading" parent="ProcurementCardLevel3Fuel-odometerReading-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-odometerReading-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="odometerReading" />
+  	<property name="label" value="Odometer Reading" />
+  	<property name="shortLabel" value="Odometer" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fleetId" parent="ProcurementCardLevel3Fuel-fleetId-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fleetId-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fleetId" />
+  	<property name="label" value="Fleet ID" />
+  	<property name="shortLabel" value="Fleet ID" />
+  	<property name="maxLength" value="20" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="22" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-messageId" parent="ProcurementCardLevel3Fuel-messageId-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-messageId-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="messageId" />
+  	<property name="label" value="Message ID" />
+  	<property name="shortLabel" value="Message ID" />
+  	<property name="maxLength" value="15" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="17" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-usage" parent="ProcurementCardLevel3Fuel-usage-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-usage-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="usage" />
+  	<property name="label" value="Usage" />
+  	<property name="shortLabel" value="Usage" />
+  	<property name="maxLength" value="20" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="22" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelServiceType" parent="ProcurementCardLevel3Fuel-fuelServiceType-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelServiceType-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fuelServiceType" />
+  	<property name="label" value="Fuel Service Type" />
+  	<property name="shortLabel" value="Fuel Svc" />
+  	<property name="maxLength" value="1" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="3" />
+  	</property> 
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelProductCd" parent="ProcurementCardLevel3Fuel-fuelProductCd-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelProductCd-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fuelProductCd" />
+  	<property name="label" value="Fuel Product Code" />
+  	<property name="shortLabel" value="Fuel Product" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-productTypeCd" parent="ProcurementCardLevel3Fuel-productTypeCd-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-productTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="productTypeCd" />
+  	<property name="label" value="Product Type Code" />
+  	<property name="shortLabel" value="Product Type" />
+  	<property name="maxLength" value="1" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="3" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelQuantity" parent="ProcurementCardLevel3Fuel-fuelQuantity-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fuelQuantity" />
+  	<property name="label" value="Fuel Quantity" />
+  	<property name="shortLabel" value="Fuel" />
+  	<property name="maxLength" value="19" />
+  	<property name="validationPattern" >
+  		<bean parent="FloatingPointValidationPattern" p:allowNegative="true" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="21" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelUnitOfMeasure" parent="ProcurementCardLevel3Fuel-fuelUnitOfMeasure-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelUnitOfMeasure-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fuelUnitOfMeasure" />
+  	<property name="label" value="Fuel Unit Of Measure" />
+  	<property name="shortLabel" value="Fuel Unit" />
+  	<property name="maxLength" value="1" />
+  	<property name="validationPattern" >
+  		<bean parent="NumericValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="3" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelUnitPrice" parent="ProcurementCardLevel3Fuel-fuelUnitPrice-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelUnitPrice-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fuelUnitPrice" />
+  	<property name="label" value="Fuel Unit Price" />
+  	<property name="shortLabel" value="Fuel Price" />
+  	<property name="maxLength" value="19" />
+  	<property name="validationPattern" >
+  		<bean parent="FloatingPointValidationPattern" p:allowNegative="true" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="21" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelSaleAmount" parent="ProcurementCardLevel3Fuel-fuelSaleAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelSaleAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="fuelSaleAmount" />
+  	<property name="label" value="Fuel Sale Amount" />
+  	<property name="shortLabel" value="Sale Amt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-fuelDiscountAmount" parent="ProcurementCardLevel3Fuel-fuelDiscountAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-fuelDiscountAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="fuelDiscountAmount" />
+  	<property name="label" value="Coupon Discount Amount" />
+  	<property name="shortLabel" value="Discount Amt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-taxAmount1" parent="ProcurementCardLevel3Fuel-taxAmount1-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-taxAmount1-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="taxAmount1" />
+  	<property name="label" value="Tax Amount 1" />
+  	<property name="shortLabel" value="Tax Amt1" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-taxAmount2" parent="ProcurementCardLevel3Fuel-taxAmount2-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-taxAmount2-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="taxAmount2" />
+  	<property name="label" value="Tax Amount 2" />
+  	<property name="shortLabel" value="Tax Amt2" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Fuel-totalAmount" parent="ProcurementCardLevel3Fuel-totalAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Fuel-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="totalAmount" />
+  	<property name="label" value="Total Amount" />
+  	<property name="shortLabel" value="Total Amt" />
+  </bean>
+
+</beans>

@@ -177,7 +177,7 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#calculateCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public void calculateCreditMemo(VendorCreditMemoDocument cmDocument) {
 
         cmDocument.updateExtendedPriceOnItems();
@@ -213,11 +213,11 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
             }
 
             if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
-                KualiDecimal totalAmount = KualiDecimal.ZERO;
-                List<PurApAccountingLine> distributedAccounts = null;
-                List<SourceAccountingLine> summaryAccounts = null;
+              	KualiDecimal totalAmount = KualiDecimal.ZERO;
+              	List<PurApAccountingLine> distributedAccounts = null;
+              	List<SourceAccountingLine> summaryAccounts = null;
                                 
-                totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();                
+              	totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();                
               	if ((totalAmount != null) && ((KualiDecimal.ZERO.compareTo(totalAmount)) == 0)) {
               		// UNENCUMBERED CASE : if Purchase Order is Zero Dollar i.e Unencumbered then use the contents of the Credit Memo itself instead 
               		PurchaseOrderDocument poDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());

@@ -187,7 +187,7 @@ public class PaymentRequestServiceImpl extends org.kuali.kfs.module.purap.docume
                     }
                     else {
                     	if ((poi.getExtendedPrice() != null) && ((KualiDecimal.ZERO.compareTo(poi.getExtendedPrice())) == 0)) {
-                    		// if Purchase Order is Zero Dollar i.e Unencumbered then use the contents of the Payment Requisition instead 
+                            // if Purchase Order is Zero Dollar i.e Unencumbered then use the contents of the Payment Requisition instead 
                             totalAmount = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
                             purapAccountingService.updateAccountAmounts(paymentRequestDocument);
                             summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getItems()));                    		

@@ -8,11 +8,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class TinTypeFinder extends KeyValuesBase {
-    
-    /**
-     * 
-     * Constructs a TinTypeFinder.java.
-     */
+
     public TinTypeFinder() {
        super();
        Map map = this.getKeyLabelMap();
@@ -20,10 +16,7 @@ public class TinTypeFinder extends KeyValuesBase {
        map.put("2", "SSN");
     }
     
-    /**
-     * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+
     public List getKeyValues() {
         List keyValuesList = new ArrayList();
         

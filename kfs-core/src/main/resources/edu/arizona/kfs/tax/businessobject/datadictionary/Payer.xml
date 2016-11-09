@@ -9,7 +9,9 @@
 
   <bean id="Payer-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="edu.arizona.kfs.tax.businessobject.Payer" />
-    <property name="lookupDefinition" ref="Payer-lookupDefinition" />
+    <property name="lookupDefinition">
+    	 <ref bean="Payer-lookupDefinition" />
+    </property>
     <property name="titleAttribute" value="payer" />
     <property name="objectLabel" value="Payer" />    
     
@@ -346,7 +348,6 @@
 
   <bean id="Payer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="1099 Process Payer  Lookup" />
-    <!-- property name="instructions" value="Look up an 1099 Process Payer record" / -->
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

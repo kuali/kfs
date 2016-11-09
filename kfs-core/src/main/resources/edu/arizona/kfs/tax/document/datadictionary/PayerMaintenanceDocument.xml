@@ -9,7 +9,7 @@
 
   <bean id="PayerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="edu.arizona.kfs.tax.businessobject.Payer" />
-	<property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+	<property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
     <property name="maintainableSections" >
       <list>
         <ref bean="PayerMaintenanceDocument-EditPayer" />
@@ -22,7 +22,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="TXPR" />
-<!--     <property name="businessRulesClass" value="edu.arizona.kfs.tax.document.validation.impl.PayerRule" /> -->
+    <property name="businessRulesClass" value="edu.arizona.kfs.tax.document.validation.impl.PayerRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 	<property name="workflowProperties" >
       <ref bean="PayerMaintenanceDocument-workflowProperties" />

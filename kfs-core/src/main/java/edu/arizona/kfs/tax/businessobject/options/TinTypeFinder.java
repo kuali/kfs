@@ -16,9 +16,9 @@ public class TinTypeFinder extends KeyValuesBase {
        map.put("2", "SSN");
     }
     
-
+    @Override
     public List getKeyValues() {
-        List keyValuesList = new ArrayList();
+        List<ConcreteKeyValue> keyValuesList = new ArrayList<ConcreteKeyValue>();
         
         keyValuesList.add( new ConcreteKeyValue("1", "EIN") );
         keyValuesList.add( new ConcreteKeyValue("2", "SSN") );

@@ -1,12 +1,10 @@
 package edu.arizona.kfs.tax.businessobject;
 
-import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
 
-@NAMESPACE( namespace = "KUALI-TAX" )
 public class Payer extends PersistableBusinessObjectExtensionBase {
 
     private Integer id; // PAYER_ID

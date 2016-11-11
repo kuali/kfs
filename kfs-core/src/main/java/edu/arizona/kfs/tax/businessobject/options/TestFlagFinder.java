@@ -15,8 +15,9 @@ public class TestFlagFinder extends KeyValuesBase {
        map.put("T", "T");
     }
     
+    @Override
     public List getKeyValues() {
-        List keyValuesList = new ArrayList();
+        List<ConcreteKeyValue> keyValuesList = new ArrayList<ConcreteKeyValue>();
         
         keyValuesList.add( new ConcreteKeyValue("T", "T") );
         

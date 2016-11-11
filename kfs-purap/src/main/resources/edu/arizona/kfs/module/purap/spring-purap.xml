@@ -147,4 +147,8 @@
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
+    <bean id="b2bPurchaseOrderService" class="edu.arizona.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl" parent="b2bPurchaseOrderService-parentBean">
+        <property name="b2bPurchaseOrderDtd" value="${b2b.purchase.order.dtd}"/>
+    </bean>
+
 </beans>

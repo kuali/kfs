@@ -6,7 +6,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class IncomeType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String incomeTypeCode;
-    private String objectId;
     private String incomeTypeDescription;
     private String incomeTypeBox;
     private boolean active;
@@ -18,15 +17,6 @@ public class IncomeType extends PersistableBusinessObjectBase implements Mutable
     public void setIncomeTypeCode(String incomeTypeCode) {
         this.incomeTypeCode = incomeTypeCode;
     }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
 
     public String getIncomeTypeBox() {
         return incomeTypeBox;

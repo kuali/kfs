@@ -33,6 +33,10 @@
     		<li><portal:portalLink displayTitle="true" title="Labor Journal Voucher" url="${ConfigProperties.application.url}/laborJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=LLJV" /></li>
 			<li><portal:portalLink displayTitle="true" title="Labor Ledger Correction Process" url="${ConfigProperties.application.url}/laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LLCP" /></li>
     	</ul>    
-	</c:if>    
+	</c:if>
+	<strong>1099 Process</strong>
+	<ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Payee"   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.tax.businessobject.Payee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	</ul>
 </div>
 <channel:portalChannelBottom />

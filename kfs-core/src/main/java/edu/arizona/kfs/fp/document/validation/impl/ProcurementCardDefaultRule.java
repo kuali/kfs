@@ -99,7 +99,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
                 String groupMember  = groupMembers.get(0);
                 if ( groupMember.equals(newProcurementCardDefault.getCardHolderSystemId())) {
                     //card holder is the only remaining member of reconciler group
-                    GlobalVariables.getMessageMap().putWarning("reconcilerGroup", KFSKeyConstants.WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER, (String[])null);
+                    putFieldError("reconcilerGroupId", KFSKeyConstants.WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER, (String[])null);
                     return false;
                 }
             }
@@ -107,6 +107,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
 
         return true;
     }
+
 
     public AccountService getAccountService() {
         return SpringContext.getBean(AccountService.class);

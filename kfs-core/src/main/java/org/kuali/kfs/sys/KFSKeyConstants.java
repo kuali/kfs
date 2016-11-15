@@ -1036,6 +1036,9 @@ public class KFSKeyConstants {
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT = "error.collector.emailSend.notification.subject";
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY = "error.collector.emailSend.notification.body";
 
+    // PCard Maintenance Document Errors
+    public static final String WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER = "warning.document.procurementcardholderdetail.cardholder.last.active";
+
  /**
      * This class stores message keys for the SemaphoreInputFileType upload page
      */

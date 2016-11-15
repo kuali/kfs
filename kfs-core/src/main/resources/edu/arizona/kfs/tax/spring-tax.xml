@@ -28,5 +28,10 @@
 		</property>
 	</bean>
 
+    <bean id="taxModuleService" parent="taxModuleService-parentBean" />
+
+	<bean id="taxModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="taxModule" />
+	</bean>
 
 </beans>

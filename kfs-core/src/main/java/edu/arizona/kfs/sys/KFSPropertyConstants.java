@@ -13,5 +13,10 @@ public class KFSPropertyConstants extends org.kuali.kfs.sys.KFSPropertyConstants
     public static final String BATCH_FILE_UPLOADS_FILE_PROCESS_TIMESTAMP = "fileProcessTimestamp";
 
     public static final String GEC_DOCUMENT_NUMBER = "gecDocumentNumber";
-
+    
+    public class TaxPropertyConstants {
+    	public static final String HEADER_TAX_NUMBER = "headerTaxNumber";
+    	public static final String TAX_YEAR = "taxYear";
+    }
+    
 }

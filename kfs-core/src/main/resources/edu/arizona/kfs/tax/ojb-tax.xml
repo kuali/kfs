@@ -82,4 +82,29 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
+    <class-descriptor class="edu.arizona.kfs.tax.businessobject.Payment" table="TAX_PAYMENT_T">
+        <field-descriptor name="id" column="PAYMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="TAX_PAYMENT_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="paymentGroupId" column="PAYMENT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+        <field-descriptor name="docNbr" column="DOC_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="poNbr" column="PO_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="disbursementDt" column="DISB_DT" jdbc-type="DATE" />
+        <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="docType" column="DOC_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentAcctDetailId" column="PMT_ACCT_DETAIL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="finChartCode" column="FIN_CHART_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentTypeCode" column="PMT_TYPE_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="finObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="acctNetAmount" column="ACCT_NET_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+        <field-descriptor name="excludeIndicator" column="EXCLUDE_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+        <field-descriptor name="payeeId" column="PAYEE_ID" jdbc-type="INTEGER" />
+
+        <reference-descriptor name="payee" class-ref="edu.arizona.kfs.tax.businessobject.Payee" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="payeeId" />
+        </reference-descriptor>
+    </class-descriptor>
+	
 </descriptor-repository>

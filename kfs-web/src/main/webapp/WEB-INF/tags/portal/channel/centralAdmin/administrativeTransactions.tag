@@ -37,9 +37,6 @@
 	<strong>1099 Process</strong>
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Payer" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.tax.businessobject.Payer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-	</c:if>
-	<strong>1099 Process</strong>
-	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Payee"   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.tax.businessobject.Payee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>
 </div>

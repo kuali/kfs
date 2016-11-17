@@ -2,6 +2,20 @@
 
 <descriptor-repository version="1.0">
 
+	<class-descriptor class="edu.arizona.kfs.tax.businessobject.ExtractHistory" table="TAX_EXTR_HIST_T">
+    	<field-descriptor name="id" column="EXTR_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="EXTR_HIST_ID_SEQ" autoincrement="true"/>
+    	<field-descriptor name="paymentsDeleted" column="PAYMENTS_DEL" jdbc-type="INTEGER" />
+    	<field-descriptor name="paymentsExtracted" column="PAYMENTS_EXTR" jdbc-type="INTEGER" />
+    	<field-descriptor name="payeesExtracted" column="PAYEES_EXTR" jdbc-type="INTEGER" />
+    	<field-descriptor name="extractStartDt" column="EXTR_START_TS" jdbc-type="TIMESTAMP" />
+    	<field-descriptor name="extractEndDt" column="EXTR_END_TS" jdbc-type="TIMESTAMP" />
+    	<field-descriptor name="extractDt" column="EXTR_TS" jdbc-type="TIMESTAMP" />
+    	<field-descriptor name="replaceDataInd" column="REPLACE_DATA_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+    	<field-descriptor name="taxYear" column="TAX_YEAR" jdbc-type="INTEGER" />
+    	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+	</class-descriptor>
+
 	<class-descriptor class="edu.arizona.kfs.tax.businessobject.Payer" table="TAX_PAYER_T">
     	<field-descriptor name="id" column="PAYER_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="TAX_PAYER_ID_SEQ" autoincrement="true"/>
     	<field-descriptor name="transCd" column="TRANS_CD" jdbc-type="VARCHAR" />

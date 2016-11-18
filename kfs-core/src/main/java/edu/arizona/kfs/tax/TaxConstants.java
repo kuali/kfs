@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TaxConstants {
 
-
+	public static final String PAYEE_MASTER_EXTRACT_STEP = "PayeeMasterExtractStep";
     public static final String TAX_USER_ROLE = "UA 1099 Tax Specialist";
     public static final String NMSPC_CD = "KFS-TAX";
     public static final String REPORT_TEMPLATE_CLASSPATH = "com/rsmart/kuali/kfs/tax/report/";
@@ -68,6 +68,7 @@ public class TaxConstants {
         public static final String LEVEL = "LEVEL";
         public static final String OBJECT = "OBJECT";
         public static final String CONS = "CONS";
+		public static final String PROPERTY_PAYEMENT_PERIOD_START = "1099_PAYMENT_PERIOD_START";
     }
     
     // add Notes/Attachment Tab to 1099 Process Payment Inquiry Screen

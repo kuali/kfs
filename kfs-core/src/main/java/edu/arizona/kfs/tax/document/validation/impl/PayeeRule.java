@@ -14,7 +14,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import edu.arizona.kfs.sys.KFSKeyConstants;
-import edu.arizona.kfs.sys.KFSPropertyConstants;
+import edu.arizona.kfs.tax.TaxPropertyConstants;
 import edu.arizona.kfs.tax.businessobject.Payee;
 import edu.arizona.kfs.tax.util.RecordUtil;
 
@@ -79,8 +79,8 @@ public class PayeeRule extends MaintenanceDocumentRuleBase {
 		BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
 		Map<String, Object> searchValues = new HashMap<String, Object>();
-		searchValues.put(KFSPropertyConstants.TaxPropertyConstants.TAX_YEAR, newTaxYear);
-		searchValues.put(KFSPropertyConstants.TaxPropertyConstants.HEADER_TAX_NUMBER, newTaxId);
+		searchValues.put(TaxPropertyConstants.TAX_YEAR, newTaxYear);
+		searchValues.put(TaxPropertyConstants.HEADER_TAX_NUMBER, newTaxId);
 		Collection<Payee> payees = boService.findMatching(Payee.class, searchValues);
 
 		// if any other payees in the same TaxYear have the same TaxNumber, but a different VendorNumber, then fail.
@@ -88,7 +88,7 @@ public class PayeeRule extends MaintenanceDocumentRuleBase {
 			String existingVendorNumber = payee.getVendorNumber();
 			if (!this.hasSameVendorHeaderGeneratedIdentifier(newVendorId, existingVendorNumber)) {
 				result = false;
-				putFieldError( KFSPropertyConstants.TaxPropertyConstants.HEADER_TAX_NUMBER, KFSKeyConstants.PAYEE_TAXID_USED_BY_DIFF_VENDOR, payee.getVendorNumber());
+				putFieldError(TaxPropertyConstants.HEADER_TAX_NUMBER, KFSKeyConstants.PAYEE_TAXID_USED_BY_DIFF_VENDOR, payee.getVendorNumber());
 				break;
 			}
 		}

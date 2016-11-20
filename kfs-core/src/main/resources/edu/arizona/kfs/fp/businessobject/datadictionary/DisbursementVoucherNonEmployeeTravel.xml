@@ -5,39 +5,18 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc" parent="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean">
-		<property name="name" value="disbVchrServicePerformedDesc" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Business Purpose" />
 		<property name="shortLabel" value="Purpose" />
-		<property name="maxLength" value="50" />
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
 	</bean>
 
 	<bean id="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName" parent="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName-parentBean">
-		<property name="name" value="dvServicePerformedLocName" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Destination" />
 		<property name="shortLabel" value="Place" />
-		<property name="maxLength" value="40" />
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
 	</bean>
 
 	<bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName" parent="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean">
-		<property name="name" value="dvServiceRegularEmprName" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Organization Name" />
 		<property name="shortLabel" value="Org Name" />
-		<property name="maxLength" value="40" />
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
 	</bean>
 
 </beans>

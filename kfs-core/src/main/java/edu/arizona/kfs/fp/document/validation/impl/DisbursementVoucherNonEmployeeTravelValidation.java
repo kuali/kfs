@@ -45,10 +45,9 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 
 		getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
 		
-		if (ObjectUtils.isNull(errors)) {
+		if (errors.hasErrors()) {
 			errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
 			errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-			return false;
 		}
 
 		/* travel from and to state required if country is us */
@@ -76,14 +75,6 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 		 * filled in
 		 */
 		boolean personalVehicleSectionComplete = validatePersonalVehicleSection(document, errors);
-
-		/*
-		 * make sure per diem fields have not changed since the per diem amount
-		 * calculation
-		 */
-		if (!perDiemSectionComplete) {
-			isValid = false;
-		}
 
 		// validate the tax amount
 		isValid &= validateTravelAmount(document);
@@ -118,7 +109,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 		 *the document when the Travel tab is required. As the statement inside is comparing if the dates were entered incorrectly
 		 * This way the document will be able to state that the Dates fields are required without failing.
 		 */ 
-		if (document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() != null || document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp() != null) {
+		if (document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() != null && document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp() != null) {
 			if (document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp().compareTo(document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp()) >= 0) {
 				errors.putError(KFSPropertyConstants.DV_PERDIEM_START_DTTM_STAMP, KFSKeyConstants.ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT);
 				isValid = false;

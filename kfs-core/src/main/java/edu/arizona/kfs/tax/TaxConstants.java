@@ -65,10 +65,10 @@ public class TaxConstants {
         public static final String PROPERTY_EXTRACT_CONS_CODES = "1099_EXTRACT_CONS_CODES";
         public static final String PROPERTY_OBJECT_CODES_OVERRIDING_RESTRICTIONS = "1099_OBJECT_CODES_OVERRIDING_RESTRICTIONS";
         public static final String PAYMENT_TYPE_OVERRIDE_CODES = "1099_EXTRACT_OVERRIDE_PMT_TYPE_CODE";
+        public static final String PROPERTY_TAX_AMOUNT_BY_PAYMENT_TYPE = "1099_TAX_AMOUNT_BY_PAYMENT_TYPE";
         public static final String LEVEL = "LEVEL";
         public static final String OBJECT = "OBJECT";
         public static final String CONS = "CONS";
-		public static final String PROPERTY_PAYEMENT_PERIOD_START = "1099_PAYMENT_PERIOD_START";
     }
     
     // add Notes/Attachment Tab to 1099 Process Payment Inquiry Screen

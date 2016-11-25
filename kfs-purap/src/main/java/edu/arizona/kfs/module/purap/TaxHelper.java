@@ -25,18 +25,14 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import edu.arizona.kfs.fp.document.DisbursementVoucherDocument;
-import edu.arizona.kfs.module.purap.PurapConstants;
 import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
+import edu.arizona.kfs.module.purap.service.TaxReporting1099Service;
 import edu.arizona.kfs.tax.TaxConstants;
 import edu.arizona.kfs.tax.TaxPropertyConstants;
-import edu.arizona.kfs.module.purap.service.TaxReporting1099Service;
-import edu.arizona.kfs.sys.KFSPropertyConstants;
-import edu.arizona.kfs.sys.KFSConstants;
 
 public class TaxHelper {
-	public static String TOTAL_TAX_AMOUNT = "1099_TOTAL_TAX_AMOUNT";
-	public static String TAX_AMOUNT_BY_PAYMENT_TYPE = "1099_TAX_AMOUNT_BY_PAYMENT_TYPE";
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxHelper.class);
 
 	public static Map<String, String> getOverridePaymentTypeCodeMap(ParameterService parameterService) {
 		Map<String, String> retval = new HashMap<String, String>();
@@ -397,10 +393,10 @@ public class TaxHelper {
 	}
 
 	public static double getTaxThreshholdAmount(ParameterService parameterService) {
-		String amt = parameterService.getParameterValueAsString(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TOTAL_TAX_AMOUNT);
+		String amt = parameterService.getParameterValueAsString(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TaxConstants.Form1099.PROPERTY_INCOME_THRESHOLD);
 
 		if (StringUtils.isBlank(amt) || !NumberUtils.isNumber(amt)) {
-			throw new IllegalArgumentException("The " + TOTAL_TAX_AMOUNT + " property was not specified or is invalid.");
+			throw new IllegalArgumentException("The " + TaxConstants.Form1099.PROPERTY_INCOME_THRESHOLD + " property was not specified or is invalid.");
 		}
 
 		return Double.parseDouble(amt);
@@ -408,7 +404,7 @@ public class TaxHelper {
 
 	public static Map<String, KualiDecimal> getTaxAmountByPaymentType(ParameterService parameterService) {
 		Map<String, KualiDecimal> taxAmountByPaymentType = new HashMap<String, KualiDecimal>();
-		String[] keyValues = parameterService.getParameterValueAsString(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TAX_AMOUNT_BY_PAYMENT_TYPE).split(";");
+		String[] keyValues = parameterService.getParameterValueAsString(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TaxConstants.Form1099.PROPERTY_TAX_AMOUNT_BY_PAYMENT_TYPE).split(";");
 		try {
 			for (String entry : keyValues) {
 				String[] token = entry.split("=");
@@ -419,6 +415,7 @@ public class TaxHelper {
 		}
 
 		catch (Exception e) {
+			LOG.error("There was an error parsing the " + TaxConstants.Form1099.PROPERTY_TAX_AMOUNT_BY_PAYMENT_TYPE + " parameter. The value returned will be an empty Map.");
 		}
 
 		return taxAmountByPaymentType;

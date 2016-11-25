@@ -21,9 +21,25 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
 
 import edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType;
 import edu.arizona.kfs.fp.document.DisbursementVoucherDocument;
@@ -35,26 +51,10 @@ import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
 import edu.arizona.kfs.module.purap.document.dataaccess.TaxReporting1099Dao;
 import edu.arizona.kfs.module.purap.service.TaxReporting1099Service;
-import edu.arizona.kfs.sys.KFSPropertyConstants;
-import edu.arizona.kfs.vnd.VendorConstants;
-import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.transaction.annotation.Transactional;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfStamper;
-
 import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSPropertyConstants;
+import edu.arizona.kfs.tax.TaxConstants;
+import edu.arizona.kfs.tax.TaxPropertyConstants;
 import edu.arizona.kfs.tax.businessobject.DocumentIncomeType;
 import edu.arizona.kfs.tax.businessobject.ExtractHistory;
 import edu.arizona.kfs.tax.businessobject.Payee;
@@ -63,8 +63,7 @@ import edu.arizona.kfs.tax.businessobject.Payment;
 import edu.arizona.kfs.tax.businessobject.PaymentDetailSearch;
 import edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm;
 import edu.arizona.kfs.tax.service.impl.DocumentPaymentInformation;
-import edu.arizona.kfs.tax.TaxConstants;
-import edu.arizona.kfs.tax.TaxPropertyConstants;
+import edu.arizona.kfs.vnd.VendorConstants;
 
 @Transactional
 public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
@@ -100,7 +99,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			boolean ownershipCodesAllow = TaxHelper.isVendorOwnershipCodesAllow(parameterService);
 			Integer taxYear = Integer.valueOf(TaxHelper.getTaxYear(parameterService));
 			boolean replaceData = parameterService.getParameterValueAsBoolean(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TaxConstants.Form1099.PROPERTY_REPLACE_DATA_DURING_LOAD);
-			Timestamp taxYearStartDate = TaxHelper.getPaymentDate(parameterService, TaxConstants.Form1099.PROPERTY_PAYEMENT_PERIOD_START);
+			Timestamp taxYearStartDate = TaxHelper.getPaymentDate(parameterService, TaxConstants.Form1099.PROPERTY_PAYMENT_PERIOD_START);
 			Timestamp taxYearEndDate = TaxHelper.getPaymentDate(parameterService, TaxConstants.Form1099.PROPERTY_PAYMENT_PERIOD_END);
 
 			if (LOG.isInfoEnabled()) {
@@ -180,7 +179,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			Payee payee = getPayeeByVendorNum(vendor, taxYear);
 
 			// process payment where the DocumentIncomeType tables should be used (PREQ, DV, CM) return any payment in the unprocessedPayments that do not fit the criteria
-			List<PaymentDetail> unprocessedPayments = processDocumentIncomeTypePayements(payee.getId(), paymentDetails, replaceData, eh);
+			List<PaymentDetail> unprocessedPayments = processDocumentIncomeTypePayments(payee.getId(), paymentDetails, replaceData, eh);
 
 			if (LOG.isDebugEnabled()) {
 				if (!unprocessedPayments.isEmpty()) {
@@ -201,7 +200,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		}
 	}
 
-	// this will be implemented later
+	// TODO: This will be implemented later, requires completion of UAF-3576, UAF-3581, and UAF-3586 (1099 Tab on DV, PREQ, & CM)
 	private void extractVendorNonPdpPayments(VendorDetail vendor, Integer taxYear, Timestamp taxYearStartDate, Timestamp taxYearEndDate, ExtractHistory eh, boolean replaceData) throws Exception {
 		// find all the wire transfer document numbers for the given time frame for each vendor
 		List<String> dvDocs = taxReporting1099Dao.getNonPdpDVDocumentNumbersForVendor(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), taxYearStartDate, taxYearEndDate, !replaceData);
@@ -240,7 +239,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		}
 	}
 
-	private <T> List<PaymentDetail> processDocumentIncomeTypePayements(Integer payeeId, List<PaymentDetail> paymentDetails, boolean replaceData, ExtractHistory eh) throws Exception {
+	private <T> List<PaymentDetail> processDocumentIncomeTypePayments(Integer payeeId, List<PaymentDetail> paymentDetails, boolean replaceData, ExtractHistory eh) throws Exception {
 		List<PaymentDetail> retval = new ArrayList<PaymentDetail>();
 
 		/**
@@ -652,7 +651,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 				businessObjectService.delete(payment);
 
 				if (LOG.isDebugEnabled()) {
-					LOG.debug("deleting payee payment - payee=" + payment.getPayeeId() + ", oaymentGroup=" + payment.getPaymentGroupId() + ", amount=" + payment.getAcctNetAmount());
+					LOG.debug("deleting payee payment - payee=" + payment.getPayeeId() + ", paymentGroup=" + payment.getPaymentGroupId() + ", amount=" + payment.getAcctNetAmount());
 				}
 
 				deleted++;
@@ -740,6 +739,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 				fispdf.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error closing FileInputStream in TaxReporting1099ServiceImple#getPdfReader().\n" + ex.getMessage());
 			}
 
 		}
@@ -776,7 +776,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	private Payee loadPayee(Integer year, Payee payee) {
 		Payee retval = null;
 
-		// lets get all the payees for this a
+		// lets get all the child payees for this parent payee
 		Map<String, Object> criteria = new HashMap<String, Object>();
 
 		criteria.put(TaxPropertyConstants.TAX_YEAR, year);
@@ -811,7 +811,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		List<Payee> retval = new ArrayList<Payee>();
 
 		if ((payees == null) || payees.isEmpty()) {
-			LOG.error("No payee candidates found");
+			LOG.warn("No payee candidates found");
 		} 
 		else {
 			if (LOG.isDebugEnabled()) {
@@ -850,7 +850,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 						if (LOG.isDebugEnabled()) {
 							// save this for debug information
 							saveOriginalParentTax = parentPayee.getTaxAmount(year);
-							LOG.debug("origina; parent tax: " + saveOriginalParentTax);
+							LOG.debug("original parent tax: " + saveOriginalParentTax);
 						}
 
 						summarizePayeeTax(parentPayee, plist);
@@ -1046,7 +1046,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 
 				if (retval == null) {
 					if (LOG.isDebugEnabled()) {
-						LOG.error("failed to load parent payee for (" + p.getVendorNumber() + ") 1099 will not be created");
+						LOG.debug("failed to load parent payee for (" + p.getVendorNumber() + ") 1099 will not be created");
 					}
 				}
 			}
@@ -1118,6 +1118,8 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			}
 
 			document.close();
+		} catch (Exception ex) {
+			LOG.error("Error in TaxReporting1099ServiceImpl#createPdfFile.\n" + ex.getMessage());
 		}
 
 		finally {
@@ -1125,12 +1127,14 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 				copy.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#createPdfFile.\n" + ex.getMessage());
 			}
 
 			try {
 				document.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#createPdfFile.\n" + ex.getMessage());
 			}
 
 		}
@@ -1169,6 +1173,8 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			addPageText(stamper, 1, payer, payee);
 
 			stamper.close();
+		} catch (Exception ex) {
+			LOG.error("Error in TaxReporting1099ServiceImpl#getPdfFilePage.\n" + ex.getMessage());
 		}
 
 		finally {
@@ -1176,18 +1182,21 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 				copy.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#getPdfFilePage.\n" + ex.getMessage());
 			}
 
 			try {
 				document.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#getPdfFilePage.\n" + ex.getMessage());
 			}
 
 			try {
 				stamper.close();
 			} 
 			catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#getPdfFilePage.\n" + ex.getMessage());
 			}
 
 		}
@@ -1696,6 +1705,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			try {
 				reader.close();
 			} catch (Exception ex) {
+				LOG.error("Error in TaxReporting1099ServiceImpl#getPayee1099Form.\n" + ex.getMessage());
 			}
 		}
 

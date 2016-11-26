@@ -3,9 +3,13 @@ package edu.arizona.kfs.tax.businessobject;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+
+import edu.arizona.kfs.tax.businessobject.Payment;
 
 public class Payee extends PersistableBusinessObjectBase implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +36,7 @@ public class Payee extends PersistableBusinessObjectBase implements Serializable
 	private Date vendorFederalWithholdingTaxEndDate; // VNDR_FWT_END_DT
 	private Integer vendorHeaderGeneratedIdentifier; // VNDR_HDR_GNRTD_ID
 	private Integer vendorDetailAssignedIdentifier; // VNDR_DTL_ASND_ID
+	protected List<Payment> payments;
 
 	private VendorDetail vendorDetail;
 
@@ -222,6 +227,14 @@ public class Payee extends PersistableBusinessObjectBase implements Serializable
 	public void setVendorDetail(VendorDetail vendorDetail) {
 		this.vendorDetail = vendorDetail;
 	}
+	
+	public List<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(List<Payment> payments) {
+		this.payments = payments;
+	}
 
 	protected LinkedHashMap<Object, Object> toStringMapper() {
 		LinkedHashMap<Object, Object> map = new LinkedHashMap<Object, Object>();
@@ -243,4 +256,51 @@ public class Payee extends PersistableBusinessObjectBase implements Serializable
 
 		return map;
 	}
+	
+	public KualiDecimal getTaxAmount(String type, Integer taxYear) {
+        if( type == null ) {
+            return KualiDecimal.ZERO;
+        }
+        
+        KualiDecimal taxAmount = KualiDecimal.ZERO;
+        List<Payment> list = getPayments();
+        if ( list != null ) {
+            for(Payment payment: list) {
+                if( !payment.getExcludeIndicator() && type.equals(payment.getPaymentTypeCode()) && taxYear.equals(payment.getPayee().getTaxYear()) ) {
+                    taxAmount = taxAmount.add( payment.getAcctNetAmount() );
+                }
+            }
+        }
+        
+        return taxAmount;
+    }
+	
+    public KualiDecimal getTaxAmount(Integer taxYear) {
+        KualiDecimal taxAmount = KualiDecimal.ZERO;
+        List<Payment> list = getPayments();
+        
+        if ( list != null ) {
+            for(Payment payment: list) {
+                if( !payment.getExcludeIndicator() && taxYear.equals(payment.getPayee().getTaxYear())) {
+                    taxAmount = taxAmount.add( payment.getAcctNetAmount() );
+                }
+            }
+        }
+        
+        return taxAmount;
+    }
+
+    public KualiDecimal getTaxAmount() {
+        KualiDecimal        taxAmount = KualiDecimal.ZERO;
+        List<Payment> list = getPayments();
+        if ( list != null ) {
+            for(Payment payment: list) {
+                if( !payment.getExcludeIndicator() ) {
+                    taxAmount = taxAmount.add( payment.getAcctNetAmount() );
+                }
+            }
+        }
+        
+        return taxAmount;
+    }
 }

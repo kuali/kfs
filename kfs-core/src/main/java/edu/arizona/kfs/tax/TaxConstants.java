@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TaxConstants {
 
-
+	public static final String PAYEE_MASTER_EXTRACT_STEP = "PayeeMasterExtractStep";
     public static final String TAX_USER_ROLE = "UA 1099 Tax Specialist";
     public static final String NMSPC_CD = "KFS-TAX";
     public static final String REPORT_TEMPLATE_CLASSPATH = "com/rsmart/kuali/kfs/tax/report/";
@@ -65,6 +65,7 @@ public class TaxConstants {
         public static final String PROPERTY_EXTRACT_CONS_CODES = "1099_EXTRACT_CONS_CODES";
         public static final String PROPERTY_OBJECT_CODES_OVERRIDING_RESTRICTIONS = "1099_OBJECT_CODES_OVERRIDING_RESTRICTIONS";
         public static final String PAYMENT_TYPE_OVERRIDE_CODES = "1099_EXTRACT_OVERRIDE_PMT_TYPE_CODE";
+        public static final String PROPERTY_TAX_AMOUNT_BY_PAYMENT_TYPE = "1099_TAX_AMOUNT_BY_PAYMENT_TYPE";
         public static final String LEVEL = "LEVEL";
         public static final String OBJECT = "OBJECT";
         public static final String CONS = "CONS";

@@ -475,6 +475,11 @@
 		<orderby name="capitalAssetLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
+    <collection-descriptor name="gecEntryRelationships" proxy="true" element-class-ref="edu.arizona.kfs.gl.businessobject.GecEntryRelationship" collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="gecDocumentNumber" />
+    </collection-descriptor>
+
 </class-descriptor>
 
 <!-- YEAR END GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->

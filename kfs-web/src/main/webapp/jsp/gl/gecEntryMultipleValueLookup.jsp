@@ -18,7 +18,7 @@
   </SCRIPT>
 
     <div class="headerarea-small" id="headerarea-small">
-    <h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
+    <h1>General Ledger Entry Lookup for GEC<kul:help
         lookupBusinessObjectClassName="${KualiForm.lookupable.businessObjectClass.name}" altText="lookup help" /></h1>
     </div>
     <kul:enterKey methodToCall="search" />

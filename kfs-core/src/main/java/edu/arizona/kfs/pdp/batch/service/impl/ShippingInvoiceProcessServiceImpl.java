@@ -233,7 +233,8 @@ public class ShippingInvoiceProcessServiceImpl implements ShippingInvoiceProcess
         
         if (StringUtils.isBlank( vendorDunsNumber ) ) {
             throw new IllegalArgumentException( "No vendor DUNS number could be found for shipping company: " + shippingCompany + " -- Unable to create payment group.");
-        }
+        }        
+        vendorDunsNumber = vendorDunsNumber.split("=")[1]; // Discard the 'FEDX=' keep just the vendorDunsNumber                
         VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorByDunsNumber(vendorDunsNumber);
         if ( vendorDetail == null ) {
             throw new IllegalArgumentException( "No vendor with the given DUNS number (" + vendorDunsNumber + ") could be found for shipping company: " + shippingCompany + " -- Unable to create payment group.");

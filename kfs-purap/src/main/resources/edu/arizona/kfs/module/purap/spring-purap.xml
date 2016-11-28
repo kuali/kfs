@@ -182,6 +182,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="taxReporting1099Dao" ref="taxReporting1099Dao" />
+		<property name="pdfDirectory" value="${staging.directory}/tax/pdf"/>
 		<property name="documentIncomeTypeSet">
 			<set>
 				<value>CM</value>

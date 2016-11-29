@@ -19,163 +19,36 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import edu.arizona.kfs.gl.GeneralLedgerConstants;
-import edu.arizona.kfs.gl.businessobject.GecEntry;
-import edu.arizona.kfs.gl.businessobject.lookup.GecEntryHelperServiceImpl;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
-/**
- * This class serves as the struts action for implementing GEC Entry lookups
- *
- * @author Adam Kost <kosta@email.arizona.edu> with some code adapted from UCI
- */
 
-@SuppressWarnings("deprecation")
 public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
-
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GecEntryLookupAction.class);
 
-    private static transient volatile ObjectCodeService objectCodeService;
-    private static transient volatile ParameterEvaluatorService parameterEvaluatorService;
-    private static transient volatile LookupService lookupService;
-    private static transient volatile SystemOptions systemOptions;
-    private static transient volatile BusinessObjectService businessObjectService;
+    private ObjectCodeService objectCodeService;
+    private ParameterEvaluatorService parameterEvaluatorService;
+    private LookupService lookupService;
+    private SystemOptions systemOptions;
+    private BusinessObjectService businessObjectService;
+    private OptionsService optionsService;
+    private List<Bank> bankAccountList;
 
-    protected static ParameterEvaluatorService getParameterEvaluatorService() {
-        if (parameterEvaluatorService == null) {
-            parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
-        }
-        return parameterEvaluatorService;
-    }
-
-    protected static ObjectCodeService getObjectCodeService() {
-        if (objectCodeService == null) {
-            objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        }
-        return objectCodeService;
-    }
-
-    protected static LookupService getLookupService() {
-        if (lookupService == null) {
-            lookupService = SpringContext.getBean(LookupService.class);
-        }
-        return lookupService;
-    }
-
-    protected static SystemOptions getSystemOptions() {
-        if (systemOptions == null) {
-            systemOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
-        }
-        return systemOptions;
-    }
-
-    protected static BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-
-    @Override
-    protected Collection<GecEntry> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
-        super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
-        Collection<GecEntry> list = filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
-        return list;
-    }
-
-    protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
-        List<ResultRow> resultTable = super.selectAll(multipleValueLookupForm, maxRowsPerPage);
-        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
-        return resultTable;
-    }
-
-    @Override
-    protected List<ResultRow> unselectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
-        List<ResultRow> resultTable = super.unselectAll(multipleValueLookupForm, maxRowsPerPage);
-        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
-        return resultTable;
-    }
-
-    @Override
-    protected List<ResultRow> switchToPage(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
-        List<ResultRow> resultTable = super.switchToPage(multipleValueLookupForm, maxRowsPerPage);
-        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
-        return resultTable;
-    }
-
-    @Override
-    protected List<ResultRow> sort(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
-        List<ResultRow> resultTable = super.sort(multipleValueLookupForm, maxRowsPerPage);
-        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
-        return resultTable;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected Collection<GecEntry> filterResults(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage) {
-        Collection<GecEntry> c = (Collection<GecEntry>) multipleValueLookupForm.getLookupable().performLookup(multipleValueLookupForm, new ArrayList<ResultRow>(), true);
-        if (c == null || c.isEmpty()) {
-            LOG.debug("No results found.");
-            return new ArrayList<GecEntry>();
-        }
-
-        List<GecEntry> entries = new ArrayList<GecEntry>(c);
-        List<GecEntry> entriesToRemove = new ArrayList<GecEntry>();
-        List<GecEntry> entriesToDisable = new ArrayList<GecEntry>();
-
-        for (GecEntry e : entries) {
-            boolean removeEntry = removeEntry(e);
-            if (removeEntry) {
-                entriesToRemove.add(e);
-            }
-        }
-        removeRecords(entriesToRemove, entries, resultTable);
-
-        for (GecEntry e : entries) {
-            if (e.getGecDocumentNumber() == null) {
-                String gecDocumentNumber = GecEntryHelperServiceImpl.findGecDocumentNumber(e.getDocumentNumber());
-                e.setGecDocumentNumber(gecDocumentNumber);
-            }
-            boolean disableEntry = disableEntry(e);
-            if (disableEntry) {
-                entriesToDisable.add(e);
-            }
-        }
-        disableRecords(entriesToDisable, resultTable, multipleValueLookupForm);
-
-        GecEntryHelperServiceImpl.addInquiryLinksToRecords(resultTable);
-
-        multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
-
-        Map<String, String> compositeObjectIdMap = generateCompositeObjectIdMap(resultTable);
-        multipleValueLookupForm.setCompositeObjectIdMap(compositeObjectIdMap);
-
-        return entries;
-    }
-
-    private Map<String, String> generateCompositeObjectIdMap(List<ResultRow> resultTable) {
-        Map<String, String> compositeObjectIdMap = new HashMap<String, String>();
-        for (ResultRow row : resultTable) {
-            String objId = row.getObjectId();
-            compositeObjectIdMap.put(objId, objId);
-        }
-        return compositeObjectIdMap;
-    }
 
     @Override
     public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -203,31 +76,115 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return new ActionForward(backUrl, true);
     }
 
-    /**
-     * Exclude the entry selection base on custom logic.
-     *
-     * @param entry
-     * @return
-     */
-    protected boolean removeEntry(GecEntry entry) {
+
+    @SuppressWarnings("deprecation") //ResultRow
+    @Override
+    protected Collection<Entry> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
+        super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
+        Collection<Entry> list = filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return list;
+    }
+
+
+    @SuppressWarnings("deprecation") //ResultRow
+    @Override
+    protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.selectAll(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+
+    @SuppressWarnings("deprecation") //ResultRow
+    @Override
+    protected List<ResultRow> unselectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.unselectAll(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+
+    @SuppressWarnings("deprecation") //ResultRow
+    @Override
+    protected List<ResultRow> switchToPage(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.switchToPage(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+
+    @SuppressWarnings("deprecation") //ResultRow
+    @Override
+    protected List<ResultRow> sort(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = super.sort(multipleValueLookupForm, maxRowsPerPage);
+        filterResults(multipleValueLookupForm, resultTable, maxRowsPerPage);
+        return resultTable;
+    }
+
+
+    @SuppressWarnings("deprecation") //ResultRow
+    private Collection<Entry> filterResults(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage) {
+        Collection<? extends BusinessObject> c = multipleValueLookupForm.getLookupable().performLookup(multipleValueLookupForm, new ArrayList<ResultRow>(), true);
+        if (c == null || c.isEmpty()) {
+            LOG.debug("No results found.");
+            return new ArrayList<Entry>();
+        }
+
+        @SuppressWarnings("unchecked") // Lookupable's  Collection<BusinessObject>c
+        List<Entry> entries = new ArrayList<Entry>((Collection<Entry>)c);
+        List<Entry> entriesToRemove = new ArrayList<Entry>();
+        List<String> entriesToDisable = new ArrayList<String>();
+
+        // Separate entries to those that should be removed or disaabled
+        for(Entry e : entries){
+            if (shouldRemoveEntry(e)) {
+                entriesToRemove.add(e);
+            } else if (shoulDisableEntry(e)) {
+                entriesToDisable.add(e.getObjectId());
+            }
+        }
+
+        // Do actual removals
+        LOG.debug("Removing " + entriesToRemove.size() + "entries.");
+        for (Entry entry : entriesToRemove) {
+            removeRecord(entry, resultTable, c);
+            multipleValueLookupForm.getCompositeObjectIdMap().remove(entry.getObjectId());
+        }
+
+        // Do actual disables
+        LOG.debug("Disabling " + entriesToDisable.size() + "entries.");
+        for (ResultRow resultRow : resultTable) {
+            if (entriesToDisable.contains(resultRow.getObjectId())) {
+                resultRow.setReturnUrl(StringUtils.EMPTY);
+                resultRow.setRowReturnable(false);
+                multipleValueLookupForm.getCompositeObjectIdMap().remove(resultRow.getObjectId());
+            }
+        }
+
+        // Set back to jump user was on, with the column sort they had last(if any)
+        multipleValueLookupForm.jumpToPage(multipleValueLookupForm.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
+        if (multipleValueLookupForm.getPreviouslySortedColumnIndex() != null) {
+            multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
+        }
+
+        return entries;
+    }
+
+
+    // Short circuit on first disqualification to save time
+    private boolean shouldRemoveEntry(Entry entry) {
         LOG.debug("Determining if entry should be removed: " + entry.toString());
 
-        // Valid Entry lookup criteria
-        boolean checkLookupFields = checkLookupFields(entry);
-        if (checkLookupFields == true) {
+        if (!areLookupFieldsValid(entry)) {
+            // Valid Entry lookup criteria
             LOG.debug("Entry not valid by the lookup field values specifications.");
             return true;
-        }
-
-        // Parameter Based Validation
-        boolean checkParameters = checkParameters(entry);
-        if (checkParameters == true) {
+        } else if (!areParametersValid(entry)) {
+            // Parameter Based Validation
             LOG.debug("Entry not valid by the parameters");
             return true;
-        }
-        // Exclude offset entries.
-        boolean checkOffset = checkOffset(entry);
-        if (checkOffset == true) {
+        } else if (isOffset(entry)) {
+            // Exclude offset entries.
             LOG.debug("Entry not valid because it is an offset.");
             return true;
         }
@@ -235,135 +192,114 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return false;
     }
 
-    protected boolean checkLookupFields(GecEntry entry) {
-        boolean isFiscalYearValid = isFiscalYearValid(entry);
-        if (isFiscalYearValid == false) {
-            LOG.debug("Fiscal Year not valid per Specifications.");
-            return true;
+
+    // Short circuit on first disqualification to save time
+    private boolean areLookupFieldsValid(Entry entry) {
+        if (!isFiscalYearValid(entry)) {
+            LOG.debug("Fiscal Year not valid per specifications.");
+            return false;
+        } else if (!getSystemOptions().getActualFinancialBalanceTypeCd().equals(entry.getFinancialBalanceTypeCode())) {
+            LOG.debug("Balance Type Code not valid per specifications.");
+            return false;
+        } else if (entry.getTransactionLedgerEntryAmount().isZero()) {
+            LOG.debug("Entry Amount not valid per specifications.");
+            return false;
         }
 
-        boolean isbalanceTypeValid = getSystemOptions().getActualFinancialBalanceTypeCd().equals(entry.getFinancialBalanceTypeCode());
-        if (isbalanceTypeValid == false) {
-            LOG.debug("Balance Type Code not valid per Specifications.");
-            return true;
-        }
-
-        boolean isEntryAmoutIsZero = entry.getTransactionLedgerEntryAmount().isZero();
-        if (isEntryAmoutIsZero == true) {
-            LOG.debug("Entry Amount not valid per Specifications.");
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
-    protected boolean isFiscalYearValid(GecEntry entry) {
-        boolean isFiscalYearValid = getSystemOptions().getUniversityFiscalYear().toString().equals(entry.getUniversityFiscalYear().toString());
-        return isFiscalYearValid;
+
+    // Short circuit on first disqualification to save time
+    private boolean areParametersValid(Entry entry) {
+        if (!isObjectTypeValid(entry)) {
+            LOG.debug("Object Type is invalid");
+            return false;
+        } else if (!isObjectSubTypeValid(entry)) {
+            LOG.debug("Object Sub-Type is invalid");
+            return false;
+        } else if (!isObjectTypeValidBySubType(entry)) {
+            LOG.debug("Object Type by Sub Type is invalid");
+            return false;
+        } else if (!isDocumentTypeValid(entry)) {
+            LOG.debug("Document Type is invalid");
+            return false;
+        } else if (!isOriginationCodeValid(entry)) {
+            LOG.debug("Origination Code is invalid");
+            return false;
+        }
+
+        return true;
     }
 
-    protected boolean checkParameters(GecEntry entry) {
-        boolean isObjectTypeValid = isObjectTypeValid(entry);
-        if (!isObjectTypeValid) {
-            LOG.debug("isObjectTypeValid=" + isObjectTypeValid);
-            return true;
-        }
 
-        boolean isObjectSubTypeValid = isObjectSubTypeValid(entry);
-        if (!isObjectSubTypeValid) {
-            LOG.debug("isObjectSubTypeValid=" + isObjectSubTypeValid);
-            return true;
-        }
-
-        boolean isObjectTypeValidBySubType = isObjectTypeValidBySubType(entry);
-        if (!isObjectTypeValidBySubType) {
-            LOG.debug("isObjectTypeValidBySubType=" + isObjectTypeValidBySubType);
-            return true;
-        }
-
-        boolean isDocumentTypeValid = isDocumentTypeValid(entry);
-        if (!isDocumentTypeValid) {
-            LOG.debug("isDocumentTypeValid=" + isDocumentTypeValid);
-            return true;
-        }
-
-        boolean isOriginationCodeValid = isOriginationCodeValid(entry);
-        if (!isOriginationCodeValid) {
-            LOG.debug("isOriginationCodeValid=" + isOriginationCodeValid);
-            return true;
-        }
-
-        return false;
+    protected boolean isFiscalYearValid(Entry entry) {
+        return getSystemOptions().getUniversityFiscalYear().toString().equals(entry.getUniversityFiscalYear().toString());
     }
 
-    protected boolean isObjectTypeValid(GecEntry entry) {
-        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_TYPE_CODES, entry.getFinancialObjectTypeCode()).evaluationSucceeds();
-        return retval;
+
+    private boolean isObjectTypeValid(Entry entry) {
+        return getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_TYPE_CODES, entry.getFinancialObjectTypeCode()).evaluationSucceeds();
     }
 
-    protected boolean isObjectSubTypeValid(GecEntry entry) {
+
+    private boolean isObjectSubTypeValid(Entry entry) {
+        @SuppressWarnings("deprecation")//ObjectCode
         ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
-        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_SUB_TYPE_CODES, code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
-        return retval;
+        return getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.RESTRICTED_OBJECT_SUB_TYPE_CODES, code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
     }
 
-    protected boolean isObjectTypeValidBySubType(GecEntry entry) {
+
+    private boolean isObjectTypeValidBySubType(Entry entry) {
+        @SuppressWarnings("deprecation")//ObjectCode
         ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
-        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
-        return retval;
+        return getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode()).evaluationSucceeds();
     }
 
-    protected boolean isDocumentTypeValid(GecEntry entry) {
-        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.DOCUMENT_TYPES, entry.getFinancialDocumentTypeCode()).evaluationSucceeds();
-        return retval;
+
+    private boolean isDocumentTypeValid(Entry entry) {
+        return getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.DOCUMENT_TYPES, entry.getFinancialDocumentTypeCode()).evaluationSucceeds();
     }
 
-    protected boolean isOriginationCodeValid(GecEntry entry) {
-        boolean retval = getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.ORIGIN_CODES, entry.getFinancialSystemOriginationCode()).evaluationSucceeds();
-        return retval;
+
+    private boolean isOriginationCodeValid(Entry entry) {
+        return getParameterEvaluatorService().getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralLedgerConstants.GeneralErrorCorrectionGroupParameters.ORIGIN_CODES, entry.getFinancialSystemOriginationCode()).evaluationSucceeds();
     }
 
-    /**
-     * This method checks the entry to see if it is an Offset entry, and therefore should not be listed in the search results.
-     * 
-     * @param entry
-     * @return true if the entry should be removed from the search results.
-     */
-    protected boolean checkOffset(GecEntry entry) {
-        boolean isOffsetDefinition = isOffsetDefinition(entry);
-        if (isOffsetDefinition) {
-            LOG.debug("isOffsetDefinition=" + isOffsetDefinition);
+
+    private boolean isOffset(Entry entry) {
+        if (isOffsetDefinition(entry)) {
+            LOG.debug("Entry is Offset Definition");
             return true;
-        }
-
-        boolean isOffsetAccountEntry = isOffsetAccountEntry(entry);
-        if (isOffsetAccountEntry) {
-            LOG.debug("isOffsetAccountEntry=" + isOffsetAccountEntry);
+        } else if (isOffsetAccountEntry(entry)) {
+            LOG.debug("Entry has Offset Account");
             return true;
         }
 
         return false;
     }
 
-    protected boolean isOffsetDefinition(GecEntry entry) {
+
+    private boolean isOffsetDefinition(Entry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, entry.getUniversityFiscalYear().toString());
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
         primaryKeys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, entry.getFinancialDocumentTypeCode());
         primaryKeys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, entry.getFinancialBalanceTypeCode());
+
         OffsetDefinition offsetDefinition = getBusinessObjectService().findByPrimaryKey(OffsetDefinition.class, primaryKeys);
         if (offsetDefinition == null || offsetDefinition.getFinancialObjectCode() == null || entry.getFinancialObjectCode() == null) {
             return false;
-        }
-        if (offsetDefinition.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
+        } else if (offsetDefinition.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
             return true;
         }
+
         return false;
     }
 
-    protected boolean isOffsetAccountEntry(GecEntry entry) {
-        List<Bank> bankAccountList = (List<Bank>) getLookupService().findCollectionBySearchUnbounded(Bank.class, new HashMap<String, String>());
-        for (Bank bankAccount : bankAccountList) {
+
+    private boolean isOffsetAccountEntry(Entry entry) {
+        for (Bank bankAccount : getBankAccountList()) {
             if (bankAccount.getBankAccountNumber().equals(entry.getAccountNumber())) {
                 return true;
             }
@@ -371,94 +307,97 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return false;
     }
 
-    /**
-     * Disable the entry selection based on custom logic as defined in the specifications.
-     *
-     * @param entry
-     * @return
+
+    /*
+     * Currently, the sole reason to disable, is if the entry is already associated
+     * with another active GEC doc. When a GEC doc goes through route status change,
+     * GeneralErrorCorrectionDocument.doRouteStatusChange() handles setting all associated
+     * entry.gecDocumentNumber accordingly. So here, if we see a GEC number, it means
+     * the association is still active, and we should disable selection for this GEC.
      */
-    private boolean disableEntry(GecEntry entry) {
+    private boolean shoulDisableEntry(Entry entry) {
         LOG.debug("Determining if entry should be disabled: " + entry.toString());
 
         String gecDocumentNumber = entry.getGecDocumentNumber();
-        if (StringUtils.isBlank(gecDocumentNumber)) {
-            return false;
+        if (StringUtils.isNotBlank(gecDocumentNumber)) {
+            // This entry is associtated with a GEC document, disable it
+            LOG.debug("Disabling Entry selection, already associated with active GEC: (entryId, gecDocNumber): (" + entry.getEntryId().toString() + ", " + entry.getGecDocumentNumber() + ")");
+            return true;
         }
 
-        String docStatusCode = getDocumentStatusCode(gecDocumentNumber);
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-            return true;
-        }
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD)) {
-            return true;
-        }
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD)) {
-            return true;
-        }
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_PROCESSED_CD)) {
-            return true;
-        }
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
-            return true;
-        }
-        if (docStatusCode.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD)) {
-            return true;
-        }
+        LOG.debug("Entry not associated with GEC, not be disabling.");
         return false;
     }
 
-    private String getDocumentStatusCode(String documentNumber) {
-        DocumentRouteHeaderValue docHeader = getBusinessObjectService().findBySinglePrimaryKey(DocumentRouteHeaderValue.class, documentNumber);
-        if (docHeader == null) {
-            return KFSConstants.EMPTY_STRING;
-        }
-        return docHeader.getDocRouteStatus();
-    }
 
-    /**
-     * Removes the selected records (listed in entriesToRemove) from the results.
-     * 
-     * @param entriesToRemove
-     * @param entries
-     * @param resultTable
-     */
-    private void removeRecords(List<GecEntry> entriesToRemove, List<GecEntry> entries, List<ResultRow> resultTable) {
-        for (GecEntry entryToRemove : entriesToRemove) {
-            entries.remove(entryToRemove);
-            Iterator<ResultRow> iter = resultTable.iterator();
-            while (iter.hasNext()) {
-                ResultRow currentRow = iter.next();
-                boolean isSameEntry = GecEntryHelperServiceImpl.compareGecEntryToRow(entryToRemove, currentRow);
-                if (isSameEntry) {
-                    iter.remove();
-                }
+    @SuppressWarnings("deprecation") //ResultRow
+    private void removeRecord(Entry entry, List<ResultRow> resultTable, Collection c) {
+        if (c != null) {
+            c.remove(entry);
+        }
+        Iterator<ResultRow> iter = resultTable.iterator();
+        while (iter.hasNext()) {
+            String objectId = iter.next().getObjectId();
+            if (objectId != null && objectId.equals(entry.getObjectId())) {
+                iter.remove();
             }
         }
     }
 
-    /**
-     * Disables the checkbox of the selected records (listed in entriesToDisable) in the results.
-     * 
-     * @param entriesToRemove
-     * @param entries
-     * @param resultTable
-     */
-    private void disableRecords(List<GecEntry> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
-        if (entriesToDisable.isEmpty()) {
-            LOG.debug("entriesToRemove is Empty");
-            return;
+
+    private List<Bank> getBankAccountList() {
+        if (bankAccountList == null) {
+            bankAccountList = (List<Bank>) getLookupService().findCollectionBySearchUnbounded(Bank.class, new HashMap<String, String>());
         }
-        for (GecEntry entryToDisable : entriesToDisable) {
-            for (ResultRow row : resultTable) {
-                boolean isSameEntry = GecEntryHelperServiceImpl.compareGecEntryToRow(entryToDisable, row);
-                if (isSameEntry) {
-                    row.setReturnUrl(StringUtils.EMPTY);
-                    row.setRowReturnable(false);
-                    GecEntryHelperServiceImpl.setFieldValue(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER, entryToDisable.getGecDocumentNumber());
-                    LOG.debug("gecDocumentNumber=" + entryToDisable.getGecDocumentNumber());
-                }
-            }
+        return bankAccountList;
+    }
+
+
+    private ParameterEvaluatorService getParameterEvaluatorService() {
+        if (parameterEvaluatorService == null) {
+            parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
         }
+        return parameterEvaluatorService;
+    }
+
+
+    private ObjectCodeService getObjectCodeService() {
+        if (objectCodeService == null) {
+            objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        }
+        return objectCodeService;
+    }
+
+
+    private LookupService getLookupService() {
+        if (lookupService == null) {
+            lookupService = SpringContext.getBean(LookupService.class);
+        }
+        return lookupService;
+    }
+
+
+    protected SystemOptions getSystemOptions() {
+        if (systemOptions == null) {
+            systemOptions = getOptionsService().getCurrentYearOptions();
+        }
+        return systemOptions;
+    }
+
+
+    private OptionsService getOptionsService() {
+        if (optionsService == null) {
+            optionsService = SpringContext.getBean(OptionsService.class);
+        }
+        return optionsService;
+    }
+
+
+    private BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 
 }

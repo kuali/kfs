@@ -2,11 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" >
         <property name="packagePrefixes">
@@ -221,7 +217,7 @@
        	</property>
        	<property name="aggregationModeOn" value="true"/>       	
     </bean>
-    
+
     <bean id="glBudgetAdjustmentExtractStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentExtractStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>				
@@ -229,8 +225,8 @@
 			</list>
 		</property>
 		<property name="budgetAdjustmentCashTransferService" ref="glBudgetAdjustmentExtractService" />
-	</bean>	
-	
+	</bean>
+
 	<bean id="glBudgetAdjustmentGenerationStep" class="edu.arizona.kfs.gl.batch.BudgetAdjustmentGenerationStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>				

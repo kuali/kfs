@@ -37,5 +37,8 @@ public class VendorConstants extends org.kuali.kfs.vnd.VendorConstants {
     public static final String ECUSTOMS_TOKEN_CITY = "$";
     public static final String ECUSTOMS_TOKEN_STATE_OPEN = "{";
     public static final String ECUSTOMS_TOKEN_STATE_CLOSE = "}";
+    
+    //these are used on 1099PayeeForm batch 
+    public static final int VENDOR_FIRST_PLUS_LAST_NAME_MAXLENGTH = 40;
 
 }

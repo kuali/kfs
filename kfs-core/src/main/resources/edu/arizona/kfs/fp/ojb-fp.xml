@@ -475,6 +475,11 @@
 		<orderby name="capitalAssetLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
+    <collection-descriptor name="gecEntryRelationships" proxy="true" element-class-ref="edu.arizona.kfs.gl.businessobject.GecEntryRelationship" collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="gecDocumentNumber" />
+    </collection-descriptor>
+
 </class-descriptor>
 
 <!-- YEAR END GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->
@@ -743,5 +748,23 @@
 </class-descriptor>
 
 
+
+<class-descriptor class="edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType" table="FP_DV_INC_TYP_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="amount" column="INC_TYP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+	<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="incomeTypeCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>
 
 </descriptor-repository>

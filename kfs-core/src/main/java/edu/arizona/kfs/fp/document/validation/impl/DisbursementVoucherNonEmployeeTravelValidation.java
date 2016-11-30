@@ -48,6 +48,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends org.kuali.kf
 		if (errors.hasErrors()) {
 			errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
 			errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+			return false;
 		}
 
 		/* travel from and to state required if country is us */

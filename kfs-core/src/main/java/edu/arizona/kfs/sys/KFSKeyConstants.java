@@ -22,7 +22,9 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     public static final String WARNING_BANK_NOT_REQUIRED = "warning.document.disbursementvoucher.bank.not.required";
     public static final String ERROR_BANK_REQUIRED_PER_PAYMENT_METHOD = "error.document.disbursementvoucher.bank.required";
     
+    //DV NonEmployee
+    public static final String ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT = "error.dv.perDiemStartDtBeforeAfterEndDt";
+
     //1099 Reporting
     public static final String PAYEE_TAXID_USED_BY_DIFF_VENDOR = "payee.taxid.already.used";
-    
 }

@@ -30,6 +30,7 @@
     <module>kfs-ld</module>
     <module>kfs-tem</module>
     <module>kfs-bc</module>
+    <module>kfs-tax</module>
     <module>kfs-web</module>
   </modules>
   <parent>

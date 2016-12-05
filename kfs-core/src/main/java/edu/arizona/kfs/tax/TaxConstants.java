@@ -77,4 +77,9 @@ public class TaxConstants {
         public static final String CHANGE = "Change";
     }
 
+    public static class Authorization {
+        public static String VIEW_INCOME_TYPES_EDIT_MODE = "viewIncomeTypes";
+        public static String EDIT_INCOME_TYPES_EDIT_MODE = "editIncomeTypes";
+    }
+
 }

@@ -1,9 +1,7 @@
 package edu.arizona.kfs.module.purap.document;
 
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,54 +10,69 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal; 
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
+import edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType;
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
+import edu.arizona.kfs.tax.document.IncomeTypeContainer;
+import edu.arizona.kfs.tax.document.IncomeTypeHandler;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
 
 
-public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.PaymentRequestDocument {
+public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.PaymentRequestDocument implements IncomeTypeContainer<PaymentRequestIncomeType, Integer> {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
 
     public static final String DOCUMENT_TYPE_NON_CHECK = "PRNC";
     public static final String BANK = "bank";
 
+    private transient IncomeTypeHandler<PaymentRequestIncomeType, Integer> incomeTypeHandler;
+    private List<PaymentRequestIncomeType> incomeTypes;
+    private String paymentPaidYear;
+    private boolean payment1099Indicator;
 
     // default this value to "A" to preserve baseline behavior
     protected String paymentMethodCode = "A"; // check
     protected transient PaymentMethod paymentMethod;
     protected static PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService;
     
-    
+    public String getPaymentPaidYear() {
+        return paymentPaidYear;
+    }
+
+    public void setPaymentPaidYear(String paymentPaidYear) {
+        this.paymentPaidYear = paymentPaidYear;
+    }
+
+    public boolean isPayment1099Indicator() {
+        return payment1099Indicator;
+    }
+
+    public void setPayment1099Indicator(boolean payment1099Indicator) {
+        this.payment1099Indicator = payment1099Indicator;
+    }
+
     public String getPaymentMethodCode() {
         return paymentMethodCode;
     }
@@ -126,6 +139,14 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
                 refreshReferenceObject(BANK);
             }
         }
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
+            if (paymentPaidTimestamp != null) {
+                setPaymentPaidYear(getPaymentPaidTimestamp().toString().substring(0, 4));
+            } else {
+                setPaymentPaidYear(null);
+            }
+        }
+
     }
 
     public void synchronizeBankCodeWithPaymentMethod() {
@@ -219,4 +240,98 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
     public KualiDecimal getGrandTotal() {
         return getTotalDollarAmountAllItems(null);
     }
+
+	@Override
+	public List<PaymentRequestIncomeType> getIncomeTypes() {
+		if (incomeTypes == null) {
+			incomeTypes = new ArrayList<PaymentRequestIncomeType>();
+		}
+		return incomeTypes;
+	}
+
+	public void setIncomeTypes(List<PaymentRequestIncomeType> incomeTypes) {
+		this.incomeTypes = incomeTypes;
+	}
+
+	@Override
+	public Integer getDocumentIdentifier() {
+		return getPurapDocumentIdentifier();
+	}
+
+	@Override
+	public String getPaidYear() {
+		return getIncomeTypeHandler().getYearFromTimestamp(getPaymentPaidTimestamp());
+	}
+
+	@Override
+	public IncomeTypeHandler<PaymentRequestIncomeType, Integer> getIncomeTypeHandler() {
+		if (incomeTypeHandler == null) {
+			incomeTypeHandler = new IncomeTypeHandler<PaymentRequestIncomeType, Integer>(this, PaymentRequestIncomeType.class) {
+			};
+		}
+		return incomeTypeHandler;
+	}
+
+	@Override
+	public VendorHeader getVendorHeader() {
+		VendorHeader retval = getVendorDetail().getVendorHeader();
+		if (retval == null) {
+			retval = getIncomeTypeHandler().getVendorHeaderFromVendorNumber(getVendorNumber());
+		}
+		return retval;
+	}
+
+	@Override
+	public boolean getReportable1099TransactionsFlag() {
+		boolean retval = false;
+		if (getItems() != null) {
+			Iterator<PurApItem> it = getItems().iterator();
+			while (!retval && it.hasNext()) {
+				List<PurApAccountingLine> acctlines = it.next().getBaselineSourceAccountingLines();
+				if (acctlines != null) {
+					for (PurApAccountingLine acctline : acctlines) {
+						if (LOG.isDebugEnabled()) {
+							LOG.debug("financial object code: " + acctline.getFinancialObjectCode() + ", is reportable" + getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode()));
+						}
+						if (getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode())) {
+							retval = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		return retval;
+	}
+
+	@Override
+	public String getRouteStatus() {
+		String retval = KFSConstants.EMPTY_STRING;
+		try {
+			retval = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+		} catch (Exception ex) {
+			LOG.warn(ex);
+		}
+		return retval;
+	}
+
+	@Override
+	public void populateDocumentForRouting() {
+		super.populateDocumentForRouting();
+		getIncomeTypeHandler().removeZeroValuedIncomeTypes();
+	}
+
+	@Override
+	public List buildListOfDeletionAwareLists() {
+		List managedLists = super.buildListOfDeletionAwareLists();
+		if (incomeTypes != null) {
+			managedLists.add(incomeTypes);
+		}
+		return managedLists;
+	}
+
+    public boolean getPayment1099IndicatorForSearching() {
+        return payment1099Indicator;
+    }
+
 }

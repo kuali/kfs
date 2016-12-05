@@ -25,6 +25,4 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     //DV NonEmployee
     public static final String ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT = "error.dv.perDiemStartDtBeforeAfterEndDt";
 
-    //1099 Reporting
-    public static final String PAYEE_TAXID_USED_BY_DIFF_VENDOR = "payee.taxid.already.used";
 }

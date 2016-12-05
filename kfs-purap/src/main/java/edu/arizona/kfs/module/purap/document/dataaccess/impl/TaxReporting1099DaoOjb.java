@@ -13,15 +13,13 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 
 import edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLineExtension;
 import edu.arizona.kfs.fp.document.DisbursementVoucherDocument;
@@ -30,13 +28,12 @@ import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
 import edu.arizona.kfs.module.purap.document.dataaccess.TaxReporting1099Dao;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
-import edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm;
-import edu.arizona.kfs.tax.service.impl.DocumentPaymentInformation;
+import edu.arizona.kfs.tax.TaxPropertyConstants;
 import edu.arizona.kfs.tax.businessobject.Payee;
 import edu.arizona.kfs.tax.businessobject.Payment;
 import edu.arizona.kfs.tax.businessobject.PaymentDetailSearch;
-import edu.arizona.kfs.tax.TaxConstants;
-import edu.arizona.kfs.tax.TaxPropertyConstants;
+import edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm;
+import edu.arizona.kfs.tax.service.impl.DocumentPaymentInformation;
 
 public class TaxReporting1099DaoOjb extends PlatformAwareDaoBaseOjb implements TaxReporting1099Dao {
 	private static final Logger LOG = Logger.getLogger(TaxReporting1099DaoOjb.class);
@@ -484,39 +481,6 @@ public class TaxReporting1099DaoOjb extends PlatformAwareDaoBaseOjb implements T
 
 	public void setNonPdpPaymentMethodCodes(Set<String> nonPdpPaymentMethodCodes) {
 		this.nonPdpPaymentMethodCodes = nonPdpPaymentMethodCodes;
-	}
-
-	@Override
-	public List<String> getObjectCodes(List<String> values, String type) {
-		List<String> retval = new ArrayList<String>();
-		String whereFieldName = null;
-		String resultFieldName = null;
-		Class clazz;
-
-		if (TaxConstants.Form1099.LEVEL.equals(type)) {
-			whereFieldName = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-			resultFieldName = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-			clazz = ObjectLevel.class;
-		} 
-		else {
-			whereFieldName = KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE;
-			resultFieldName = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-			clazz = ObjectLevel.class;
-		}
-
-		Criteria criteria = new Criteria();
-		criteria.addIn(whereFieldName, values);
-		ReportQueryByCriteria query = QueryFactory.newReportQuery(ObjectCode.class, criteria);
-		query.setAttributes(new String[] { resultFieldName });
-		Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-
-		while (iterator.hasNext()) {
-			Object[] data = iterator.next();
-			if (data[0] != null) {
-				retval.add(data[0].toString());
-			}
-		}
-		return retval;
 	}
 
 }

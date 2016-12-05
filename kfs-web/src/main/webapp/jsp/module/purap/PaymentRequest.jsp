@@ -86,6 +86,8 @@
     	
         <gl:generalLedgerPendingEntries />
         
+        <tax:incomeTypes editingMode="${KualiForm.editingMode}"/>
+
         <sys:docuware />
 
 		<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.PaymentRequestDocument.attachmentTypesValuesFinderClass}" />

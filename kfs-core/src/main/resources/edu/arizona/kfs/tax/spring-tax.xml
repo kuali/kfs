@@ -33,4 +33,14 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="taxParameterHelperDao" parent="platformAwareDao" class="edu.arizona.kfs.tax.dataaccess.impl.TaxParameterHelperDaoImpl" />
+
+    <bean id="taxParameterHelperService" class="edu.arizona.kfs.tax.service.impl.TaxParameterHelperServiceImpl">
+        <property name="parameterService" ref="parameterService"/>
+        <property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="taxParameterHelperDao" ref="taxParameterHelperDao"/>
+    </bean> 
+
 </beans>

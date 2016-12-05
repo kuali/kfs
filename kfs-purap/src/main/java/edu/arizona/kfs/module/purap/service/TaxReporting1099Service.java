@@ -15,8 +15,6 @@ public interface TaxReporting1099Service {
 
 	public boolean extractPayees(String jobName, Date jobRunDate);
 
-	public List<String> getObjectCodes(List<String> levels, String type);
-
 	public Payer getDefaultPayer();
 
 	public boolean generateBatchPayeeForms();

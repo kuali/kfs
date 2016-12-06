@@ -437,6 +437,12 @@
 	            <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
 	        </query-customizer>
 	    </collection-descriptor>
+
+        <collection-descriptor name="incomeTypes" proxy="true" element-class-ref="edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <orderby name="incomeTypeLineNumber" sort="ASC" />
+            <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        </collection-descriptor>
+
 	</class-descriptor>
 	
 	<!-- Descriptors copied because they referenced the original class names -->

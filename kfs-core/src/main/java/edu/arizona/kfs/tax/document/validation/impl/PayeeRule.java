@@ -13,7 +13,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import edu.arizona.kfs.sys.KFSKeyConstants;
+import edu.arizona.kfs.tax.TaxKeyConstants;
 import edu.arizona.kfs.tax.TaxPropertyConstants;
 import edu.arizona.kfs.tax.businessobject.Payee;
 import edu.arizona.kfs.tax.util.RecordUtil;
@@ -88,7 +88,7 @@ public class PayeeRule extends MaintenanceDocumentRuleBase {
 			String existingVendorNumber = payee.getVendorNumber();
 			if (!this.hasSameVendorHeaderGeneratedIdentifier(newVendorId, existingVendorNumber)) {
 				result = false;
-				putFieldError(TaxPropertyConstants.HEADER_TAX_NUMBER, KFSKeyConstants.PAYEE_TAXID_USED_BY_DIFF_VENDOR, payee.getVendorNumber());
+				putFieldError(TaxPropertyConstants.HEADER_TAX_NUMBER, TaxKeyConstants.PAYEE_TAXID_USED_BY_DIFF_VENDOR, payee.getVendorNumber());
 				break;
 			}
 		}

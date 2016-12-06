@@ -5,6 +5,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.DocumentService;
 
+import edu.arizona.kfs.tax.TaxKeyConstants;
 import edu.arizona.kfs.tax.businessobject.Payment;
 
 public class PaymentRule extends MaintenanceDocumentRuleBase {
@@ -43,7 +44,7 @@ public class PaymentRule extends MaintenanceDocumentRuleBase {
             boolean exists = SpringContext.getBean(DocumentService.class).documentExists(newPayment.getDocNbr());
             
             if( !exists ) {
-                putFieldError("docNbr", "error.tax.docnbr");
+                putFieldError("docNbr", TaxKeyConstants.ERROR_TAX_DOCNBR);
                 valid = false;
             }
         }

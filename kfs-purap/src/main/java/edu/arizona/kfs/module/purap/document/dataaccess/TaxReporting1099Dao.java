@@ -18,8 +18,6 @@ public interface TaxReporting1099Dao {
 
 	public List<Payee> getPayees(PayeeSearchForm form);
 
-	public List<String> getObjectCodes(List<String> values, String type);
-
 	public List<Payment> getAllExistingPayments(Timestamp startDt, Timestamp endDt, Integer taxYear);
 
 	public List<PaymentDetail> getAllPaymentsForSearchCriteria(PaymentDetailSearch pds);

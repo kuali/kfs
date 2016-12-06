@@ -33,4 +33,6 @@
   	<property name="dictionaryValidationService" ref="dictionaryValidationService" />
   </bean>
   
+  <bean id="DisbursementVoucher-incomeTypeTotalsValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherIncomeTypeTotalsValidation" abstract="true"/>
+  
 </beans>

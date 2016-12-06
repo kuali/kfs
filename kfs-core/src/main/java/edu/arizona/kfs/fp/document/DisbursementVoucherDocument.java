@@ -1,38 +1,48 @@
 package edu.arizona.kfs.fp.document;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+
+import edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType;
 import edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLineExtension;
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
+import edu.arizona.kfs.tax.document.IncomeTypeContainer;
+import edu.arizona.kfs.tax.document.IncomeTypeHandler;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.krad.service.DocumentDictionaryService;
-import org.kuali.rice.krad.document.DocumentAuthorizer;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 
 /**
  * Document class override to ensure that the bank code is synchronized with the
  * payment method code.
  */
-public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument {
+public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument implements IncomeTypeContainer <DisbursementVoucherIncomeType, String>{
 
     public static final String DOCUMENT_TYPE_DV_NON_CHECK = "DVNC";
     public static final String BANK = "bank";
@@ -40,8 +50,15 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
     private static final long serialVersionUID = 8820340507728738505L;
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
     private static PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService;
-
-    @Override
+    private transient IncomeTypeHandler <DisbursementVoucherIncomeType, String> incomeTypeHandler; 
+    private List <DisbursementVoucherIncomeType> incomeTypes;
+    protected PaymentMethod paymentMethod;
+	protected boolean dv1099Ind;
+	protected String dvPaidYear;
+	
+	protected String paymentPaidYear;
+    
+	@Override
     public void prepareForSave() {
         LOG.debug("DisbursementVoucherDocument.prepareForSave()");
         super.prepareForSave();
@@ -81,7 +98,32 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         }
     }
     
-    protected void synchronizeBankCodeWithPaymentMethod() {
+    public boolean isDv1099Ind() {
+		return dv1099Ind;
+	}
+
+	public void setDv1099Ind(boolean dv1099Ind) {
+		this.dv1099Ind = dv1099Ind;
+	}
+
+	public String getDvPaidYear() {
+		return dvPaidYear;
+	}
+
+	public void setDvPaidYear(String dvPaidYear) {
+		this.dvPaidYear = dvPaidYear;
+	}
+	
+	public String getPaymentPaidYear() {
+		return paymentPaidYear;
+	}
+
+	public void setPaymentPaidYear(String paymentPaidYear) {
+		this.paymentPaidYear = paymentPaidYear;
+	}
+
+
+	protected void synchronizeBankCodeWithPaymentMethod() {
         Bank bank = getPaymentMethodGeneralLedgerPendingEntryService().getBankForPaymentMethod( getDisbVchrPaymentMethodCode() );
         if ( bank != null ) {
             if ( !StringUtils.equals(bank.getBankCode(), getDisbVchrBankCode()) ) {
@@ -155,8 +197,6 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         return getDisbVchrPaymentMethodCode();
     }
     
-    protected PaymentMethod paymentMethod;
-    
     public PaymentMethod getPaymentMethod() {
         if ( paymentMethod == null || !StringUtils.equals( paymentMethod.getPaymentMethodCode(), getDisbVchrPaymentMethodCode() ) ) {
             paymentMethod = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(PaymentMethod.class, getDisbVchrPaymentMethodCode());
@@ -200,4 +240,81 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
         }
     }
+    @Override
+    public void addSourceAccountingLine(SourceAccountingLine line) {
+        super.addSourceAccountingLine(line);
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("source accounting line added - account: " + line.getAccountNumber() + ", object code: " + line.getObjectCode());
+        }
+        
+        getIncomeTypeHandler().onAccountingLineAdded(line);
+    }
+
+    public List<DisbursementVoucherIncomeType> getIncomeTypes() {
+        if (incomeTypes == null) {
+            incomeTypes = new ArrayList<DisbursementVoucherIncomeType>();
+        }
+        return incomeTypes;
+    }
+
+    public void setIncomeTypes(List<DisbursementVoucherIncomeType> incomeTypes) {
+        this.incomeTypes = incomeTypes;
+    }
+    
+    @Override
+    public String getDocumentIdentifier() {
+        return getDocumentNumber();
+    }
+
+    @Override
+    public String getPaidYear() {
+        return dvPaidYear;
+    }
+
+    public boolean is1099Indicator() {
+        return dv1099Ind;
+    }
+
+    @Override
+    public IncomeTypeHandler <DisbursementVoucherIncomeType, String> getIncomeTypeHandler() {
+        if (incomeTypeHandler == null) {
+            incomeTypeHandler =  new IncomeTypeHandler<DisbursementVoucherIncomeType, String>(this, DisbursementVoucherIncomeType.class){};
+        }
+        
+        return incomeTypeHandler;
+    }
+
+    @Override
+    public VendorHeader getVendorHeader() {
+        return getIncomeTypeHandler().getVendorHeaderFromVendorNumber(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+    }
+
+    @Override
+    public boolean getReportable1099TransactionsFlag() {
+        boolean retval = false;
+        
+        if (getSourceAccountingLines() != null) {
+            Iterator <? extends AccountingLine> it = getSourceAccountingLines().iterator();
+            
+            while (it.hasNext()) {
+                if (getIncomeTypeHandler().is1099Reportable(it.next().getFinancialObjectCode())) {
+                    retval = true;
+                    break;
+                }
+            }
+        }
+        
+        return retval;
+    }
+	@Override
+	public String getRouteStatus() {
+		String retval = KFSConstants.EMPTY_STRING;
+		try {
+			retval = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+		} catch (Exception ex) {
+			LOG.warn(ex);
+		}
+		return retval;
+	}
 }

@@ -840,6 +840,15 @@
              <set-property property="cancellable" value="true" />
              <forward name="basic" path="/jsp/module/purap/PaymentRequest.jsp" /> 
         </action>
+        
+        <action path="/purapVendorCreditMemo"
+             input="/jsp/module/purap/VendorCreditMemo.jsp" 
+             name="VendorCreditMemoForm"
+             type="edu.arizona.kfs.module.purap.document.web.struts.VendorCreditMemoAction"
+             scope="request" attribute="KualiForm">
+             <set-property property="cancellable" value="true" />
+             <forward name="basic" path="/jsp/module/purap/VendorCreditMemo.jsp" />
+        </action>
 
 		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.{1}Action"

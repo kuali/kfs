@@ -220,4 +220,6 @@
 		</property>
     </bean>
 
+	<bean id="taxElectronicFilingService" class="edu.arizona.kfs.module.purap.document.service.impl.ElectronicFilingServiceImpl" />
+
 </beans>

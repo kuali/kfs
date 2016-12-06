@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm;
@@ -154,7 +156,21 @@ public class PaymentRequestAction extends org.kuali.kfs.module.purap.document.we
 		edu.arizona.kfs.module.purap.document.PaymentRequestDocument doc = (edu.arizona.kfs.module.purap.document.PaymentRequestDocument) preqForm.getDocument();
 		SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(doc);
 		preqForm.refreshAccountSummmary();
-		List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
+
+        List<PurApItem> items = doc.getItems();
+        List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
+        List<PurApItemUseTax> useTaxItems = null;
+        for (PurApItem item : items) {
+            accountingLines.addAll(item.getSourceAccountingLines());
+            // Note: Making use of the useTaxItems has to wait until the refactor that will include dealing with Use Tax Items for PURAP documents.
+            if (doc.isUseTaxIndicator() && (item.getUseTaxItems() != null) && !item.getUseTaxItems().isEmpty()) {
+                if (useTaxItems == null) {
+                    useTaxItems = new ArrayList<PurApItemUseTax>();
+                }
+
+                useTaxItems.addAll(item.getUseTaxItems());
+            }
+        }
 
 		doc.getIncomeTypeHandler().populateIncomeTypes(accountingLines);
 	}

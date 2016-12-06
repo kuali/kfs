@@ -139,6 +139,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
                 refreshReferenceObject(BANK);
             }
         }
+        getIncomeTypeHandler().removeZeroValuedIncomeTypes();
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
             if (paymentPaidTimestamp != null) {
                 setPaymentPaidYear(getPaymentPaidTimestamp().toString().substring(0, 4));

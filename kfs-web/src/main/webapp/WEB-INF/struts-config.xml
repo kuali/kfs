@@ -342,7 +342,11 @@
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
-			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     			
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     
+			
+		<!--  Tax Form -->
+        <form-bean name="PayeeSearchForm"
+            type="edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -1057,6 +1061,21 @@
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/jsp/sys/SessionExpiration.jsp" />
 		</action>
+		
+		<action path="/tax*" name="{1}Form"
+            input="/jsp/tax/{1}.jsp"
+            type="edu.arizona.kfs.module.purap.document.web.struts.{1}Action"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/tax/{1}.jsp" />
+        </action>
+        
+        <action path="/downloadTaxForm" name="KualiForm"
+			type="edu.arizona.kfs.module.purap.document.web.struts.TaxFormAction"
+			scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+		</action>
+        
 
 	</action-mappings>
 

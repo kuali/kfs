@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -62,6 +63,7 @@ import edu.arizona.kfs.tax.businessobject.Payer;
 import edu.arizona.kfs.tax.businessobject.Payment;
 import edu.arizona.kfs.tax.businessobject.PaymentDetailSearch;
 import edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm;
+import edu.arizona.kfs.tax.service.TaxParameterHelperService;
 import edu.arizona.kfs.tax.service.impl.DocumentPaymentInformation;
 import edu.arizona.kfs.vnd.VendorConstants;
 
@@ -71,8 +73,10 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	private TaxReporting1099Dao taxReporting1099Dao;
+	private TaxParameterHelperService taxParameterHelperService;
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
+
 	private String pdfDirectory;
 	private Set<String> documentIncomeTypeSet;
 	private double taxThreshold = 0.0;
@@ -80,6 +84,13 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	private Map<String, String> form1099BoxInformation;
 
 	public TaxReporting1099ServiceImpl() {
+	}
+
+	public TaxParameterHelperService getTaxParameterHelperService() {
+		if (taxParameterHelperService == null) {
+			taxParameterHelperService = SpringContext.getBean(TaxParameterHelperService.class);
+		}
+		return taxParameterHelperService;
 	}
 
 	@Override
@@ -90,17 +101,17 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 
 		try {
 			// load 1099 properties KFS parameters
-			Map<String, String> pmtTypeCodes = TaxHelper.getOverridePaymentTypeCodeMap(parameterService);
-			Map<String, String> objectCodeMap = TaxHelper.getObjectCodeMap(parameterService);
-			Set<String> overridingObjCodes = TaxHelper.getOverridingObjectCodes(parameterService);
-			String extractType = TaxHelper.getExtractType(parameterService);
-			Set<String> extractCodes = TaxHelper.getExtractCodes(parameterService, this, extractType, overridingObjCodes);
-			Set<String> vendorOwnershipCodes = TaxHelper.getVendorOwnershipCodes(parameterService, businessObjectService);
-			boolean ownershipCodesAllow = TaxHelper.isVendorOwnershipCodesAllow(parameterService);
-			Integer taxYear = Integer.valueOf(TaxHelper.getTaxYear(parameterService));
+			Map<String, String> pmtTypeCodes = getTaxParameterHelperService().getOverridePaymentTypeCodeMap();
+			Map<String, String> objectCodeMap = getTaxParameterHelperService().getObjectCodeMap();
+			Set<String> overridingObjCodes = getTaxParameterHelperService().getOverridingObjectCodes();
+			String extractType = getTaxParameterHelperService().getExtractType();
+			Set<String> extractCodes = getTaxParameterHelperService().getExtractCodes(extractType, overridingObjCodes);
+			Set<String> vendorOwnershipCodes = getTaxParameterHelperService().getVendorOwnershipCodes();
+			boolean ownershipCodesAllow = getTaxParameterHelperService().isVendorOwnershipCodesAllow();
+			Integer taxYear = Integer.valueOf(getTaxParameterHelperService().getTaxYear());
 			boolean replaceData = parameterService.getParameterValueAsBoolean(TaxConstants.NMSPC_CD, TaxConstants.PAYEE_MASTER_EXTRACT_STEP, TaxConstants.Form1099.PROPERTY_REPLACE_DATA_DURING_LOAD);
-			Timestamp taxYearStartDate = TaxHelper.getPaymentDate(parameterService, TaxConstants.Form1099.PROPERTY_PAYMENT_PERIOD_START);
-			Timestamp taxYearEndDate = TaxHelper.getPaymentDate(parameterService, TaxConstants.Form1099.PROPERTY_PAYMENT_PERIOD_END);
+			Timestamp taxYearStartDate = getTaxParameterHelperService().getPaymentStartDate();
+			Timestamp taxYearEndDate = getTaxParameterHelperService().getPaymentEndDate();
 
 			if (LOG.isInfoEnabled()) {
 				LOG.info("tax year:  " + taxYear);
@@ -425,11 +436,9 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 					else {
 						if (TaxHelper.isPreq(paymentDetail.getFinancialDocumentTypeCode())) {
 							payment.setDocType(PaymentRequestDocument.DOCUMENT_TYPE_NON_CHECK);
-						}
-						else if (TaxHelper.isCm(paymentDetail.getFinancialDocumentTypeCode())) {
+						} else if (TaxHelper.isCm(paymentDetail.getFinancialDocumentTypeCode())) {
 							payment.setDocType(VendorCreditMemoDocument.DOCUMENT_TYPE_NON_CHECK);
-						} 
-						else if (TaxHelper.isDv(paymentDetail.getFinancialDocumentTypeCode())) {
+						} else if (TaxHelper.isDv(paymentDetail.getFinancialDocumentTypeCode())) {
 							payment.setDocType(DisbursementVoucherDocument.DOCUMENT_TYPE_DV_NON_CHECK);
 						}
 					}
@@ -1429,13 +1438,11 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 				clazz = PaymentRequestIncomeType.class;
 				fieldName = PurapPropertyConstants.PURAP_DOC_ID;
 				documentIdentifier = taxReporting1099Dao.getPurapIdentifierFromDocumentNumber(PaymentRequestDocument.class, docNum);
-			} 
-			else if (TaxHelper.isCm(financialDocumentTypeCode)) {
+			} else if (TaxHelper.isCm(financialDocumentTypeCode)) {
 				clazz = CreditMemoIncomeType.class;
 				fieldName = PurapPropertyConstants.PURAP_DOC_ID;
 				documentIdentifier = taxReporting1099Dao.getPurapIdentifierFromDocumentNumber(VendorCreditMemoDocument.class, docNum);
-			} 
-			else if (TaxHelper.isDv(financialDocumentTypeCode)) {
+			} else if (TaxHelper.isDv(financialDocumentTypeCode)) {
 				clazz = DisbursementVoucherIncomeType.class;
 				fieldName = KFSPropertyConstants.DOCUMENT_NUMBER;
 				documentIdentifier = docNum;
@@ -1628,7 +1635,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 
 	private double getTaxThreshold(boolean forceReload) {
 		if (forceReload || (taxThreshold == 0)) {
-			taxThreshold = TaxHelper.getIncomeThreshold(parameterService);
+			taxThreshold = getTaxParameterHelperService().getIncomeThreshold();
 		}
 
 		if (LOG.isDebugEnabled()) {
@@ -1640,7 +1647,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 
 	private Map<String, KualiDecimal> getTaxAmountByPaymentType(boolean forceReload) {
 		if (forceReload || (taxAmountByPaymentType == null)) {
-			taxAmountByPaymentType = TaxHelper.getTaxAmountByPaymentType(parameterService);
+			taxAmountByPaymentType = getTaxParameterHelperService().getTaxAmountByPaymentType();
 		}
 
 		if (LOG.isDebugEnabled()) {
@@ -1654,11 +1661,6 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		return taxAmountByPaymentType;
 	}
 
-	public List<String> getObjectCodes(List<String> levels, String type) {
-		List<String> retval = taxReporting1099Dao.getObjectCodes(levels, type);
-
-		return retval;
-	}
 
 	@Override
 	public byte[] getPayee1099Form(Integer id, String year) {
@@ -1674,7 +1676,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 			throw new RuntimeException("Default payer for 1099 process not found. Check 1099 payer system property configuration.");
 		}
 
-		Integer taxYear = Integer.valueOf(TaxHelper.getTaxYear(parameterService));
+		Integer taxYear = Integer.valueOf(getTaxParameterHelperService().getTaxYear());
 
 		if ((year != null) && StringUtils.isNumeric(year)) {
 			taxYear = Integer.valueOf(year);
@@ -1716,7 +1718,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	public void updatePayeeInformation(VendorDetail vendorDetail) {
 		if (vendorDetail.isVendorParentIndicator()) {
 			// lets get the parent payee for this vendor if it exists
-			Integer taxYear = TaxHelper.getTaxYear(parameterService);
+			Integer taxYear = getTaxParameterHelperService().getTaxYear();
 
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("vendorNumber: " + vendorDetail.getVendorNumber() + ", taxYear: " + taxYear);
@@ -1812,5 +1814,4 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

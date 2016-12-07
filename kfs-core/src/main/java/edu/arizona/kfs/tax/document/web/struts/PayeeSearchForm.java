@@ -1,8 +1,8 @@
 package edu.arizona.kfs.tax.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class PayeeSearchForm extends KualiAccountingDocumentFormBase {
+public class PayeeSearchForm extends KualiForm {
 
 	private Integer taxYear;
 	private String headerTaxNumber;

@@ -13,8 +13,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
 
 import edu.arizona.kfs.module.purap.PurapConstants;
+import edu.arizona.kfs.sys.KFSConstants;
 
 @SuppressWarnings("rawtypes")
 public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl {
@@ -34,6 +36,7 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
     public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorPrincipalId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
 
         StringBuffer cxml = new StringBuffer();
+        Person initiator = getPersonService().getPersonByPrincipalName(requisitionInitiatorPrincipalId);
 
         cxml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         // ** UAF-3617
@@ -67,6 +70,7 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
         cxml.append("      <PONumber>").append(purchaseOrder.getPurapDocumentIdentifier()).append("</PONumber>\n");
         cxml.append("      <Requestor>\n");
         cxml.append("        <UserProfile username=\"").append(requisitionInitiatorPrincipalId.toUpperCase()).append("\">\n");
+        cxml.append("          <Email>"+bn(initiator.getEmailAddressUnmasked().toLowerCase())+"</Email>\n");
         cxml.append("        </UserProfile>\n");
         cxml.append("      </Requestor>\n");
         cxml.append("      <Priority>High</Priority>\n");
@@ -97,87 +101,97 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
         cxml.append("        </ContactInfo>\n");
         cxml.append("      </Supplier>\n");
 
+        String companyName= purchaseOrder.getBillingName();
+        String phoneNumber = purchaseOrder.getBillingPhoneNumber();
+        String billingLine1 = purchaseOrder.getBillingLine1Address();
+        String billingLine2 = purchaseOrder.getBillingLine2Address();
+        String city = purchaseOrder.getBillingCityName();
+        String stateCode = purchaseOrder.getBillingStateCode();
+        String postalCode = purchaseOrder.getBillingPostalCode();
+        String countryCode = purchaseOrder.getBillingCountryName();
+        String countryIsoCode = purchaseOrder.getBillingCountryCode();
+        
         /** *** BILL TO SECTION **** */
         cxml.append("      <BillTo>\n");
         cxml.append("        <Address>\n");
         cxml.append("          <TemplateName>Bill To</TemplateName>\n");
-        cxml.append("          <AddressCode>").append(purchaseOrder.getDeliveryCampusCode()).append("</AddressCode>\n");
         // Contact - There can be 0-5 Contact elements. The label attribute is optional.
-        cxml.append("          <Contact label=\"FirstName\" linenumber=\"1\"><![CDATA[Accounts]]></Contact>\n");
-        cxml.append("          <Contact label=\"LastName\" linenumber=\"2\"><![CDATA[Payable]]></Contact>\n");
-        cxml.append("          <Contact label=\"Company\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Contact>\n");
-        // since email address is not required, we need to check whether its empty; if yes, don't add it
-        if (!StringUtils.isEmpty(purchaseOrder.getBillingEmailAddress())) {
-            cxml.append("          <Contact label=\"Email\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingEmailAddress().trim()).append("]]></Contact>\n");
-        }
-        // since phone number is not required, we need to check whether its empty; if yes, don't add it
-        if (!StringUtils.isEmpty(purchaseOrder.getBillingPhoneNumber())) {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getBillingPhoneNumber().trim()).append("]]></Contact>\n");
-        }
+        cxml.append("          <Contact label=\"Phone\" linenumber=\"1\"><![CDATA[Phone: "+bn(phoneNumber)+"]]></Contact>\n");
+        cxml.append("          <Contact label=\"Fax\" linenumber=\"2\"><![CDATA[Fax: 520-621-1245]]></Contact>\n");
+        cxml.append("          <Contact label=\"Company\" linenumber=\"3\"><![CDATA["+bn(companyName)+"]]></Contact>\n");
         // There must be 1-5 AddressLine elements. The label attribute is optional.
-        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getBillingLine1Address()).append("]]></AddressLine>\n");
-        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getBillingLine2Address()).append("]]></AddressLine>\n");
-        cxml.append("          <City><![CDATA[").append(purchaseOrder.getBillingCityName()).append("]]></City>\n"); // Required.
-        cxml.append("          <State>").append(purchaseOrder.getBillingStateCode()).append("</State>\n");
-        cxml.append("          <PostalCode>").append(purchaseOrder.getBillingPostalCode()).append("</PostalCode>\n"); // Required.
-        cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getBillingCountryCode()).append("\">").append(purchaseOrder.getBillingCountryCode()).append("</Country>\n");
+        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[University Services Building]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA["+bn(billingLine1)+"]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[Building 0158]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street4\" linenumber=\"4\"><![CDATA["+bn(billingLine2)+"]]></AddressLine>\n");
+        cxml.append("          <City><![CDATA["+bn(city)+"]]></City>\n"); // Required.
+        cxml.append("          <State>"+bn(stateCode)+"</State>\n");
+        cxml.append("          <PostalCode>"+bn(postalCode)+"</PostalCode>\n"); // Required.
+        cxml.append("          <Country isocountrycode=\""+bn(countryIsoCode)+"\">"+bn(countryCode)+"</Country>\n");
         cxml.append("        </Address>\n");
         cxml.append("      </BillTo>\n");
 
+        String contactLine1 = StringUtils.isNotBlank(purchaseOrder.getDeliveryBuildingRoomNumber()) ? "Rm " + purchaseOrder.getDeliveryBuildingRoomNumber() : "";
+        String contactLine2 = StringUtils.isNotBlank(purchaseOrder.getDeliveryToPhoneNumber()) ? purchaseOrder.getDeliveryToPhoneNumber() : (StringUtils.isNotBlank(purchaseOrder.getRequestorPersonPhoneNumber()) ? purchaseOrder.getRequestorPersonPhoneNumber() : "");
+        String contactLine3 = StringUtils.isNotBlank(purchaseOrder.getDeliveryToEmailAddress()) ? purchaseOrder.getDeliveryToEmailAddress() : (StringUtils.isNotBlank(purchaseOrder.getRequestorPersonEmailAddress()) ? purchaseOrder.getRequestorPersonEmailAddress() : "");
+        String contactLine4 = StringUtils.isNotBlank(purchaseOrder.getDeliveryToName()) ? purchaseOrder.getDeliveryToName() : (StringUtils.isNotBlank(purchaseOrder.getRequestorPersonName()) ? purchaseOrder.getRequestorPersonName() : "");
+        String contactLine5 = "";
+        if (StringUtils.isNotBlank(purchaseOrder.getRouteCode()) && StringUtils.isNotBlank(purchaseOrder.getDeliveryBuildingName())) {
+            contactLine5 = purchaseOrder.getRouteCode() + "-" + purchaseOrder.getDeliveryBuildingName();
+        } else if (StringUtils.isNotBlank(purchaseOrder.getRouteCode())) {
+            contactLine5 = purchaseOrder.getRouteCode();
+        } else if (StringUtils.isNotBlank(purchaseOrder.getDeliveryBuildingName())) {
+            contactLine5 = purchaseOrder.getDeliveryBuildingName();
+        }
+        
         /** *** SHIP TO SECTION **** */
         cxml.append("      <ShipTo>\n");
         cxml.append("        <Address>\n");
         cxml.append("          <TemplateName>Ship To</TemplateName>\n");
-        // AddressCode. A code to identify the address, that is sent to the supplier.
-        cxml.append("          <AddressCode>").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("</AddressCode>\n");
-        cxml.append("          <Contact label=\"Name\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryToName().trim()).append("]]></Contact>\n");
-        cxml.append("          <Contact label=\"PurchasingEmail\" linenumber=\"2\"><![CDATA[").append(contractManagerEmail).append("]]></Contact>\n");
-        if (ObjectUtils.isNotNull(purchaseOrder.getInstitutionContactEmailAddress())) {
-            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getInstitutionContactEmailAddress()).append("]]></Contact>\n");
-        } else {
-            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getRequestorPersonEmailAddress()).append("]]></Contact>\n");
+        cxml.append("          <Contact label=\"Room Number/Dept Name\" linenumber=\"1\"><![CDATA["+bn(contactLine1)+"]]></Contact>\n");
+        cxml.append("          <Contact label=\"Phone\" linenumber=\"2\"><![CDATA["+bn(contactLine2)+"]]></Contact>\n");
+        cxml.append("          <Contact label=\"Email\" linenumber=\"3\"><![CDATA["+bn(contactLine3)+"]]></Contact>\n");
+        cxml.append("          <Contact label=\"User Name\" linenumber=\"4\"><![CDATA["+bn(contactLine4)+"]]></Contact>\n");
+        cxml.append("          <Contact label=\"\" linenumber=\"5\"><![CDATA["+bn(contactLine5)+"]]></Contact>\n");
+        
+        String addressLine1 = purchaseOrder.getReceivingLine1Address();
+        String addressLine2 = purchaseOrder.getReceivingLine2Address();
+        String addressLine3 = "The University of Arizona";
+        
+        //  get the dept code without the campus in front of it
+        String addressLine4 = initiator.getPrimaryDepartmentCode();
+        int pos = StringUtils.indexOf(addressLine4, "-");
+        if (pos >= 2) { 
+            addressLine4 = addressLine4.substring(pos+1);
         }
-        if (ObjectUtils.isNotNull(purchaseOrder.getInstitutionContactPhoneNumber())) {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getInstitutionContactPhoneNumber().trim()).append("]]></Contact>\n");
-        } else {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getRequestorPersonPhoneNumber()).append("]]></Contact>\n");
-        }
-
-        // check indicator to decide if receiving or delivery address should be sent to the vendor
-        if (purchaseOrder.getAddressToVendorIndicator()) { // use receiving address
-            cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getReceivingName().trim()).append("]]></AddressLine>\n");
-            cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getReceivingLine1Address().trim()).append("]]></AddressLine>\n");
-            if (ObjectUtils.isNull(purchaseOrder.getReceivingLine2Address())) {
-                cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(" ").append("]]></AddressLine>\n");
-            } else {
-                cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getReceivingLine2Address()).append("]]></AddressLine>\n");
-            }
-            cxml.append("          <City><![CDATA[").append(purchaseOrder.getReceivingCityName().trim()).append("]]></City>\n");
-            cxml.append("          <State>").append(purchaseOrder.getReceivingStateCode()).append("</State>\n");
-            cxml.append("          <PostalCode>").append(purchaseOrder.getReceivingPostalCode()).append("</PostalCode>\n");
-            cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getReceivingCountryCode()).append("\">").append(purchaseOrder.getReceivingCountryCode()).append("</Country>\n");
-        } else { // use final delivery address
-            /*
-             * replaced this with getBuildingLine so institutions can customize what info they need on this line
-             * if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
-             * cxml.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append(" (").append(purchaseOrder.getDeliveryBuildingCode()).append(")]]></Contact>\n");
-             * }
-             */
-            cxml.append(getBuildingLine(purchaseOrder));
-            cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
-            cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
-            cxml.append("          <AddressLine label=\"Company\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></AddressLine>\n");
-            if (ObjectUtils.isNull(purchaseOrder.getDeliveryBuildingLine2Address())) {
-                cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(" ").append("]]></AddressLine>\n");
-            } else {
-                cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address()).append("]]></AddressLine>\n");
-            }
-            cxml.append("          <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
-            cxml.append("          <State>").append(purchaseOrder.getDeliveryStateCode()).append("</State>\n");
-            cxml.append("          <PostalCode>").append(purchaseOrder.getDeliveryPostalCode()).append("</PostalCode>\n");
-            cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryCode()).append("</Country>\n");
+        
+        String receivingCity = purchaseOrder.getReceivingCityName();
+        String receivingStateCode = purchaseOrder.getReceivingStateCode();
+        String receivingPostalCode = purchaseOrder.getReceivingPostalCode();
+        String receivingCountryIsoCode = purchaseOrder.getReceivingCountryCode();
+        String receivingCountry = purchaseOrder.getReceivingCountryCode();
+        
+        //check indicator to decide if receiving or delivery address should be sent to the vendor
+        if (!purchaseOrder.getAddressToVendorIndicator()) {  //use receiving address
+            addressLine1 = purchaseOrder.getDeliveryBuildingLine1Address();
+            addressLine2 = purchaseOrder.getDeliveryBuildingRoomNumber();
+            addressLine3 = "The University of Arizona";
+            addressLine4 = initiator.getPrimaryDepartmentCode();
+            receivingCity = purchaseOrder.getDeliveryCityName();
+            receivingStateCode = purchaseOrder.getDeliveryStateCode();
+            receivingPostalCode = purchaseOrder.getDeliveryPostalCode();
+            receivingCountryIsoCode = purchaseOrder.getDeliveryCountryCode();
+            receivingCountry = purchaseOrder.getDeliveryCountryCode();
         }
 
+        cxml.append("          <AddressLine label=\"Address Line 1\" linenumber=\"1\"><![CDATA["+bn(addressLine1)+"]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Address Line 2\" linenumber=\"2\"><![CDATA["+bn(addressLine2)+"]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Address Line 3\" linenumber=\"3\"><![CDATA["+bn(addressLine3)+"]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Address Line 4\" linenumber=\"4\"><![CDATA["+bn(addressLine4)+"]]></AddressLine>\n");
+        cxml.append("          <City><![CDATA["+bn(receivingCity)+"]]></City>\n");
+        cxml.append("          <State>"+bn(receivingStateCode)+"</State>\n");
+        cxml.append("          <PostalCode>"+bn(receivingPostalCode)+"</PostalCode>\n");
+        cxml.append("          <Country isocountrycode=\""+bn(receivingCountryIsoCode)+"\">"+bn(receivingCountry)+"</Country>\n");
         cxml.append("        </Address>\n");
         cxml.append("      </ShipTo>\n");
         cxml.append("    </POHeader>\n");
@@ -228,4 +242,14 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
         return cxml.toString();
     }
 
+    /*
+     * Takes in a string that may be null, and guarantees a non-null return.  
+     * Returns an empty string if the passed-in value is null.
+     */
+    protected String bn(String value) {
+        if (ObjectUtils.isNull(value)) {
+            return KFSConstants.EMPTY_STRING;
+        }
+        return value.trim();
+    }
 }

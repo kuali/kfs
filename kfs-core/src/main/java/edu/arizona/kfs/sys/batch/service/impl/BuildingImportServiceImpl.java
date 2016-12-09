@@ -93,6 +93,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 							continue;
 						}
 					}
+					
 					// validate to update or insert
 					Map<String, String> keys = new HashMap<String, String>();
 					keys.put("campusCode", campusCode);
@@ -170,7 +171,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			buildingExt.setBuildingCode(building.getBuildingCode());
 			building.setExtension(buildingExt);
 		}
-		LOG.info("Inserting (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + ")");
+		LOG.info("Inserting (Name,Code,Campus,City,State,Zip,Country,Active,Address, RouteCode)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + buildingExt.getRouteCode() + ")");
 		businessObjectService.save(building);
 		writetoReportOutputFile(outReportWriter, reportMsg, campusCode, archBuilding.getBuildingCode(), "New Building added to KFS along with room NO_RM_LC");
 
@@ -180,7 +181,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 		kes.put("buildingCode", building.getBuildingCode());
 		kes.put("buildingRoomNumber", KFSParameterKeyConstants.NO_ROOM_LOCATION);
 		Room matchingroom = (Room) businessObjectService.findByPrimaryKey(Room.class, kes);
-		Room room;
+		Room room = null;
 
 		// Insert room of NO_RM_LC for all new buildings
 		if (ObjectUtils.isNull(matchingroom)) {
@@ -336,6 +337,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 				buildingExt.setRouteCodeObj(routecode);
 			}
 			else {
+				reportMsg += "RouteCode(" + buildingExt.getRouteCode() + "), ";
 				buildingExt.setRouteCode("");
 			}
 		}
@@ -349,7 +351,7 @@ public class BuildingImportServiceImpl implements BuildingImportService {
 			}
 		}
 
-		LOG.info("Updating (Name,Code,Campus,City,State,Zip,Country,Active,Address)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + ")");
+		LOG.info("Updating (Name,Code,Campus,City,State,Zip,Country,Active,Address, RouteCode)(" + building.getBuildingName() + "," + building.getBuildingCode() + "," + building.getCampusCode() + "," + building.getBuildingAddressCityName() + "," + building.getBuildingAddressStateCode() + "," + building.getBuildingAddressZipCode() + "," + building.getBuildingAddressCountryCode() + "," + building.isActive() + "," + building.getBuildingStreetAddress() + buildingExt.getRouteCode() + ")");
 		buildingExt.setCampusCode(campusCode);
 		buildingExt.setBuildingCode(building.getBuildingCode());
 		businessObjectService.save(building);

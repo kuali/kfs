@@ -9,7 +9,6 @@ import edu.arizona.kfs.tax.document.authorization.TaxAuthorizationHelper;
 
 public class DisbursementVoucherDocumentPresentationController
 		extends org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController {
-
 	@Override
 	public Set<String> getEditModes(Document document) {
 		Set<String> editModes = super.getEditModes(document);

@@ -17,11 +17,12 @@
         <property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
         <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController"/>
         <property name="attributes">
-      	    <list merge = "true">
-      	    	 <ref bean="DisbursementVoucherDocument-dvPaidYear"/>
-        		 <ref bean="DisbursementVoucherDocument-dv1099Ind"/>
-      		</list>
-    	</property>
+            <list merge = "true">
+                 <ref bean="DisbursementVoucherDocument-dvPaidYear"/>
+                 <ref bean="DisbursementVoucherDocument-dv1099Ind"/>
+                 <ref bean="DisbursementVoucherDocument-dv1099IndForSearching"/>
+            </list>
+        </property>
     </bean>
     
     <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean">
@@ -67,12 +68,12 @@
    				<property name="searchingAttribute">
    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.document.DisbursementVoucherDocument"/>
-   						<property name="attributeName" value="dv1099Ind"/>
+   						<property name="attributeName" value="dv1099IndForSearching"/>
    					</bean>
    				</property>
    				<property name="documentValues">
    					<list>
-   						<value>dv1099Ind</value>
+   						<value>dv1099IndForSearching</value>
    					</list>
    				</property>
    			</bean>
@@ -143,19 +144,16 @@
     	<property name="name" value="dv1099Ind"/>
  	    <property name="label" value="1099 Classification"/>
     	<property name="shortLabel" value="1099 Classification"/>
-    	<property name="control">
-      		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
-    	</property>
   	</bean>
   	    
-    <bean id="DisbursementVoucherDocument-dvSpecialHandlingCodeForSearching" parent="DisbursementVoucherDocument-dvSpecialHandlingCodeForSearching-parentBean"/>
+  	<bean id="DisbursementVoucherDocument-dv1099IndForSearching" parent="DisbursementVoucherDocument-dv1099IndForSearching-parentBean"/>
     
-    <bean id="DisbursementVoucherDocument-dvSpecialHandlingCodeForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-      <property name="name" value="dvSpecialHandlingCodeForSearching"/>
-      <property name="label" value="Special Handling"/>
-      <property name="shortLabel" value="Special Handling"/>
+    <bean id="DisbursementVoucherDocument-dv1099IndForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+      <property name="name" value="dv1099IndForSearching"/>
+      <property name="label" value="1099 Classification"/>
+      <property name="shortLabel" value="1099 Classification"/>
       <property name="control">
-        <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
       </property>
     </bean>
 </beans>

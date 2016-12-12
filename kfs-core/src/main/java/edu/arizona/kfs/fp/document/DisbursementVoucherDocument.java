@@ -1,6 +1,7 @@
 package edu.arizona.kfs.fp.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
@@ -33,6 +36,8 @@ import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
+import edu.arizona.kfs.tax.TaxConstants;
+import edu.arizona.kfs.tax.TaxPropertyConstants;
 import edu.arizona.kfs.tax.document.IncomeTypeContainer;
 import edu.arizona.kfs.tax.document.IncomeTypeHandler;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
@@ -53,12 +58,10 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
     private transient IncomeTypeHandler <DisbursementVoucherIncomeType, String> incomeTypeHandler; 
     private List <DisbursementVoucherIncomeType> incomeTypes;
     protected PaymentMethod paymentMethod;
-	protected boolean dv1099Ind;
-	protected String dvPaidYear;
-	
-	protected String paymentPaidYear;
-    
-	@Override
+    protected boolean dv1099Ind;
+    protected String dvPaidYear;
+
+    @Override
     public void prepareForSave() {
         LOG.debug("DisbursementVoucherDocument.prepareForSave()");
         super.prepareForSave();
@@ -96,14 +99,42 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             accountingLineExtension.setDocumentNumber(accountingLine.getDocumentNumber());
             accountingLineExtension.setSequenceNumber(accountingLine.getSequenceNumber());
         }
+        
+     // START KATTS-1961 Tag and JSP for DV, PREQ and CM Documents
+        getIncomeTypeHandler().removeZeroValuedIncomeTypes();
+        // END KATTS-1961
+        
+        //KATTS-1939 Add New Search Fields to DV, PREQ and CM Documents 
+        // Only update paid year if the document is in final status 
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals( getDocumentHeader().getWorkflowDocument().getStatus().getCode() ) ) {
+        	if (paidDate != null) {
+                setDvPaidYear(getPaidDate().toString().substring(0, 4));                
+            }
+            else {
+               setDvPaidYear(null);
+            }
+        }        
+        for (DisbursementVoucherIncomeType incomeType : getIncomeTypes()) {
+            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(TaxPropertyConstants.INCOME_TYPE_CODE_NOT_REPORTABLE))) {
+                setDv1099Ind(false);
+            }
+            else {
+                setDv1099Ind(true);
+                break;
+            }
+        }      
+        //END KATTS-1939 
     }
     
     public boolean isDv1099Ind() {
-		return dv1099Ind;
-	}
+        return dv1099Ind;
+    }
 
 	public void setDv1099Ind(boolean dv1099Ind) {
 		this.dv1099Ind = dv1099Ind;
+	}
+	public boolean getDv1099IndForSearching() {
+		return dv1099Ind;
 	}
 
 	public String getDvPaidYear() {
@@ -113,15 +144,6 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
 	public void setDvPaidYear(String dvPaidYear) {
 		this.dvPaidYear = dvPaidYear;
 	}
-	
-	public String getPaymentPaidYear() {
-		return paymentPaidYear;
-	}
-
-	public void setPaymentPaidYear(String paymentPaidYear) {
-		this.paymentPaidYear = paymentPaidYear;
-	}
-
 
 	protected void synchronizeBankCodeWithPaymentMethod() {
         Bank bank = getPaymentMethodGeneralLedgerPendingEntryService().getBankForPaymentMethod( getDisbVchrPaymentMethodCode() );
@@ -248,9 +270,48 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             LOG.debug("source accounting line added - account: " + line.getAccountNumber() + ", object code: " + line.getObjectCode());
         }
         
-        getIncomeTypeHandler().onAccountingLineAdded(line);
+        if (isIncomeTypeUpdateAllowed()) {
+            getIncomeTypeHandler().onAccountingLineAdded(line);
+        }
     }
 
+    @SuppressWarnings("deprecation")
+    private boolean isIncomeTypeUpdateAllowed() {
+        boolean retval = false;
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("in isIncomeTypeUpdateAllowed() - routeStatus=" + getRouteStatus());
+        }
+
+        // if document is in initiated status we will automatically populate income types when
+        // accounting lines are added, if not we will only populate if 1099 tab is visible
+        if (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(getRouteStatus())) {
+            retval = true;
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("route status is not initiated");
+            }
+
+            HashMap<String, String> att = new HashMap<String, String>();
+            att.put(KimConstants.AttributeConstants.EDIT_MODE, TaxConstants.Authorization.VIEW_INCOME_TYPES_EDIT_MODE);
+            att.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KFSConstants.DOCUWARE_DV_DOC_TYPE);
+            
+            // see if current user can view 1099 tab
+            retval = getIdentityManagementService().isAuthorizedByTemplateName(
+                    GlobalVariables.getUserSession().getPrincipalId(),
+                    KRADConstants.KNS_NAMESPACE,
+                    KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT, 
+                    att, 
+                    null);
+        } 
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("retval=" + retval);
+        }
+        
+        return retval;
+    }
+    
     public List<DisbursementVoucherIncomeType> getIncomeTypes() {
         if (incomeTypes == null) {
             incomeTypes = new ArrayList<DisbursementVoucherIncomeType>();
@@ -269,11 +330,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
 
     @Override
     public String getPaidYear() {
-        return dvPaidYear;
-    }
-
-    public boolean is1099Indicator() {
-        return dv1099Ind;
+        return getIncomeTypeHandler().getYearFromDate(this.getPaidDate());
     }
 
     @Override
@@ -289,7 +346,19 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
     public VendorHeader getVendorHeader() {
         return getIncomeTypeHandler().getVendorHeaderFromVendorNumber(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
     }
+    
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
 
+        // if the DocumentIncomeType list is empty then initialize from the document accounting lines
+        if (getIncomeTypes().isEmpty()) {
+            if (getDvPayeeDetail() != null) {
+                getIncomeTypeHandler().populateIncomeTypes(getSourceAccountingLines());
+            }
+        }
+    }
+    
     @Override
     public boolean getReportable1099TransactionsFlag() {
         boolean retval = false;

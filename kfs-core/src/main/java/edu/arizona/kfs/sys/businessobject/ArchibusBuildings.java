@@ -6,6 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import edu.arizona.kfs.sys.KFSParameterKeyConstants;
+
 public class ArchibusBuildings extends PersistableBusinessObjectBase {
 	private String campusCode;
 	private String buildingCode;
@@ -67,13 +69,13 @@ public class ArchibusBuildings extends PersistableBusinessObjectBase {
 		else {
 			kfsBuild = "";
 		}
-		if ("-".equalsIgnoreCase(this.routeCode)) {
+		if (KFSParameterKeyConstants.HYPHEN.equalsIgnoreCase(this.routeCode)) {
 			archBuild = "";
 		} 
 		else {
 			archBuild = this.routeCode;
 		}
-		if (this.active.equalsIgnoreCase(kfsBuild)) {
+		if (!archBuild.equalsIgnoreCase(kfsBuild)) {
 			return false;
 		}
 		if (this.active.equalsIgnoreCase("A") && building.isActive()) {

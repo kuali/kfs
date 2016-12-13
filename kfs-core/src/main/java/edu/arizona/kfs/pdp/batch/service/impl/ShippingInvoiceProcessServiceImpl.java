@@ -23,6 +23,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -270,6 +271,8 @@ public class ShippingInvoiceProcessServiceImpl implements ShippingInvoiceProcess
         paymentGroup.setPaymentDate(dateTimeService.getCurrentSqlDate());
         paymentGroup.setProcessImmediate(Boolean.FALSE);       
         paymentGroup.setPaymentStatusCode(PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus paymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
+        paymentGroup.setPaymentStatus(paymentStatus);                
         paymentGroup.setPymtAttachment(Boolean.FALSE);
         paymentGroup.setPymtSpecialHandling(Boolean.FALSE);
         paymentGroup.setEmployeeIndicator(Boolean.FALSE);
@@ -277,7 +280,7 @@ public class ShippingInvoiceProcessServiceImpl implements ShippingInvoiceProcess
         paymentGroup.setTaxablePayment(Boolean.FALSE);
         
         paymentGroup.setBatch(batch);
-                       
+                      
         return paymentGroup;
     }
 

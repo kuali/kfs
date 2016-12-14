@@ -347,6 +347,8 @@
 		<!--  Tax Form -->
         <form-bean name="PayeeSearchForm"
             type="edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm" />
+            
+        <form-bean name="ElectronicFilingReportForm" type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -373,6 +375,15 @@
 	</global-forwards>
 
 	<action-mappings>
+        <action path="/taxElectronicFilingReport" name="ElectronicFilingReportForm"
+            input="/jsp/module/tax/ElectronicFilingReport.jsp"
+            type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportAction"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/tax/ElectronicFilingReport.jsp" />
+        </action>
+
         <action path="/financialGeneralErrorCorrection"
             name="GeneralErrorCorrectionForm"
             input="/jsp/fp/GeneralErrorCorrection.jsp"

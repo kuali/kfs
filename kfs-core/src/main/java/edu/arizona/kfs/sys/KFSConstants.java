@@ -17,6 +17,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String BLANK_SUBACCOUNT = "-----";
     public static final String BLANK_SUBOBJECT = "---";
     public static final String BLANK_PROJECT_CODE = "----------";
+    public static final String STAGING_DIRECTORY_KEY = "staging.directory";
     
     //Docuware Constants
     public static final String VIEW_DOCUWARE = "viewImages";

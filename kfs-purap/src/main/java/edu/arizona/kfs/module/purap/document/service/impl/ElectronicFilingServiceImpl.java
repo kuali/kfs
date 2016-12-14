@@ -3,9 +3,6 @@ package edu.arizona.kfs.module.purap.document.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import edu.arizona.kfs.module.purap.document.service.ElectronicFilingService;
 import edu.arizona.kfs.module.purap.service.TaxReporting1099Service;
@@ -22,45 +19,23 @@ public class ElectronicFilingServiceImpl implements ElectronicFilingService {
 
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicFilingService.class);
 
-	private BusinessObjectService businessObjectService;
 	private TaxReporting1099Service taxReporting1099Service;
-	private ParameterService parameterService;
 	private TaxParameterHelperService taxParameterHelperService;
 
 	private static final String NINE_SPACES = "         ";
 
-	public BusinessObjectService getBusinessObjectService() {
-		if (businessObjectService == null) {
-			businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-		}
-		return businessObjectService;
+	public void setTaxReporting1099Service(TaxReporting1099Service taxReporting1099Service) {
+		this.taxReporting1099Service = taxReporting1099Service;
 	}
 
-	public TaxReporting1099Service getTaxReporting1099Service() {
-		if (taxReporting1099Service == null) {
-			taxReporting1099Service = SpringContext.getBean(TaxReporting1099Service.class);
-		}
-		return taxReporting1099Service;
-	}
-
-	public ParameterService getParameterService() {
-		if (parameterService == null) {
-			parameterService = SpringContext.getBean(ParameterService.class);
-		}
-		return parameterService;
-	}
-
-	public TaxParameterHelperService getTaxParameterHelperService() {
-		if (taxParameterHelperService == null) {
-			taxParameterHelperService = SpringContext.getBean(TaxParameterHelperService.class);
-		}
-		return taxParameterHelperService;
+	public void setTaxParameterHelperService(TaxParameterHelperService taxParameterHelperService) {
+		this.taxParameterHelperService = taxParameterHelperService;
 	}
 
 	public ElectronicFile getElectronicFile(Integer year) throws Exception {
 		LOG.info("Tax Year : " + year);
 
-		Payer payer = getTaxReporting1099Service().getDefaultPayer();
+		Payer payer = taxReporting1099Service.getDefaultPayer();
 
 		if (payer == null) {
 			throw new Exception("No default payer record was found.");
@@ -68,7 +43,7 @@ public class ElectronicFilingServiceImpl implements ElectronicFilingService {
 			LOG.info("Default Payer : " + payer.getCompanyName1());
 		}
 
-		double totalTaxAmount = getTaxParameterHelperService().getTaxThreshholdAmount();
+		double totalTaxAmount = taxParameterHelperService.getTaxThreshholdAmount();
 		LOG.info("Total Tax Amount Threshold:" + totalTaxAmount);
 
 		ElectronicFile ef = new ElectronicFile();
@@ -77,7 +52,7 @@ public class ElectronicFilingServiceImpl implements ElectronicFilingService {
 		RecordGroup rg = ef.addRecordGroup();
 		setPayerRecord(year, payer, rg);
 
-		List<Payee> payees = getTaxReporting1099Service().loadPayees(year);
+		List<Payee> payees = taxReporting1099Service.loadPayees(year);
 		LOG.info("Payees Found Above Total Amount: " + payees.size());
 
 		PayeeRecord pr = null;
@@ -115,8 +90,8 @@ public class ElectronicFilingServiceImpl implements ElectronicFilingService {
 			pr.setPayeeName2(payee.getAddressLine1Address());
 		}
 
-		for (String box : getTaxReporting1099Service().getActive1099Boxes()) {
-			pr.setPaymentAmount(box, getTaxReporting1099Service().getPayeeTaxAmount(payee, box, payee.getTaxYear()));
+		for (String box : taxReporting1099Service.getActive1099Boxes()) {
+			pr.setPaymentAmount(box, taxReporting1099Service.getPayeeTaxAmount(payee, box, payee.getTaxYear()));
 		}
 
 		if (payee.getVendorForeignIndicator().booleanValue()) {

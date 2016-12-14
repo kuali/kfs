@@ -412,7 +412,7 @@ public class TransmitterRecord implements Record {
 			errors.add(new ElectronicFileException(transmitterTin, companyName1, ElectronicFileException.TRANSMITTER, "Company Zip Code", companyZipCode, "Company zip code is not a valid code. [limit = 9]"));
 		}
 		if ("1".equals(foreignEntityIndicator) && !RecordUtil.isValidCountryCode(companyCountryCode)) {
-			errors.add(new ElectronicFileException(transmitterTin, companyName1, ElectronicFileException.TRANSMITTER, "Company Country Code", foreignEntityIndicator, "Company country code is not a valid code. [limit = 2]"));
+			errors.add(new ElectronicFileException(transmitterTin, companyName1, ElectronicFileException.TRANSMITTER, "Company Country Code", companyCountryCode, "Company country code is not a valid code. [limit = 2]"));
 		}
 
 		ArrayList<Character> validVendorForiegnIndicators = new ArrayList<Character>();

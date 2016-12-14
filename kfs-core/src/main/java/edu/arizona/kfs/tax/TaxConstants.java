@@ -8,8 +8,8 @@ public class TaxConstants {
 	public static final String PAYEE_MASTER_EXTRACT_STEP = "PayeeMasterExtractStep";
     public static final String TAX_USER_ROLE = "UA 1099 Tax Specialist";
     public static final String NMSPC_CD = "KFS-TAX";
-    public static final String REPORT_TEMPLATE_CLASSPATH = "com/rsmart/kuali/kfs/tax/report/";
-    public static final String REPORT_MESSAGES_CLASSPATH = REPORT_TEMPLATE_CLASSPATH + "ExceptionReport.properties";
+	public static final String REPORT_TEMPLATE_CLASSPATH = "edu/arizona/kfs/tax/report/";
+	public static final String REPORT_MESSAGES_CLASSPATH = "edu/arizona/kfs/tax/report/ExceptionReport";
     public static final String ELEC_REPORT_FILE_NAME = "ElectronicFilingReport";
     public static final String AMOUNT_CODE_A = "A"; // Crop Insurance
     public static final String AMOUNT_CODE_B = "B"; // Golden Parachute
@@ -25,6 +25,8 @@ public class TaxConstants {
     public static final String AMOUNT_CODE_7 = "7"; // Nonemployee Compensation
     public static final String AMOUNT_CODE_8 = "8"; // Dividends
     
+    public static final String CUSTOMER_ADDRESS_TYPE_CODE_US = "US";
+
     // Tag and JSP for DV, PREQ and CM Documents.. 
     public static final String FINANCIAL_PROCESSING_NAMESPACE_CODE = "KFS-FP"; 
     public static final String FSO_FINANCIAL_MANAGEMENT_GROUP = "UA FSO Financial Management Managers";

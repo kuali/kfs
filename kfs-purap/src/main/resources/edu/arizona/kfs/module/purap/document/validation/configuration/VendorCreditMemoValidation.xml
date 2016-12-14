@@ -12,12 +12,36 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 
+	<bean id="PurchasingAccountsPayable-incomeTypeTotalsValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.IncomeTypeTotalsValidation" abstract="true"/>
+	
 	<bean id="VendorCreditMemo-routeDocumentValidation" parent="VendorCreditMemo-routeDocumentValidation-parentBean" scope="prototype">
 		<property name="validations">
 			<list merge="true">
 				<bean class="edu.arizona.kfs.module.purap.document.validation.impl.VendorCreditMemoPaymentMethodCodeValidation" />
 				<bean parent="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation" scope="prototype" />
+				<bean parent="PurchasingAccountsPayable-incomeTypeTotalsValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean> 	
+	
+	
+	<bean id="VendorCreditMemo-approveDocumentValidation" parent="VendorCreditMemo-approveDocumentValidation-parentBean" scope="prototype" >
+  		<property name="validations">
+  			<list merge="true">
+				<!-- Validations for DV, PREQ and CM Documents (1099 Classification tab) -->
+				<bean parent="PurchasingAccountsPayable-incomeTypeTotalsValidation" scope="prototype" />
+			</list>
+		</property>
+  	</bean>
+	
+	<bean id="VendorCreditMemo-saveDocumentValidation" parent="VendorCreditMemo-saveDocumentValidation-parentBean" scope="prototype" />
+  
+	<bean id="VendorCreditMemo-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+  				<!-- Validations for DV, PREQ and CM Documents (1099 Classification tab) -->
+				<bean parent="PurchasingAccountsPayable-incomeTypeTotalsValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 </beans>

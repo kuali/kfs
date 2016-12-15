@@ -26,16 +26,16 @@
             </list>
         </property>
         <property name="jobNames">
-        	<list>
-        		<value>payeeMasterExtractJob</value>
-        	</list>
+            <list merge="true">
+                <value>payeeMasterExtractJob</value>
+            </list>
         </property>
         <property name="batchFileDirectories">
-          <list>
-            <value>${staging.directory}/1099</value>
-            <value>${reports.directory}/tax</value>
-            <value>${staging.directory}/tax</value>
-          </list>
+            <list merge="true">
+                <value>${staging.directory}/1099</value>
+                <value>${reports.directory}/tax</value>
+                <value>${staging.directory}/tax</value>
+            </list>
         </property>
 	</bean>
 

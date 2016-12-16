@@ -27,6 +27,7 @@
         </property>
         <property name="jobNames">
             <list merge="true">
+            	<value>batchPayeeFormJob</value>
                 <value>payeeMasterExtractJob</value>
             </list>
         </property>
@@ -183,6 +184,7 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="taxReporting1099Dao" ref="taxReporting1099Dao" />
 		<property name="pdfDirectory" value="${staging.directory}/tax/pdf"/>
+		<property name="configurationService" ref="configurationService" />
 		<property name="documentIncomeTypeSet">
 			<set>
 				<value>CM</value>
@@ -223,6 +225,25 @@
 	<bean id="taxElectronicFilingService" class="edu.arizona.kfs.module.purap.document.service.impl.ElectronicFilingServiceImpl">
 		<property name="taxReporting1099Service" ref="taxReporting1099Service" />
 		<property name="taxParameterHelperService" ref="taxParameterHelperService" />
+	</bean>
+	
+	<bean id="batchPayeeFormJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="batchPayeeFormStep" />
+				<ref bean="electronicFilingStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="batchPayeeFormStep" class="edu.arizona.kfs.module.purap.batch.BatchPayeeFormStep" parent="step">
+		<property name="taxReporting1099Service" ref="taxReporting1099Service"></property>
+	</bean>
+	
+	<bean id="electronicFilingStep" class="edu.arizona.kfs.module.purap.batch.ElectronicFilingStep" parent="step">
+		<property name="taxReporting1099Service" ref="taxReporting1099Service" />
+		<property name="configurationService" ref="configurationService" />
+		<property name="electronicFilingService" ref="taxElectronicFilingService" />
 	</bean>
 
 </beans>

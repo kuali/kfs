@@ -437,6 +437,12 @@
 	            <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
 	        </query-customizer>
 	    </collection-descriptor>
+
+        <collection-descriptor name="incomeTypes" proxy="true" element-class-ref="edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <orderby name="incomeTypeLineNumber" sort="ASC" />
+            <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        </collection-descriptor>
+
 	</class-descriptor>
 	
 	<!-- Descriptors copied because they referenced the original class names -->
@@ -616,6 +622,8 @@
 	    <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR" />
 	    <field-descriptor name="paymentMethodCode" column="PMT_MTHD_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="paymentPaidYear" column="PMT_PD_YR" jdbc-type="VARCHAR" />
+        <field-descriptor name="payment1099Indicator" column="PMT_1099_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR" />
 	    
 	    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -647,7 +655,50 @@
 	            <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
 	        </query-customizer>
 	    </collection-descriptor>
+	    
+	    <!-- the incomeTypes deletion is handled within our buildDeletionAwareLists -->
+	    <collection-descriptor name="incomeTypes" proxy="true" element-class-ref="edu.arizona.kfs.module.purap.businessobject.CreditMemoIncomeType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+	        <orderby name="incomeTypeLineNumber" sort="ASC" />
+	        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+	    </collection-descriptor>
+	</class-descriptor>
 	
+	<class-descriptor class="edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType" table="AP_PMT_RQST_INC_TYP_T">
+		<field-descriptor name="paymentRequestIncomeTypeIdentifier" column="PMT_RQST_INC_TYP_ID" jdbc-type="BIGINT"  primarykey="true" index="true" autoincrement="true" sequence-name="AP_PMT_RQST_INC_TYP_ID_SEQ"/>
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="incomeTypeLineNumber" column="INC_TYP_LINE_NBR" jdbc-type="INTEGER"/>
+		<field-descriptor name="purapDocumentIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER" index="true"/>
+		<field-descriptor name="amount" column="INC_TYP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="incomeTypeCode" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.module.purap.businessobject.CreditMemoIncomeType" table="AP_CRDT_MEMO_INC_TYP_T">
+		<field-descriptor name="creditMemoIncomeTypeIdentifier" column="CRDT_MEMO_INC_TYP_ID" jdbc-type="BIGINT"  primarykey="true" index="true" autoincrement="true" sequence-name="AP_CRDT_MEMO_INC_TYP_ID_SEQ"/>
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="incomeTypeLineNumber" column="INC_TYP_LINE_NBR" jdbc-type="INTEGER"/>
+		<field-descriptor name="purapDocumentIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
+		<field-descriptor name="amount" column="INC_TYP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="incomeTypeCode" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
 	</class-descriptor>
 
 </descriptor-repository>

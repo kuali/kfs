@@ -3,7 +3,7 @@
   <parent>
     <artifactId>kfs</artifactId>
     <groupId>org.kuali.kfs</groupId>
-    <version>ua-release21</version>
+    <version>ua-release22</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -178,6 +178,11 @@
     <dependency>
       <groupId>org.kuali.kfs</groupId>
       <artifactId>kfs-purap</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.kfs</groupId>
+      <artifactId>kfs-tax</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

@@ -58,7 +58,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         sql.put(RETRIEVE_PREFIX + AccountBalance.class, "select CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT from GL_ACCT_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?");
         sql.put(INSERT_PREFIX + AccountBalance.class, "insert into GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) values (?,?,?,?,?,?,?,?,?,?)");
         sql.put(UPDATE_PREFIX + AccountBalance.class, "update GL_ACCT_BALANCES_T set CURR_BDLN_BAL_AMT = ?, ACLN_ACTLS_BAL_AMT = ?, ACLN_ENCUM_BAL_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?");
-        sql.put(INSERT_PREFIX + Entry.class, "INSERT INTO GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        sql.put(INSERT_PREFIX + Entry.class, "INSERT INTO GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, ENTRY_ID, TIMESTAMP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         sql.put(INSERT_PREFIX + Reversal.class, "INSERT INTO GL_REVERSAL_T (FDOC_REVERSAL_DT, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, TRN_ENCUM_UPDT_CD, TRN_POST_DT) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     }
 
@@ -523,7 +523,8 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setDate(24, entry.getFinancialDocumentReversalDate());
                 preparedStatement.setString(25, entry.getTransactionEncumbranceUpdateCode());
                 preparedStatement.setDate(26, entry.getTransactionPostingDate());
-                preparedStatement.setTimestamp(27, currentTimestamp);
+                preparedStatement.setLong(27, entry.getEntryId());
+                preparedStatement.setTimestamp(28, currentTimestamp);
             }
         }.execute(Entry.class);
     }

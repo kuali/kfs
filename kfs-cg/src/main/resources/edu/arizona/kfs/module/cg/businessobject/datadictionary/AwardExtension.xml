@@ -18,20 +18,7 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="AwardExtension-proposalNumber" parent="AwardExtension-proposalNumber-parentBean" />
-	<bean id="AwardExtension-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="proposalNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Prop Num" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="14" />
-		</property>
-	</bean>
+	<bean id="AwardExtension-proposalNumber" parent="Award-proposalNumber-parentBean" />
 
 	<bean id="AwardExtension-federalPassThroughPrimeAwardNumber" parent="AwardExtension-federalPassThroughPrimeAwardNumber-parentBean" />
 	<bean id="AwardExtension-federalPassThroughPrimeAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">

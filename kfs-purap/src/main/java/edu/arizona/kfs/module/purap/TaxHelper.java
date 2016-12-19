@@ -129,6 +129,9 @@ public class TaxHelper {
 			logger.info("tax folder " + retval.getAbsolutePath() + " already exists.");
 		}
 		else if (!retval.mkdirs()) {
+			throw new RuntimeException("Could not create folder at [" + retval.getAbsolutePath() + "].");
+		}
+		else {
 			logger.info("tax folder " + retval.getAbsolutePath() + " created.");
 		}
 		

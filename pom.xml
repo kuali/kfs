@@ -40,7 +40,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release22-SNAPSHOT</version>
+  <version>ua-release23-SNAPSHOT</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>

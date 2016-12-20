@@ -1,11 +1,15 @@
 package edu.arizona.kfs.module.purap;
 
+import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import edu.arizona.kfs.fp.document.DisbursementVoucherDocument;
 import edu.arizona.kfs.module.purap.document.PaymentRequestDocument;
 import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
+import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.tax.TaxPropertyConstants;
 
 /**
@@ -115,6 +119,23 @@ public class TaxHelper {
 	 */
 	public static boolean isValidPurapDocumentClass(Class clazz) {
 		return ((clazz != null) && (isCmClass(clazz) || isPreqClass(clazz)));
+	}
+	
+	public static File getTaxYearFolder(int year, ConfigurationService configurationService, org.apache.log4j.Logger logger) {
+			
+		File retval = new File(configurationService.getPropertyValueAsString(KFSConstants.STAGING_DIRECTORY_KEY) + "/tax/" + year);
+		
+		if (retval.exists() && retval.isDirectory()) {
+			logger.info("tax folder " + retval.getAbsolutePath() + " already exists.");
+		}
+		else if (!retval.mkdirs()) {
+			throw new RuntimeException("Could not create folder at [" + retval.getAbsolutePath() + "].");
+		}
+		else {
+			logger.info("tax folder " + retval.getAbsolutePath() + " created.");
+		}
+		
+		return retval;
 	}
 
 }

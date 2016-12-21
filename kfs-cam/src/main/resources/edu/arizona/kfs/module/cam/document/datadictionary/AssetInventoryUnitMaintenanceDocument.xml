@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://rice.kuali.org/dd
+		http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="AssetInventoryUnitMaintenanceDocument" parent="AssetInventoryUnitMaintenanceDocument-parentBean" />
+	<bean id="AssetInventoryUnitMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" />
+		<property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+		<property name="maintainableSections">
+			<list>
+				<ref bean="AssetInventoryUnitMaintenance-EditAssetInventoryUnit" />
+			</list>
+		</property>
+		<property name="allowsNewOrCopy" value="true" />
+		<property name="documentTypeName" value="AIUM" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="workflowAttributes">
+			<ref bean="BalanceTypeMaintenanceDocument-workflowAttributes" />
+		</property>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="AssetInventoryUnitMaintenance-EditAssetInventoryUnit" parent="AssetInventoryUnitMaintenance-EditAssetInventoryUnit-parentBean" />
+	<bean id="AssetInventoryUnitMaintenance-EditAssetInventoryUnit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Inventory Unit" />
+		<property name="title" value="Edit Inventory Unit" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="inventoryUnitCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="inventoryUnitName" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Exported Workflow Properties -->
+
+	<bean id="AssetInventoryUnitMaintenance-workflowAttributes" parent="AssetInventoryUnitMaintenance-workflowAttributes-parentBean" />
+	<bean id="AssetInventoryUnitMaintenance-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+	</bean>
+
+</beans>

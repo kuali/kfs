@@ -1,0 +1,22 @@
+<descriptor-repository version="1.0">
+
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" table="CM_CPTLAST_INV_UNIT_T">
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="inventoryUnitName" column="INV_UNIT_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
+		<reference-descriptor name="coaCodeObj" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="orgObj" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="organizationCode" />
+		</reference-descriptor>
+
+	</class-descriptor>
+
+</descriptor-repository>

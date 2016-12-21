@@ -1,194 +1,32 @@
 <descriptor-repository version="1.0">
-<class-descriptor class="edu.arizona.kfs.gl.businessobject.GecEntry" table="GL_ENTRY_T">
-    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
-    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialSystemOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
-    <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE" />
-    <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" index="true" />
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="universityFiscalYear" />
-    </reference-descriptor>
-
-    <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-
-    <reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="subAccountNumber" />
-    </reference-descriptor>
-
-    <reference-descriptor name="financialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="financialSubObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="financialObjectCode" />
-        <foreignkey field-ref="financialSubObjectCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="objectType" class-ref="org.kuali.kfs.coa.businessobject.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialObjectTypeCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalPeriodCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="originationCode" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialSystemOriginationCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="projectCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
-    </reference-descriptor>
-
-</class-descriptor>
-
-<!-- From: <class-descriptor class="org.kuali.kfs.sys.businessobject.AccountingLineBase"> -->
-<class-descriptor class="edu.arizona.kfs.gl.businessobject.lite.AccountingLineLiteBo" table="FP_ACCT_LINES_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="amount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceOriginCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="overrideCode" column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentLineDescription" column="FDOC_LINE_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="debitCreditCode" column="FDOC_LINE_DBCR_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="encumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-</class-descriptor>
-
-<!--From: <class-descriptor class="org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue" table="KREW_DOC_HDR_T" > -->
-<class-descriptor class="edu.arizona.kfs.gl.businessobject.lite.DocumentHeaderLiteBo" table="KREW_DOC_HDR_T" >
-    <field-descriptor name="documentId" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="KREW_DOC_HDR_S" />
-    <field-descriptor name="documentTypeId" column="DOC_TYP_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="docRouteStatus" column="DOC_HDR_STAT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="docRouteLevel" column="RTE_LVL" jdbc-type="INTEGER" />
-    <field-descriptor name="appDocStatus" column="APP_DOC_STAT" jdbc-type="VARCHAR" />
-    <field-descriptor name="dateModified" column="STAT_MDFN_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="createDate" column="CRTE_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="approvedDate" column="APRV_DT"  jdbc-type="TIMESTAMP" />
-    <field-descriptor name="finalizedDate" column="FNL_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="routeStatusDate"  column="RTE_STAT_MDFN_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="appDocStatusDate" column="APP_DOC_STAT_MDFN_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="docTitle" column="TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="appDocId" column="APP_DOC_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="docVersion"  column="DOC_VER_NBR"  jdbc-type="INTEGER" />
-    <field-descriptor name="initiatorWorkflowId" column="INITR_PRNCPL_ID"  jdbc-type="VARCHAR" />
-    <field-descriptor name="routedByUserWorkflowId" column="RTE_PRNCPL_ID"  jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<!--From: <class-descriptor class="org.kuali.rice.kew.doctype.bo.DocumentType" table="KREW_DOC_TYP_T"> -->
-<class-descriptor class="edu.arizona.kfs.gl.businessobject.lite.DocumentTypeLiteBo" table="KREW_DOC_TYP_T">
-    <field-descriptor name="documentTypeId" column="DOC_TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="KREW_DOC_HDR_S" />
-    <field-descriptor name="docTypeParentId" column="PARNT_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="name" column="DOC_TYP_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="version" column="DOC_TYP_VER_NBR" jdbc-type="INTEGER"/>
-    <field-descriptor name="active" column="ACTV_IND" jdbc-type="BIT"/>
-    <field-descriptor name="currentInd" column="CUR_IND" jdbc-type="BIT"/>
-    <field-descriptor name="label" column="LBL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="previousVersionId" column="PREV_DOC_TYP_VER_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="description" column="DOC_TYP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="unresolvedDocHandlerUrl" column="DOC_HDLR_URL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="postProcessorName" column="POST_PRCSR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="blanketApprovePolicy" column="BLNKT_APPR_PLCY" jdbc-type="VARCHAR"/>
-    <field-descriptor name="routingVersion" column="RTE_VER_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="actualNotificationFromAddress" column="NOTIFY_ADDR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="actualApplicationId" column="APPL_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="customEmailStylesheet" column="EMAIL_XSL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="documentTypeSecurityXml" column="SEC_XML" jdbc-type="CLOB"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="blanketApproveWorkgroupId" column="BLNKT_APPR_GRP_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="reportingWorkgroupId" column="RPT_GRP_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="workgroupId" column="GRP_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="unresolvedHelpDefinitionUrl" column="HELP_DEF_URL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
-    <field-descriptor name="unresolvedDocSearchHelpUrl" column="DOC_SEARCH_HELP_URL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="documentId" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="authorizer" column="AUTHORIZER" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
-<class-descriptor class="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" table="GL_BUDGET_ADJUST_TRN_T">
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jbdc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
-	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
-	<field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
-	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="universityFiscalYear" />
-	</reference-descriptor>
-</class-descriptor>
+    <class-descriptor class="edu.arizona.kfs.gl.businessobject.BudgetAdjustmentTransaction" table="GL_BUDGET_ADJUST_TRN_T">
+        <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jbdc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+        <field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE"/>
+        <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="chartOfAccountsCode"/>
+            <foreignkey field-ref="accountNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="universityFiscalYear"/>
+        </reference-descriptor>
+    </class-descriptor>
 
     <class-descriptor class="edu.arizona.kfs.gl.businessobject.GlobalTransactionEdit" table="GL_GLBL_TRANS_EDIT_T">
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -244,6 +82,16 @@
         <reference-descriptor name="objectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjectSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="objectSubTypeCode"/>
         </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.gl.businessobject.GecEntryRelationship" table="FP_GEC_ENTRY_REL_T">
+        <field-descriptor name="entryId" column="ENTRY_ID" jdbc-type="BIGINT" index="true" primarykey="true" />
+        <field-descriptor name="gecDocumentNumber" column="GEC_FDOC_NBR" jdbc-type="VARCHAR" index="true" primarykey="true" />
+        <field-descriptor name="gecFdocLineTypeCode" column="GEC_FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true"  />
+        <field-descriptor name="gecAcctLineSeqNumber" column="GEC_ACCT_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="gecDocRouteStatus" column="GEC_DOC_HDR_STAT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     </class-descriptor>
 
 </descriptor-repository>

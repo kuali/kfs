@@ -13,6 +13,7 @@
 		<property name="dataDictionaryPackages">
 			<list merge="true">
 				<value>classpath:edu/arizona/kfs/module/purap/document/datadictionary/*.xml</value>
+				<value>classpath:edu/arizona/kfs/module/purap/businessobject/datadictionary/*.xml</value>
 			</list>
 		</property>
         <property name="triggerNames">
@@ -22,6 +23,19 @@
         <property name="databaseRepositoryFilePaths">
             <list merge="true">
                 <value>edu/arizona/kfs/module/purap/ojb-purap.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list merge="true">
+            	<value>batchPayeeFormJob</value>
+                <value>payeeMasterExtractJob</value>
+            </list>
+        </property>
+        <property name="batchFileDirectories">
+            <list merge="true">
+                <value>${staging.directory}/1099</value>
+                <value>${reports.directory}/tax</value>
+                <value>${staging.directory}/tax</value>
             </list>
         </property>
 	</bean>
@@ -147,4 +161,89 @@
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
     	
+    <bean id="b2bPurchaseOrderService" class="edu.arizona.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl" parent="b2bPurchaseOrderService-parentBean">
+        <property name="b2bPurchaseOrderDtd" value="${b2b.purchase.order.dtd}"/>
+    </bean>
+    
+    <bean id="payeeMasterExtractJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="payeeMasterExtractStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="payeeMasterExtractStep" class="edu.arizona.kfs.module.purap.batch.PayeeMasterExtractStep" parent="step">
+		<property name="taxReporting1099Service">
+			<ref bean="taxReporting1099Service" />
+		</property>
+	</bean>
+	
+	<bean id="taxReporting1099Service" class="edu.arizona.kfs.module.purap.service.impl.TaxReporting1099ServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="taxReporting1099Dao" ref="taxReporting1099Dao" />
+		<property name="pdfDirectory" value="${staging.directory}/tax/pdf"/>
+		<property name="configurationService" ref="configurationService" />
+		<property name="documentIncomeTypeSet">
+			<set>
+				<value>CM</value>
+				<value>DV</value>
+				<value>DVCA</value>
+				<value>DVNC</value>
+				<value>PREQ</value>
+				<value>PRNC</value>
+			</set>
+		</property>
+		<property name="form1099BoxInformation">
+			<map>
+				<entry key="1" value="RENTS" />
+				<entry key="2" value="ROYALTIES" />
+				<entry key="3" value="OTHER" />
+				<entry key="4" value="FEDERAL" />
+				<entry key="5" value="FISHING" />
+				<entry key="6" value="MEDICAL" />
+				<entry key="7" value="NONEMPLOYEE" />
+				<entry key="8" value="SUBSTITUTE" />
+				<entry key="10" value="CROP" />
+				<entry key="13" value="GOLDEN" />
+				<entry key="14" value="ATTORNEY" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="taxReporting1099Dao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.TaxReporting1099DaoOjb">
+		<property name="nonPdpPaymentMethodCodes">
+			<set>
+				<value>W</value>
+				<value>F</value>
+				<value>M</value>
+			</set>
+		</property>
+    </bean>
+
+	<bean id="taxElectronicFilingService" class="edu.arizona.kfs.module.purap.document.service.impl.ElectronicFilingServiceImpl">
+		<property name="taxReporting1099Service" ref="taxReporting1099Service" />
+		<property name="taxParameterHelperService" ref="taxParameterHelperService" />
+	</bean>
+	
+	<bean id="batchPayeeFormJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="batchPayeeFormStep" />
+				<ref bean="electronicFilingStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="batchPayeeFormStep" class="edu.arizona.kfs.module.purap.batch.BatchPayeeFormStep" parent="step">
+		<property name="taxReporting1099Service" ref="taxReporting1099Service"></property>
+	</bean>
+	
+	<bean id="electronicFilingStep" class="edu.arizona.kfs.module.purap.batch.ElectronicFilingStep" parent="step">
+		<property name="taxReporting1099Service" ref="taxReporting1099Service" />
+		<property name="configurationService" ref="configurationService" />
+		<property name="electronicFilingService" ref="taxElectronicFilingService" />
+	</bean>
+
 </beans>

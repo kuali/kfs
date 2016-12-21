@@ -60,6 +60,10 @@
 	
 	    <gl:generalLedgerPendingEntries />
 	    
+	    <tax:incomeTypes editingMode="${KualiForm.editingMode}"/>
+	    
+	    <sys:docuware />
+	    
 		<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
 	    
 	    <kul:adHocRecipients />

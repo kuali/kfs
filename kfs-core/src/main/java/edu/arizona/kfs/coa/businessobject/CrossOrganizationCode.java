@@ -9,7 +9,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+//import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * UAF-120 / MOD-FP0072-01 : Budget Shell and Cross Organization Attributes for
@@ -18,7 +19,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * @author Jonathan Keller <keller.jonathan@gmail.com>
  * @author Adam Kost <kosta@email.arizona.edu>
  */
-public class CrossOrganizationCode extends PersistableBusinessObjectBase implements Inactivatable {
+public class CrossOrganizationCode extends KualiCodeBase implements Inactivatable {
 
     private static final long serialVersionUID = 1L;
     private static transient volatile PersonService personService;
@@ -26,32 +27,21 @@ public class CrossOrganizationCode extends PersistableBusinessObjectBase impleme
     private static transient volatile OrganizationService organizationService;
 
     // Database fields
-    private String crossOrganizationCode;
-    private String crossOrganizationDescription;
     private String chartOfAccountsCode;
     private String organizationCode;
     private String leaderPrincipalId;
-    private boolean active;
 
     // Helper objects
     private transient volatile Chart chart;
     private transient volatile Organization organization;
     private transient volatile Person leader;
-
+    
     public String getCrossOrganizationCode() {
-        return crossOrganizationCode;
+        return getCode();
     }
-
-    public void setCrossOrganizationCode(String crossOrganizationCode) {
-        this.crossOrganizationCode = crossOrganizationCode;
-    }
-
-    public String getCrossOrganizationDescription() {
-        return crossOrganizationDescription;
-    }
-
-    public void setCrossOrganizationDescription(String crossOrganizationName) {
-        this.crossOrganizationDescription = crossOrganizationName;
+    
+    public void setCrossOrganizationCode( String crossOrganizationCode ) {
+        setCode( crossOrganizationCode );
     }
 
     public String getChartOfAccountsCode() {
@@ -76,15 +66,6 @@ public class CrossOrganizationCode extends PersistableBusinessObjectBase impleme
 
     public void setLeaderPrincipalId(String leaderPrincipalId) {
         this.leaderPrincipalId = leaderPrincipalId;
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public Chart getChart() {

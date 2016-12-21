@@ -86,13 +86,13 @@
 		<form-bean name="PreEncumbranceForm"
 			type="org.kuali.kfs.fp.document.web.struts.PreEncumbranceForm" />
 		<form-bean name="DisbursementVoucherForm"
-			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.DisbursementVoucherForm" />
 		<form-bean name="CashManagementForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
 		<form-bean name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm" />
 		<form-bean name="ProcurementCardForm"
-			type="org.kuali.kfs.fp.document.web.struts.ProcurementCardForm" />
+			type="edu.arizona.kfs.fp.document.web.struts.ProcurementCardForm" />
 		<form-bean name="BudgetAdjustmentForm"
 			type="org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentForm" />
 		<form-bean name="YearEndBudgetAdjustmentForm"
@@ -242,7 +242,7 @@
 		<form-bean name="PaymentRequestForm"
 			type="edu.arizona.kfs.module.purap.document.web.struts.PaymentRequestForm" />
 		<form-bean name="VendorCreditMemoForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
+			type="edu.arizona.kfs.module.purap.document.web.struts.VendorCreditMemoForm" />
 		<form-bean name="LineItemReceivingForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.LineItemReceivingForm" />
 		<form-bean name="CorrectionReceivingForm"
@@ -342,7 +342,13 @@
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
-			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     			
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     
+			
+		<!--  Tax Form -->
+        <form-bean name="PayeeSearchForm"
+            type="edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm" />
+            
+        <form-bean name="ElectronicFilingReportForm" type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -369,6 +375,15 @@
 	</global-forwards>
 
 	<action-mappings>
+        <action path="/taxElectronicFilingReport" name="ElectronicFilingReportForm"
+            input="/jsp/module/tax/ElectronicFilingReport.jsp"
+            type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportAction"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/tax/ElectronicFilingReport.jsp" />
+        </action>
+
         <action path="/financialGeneralErrorCorrection"
             name="GeneralErrorCorrectionForm"
             input="/jsp/fp/GeneralErrorCorrection.jsp"
@@ -392,6 +407,12 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/fp/YearEndGeneralErrorCorrection.jsp" />
         </action>
+		<action path="/financialDisbursementVoucher" name="DisbursementVoucherForm" input="/jsp/fp/DisbursementVoucher.jsp"
+			type="edu.arizona.kfs.fp.document.web.struts.DisbursementVoucherAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/fp/DisbursementVoucher.jsp" />
+		</action>
 
         <action path="/gecEntryLookup" 
             name="MultipleValueLookupForm"
@@ -836,6 +857,15 @@
              <set-property property="cancellable" value="true" />
              <forward name="basic" path="/jsp/module/purap/PaymentRequest.jsp" /> 
         </action>
+        
+        <action path="/purapVendorCreditMemo"
+             input="/jsp/module/purap/VendorCreditMemo.jsp" 
+             name="VendorCreditMemoForm"
+             type="edu.arizona.kfs.module.purap.document.web.struts.VendorCreditMemoAction"
+             scope="request" attribute="KualiForm">
+             <set-property property="cancellable" value="true" />
+             <forward name="basic" path="/jsp/module/purap/VendorCreditMemo.jsp" />
+        </action>
 
 		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.{1}Action"
@@ -1057,6 +1087,21 @@
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/jsp/sys/SessionExpiration.jsp" />
 		</action>
+		
+		<action path="/tax*" name="{1}Form"
+            input="/jsp/tax/{1}.jsp"
+            type="edu.arizona.kfs.module.purap.document.web.struts.{1}Action"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/tax/{1}.jsp" />
+        </action>
+        
+        <action path="/downloadTaxForm" name="KualiForm"
+			type="edu.arizona.kfs.module.purap.document.web.struts.TaxFormAction"
+			scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+		</action>
+        
 
 	</action-mappings>
 

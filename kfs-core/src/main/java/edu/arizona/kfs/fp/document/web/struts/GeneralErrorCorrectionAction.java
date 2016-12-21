@@ -2,7 +2,10 @@ package edu.arizona.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -13,25 +16,23 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.gl.businessobject.lookup.GecEntryHelperServiceImpl;
+import edu.arizona.kfs.fp.document.GeneralErrorCorrectionDocument;
+import edu.arizona.kfs.gl.businessobject.GecEntryRelationship;
 import edu.arizona.kfs.sys.KFSConstants;
 
 /**
@@ -42,30 +43,54 @@ import edu.arizona.kfs.sys.KFSConstants;
 @SuppressWarnings("deprecation")
 public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.struts.GeneralErrorCorrectionAction {
 
-    private static transient volatile SegmentedLookupResultsService segmentedLookupResultsService;
-    private static transient volatile DebitDeterminerService debitDeterminerService;
-    private static transient volatile BusinessObjectService businessObjectService;
+    private SegmentedLookupResultsService segmentedLookupResultsService;
 
-    private static SegmentedLookupResultsService getSegmentedLookupResultsService() {
-        if (segmentedLookupResultsService == null) {
-            segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+
+        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        GeneralErrorCorrectionDocument gecDoc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+
+        // If multiple asset lookup was used to select the assets, then....
+        if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, gecForm.getRefreshCaller())) {
+            String lookupResultsSequenceNumber = gecForm.getLookupResultsSequenceNumber();
+
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                // actually returning from a multiple value lookup
+                Set<String> selectedObjectIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
+                // Retrieving selected data from table.
+                Collection<Entry> rawValues = retrieveSelectedResultBOs(selectedObjectIds);
+
+                if (rawValues == null || rawValues.isEmpty()) {
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+
+                if (gecDoc.getGecEntryRelationships() == null) {
+                    gecDoc.setGecEntryRelationships(new HashSet<GecEntryRelationship>());
+                }
+
+                for (Entry entry : rawValues) {
+                    SourceAccountingLine line = copyEntryToAccountingLine(entry);
+                    line.setDocumentNumber(gecDoc.getDocumentNumber());
+                    super.insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
+                    GecEntryRelationship gecEntryRelationship = new GecEntryRelationship(entry.getEntryId(), gecDoc.getDocumentNumber(), line.getSequenceNumber(), line.getFinancialDocumentLineTypeCode(), gecDoc.getDocumentHeader().getWorkflowDocument().getStatus().getCode(), entry);
+                    entry.setGecDocumentNumber(gecDoc.getDocumentNumber());
+                    gecDoc.getGecEntryRelationships().add(gecEntryRelationship);
+                }
+
+                // next refresh should not attempt to retrieve these objects.
+                gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
+
+            }
         }
-        return segmentedLookupResultsService;
+
+        resequenceAccountingLines(gecForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    protected static DebitDeterminerService getDebitDeterminerService() {
-        if (debitDeterminerService == null) {
-            debitDeterminerService = SpringContext.getBean(DebitDeterminerService.class);
-        }
-        return debitDeterminerService;
-    }
-
-    protected BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
 
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -139,55 +164,6 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         return new ActionForward(lookupUrl, true);
     }
 
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.refresh(mapping, form, request, response);
-
-        GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
-        Collection<Entry> rawValues = null;
-
-        // If multiple asset lookup was used to select the assets, then....
-        if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, gecForm.getRefreshCaller())) {
-            String lookupResultsSequenceNumber = gecForm.getLookupResultsSequenceNumber();
-
-            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
-                // actually returning from a multiple value lookup
-                Set<String> objectIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                boolean isEntryObjectIds = isEntryObjectIds(objectIds);
-                // if the ID starts with GL_ENTRY_T, this object is a General Ledger Entry. These
-                // objects do not have a static Id and need to be acquired via special methods.
-                if (isEntryObjectIds) {
-
-                    // Retrieving selected data from table.
-                    rawValues = retrieveSelectedResultBOs(objectIds);
-
-                    if (rawValues == null || rawValues.isEmpty()) {
-                        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                    }
-                    GeneralErrorCorrectionDocument gecDoc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
-                    for (Entry entry : rawValues) {
-                        SourceAccountingLine line = copyEntryToAccountingLine(entry);
-                        line.setDocumentNumber(gecDoc.getDocumentNumber());
-                        insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
-                    }
-                    // next refresh should not attempt to retrieve these objects.
-                    gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
-                }
-            }
-        }
-
-        resequenceAccountingLines(gecForm);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    private boolean isEntryObjectIds(Set<String> objectIds) {
-        for (String objectId : objectIds) {
-            if (objectId.startsWith(KFSConstants.ENTRY_IDENTIFIER)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * This method is used to transform a retrieved Entry to a Source Accounting Line, reversing the debit/credit code in the process.
@@ -247,25 +223,23 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
     }
 
     /**
-     * Custom retrieve for Entry - Entry table does not have an objectId field.
      *
-     * @param setOfSelectedObjectIds
+     * Custom retrieve for Entry - using entryId instead of objectId
+     *
+     * @param setOfSelectedEntryIds
      * @return
+     * @throws Exception
      */
-    private Collection<Entry> retrieveSelectedResultBOs(Set<String> setOfSelectedObjectIds) {
-        ArrayList<Entry> retvals = new ArrayList<Entry>();
-
-        for (String selectedObjectId : setOfSelectedObjectIds) {
-            if (selectedObjectId == null || selectedObjectId.equals(KFSConstants.NULL_STRING)) {
-                continue;
-            }
-            Entry result = GecEntryHelperServiceImpl.getEntry(selectedObjectId);
-            if (result != null) {
-                retvals.add(result);
-            }
+    protected Collection<Entry> retrieveSelectedResultBOs(Set<String> setOfSelectedEntryIds) throws Exception {
+        if (setOfSelectedEntryIds == null || setOfSelectedEntryIds.isEmpty()) {
+            // OJB throws exception if querying on empty set
+            return new ArrayList<Entry>();
         }
 
-        return retvals;
+        Map<String, Collection<String>> queryCriteria = new HashMap<String, Collection<String>>();
+        queryCriteria.put(KFSConstants.GEC_ENTRY_OBJ_ID, setOfSelectedEntryIds);
+
+        return getBusinessObjectService().findMatching(Entry.class, queryCriteria);
     }
 
     /**
@@ -276,8 +250,9 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
      * @param target
      *            new line to copy data to
      */
-    protected void copyAccountingLine(AccountingLine source, AccountingLine target) {
+    protected void copyAccountingLine(GeneralErrorCorrectionDocument doc, AccountingLine source, AccountingLine target) {
         target.copyFrom(source);
+        addGecEntryRelationship(doc, doc.getEntryByAccountingLine(source), target);
     }
 
     /**
@@ -295,7 +270,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         target.setDebitCreditCode(debitCreditCode);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")//AccountingLine
     private void resequenceAccountingLines(GeneralErrorCorrectionForm gecForm) {
         AccountingDocument document = gecForm.getFinancialDocument();
 
@@ -367,8 +342,13 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
     @Override
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
-        int deleteIndex = getLineToDelete(request);
-        deleteAccountingLine(true, gecForm, deleteIndex);
+
+        // Get rid of GecEntryRelationship before it's removed from doc
+        GeneralErrorCorrectionDocument doc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+        deleteGecEntryRelationship(doc, doc.getSourceAccountingLine(getLineToDelete(request)));
+
+        // Now get super to do the work
+        super.deleteAccountingLine(true, gecForm, getLineToDelete(request));
 
         resequenceAccountingLines(gecForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -377,10 +357,32 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
     @Override
     public ActionForward deleteTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+
+        // Get rid of GecEntryRelationship before it's removed from doc
+        GeneralErrorCorrectionDocument doc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+        deleteGecEntryRelationship(doc, doc.getTargetAccountingLine(getLineToDelete(request)));
+
+        // Now get super to do the work
         ActionForward forward = super.deleteTargetLine(mapping, form, request, response);
 
         resequenceAccountingLines(gecForm);
         return forward;
+    }
+
+    private void deleteGecEntryRelationship(GeneralErrorCorrectionDocument doc, AccountingLine accountingLine) {
+        Integer lineSeqNum = accountingLine.getSequenceNumber();
+        Entry e = doc.getEntryByAccountingLine(accountingLine);
+        if (e != null) {
+            e.setGecDocumentNumber(null);
+            doc.getGecEntryRelationships().remove((new GecEntryRelationship(e.getEntryId(), doc.getDocumentNumber(), lineSeqNum, accountingLine.getFinancialDocumentLineTypeCode(), doc.getDocumentHeader().getWorkflowDocument().getStatus().getCode())));
+        }
+    }
+
+    private void addGecEntryRelationship(GeneralErrorCorrectionDocument doc, Entry entry, AccountingLine accountingLine) {
+        if (entry != null) {
+            entry.setGecDocumentNumber(doc.getDocumentNumber());
+            doc.getGecEntryRelationships().add(new GecEntryRelationship(entry.getEntryId(), doc.getDocumentNumber(), accountingLine.getSequenceNumber(), accountingLine.getFinancialDocumentLineTypeCode(), doc.getDocumentHeader().getWorkflowDocument().getStatus().getCode(), entry));
+        }
     }
 
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -408,7 +410,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         AccountingLine originalLine = gecDocument.getTargetAccountingLine(index);
         AccountingLine targetLine = (AccountingLine) gecForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
 
-        copyAccountingLine(originalLine, targetLine);
+        copyAccountingLine(gecDocument, originalLine, targetLine);
         targetLine.setAmount(KualiDecimal.ZERO);
         insertAccountingLine(false, gecForm, targetLine);
         processAccountingLineOverrides(targetLine);
@@ -416,4 +418,13 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         resequenceAccountingLines(gecForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+
+    private SegmentedLookupResultsService getSegmentedLookupResultsService() {
+        if (segmentedLookupResultsService == null) {
+            segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
+        }
+        return segmentedLookupResultsService;
+    }
+
 }

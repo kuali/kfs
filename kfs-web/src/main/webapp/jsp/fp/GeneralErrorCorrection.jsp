@@ -49,7 +49,7 @@
                     <c:if test="${!readOnly}">
                         <input type="hidden" name="universityFiscalPeriodCodeLookupOverride" value="${KualiForm.universityFiscalPeriodCodeLookupOverride}" />
                         <gl:gecEntryLookup
-                            boClassName="edu.arizona.kfs.gl.businessobject.GecEntry"
+                            boClassName="org.kuali.kfs.gl.businessobject.Entry"
                             actionPath="gecEntryLookup.do"
                             lookupParameters="universityFiscalYear:universityFiscalYear,glDocId:documentNumber,universityFiscalPeriodCodeLookupOverride:universityFiscalPeriodCode"
                             tabindexOverride="KualiForm.currentTabIndex"
@@ -65,8 +65,8 @@
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 		<sys-java:accountingLines>
-			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-			<sys-java:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+			<sys-java:accountingLineGroup newLinePropertyName="" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys-java:accountingLineGroup newLinePropertyName="" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
 		</sys-java:accountingLines>
 	</kul:tab>
 	

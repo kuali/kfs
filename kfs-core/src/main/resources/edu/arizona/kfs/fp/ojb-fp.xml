@@ -135,6 +135,8 @@
     <field-descriptor name="disbVchrPdpBankCode" column="DV_PDP_BNK_CD" jdbc-type="VARCHAR" />   
     <field-descriptor name="disbExcptAttachedIndicator" column="DV_EXCPT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />       
     <field-descriptor name="immediatePaymentIndicator" column="IMD_PMT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>       
+    <field-descriptor name="dvPaidYear" column="DV_PD_YR" jdbc-type="VARCHAR" />
+    <field-descriptor name="dv1099Ind" column="DV_1099_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />  
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
@@ -178,6 +180,11 @@
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="incomeTypes" proxy="true" element-class-ref="edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
   </class-descriptor>
@@ -368,7 +375,7 @@
     <field-descriptor name="cardHolderWorkPhoneNumber" column="CARD_HLDR_WRK_PHN_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="cardLimit" column="CARD_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="cardCycleAmountLimit" column="CARD_CYCLE_AMT_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="cardCycleVolumeLimit" column="CARD_CYCLE_VOL_LMT" jdbc-type="INTEGER" />
+    <field-descriptor name="cardCycleVolLimit" column="CARD_CYCLE_VOL_LMT" jdbc-type="INTEGER" />
     <field-descriptor name="cardMonthlyNumber" column="CARD_MONTHLY_NUMBER" jdbc-type="INTEGER" />
     <field-descriptor name="cardStatusCode" column="CARD_STAT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="cardCancelCode" column="CARD_CANCEL_CD" jdbc-type="VARCHAR" />
@@ -475,6 +482,11 @@
 		<orderby name="capitalAssetLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
+    <collection-descriptor name="gecEntryRelationships" proxy="true" element-class-ref="edu.arizona.kfs.gl.businessobject.GecEntryRelationship" collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="gecDocumentNumber" />
+    </collection-descriptor>
+
 </class-descriptor>
 
 <!-- YEAR END GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->
@@ -743,5 +755,23 @@
 </class-descriptor>
 
 
+
+<class-descriptor class="edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType" table="FP_DV_INC_TYP_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="amount" column="INC_TYP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+	<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="incomeTypeCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>
 
 </descriptor-repository>

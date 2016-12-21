@@ -62,4 +62,49 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="DisbursementVoucher-routeDocumentValidation" parent="DisbursementVoucher-routeDocumentValidation-parentBean">
+              <property name="validations">
+                     <list merge="true">
+                           <bean parent="DisbursementVoucher-incomeTypeTotalsValidation"
+                                  scope="prototype">
+                                  <property name="parameterProperties">
+                                         <list>
+                                                <bean parent="accountingDocumentFieldConversion" />
+                                         </list>
+                                  </property>
+                           </bean>
+                     </list>
+              </property>
+       </bean>
+
+       <bean id="DisbursementVoucher-approveDocumentValidation" parent="DisbursementVoucher-approveDocumentValidation-parentBean" >         
+              <property name="validations">
+                     <list merge="true">                      
+                           <!-- KATTS-1962 Validations for DV, PREQ and CM Documents (1099 Classification tab) -->
+                           <bean parent="DisbursementVoucher-incomeTypeTotalsValidation" scope="prototype">
+                                  <property name="parameterProperties">
+                                         <list>
+                                                <bean parent="accountingDocumentFieldConversion" />
+                                         </list>
+                                  </property>
+                           </bean>                           
+                     </list>
+              </property>
+       </bean>
+
+       <bean id="DisbursementVoucher-saveDocumentValidation" parent="DisbursementVoucher-saveDocumentValidation-parentBean" >            
+              <property name="validations">
+                     <list merge="true">                      
+                           <bean parent="DisbursementVoucher-incomeTypeTotalsValidation" scope="prototype">
+                                  <property name="parameterProperties">
+                                         <list>
+                                                <bean parent="accountingDocumentFieldConversion" />
+                                         </list>
+                                  </property>
+                           </bean>                           
+                     </list>
+              </property>
+       </bean>
+    
 </beans>

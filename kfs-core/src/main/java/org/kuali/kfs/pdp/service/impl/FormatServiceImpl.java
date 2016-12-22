@@ -322,7 +322,7 @@ public class FormatServiceImpl implements FormatService {
         extractChecks();
 
         LOG.info("Sending email to " + user.getEmailAddress());
-//        sendEmail(user.getEmailAddress(), processId);
+        sendEmail(user.getEmailAddress(), processId);
 
     }
 

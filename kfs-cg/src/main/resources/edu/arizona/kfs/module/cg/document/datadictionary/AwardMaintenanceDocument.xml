@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="AwardMaintenanceDocument-AwardMaintenance" parent="AwardMaintenanceDocument-AwardMaintenance-parentBean">
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" p:required="true" p:lookupReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardStatusCode" p:defaultValue="A" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="true" p:webUILeaveFieldFunction="onblur_agencyNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="agency.fullName" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardProjectTitle" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardBeginningDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardEndingDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardDirectCostAmount" p:required="true" p:webUILeaveFieldFunction="onblur_awardDirectCostAmount" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardIndirectCostAmount" p:required="true" p:webUILeaveFieldFunction="onblur_awardIndirectCostAmount" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardTotalAmount" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="agencyFuture1Amount" />
+				<bean parent="MaintainableFieldDefinition" p:name="agencyFuture2Amount" />
+				<bean parent="MaintainableFieldDefinition" p:name="agencyFuture3Amount" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardEntryDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardClosingDate" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="proposalAwardTypeCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="proposal.grantNumber" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="grantDescriptionCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardPurposeCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="federalFundedAmount" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="federalPassThroughIndicator" />
+				<bean parent="MaintainableFieldDefinition" p:name="federalPassThroughAgencyNumber" p:webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="federalPassThroughAgency.fullName" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="federalPassThroughFundedAmount" />
+				<bean parent="MaintainableFieldDefinition" p:name="extension.federalPassThroughPrimeAwardNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardAllocatedUniversityComputingServicesAmount" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardAddendumNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="agencyAnalystName" />
+				<bean parent="MaintainableFieldDefinition" p:name="analystTelephoneNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+</beans>

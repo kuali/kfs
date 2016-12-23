@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:dd="http://rice.kuali.org/dd"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ShippingInvoice" parent="ShippingInvoice-parentBean" />
+
+  <bean id="ShippingInvoice-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingInvoice" />
+    <property name="objectLabel" value="Shipping Invoice" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ShippingInvoice-invoiceNumber" />        
+        <ref bean="ShippingInvoice-shippingCompany" />
+        <ref bean="ShippingInvoice-creationDate" />
+        <ref bean="ShippingInvoice-transactionRefNumber" />
+        <ref bean="ShippingInvoice-invoiceDate" />
+        <ref bean="ShippingInvoice-totalInvoiceCharge" />
+        <ref bean="ShippingInvoice-billToAccountNumber" />
+        <ref bean="ShippingInvoice-openCustomField" />
+        <ref bean="ShippingInvoice-invoiceType" />
+        <ref bean="ShippingInvoice-settlementOption" />
+        <ref bean="ShippingInvoice-totalInvoiceTransactions" />
+        <ref bean="ShippingInvoice-otherAccountNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="ShippingInvoice-invoiceNumber" parent="ShippingInvoice-invoiceNumber-parentBean" />
+  <bean id="ShippingInvoice-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceNumber" />
+    <property name="label" value="Invoice Number" />
+    <property name="shortLabel" value="Invoice Num" />
+    <property name="maxLength" value="9" />
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+   
+  <bean id="ShippingInvoice-shippingCompany" parent="ShippingInvoice-shippingCompany-parentBean"/>  
+  <bean id="ShippingInvoice-shippingCompany-parentBean" abstract="true" parent="ShippingHeader-shippingCompany"/>
+  
+  <bean id="ShippingInvoice-creationDate" parent="ShippingInvoice-creationDate-parentBean" />
+  <bean id="ShippingInvoice-creationDate-parentBean" abstract="true" parent="ShippingHeader-creationDate"/>  
+  
+  <bean id="ShippingInvoice-transactionRefNumber" parent="ShippingInvoice-transactionRefNumber-parentBean" />
+  <bean id="ShippingInvoice-transactionRefNumber-parentBean" abstract="true" parent="ShippingHeader-transactionRefNumber"/>
+  
+  <bean id="ShippingInvoice-invoiceDate" parent="ShippingInvoice-invoiceDate-parentBean" />
+  <bean id="ShippingInvoice-invoiceDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceDate" />
+    <property name="label" value="Invoice Date" />
+    <property name="shortLabel" value="Invoice Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>    
+  </bean>
+  
+  <bean id="ShippingInvoice-totalInvoiceCharge" parent="ShippingInvoice-totalInvoiceCharge-parentBean"/>
+  <bean id="ShippingInvoice-totalInvoiceCharge-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalInvoiceCharge"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Total Invoice Charge"/>
+    <property name="shortLabel" value="Total Charge"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+  </bean>
+
+  <bean id="ShippingInvoice-billToAccountNumber" parent="ShippingInvoice-billToAccountNumber-parentBean" />
+  <bean id="ShippingInvoice-billToAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="billToAccountNumber"/>
+    <property name="label" value="Bill To Account Number" />
+    <property name="shortLabel" value="Bill To Acct Num" />
+    <property name="maxLength" value="9"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>  
+  </bean>
+  
+  <bean id="ShippingInvoice-openCustomField" parent="ShippingInvoice-openCustomField-parentBean" />
+  <bean id="ShippingInvoice-openCustomField-parentBean" abstract="true" parent="ShippingHeader-openCustomField"/> 
+  
+  <bean id="ShippingInvoice-invoiceType" parent="AttributeDefinition"
+  		p:name="invoiceType"
+  		p:label="Invoice Type"
+  		p:maxLength="1">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>  
+  </bean>
+  
+  <bean id="ShippingInvoice-settlementOption" parent="AttributeDefinition"
+  		p:name="settlementOption"
+  		p:label="Settlement Option"
+  		p:maxLength="1">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>  
+  </bean>
+  
+  <bean id="ShippingInvoice-totalInvoiceTransactions" parent="AttributeDefinition"
+  		p:name="totalInvoiceTransactions"
+  		p:label="Total Invoice Transactions"
+  		p:maxLength="5">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>  
+  </bean>
+  
+  <bean id="ShippingInvoice-otherAccountNumber" parent="AttributeDefinition"
+  		p:name="otherAccountNumber"
+  		p:label="Consolidated Account Number"
+  		p:maxLength="9">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>  
+  </bean>
+  
+</beans>

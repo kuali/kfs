@@ -2,6 +2,7 @@
 
   <bean id="PurchaseOrderDocument" parent="PurchaseOrderDocument-parentBean">
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
     <property name="attributes">
       <list merge="true">
         <ref bean="PurchaseOrderDocument-routeCode"/>

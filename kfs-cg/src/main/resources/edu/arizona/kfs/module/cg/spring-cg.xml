@@ -14,6 +14,7 @@
             <list merge="true">
                 <value>classpath:org/kuali/kfs/module/cg/businessobject/datadictionary/overrides/*.xml</value>
                 <value>classpath:org/kuali/kfs/module/cg/document/datadictionary/overrides/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/cg/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
        <property name="triggerNames">

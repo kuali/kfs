@@ -29,6 +29,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String SHIP_FILE_TYPE_IDENTIFIER = "shippingInputFileType";
     public static final String SHIPPING_FILE_NAME = "extract_for_shipping";
     public static final String SHIPPING_INVOICE_ORIGIN_CODE = "SH";
+    public static final String SHIPPING_FILENAME_DELIMITER = "_";
     
     public static final String DOCUWARE_DV_DOC_TYPE = "DV";
     public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";

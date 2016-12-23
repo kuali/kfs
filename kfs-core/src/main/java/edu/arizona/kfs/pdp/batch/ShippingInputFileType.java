@@ -23,7 +23,7 @@ public class ShippingInputFileType extends XmlBatchInputFileTypeBase {
     public String getFileTypeIdentifer() {
         return KFSConstants.SHIP_FILE_TYPE_IDENTIFIER;
     }
-
+    
     /**
      * No additional information is added to shipping batch files.
      * 
@@ -31,11 +31,11 @@ public class ShippingInputFileType extends XmlBatchInputFileTypeBase {
      *      java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
-        String fileName = "ship_" + principalName;     
+        String fileName = "ship" + KFSConstants.SHIPPING_FILENAME_DELIMITER + principalName;     
         if (StringUtils.isNotBlank(userIdentifier)) {
-            fileName += "_" + userIdentifier;
+            fileName += KFSConstants.SHIPPING_FILENAME_DELIMITER + userIdentifier;
         }
-        fileName += "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
+        fileName += KFSConstants.SHIPPING_FILENAME_DELIMITER + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
 
         // remove spaces in filename
         fileName = StringUtils.remove(fileName, " ");
@@ -51,7 +51,7 @@ public class ShippingInputFileType extends XmlBatchInputFileTypeBase {
     }
 
     public String getAuthorPrincipalName(File file) {
-        String[] fileNameParts = StringUtils.split(file.getName(), "_");
+        String[] fileNameParts = StringUtils.split(file.getName(), KFSConstants.SHIPPING_FILENAME_DELIMITER);
         if (fileNameParts.length >= 2) {
             return fileNameParts[1];
         }

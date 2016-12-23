@@ -83,7 +83,7 @@ public class AssetInventoryUnit extends PersistableBusinessObjectBase implements
 		if (this.inventoryUnitCode != null && this.chartOfAccountsCode != null && this.organizationCode != null) {
 			m.put(KFSPropertyConstants.INVENTORY_UNIT_CODE, this.inventoryUnitCode.toString());
 			m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode.toString());
-			m.put(KFSPropertyConstants.INVENTORY_UNIT_ORGANIZATION_CODE, this.organizationCode.toString());
+			m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode.toString());
 		}
 
 		return m;

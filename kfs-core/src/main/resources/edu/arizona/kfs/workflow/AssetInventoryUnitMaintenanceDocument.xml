@@ -9,6 +9,8 @@
 				<name>AIUM</name>
 				<label>Asset Inventory Unit</label>
 				<parent>CMSM</parent>
+				<active>true</active>
+				<routingVersion>2</routingVersion>
 			</documentType>
 		</documentTypes>
 </data>

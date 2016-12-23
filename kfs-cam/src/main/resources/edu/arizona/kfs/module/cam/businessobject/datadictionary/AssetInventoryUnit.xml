@@ -75,11 +75,6 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Chart of Accounts Code" />
 		<property name="shortLabel" value="COA Code" />
-		<property name="attributeSecurity">
-			<bean parent="AttributeSecurity">
-				<property name="readOnly" value="false" />
-			</bean>
-		</property>
 	</bean>
 
 	<bean id="AssetInventoryUnit-organizationCode" parent="AssetInventoryUnit-organizationCode-parentBean" />

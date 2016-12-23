@@ -11,6 +11,7 @@ public class KFSPropertyConstants extends org.kuali.kfs.sys.KFSPropertyConstants
     public static final String FINALIZED_DATE = "finalizedDate"; //This should really be a Rice property constant.
     public static final String BATCH_FILE_UPLOADS_BATCH_FILE_NAME = "batchFileName";
     public static final String BATCH_FILE_UPLOADS_FILE_PROCESS_TIMESTAMP = "fileProcessTimestamp";
+    public static final String INVENTORY_UNIT_CODE = "inventoryUnitCode";
 
     public static final String GEC_DOCUMENT_NUMBER = "gecDocumentNumber";
     public static final String ENTRY_ID = "entryId";

@@ -21,7 +21,13 @@
         <property name="dataDictionaryPackages">
             <list merge="true">
                 <value>classpath:edu/arizona/kfs/module/cam/document/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/cam/businessobject/datadictionary/*.xml</value>
             </list>
+        </property>
+        <property name="databaseRepositoryFilePaths" >
+        	<list merge="true">
+        		<value>edu/arizona/kfs/module/cam/ojb-cam.xml</value>
+        	</list>
         </property>
     </bean>
 

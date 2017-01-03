@@ -10,16 +10,27 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean">
+    	<property name="packagePrefixes">
+    		<list merge="true">
+    			<value>edu.arizona.kfs.module.cg</value>
+    		</list>
+    	</property>
         <property name="dataDictionaryPackages">
             <list merge="true">
                 <value>classpath:org/kuali/kfs/module/cg/businessobject/datadictionary/overrides/*.xml</value>
                 <value>classpath:org/kuali/kfs/module/cg/document/datadictionary/overrides/*.xml</value>
                 <value>classpath:edu/arizona/kfs/module/cg/businessobject/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/cg/document/datadictionary/*.xml</value>
             </list>
         </property>
-       <property name="triggerNames">
-            <list>
-            </list>
+        <property name="triggerNames">
+        	<list>
+        	</list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+        	<list merge="true">
+        		<value>edu/arizona/kfs/module/cg/ojb-cg.xml</value>
+        	</list>
         </property>
     </bean>
 

@@ -16,5 +16,8 @@
         		<value>classpath:edu/arizona/kfs/module/ec/document/datadictionary/*.xml</value>
         	</list>
         </property>
-    </bean>	
+    </bean>
+
+    <bean id="effortCertificationDocumentService"  parent="effortCertificationDocumentService-parentBean" class="edu.arizona.kfs.module.ec.service.impl.EffortCertificationDocumentServiceImpl"/>
+
 </beans>

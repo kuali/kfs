@@ -1,8 +1,11 @@
 package edu.arizona.kfs.module.purap.service.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -29,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -71,6 +75,7 @@ import edu.arizona.kfs.vnd.VendorConstants;
 public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxReporting1099ServiceImpl.class);
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	private static final SimpleDateFormat FILETS = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	private TaxReporting1099Dao taxReporting1099Dao;
 	private TaxParameterHelperService taxParameterHelperService;
@@ -82,6 +87,7 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 	private double taxThreshold = 0.0;
 	private Map<String, KualiDecimal> taxAmountByPaymentType;
 	private Map<String, String> form1099BoxInformation;
+	private ConfigurationService configurationService;
 
 	public TaxReporting1099ServiceImpl() {
 	}
@@ -1802,16 +1808,127 @@ public class TaxReporting1099ServiceImpl implements TaxReporting1099Service {
 		this.form1099BoxInformation = form1099BoxInformation;
 	}
 
-	// these will be implemented on the annual batch
 	@Override
 	public boolean generateBatchPayeeForms() {
-		// TODO Auto-generated method stub
-		return false;
+		int year = getTaxParameterHelperService().getTaxYear();
+		return generateBatchPayeeForms(year, loadPayees(Integer.valueOf(year)));
+	}
+	
+	private boolean generateBatchPayeeForms(int year, List<Payee> payeeList) {
+		boolean retval = false;
+		
+		LOG.info("start generateBatchPayeeForms(); taxYear=" + year + ", startTime=" + new Date());
+		
+		//don't move forward if there are no payees to process
+		if ((payeeList == null) || payeeList.isEmpty()) {
+			LOG.info("NO PAYEE RECORDS FOUND. ELECTRONIC FILING STEP WILL NOT BE RUN.");
+		}
+		else {
+			LOG.info("payee counts=" + payeeList.size());
+			
+			getTaxThreshold(true);
+			getTaxAmountByPaymentType(true);
+			
+			Payer payer = getDefaultPayer();
+			if (payer == null) {
+				throw new RuntimeException("Default payer for 1099 process not found. Check 1099 payer system property configuration.");
+			}
+			
+			PdfReader reader = getPdfReader(year);
+			BufferedOutputStream osa = null;
+			BufferedOutputStream osb = null; 
+			
+			File taxYearFolder = TaxHelper.getTaxYearFolder(year, configurationService, LOG);
+			
+			Date dt = new Date();
+			String pdfFileA = taxYearFolder.getAbsolutePath() + "/1099A-" + year + "-" + FILETS.format(dt) + ".pdf";
+			String pdfFileB = taxYearFolder.getAbsolutePath() + "/1099B-" + year + "-" + FILETS.format(dt) + ".pdf";
+			
+			//write out populated pdf 1099 forms
+			try {
+				createPdfFile(reader, TaxPropertyConstants.PDF_1099_PAGE_COPY_A, osa = new BufferedOutputStream(new FileOutputStream(pdfFileA)), payer, payeeList);
+				osa.flush();
+				createPdfFile(reader, TaxPropertyConstants.PDF_1099_PAGE_COPY_B, osb = new BufferedOutputStream(new FileOutputStream(pdfFileB)), payer, payeeList);
+				osb.flush();
+				retval = true;
+			}
+			
+			catch (Exception ex) {
+				throw new RuntimeException("error ocurred while attepmting to create/populate PDF file", ex);
+			}
+			finally {
+				try {
+					reader.close();
+				}
+				catch (Exception ex) {
+					throw new RuntimeException("error ocurred while attepmting to close the reader", ex);
+				}
+				
+				if (osa != null) {
+					try {
+						osa.close();
+					}
+					catch (Exception ex) {
+						throw new RuntimeException("error ocurred while attepmting to close the BufferedOutputStream osa", ex);
+					}
+				}
+				
+				if (osb != null) {
+					try {
+						osb.close();
+					}
+					
+					catch (Exception ex) {
+						throw new RuntimeException("error ocurred while attepmting to close the BufferedOutputStream osb", ex);
+					}
+				}
+			}
+		}
+		
+		LOG.info("end generateBatchPayeeForms: " + new Date());
+		
+		return retval;
 	}
 
 	@Override
 	public boolean generatePayeeForms(String vendorNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean retval = false; 
+		
+		int year = getTaxParameterHelperService().getTaxYear();
+		List<Payee> payeeList = new ArrayList<Payee>();
+		
+		Payee payee = getPayeeByVendorNum(vendorNumber, year);
+		
+		if (payee == null) {
+			int pos = vendorNumber.lastIndexOf('-');
+			
+			//if we find a dash and the character after the dash is not = "0" then replace with "0" and try to load parent
+			if (pos > -1) {
+				try {
+					int indx = Integer.parseInt(vendorNumber.substring(pos+1).trim());
+					if (indx > 0 ) {
+						payee = getPayeeByVendorNum(vendorNumber.substring(0, pos) + "-0", year);
+					}
+					
+				}
+				catch (NumberFormatException ex) {
+					LOG.warn("Unable to load parent vendor", ex);
+				}
+			}
+		}
+		
+		if (payee != null) {
+			payeeList.add(payee);
+			retval = generateBatchPayeeForms(year, payeeList);
+		}
+		else {
+			LOG.info("found no payees for vendor " + vendorNumber);
+		}
+		
+		return retval;
+	}
+
+	public void setConfigurationService(ConfigurationService configurationService) {
+		this.configurationService = configurationService;
 	}
 }

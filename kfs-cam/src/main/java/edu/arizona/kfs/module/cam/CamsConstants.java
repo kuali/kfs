@@ -6,4 +6,10 @@ public class CamsConstants extends org.kuali.kfs.module.cam.CamsConstants {
 
 		public static final String NEW_CONDITION_CODE_PARM = "NEW_ASSET_CONDITION_CODE";
 	}
+	
+	public static class AssetGlobal {
+		
+		public static final String PERIOD_THIRTEEN = "13";
+		public static final String JANUARY_FIRST = "01/01/";
+	}
 }

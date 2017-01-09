@@ -342,6 +342,77 @@
 		
 	</class-descriptor>
 	
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetGlobalDetailExtension" table="CM_CPTLAST_DTL_EXTEN_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitOrganizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitChartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
 	
+		<reference-descriptor name="assetGlobalDetailObj" class-ref="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="documentNumber" />
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="assetInvUnitObj" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="inventoryUnitCode" />
+			<foreignkey field-ref="inventoryUnitChartOfAccountsCode" />
+			<foreignkey field-ref="inventoryUnitOrganizationCode" />
+		</reference-descriptor>
+		
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" table="CM_CPTLAST_DTL_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CPTLAST_NBR_SEQ" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="separateSourceAmount" column="SEP_SRC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+
+		<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+		</reference-descriptor>
+		<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+			<foreignkey field-ref="buildingRoomNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetTypeCode" />
+		</reference-descriptor>
+
+		<reference-descriptor name="extension" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetGlobalDetailExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<foreignkey field-ref="documentNumber" />
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+
+	</class-descriptor>
 
 </descriptor-repository>

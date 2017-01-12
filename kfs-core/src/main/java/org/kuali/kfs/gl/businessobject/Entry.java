@@ -50,6 +50,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class Entry extends PersistableBusinessObjectBase implements Transaction {
     static final long serialVersionUID = -24983129882357448L;
 
+    private Long entryId;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -77,6 +78,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
     private Timestamp transactionDateTimeStamp;
+    private String gecDocumentNumber;
 
     // bo references
     private Account account;
@@ -873,6 +875,22 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
             }
         }
         return referenceFinancialSystemDocumentTypeCode;
+    }
+
+    public Long getEntryId() {
+        return entryId;
+    }
+
+    public void setEntryId(Long entryId) {
+        this.entryId = entryId;
+    }
+
+    public String getGecDocumentNumber() {
+        return gecDocumentNumber;
+    }
+
+    public void setGecDocumentNumber(String gecDocumentNumber) {
+        this.gecDocumentNumber = gecDocumentNumber;
     }
 
 }

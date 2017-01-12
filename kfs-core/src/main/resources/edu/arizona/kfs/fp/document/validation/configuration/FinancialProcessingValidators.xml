@@ -25,5 +25,14 @@
     <property name="dataDictionaryService" ref="dataDictionaryService"/>
     <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
   </bean>
-
+  
+  <bean id="DisbursementVoucher-nonEmployeeTravelValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelValidation" abstract="true">
+  	<property name="parameterService" ref="parameterService" />
+  	<property name="disbursementVoucherTaxService" ref="disbursementVoucherTaxService" />
+  	<property name="disbursementVoucherTravelService" ref="disbursementVoucherTravelService" />
+  	<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+  </bean>
+  
+  <bean id="DisbursementVoucher-incomeTypeTotalsValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherIncomeTypeTotalsValidation" abstract="true"/>
+  
 </beans>

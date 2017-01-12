@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/kfs/pdp/shipping"
+    xmlns="http://www.kuali.org/kfs/pdp/shipping" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- simple data types -->
+	<xsd:simpleType name="oneToTwoCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToThreeCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    	
+	<xsd:simpleType name="oneToFourCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToEightCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="8"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToNineCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="9"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToTenCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToTwelveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="12"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToSixteenCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="16"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="oneToTwentyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="20"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToTwentyFiveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="25"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToThirtyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="oneToFortyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+		
+	<!-- definition of simple type elements -->		
+	<xsd:element name="openCustomField" type="xsd:normalizedString"/>
+	<xsd:element name="unit" type="oneToFourCharType"/>
+	<xsd:element name="creationDate" type="xsd:date"/>
+	<xsd:element name="transactionRefNo" type="oneToTwentyCharType"/>
+	<xsd:element name="invoiceNumber" type="oneToNineCharType"/>
+	<xsd:element name="invoiceDate" type="xsd:date"/>
+	<xsd:element name="invoiceType" type="xsd:normalizedString"/>
+	<xsd:element name="settlementOption" type="xsd:normalizedString"/>
+
+	<xsd:element name="totalInvoiceCharge" type="xsd:decimal"/>
+	<xsd:element name="totalInvoiceTransactions" type="xsd:integer"/>
+	<xsd:element name="billToAccountNumber" type="oneToNineCharType"/>
+	<xsd:element name="otherAccountNumber" type="oneToNineCharType"/>
+	
+	<xsd:element name="trackingNumber" type="oneToTwelveCharType"/>
+	<xsd:element name="rebillIndicator" type="xsd:normalizedString"/>
+	<xsd:element name="shipDate" type="xsd:date"/>
+	<xsd:element name="referenceNumber" type="oneToFortyCharType"/>
+    <xsd:element name="netCharge" type="xsd:decimal"/>
+ 	<xsd:element name="currencyCode" type="oneToThreeCharType"/>
+ 	<xsd:element name="volumeDiscountAmount" type="xsd:decimal"/>
+ 	<xsd:element name="fuelSurchargeAmount" type="xsd:decimal"/>
+ 	<xsd:element name="declaredValueAmount" type="xsd:decimal"/>
+ 	<xsd:element name="miscChargeAmount" type="xsd:decimal"/>
+ 	<xsd:element name="declaredValue" type="oneToSixteenCharType"/>
+ 	<xsd:element name="numberOfPieces" type="xsd:integer"/>
+ 	<xsd:element name="shipperName" type="oneToThirtyCharType"/>
+ 	<xsd:element name="shipperCompany" type="oneToThirtyCharType"/>
+ 	<xsd:element name="shipperDept" type="oneToTwentyFiveCharType"/>
+ 	<xsd:element name="shipperAddressLine1" type="oneToThirtyCharType"/>
+ 	<xsd:element name="shipperAddressLine2" type="oneToThirtyCharType"/>
+ 	<xsd:element name="shipperCity" type="oneToThirtyCharType"/>
+ 	<xsd:element name="shipperState" type="oneToTwoCharType"/>
+ 	<xsd:element name="shipperPostalCode" type="oneToTenCharType"/>
+ 	<xsd:element name="USRegionOriginZip" type="oneToThreeCharType"/>
+ 	<xsd:element name="shipperCountryCode" type="oneToTwoCharType"/>
+ 	<xsd:element name="regionCode" type="oneToTwoCharType"/>
+ 	<xsd:element name="recipientName" type="oneToThirtyCharType"/>
+ 	<xsd:element name="recipientCompany" type="oneToThirtyCharType"/>
+ 	<xsd:element name="recipientAddressLine1" type="oneToThirtyCharType"/>
+ 	<xsd:element name="recipientAddressLine2" type="oneToThirtyCharType"/>
+ 	<xsd:element name="recipientCity" type="oneToThirtyCharType"/>
+ 	<xsd:element name="recipientState" type="oneToTwoCharType"/>
+ 	<xsd:element name="recipientPostalCode" type="oneToTenCharType"/>
+ 	<xsd:element name="recipientCountryCode" type="oneToTwoCharType"/>
+ 	<xsd:element name="deliveryDate" type="oneToEightCharType"/>
+ 	<xsd:element name="deliveryTime" type="oneToFourCharType"/>
+ 	<xsd:element name="recipientSignature" type="xsd:normalizedString"/>
+ 
+	<xsd:element name="shippingDoc">
+  		<xsd:complexType>
+   			<xsd:sequence>
+    			<xsd:element name="header">
+     				<xsd:complexType>
+      					<xsd:sequence>       						
+       						<xsd:element maxOccurs="1" minOccurs="1" ref="unit"/>
+       						<xsd:element maxOccurs="1" minOccurs="1" ref="creationDate"/>
+       						<xsd:element maxOccurs="1" minOccurs="1" ref="transactionRefNo"/>
+       						<xsd:element maxOccurs="1" minOccurs="0" ref="openCustomField"/>
+      					</xsd:sequence>
+     				</xsd:complexType>
+    			</xsd:element>
+    			<xsd:element name="invoices">
+     				<xsd:complexType>
+      					<xsd:sequence>
+       						<xsd:element maxOccurs="unbounded" minOccurs="1" ref="invoice"/>
+      					</xsd:sequence>
+     				</xsd:complexType>
+			    </xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+    
+    <!-- definition of complex type elements --> 
+    
+    <xsd:element name="tracking">
+        <xsd:complexType>
+            <xsd:sequence>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="trackingNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="rebillIndicator" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="shipDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="referenceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="netCharge" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="currencyCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="volumeDiscountAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="fuelSurchargeAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="declaredValueAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="miscChargeAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="declaredValue" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="numberOfPieces" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperCompany" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperDept" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperAddressLine1" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperAddressLine2" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperCity" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperState" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperPostalCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="USRegionOriginZip" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="shipperCountryCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="regionCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientCompany" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientAddressLine1" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientAddressLine2" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientCity" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientState" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientPostalCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientCountryCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="deliveryDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="deliveryTime" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="recipientSignature" />
+            </xsd:sequence>
+        </xsd:complexType>    
+    </xsd:element>
+    
+    <xsd:element name="invoice">
+        <xsd:complexType>
+            <xsd:sequence>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="invoiceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="invoiceDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceType" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="settlementOption" />
+
+               <xsd:element maxOccurs="1" minOccurs="1" ref="totalInvoiceCharge" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="totalInvoiceTransactions" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="billToAccountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="otherAccountNumber" />
+               <xsd:element maxOccurs="unbounded" minOccurs="1" ref="tracking" />                  
+             </xsd:sequence>  
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

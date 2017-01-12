@@ -7,6 +7,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans         http://w
 	
 	<bean id="RequisitionDocument" parent="RequisitionDocument-parentBean">
 	    <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+	    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="RequisitionDocument-routeCode"/>

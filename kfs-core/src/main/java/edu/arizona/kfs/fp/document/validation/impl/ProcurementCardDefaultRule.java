@@ -14,7 +14,7 @@ import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
 public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.validation.impl.ProcurementCardDefaultRule {
 
     protected static final String WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER = "warning.document.procurementcardholderdetail.cardholder.last.active";
-	
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean continueRouting = super.processCustomRouteDocumentBusinessRules(document);
@@ -50,5 +50,5 @@ public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.valida
         
         return result;      
     }
-	
+
 }

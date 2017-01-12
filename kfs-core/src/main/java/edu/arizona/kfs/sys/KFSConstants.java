@@ -1,5 +1,10 @@
 package edu.arizona.kfs.sys;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.kuali.rice.kew.api.KewApiConstants;
+
 public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
 
     public static final String INVOICE_NUMBER = "Invoice Number";
@@ -12,16 +17,33 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String BLANK_SUBACCOUNT = "-----";
     public static final String BLANK_SUBOBJECT = "---";
     public static final String BLANK_PROJECT_CODE = "----------";
-    public static final String ENTRY_IDENTIFIER = "GL_ENTRY_T";
+    public static final String STAGING_DIRECTORY_KEY = "staging.directory";
     
     //Docuware Constants
     public static final String VIEW_DOCUWARE = "viewImages";
     public static final String DOCUWARE_TABLE_PARAMETER = "DOCUWARE_TABLE_PARAMETER";
     public static final String DOCUWARE_TABLE = "table";
     public static final String DOCUWARE_IDVALUE = "idvalue";
+    
+    //Shipping Constants   
+    public static final String SHIP_FILE_TYPE_IDENTIFIER = "shippingInputFileType";
+    public static final String SHIPPING_FILE_NAME = "extract_for_shipping";
+    public static final String SHIPPING_INVOICE_ORIGIN_CODE = "SH";
+    public static final String SHIPPING_FILENAME_DELIMITER = "_";
+    
     public static final String DOCUWARE_DV_DOC_TYPE = "DV";
     public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";
-    
+
+    // General Error Correction Constants
+    public static final String GEC_ENTRY_OBJ_ID = "OBJ_ID";
+    public static final Set<String> GEC_ACTIVE_ROUTE_STATUS_CODES;
+    static {
+        GEC_ACTIVE_ROUTE_STATUS_CODES = new HashSet<String>();
+        GEC_ACTIVE_ROUTE_STATUS_CODES.add(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        GEC_ACTIVE_ROUTE_STATUS_CODES.add(KewApiConstants.ROUTE_HEADER_INITIATED_CD);
+        GEC_ACTIVE_ROUTE_STATUS_CODES.add(KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+        GEC_ACTIVE_ROUTE_STATUS_CODES.add(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+    }
 
     public static class SysKimApiConstants {
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";

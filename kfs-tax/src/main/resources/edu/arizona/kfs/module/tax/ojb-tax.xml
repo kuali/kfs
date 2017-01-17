@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="edu.arizona.kfs.module.tax.businessobject.Payer" table="TAX_PAYER_T">
+        <field-descriptor name="id" column="PAYER_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="TAX_PAYER_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="transCd" column="TRANS_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="testFlg" column="TEST_FLG" jdbc-type="VARCHAR" />
+        <field-descriptor name="replaceAlpha" column="REPLACE_ALPHA" jdbc-type="VARCHAR" />
+        <field-descriptor name="tinType" column="TIN_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="tin" column="TIN" jdbc-type="VARCHAR" />
+        <field-descriptor name="nameControl" column="NAME_CONTROL" jdbc-type="VARCHAR" />
+        <field-descriptor name="name1" column="NAME_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="name2" column="NAME_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="contact" column="CONTACT" jdbc-type="VARCHAR" />
+        <field-descriptor name="phoneNumber" column="PHONE_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="ext" column="EXT" jdbc-type="VARCHAR" />
+        <field-descriptor name="companyName1" column="COMPANY_NAME_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="companyName2" column="COMPANY_NAME_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="address" column="ADDRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="city" column="CITY" jdbc-type="VARCHAR" />
+        <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+        <field-descriptor name="zipCode" column="ZIP_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryCode" column="CNTRY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.module.tax.businessobject.Payee" table="TAX_PAYEE_T">
+        <field-descriptor name="id" column="PAYEE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="TAX_PAYEE_ID_SEQ" autoincrement="true" />
+        <field-descriptor name="headerTypeCode" column="HDR_VNDR_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="headerTaxNumber" column="HDR_VNDR_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"  />
+        <field-descriptor name="headerOwnershipCode" column="HDR_VNDR_OWNR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="headerOwnershipCategoryCode" column="HDR_VNDR_OWNR_CTGRY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="vendorName" column="DTL_VNDR_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="vendorNumber" column="VNDR_NUM" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressTypeCode" column="ADDR_VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine1Address" column="ADDR_VNDR_LN1_ADDR" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine2Address" column="ADDR_VNDR_LN2_ADDR" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressCityName" column="ADDR_VNDR_CTY_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressStateCode" column="ADDR_VNDR_ST_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressZipCode" column="ADDR_VNDR_ZIP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressCountryCode" column="ADDR_VNDR_CNTRY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="vendorForeignIndicator" column="VNDR_FRGN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="taxYear" column="TAX_YEAR" jdbc-type="INTEGER" />
+        <field-descriptor name="correctionIndicator" column="CORRECTION_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="excludeIndicator" column="EXCLUDE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="vendorFederalWithholdingTaxBeginningDate" column="VNDR_FWT_BEG_DT" jdbc-type="DATE" />
+        <field-descriptor name="vendorFederalWithholdingTaxEndDate" column="VNDR_FWT_END_DT" jdbc-type="DATE" />
+        <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+        <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+            <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+        </reference-descriptor>
+
+        <collection-descriptor name="payments" element-class-ref="edu.arizona.kfs.module.tax.businessobject.Payment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="true">
+            <inverse-foreignkey field-ref="payeeId" />
+        </collection-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.module.tax.businessobject.Payment" table="TAX_PAYMENT_T">
+        <field-descriptor name="id" column="PAYMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="TAX_PAYMENT_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="paymentGroupId" column="PAYMENT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+        <field-descriptor name="docNbr" column="DOC_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="poNbr" column="PO_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="disbursementDt" column="DISB_DT" jdbc-type="DATE" />
+        <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="docType" column="DOC_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentAcctDetailId" column="PMT_ACCT_DETAIL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="finChartCode" column="FIN_CHART_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentTypeCode" column="PMT_TYPE_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="finObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="acctNetAmount" column="ACCT_NET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="excludeIndicator" column="EXCLUDE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="payeeId" column="PAYEE_ID" jdbc-type="INTEGER" />
+
+        <reference-descriptor name="payee" class-ref="edu.arizona.kfs.module.tax.businessobject.Payee" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="payeeId" />
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.module.tax.businessobject.ExtractHistory" table="TAX_EXTR_HIST_T">
+        <field-descriptor name="id" column="EXTR_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="EXTR_HIST_ID_SEQ" autoincrement="true" />
+        <field-descriptor name="paymentsDeleted" column="PAYMENTS_DEL" jdbc-type="INTEGER" />
+        <field-descriptor name="paymentsExtracted" column="PAYMENTS_EXTR" jdbc-type="INTEGER" />
+        <field-descriptor name="payeesExtracted" column="PAYEES_EXTR" jdbc-type="INTEGER" />
+        <field-descriptor name="extractStartDt" column="EXTR_START_TS" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="extractEndDt" column="EXTR_END_TS" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="extractDt" column="EXTR_TS" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="replaceDataInd" column="REPLACE_DATA_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="taxYear" column="TAX_YEAR" jdbc-type="INTEGER" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    </descriptor-repository>

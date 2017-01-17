@@ -2,46 +2,49 @@ package edu.arizona.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import edu.arizona.kfs.tax.businessobject.DocumentIncomeType;
+import edu.arizona.kfs.module.purap.PurapPropertyConstants;
+import edu.arizona.kfs.sys.businessobject.DocumentIncomeType;
 
 public class PaymentRequestIncomeType extends PurApIncomeTypeBase implements DocumentIncomeType<Integer> {
-	private Long paymentRequestIncomeTypeIdentifier;
+    private static final long serialVersionUID = -1237037829530510726L;
 
-	public Long getPaymentRequestIncomeTypeIdentifier() {
-		return paymentRequestIncomeTypeIdentifier;
-	}
+    private Long paymentRequestIncomeTypeIdentifier;
 
-	public void setPaymentRequestIncomeTypeIdentifier(Long paymentRequestIncomeTypeIdentifier) {
-		this.paymentRequestIncomeTypeIdentifier = paymentRequestIncomeTypeIdentifier;
-	}
+    public Long getPaymentRequestIncomeTypeIdentifier() {
+        return paymentRequestIncomeTypeIdentifier;
+    }
 
-	@Override
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> retval = super.toStringMapper();
+    public void setPaymentRequestIncomeTypeIdentifier(Long paymentRequestIncomeTypeIdentifier) {
+        this.paymentRequestIncomeTypeIdentifier = paymentRequestIncomeTypeIdentifier;
+    }
 
-		retval.put("paymentRequestIncomeTypeIdentifier", paymentRequestIncomeTypeIdentifier);
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> retval = super.toStringMapper();
 
-		return retval;
-	}
+        retval.put(PurapPropertyConstants.PAYMENT_REQUEST_INCOME_TYPE_IDENTIFIER, paymentRequestIncomeTypeIdentifier);
 
-	@Override
-	public Integer getLineNumber() {
-		return getIncomeTypeLineNumber();
-	}
+        return retval;
+    }
 
-	@Override
-	public void setLineNumber(Integer lineNumber) {
-		setIncomeTypeLineNumber(lineNumber);
-	}
+    @Override
+    public Integer getLineNumber() {
+        return getIncomeTypeLineNumber();
+    }
 
-	@Override
-	public Integer getDocumentIdentifier() {
-		return getPurapDocumentIdentifier();
-	}
+    @Override
+    public void setLineNumber(Integer lineNumber) {
+        setIncomeTypeLineNumber(lineNumber);
+    }
 
-	@Override
-	public void setDocumentIdentifier(Integer documentIdentifier) {
-		setPurapDocumentIdentifier(documentIdentifier);
-	}
+    @Override
+    public Integer getDocumentIdentifier() {
+        return getPurapDocumentIdentifier();
+    }
+
+    @Override
+    public void setDocumentIdentifier(Integer documentIdentifier) {
+        setPurapDocumentIdentifier(documentIdentifier);
+    }
 
 }

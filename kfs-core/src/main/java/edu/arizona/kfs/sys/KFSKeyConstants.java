@@ -28,4 +28,10 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     //DV NonEmployee
     public static final String ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT = "error.dv.perDiemStartDtBeforeAfterEndDt";
 
+    // Income Type Error messages
+    public static final String ERROR_INVALID_INCOME_TYPES_TOTAL_AMOUNT = "errors.document.ap.incomeTypesTotalAmount.invalid";
+    public static final String ERROR_INCOME_TYPE_COA_REQUIRED = "error.income.type.coa.required";
+    public static final String ERROR_INCOME_TYPE_CODE_REQUIRED = "error.income.type.code.required";
+    public static final String ERROR_INCOME_TYPE_AMOUNT_REQUIRED = "error.income.type.amount.required";
+
 }

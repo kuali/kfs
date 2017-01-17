@@ -12,7 +12,7 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 
-	<bean id="PurchasingAccountsPayable-incomeTypeTotalsValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.IncomeTypeTotalsValidation" abstract="true"/>
+	<bean id="PurchasingAccountsPayable-incomeTypeTotalsValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.PurapIncomeTypeTotalsValidation" abstract="true"/>
 	
 	<bean id="VendorCreditMemo-routeDocumentValidation" parent="VendorCreditMemo-routeDocumentValidation-parentBean" scope="prototype">
 		<property name="validations">

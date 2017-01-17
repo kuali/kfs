@@ -1,20 +1,24 @@
 package edu.arizona.kfs.fp.document.authorization;
 
 import java.util.Set;
+
 import org.kuali.rice.kew.api.WorkflowDocument;
-import edu.arizona.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.rice.krad.document.Document;
+
+import edu.arizona.kfs.fp.document.DisbursementVoucherConstants;
 import edu.arizona.kfs.sys.KFSConstants;
-import edu.arizona.kfs.tax.document.authorization.TaxAuthorizationHelper;
+import edu.arizona.kfs.sys.document.authorization.IncomeTypeAuthorizationHelper;
 
 public class DisbursementVoucherDocumentPresentationController
 		extends org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController {
+	private static final long serialVersionUID = -3962403281004607474L;
+
 	@Override
 	public Set<String> getEditModes(Document document) {
 		Set<String> editModes = super.getEditModes(document);
 		editModes.add(KFSConstants.VIEW_DOCUWARE);
 		this.addPaymentMethodEditMode(document, editModes);
-		TaxAuthorizationHelper.addIncomeTypeEditModes(document, editModes);
+		IncomeTypeAuthorizationHelper.addIncomeTypeEditModes(document, editModes);
 		return editModes;
 	}
 

@@ -3,119 +3,119 @@ package edu.arizona.kfs.fp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import edu.arizona.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import edu.arizona.kfs.tax.TaxPropertyConstants;
-import edu.arizona.kfs.tax.businessobject.DocumentIncomeType;
-import edu.arizona.kfs.tax.businessobject.IncomeType;
+import edu.arizona.kfs.sys.KFSPropertyConstants;
+import edu.arizona.kfs.sys.businessobject.DocumentIncomeType;
+import edu.arizona.kfs.sys.businessobject.IncomeType;
 
 public class DisbursementVoucherIncomeType extends PersistableBusinessObjectBase implements DocumentIncomeType<String> {
-	private String documentNumber;
-	private Integer sequenceNumber;
-	private String chartOfAccountsCode;
-	private KualiDecimal amount = new KualiDecimal(0);
-	private String incomeTypeCode;
+    private static final long serialVersionUID = 1843150667863117645L;
 
-	private Chart chart;
-	private IncomeType incomeType;
+    private String documentNumber;
+    private Integer sequenceNumber;
+    private String chartOfAccountsCode;
+    private KualiDecimal amount = new KualiDecimal(0);
+    private String incomeTypeCode;
 
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> retval = new LinkedHashMap<String, Object>();
+    private Chart chart;
+    private IncomeType incomeType;
 
-		retval.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-		retval.put(KFSPropertyConstants.SEQUENCE_NUMBER, getSequenceNumber());
-		retval.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
-		retval.put(KFSPropertyConstants.AMOUNT, getAmount());
-		retval.put(TaxPropertyConstants.INCOME_TYPE_CODE, getIncomeTypeCode());
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> retval = new LinkedHashMap<String, Object>();
 
-		return retval;
-	}
+        retval.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        retval.put(KFSPropertyConstants.SEQUENCE_NUMBER, getSequenceNumber());
+        retval.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        retval.put(KFSPropertyConstants.AMOUNT, getAmount());
+        retval.put(KFSPropertyConstants.IncomeTypeFields.INCOME_TYPE_CODE, getIncomeTypeCode());
 
-	public String getDocumentNumber() {
-		return documentNumber;
-	}
+        return retval;
+    }
 
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
 
-	public String getChartOfAccountsCode() {
-		return chartOfAccountsCode;
-	}
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
 
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	public KualiDecimal getAmount() {
-		if (amount == null) {
-			amount = new KualiDecimal(0);
-		}
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
-		return amount;
-	}
+    public KualiDecimal getAmount() {
+        if (amount == null) {
+            amount = new KualiDecimal(0);
+        }
 
-	public void setAmount(KualiDecimal amount) {
-		if (amount == null) {
-			this.amount = new KualiDecimal(0);
-		} 
-		else {
-			this.amount = amount;
-		}
-	}
+        return amount;
+    }
 
-	public IncomeType getIncomeType() {
-		return incomeType;
-	}
+    public void setAmount(KualiDecimal amount) {
+        if (amount == null) {
+            this.amount = new KualiDecimal(0);
+        } else {
+            this.amount = amount;
+        }
+    }
 
-	public void setIncomeType(IncomeType incomeType) {
-		this.incomeType = incomeType;
-	}
+    public IncomeType getIncomeType() {
+        return incomeType;
+    }
 
-	public String getIncomeTypeCode() {
-		return incomeTypeCode;
-	}
+    public void setIncomeType(IncomeType incomeType) {
+        this.incomeType = incomeType;
+    }
 
-	public void setIncomeTypeCode(String incomeTypeCode) {
-		this.incomeTypeCode = incomeTypeCode;
-	}
+    public String getIncomeTypeCode() {
+        return incomeTypeCode;
+    }
 
-	public Chart getChart() {
-		return chart;
-	}
+    public void setIncomeTypeCode(String incomeTypeCode) {
+        this.incomeTypeCode = incomeTypeCode;
+    }
 
-	public void setChart(Chart chart) {
-		this.chart = chart;
-	}
+    public Chart getChart() {
+        return chart;
+    }
 
-	@Override
-	public Integer getLineNumber() {
-		return getSequenceNumber();
-	}
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
 
-	@Override
-	public void setLineNumber(Integer lineNumber) {
-		this.setSequenceNumber(lineNumber);
-	}
+    @Override
+    public Integer getLineNumber() {
+        return getSequenceNumber();
+    }
 
-	@Override
-	public String getDocumentIdentifier() {
-		return getDocumentNumber();
-	}
+    @Override
+    public void setLineNumber(Integer lineNumber) {
+        this.setSequenceNumber(lineNumber);
+    }
 
-	@Override
-	public void setDocumentIdentifier(String documentIdentifier) {
-		setDocumentNumber(documentIdentifier);
-	}
+    @Override
+    public String getDocumentIdentifier() {
+        return getDocumentNumber();
+    }
+
+    @Override
+    public void setDocumentIdentifier(String documentIdentifier) {
+        setDocumentNumber(documentIdentifier);
+    }
 
 }

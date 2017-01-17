@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PaymentMaintenanceDocument" parent="PaymentMaintenanceDocument-parentBean" />
+    <bean id="PaymentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.Payment" />
+        <property name="maintainableClass" value="edu.arizona.kfs.module.tax.document.PaymentMaintainableImpl" />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="PaymentMaintenanceDocument-EditPayment" />
+            </list>
+        </property>
+        <property name="allowsNewOrCopy" value="true" />
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="TXPM" />
+        <property name="businessRulesClass" value="edu.arizona.kfs.module.tax.document.validation.impl.PaymentRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+        <property name="workflowProperties">
+            <ref bean="PaymentMaintenanceDocument-workflowProperties" />
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="PaymentMaintenanceDocument-EditPayment" parent="PaymentMaintenanceDocument-EditPayment-parentBean" />
+    <bean id="PaymentMaintenanceDocument-EditPayment-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit 1099 Payment" />
+        <property name="title" value="Edit 1099 Payment" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" />
+                <bean parent="MaintainableFieldDefinition" p:name="disbursementDt" p:readOnlyAfterAdd="true" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="disbursementNbr" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="paymentTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="acctNetAmount" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="excludeIndicator" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="payeeId" p:readOnlyAfterAdd="true" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="paymentGroupId" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="finChartCode" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="accountNbr" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="finObjectCode" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="docNbr" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="docType" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="poNbr" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="invoiceNbr" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="paymentAcctDetailId" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+
+    <bean id="PaymentMaintenanceDocument-workflowProperties" parent="PaymentMaintenanceDocument-workflowProperties-parentBean" />
+    <bean id="PaymentMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    </bean>
+</beans>
+

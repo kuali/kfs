@@ -391,6 +391,8 @@
 	    <field-descriptor name="paymentMethodCode" column="PMT_MTHD_CD" jdbc-type="VARCHAR"/>
 	    <field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR" />
 		<field-descriptor name="autoApprovedIndicator" column="AUTO_APPROVED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="paymentPaidYear" column="PMT_PD_YR" jdbc-type="VARCHAR" />
+		<field-descriptor name="payment1099Indicator" column="PMT_1099_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	    
 	    <!-- COMMON TO ALL DOCUMENTS -->
 	    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -673,7 +675,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		
-		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.sys.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="incomeTypeCode" />
 		</reference-descriptor>
 		
@@ -692,7 +694,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		
-		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.sys.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="incomeTypeCode" />
 		</reference-descriptor>
 		

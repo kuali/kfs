@@ -82,7 +82,7 @@
 		<property name="label" value="Income Type/Description" />
 		<property name="shortLabel" value="Income Type/Description" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.tax.businessobject.options.IncomeTypeValuesFinder" />
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.sys.businessobject.options.IncomeTypeValuesFinder" />
 		</property>
 		<property name="required" value="true" />
 	</bean>

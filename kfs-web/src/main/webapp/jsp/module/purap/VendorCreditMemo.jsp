@@ -60,7 +60,7 @@
 	
 	    <gl:generalLedgerPendingEntries />
 	    
-	    <tax:incomeTypes editingMode="${KualiForm.editingMode}"/>
+	    <sys:incomeTypes editingMode="${KualiForm.editingMode}"/>
 	    
 	    <sys:docuware />
 	    

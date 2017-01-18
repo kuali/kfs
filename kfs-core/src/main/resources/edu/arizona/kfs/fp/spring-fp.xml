@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
@@ -31,6 +32,49 @@
     <import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
     <import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 
+    <bean id="procurementCardCreateDocumentService"  parent="procurementCardCreateDocumentService-parentBean"/>
+    <bean id="procurementCardCreateDocumentService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+        <property name="procurementCardCreateEmailService" ref="procurementCardCreateEmailService" />
+        <property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
+	<property name="procurementCardGroupService" ref="procurementCardGroupService" />
+    </bean>
+
+    <bean id="procurementCardGroupService" parent="procurementCardGroupService-parentBean" />
+    <bean id="procurementCardGroupService-parentBean" class="org.kuali.rice.kim.impl.group.GroupServiceImpl" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
+    </bean>
+
+    <!-- validations -->
+<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
+
+
+    <bean id="procurementCardHolderDerivedRoleTypeService" class="edu.arizona.kfs.fp.identity.ProcurementCardHolderDerivedRoleTypeServiceImpl" />  
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsSoapServiceDefinition"
+                p:service-ref="procurementCardHolderDerivedRoleTypeService"
+                p:localServiceName="procurementCardHolderDerivedRoleTypeService" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardReconcilerDerivedRoleTypeService" class="edu.arizona.kfs.fp.identity.ProcurementCardReconcilerDerivedRoleTypeServiceImpl" />  
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsSoapServiceDefinition"
+                p:service-ref="procurementCardReconcilerDerivedRoleTypeService"
+                p:localServiceName="procurementCardReconcilerDerivedRoleTypeService" />
+        </property>
+    </bean>
+
     <bean id="disbursementVoucherInvoiceService" class="edu.arizona.kfs.fp.service.impl.DisbursementVoucherInvoiceServiceImpl" />
 
     <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
@@ -53,7 +97,14 @@
                 <ref bean="procurementCardCreateDocumentsStep" />
                 <ref bean="procurementCardRouteDocumentsStep" />
                 <ref bean="procurementCardAutoApproveDocumentsStep" />
+                <ref bean="procurementCardRerouteDocumentsStep" />
             </list>
+        </property>
+    </bean>
+
+    <bean id="procurementCardRerouteDocumentsStep" class="edu.arizona.kfs.fp.batch.ProcurementCardRerouteDocumentsStep" parent="step">
+        <property name="procurementCardCreateDocumentService">
+            <ref bean="procurementCardCreateDocumentService" />
         </property>
     </bean>
 

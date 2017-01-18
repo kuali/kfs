@@ -59,6 +59,7 @@
  	<bean id="sessionDocumentService" p:serviceName="sessionDocumentService" parent="grlBeanImporter" />
  	<bean id="noteService" p:serviceName="noteService" parent="grlBeanImporter" />
  	<bean id="businessObjectService" p:serviceName="businessObjectService" parent="grlBeanImporter" />
+ 	<bean id="criteriaLookupService" p:serviceName="criteriaLookupService" parent="grlBeanImporter" />
  	<bean id="kualiRuleService" p:serviceName="kualiRuleService" parent="grlBeanImporter" />
  	<bean id="businessObjectMetaDataService" p:serviceName="businessObjectMetaDataService" parent="grlBeanImporter" />
  	<bean id="lookupService" p:serviceName="lookupService" parent="grlBeanImporter" />

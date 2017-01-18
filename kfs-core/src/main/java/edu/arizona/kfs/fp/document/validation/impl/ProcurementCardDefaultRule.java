@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
@@ -36,7 +34,7 @@ public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.valida
         if (StringUtils.isNotBlank(newProcurementCardDefault.getReconcilerGroupId()) && StringUtils.isNotBlank(newProcurementCardDefault.getCardHolderSystemId())) {           
            
             List<String> groupMembers = new ArrayList<String>();
-            groupMembers = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(newProcurementCardDefault.getReconcilerGroupId());
+            groupMembers = getGroupService().getMemberPrincipalIds(newProcurementCardDefault.getReconcilerGroupId());
             for (String groupMember : groupMembers) {
                 if (groupMembers.size() < 2 && groupMember.equals(newProcurementCardDefault.getCardHolderSystemId())) {
                     //card holder is only remaining member of reconciler group 

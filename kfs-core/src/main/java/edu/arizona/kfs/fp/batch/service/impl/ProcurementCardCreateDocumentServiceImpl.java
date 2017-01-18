@@ -31,7 +31,6 @@ import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,26 +56,6 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
 
     public static final String REROUTE_PCDO_DOCUMENTS_IND_PARM_NM = "REROUTE_PCDO_DOCUMENTS_IND";
     public static final String RECONCILER_GROUPS_TO_REROUTE_PARM_NM = "RECONCILER_GROUPS_TO_REROUTE";
-    
-	private boolean hasReconciler(ProcurementCardDefault procurementCardDefault) {
-        boolean retCode = true;
-        if (ObjectUtils.isNull(procurementCardDefault) ||
-            ObjectUtils.isNull(procurementCardDefault.getReconcilerGroupId()) ||
-            ObjectUtils.isNull(procurementCardDefault.getCardHolderSystemId())) {
-            retCode = false;
-        }
-        else {
-            List<String> groupMembers = new ArrayList<String>();
-            String reconcilerGroupId = procurementCardDefault.getReconcilerGroupId();
-            groupMembers = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(reconcilerGroupId);
-            if (groupMembers.isEmpty() ||
-                (groupMembers.size() == 1 &&
-                 groupMembers.get(0).equals(procurementCardDefault.getCardHolderSystemId()))) {
-                retCode = false;
-            }
-        }
-        return retCode;
-    }
 	
     /**
      * This method looks for ProcurementCardDocuments that are in route status at the "AccountFullEdit" route node and routed to the error account FO. 
@@ -96,9 +75,8 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         Collection<ProcurementCardDocument> documents = null;
         documents = retrieveUAProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
         
-        if ( LOG.isInfoEnabled() ) {
-            LOG.info("PCards to Reroute: " + new Integer(documents.size()).toString());
-        }
+        LOG.info("PCards to Reroute: " + documents.size());
+
         for (ProcurementCardDocument pcardDocument : documents) {
         
         	String pcardDocumentId = pcardDocument.getObjectId();
@@ -117,9 +95,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                     pcardDocument.getTargetAccountingLine(0).setFinancialObjectCode(StringUtils.isNotEmpty(procurementCardHolderDetail.getFinancialObjectCode()) ? procurementCardHolderDetail.getFinancialObjectCode() : getDefaultObjectCode());
                     pcardDocument.getTargetAccountingLine(0).setSubAccountNumber(procurementCardHolderDetail.getSubAccountNumber());
                     pcardDocument.getTargetAccountingLine(0).setFinancialSubObjectCode(procurementCardHolderDetail.getFinancialSubObjectCode());
-                    if ( LOG.isInfoEnabled() ) {
-                        LOG.info("Rerouting doc #" + pcardDocumentId + " at AccountFullEdit for error account Fiscal Officer.");
-                    }                        
+                    LOG.info("Rerouting doc #" + pcardDocumentId + " at AccountFullEdit for error account Fiscal Officer.");             
                     requeueDocument(pcardDocument, pcardDocumentId, node, "HasReconciler"); 
                     // pause between reroutes
                     try {
@@ -138,11 +114,9 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
 								.getParameter(ProcurementCardRerouteDocumentsStep.class,
 										RECONCILER_GROUPS_TO_REROUTE_PARM_NM)
 								.getValue().contains(procurementCardHolderDetail.getReconcilerGroupId())) {
-                    if ( LOG.isInfoEnabled() ) {
-						LOG.info("Rerouting doc #" + pcardDocumentId + " at ProcurementCardReconciler, in "
-								+ RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
-								+ procurementCardHolderDetail.getReconcilerGroupId());
-                    }
+					LOG.info("Rerouting doc #" + pcardDocumentId + " at ProcurementCardReconciler, in "
+							+ RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
+							+ procurementCardHolderDetail.getReconcilerGroupId());
                     requeueDocument(pcardDocument, pcardDocumentId, node, "ProcurementCardReconciler"); 
                     // pause between reroutes
                     try {
@@ -167,25 +141,24 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                 
         Map<String, String> pkMap = new HashMap<String, String>();
         pkMap.put("creditCardNumber", creditCardNumber);
-        ProcurementCardDefault procurementCardDefault = (ProcurementCardDefault) businessObjectService.findByPrimaryKey(ProcurementCardDefault.class, pkMap);
+        ProcurementCardDefault procurementCardDefault = (ProcurementCardDefault) getBusinessObjectService().findByPrimaryKey(ProcurementCardDefault.class, pkMap);
                 
         return procurementCardDefault;
     }
     
     private void requeueDocument(ProcurementCardDocument pcardDocument, String pcardDocumentId, String node, String prevNode) {
-        Long documentId = Long.valueOf(pcardDocumentId);
+    	//pcardDocumentId could have leading 0's; want these removed for processing calls
+    	String documentId = StringUtils.stripStart(pcardDocumentId, "0");
         WorkflowDocumentActionsService documentActions = KewApiServiceLocator.getWorkflowDocumentActionsService();
         // Updated System User ID, should change this to use the parameter
-        DocumentActionParameters actionParameters = DocumentActionParameters.create(Long.toString(documentId), "T000000000000005493", node+" Batch Reroute to Reconciler");
+        DocumentActionParameters actionParameters = DocumentActionParameters.create(documentId, "T000000000000005493", node+" Batch Reroute to Reconciler");
         ReturnPoint returnPoint = ReturnPoint.create(prevNode);
         documentActions.superUserReturnToPreviousNode(actionParameters, false, returnPoint);
         // Use requeuer service to put the document back into action list of reconciler
-        DocumentRefreshQueue docRequeue = KewApiServiceLocator.getDocumentRequeuerService("KFS",Long.toString(documentId), 0x0);
-        docRequeue.refreshDocument(Long.toString(documentId));    
+        DocumentRefreshQueue docRequeue = KewApiServiceLocator.getDocumentRequeuerService("KFS",documentId, 0x0);
+        docRequeue.refreshDocument(documentId);    
        
-        if ( LOG.isInfoEnabled() ) {
-            LOG.info("Rerouting PCDO document # " + pcardDocumentId + ".");
-        }
+        LOG.info("Rerouting PCDO document # " + pcardDocumentId + ".");
     }
     
     /*
@@ -208,10 +181,8 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                documentService.saveDocument(pcardDocument, DocumentSystemSaveEvent.class);
-                if ( LOG.isInfoEnabled() ) {
-                    LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
-                }
+                getDocumentService().saveDocument(pcardDocument, DocumentSystemSaveEvent.class);
+                LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
@@ -238,7 +209,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
 
         try {
             // get new document from doc service
-            pcardDocument = (ProcurementCardDocument) SpringContext.getBean(DocumentService.class).getNewDocument(PROCUREMENT_CARD);
+            pcardDocument = (ProcurementCardDocument) getDocumentService().getNewDocument(PROCUREMENT_CARD);
 
             List<CapitalAssetInformation> capitalAssets = pcardDocument.getCapitalAssetInformation();
             for (CapitalAssetInformation capitalAsset : capitalAssets) {
@@ -254,12 +225,16 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
             // for each transaction, create transaction detail object and then acct lines for the detail
             int transactionLineNumber = 1;
             KualiDecimal documentTotalAmount = KualiDecimal.ZERO;
-            String errorText = "";
+            String transactionIssuesSummary = "";
+            Integer documentExplanationMaxLength = getDataDictionaryService().getAttributeMaxLength(DocumentHeader.class.getName(), KFSPropertyConstants.EXPLANATION);
             for (Iterator iter = transactions.iterator(); iter.hasNext();) {
                 ProcurementCardTransaction transaction = (ProcurementCardTransaction) iter.next();
 
                 // create transaction detail record with accounting lines
-                errorText += createTransactionDetailRecord(pcardDocument, transaction, transactionLineNumber);
+                String transactionSummary = createTransactionDetailRecord(pcardDocument, transaction, transactionLineNumber);
+                if(!transactionIssuesSummary.contains(transactionSummary)){
+                	transactionIssuesSummary = transactionIssuesSummary.concat(transactionIssuesSummary);
+                }
 
                 // update document total
                 documentTotalAmount = documentTotalAmount.add(transaction.getFinancialDocumentTotalAmount());
@@ -271,19 +246,12 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
             // PCDO Default Description
             setupDocumentDescription(pcardDocument);
 
-            // Remove duplicate messages from errorText
-            String messages[] = StringUtils.split(errorText, ".");
-            for (int i = 0; i < messages.length; i++) {
-                int countMatches = StringUtils.countMatches(errorText, messages[i]) - 1;
-                errorText = StringUtils.replace(errorText, messages[i] + ".", "", countMatches);
-            }
             // In case errorText is still too long, truncate it and indicate so.
-            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class.getName(), KFSPropertyConstants.EXPLANATION);
-            if (documentExplanationMaxLength != null && errorText.length() > documentExplanationMaxLength.intValue()) {
+            if (documentExplanationMaxLength != null && transactionIssuesSummary.length() > documentExplanationMaxLength.intValue()) {
                 String truncatedMessage = " ... TRUNCATED.";
-                errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;
+                transactionIssuesSummary = transactionIssuesSummary.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;
             }
-            pcardDocument.getDocumentHeader().setExplanation(errorText);
+            pcardDocument.getDocumentHeader().setExplanation(transactionIssuesSummary);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating pcdo documents: " + e.getMessage(),e);
@@ -362,7 +330,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     protected ProcurementCardDefault retrieveProcurementCardDefault(String creditCardNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, creditCardNumber);
-        List<ProcurementCardDefault> matchingPcardDefaults = (List<ProcurementCardDefault>)businessObjectService.findMatching(ProcurementCardDefault.class, fieldValues);
+        List<ProcurementCardDefault> matchingPcardDefaults = (List<ProcurementCardDefault>) getBusinessObjectService().findMatching(ProcurementCardDefault.class, fieldValues);
         ProcurementCardDefault procurementCardDefault = null;
         if ( !matchingPcardDefaults.isEmpty() ) {
             procurementCardDefault = matchingPcardDefaults.get(0);
@@ -413,12 +381,9 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                 if (KfsDateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                     // update document description to reflect the auto approval
                     pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
-
-                    if ( LOG.isInfoEnabled() ) {
-                        LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
-                    }
+                    LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
                     pcardDocument.setAutoApprovedIndicator(true);
-                    documentService.superUserApproveDocument(pcardDocument, "");
+                    getDocumentService().superUserApproveDocument(pcardDocument, "");
                 }
             } catch (WorkflowException e) {
                 LOG.error("Error auto approving document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage(),e);
@@ -438,11 +403,31 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     private Collection<ProcurementCardDocument> retrieveUAProcurementCardDocumentsToRoute(String statusCode){
 
         try {
-            return this.getFinancialSystemDocumentService().findByWorkflowStatusCode(ProcurementCardDocument.class, DocumentStatus.fromCode(statusCode));
+            return getFinancialSystemDocumentService().findByWorkflowStatusCode(ProcurementCardDocument.class, DocumentStatus.fromCode(statusCode));
         } catch (WorkflowException e) {
             LOG.error("Error searching for enroute procurement card documents " + e.getMessage());
             throw new RuntimeException(e.getMessage(),e);
         }
 
+    }
+
+	private boolean hasReconciler(ProcurementCardDefault procurementCardDefault) {
+        boolean retCode = true;
+        if (ObjectUtils.isNull(procurementCardDefault) ||
+            ObjectUtils.isNull(procurementCardDefault.getReconcilerGroupId()) ||
+            ObjectUtils.isNull(procurementCardDefault.getCardHolderSystemId())) {
+            retCode = false;
+        }
+        else {
+            List<String> groupMembers = new ArrayList<String>();
+            String reconcilerGroupId = procurementCardDefault.getReconcilerGroupId();
+            groupMembers = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(reconcilerGroupId);
+            if (groupMembers.isEmpty() ||
+                (groupMembers.size() == 1 &&
+                 groupMembers.get(0).equals(procurementCardDefault.getCardHolderSystemId()))) {
+                retCode = false;
+            }
+        }
+        return retCode;
     }
 }

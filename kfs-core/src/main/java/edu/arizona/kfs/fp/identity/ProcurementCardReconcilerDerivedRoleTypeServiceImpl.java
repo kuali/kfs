@@ -39,17 +39,17 @@ public class ProcurementCardReconcilerDerivedRoleTypeServiceImpl extends Derived
         List<String> groupMembers = new ArrayList<String>();
         String principalId = qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID);        
         List<RoleMembership> members = new ArrayList<RoleMembership>();      
-        if ((qualification != null) && StringUtils.isNotBlank(cardGroupId)) {            
+        if ((qualification != null) && StringUtils.isNotBlank(cardGroupId)) { 
             groupMembers = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(cardGroupId);
             for (String groupMember : groupMembers) {
                 if (StringUtils.isNotBlank(cardHolderSystemId) && !groupMember.equals(cardHolderSystemId)) {
                     //card holder cannot reconcile their own pcard transactions 
-                    members.add(org.kuali.rice.kim.api.role.RoleMembership.Builder.create(null, null, groupMember, MemberType.PRINCIPAL, null).build());
+                    members.add(RoleMembership.Builder.create(null, null, groupMember, MemberType.PRINCIPAL, null).build());
                 }
             }            
         }
         else if ((qualification != null) && StringUtils.isNotBlank(principalId)) {
-            members.add(org.kuali.rice.kim.api.role.RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, null).build());                        
+            members.add(RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, null).build());                        
         }
         return members;
     }

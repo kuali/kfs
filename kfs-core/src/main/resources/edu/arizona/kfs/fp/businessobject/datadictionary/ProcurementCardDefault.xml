@@ -79,7 +79,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="AttributeSecurity">
         <property name="mask" value="true" />
         <property name="maskFormatter">
-          <bean parent="MaskFormatterSubString" p:maskCharacter="*" p:maskLength="13" />
+          <bean parent="MaskFormatterSubString" p:maskCharacter="*" p:maskLength="12" />
         </property>
       </bean>
     </property>

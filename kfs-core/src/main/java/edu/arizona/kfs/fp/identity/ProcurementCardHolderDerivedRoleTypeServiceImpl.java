@@ -37,7 +37,7 @@ public class ProcurementCardHolderDerivedRoleTypeServiceImpl extends DerivedRole
 		}
         List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if ((qualification != null) && StringUtils.isNotBlank(qualification.get(PROCUREMENT_CARDHOLDER_USER_ID))) {
-            members.add(org.kuali.rice.kim.api.role.RoleMembership.Builder.create(null, null, qualification.get(PROCUREMENT_CARDHOLDER_USER_ID), MemberType.PRINCIPAL, null).build());
+            members.add(RoleMembership.Builder.create(null, null, qualification.get(PROCUREMENT_CARDHOLDER_USER_ID), MemberType.PRINCIPAL, null).build());
         }
         return members;
     }

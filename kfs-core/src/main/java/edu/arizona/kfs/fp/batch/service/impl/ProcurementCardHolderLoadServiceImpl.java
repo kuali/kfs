@@ -102,7 +102,6 @@ public class ProcurementCardHolderLoadServiceImpl implements ProcurementCardHold
             if (inputFileName.contains(holdDateString)) {
                 // Removing related .done file right away
                 removeDoneFile(inputFileName);
-                LOG.info("Loading Procurement Cardholder file " + new File(inputFileName).getName());
                 processSuccess = loadProcurementCardHolderFile(inputFileName);
             }
         }
@@ -130,10 +129,7 @@ public class ProcurementCardHolderLoadServiceImpl implements ProcurementCardHold
      */
     private void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
-            File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
-            if (doneFile.exists()) {
-                doneFile.delete();
-            }
+            removeDoneFile(dataFileName);
         }
     }
     

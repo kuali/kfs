@@ -60,7 +60,7 @@
 	
 	    <gl:generalLedgerPendingEntries />
 	    
-	    <sys:incomeTypes editingMode="${KualiForm.editingMode}"/>
+	    <sys:incomeTypes editingMode="${KualiForm.editingMode}" incomeTypeAttributes="${DataDictionary.CreditMemoIncomeType.attributes}" />
 	    
 	    <sys:docuware />
 	    

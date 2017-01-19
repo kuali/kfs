@@ -2,10 +2,10 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" type="java.util.Map"%>
+<%@ attribute name="incomeTypeAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for the income type fields." %>
 
 <c:set var="canViewIncomeTypeTab" value="${editingMode['viewIncomeTypes']}" scope="request" />
 <c:set var="canEditIncomeType" value="${editingMode['editIncomeTypes']}" scope="request" />
-<c:set var="incomeTypeAttributes" value="${DataDictionary.DocumentIncomeType.attributes}" />
 
 <kul:tab tabTitle="1099 Classification" tabErrorKey="newIncomeTypeError*" hidden="${!canViewIncomeTypeTab}" defaultOpen="${canEditIncomeType}">
   <div class="tab-container" align=center>

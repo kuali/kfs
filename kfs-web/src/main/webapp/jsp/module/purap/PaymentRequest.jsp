@@ -86,7 +86,7 @@
     	
         <gl:generalLedgerPendingEntries />
         
-        <sys:incomeTypes editingMode="${KualiForm.editingMode}"/>
+        <sys:incomeTypes editingMode="${KualiForm.editingMode}" incomeTypeAttributes="${DataDictionary.PaymentRequestIncomeType.attributes}" />
 
         <sys:docuware />
 

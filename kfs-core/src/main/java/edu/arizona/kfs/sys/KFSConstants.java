@@ -110,4 +110,8 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static class GeneralErrorCorrectionEditMode {
     	public static final String ERROR_CERTIFICATE_TAB_ENTRY = "errorCertTabEntry";
     }
+    
+    public static class ProcurementCardholder {
+        public static final String PCDH_FILE_TYPE_IDENTIFIER = "procurementCardHolderInputFileType";
+    }
 }

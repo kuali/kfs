@@ -27,5 +27,8 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     
     //DV NonEmployee
     public static final String ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT = "error.dv.perDiemStartDtBeforeAfterEndDt";
+    
+ // Procurement Cardholder
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDH = "message.batchUpload.title.procurementCardHolder";
 
 }

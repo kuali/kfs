@@ -276,7 +276,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="transactionCreditCardNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Transaction Credit Card Number" />
+		<property name="label" value="Procurement Card Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="16" />
 		<property name="control">

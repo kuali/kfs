@@ -8,6 +8,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSParameterKeyConstants;
 
 public class ProcurementCardForm extends org.kuali.kfs.fp.document.web.struts.ProcurementCardForm {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardForm.class);
@@ -41,5 +42,17 @@ public class ProcurementCardForm extends org.kuali.kfs.fp.document.web.struts.Pr
             this.transactionCreditCardNumbersViewStatus.add(Boolean.FALSE);
         }
         return transactionCreditCardNumbersViewStatus;
+    }
+
+    /**
+     * Customization for UA Sales Tax Amount and Tax Exempt Indicator.
+     * This method returns the value of the ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND system parameter.
+     * For use with the procurementCardTransactions.tag file.
+     *
+     * @return
+     */
+    public boolean getEnableSalesTaxIndicator() {
+        boolean parameterValue = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ProcurementCardDocument.class, KFSParameterKeyConstants.ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND);
+        return parameterValue;
     }
 }

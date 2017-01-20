@@ -1262,7 +1262,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	
-	<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.tax.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="incomeType" class-ref="edu.arizona.kfs.sys.businessobject.IncomeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="incomeTypeCode" />
 	</reference-descriptor>
 	

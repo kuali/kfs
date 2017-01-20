@@ -12,7 +12,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
@@ -20,7 +19,6 @@ import org.kuali.rice.krad.util.MessageMap;
 import edu.arizona.kfs.fp.businessobject.DisbursementVoucherIncomeType;
 import edu.arizona.kfs.fp.document.DisbursementVoucherDocument;
 import edu.arizona.kfs.sys.KFSConstants;
-import edu.arizona.kfs.tax.TaxConstants;
 
 public class DisbursementVoucherIncomeTypeTotalsValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherIncomeTypeTotalsValidation.class);
@@ -67,7 +65,7 @@ public class DisbursementVoucherIncomeTypeTotalsValidation extends GenericValida
 
         Map<String, String> permDetails = new HashMap<String, String>();
         
-        permDetails.put(KimConstants.AttributeConstants.EDIT_MODE, TaxConstants.Authorization.VIEW_INCOME_TYPES_EDIT_MODE);
+        permDetails.put(KimConstants.AttributeConstants.EDIT_MODE, KFSConstants.IncomeTypeConstants.IncomeTypesAuthorization.VIEW_INCOME_TYPES_EDIT_MODE);
         permDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KFSConstants.DOCUWARE_DV_DOC_TYPE);
         
         retval = docAuth.isAuthorizedByTemplate(

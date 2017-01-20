@@ -22,7 +22,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
@@ -36,10 +35,8 @@ import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
-import edu.arizona.kfs.tax.TaxConstants;
-import edu.arizona.kfs.tax.TaxPropertyConstants;
-import edu.arizona.kfs.tax.document.IncomeTypeContainer;
-import edu.arizona.kfs.tax.document.IncomeTypeHandler;
+import edu.arizona.kfs.sys.document.IncomeTypeContainer;
+import edu.arizona.kfs.sys.document.IncomeTypeHandler;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
 
 
@@ -115,7 +112,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
         }        
         for (DisbursementVoucherIncomeType incomeType : getIncomeTypes()) {
-            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(TaxPropertyConstants.INCOME_TYPE_CODE_NOT_REPORTABLE))) {
+            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE))) {
                 setDv1099Ind(false);
             }
             else {
@@ -293,7 +290,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
 
             HashMap<String, String> att = new HashMap<String, String>();
-            att.put(KimConstants.AttributeConstants.EDIT_MODE, TaxConstants.Authorization.VIEW_INCOME_TYPES_EDIT_MODE);
+            att.put(KimConstants.AttributeConstants.EDIT_MODE, KFSConstants.IncomeTypeConstants.IncomeTypesAuthorization.VIEW_INCOME_TYPES_EDIT_MODE);
             att.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KFSConstants.DOCUWARE_DV_DOC_TYPE);
             
             // see if current user can view 1099 tab

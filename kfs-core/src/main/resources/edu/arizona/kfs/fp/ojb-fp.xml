@@ -905,7 +905,6 @@
     <field-descriptor name="controlCode" column="CONTROL_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<!-- UAF-2499 BO class properties transactionEditableSalesTaxAmount and transactionNoReceiptIndicator will be added in another mod -->
 <class-descriptor class="edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail" table="FP_PRCRMNT_TRN_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTransactionLineNumber" column="FDOC_TRN_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
@@ -929,7 +928,9 @@
     <field-descriptor name="transactionCycleStartDate" column="TRN_CYCLE_STRT_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionCycleEndDate" column="TRN_CYCLE_END_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionTotalAmount" column="TRN_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    
+    <field-descriptor name="transactionEditableSalesTaxAmount" column="TRN_EDITABLE_SALES_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="transactionNoReceiptIndicator" column="TRN_NO_RECEIPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
     <reference-descriptor name="procurementCardVendor" class-ref="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="financialDocumentTransactionLineNumber" />

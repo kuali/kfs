@@ -18,5 +18,6 @@ public class KFSParameterKeyConstants extends org.kuali.kfs.sys.KFSParameterKeyC
 		public static final String DEFAULT_TRANSACTION_OBJECT_CODE = "DEFAULT_TRANSACTION_OBJECT_CODE";
 		public static final String VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES = "VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES";
 	}
-	
+
+	public static final String ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND = "ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND";
 }

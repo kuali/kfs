@@ -205,6 +205,9 @@
 		<property name="label" value="Card Holder Postal (ZIP) Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="required" value="false"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
 	</bean>
 	<bean id="ProcurementCardHolder-cardLimit" parent="ProcurementCardHolder-cardLimit-parentBean" />
 

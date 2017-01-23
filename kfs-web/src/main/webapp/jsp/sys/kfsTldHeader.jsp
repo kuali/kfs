@@ -63,8 +63,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/maintenance" prefix="maintenanceChannel"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/centralAdmin" prefix="centralAdminChannel"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/tax" prefix="tax"%>
-
 <%-- utility web functions --%>
 <%@ taglib uri="/WEB-INF/tlds/kfsfunc.tld" prefix="kfsfunc" %>
 

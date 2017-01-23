@@ -21,6 +21,12 @@
         <property name="dataDictionaryPackages">
             <list merge="true">
                 <value>classpath:edu/arizona/kfs/module/cam/document/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/cam/businessobject/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/cam/ojb-cam.xml</value>
             </list>
         </property>
     </bean>
@@ -38,5 +44,7 @@
     	<property name="paymentSummaryService" ref="paymentSummaryService" />
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
-
+    
+    <bean id="assetRetirementReasonLookupableHelperService" scope="prototype" parent="assetRetirementReasonLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl"/>
+    
 </beans>

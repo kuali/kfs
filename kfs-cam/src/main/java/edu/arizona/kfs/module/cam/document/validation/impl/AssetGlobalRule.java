@@ -30,6 +30,10 @@ public class AssetGlobalRule extends org.kuali.kfs.module.cam.document.validatio
 
 		AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
+		if (GlobalVariables.getMessageMap().hasErrors()) {
+			return false;
+		}
+
 		List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
 		int sharedIndex = 0;
 		int uniqueIndex = 0;

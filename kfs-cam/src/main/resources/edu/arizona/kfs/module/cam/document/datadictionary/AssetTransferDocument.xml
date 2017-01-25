@@ -1,0 +1,84 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean">
+		<property name="documentClass" value="edu.arizona.kfs.module.cam.document.AssetTransferDocument" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="AssetTransferDocument-inventoryUnitCode" />
+				<ref bean="AssetTransferDocument-inventoryUnitChartOfAccountsCode" />
+				<ref bean="AssetTransferDocument-inventoryUnitOrganizationCode" />
+				<ref bean="AssetTransferDocument-oldInventoryUnitCode" />
+				<ref bean="AssetTransferDocument-oldInventoryUnitChartOfAccountsCode" />
+				<ref bean="AssetTransferDocument-oldInventoryUnitOrganizationCode" />
+			</list>
+		</property>
+		<property name="defaultExistenceChecks">
+			<list merge="true">
+				<bean parent="ReferenceDefinition" p:attributeName="assetInvUnitObj" p:attributeToHighlightOnFail="inventoryUnitCode" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--  Attribute Definitions -->
+	
+	<bean id="AssetTransferDocument-inventoryUnitCode" parent="AssetTransferDocument-inventoryUnitCode-parentBean" />
+	<bean id="AssetTransferDocument-inventoryUnitCode-parentBean" abstract="true" parent="AssetInventoryUnit-inventoryUnitCode-parentBean">
+		<property name="name" value="inventoryUnitCode" />
+		<property name="label" value="Inventory Unit Code" />
+		<property name="shortLabel" value="Inv Unit Code" />
+	</bean>
+	
+	<bean id="AssetTransferDocument-inventoryUnitChartOfAccountsCode" parent="AssetTransferDocument-inventoryUnitChartOfAccountsCode-parentBean" />
+	<bean id="AssetTransferDocument-inventoryUnitChartOfAccountsCode-parentBean" abstract="true" parent="AssetInventoryUnit-chartOfAccountsCode-parentBean">
+		<property name="name" value="inventoryUnitChartOfAccountsCode" />
+		<property name="label" value="Inventory Unit Chart Of Accounts Code" />
+		<property name="shortLabel" value="Inv Unit COA Code" />
+	</bean>
+	
+	<bean id="AssetTransferDocument-inventoryUnitOrganizationCode" parent="AssetTransferDocument-inventoryUnitOrganizationCode-parentBean" />
+	<bean id="AssetTransferDocument-inventoryUnitOrganizationCode-parentBean" abstract="true" parent="AssetInventoryUnit-organizationCode-parentBean">
+		<property name="name" value="inventoryUnitOrganizationCode" />
+		<property name="label" value="Inventory Unit Organization Code" />
+		<property name="shortLabel" value="Inv Unit Org Code" />
+	</bean>
+	
+	<bean id="AssetTransferDocument-oldInventoryUnitCode" parent="AssetTransferDocument-oldInventoryUnitCode-parentBean" />
+	<bean id="AssetTransferDocument-oldInventoryUnitCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="oldInventoryUnitCode" />
+		<property name="label" value="Inventory Unit Code" />
+		<property name="shortLabel" value="Inv Unit Code" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="2" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	
+	<bean id="AssetTransferDocument-oldInventoryUnitChartOfAccountsCode" parent="AssetTransferDocument-oldInventoryUnitChartOfAccountsCode-parentBean" />
+	<bean id="AssetTransferDocument-oldInventoryUnitChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="oldInventoryUnitChartOfAccountsCode" />
+		<property name="label" value="Inventory Unit Chart Of Accounts Code" />
+		<property name="shortLabel" value="Inv Unit COA Code" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="2" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="AssetTransferDocument-oldInventoryUnitOrganizationCode" parent="AssetTransferDocument-oldInventoryUnitOrganizationCode-parentBean" />
+	<bean id="AssetTransferDocument-oldInventoryUnitOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="oldInventoryUnitOrganizationCode" />
+		<property name="label" value="Inventory Unit Organization Code" />
+		<property name="shortLabel" value="Inv Unit Org Code" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="4" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	
+</beans>

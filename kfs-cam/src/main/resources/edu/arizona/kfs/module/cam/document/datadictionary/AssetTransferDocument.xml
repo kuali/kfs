@@ -5,7 +5,6 @@
 
 	<bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean">
 		<property name="documentClass" value="edu.arizona.kfs.module.cam.document.AssetTransferDocument" />
-		<property name="baseDocumentClass" value="edu.arizona.kfs.module.cam.document.AssetTransferDocument"/>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="AssetTransferDocument-inventoryUnitCode" />
@@ -14,6 +13,11 @@
 				<ref bean="AssetTransferDocument-oldInventoryUnitCode" />
 				<ref bean="AssetTransferDocument-oldInventoryUnitChartOfAccountsCode" />
 				<ref bean="AssetTransferDocument-oldInventoryUnitOrganizationCode" />
+			</list>
+		</property>
+		<property name="defaultExistenceChecks">
+			<list merge="true">
+				<bean parent="ReferenceDefinition" p:attributeName="assetInvUnitObj" p:attributeToHighlightOnFail="inventoryUnitCode" />
 			</list>
 		</property>
 	</bean>

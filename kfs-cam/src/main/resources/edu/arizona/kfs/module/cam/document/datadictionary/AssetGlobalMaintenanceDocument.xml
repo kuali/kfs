@@ -5,6 +5,7 @@
 
 	<bean id="AssetGlobalMaintenanceDocument" parent="AssetGlobalMaintenanceDocument-parentBean" >
 		<property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetGlobalMaintainableImpl" />
+		<property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetGlobalRule" />
 	</bean>
 	
 	<!-- Maintainable Sections  -->

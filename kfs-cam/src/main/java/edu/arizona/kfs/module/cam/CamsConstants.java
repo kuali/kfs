@@ -11,5 +11,7 @@ public class CamsConstants extends org.kuali.kfs.module.cam.CamsConstants {
 		
 		public static final String PERIOD_THIRTEEN = "13";
 		public static final String JANUARY_FIRST = "01/01/";
+		public static final String ASSET_INVENTORY_UNIT_NULL ="AssetInventoryUnit Null";
+		
 	}
 }

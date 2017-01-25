@@ -166,7 +166,7 @@
           <artifactId>tomcat7-maven-plugin</artifactId>
           <version>${plugin.tomcat.version}</version>
           <configuration>
-            <path>/kfs</path>
+            <path>/${project.artifactId}-${build.environment}</path>
           </configuration>
           <dependencies>
             <dependency>

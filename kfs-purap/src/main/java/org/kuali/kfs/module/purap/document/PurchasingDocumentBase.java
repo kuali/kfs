@@ -1591,12 +1591,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getRouteCode() {
-        if (StringUtils.isBlank(routeCode)) {
-            try{
-                BuildingExtension be = (BuildingExtension)(getBuildingObj().getExtension());
-                routeCode = be.getRouteCode();
-            }catch(Exception e){
+        if (StringUtils.isBlank(routeCode) && StringUtils.isNotBlank(deliveryBuildingCode)) {
+            BuildingExtension be = null;
+            try {
+                be = (BuildingExtension)(getBuildingObj().getExtension());
+            } catch(Exception e) {
                 LOG.debug("Routing Code was not Retrieved");
+            }
+            if (be != null) {
+                routeCode = be.getRouteCode();
             }
         }
         return routeCode;

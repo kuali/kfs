@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -111,20 +110,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                     }
                      
                     if (isBudgetAdjustmentTransaction(originEntry)) {
-                    	
-                    	//check to make sure that Account has Income Stream information
-                    	Account baAccount = originEntry.getAccount();    	 
-                        if (ObjectUtils.isNotNull(baAccount)) {
-                        	if (ObjectUtils.isNull(baAccount.getIncomeStreamFinancialCoaCode()) || ObjectUtils.isNull(baAccount.getIncomeStreamAccountNumber())) {             	
-	                        	//no income stream info, write error and continue	                        	
-	                            Message errorMsg = new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL);
-	                            reportWriterService.writeError(originEntry, errorMsg);
-	                            createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
-	                            reportBudgetAdjustDocErrors++;
-	                            continue;
-	                        }
-                        }
-                         
+                    	                    	
                         //check to make sure that Object Type Code is present (BO input may not have this)
                         if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
                         	String financialObjectTypeCode = getFinancialObjectTypeCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
@@ -224,10 +210,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                      catch (IOException e) {                    	 
                     	 LOG.error("Error creating cash transfer done file: ", e);
                      	 throw new RuntimeException(e);                        
-                     }
-            	 
-                 }                
-                        
+                     }            	 
+                 }                       
              }
            
              //delete all budget adjustment transactions  
@@ -253,9 +237,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     
     /**
      * Returns a list of unique document numbers which are needed so that we can
-     * group budget adjustment transactions by budget system document number in
-     * order to determine if the transactions, as a group, cross income streams.
-      *
+     * group budget adjustment transactions by budget system document number.
+     *       
      * @return docNumberList list of unique budget adjustment document numbers      
      */
     protected List<String> retrieveUniqueDocumentNumbersList() {     	
@@ -288,8 +271,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
     }
     
     /**
-     * Generates any necessary cash transfer entries to transfer funds needed to make the budget adjustments. Based on income chart and
-     * accounts. If there is a difference in funds between an income chart and account, a cash transfer entry needs to be created.
+     * Generates cash transfer entries to transfer funds needed to make the budget adjustments. 
      *
      * @param docNumberList list of unique budget adjustment document numbers
      * @param runDate batch job run date 
@@ -310,185 +292,106 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         if (generateTransfer) {        	
         	if (LOG.isDebugEnabled()) {
         		LOG.debug("generateCashTransferGeneralLedgerEntries() generate transfer of funds entries parameter is set to true, generating cash transfer entries.");
-            }
+        	}
+        	String transferObjectCode = parameterService.getParameterValueAsString(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM);     
+        	Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         	
         	for (Iterator iter = docNumberList.iterator(); iter.hasNext();) {
-        		        		
-                try {                	
+        		try {
                 	documentNumber = (String)iter.next();
-                    budgetAdjustmentTransactions = budgetAdjustmentTransactionDao.getByDocNumber(documentNumber);
-                    
+                                        
                     // assurance report sub-header
                     reportWriterService.writeSubTitle("Document Number " + documentNumber + " Budget Adjustment Transactions and Cash Transfer Entries");                            
                     reportWriterService.writeTableHeader(new BudgetAdjustmentTransaction());                    
                     
-                    // map of income chart/accounts with balance as value
-                    Map<String, KualiDecimal> incomeStreamMap = buildIncomeStreamBalanceMapForTransferOfFundsGeneration(budgetAdjustmentTransactions);
-                    for (Iterator iter2 = incomeStreamMap.keySet().iterator(); iter2.hasNext();) {                      
-                    	String chartAccount = (String) iter2.next();
-                        KualiDecimal streamAmount = (KualiDecimal) incomeStreamMap.get(chartAccount);
-                        if (streamAmount.isNonZero()) {                          	
-                            // create cash transfer transactions 
-                            String[] incomeString = StringUtils.split(chartAccount, BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER);
-                            reportOriginEntryGenerated += buildTransactionsForTransferOfFundsGeneration(documentNumber, incomeString, runDate, group);                                                                   
-                        } //streamAmount.isNonZero()
-                    } //for incomeStreamMap
+                    reportOriginEntryGenerated += buildTransactionsForTransferOfFundsGeneration(documentNumber, runDate, group, transferObjectCode, currentFiscalYear);           
                 }
                 catch (RuntimeException re) {
                     LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
                     throw new RuntimeException(re);
-                }  
-                
+                }               
             } //for docNumberList
         	
         } // if generateTransfer
         
         if (LOG.isDebugEnabled()) {
-    		LOG.debug("generateCashTransferGeneralLedgerEntries() completed");
+        	LOG.debug("generateCashTransferGeneralLedgerEntries() completed");
         }
         return reportOriginEntryGenerated;
     }
-    
-    /**
-     * Builds a map used for balancing current adjustment amounts. The map contains income chart and accounts contained on the
-     * document as the keys, and transfer amounts as the values.  The transfer amount is calculated from (curr_frm_inc - curr_frm_exp) - (curr_to_inc - curr_to_exp)
-     * 
-     * @param budgetAdjustmentTransactions Iterator of budget adjustment transactions
-     * @return Map used to balance current amounts
-     */    
-    public Map buildIncomeStreamBalanceMapForTransferOfFundsGeneration(Iterator budgetAdjustmentTransactions) {
-        Map<String, KualiDecimal> incomeStreamBalance = new HashMap<String, KualiDecimal>();
-        List<Message> warnings = new ArrayList<Message>();
-        
-        ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
-        
-        while (budgetAdjustmentTransactions.hasNext()) {
-            BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction();
-            try {
-                ba = (BudgetAdjustmentTransaction) budgetAdjustmentTransactions.next();   
-                Account baAccount = ba.getAccount();                
-                              
-                if (parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, baAccount.getSubFundGroup().getFundGroupCode()).evaluationSucceeds() &&
-                    parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, baAccount.getSubFundGroupCode()).evaluationSucceeds()) {
-                	
-                	  //check to make sure that Account has Income Stream information
-                    if (ObjectUtils.isNotNull(baAccount.getIncomeStreamFinancialCoaCode()) && ObjectUtils.isNotNull(baAccount.getIncomeStreamAccountNumber())) {
-                                	
-                        String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
-                            baAccount.getIncomeStreamAccountNumber() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
-                            String.valueOf(ba.getUniversityFiscalYear().intValue()) + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + 
-                            ba.getUniversityFiscalPeriodCode();
-                        // place record in balance map
-                        incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(ba, incomeStreamBalance.get(incomeStreamKey)));                   
-                    }
-                    else {
-                    	List errorList = new ArrayList();
-                        errorList.add(new Message("No Account Income Stream information found for this record.", Message.TYPE_FATAL));
-                        reportWriterService.writeError(ba, errorList);
-                    }
-                }
-           }
-           catch (RuntimeException re) {
-               LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
-               throw new RuntimeException(re);
-           }           
-        }
-        return incomeStreamBalance;
-    }   
-   
-    /**
-     * Calculates the appropriate income stream amount for an account using the value provided and the provided budget adjustment transaction.
-     * 
-     * @param budgetAdjustmentTransaction
-     * @param incomeStreamAmount
-     * @return incomeStreamAmount
-     */
-    protected KualiDecimal getIncomeStreamAmount(BudgetAdjustmentTransaction budgetAdjustmentTransaction, KualiDecimal incomeStreamAmount) {
-        if(incomeStreamAmount == null) {
-            incomeStreamAmount = new KualiDecimal(0);
-        }      
-        incomeStreamAmount = incomeStreamAmount.add(budgetAdjustmentTransaction.getTransactionLedgerEntryAmount());
-        return incomeStreamAmount;
-    }    
         
     /**
      * Creates cash transfer transactions from budget adjustment transactions.
      * 
      * @param documentNumber 
-     * @param incomeString of key values
      * @param runDate batch job run date 
      * @param group print stream for output file 
+     * @param transferObjectCode cash transfer entries object code value to set
+     * @param currentFiscalYear current fiscal year for determining the fiscal period code
      * @return transactions created
      */
-    public int buildTransactionsForTransferOfFundsGeneration(String documentNumber, String[] incomeString, Date runDate, PrintStream group) {
-        
-    	String transferObjectCode = parameterService.getParameterValueAsString(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM);     
-        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        int reportOriginEntryGenerated = 0;
-        List<Message> warnings = new ArrayList<Message>();
-        
+    public int buildTransactionsForTransferOfFundsGeneration(String documentNumber, Date runDate, PrintStream group, String transferObjectCode, Integer currentFiscalYear) {
+            	
         BudgetAdjustmentTransaction ba = new BudgetAdjustmentTransaction();
         OriginEntryFull e = new OriginEntryFull(); 
         Iterator budgetAdjustmentTransactions = budgetAdjustmentTransactionDao.getByDocNumber(documentNumber);
+        int reportOriginEntryGenerated = 0;
         
         while (budgetAdjustmentTransactions.hasNext()) {            
-            try {
+            try {            	
                 ba = (BudgetAdjustmentTransaction) budgetAdjustmentTransactions.next();
-                if (isRecordTransactionMatch(ba, incomeString)) {                   
-                    //matching transaction found 
-                    //write transaction to assurance report                    
-                    reportWriterService.writeTableRow(ba);                     
-                    
-                    //create cash transfer entries
-                    e.setTransactionLedgerEntrySequenceNumber(0);
-                    e.setChartOfAccountsCode(incomeString[0]);
-                    e.setAccountNumber(incomeString[1]);
-					e.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-                    e.setFinancialObjectCode(transferObjectCode);
-                    e.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-                    if (ba.getTransactionLedgerEntryAmount().isPositive()) {
-                        e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-                        e.setTransactionLedgerEntryAmount(ba.getTransactionLedgerEntryAmount());
-                    }
-                    else {
-                        e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-                        e.setTransactionLedgerEntryAmount(ba.getTransactionLedgerEntryAmount().negated());
-                    }                            
-                    /* set document type to tof */
-                   e.setFinancialDocumentTypeCode(TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE);
-                   e.setFinancialSystemOriginationCode(ba.getFinancialSystemOriginationCode());
-                   e.setDocumentNumber(ba.getDocumentNumber());
-                   e.setUniversityFiscalYear(ba.getUniversityFiscalYear());  
-                   e.setUniversityFiscalPeriodCode(ba.getUniversityFiscalPeriodCode());
-                   
-                   //get current year system options
-              	   SystemOptions options = getOptionsService().getOptions(e.getUniversityFiscalYear());
-                   if (ObjectUtils.isNull(options)) {
-                       options = getOptionsService().getCurrentYearOptions();
-                   }
-                                      
-                   e.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
-                   e.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
-                   e.setTransactionLedgerEntryDescription(ba.getTransactionLedgerEntryDescription());
-                   e.setTransactionDate(new java.sql.Date(runDate.getTime())); 
-                   e.setOrganizationDocumentNumber(ba.getOrganizationDocumentNumber());
-                   e.setProjectCode(ba.getProjectCode()); 
-                   
-                   // set fiscal period, if next fiscal year set to 01, else leave to current period
-                   if (currentFiscalYear.equals(e.getUniversityFiscalYear() - 1)) {
-                       e.setUniversityFiscalPeriodCode(BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE);
-                   }
+                //write transaction to assurance report                    
+                reportWriterService.writeTableRow(ba);                     
+                
+                //create cash transfer entries
+                e.setTransactionLedgerEntrySequenceNumber(0);
+                e.setChartOfAccountsCode(ba.getChartOfAccountsCode());
+                e.setAccountNumber(ba.getAccountNumber());
+                e.setSubAccountNumber(ba.getSubAccountNumber());
+                e.setFinancialObjectCode(transferObjectCode);
+                e.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+                if (ba.getTransactionLedgerEntryAmount().isPositive()) {
+                    e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+                    e.setTransactionLedgerEntryAmount(ba.getTransactionLedgerEntryAmount());
+                }
+                else {
+                    e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+                    e.setTransactionLedgerEntryAmount(ba.getTransactionLedgerEntryAmount().negated());
+                }                            
+                /* set document type to tof */
+                e.setFinancialDocumentTypeCode(TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE);
+                e.setFinancialSystemOriginationCode(ba.getFinancialSystemOriginationCode());
+                e.setDocumentNumber(ba.getDocumentNumber());
+                e.setUniversityFiscalYear(ba.getUniversityFiscalYear());  
+                e.setUniversityFiscalPeriodCode(ba.getUniversityFiscalPeriodCode());
+               
+                //get current year system options
+          	    SystemOptions options = getOptionsService().getOptions(e.getUniversityFiscalYear());
+                if (ObjectUtils.isNull(options)) {
+                	options = getOptionsService().getCurrentYearOptions();
+                }
+                                  
+                e.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
+                e.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
+                e.setTransactionLedgerEntryDescription(ba.getTransactionLedgerEntryDescription());
+                e.setTransactionDate(new java.sql.Date(runDate.getTime())); 
+                e.setOrganizationDocumentNumber(ba.getOrganizationDocumentNumber());
+                e.setProjectCode(ba.getProjectCode()); 
+               
+                // set fiscal period, if next fiscal year set to 01, else leave to current period
+                if (currentFiscalYear.equals(e.getUniversityFiscalYear() - 1)) {
+                    e.setUniversityFiscalPeriodCode(BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE);
+                }
 
-                   try {
-                       createOutputEntry(e, group);
-                       reportOriginEntryGenerated++;                                                              
-                   }
-                   catch (IOException ioe) {
-                       LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", ioe);
-                       throw new RuntimeException(ioe);
-                   }                   
-                   
-                } //matching transaction found 
+                try {
+                    createOutputEntry(e, group);
+                    reportOriginEntryGenerated++;                                                              
+                }
+                catch (IOException ioe) {
+                    LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", ioe);
+                    throw new RuntimeException(ioe);
+                }                      
+               
             }
             catch (RuntimeException re) {
                 LOG.error("generateBudgetAdjustmentCashTransferTransactions Stopped: ", re);
@@ -523,11 +426,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
      * @return true if the transaction is a budget adjustment transaction and therefore should have a cash transfer transaction created for it; false if otherwise
      */
     public boolean isBudgetAdjustmentTransaction(OriginEntryFull transaction) {
-    	    	
-    	//retrieve document type and origination code parameter values
-    	Collection<String> documentTypeCodes = parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.CASH_TRANSFER_DOC_TYPE_CODES);
-    	Collection<String> originationCodes = parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.CASH_TRANSFER_ORIGINATION_CODES);
-      
+    	   
         //get current year system options
     	SystemOptions options = getOptionsService().getOptions(universityDateService.getCurrentFiscalYear());
         if (ObjectUtils.isNull(options)) {
@@ -537,7 +436,11 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         // Does the balance type code indicate that this transaction is for current budget?
         if (!transaction.getFinancialBalanceTypeCode().equals(options.getBudgetCheckingBalanceTypeCd())) {
         	return false;
-        }                   
+        }
+        
+        //retrieve document type and origination code parameter values
+        Collection<String> documentTypeCodes = parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.CASH_TRANSFER_DOC_TYPE_CODES);
+        Collection<String> originationCodes = parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.CASH_TRANSFER_ORIGINATION_CODES);
                
         // Does the origin code indicate that this transaction is from the Budget Office, or ERE Sweep?
         if (!originationCodes.contains(transaction.getFinancialSystemOriginationCode())) {
@@ -552,29 +455,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         return true;  // still here?  then I guess we don't have an exclusion
        
     }
-    
-    /**
-     * This will determine if this record is a match for the 
-     * 
-     * @param ba the record to test for a match
-     * @param incomeString a string array that contains the key values for the transaction currently being processed
-     * @return true if this record is a match for the transaction currently being processed; false if otherwise
-     */
-    public boolean isRecordTransactionMatch(BudgetAdjustmentTransaction ba, String[] incomeString) {
-    	boolean recordMatches = false;
-    	Account baAccount = ba.getAccount();
-    	 
-        if (baAccount.getIncomeStreamFinancialCoaCode().equals(incomeString[0]) && 
-        		baAccount.getIncomeStreamAccountNumber().equals(incomeString[1]) &&
-        		ba.getUniversityFiscalYear().equals(new Integer(incomeString[2])) &&
-        		ba.getUniversityFiscalPeriodCode().equals(incomeString[3])) {
-        	recordMatches = true;        	 
-        }
         
-        return recordMatches;
-    }
-    	   	
-    
     protected String getFinancialObjectTypeCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {    
     	String financialObjectTypeCode = null;
     	

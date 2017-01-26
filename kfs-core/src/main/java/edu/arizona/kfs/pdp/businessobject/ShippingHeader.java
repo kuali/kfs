@@ -1,17 +1,28 @@
 package edu.arizona.kfs.pdp.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 
 public class ShippingHeader extends PersistableBusinessObjectBase {
-	protected Date creationDate;
-	protected String transactionRefNumber;
-	protected String shippingCompany;
+	/**
+	 * 
+	 */
+    private static final long serialVersionUID = -7653890864333925398L;
+    protected Date creationDate;
+    protected String transactionRefNumber;
+    protected String shippingCompany;
     protected String openCustomField;
+    protected List<ShippingInvoice> invoices = new ArrayList<ShippingInvoice>();
+    protected boolean invoicesLoaded = false;    
      
     
     public Date getCreationDate() {
@@ -57,7 +68,20 @@ public class ShippingHeader extends PersistableBusinessObjectBase {
 		
     	map.put("creationDate", getCreationDate().toString());
     	map.put("transactionRefNumber", getTransactionRefNumber());
-        return map;
+    	return map;
+    }
+
+    public List<ShippingInvoice> getInvoices() {
+        if ( !invoicesLoaded ) {
+            invoices = new ArrayList<ShippingInvoice>( SpringContext.getBean(BusinessObjectService.class).findAll(ShippingInvoice.class) );
+            invoicesLoaded = true;
+        }
+        return invoices;
+    }
+
+    public void setInvoices(List<ShippingInvoice> invoices) {
+        this.invoices = invoices;
+        invoicesLoaded = true;
     }
    
     protected String masterEDINumber = "UNUSED";

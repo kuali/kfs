@@ -3,20 +3,23 @@ package edu.arizona.kfs.pdp.batch.service.impl;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.arizona.kfs.pdp.batch.service.ShippingInvoiceLoadService;
 import edu.arizona.kfs.pdp.businessobject.ShippingBatch;
 import edu.arizona.kfs.pdp.businessobject.ShippingHeader;
+import edu.arizona.kfs.pdp.businessobject.ShippingHeaderHistory;
 import edu.arizona.kfs.pdp.businessobject.ShippingInvoice;
 import edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTracking;
 
@@ -36,8 +39,9 @@ public class ShippingInvoiceLoadServiceImpl implements ShippingInvoiceLoadServic
     /**
      * Calls businessObjectService to remove all the shipping invoices from the load tables.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void cleanTransactionsTable() {
-    	businessObjectService.deleteMatching(ShippingInvoiceTracking.class, new HashMap());
+        businessObjectService.deleteMatching(ShippingInvoiceTracking.class, new HashMap());
         businessObjectService.deleteMatching(ShippingInvoice.class, new HashMap());
         businessObjectService.deleteMatching(ShippingHeader.class, new HashMap());
     }
@@ -76,7 +80,7 @@ public class ShippingInvoiceLoadServiceImpl implements ShippingInvoiceLoadServic
         }
         
         applyHeaderToInvoices(batchContents);
-        saveShippingData(batchContents);
+        saveShippingData(batchContents, fileName, SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Total invoices loaded: " + Integer.toString(batchContents.getShippingInvoices().size()));
@@ -98,7 +102,8 @@ public class ShippingInvoiceLoadServiceImpl implements ShippingInvoiceLoadServic
                 invoice.setShippingCompany(shippingHeader.getShippingCompany());
                 invoice.setCreationDate(shippingHeader.getCreationDate());
                 invoice.setTransactionRefNumber(shippingHeader.getTransactionRefNumber());
-            }            
+            }       
+            shippingHeader.setInvoices(new ArrayList<ShippingInvoice>(batchContents.getShippingInvoices()));
         }
         
     }
@@ -108,9 +113,14 @@ public class ShippingInvoiceLoadServiceImpl implements ShippingInvoiceLoadServic
      * 
      * @param holders List of invoices to load.
      */
-    public void saveShippingData(ShippingBatch batchContents) {
+    public void saveShippingData(ShippingBatch batchContents, String fileName, Timestamp loadDate) {
         businessObjectService.save(batchContents.getShippingHeader());
-        businessObjectService.save(batchContents.getShippingInvoices());       
+        businessObjectService.save(batchContents.getShippingInvoices());
+
+        // need to create it here so the sequence numbers are in place on the tracking entries
+        ShippingHeaderHistory historyHeader = new ShippingHeaderHistory(loadDate, fileName, batchContents.getShippingHeader());
+        
+        businessObjectService.save( historyHeader );
     }
       
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

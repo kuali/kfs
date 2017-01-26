@@ -10,6 +10,10 @@ import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class ShippingInvoiceTracking extends PersistableBusinessObjectBase {
+    /**
+	 * 
+	 */
+    private static final long serialVersionUID = -3917402012628430508L;
     protected String invoiceNumber;
     protected String trackingNumber;
     protected Integer sequenceRowNumber;   
@@ -402,7 +406,46 @@ public class ShippingInvoiceTracking extends PersistableBusinessObjectBase {
     	map.put("trackingNumber", getTrackingNumber());
     	map.put("sequenceRowNumber", getSequenceRowNumber().toString());
     	map.put("referenceNumber", getReferenceNumber());    	
-        return map;
+    	return map;
     }
-            
+        
+    protected void copyFields( ShippingInvoiceTracking trackingToCopy ) {
+        this.invoiceNumber = trackingToCopy.invoiceNumber;
+        this.trackingNumber = trackingToCopy.trackingNumber;
+        this.sequenceRowNumber = trackingToCopy.sequenceRowNumber;
+        this.referenceNumber = trackingToCopy.referenceNumber;
+        this.shipDate = trackingToCopy.shipDate;
+        this.rebillIndicator = trackingToCopy.rebillIndicator;
+        this.netCharge = trackingToCopy.netCharge;
+        this.currencyCode = trackingToCopy.currencyCode;
+        this.volumeDiscountAmount = trackingToCopy.volumeDiscountAmount;
+        this.fuelSurchargeAmount = trackingToCopy.fuelSurchargeAmount;
+        this.declaredValueAmount = trackingToCopy.declaredValueAmount;
+        this.miscChargeAmount = trackingToCopy.miscChargeAmount;
+        this.declaredValue = trackingToCopy.declaredValue;
+        this.numberOfPieces = trackingToCopy.numberOfPieces;
+        this.shipperName = trackingToCopy.shipperName;
+        this.shipperCompany = trackingToCopy.shipperCompany;
+        this.shipperDept = trackingToCopy.shipperDept;
+        this.shipperAddressLine1 = trackingToCopy.shipperAddressLine1;
+        this.shipperAddressLine2 = trackingToCopy.shipperAddressLine2;
+        this.shipperCity = trackingToCopy.shipperCity;
+        this.shipperState = trackingToCopy.shipperState;
+        this.shipperPostalCode = trackingToCopy.shipperPostalCode;
+        this.usRegionOriginZip = trackingToCopy.usRegionOriginZip;
+        this.shipperCountryCode = trackingToCopy.shipperCountryCode;
+        this.regionCode = trackingToCopy.regionCode;
+        this.recipientName = trackingToCopy.recipientName;
+        this.recipientCompany = trackingToCopy.recipientCompany;
+        this.recipientAddressLine1 = trackingToCopy.recipientAddressLine1;
+        this.recipientAddressLine2 = trackingToCopy.recipientAddressLine2;
+        this.recipientCity = trackingToCopy.recipientCity;
+        this.recipientState = trackingToCopy.recipientState;
+        this.recipientPostalCode = trackingToCopy.recipientPostalCode;
+        this.recipientCountryCode = trackingToCopy.recipientCountryCode;
+        this.deliveryDate = trackingToCopy.deliveryDate;
+        this.deliveryTime = trackingToCopy.deliveryTime;
+        this.recipientSignature = trackingToCopy.recipientSignature;        
+    }
+    
 }

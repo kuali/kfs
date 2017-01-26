@@ -200,6 +200,9 @@
 		<property name="shippingInputFileType">
 			<ref bean="shippingInputFileType" />
 		</property>	
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>			
 	</bean>
 
 	<bean id="shippingInvoiceProcessService" class="edu.arizona.kfs.pdp.batch.service.impl.ShippingInvoiceProcessServiceImpl">

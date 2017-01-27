@@ -93,6 +93,7 @@ public class RequisitionAction extends org.kuali.kfs.module.purap.document.web.s
                         document.setAddressToVendorIndicator(false); //default to final delivery address
                     }
                 } catch ( Exception ex ) {
+                    //The address to vendor indicator is a boolean and will default to false if not set. Because of this, it's acceptable to swallow the error
                     LOG.error( "Exception while determining how to default delivery address.", ex );
                 }
             }

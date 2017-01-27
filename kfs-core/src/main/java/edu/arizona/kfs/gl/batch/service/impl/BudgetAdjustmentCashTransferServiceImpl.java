@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
@@ -90,6 +89,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
         int reportBudgetAdjustDocErrors = 0;
         int maxSequenceId = 0;
         String saveDocNumber = new String("");
+        
+        //get current year system options
+        SystemOptions options = getSystemOptions(universityDateService.getCurrentFiscalYear());
         		
         try {
         	while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
@@ -109,7 +111,7 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 		        		continue;
                     }
                      
-                    if (isBudgetAdjustmentTransaction(originEntry)) {
+                    if (isBudgetAdjustmentTransaction(originEntry, options)) {
                     	                    	
                         //check to make sure that Object Type Code is present (BO input may not have this)
                         if (StringUtils.isBlank(originEntry.getFinancialObjectTypeCode())) {
@@ -365,12 +367,9 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
                 e.setUniversityFiscalYear(ba.getUniversityFiscalYear());  
                 e.setUniversityFiscalPeriodCode(ba.getUniversityFiscalPeriodCode());
                
-                //get current year system options
-          	    SystemOptions options = getOptionsService().getOptions(e.getUniversityFiscalYear());
-                if (ObjectUtils.isNull(options)) {
-                	options = getOptionsService().getCurrentYearOptions();
-                }
-                                  
+                //get transaction fiscal year system options
+                SystemOptions options = getSystemOptions(e.getUniversityFiscalYear());
+          	                                     
                 e.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
                 e.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
                 e.setTransactionLedgerEntryDescription(ba.getTransactionLedgerEntryDescription());
@@ -425,14 +424,8 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
      * @param transaction the transaction which is being determined to be a budget adjustment transaction
      * @return true if the transaction is a budget adjustment transaction and therefore should have a cash transfer transaction created for it; false if otherwise
      */
-    public boolean isBudgetAdjustmentTransaction(OriginEntryFull transaction) {
-    	   
-        //get current year system options
-    	SystemOptions options = getOptionsService().getOptions(universityDateService.getCurrentFiscalYear());
-        if (ObjectUtils.isNull(options)) {
-        	options = getOptionsService().getCurrentYearOptions();
-        }
-         
+    public boolean isBudgetAdjustmentTransaction(OriginEntryFull transaction, SystemOptions options) {
+    	   	
         // Does the balance type code indicate that this transaction is for current budget?
         if (!transaction.getFinancialBalanceTypeCode().equals(options.getBudgetCheckingBalanceTypeCd())) {
         	return false;
@@ -466,6 +459,15 @@ public class BudgetAdjustmentCashTransferServiceImpl implements BudgetAdjustment
 	    return financialObjectTypeCode;
     }
     
+    public SystemOptions getSystemOptions(Integer universityFiscalYear) {
+    	SystemOptions options = null;
+    	options = getOptionsService().getOptions(universityFiscalYear);
+        if (ObjectUtils.isNull(options)) {
+        	options = getOptionsService().getCurrentYearOptions();
+        } 
+        return options;
+    }
+           
     public void setBudgetAdjustmentTransactionDao(BudgetAdjustmentTransactionDao budgetAdjustmentTransactionDao) {
         this.budgetAdjustmentTransactionDao = budgetAdjustmentTransactionDao;
     }

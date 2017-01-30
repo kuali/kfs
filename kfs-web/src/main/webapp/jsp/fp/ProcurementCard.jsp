@@ -53,6 +53,12 @@
 
 	<kul:panelFooter />
 
-	<sys:documentControls transactionalDocument="true" />
-
+    <!-- Add the pCard Return to Reconciler button -->
+    <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>
+    
+    <sys:documentControls
+        transactionalDocument="true"
+        extraButtons="${extraButtons}"
+        suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" />
+        
 </kul:documentPage>

@@ -76,6 +76,7 @@
 		abstract="true" parent="Account-accountNumber">
 		<property name="label" value="Default Account" />
 		<property name="shortLabel" value="Dflt Acct" />
+		<property name="required" value="false" />
 	</bean>
 	<bean id="ProcurementCardHolder-cardCycleAmountLimit" parent="ProcurementCardHolder-cardCycleAmountLimit-parentBean" />
 
@@ -257,6 +258,7 @@
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="label" value="Default Chart" />
 		<property name="shortLabel" value="Dflt Chrt" />
+		<property name="required" value="false" />
 	</bean>
 	<bean id="ProcurementCardHolder-documentNumber" parent="ProcurementCardHolder-documentNumber-parentBean" />
 

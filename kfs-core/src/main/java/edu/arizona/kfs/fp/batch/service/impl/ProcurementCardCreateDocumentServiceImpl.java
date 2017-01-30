@@ -79,7 +79,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
 
         for (ProcurementCardDocument pcardDocument : documents) {
         
-            String pcardDocumentId = pcardDocument.getObjectId();
+        	String pcardDocumentId = pcardDocument.getDocumentNumber();
             //get document route node
             List<RouteNodeInstance> routeNodeInstances = pcardDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances();
             String node = routeNodeInstances.get(0).getName();

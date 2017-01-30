@@ -46,5 +46,7 @@
     </bean>
     
     <bean id="assetTransferService" parent="assetTransferService-parentBean" class="edu.arizona.kfs.module.cam.document.service.impl.AssetTransferServiceImpl" />
+    
+    <bean id="assetGlobalService" parent="assetGlobalService-parentBean" class="edu.arizona.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl" />
 
 </beans>

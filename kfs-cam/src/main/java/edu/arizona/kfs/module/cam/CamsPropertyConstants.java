@@ -1,6 +1,9 @@
 package edu.arizona.kfs.module.cam;
 
 public class CamsPropertyConstants extends org.kuali.kfs.module.cam.CamsPropertyConstants {
+	
+	public static final String INVENTORY_UNIT_ORGANIZATION_CODE= "inventoryUnitOrganizationCode";
+	public static final String INVENTORY_UNIT_CHART_OF_ACCOUNTS_CODE = "inventoryUnitChartOfAccountsCode";
 
 	public static class AssetGlobalExtension {
 

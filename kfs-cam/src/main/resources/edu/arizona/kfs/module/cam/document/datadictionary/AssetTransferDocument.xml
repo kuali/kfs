@@ -5,6 +5,7 @@
 
 	<bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean">
 		<property name="documentClass" value="edu.arizona.kfs.module.cam.document.AssetTransferDocument" />
+		<property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="AssetTransferDocument-inventoryUnitCode" />

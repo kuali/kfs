@@ -8,38 +8,41 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
+import org.apache.commons.lang.StringUtils;
+
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 
 public class ProcurementCardDocument extends org.kuali.kfs.fp.document.ProcurementCardDocument {
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
-	
-	/**
-	 * Default serial version UID, courtesy of Eclipse
-	 */
-	private static final long serialVersionUID = 1L;
-	
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
+    
+    /**
+     * Default serial version UID, courtesy of Eclipse
+     */
+    private static final long serialVersionUID = 1L;
+    
     private static final String HAS_RECONCILER_NODE = "HasReconciler";
     
     protected ProcurementCardHolder procurementCardHolder;
-	
+    
     @Override
-	public ProcurementCardHolder getProcurementCardHolder() {
-		return procurementCardHolder;
-	}
+    public ProcurementCardHolder getProcurementCardHolder() {
+        return procurementCardHolder;
+    }
 
-	public void setProcurementCardHolder(ProcurementCardHolder procurementCardHolder) {
-		this.procurementCardHolder = procurementCardHolder;
-	}
+    public void setProcurementCardHolder(ProcurementCardHolder procurementCardHolder) {
+        this.procurementCardHolder = procurementCardHolder;
+    }
 
-	/**
+    /**
      * Answers true when invoice recurrence details are provided by the user
      * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-    	if(LOG.isDebugEnabled()){
-    		LOG.debug("Answering split node question '" + nodeName +"'.");	
-    	}
+        if(LOG.isDebugEnabled()){
+            LOG.debug("Answering split node question '" + nodeName +"'.");  
+        }
         if (HAS_RECONCILER_NODE.equalsIgnoreCase(nodeName)) {
             return hasReconciler();
         }       
@@ -47,9 +50,9 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
     }
     
     /**
-	 * @return <code>true</code> if this {@link ProcurementCardDocument} has a
-	 *         reconciler entity, <code>false</code> otherwise.
-	 */
+     * @return <code>true</code> if this {@link ProcurementCardDocument} has a
+     *         reconciler entity, <code>false</code> otherwise.
+     */
     private boolean hasReconciler() {
         boolean retCode = true;
         if (ObjectUtils.isNull(getProcurementCardHolder()) || 
@@ -69,5 +72,25 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
         }
         return retCode;
     } 
+    @Override
+    public String getDocumentTitle() {       
+        return this.buildDocumentTitle(super.getDocumentTitle());
+    }
 
+    protected String buildDocumentTitle(String title) { 
+        if(this.transactionEntries == null) {
+           return title; 
+        }
+        
+        List<ProcurementCardTransactionDetail> procurementCardTransactionDetails = new ArrayList<ProcurementCardTransactionDetail>();
+        procurementCardTransactionDetails = this.getTransactionEntries();
+        
+        String tranNumber = procurementCardTransactionDetails.get(0).getTransactionReferenceNumber().trim();
+        String vendorName = StringUtils.trimToEmpty(procurementCardTransactionDetails.get(0).getProcurementCardVendor().getVendorName());
+        String totAmount = this.getTotalDollarAmount().toString().trim();
+
+        title = title + " / " + tranNumber + " / " + vendorName + " / $" + totAmount;
+         
+        return title;
+    }
 }

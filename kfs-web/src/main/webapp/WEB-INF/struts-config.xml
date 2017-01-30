@@ -857,6 +857,15 @@
              <forward name="basic" path="/jsp/module/purap/PaymentRequest.jsp" /> 
         </action>
         
+        <action path="/purapRequisition"
+             input="/jsp/module/purap/Requisition.jsp"
+             name="RequisitionForm"
+             type="edu.arizona.kfs.module.purap.document.web.struts.RequisitionAction"
+             scope="request" attribute="KualiForm">
+             <set-property property="cancellable" value="true" />
+             <forward name="basic" path="/jsp/module/purap/Requisition.jsp" />
+        </action>
+        
         <action path="/purapVendorCreditMemo"
              input="/jsp/module/purap/VendorCreditMemo.jsp" 
              name="VendorCreditMemoForm"

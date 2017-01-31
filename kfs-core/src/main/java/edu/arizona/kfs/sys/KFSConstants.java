@@ -1,11 +1,17 @@
 package edu.arizona.kfs.sys;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
+
+    public static final String MULTI_VALUE_SEPERATION_CHARACTER = ";";
+    public static final String PIPE = "|";
+    public static final String EQUALS = "=";
 
     public static final String INVOICE_NUMBER = "Invoice Number";
     public static final String DUPLICATE_INVOICE_QUESTION_ID = "DVDuplicateInvoice";
@@ -18,12 +24,19 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String BLANK_SUBOBJECT = "---";
     public static final String BLANK_PROJECT_CODE = "----------";
     public static final String STAGING_DIRECTORY_KEY = "staging.directory";
-    
-    //Docuware Constants
+
+    // Docuware Constants
     public static final String VIEW_DOCUWARE = "viewImages";
     public static final String DOCUWARE_TABLE_PARAMETER = "DOCUWARE_TABLE_PARAMETER";
     public static final String DOCUWARE_TABLE = "table";
     public static final String DOCUWARE_IDVALUE = "idvalue";
+    
+    //Shipping Constants   
+    public static final String SHIP_FILE_TYPE_IDENTIFIER = "shippingInputFileType";
+    public static final String SHIPPING_FILE_NAME = "extract_for_shipping";
+    public static final String SHIPPING_INVOICE_ORIGIN_CODE = "SH";
+    public static final String SHIPPING_FILENAME_DELIMITER = "_";
+    
     public static final String DOCUWARE_DV_DOC_TYPE = "DV";
     public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";
 
@@ -93,14 +106,66 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     }
 
     public static class GeneralErrorCorrectionDocumentConstants {
-    	public static final String GENERATE_ERROR_CERTIFICATION_STMT_ID = "GenerateErrorCertStmt";
+        public static final String GENERATE_ERROR_CERTIFICATION_STMT_ID = "GenerateErrorCertStmt";
     }
-    
+
     public static class ErrorCertificationConstants {
-    	public static final int NUM_ERROR_CERT_FIELDS = 4;
+        public static final int NUM_ERROR_CERT_FIELDS = 4;
     }
-    
+
     public static class GeneralErrorCorrectionEditMode {
-    	public static final String ERROR_CERTIFICATE_TAB_ENTRY = "errorCertTabEntry";
+        public static final String ERROR_CERTIFICATE_TAB_ENTRY = "errorCertTabEntry";
+    }
+
+    public static class IncomeTypeConstants {
+        public static final String TAX_NAMESPACE_CODE = "KFS-TAX";
+        public static final String PAYEE_MASTER_EXTRACT_STEP = "PayeeMasterExtractStep";
+
+        public static final String DEFAULT_NON_REPORTABLE_BOX = "NA"; // non-reportable
+        public static final String INCOME_TYPE_NON_REPORTABLE_CODE = "NR"; // non-reportable
+        public static final String PAYMENT_METHOD_AP_CREDIT_CARD = "C"; // non-reportable
+
+        public static final String PARAMETER_1099_OBJECT_CODES_OVERRIDING_RESTRICTIONS = "1099_OBJECT_CODES_OVERRIDING_RESTRICTIONS";
+        public static final String PARAMETER_1099_EXTRACT_OBJECT_LEVELS = "1099_EXTRACT_OBJECT_LEVELS";
+        public static final String PARAMETER_1099_EXTRACT_OVERRIDE_PAYMENT_TYPE_CODE = "1099_EXTRACT_OVERRIDE_PMT_TYPE_CODE";
+        public static final String PARAMETER_1099_OBJECT_CODES = "1099_OBJECT_CODES";
+
+        public static class IncomeTypesAuthorization {
+            public static String VIEW_INCOME_TYPES_EDIT_MODE = "viewIncomeTypes";
+            public static String EDIT_INCOME_TYPES_EDIT_MODE = "editIncomeTypes";
+        }
+
+        public static class IncomeTypeAmountCodes {
+            public static final String AMOUNT_CODE_A = "A"; // Crop Insurance
+            public static final String AMOUNT_CODE_B = "B"; // Golden Parachute
+            public static final String AMOUNT_CODE_C = "C"; // Legal Services
+            public static final String AMOUNT_CODE_D = "D"; // Sec. 409A Deferrals
+            public static final String AMOUNT_CODE_E = "E"; // Sec. 409A Inc
+            public static final String AMOUNT_CODE_1 = "1"; // Rents
+            public static final String AMOUNT_CODE_2 = "2"; // Royalties
+            public static final String AMOUNT_CODE_3 = "3"; // Other Income
+            public static final String AMOUNT_CODE_4 = "4"; // Fed. Income Tax Witheld
+            public static final String AMOUNT_CODE_5 = "5"; // Fishing
+            public static final String AMOUNT_CODE_6 = "6"; // Medical and Health Care
+            public static final String AMOUNT_CODE_7 = "7"; // Nonemployee Compensation
+            public static final String AMOUNT_CODE_8 = "8"; // Dividends
+            public static List<String> VALID_AMOUNT_CODES = new ArrayList<String>();
+
+            static {
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_A);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_B);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_C);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_D);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_E);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_1);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_2);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_3);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_4);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_5);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_6);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_7);
+                VALID_AMOUNT_CODES.add(AMOUNT_CODE_8);
+            }
+        }
     }
 }

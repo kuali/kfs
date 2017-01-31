@@ -74,4 +74,13 @@
 		<field-descriptor name="buildingRoomDescription" column="NAME_ROOM" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
+    <class-descriptor class="edu.arizona.kfs.sys.businessobject.IncomeType" table="TAX_INC_TYP_T">
+        <field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="incomeTypeDescription" column="INC_TYP_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="incomeTypeBox" column="INC_TYP_BOX" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
 </descriptor-repository>

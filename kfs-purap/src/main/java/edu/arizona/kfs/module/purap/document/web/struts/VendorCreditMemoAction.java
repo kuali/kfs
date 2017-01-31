@@ -19,12 +19,12 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 import edu.arizona.kfs.module.purap.businessobject.CreditMemoIncomeType;
-
 import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
-import edu.arizona.kfs.tax.document.IncomeTypeContainer;
+import edu.arizona.kfs.sys.document.IncomeTypeContainer;
 
+@SuppressWarnings("deprecation")
 public class VendorCreditMemoAction extends org.kuali.kfs.module.purap.document.web.struts.VendorCreditMemoAction {
-    
+
     /**
      * Adds a CreditMemoIncomeType instance created from the current "newIncomeType" to the document
      */
@@ -40,13 +40,13 @@ public class VendorCreditMemoAction extends org.kuali.kfs.module.purap.document.
         getIncomeTypeContainer(form).getIncomeTypeHandler().removeIncomeType(getLineToDelete(request));
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    
-    private IncomeTypeContainer <CreditMemoIncomeType, Integer>getIncomeTypeContainer(ActionForm form) {
-       VendorCreditMemoForm cmForm = (VendorCreditMemoForm)form;
-        return (IncomeTypeContainer<CreditMemoIncomeType, Integer>)cmForm.getDocument();
+
+    @SuppressWarnings("unchecked")
+    private IncomeTypeContainer<CreditMemoIncomeType, Integer> getIncomeTypeContainer(ActionForm form) {
+        VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
+        return (IncomeTypeContainer<CreditMemoIncomeType, Integer>) cmForm.getDocument();
     }
-    
+
     /**
      * Refreshes 1099 income types based on summary accounting lines
      */
@@ -58,42 +58,43 @@ public class VendorCreditMemoAction extends org.kuali.kfs.module.purap.document.
     /**
      * Forces update to account line amounts then populates income types
      */
+    @SuppressWarnings("unchecked")
     private void loadIncomeTypesFromAccountLines(ActionForm form) {
-        VendorCreditMemoForm preqForm = (VendorCreditMemoForm)form;
-        VendorCreditMemoDocument doc = (VendorCreditMemoDocument)preqForm.getDocument();
+        VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
+        VendorCreditMemoDocument doc = (VendorCreditMemoDocument) cmForm.getDocument();
 
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(doc);
-        preqForm.refreshAccountSummmary();
+        cmForm.refreshAccountSummmary();
 
-        List<PurApItem>  items = doc.getItems();
+        List<PurApItem> items = doc.getItems();
 
-        List <AccountingLine> accountingLines = new ArrayList<AccountingLine>();
-        List  <PurApItemUseTax> useTaxItems = null;
-        
+        List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
+        List<PurApItemUseTax> useTaxItems = null;
+
         for (PurApItem item : items) {
             accountingLines.addAll(item.getSourceAccountingLines());
-            
+
             if (doc.isUseTaxIndicator() && (item.getUseTaxItems() != null) && !item.getUseTaxItems().isEmpty()) {
                 if (useTaxItems == null) {
                     useTaxItems = new ArrayList<PurApItemUseTax>();
                 }
-                
+
                 useTaxItems.addAll(item.getUseTaxItems());
             }
         }
-        
-        doc.getIncomeTypeHandler().populateIncomeTypes(accountingLines);
+
+        doc.getIncomeTypeHandler().populateIncomeTypes(accountingLines, useTaxItems);
     }
-    
+
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        
+
         IncomeTypeContainer<CreditMemoIncomeType, Integer> ict = getIncomeTypeContainer(kualiDocumentFormBase);
-        
+
         // if we have no DocumentIncomeTypes on the document then lets pre-populate
         // Improve performance of documents with many accounting lines (leading to many route nodes)
-        // add isEditableRouteStatus() as a condition 
+        // add isEditableRouteStatus() as a condition
         if (ict.getIncomeTypes().isEmpty() && ict.getIncomeTypeHandler().isEditableRouteStatus()) {
             loadIncomeTypesFromAccountLines(kualiDocumentFormBase);
         }

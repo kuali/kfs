@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Payer" parent="Payer-parentBean" />
+    <bean id="Payer-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.Payer" />
+        <property name="lookupDefinition">
+            <ref bean="Payer-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="payer" />
+        <property name="objectLabel" value="Payer" />
+        <property name="attributes">
+            <list>
+                <ref bean="Payer-payerId" />
+                <ref bean="Payer-transCd" />
+                <ref bean="Payer-testFlg" />
+                <ref bean="Payer-replaceAlpha" />
+                <ref bean="Payer-tinType" />
+                <ref bean="Payer-tin" />
+                <ref bean="Payer-nameControl" />
+                <ref bean="Payer-name1" />
+                <ref bean="Payer-name2" />
+                <ref bean="Payer-contact" />
+                <ref bean="Payer-phoneNumber" />
+                <ref bean="Payer-ext" />
+                <ref bean="Payer-companyName1" />
+                <ref bean="Payer-companyName2" />
+                <ref bean="Payer-address" />
+                <ref bean="Payer-city" />
+                <ref bean="Payer-state" />
+                <ref bean="Payer-zipCode" />
+                <ref bean="Payer-countryCode" />
+                <ref bean="Payer-email" />
+                <ref bean="Payer-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="Payer-payerId" parent="Payer-payerId-parentBean" />
+    <bean id="Payer-payerId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Payer Identifier" />
+        <property name="shortLabel" value="Payer ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Payer Identifier" />
+        <property name="description" value="Payer Generated ID." />
+    </bean>
+
+    <bean id="Payer-transCd" parent="Payer-transCd-parentBean" />
+    <bean id="Payer-transCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="transCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Trans Code" />
+        <property name="shortLabel" value="Trans Cd" />
+        <property name="maxLength" value="5" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5" />
+        </property>
+    </bean>
+
+    <bean id="Payer-testFlg" parent="Payer-testFlg-parentBean" />
+    <bean id="Payer-testFlg-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="testFlg" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Test Flag" />
+        <property name="shortLabel" value="Test Flag" />
+        <property name="description" value="Test Flag" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.tax.businessobject.options.TestFlagFinder" p:includeKeyInLabel="true" />
+        </property>
+    </bean>
+
+    <bean id="Payer-tinType" parent="Payer-tinType-parentBean" />
+    <bean id="Payer-tinType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="tinType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="TIN Type" />
+        <property name="shortLabel" value="TIN Type" />
+        <property name="description" value="Tax ID Number Type" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.tax.businessobject.options.TinTypeFinder" p:includeKeyInLabel="true" />
+        </property>
+    </bean>
+
+    <bean id="Payer-nameControl" parent="Payer-nameControl-parentBean" />
+    <bean id="Payer-nameControl-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="nameControl" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Name Control" />
+        <property name="shortLabel" value="Name Control" />
+        <property name="maxLength" value="4" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4" />
+        </property>
+    </bean>
+
+    <bean id="Payer-tin" parent="Payer-tin-parentBean" />
+    <bean id="Payer-tin-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="tin" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="TIN" />
+        <property name="shortLabel" value="TIN" />
+        <property name="maxLength" value="9" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="9" />
+        </property>
+    </bean>
+
+    <bean id="Payer-replaceAlpha" parent="Payer-replaceAlpha-parentBean" />
+    <bean id="Payer-replaceAlpha-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="replaceAlpha" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Replace Alpha" />
+        <property name="shortLabel" value="Replace Alpha" />
+        <property name="maxLength" value="2" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="2" />
+        </property>
+    </bean>
+
+    <bean id="Payer-name1" parent="Payer-name1-parentBean" />
+    <bean id="Payer-name1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="name1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Trans Name 1" />
+        <property name="shortLabel" value="Trans Name 1" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-name2" parent="Payer-name2-parentBean" />
+    <bean id="Payer-name2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="name2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Trans Name 2" />
+        <property name="shortLabel" value="Trans Name 2" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-companyName1" parent="Payer-companyName1-parentBean" />
+    <bean id="Payer-companyName1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="companyName1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Company Name 1" />
+        <property name="shortLabel" value="Company Name 1" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-companyName2" parent="Payer-companyName2-parentBean" />
+    <bean id="Payer-companyName2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="companyName2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Company Name 2" />
+        <property name="shortLabel" value="Company Name 2" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-contact" parent="Payer-contact-parentBean" />
+    <bean id="Payer-contact-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="contact" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Contact" />
+        <property name="shortLabel" value="Contact" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-phoneNumber" parent="Payer-phoneNumber-parentBean" />
+    <bean id="Payer-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="phoneNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Phone Number" />
+        <property name="shortLabel" value="Phone Number" />
+        <property name="maxLength" value="15" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15" />
+        </property>
+    </bean>
+
+    <bean id="Payer-ext" parent="Payer-ext-parentBean" />
+    <bean id="Payer-ext-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="ext" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Extension" />
+        <property name="shortLabel" value="Ext" />
+        <property name="maxLength" value="10" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+    </bean>
+
+    <bean id="Payer-address" parent="Payer-address-parentBean" />
+    <bean id="Payer-address-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="address" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Address" />
+        <property name="shortLabel" value="Address" />
+        <property name="maxLength" value="50" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-city" parent="Payer-city-parentBean" />
+    <bean id="Payer-city-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="city" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="City" />
+        <property name="shortLabel" value="City" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="Payer-zipCode" parent="Payer-zipCode-parentBean" />
+    <bean id="Payer-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="zipCode" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Zip Code" />
+        <property name="shortLabel" value="Zip Code" />
+        <property name="maxLength" value="9" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="9" />
+        </property>
+    </bean>
+
+    <bean id="Payer-email" parent="Payer-email-parentBean" />
+    <bean id="Payer-email-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="email" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Email Address" />
+        <property name="shortLabel" value="Email" />
+        <property name="maxLength" value="50" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+    </bean>
+
+    <bean id="Payer-state" parent="Payer-state-parentBean" />
+    <bean id="Payer-state-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
+        <property name="name" value="state" />
+        <property name="label" value="State" />
+    </bean>
+
+    <bean id="Payer-countryCode" parent="Payer-countryCode-parentBean" />
+    <bean id="Payer-countryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
+        <property name="name" value="countryCode" />
+        <property name="maxLength" value="2" />
+    </bean>
+
+    <bean id="Payer-versionNumber" parent="Payer-versionNumber-parentBean" />
+    <bean id="Payer-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="Payer-lookupDefinition" parent="Payer-lookupDefinition-parentBean" />
+    <bean id="Payer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="1099 Process Payer Lookup" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="tin" />
+                <bean parent="FieldDefinition" p:attributeName="transCd" />
+                <bean parent="FieldDefinition" p:attributeName="name1" />
+                <bean parent="FieldDefinition" p:attributeName="name2" />
+                <bean parent="FieldDefinition" p:attributeName="companyName1" />
+                <bean parent="FieldDefinition" p:attributeName="companyName2" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="tin" />
+                <bean parent="FieldDefinition" p:attributeName="tinType" />
+                <bean parent="FieldDefinition" p:attributeName="transCd" />
+                <bean parent="FieldDefinition" p:attributeName="name1" />
+                <bean parent="FieldDefinition" p:attributeName="name2" />
+                <bean parent="FieldDefinition" p:attributeName="companyName1" />
+                <bean parent="FieldDefinition" p:attributeName="companyName2" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

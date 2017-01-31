@@ -45,8 +45,6 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="assetTransferService" parent="assetTransferService-parentBean" class="edu.arizona.kfs.module.cam.document.service.impl.AssetTransferServiceImpl" />
+    <bean id="assetRetirementReasonLookupableHelperService" scope="prototype" parent="assetRetirementReasonLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl"/>
     
-    <bean id="assetGlobalService" parent="assetGlobalService-parentBean" class="edu.arizona.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl" />
-
 </beans>

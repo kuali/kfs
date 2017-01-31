@@ -37,6 +37,9 @@
 <c:set var="lockAddressToVendor" value="${(not empty KualiForm.editingMode['lockAddressToVendor'])}" />
 <c:set var="tabindexOverrideBase" value="20" />
 
+<%--provide support for locking down receiving address and direct ship option --%>
+<c:set var="lockToReceivingAddress" value="${(not empty KualiForm.editingMode['lockToReceivingAddress'])}" />
+
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
     
@@ -384,7 +387,7 @@
                    	</c:if>
             	</td>
                 <td align=left valign=middle class="datacell">
-                    <c:if test="${fullEntryMode || amendmentEntry}" > 
+                    <c:if test="${(fullEntryMode || amendmentEntry) && !lockToReceivingAddress}" > 
                     	<kul:lookup boClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress"
                     		lookupParameters="'Y':active,document.chartOfAccountsCode:chartOfAccountsCode,document.organizationCode:organizationCode"
                     		fieldConversions="receivingName:document.receivingName,receivingCityName:document.receivingCityName,receivingLine1Address:document.receivingLine1Address,receivingLine2Address:document.receivingLine2Address,receivingCityName:document.receivingCityName,receivingStateCode:document.receivingStateCode,receivingPostalCode:document.receivingPostalCode,receivingCountryCode:document.receivingCountryCode,useReceivingIndicator:document.addressToVendorIndicator"/>
@@ -401,7 +404,7 @@
 				<th align=right valign=middle class="bord-l-b">
 					<div align="right">
 						<c:choose>
-							<c:when test="${(fullEntryMode || amendmentEntry) && !lockAddressToVendor}" >
+							<c:when test="${(fullEntryMode || amendmentEntry) && !lockAddressToVendor && !lockToReceivingAddress}" >
 								<kul:htmlAttributeLabel attributeEntry="${documentAttributes.addressToVendorIndicator}" />
 							</c:when>
 							<c:otherwise>
@@ -412,7 +415,7 @@
 				</th>
 				<td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" 
-                    	readOnly="${!(fullEntryMode || amendmentEntry) || lockAddressToVendor}" tabindexOverride="${tabindexOverrideBase + 5}"/><br>				
+                    	readOnly="${!(fullEntryMode || amendmentEntry) || lockAddressToVendor || lockToReceivingAddress}" tabindexOverride="${tabindexOverrideBase + 5}"/><br>				
 					<!--
 					<c:choose>
 						<c:when test="${KualiForm.document.addressToVendorIndicator == 'true'}">

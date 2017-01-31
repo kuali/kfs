@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
@@ -14,6 +15,7 @@ import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import edu.arizona.kfs.module.purap.PurapConstants;
 import edu.arizona.kfs.sys.KFSConstants;
@@ -197,8 +199,8 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
         cxml.append("    </POHeader>\n");
 
         /** *** Items Section **** */
-        List detailList = purchaseOrder.getItems();
-        for (Iterator iter = detailList.iterator(); iter.hasNext();) {
+        List<PurApItem> detailList = purchaseOrder.getItems();
+        for (Iterator<PurApItem> iter = detailList.iterator(); iter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) iter.next();
             if ((ObjectUtils.isNotNull(poi.getItemType())) && poi.getItemType().isLineItemIndicator()) {
                 cxml.append("    <POLine linenumber=\"").append(poi.getItemLineNumber()).append("\">\n");
@@ -221,12 +223,36 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
                 cxml.append("        <ProductType>").append(poi.getExternalOrganizationB2bProductTypeName()).append("</ProductType>\n");
                 cxml.append("      </Item>\n");
                 cxml.append("      <Quantity>").append(poi.getItemQuantity()).append("</Quantity>\n");
+                String taxable = (poi.getItemType().isTaxableIndicator() ? "true" : "false");
+                cxml.append("      <Taxable>"+taxable+"</Taxable>\n");
                 // LineCharges - All the monetary charges for this line, including the price, tax, shipping, and handling.
                 // Required.
                 cxml.append("      <LineCharges>\n");
                 cxml.append("        <UnitPrice>\n");
                 cxml.append("          <Money currency=\"USD\">").append(poi.getItemUnitPrice()).append("</Money>\n");
                 cxml.append("        </UnitPrice>\n");
+                cxml.append("        <ExtendedPrice>\n");
+                cxml.append("          <Money currency=\"USD\">").append(poi.getExtendedPrice()).append("</Money>\n");
+                cxml.append("        </ExtendedPrice>\n");
+
+                KualiDecimal taxAmount = poi.getItemTaxAmount();
+                KualiDecimal preTaxAmount = poi.getExtendedPrice();
+                KualiDecimal totalTaxRate = calcTaxRate(preTaxAmount, taxAmount);
+
+                //  only send tax information if the line item is taxable and it's sales tax.  dont send use tax dollars.
+                if (taxable.equalsIgnoreCase("true") && !purchaseOrder.isUseTaxIndicator()) {
+                cxml.append("        <Tax1>\n");
+                cxml.append("          <TaxShippingHandling>\n");
+                cxml.append("            <TSHConfig override=\"true\">\n");
+                cxml.append("              <FlatChargeByLine>\n");
+                cxml.append("                <Money currency=\"USD\">"+(taxable.equalsIgnoreCase("false") || taxAmount == null ? "0.00" : taxAmount.toString())+"</Money>\n");
+                cxml.append("              </FlatChargeByLine>\n");
+                cxml.append("            </TSHConfig>\n");
+                cxml.append("          </TaxShippingHandling>\n");
+                cxml.append("        </Tax1>\n");
+                }
+
+                //  pass in whether the POLine is taxable or not
                 cxml.append("      </LineCharges>\n");
                 cxml.append("    </POLine>\n");
             }
@@ -240,6 +266,12 @@ public class B2BPurchaseOrderSciquestServiceImpl extends org.kuali.kfs.module.pu
         }
 
         return cxml.toString();
+    }
+    
+    protected KualiDecimal calcTaxRate(KualiDecimal preTaxAmount, KualiDecimal taxAmount) {
+        if (taxAmount == null || preTaxAmount == null) { return KualiDecimal.ZERO; }
+        if (KualiDecimal.ZERO.equals(preTaxAmount)) { return KualiDecimal.ZERO; }
+        return taxAmount.divide(preTaxAmount);
     }
 
     /*

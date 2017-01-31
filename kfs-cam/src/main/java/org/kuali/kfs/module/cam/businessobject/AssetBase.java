@@ -59,6 +59,9 @@ import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
+import edu.arizona.kfs.module.cam.businessobject.AssetExtension;
+import edu.arizona.kfs.module.cam.businessobject.AssetGlobalDetailExtension;
+
 public class AssetBase extends PersistableBusinessObjectBase {
 
     protected Long capitalAssetNumber;
@@ -238,6 +241,14 @@ public class AssetBase extends PersistableBusinessObjectBase {
         this.setGovernmentTagNumber(assetGlobalDetail.getGovernmentTagNumber());
         this.setCampusTagNumber(assetGlobalDetail.getCampusTagNumber());
         this.setNationalStockNumber(assetGlobalDetail.getNationalStockNumber());
+
+        AssetExtension assetExtension = (AssetExtension) this.getExtension();
+        AssetGlobalDetailExtension assetGlobalDetailExtension = (AssetGlobalDetailExtension) assetGlobalDetail.getExtension();
+
+        assetExtension.setInventoryUnitChartOfAccountsCode(assetGlobalDetailExtension.getInventoryUnitChartOfAccountsCode());
+        assetExtension.setInventoryUnitCode(assetGlobalDetailExtension.getInventoryUnitCode());
+        assetExtension.setInventoryUnitOrganizationCode(assetGlobalDetailExtension.getInventoryUnitOrganizationCode());
+        assetExtension.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());
 
         AssetOrganization assetOrganization = new AssetOrganization();
         assetOrganization.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());

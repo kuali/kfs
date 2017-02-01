@@ -7,9 +7,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 public class ShippingHeader extends PersistableBusinessObjectBase {

@@ -20,7 +20,7 @@ public class ShippingHeader extends PersistableBusinessObjectBase {
     protected String openCustomField;
     protected List<ShippingInvoice> invoices = new ArrayList<ShippingInvoice>();
     protected boolean invoicesLoaded = false;    
-         
+
     public Date getCreationDate() {
         return creationDate;
     }

@@ -168,4 +168,8 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
             }
         }
     }
+    
+    public static class PaymentSourceConstants {
+        public static final String PAYMENT_METHOD_CHECK = "A";
+    }
 }

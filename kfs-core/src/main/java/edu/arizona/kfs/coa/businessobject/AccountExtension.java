@@ -85,15 +85,11 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     }
 
     public TaxRegion getTaxRegionObj() {
-    	if (taxRegionObj == null || !StringUtils.equals(taxRegionObj.getTaxRegionCode(), taxRegionCode)) {
-    		taxRegionObj = getBusinessObjectService().findBySinglePrimaryKey(TaxRegion.class, taxRegionCode);
-        }
     	return taxRegionObj;
 	}
 
 	public void setTaxRegionObj(TaxRegion taxRegionObj) {
     	this.taxRegionObj = taxRegionObj;
-    	setTaxRegionCode(taxRegionObj.getTaxRegionCode());
 	}
 
 	public String getFaCostSubCatCode() {
@@ -129,27 +125,19 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     }
 
     public BudgetShellCode getBudgetShell() {
-        if (budgetShell == null || !StringUtils.equals(budgetShell.getCode(), budgetShellCode)) {
-            budgetShell = getBusinessObjectService().findBySinglePrimaryKey(BudgetShellCode.class, budgetShellCode);
-        }
         return budgetShell;
     }
 
     public void setBudgetShell(BudgetShellCode budgetShell) {
         this.budgetShell = budgetShell;
-        setBudgetShellCode(budgetShell.getCode());
     }
 
     public CrossOrganizationCode getCrossOrganization() {
-        if (crossOrganization == null || !StringUtils.equals(crossOrganization.getCode(), crossOrganizationCode)) {
-            crossOrganization = getBusinessObjectService().findBySinglePrimaryKey(CrossOrganizationCode.class, crossOrganizationCode);
-        }
         return crossOrganization;
     }
 
     public void setCrossOrganization(CrossOrganizationCode crossOrganization) {
         this.crossOrganization = crossOrganization;
-        setCrossOrganizationCode(crossOrganization.getCode());
     }
 
     protected BusinessObjectService getBusinessObjectService() {

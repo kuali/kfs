@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dd="http://rice.kuali.org/dd"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://rice.kuali.org/dd
+		http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="AssetInventoryUnit" parent="AssetInventoryUnit-parentBean" />
+	<bean id="AssetInventoryUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" />
+		<property name="inquiryDefinition">
+			<ref bean="AssetInventoryUnit-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="AssetInventoryUnit-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Asset Inventory Unit" />
+		<property name="attributes">
+			<list>
+				<ref bean="AssetInventoryUnit-inventoryUnitCode" />
+				<ref bean="AssetInventoryUnit-inventoryUnitName" />
+				<ref bean="AssetInventoryUnit-chartOfAccountsCode" />
+				<ref bean="AssetInventoryUnit-organizationCode" />
+				<ref bean="AssetInventoryUnit-active" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<dd:relationship objectAttribute="orgObj">
+					<dd:primitiveAttribute source="orgObj.chartOfAccountsCode" target="chartOfAccountsCode" />
+					<dd:primitiveAttribute source="orgObj.organizationCode" target="organizationCode" />
+				</dd:relationship>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="AssetInventoryUnit-inventoryUnitCode" parent="AssetInventoryUnit-inventoryUnitCode-parentBean" />
+	<bean id="AssetInventoryUnit-inventoryUnitCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="inventoryUnitCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Inventory Unit Code" />
+		<property name="shortLabel" value="Inv Unit #" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+
+	<bean id="AssetInventoryUnit-inventoryUnitName" parent="AssetInventoryUnit-inventoryUnitName-parentName" />
+	<bean id="AssetInventoryUnit-inventoryUnitName-parentName" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="inventoryUnitName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Inventory Unit Name" />
+		<property name="shortLabel" value="Inv Unit Name" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="AssetInventoryUnit-chartOfAccountsCode" parent="AssetInventoryUnit-chartOfAccountsCode-parentBean" />
+	<bean id="AssetInventoryUnit-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Chart of Accounts Code" />
+		<property name="shortLabel" value="COA Code" />
+	</bean>
+
+	<bean id="AssetInventoryUnit-organizationCode" parent="AssetInventoryUnit-organizationCode-parentBean" />
+	<bean id="AssetInventoryUnit-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+		<property name="shortLabel" value="Org CD" />
+	</bean>
+
+	<bean id="AssetInventoryUnit-active" parent="AssetInventoryUnit-active-parentBean" />
+	<bean id="AssetInventoryUnit-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="AssetInventoryUnit-inquiryDefinition" parent="AssetInventoryUnit-inquiryDefinition-parentBean" />
+	<bean id="AssetInventoryUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Asset Inventory Unit" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="defaultOpen" value="false" />
+					<property name="title" value="AssetInventory Unit Detail" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="inventoryUnitCode" />
+							<bean parent="FieldDefinition" p:attributeName="inventoryUnitName" />
+							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object LookUp Definition -->
+
+	<bean id="AssetInventoryUnit-lookupDefinition" parent="AssetInventoryUnit-lookupDefinition-parentBean" />
+	<bean id="AssetInventoryUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Asset Inventory Unit Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition" />
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="inventoryUnitCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="inventoryUnitCode" />
+				<bean parent="FieldDefinition" p:attributeName="inventoryUnitName" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

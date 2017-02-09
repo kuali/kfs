@@ -44,6 +44,9 @@ import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
  * Document class override to ensure that the bank code is synchronized with the
  * payment method code.
  */
+// org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController is deprecated
+// getReportable1099TransactionsFlag() and processAfterRetrieve() use unchecked Lists
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument implements IncomeTypeContainer <DisbursementVoucherIncomeType, String>{
 
     public static final String DOCUMENT_TYPE_DV_NON_CHECK = "DVNC";
@@ -96,33 +99,30 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             accountingLineExtension.setDocumentNumber(accountingLine.getDocumentNumber());
             accountingLineExtension.setSequenceNumber(accountingLine.getSequenceNumber());
         }
-        
-     // START KATTS-1961 Tag and JSP for DV, PREQ and CM Documents
+
         getIncomeTypeHandler().removeZeroValuedIncomeTypes();
-        // END KATTS-1961
-        
-        //KATTS-1939 Add New Search Fields to DV, PREQ and CM Documents 
-        // Only update paid year if the document is in final status 
-        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals( getDocumentHeader().getWorkflowDocument().getStatus().getCode() ) ) {
-        	if (paidDate != null) {
-                setDvPaidYear(getPaidDate().toString().substring(0, 4));                
+
+        // Only update paid year if the document is in final status
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
+            if (paidDate != null) {
+                setDvPaidYear(getPaidDate().toString().substring(0, 4));
+            } else {
+                setDvPaidYear(null);
             }
-            else {
-               setDvPaidYear(null);
-            }
-        }        
+        }
+
+        setDv1099Ind(false);
         for (DisbursementVoucherIncomeType incomeType : getIncomeTypes()) {
-            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE))) {
-                setDv1099Ind(false);
-            }
-            else {
+            boolean isCodeExist = StringUtils.isNotBlank(incomeType.getIncomeTypeCode());
+            boolean isReportable = !incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE);
+            if (isCodeExist && isReportable) {
                 setDv1099Ind(true);
                 break;
             }
-        }      
-        //END KATTS-1939 
+        }
+
     }
-    
+
     public boolean isDv1099Ind() {
         return dv1099Ind;
     }
@@ -272,7 +272,6 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         }
     }
 
-    @SuppressWarnings("deprecation")
     private boolean isIncomeTypeUpdateAllowed() {
         boolean retval = false;
 

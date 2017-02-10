@@ -450,21 +450,21 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
 
         // Add amounts from the new PO
         for (Iterator<SourceAccountingLine> iter = newAccounts.iterator(); iter.hasNext();) {
-            SourceAccountingLine newAccount = (SourceAccountingLine) iter.next();
+            SourceAccountingLine newAccount = iter.next();
             combination.put(newAccount, newAccount.getAmount());
         }
 
         LOG.info("generateEntriesApproveAmendPurchaseOrder() combination after the add");
         for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
-            SourceAccountingLine element = (SourceAccountingLine) iter.next();
-            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + ((KualiDecimal) combination.get(element)).floatValue());
+            SourceAccountingLine element = iter.next();
+            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + (combination.get(element)).floatValue());
         }
 
         // Subtract the amounts from the old PO
         for (Iterator<SourceAccountingLine> iter = oldAccounts.iterator(); iter.hasNext();) {
-            SourceAccountingLine oldAccount = (SourceAccountingLine) iter.next();
+            SourceAccountingLine oldAccount = iter.next();
             if (combination.containsKey(oldAccount)) {
-                KualiDecimal amount = (KualiDecimal) combination.get(oldAccount);
+                KualiDecimal amount = combination.get(oldAccount);
                 amount = amount.subtract(oldAccount.getAmount());
                 combination.put(oldAccount, amount);
             }
@@ -475,14 +475,14 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
 
         LOG.debug("generateEntriesApproveAmendPurchaseOrder() combination after the subtract");
         for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
-            SourceAccountingLine element = (SourceAccountingLine) iter.next();
-            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + ((KualiDecimal) combination.get(element)).floatValue());
+            SourceAccountingLine element = iter.next();
+            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + (combination.get(element)).floatValue());
         }
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
         for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
-            SourceAccountingLine account = (SourceAccountingLine) iter.next();
-            KualiDecimal amount = (KualiDecimal) combination.get(account);
+            SourceAccountingLine account = iter.next();
+            KualiDecimal amount = combination.get(account);
             if (ZERO.compareTo(amount) != 0) {
                 account.setAmount(amount);
                 encumbranceAccounts.add(account);

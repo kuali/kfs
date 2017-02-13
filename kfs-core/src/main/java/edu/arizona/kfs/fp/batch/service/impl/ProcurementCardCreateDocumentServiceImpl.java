@@ -14,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -38,6 +40,7 @@ import edu.arizona.kfs.fp.batch.ProcurementCardRerouteDocumentsStep;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardTransaction;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import edu.arizona.kfs.fp.document.ProcurementCardDocument;
 
 public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl {
@@ -243,8 +246,6 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
             }
 
             pcardDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
-            // PCDO Default Description
-            setupDocumentDescription(pcardDocument);
 
             // In case errorText is still too long, truncate it and indicate so.
             if (documentExplanationMaxLength != null && transactionIssuesSummary.length() > documentExplanationMaxLength.intValue()) {
@@ -396,6 +397,25 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         }
 
         return true;
+    }
+    
+    @Override
+    protected String createAndValidateAccountingLines(org.kuali.kfs.fp.document.ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+        //get default values from custom Procurement Cardholder table
+        ProcurementCardDefault procurementCardHolderDetail = getProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+
+        String cardHolderName = transaction.getCardHolderName();
+        if (cardHolderName.length() > 24) {
+            cardHolderName = transaction.getCardHolderName().substring(0, 24);
+        }
+        if(ObjectUtils.isNotNull(procurementCardHolderDetail)) {
+            pcardDocument.getDocumentHeader().setDocumentDescription(procurementCardHolderDetail.getCreditCardLastFour().trim() + " / " + cardHolderName);
+        }
+        else {
+            pcardDocument.getDocumentHeader().setDocumentDescription("None / " + cardHolderName);
+        }
+        
+        return super.createAndValidateAccountingLines(pcardDocument, transaction, docTransactionDetail);
     }
     
     /**

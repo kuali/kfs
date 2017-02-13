@@ -3,6 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+    <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean">
+        <property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetMaintainableImpl" />
+    </bean>
+
  <!--  Maintenance Section Definition -->
   
   <bean id="AssetMaintenanceDocument-OrganizationInformation" parent="AssetMaintenanceDocument-OrganizationInformation-parentBean">

@@ -22,6 +22,10 @@ public class AssetRule extends org.kuali.kfs.module.cam.document.validation.impl
 
 	protected boolean isDocumentValidForSave(MaintenanceDocument document) {
 		boolean valid = super.isDocumentValidForSave(document);
+		
+		if (!valid) {
+			return false;
+		}
 
 		LOG.info("processCustomSaveDocumentBusinessRules called");
 

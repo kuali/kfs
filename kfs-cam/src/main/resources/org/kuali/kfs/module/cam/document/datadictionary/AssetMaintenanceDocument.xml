@@ -102,7 +102,7 @@
 					<value>organizationOwnerChartOfAccountsCode</value>
 				</list>
 			</property> 
-		</bean>        
+		</bean>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="true" p:defaultValue="C"/>

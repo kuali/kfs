@@ -36,7 +36,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -49,10 +48,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -151,7 +152,9 @@ public class AssetBase extends PersistableBusinessObjectBase {
     protected ObjectSubType financialObjectSubType;
     protected AssetAcquisitionType acquisitionType;
     protected ContractsAndGrantsAgency agency;
+    protected List<Note> boNotes = new ArrayList<Note>();
 
+    private static NoteService noteService;
 
     // Non-persisted attributes:
     protected KualiDecimal paymentTotalCost;
@@ -183,6 +186,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
     protected String camsComplexMaintenanceDocumentLookup;
     protected boolean tagged;
     protected String lastInventoryDateUpdateButton; 
+    
 
     /**
      * Default constructor.
@@ -2157,17 +2161,26 @@ public class AssetBase extends PersistableBusinessObjectBase {
         return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE );
     }
 
+    public List<Note> getBoNotes() {
+        if (!StringUtils.isEmpty(getObjectId())) {
+            boNotes = getNoteService().getByRemoteObjectId(getObjectId());
+        }
+        // ensure that the list is not null after this point
+        if (boNotes == null) {
+            boNotes = new ArrayList<Note>();
+        }
 
-    /**
-     * override this method so we can remove the offcampus location
-     *
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
-        List<Collection<PersistableBusinessObject>> managedLists = new ArrayList<Collection<PersistableBusinessObject>>();
-        managedLists.add( new ArrayList<PersistableBusinessObject>( getAssetLocations() ) );
-        return managedLists;
+        return boNotes;
     }
 
+    protected NoteService getNoteService() {
+        if(noteService == null) {
+            noteService = SpringContext.getBean(NoteService.class);
+        }
+        return noteService;
+    }
+
+    public void setBoNotes(List<Note> boNotes) {
+        this.boNotes = boNotes;
+    }
 }

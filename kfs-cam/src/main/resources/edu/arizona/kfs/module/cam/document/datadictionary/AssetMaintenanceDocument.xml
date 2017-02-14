@@ -7,6 +7,10 @@
         <property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetRule" />
   </bean>
 
+    <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean">
+        <property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetMaintainableImpl" />
+    </bean>
+
  <!--  Maintenance Section Definition -->
   
   <bean id="AssetMaintenanceDocument-OrganizationInformation" parent="AssetMaintenanceDocument-OrganizationInformation-parentBean">

@@ -15,7 +15,10 @@ import org.kuali.rice.krad.util.KRADConstants;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.service.PurapAccountRevisionService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
@@ -373,4 +376,124 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
     public void setPaymentMethodGeneralLedgerPendingEntryService(PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService) {
         this.paymentMethodGeneralLedgerPendingEntryService  = paymentMethodGeneralLedgerPendingEntryService;
     }
+
+
+	@Override
+	public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po) {
+		LOG.debug("generateEntriesApproveAmendPurchaseOrder() started");
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator<?> items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            // if invoice fields are null (as would be for new items), set fields to zero
+            item.setItemInvoicedTotalAmount(item.getItemInvoicedTotalAmount() == null ? ZERO : item.getItemInvoicedTotalAmount());
+            item.setItemInvoicedTotalQuantity(item.getItemInvoicedTotalQuantity() == null ? ZERO : item.getItemInvoicedTotalQuantity());
+
+            if (!item.isItemActiveIndicator()) {
+                // set outstanding encumbrance amounts to zero for inactive items
+                item.setItemOutstandingEncumberedQuantity(ZERO);
+                item.setItemOutstandingEncumberedAmount(ZERO);
+
+                for (Iterator<PurApAccountingLine> iter = item.getSourceAccountingLines().iterator(); iter.hasNext();) {
+                    PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
+                    account.setItemAccountOutstandingEncumbranceAmount(ZERO);
+                    account.setAlternateAmountForGLEntryCreation(ZERO);
+                }
+            }
+            else {
+                // Set quantities
+                if (item.getItemQuantity() != null) {
+                    item.setItemOutstandingEncumberedQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                }
+                else {
+                    // if order qty is null, outstanding encumbered qty should be null
+                    item.setItemOutstandingEncumberedQuantity(null);
+                }
+
+                // Set amount
+                if (item.getItemOutstandingEncumberedQuantity() != null) {
+                    //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                    KualiDecimal itemEncumber = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
+
+                    //add tax for encumbrance
+                    KualiDecimal itemTaxAmount = item.getItemTaxAmount() == null ? ZERO : item.getItemTaxAmount();
+                    itemEncumber = itemEncumber.add(itemTaxAmount);
+
+                    item.setItemOutstandingEncumberedAmount(itemEncumber);
+                }
+                else {
+                    if (item.getItemUnitPrice() != null) {
+                        item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemUnitPrice().subtract(item.getItemInvoicedTotalAmount().bigDecimalValue())));
+                    }
+                }
+                //This section was modified for UAF-1156/UAF-1164
+                for (Iterator<PurApAccountingLine> iter = item.getSourceAccountingLines().iterator(); iter.hasNext();) {
+                    PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
+                    account.setItemAccountOutstandingEncumbranceAmount(account.getAmount());
+                    account.setAlternateAmountForGLEntryCreation(account.getItemAccountOutstandingEncumbranceAmount());
+                }
+                //end of modified section
+            }
+        }
+
+        PurchaseOrderDocument oldPO = purchaseOrderService.getCurrentPurchaseOrder(po.getPurapDocumentIdentifier());
+
+        if (oldPO == null) {
+            throw new IllegalArgumentException("Current Purchase Order not found - poId = " + oldPO.getPurapDocumentIdentifier());
+        }
+
+        List<SourceAccountingLine> newAccounts = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly());
+        List<SourceAccountingLine> oldAccounts = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(oldPO.getItemsActiveOnlySetupAlternateAmount());
+
+        Map<SourceAccountingLine, KualiDecimal> combination = new HashMap<SourceAccountingLine, KualiDecimal>();
+
+        // Add amounts from the new PO
+        for (Iterator<SourceAccountingLine> iter = newAccounts.iterator(); iter.hasNext();) {
+            SourceAccountingLine newAccount = iter.next();
+            combination.put(newAccount, newAccount.getAmount());
+        }
+
+        LOG.info("generateEntriesApproveAmendPurchaseOrder() combination after the add");
+        for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine element = iter.next();
+            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + (combination.get(element)).floatValue());
+        }
+
+        // Subtract the amounts from the old PO
+        for (Iterator<SourceAccountingLine> iter = oldAccounts.iterator(); iter.hasNext();) {
+            SourceAccountingLine oldAccount = iter.next();
+            if (combination.containsKey(oldAccount)) {
+                KualiDecimal amount = combination.get(oldAccount);
+                amount = amount.subtract(oldAccount.getAmount());
+                combination.put(oldAccount, amount);
+            }
+            else {
+                combination.put(oldAccount, ZERO.subtract(oldAccount.getAmount()));
+            }
+        }
+
+        LOG.debug("generateEntriesApproveAmendPurchaseOrder() combination after the subtract");
+        for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine element = iter.next();
+            LOG.info("generateEntriesApproveAmendPurchaseOrder() " + element + " = " + (combination.get(element)).floatValue());
+        }
+
+        List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
+        for (Iterator<SourceAccountingLine> iter = combination.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine account = iter.next();
+            KualiDecimal amount = combination.get(account);
+            if (ZERO.compareTo(amount) != 0) {
+                account.setAmount(amount);
+                encumbranceAccounts.add(account);
+            }
+        }
+
+        po.setGlOnlySourceAccountingLines(encumbranceAccounts);
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+        saveGLEntries(po.getGeneralLedgerPendingEntries());
+        LOG.debug("generateEntriesApproveAmendPo() gl entries created; exit method");
+	}
+    
+    
 }

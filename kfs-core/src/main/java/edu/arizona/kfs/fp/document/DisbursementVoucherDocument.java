@@ -67,7 +67,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         super.prepareForSave();
 
         DocumentDictionaryService documentDictionaryService = SpringContext.getBean(DocumentDictionaryService.class);
-        DocumentAuthorizer docAuth = documentDictionaryService.getDocumentAuthorizer(this);
+        DocumentAuthorizer docAuth = documentDictionaryService.getDocumentAuthorizer(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
 
         // First, only do this if the document is in initiated status - after that, we don't want to 
         // accidentally reset the bank code
@@ -86,7 +86,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
         } 
         else{           
-            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentDictionaryService.getDocumentPresentationController(this);
+            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentDictionaryService.getDocumentPresentationController(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
             if(presentationController.getEditModes(this).contains(KFSConstants.Authorization.PAYMENT_METHOD_EDIT_MODE)){
                 synchronizeBankCodeWithPaymentMethod();
             }

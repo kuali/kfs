@@ -102,10 +102,9 @@ public class VendorCreditMemoDocument extends org.kuali.kfs.module.purap.documen
                 refreshReferenceObject(BANK);
             }
         }
-        // Tag and JSP for DV, PREQ and CM Documents
+
         getIncomeTypeHandler().removeZeroValuedIncomeTypes();
 
-        // Add New Search Fields to DV, PREQ and CM Documents
         // Only update paid year if the document is in final status
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
             if (creditMemoPaidTimestamp != null) {
@@ -114,10 +113,12 @@ public class VendorCreditMemoDocument extends org.kuali.kfs.module.purap.documen
                 setPaymentPaidYear(null);
             }
         }
+
+        setPayment1099Indicator(false);
         for (CreditMemoIncomeType incomeType : getIncomeTypes()) {
-            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE))) {
-                setPayment1099Indicator(false);
-            } else {
+            boolean isCodeExist = StringUtils.isNotBlank(incomeType.getIncomeTypeCode());
+            boolean isReportable = !incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE);
+            if (isCodeExist && isReportable) {
                 setPayment1099Indicator(true);
                 break;
             }

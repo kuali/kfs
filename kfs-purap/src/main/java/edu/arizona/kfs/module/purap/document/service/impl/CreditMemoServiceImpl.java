@@ -2,6 +2,7 @@ package edu.arizona.kfs.module.purap.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,8 +13,10 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -24,7 +27,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.PurapConstants;
@@ -251,6 +253,15 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
             }  
         }
         // end proration
+    }
+
+    // This method fixes a bug that was discovered in 3, supposedly fixed in 4, and reintroduced sometime afterward
+    // (UA:KFSI-3305, Foundation:KFSMI-6530)
+    @Override
+    protected void populateDocumentFromPO(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        super.populateDocumentFromPO(cmDocument, expiredOrClosedAccountList);
+        PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
+        cmDocument.setUseTaxIndicator(purchaseOrderDocument.isUseTaxIndicator());
     }
 
 }

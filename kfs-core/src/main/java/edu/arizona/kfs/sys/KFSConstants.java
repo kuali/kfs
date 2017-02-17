@@ -40,6 +40,11 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String DOCUWARE_DV_DOC_TYPE = "DV";
     public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";
 
+    public static class CreateAndUpdateNotePrefixes {
+        public static final String ADD = "Add";
+        public static final String CHANGE = "Change";
+    }
+    
     // General Error Correction Constants
     public static final String GEC_ENTRY_OBJ_ID = "OBJ_ID";
     public static final Set<String> GEC_ACTIVE_ROUTE_STATUS_CODES;
@@ -167,5 +172,9 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
                 VALID_AMOUNT_CODES.add(AMOUNT_CODE_8);
             }
         }
+    }
+    
+    public static class PaymentSourceConstants {
+        public static final String PAYMENT_METHOD_CHECK = "A";
     }
 }

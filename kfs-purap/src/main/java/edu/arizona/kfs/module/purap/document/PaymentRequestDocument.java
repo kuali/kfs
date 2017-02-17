@@ -15,7 +15,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -36,6 +35,7 @@ import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType;
 import edu.arizona.kfs.module.purap.document.service.PurapIncomeTypeHandler;
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
+import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.document.IncomeTypeContainer;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
 
@@ -136,12 +136,25 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
                 refreshReferenceObject(BANK);
             }
         }
+
         getIncomeTypeHandler().removeZeroValuedIncomeTypes();
+
+        // Only update paid year if the document is in final status
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
             if (paymentPaidTimestamp != null) {
                 setPaymentPaidYear(getPaymentPaidTimestamp().toString().substring(0, 4));
             } else {
                 setPaymentPaidYear(null);
+            }
+        }
+
+        setPayment1099Indicator(false);
+        for (PaymentRequestIncomeType incomeType : getIncomeTypes()) {
+            boolean isCodeExist = StringUtils.isNotBlank(incomeType.getIncomeTypeCode());
+            boolean isReportable = !incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE);
+            if (isCodeExist && isReportable) {
+                setPayment1099Indicator(true);
+                break;
             }
         }
 

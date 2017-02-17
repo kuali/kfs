@@ -94,7 +94,8 @@
     <bean id="pdpLoadFederalReserveBankDataJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
-                <ref bean="pdpDownloadFederalReserveBankFileStep" />
+            <!-- pdpDownloadFederalReserveBankFileStep was commented out because the fix will be addressed on UAF-3059 per epic specs -->
+            <!-- <ref bean="pdpDownloadFederalReserveBankFileStep" /> -->
                 <ref bean="pdpLoadFederalReserveBankDataStep" />
             </list>
         </property>
@@ -237,5 +238,8 @@
             <ref bean="shippingInvoiceProcessService" />
         </property>	
 	</bean>	
+	
+	<bean id="pdpLoadFederalReserveBankDataStep" class="edu.arizona.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step" />
+	
 
 </beans>

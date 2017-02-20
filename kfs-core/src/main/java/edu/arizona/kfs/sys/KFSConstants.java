@@ -39,6 +39,9 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     
     public static final String DOCUWARE_DV_DOC_TYPE = "DV";
     public static final String DOCUWARE_PREQ_DOC_TYPE = "PREQ";
+    
+    //PDP Batch
+    public static final String DEPRECATED_PDP_LOAD_FEDERAL_RESERVE_BANK_DATA_STEP_JOB = "This job is deprecated; not intended to be used in UA implementation.";
 
     public static class CreateAndUpdateNotePrefixes {
         public static final String ADD = "Add";

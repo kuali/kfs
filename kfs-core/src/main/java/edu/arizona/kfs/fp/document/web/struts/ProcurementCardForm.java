@@ -19,6 +19,8 @@ public class ProcurementCardForm extends org.kuali.kfs.fp.document.web.struts.Pr
     private static final String BUTTON_PROPERTY = "methodToCall.returnToReconciler";
     private static final String BUTTON_SOURCE = "${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_return.gif";
     private static final String BUTTON_ALT_TEXT = "Return To Reconciler";
+    
+    private ExtraButton returnButton;
 
     /**
      * Constructs a ProcurementCardForm
@@ -57,10 +59,12 @@ public class ProcurementCardForm extends org.kuali.kfs.fp.document.web.struts.Pr
     }
 
     private ExtraButton returnToReconcilerButton() {
-        ExtraButton returnButton = new ExtraButton();
-        returnButton.setExtraButtonProperty(BUTTON_PROPERTY);
-        returnButton.setExtraButtonSource(BUTTON_SOURCE);
-        returnButton.setExtraButtonAltText(BUTTON_ALT_TEXT);
+        if(returnButton == null) {
+            returnButton = new ExtraButton();
+            returnButton.setExtraButtonProperty(BUTTON_PROPERTY);
+            returnButton.setExtraButtonSource(BUTTON_SOURCE);
+            returnButton.setExtraButtonAltText(BUTTON_ALT_TEXT);
+        }
         return returnButton;
     }
     

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSKeyConstants;
+import edu.arizona.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -104,15 +105,7 @@ public class ProcurementCardAction extends org.kuali.kfs.fp.document.web.struts.
         
         List<RouteNodeInstance> routeNodeInstances = procurementCardForm.getProcurementCardDocument().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances();
         String node = routeNodeInstances.get(0).getName();
-        String documentId = StringUtils.stripStart(procurementCardForm.getDocId(), "0");
-        WorkflowDocumentActionsService documentActions = KewApiServiceLocator.getWorkflowDocumentActionsService();
-        DocumentActionParameters actionParameters = DocumentActionParameters.create(documentId, systemUserPrincipalId, node + ANNOTATION);
-        ReturnPoint returnPoint = ReturnPoint.create(HAS_RECONCILER_NODE);
-        documentActions.superUserReturnToPreviousNode(actionParameters, false, returnPoint);
-
-        // Use requeuer service to put the document back into action list of reconciler
-        DocumentRefreshQueue docRequeue =   KewApiServiceLocator.getDocumentRequeuerService(KFSConstants.APPLICATION_NAMESPACE_CODE, documentId, 0x0);
-        docRequeue.refreshDocument(documentId);
+        SpringContext.getBean(ProcurementCardCreateDocumentService.class).requeueDocument(procurementCardForm.getDocId(), node, HAS_RECONCILER_NODE, ANNOTATION);
 
         return returnToSender(request, mapping, procurementCardForm);
     }

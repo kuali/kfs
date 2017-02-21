@@ -1,6 +1,7 @@
 package edu.arizona.kfs.module.purap.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -519,6 +520,7 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
             KualiDecimal accountTotal = ZERO;
             PurchaseOrderAccount lastAccount = null;
             if (itemAmount.compareTo(ZERO) != 0) {
+                Collections.sort((List) item.getSourceAccountingLines());
                 for (Iterator<PurApAccountingLine> iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
                     PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
                     if (!acct.isEmpty()) {

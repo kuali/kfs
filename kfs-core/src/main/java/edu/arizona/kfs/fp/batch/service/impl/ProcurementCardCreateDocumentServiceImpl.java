@@ -18,6 +18,7 @@ import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleCons
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -32,6 +33,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.arizona.kfs.fp.batch.ProcurementCardRerouteDocumentsStep;
@@ -39,8 +41,11 @@ import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardTransaction;
 import edu.arizona.kfs.fp.document.ProcurementCardDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import edu.arizona.kfs.sys.KFSConstants;
 
-public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl {
+public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl implements edu.arizona.kfs.fp.batch.service.ProcurementCardCreateDocumentService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
     
@@ -79,7 +84,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
 
         for (ProcurementCardDocument pcardDocument : documents) {
         
-            String pcardDocumentId = pcardDocument.getObjectId();
+            String pcardDocumentId = pcardDocument.getDocumentNumber();
             //get document route node
             List<RouteNodeInstance> routeNodeInstances = pcardDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances();
             String node = routeNodeInstances.get(0).getName();
@@ -96,13 +101,13 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                     pcardDocument.getTargetAccountingLine(0).setSubAccountNumber(procurementCardHolderDetail.getSubAccountNumber());
                     pcardDocument.getTargetAccountingLine(0).setFinancialSubObjectCode(procurementCardHolderDetail.getFinancialSubObjectCode());
                     LOG.info("Rerouting doc #" + pcardDocumentId + " at AccountFullEdit for error account Fiscal Officer.");             
-                    requeueDocument(pcardDocument, pcardDocumentId, node, "HasReconciler"); 
+                    requeueDocument(pcardDocumentId, node, "HasReconciler", " Batch Reroute to Reconciler"); 
                     // pause between reroutes
                     try {
                         Thread.sleep(3000);
                     }
                     catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        LOG.error("Thread interrupted in rerouteProcurementCardDocuments method " + e.getMessage());
                     }
                 }
                 
@@ -117,7 +122,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                     LOG.info("Rerouting doc #" + pcardDocumentId + " at ProcurementCardReconciler, in "
                             + RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
                             + procurementCardHolderDetail.getReconcilerGroupId());
-                    requeueDocument(pcardDocument, pcardDocumentId, node, "ProcurementCardReconciler"); 
+                    requeueDocument(pcardDocumentId, node, "ProcurementCardReconciler", " Batch Reroute to Reconciler"); 
                     // pause between reroutes
                     try {
                         Thread.sleep(3000);
@@ -146,16 +151,17 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         return procurementCardDefault;
     }
     
-    private void requeueDocument(ProcurementCardDocument pcardDocument, String pcardDocumentId, String node, String prevNode) {
+    @Override
+    public void requeueDocument(String pcardDocumentId, String node, String prevNode, String annotation) {
         //pcardDocumentId could have leading 0's; want these removed for processing calls
         String documentId = StringUtils.stripStart(pcardDocumentId, "0");
         WorkflowDocumentActionsService documentActions = KewApiServiceLocator.getWorkflowDocumentActionsService();
-        // Updated System User ID, should change this to use the parameter
-        DocumentActionParameters actionParameters = DocumentActionParameters.create(documentId, "T000000000000005493", node+" Batch Reroute to Reconciler");
+        String systemUserPrincipalId = getSystemUserPrincipalId();
+        DocumentActionParameters actionParameters = DocumentActionParameters.create(documentId, systemUserPrincipalId, node + annotation);
         ReturnPoint returnPoint = ReturnPoint.create(prevNode);
         documentActions.superUserReturnToPreviousNode(actionParameters, false, returnPoint);
         // Use requeuer service to put the document back into action list of reconciler
-        DocumentRefreshQueue docRequeue = KewApiServiceLocator.getDocumentRequeuerService("KFS",documentId, 0x0);
+        DocumentRefreshQueue docRequeue = KewApiServiceLocator.getDocumentRequeuerService(KFSConstants.APPLICATION_NAMESPACE_CODE, documentId, 0x0);
         docRequeue.refreshDocument(documentId);    
        
         LOG.info("Rerouting PCDO document # " + pcardDocumentId + ".");
@@ -433,5 +439,11 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
             }
         }
         return retCode;
+    }
+    
+    protected String getSystemUserPrincipalId() {
+        String systemUserName = parameterService.getParameterValueAsString(KRADConstants.KNS_NAMESPACE, KfsParameterConstants.ALL_COMPONENT, KFSConstants.SYSTEM_USER_NAME);
+        Person systemUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(systemUserName);
+        return systemUser.getPrincipalId();
     }
 }

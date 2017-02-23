@@ -180,4 +180,37 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static class PaymentSourceConstants {
         public static final String PAYMENT_METHOD_CHECK = "A";
     }
+    
+	public static final class ACHBankOfficeCodes {
+		public static String MAIN = "O";
+		public static String BRANCH = "B";
+	}
+
+	public static final class ACHBankTypeCodes {
+		public static String FEDERAL_RESERVE = "0";
+		public static String CUSTOMER_ROUTING_NBR = "1";
+		public static String NEW_CUSTOMER_ROUTING_NBR = "2";
+	}
+
+	public static final class ACHFileConstants {
+		public static final String ACH_BANK_FILE_TYPE_IDENTIFIER = "achBankInputFileType";
+		public static final String ACH_BANK_LOADED_SUCCESSFULLY = "Bank record successfully loaded";
+		public static final String ACH_BANK_INVALID_OFFICE_CD_ERROR = "Invalid office code - default value O used";
+		public static final String ACH_BANK_INVALID_TYP_CD_ERROR = "Invalid record type code - default value 0 used";
+		public static final String ACH_BANK_TYP_CD_ROUTING_NBR_ERROR = "New routing number not provided for record type code 2 - record not loaded";
+		public static final String ACH_BANK_MISSING_NM_ERROR = "Bank name not provided - record not loaded";
+		public static final String ACH_BANK_INCOMPLETE_ADDR_ERROR = "Incomplete bank address - record not loaded";
+		public static final String ACH_BANK_INCOMPLETE_PHONE_ERROR = "Incomplete phone number - default value with zeros used";
+		public static final String ACH_BANK_INVALID_INST_STAT_CD = "Invalid institution status code - default value 1 used";
+		public static final String ACH_BANK_INVALID_DATA_VIEW_CD = "Invalid data view code - default value 1 used";
+	}
+
+	public static final class ACHFileDefaultConstants {
+		public static final String DEFAULT_BANK_NEW_ROUTING_NUMBER = "000000000";
+		public static final String DEFAULT_BANK_PHONE_AREA_CODE = "000";
+		public static final String DEFAULT_BANK_PHONE_PREFIX_NUMBER = "000";
+		public static final String DEFAULT_BANK_PHONE_SUFFIX_NUMBER = "0000";
+		public static final String DEFAULT_BANK_INSTITUTION_STATUS_CODE = "1";
+		public static final String DEFAULT_BANK_DATA_VIEW_CODE = "1";
+	}
 }

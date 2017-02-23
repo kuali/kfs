@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2450" author="sskinner">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="14">
+                select count(*)
+                from KRIM_ATTR_DEFN_T
+                where CMPNT_NM = 'org.kuali.kfs.sys.identity.KfsKimAttributes'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2450 - Changing remaining references to UA version of KfsKimAttributes
+        </comment>
+        <update tableName="KRIM_ATTR_DEFN_T">
+            <column name="CMPNT_NM" value="edu.arizona.kfs.sys.identity.KfsKimAttributes"/>
+            <where>CMPNT_NM='org.kuali.kfs.sys.identity.KfsKimAttributes'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

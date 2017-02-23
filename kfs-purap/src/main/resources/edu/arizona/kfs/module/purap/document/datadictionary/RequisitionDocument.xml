@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:dd="http://rice.kuali.org/dd" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	
+	<bean id="RequisitionDocument" parent="RequisitionDocument-parentBean">
+	    <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+	    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController"/>
+	    <property name="attributes">
+	      <list merge="true">
+	        <ref bean="RequisitionDocument-routeCode"/>
+	      </list>
+	    </property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+ 	<bean id="RequisitionDocument-routeCode" parent="RequisitionDocument-routeCode-parentBean"/>
+	
+  	<bean id="RequisitionDocument-routeCode-parentBean" abstract="true" parent="AttributeDefinition"> 
+		<property name="name" value="routeCode" /> 
+		<property name="label" value="Route Code" /> 
+		<property name="shortLabel" value="Route Code" />
+		<property name="maxLength" value="3" /> 
+		<property name="control"> 
+			<bean parent="TextControlDefinition" p:size="14" /> 
+		</property> 
+	</bean>  
+	
+	<!-- workflow attributes for routing -->
+	<bean id="RequisitionDocument-workflowAttributes" parent="RequisitionDocument-workflowAttributes-parentBean">
+	   	<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="Organization" value-ref="RoutingType-RequisitionDocument-Organization"/>
+    		    <entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount" />
+    			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
+                <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+                <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
+                <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
+                <!-- no qualifiers for separation of duties -->
+    		</map>
+    	</property>
+	</bean>
+
+  </beans>

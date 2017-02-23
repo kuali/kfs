@@ -20,10 +20,12 @@
 
 <channel:portalChannelTop channelTitle="Year End Transactions" />
 <div class="body">
-	<strong>Capital Asset Management</strong><br />
-    <ul class="chan">    
-		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-	</ul>		
+	<c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
+		<strong>Capital Asset Management</strong><br />
+	    <ul class="chan">    
+			<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		</ul>	
+	</c:if>	
     <strong>Financial Processing</strong><br />
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="${ConfigProperties.application.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YEBA" /></li>
@@ -34,11 +36,6 @@
     <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
 	    <strong>Labor Distribution</strong><br />
 	    <ul class="chan">
-		  	<li>
-				<portal:portalLink displayTitle="true"
-					title="Year End Benefit Expense Transfer"
-					url="${ConfigProperties.application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
-			</li>
 			<li>
 				<portal:portalLink displayTitle="true"
 					title="Year End Salary Expense Transfer"

@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="rqModule" parent="rqModule-parentBean" />
+    <bean id="rqModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-RQ" />
+        <property name="initializeDataDictionary" value="false" />
+        <property name="packagePrefixes">
+            <list>
+                <value>edu.arizona.kfs.rq</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list>
+                <value>documentRequeueJob</value>
+            </list>
+        </property>
+        <property name="batchFileDirectories">
+           <list>
+               <value>${reports.directory}/rq</value>
+               <value>${staging.directory}/rq</value>
+           </list>
+        </property>
+    </bean>
+
+    <bean id="rqModuleService" parent="rqModuleService-parentBean"/>
+    <bean id="rqModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="rqModule" />
+    </bean>
+
+    <bean id="documentRequeueJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="documentRequeueStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="documentRequeueStep" parent="documentRequeueStep-parentBean" />
+    <bean id="documentRequeueStep-parentBean" class="edu.arizona.kfs.rq.batch.DocumentRequeueStep" parent="step">
+        <property name="requeueStuckDocumentsService" ref="requeueStuckDocumentsService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="reportDirectoryName">
+            <value>${reports.directory}/rq</value>
+        </property>
+    </bean>
+
+    <bean id="stuckDocumentsDAO" parent="stuckDocumentsDAO-parentBean" />
+    <bean id="stuckDocumentsDAO-parentBean" class="edu.arizona.kfs.rq.batch.dataaccess.impl.StuckDocumentsDAOJdbc" parent="platformAwareDaoJdbc">
+        <property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
+    </bean>
+
+    <bean id="requeueStuckDocumentsService" parent="requeueStuckDocumentsService-parentBean" />
+    <bean id="requeueStuckDocumentsService-parentBean" class="edu.arizona.kfs.rq.batch.service.impl.RequeueStuckDocumentsServiceImpl">
+        <property name="stuckDocumentsDAO" ref="stuckDocumentsDAO" />
+        <property name="documentTypeService" ref="rice.kew.documentTypeService" />
+    </bean>
+
+</beans>

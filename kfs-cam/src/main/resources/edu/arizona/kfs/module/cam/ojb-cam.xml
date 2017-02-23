@@ -1,0 +1,546 @@
+<descriptor-repository version="1.0">
+
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" table="CM_CPTLAST_INV_UNIT_T">
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="inventoryUnitName" column="INV_UNIT_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
+		<reference-descriptor name="coaCodeObj" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="orgObj" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="organizationCode" />
+		</reference-descriptor>
+
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetExtension" table="CM_CPTLAST_EXT_T">
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitChartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitOrganizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="assetObj" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="assetInvUnitObj" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="inventoryUnitCode"/>
+			<foreignkey field-ref="inventoryUnitChartOfAccountsCode" />
+			<foreignkey field-ref="inventoryUnitOrganizationCode" />
+		</reference-descriptor>
+		
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.module.cam.businessobject.Asset" table="CM_CPTLAST_T">
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CPTLAST_NBR_SEQ"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
+		<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="conditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="createDate" column="CPTLAST_CRT_DT" jdbc-type="DATE"/>
+		<field-descriptor name="receiveDate" column="CPTLAST_RECEIVE_DT" jdbc-type="DATE"/>
+		<field-descriptor name="loanReturnDate" column="CPTLAST_LN_RTRN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="loanDate" column="CPTLAST_LOAN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="expectedReturnDate" column="AST_EXPCTRETURN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
+		<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="vendorName" column="CPTLAST_VENDOR_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="totalCostAmount" column="CPTLAST_TOTCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="replacementAmount" column="CPTLAST_RPLC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="salePrice" column="CPTLAST_SALE_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="estimatedSellingPrice" column="AST_EST_SELL_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="salvageAmount" column="CPTLAST_SALVAG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementChartOfAccountsCode" column="AST_RETIR_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementAccountNumber" column="AST_RETIR_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementPeriodCode" column="AST_RETIR_PRD_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementFiscalYear" column="AST_RETIR_FSCL_YR" jdbc-type="INTEGER"/>
+		<field-descriptor name="cashReceiptFinancialDocumentNumber" column="CASH_RCPT_FDOC_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="primaryDepreciationMethodCode" column="AST_DEPR_MTHD1_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="estimatedFabricationCompletionDate" column="AST_ESTFABRCMPL_DT" jdbc-type="DATE"/>
+		<field-descriptor name="fabricationEstimatedTotalAmount" column="AST_FABRESTTOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lastInventoryDate" column="CPTLAST_LSTINVN_DT" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="oldTagNumber" column="CPTLAST_OLDTAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
+		<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="landCountyName" column="CPTL_AST_LAND_CNTY_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
+		<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="depreciationDate" column="CPTL_AST_DEPR_DT" jdbc-type="DATE"/>
+		<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="fabricationEstimatedRetentionYears" column="AST_FABR_EST_RETN_YRS" jdbc-type="INTEGER"/>
+	
+		<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+			<foreignkey field-ref="organizationOwnerAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+			<foreignkey field-ref="buildingRoomNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementChartOfAccountsCode" />
+			<foreignkey field-ref="retirementAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementChartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="financialDocumentPostingYear" />
+			<foreignkey field-ref="financialDocumentPostingPeriodCode" />
+		</reference-descriptor>
+		<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementFiscalYear" />
+			<foreignkey field-ref="retirementPeriodCode" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementReasonCode" />
+		</reference-descriptor>
+		<reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="cashReceiptFinancialDocumentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="condition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="conditionCode" />
+		</reference-descriptor>
+		<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="inventoryStatusCode" />
+		</reference-descriptor>
+		<collection-descriptor name="assetPayments" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="financialDocumentPostingDate" sort="ASC" />
+			<orderby name="paymentSequenceNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<reference-descriptor name="assetOrganization" class-ref="org.kuali.kfs.module.cam.businessobject.AssetOrganization" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>	
+		<reference-descriptor name="assetWarranty" class-ref="org.kuali.kfs.module.cam.businessobject.AssetWarranty" auto-retrieve="true" auto-update="object" auto-delete="true" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<collection-descriptor name="assetRepairHistory" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="assetComponents" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+	
+		<collection-descriptor name="assetLocations" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="assetRetirementHistory" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="retirementGlobals" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<inverse-foreignkey field-ref="mergedTargetCapitalAssetNumber" />
+		</collection-descriptor>
+		<reference-descriptor name="assetPrimaryDepreciationMethod" class-ref="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="primaryDepreciationMethodCode" />
+		</reference-descriptor>
+		<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjectSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+			<foreignkey field-ref="financialObjectSubTypeCode" />
+		</reference-descriptor>	
+		<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+			<foreignkey field-ref="acquisitionTypeCode" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="extension" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		
+	</class-descriptor>
+	
+	<!-- Does not really exist, just here to satisfy the persistance framework -->
+	<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetForSearching" table="CM_CPTLAST_SEARCH_T">
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CPTLAST_NBR_SEQ"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
+		<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="conditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="createDate" column="CPTLAST_CRT_DT" jdbc-type="DATE"/>
+		<field-descriptor name="receiveDate" column="CPTLAST_RECEIVE_DT" jdbc-type="DATE"/>
+		<field-descriptor name="loanReturnDate" column="CPTLAST_LN_RTRN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="loanDate" column="CPTLAST_LOAN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="expectedReturnDate" column="AST_EXPCTRETURN_DT" jdbc-type="DATE"/>
+		<field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
+		<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="vendorName" column="CPTLAST_VENDOR_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="totalCostAmount" column="CPTLAST_TOTCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="replacementAmount" column="CPTLAST_RPLC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="salePrice" column="CPTLAST_SALE_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="estimatedSellingPrice" column="AST_EST_SELL_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="salvageAmount" column="CPTLAST_SALVAG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementChartOfAccountsCode" column="AST_RETIR_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementAccountNumber" column="AST_RETIR_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementPeriodCode" column="AST_RETIR_PRD_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="retirementFiscalYear" column="AST_RETIR_FSCL_YR" jdbc-type="INTEGER"/>
+		<field-descriptor name="cashReceiptFinancialDocumentNumber" column="CASH_RCPT_FDOC_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="primaryDepreciationMethodCode" column="AST_DEPR_MTHD1_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="estimatedFabricationCompletionDate" column="AST_ESTFABRCMPL_DT" jdbc-type="DATE"/>
+		<field-descriptor name="fabricationEstimatedTotalAmount" column="AST_FABRESTTOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lastInventoryDate" column="CPTLAST_LSTINVN_DT" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="oldTagNumber" column="CPTLAST_OLDTAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
+		<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="landCountyName" column="CPTL_AST_LAND_CNTY_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
+		<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="depreciationDate" column="CPTL_AST_DEPR_DT" jdbc-type="DATE"/>
+		<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="fabricationEstimatedRetentionYears" column="AST_FABR_EST_RETN_YRS" jdbc-type="INTEGER"/>
+
+		<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+			<foreignkey field-ref="organizationOwnerAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+			<foreignkey field-ref="buildingRoomNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementChartOfAccountsCode" />
+			<foreignkey field-ref="retirementAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementChartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="financialDocumentPostingYear" />
+			<foreignkey field-ref="financialDocumentPostingPeriodCode" />
+		</reference-descriptor>
+		<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementFiscalYear" />
+			<foreignkey field-ref="retirementPeriodCode" />
+		</reference-descriptor>
+		<reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="retirementReasonCode" />
+		</reference-descriptor>
+		<reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="cashReceiptFinancialDocumentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="condition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="conditionCode" />
+		</reference-descriptor>
+		<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="inventoryStatusCode" />
+		</reference-descriptor>
+		<collection-descriptor name="assetPayments" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="financialDocumentPostingDate" sort="ASC" />
+			<orderby name="paymentSequenceNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<reference-descriptor name="assetOrganization" class-ref="org.kuali.kfs.module.cam.businessobject.AssetOrganization" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>	
+		<reference-descriptor name="assetWarranty" class-ref="org.kuali.kfs.module.cam.businessobject.AssetWarranty" auto-retrieve="true" auto-update="object" auto-delete="true" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<collection-descriptor name="assetRepairHistory" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="assetComponents" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>	
+	
+		<collection-descriptor name="assetLocations" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="assetRetirementHistory" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="retirementGlobals" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<inverse-foreignkey field-ref="mergedTargetCapitalAssetNumber" />
+		</collection-descriptor>
+		<reference-descriptor name="assetPrimaryDepreciationMethod" class-ref="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="primaryDepreciationMethodCode" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjectSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+			<foreignkey field-ref="financialObjectSubTypeCode" />
+		</reference-descriptor>	
+		<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+			<foreignkey field-ref="acquisitionTypeCode" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="extension" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetGlobalDetailExtension" table="CM_CPTLAST_DTL_EXTEN_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitOrganizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitChartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+	
+		<reference-descriptor name="assetGlobalDetailObj" class-ref="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="documentNumber" />
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="assetInvUnitObj" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="inventoryUnitCode" />
+			<foreignkey field-ref="inventoryUnitChartOfAccountsCode" />
+			<foreignkey field-ref="inventoryUnitOrganizationCode" />
+		</reference-descriptor>
+		
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" table="CM_CPTLAST_DTL_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CPTLAST_NBR_SEQ" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="separateSourceAmount" column="SEP_SRC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+
+		<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+		</reference-descriptor>
+		<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+			<foreignkey field-ref="buildingRoomNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetTypeCode" />
+		</reference-descriptor>
+
+		<reference-descriptor name="extension" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetGlobalDetailExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+			<foreignkey field-ref="documentNumber" />
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+
+	</class-descriptor>
+
+	<class-descriptor class="edu.arizona.kfs.module.cam.document.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="interdepartmentalSalesIndicator" column="AST_INTRDPTSALE_CD" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="oldOrganizationOwnerChartOfAccountsCode" column="OLD_ORG_OWNER_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="oldOrganizationOwnerAccountNumber" column="OLD_ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitCode" column="INV_UNIT_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitChartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="inventoryUnitOrganizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="oldInventoryUnitCode" column="OLD_INV_UNIT_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="oldInventoryUnitChartOfAccountsCode" column="OLD_FIN_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="oldInventoryUnitOrganizationCode" column="OLD_ORG_CD" jdbc-type="VARCHAR" />
+	
+		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+			<foreignkey field-ref="organizationOwnerAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="oldOrganizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="oldOrganizationOwnerChartOfAccountsCode" />
+			<foreignkey field-ref="oldOrganizationOwnerAccountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+		</reference-descriptor>
+		<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="campusCode" />
+			<foreignkey field-ref="buildingCode" />
+			<foreignkey field-ref="buildingRoomNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="capitalAssetNumber" />
+		</reference-descriptor>
+		<!-- General ledger entries -->
+		<collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="documentNumber" />
+		</collection-descriptor>
+	
+		<reference-descriptor name="assetInvUnitObj" class-ref="edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="inventoryUnitCode" />
+			<foreignkey field-ref="inventoryUnitChartOfAccountsCode" />
+			<foreignkey field-ref="inventoryUnitOrganizationCode" />
+		</reference-descriptor>
+	
+	</class-descriptor>
+
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetRetirementGlobal" table="CM_AST_RETIRE_DOC_T">
+	    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	    <field-descriptor name="mergedTargetCapitalAssetNumber" column="MERGED_TGT_CPTLAST_NBR" jdbc-type="BIGINT"/>
+	    <field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" index="true"/>
+	    <field-descriptor name="retirementDate" column="CPTLAST_RETIRE_DT" jdbc-type="DATE"/>
+	    <field-descriptor name="mergedTargetCapitalAssetDescription" column="MERGED_TGT_CPTLAST_DESC" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementChartOfAccountsCode" column="AST_RETIR_COA_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementAccountNumber" column="AST_RETIR_ACCT_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementContactName" column="AST_RETIR_CNTCT_NM" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementInstitutionName" column="AST_RETIR_INST_NM" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementStreetAddress" column="AST_RETIRSTRT_ADDR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementCityName" column="AST_RETIR_CITY_NM" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementStateCode" column="AST_RETIR_STATE_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementZipCode" column="AST_RETIR_ZIP_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementCountryCode" column="AST_RETIR_CNTRY_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="retirementPhoneNumber" column="AST_RETIR_PHN_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="estimatedSellingPrice" column="AST_EST_SELL_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	    <field-descriptor name="salePrice" column="CPTLAST_SALE_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	    <field-descriptor name="cashReceiptFinancialDocumentNumber" column="CASH_RCPT_FDOC_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="handlingFeeAmount" column="AST_HANDLG_FEE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	    <field-descriptor name="preventiveMaintenanceAmount" column="AST_PRVNTMAINT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	    <field-descriptor name="buyerDescription" column="CPTLAST_BUYER_DESC" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="paidCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
+	
+	    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="documentNumber" />
+	    </reference-descriptor>
+	    <reference-descriptor name="mergedTargetCapitalAsset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="mergedTargetCapitalAssetNumber" />
+	    </reference-descriptor>
+	    <reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="retirementReasonCode" />
+	    </reference-descriptor>
+	    <collection-descriptor name="assetRetirementGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+	        <orderby name="capitalAssetNumber" sort="ASC" />
+	        <inverse-foreignkey field-ref="documentNumber" />       
+	    </collection-descriptor>
+	    <reference-descriptor name="retirementAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="retirementChartOfAccountsCode" />
+	        <foreignkey field-ref="retirementAccountNumber" />
+	    </reference-descriptor>
+	    <reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="retirementChartOfAccountsCode" />
+	    </reference-descriptor>
+	    <reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="cashReceiptFinancialDocumentNumber" />
+	    </reference-descriptor>
+	    <!-- General ledger entries  -->
+	    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+	        <inverse-foreignkey field-ref="documentNumber" />
+	    </collection-descriptor>
+	</class-descriptor>
+	
+</descriptor-repository>

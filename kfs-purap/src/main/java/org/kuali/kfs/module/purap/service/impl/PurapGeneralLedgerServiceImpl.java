@@ -82,17 +82,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapGeneralLedgerServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private KualiRuleService kualiRuleService;
-    private PaymentRequestService paymentRequestService;
-    private ParameterService parameterService;
-    private PurapAccountingService purapAccountingService;
-    private PurchaseOrderService purchaseOrderService;
-    private UniversityDateService universityDateService;
-    private ObjectCodeService objectCodeService;
-    private SubObjectCodeService subObjectCodeService;
+    protected BusinessObjectService businessObjectService;
+    protected DateTimeService dateTimeService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected KualiRuleService kualiRuleService;
+    protected PaymentRequestService paymentRequestService;
+    protected ParameterService parameterService;
+    protected PurapAccountingService purapAccountingService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected UniversityDateService universityDateService;
+    protected ObjectCodeService objectCodeService;
+    protected SubObjectCodeService subObjectCodeService;
 
     /**
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#customizeGeneralLedgerPendingEntry(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,

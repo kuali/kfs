@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="shippingDoc">
+  		<object-create-rule classname="edu.arizona.kfs.pdp.businessobject.ShippingBatch" />
+  		
+    	<pattern value="header">
+  			<object-create-rule classname="edu.arizona.kfs.pdp.businessobject.ShippingHeader" />
+  		
+    		<call-method-rule pattern="openCustomField" methodname="setOpenCustomField" paramcount="0" />
+    		<call-method-rule pattern="unit" methodname="setShippingCompany" paramcount="0" />
+    		<call-method-rule pattern="creationDate" methodname="setCreationDate" paramcount="0" />
+    		<call-method-rule pattern="transactionRefNo" methodname="setTransactionRefNumber" paramcount="0" />
+    		<!--  -->
+    		<set-next-rule methodname="setShippingHeader" />
+    	</pattern>
+    	<pattern value="invoices">	
+        	<object-create-rule classname="java.util.ArrayList" />
+
+        	<pattern value="invoice">
+           		<object-create-rule classname="edu.arizona.kfs.pdp.businessobject.ShippingInvoice" />
+
+	    		<call-method-rule pattern="invoiceNumber" methodname="setInvoiceNumber" paramcount="0" />
+	    		<call-method-rule pattern="invoiceDate" methodname="setInvoiceDate" paramcount="0" />
+	    		<call-method-rule pattern="totalInvoiceCharge" methodname="setTotalInvoiceCharge" paramcount="0" />
+	    		<call-method-rule pattern="billToAccountNumber" methodname="setBillToAccountNumber" paramcount="0" />
+	    		<call-method-rule pattern="invoiceType" methodname="setInvoiceType" paramcount="0" />
+	    		<call-method-rule pattern="settlementOption" methodname="setSettlementOption" paramcount="0" />
+	    		<call-method-rule pattern="totalInvoiceTransactions" methodname="setTotalInvoiceTransactions" paramcount="0" />
+	    		<call-method-rule pattern="otherAccountNumber" methodname="setOtherAccountNumber" paramcount="0" />
+            
+				<pattern value="tracking">
+					<object-create-rule classname="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTracking" />
+
+		    		<call-method-rule pattern="trackingNumber" methodname="setTrackingNumber" paramcount="0" />
+		    		<call-method-rule pattern="shipDate" methodname="setShipDate" paramcount="0" />
+		    		<call-method-rule pattern="rebillIndicator" methodname="setRebillIndicator" paramcount="0" />
+		    		<call-method-rule pattern="referenceNumber" methodname="setReferenceNumber" paramcount="0" />
+		    		<call-method-rule pattern="netCharge" methodname="setNetCharge" paramcount="0" />
+					<call-method-rule pattern="currencyCode" methodname="setCurrencyCode" paramcount="0" />
+					<call-method-rule pattern="volumeDiscountAmount" methodname="setVolumeDiscountAmount" paramcount="0" />
+					<call-method-rule pattern="fuelSurchargeAmount" methodname="setFuelSurchargeAmount" paramcount="0" />
+					<call-method-rule pattern="declaredValueAmount" methodname="setDeclaredValueAmount" paramcount="0" />
+					<call-method-rule pattern="miscChargeAmount" methodname="setMiscChargeAmount" paramcount="0" />
+					<call-method-rule pattern="declaredValue" methodname="setDeclaredValue" paramcount="0" />
+					<call-method-rule pattern="numberOfPieces" methodname="setNumberOfPieces" paramcount="0" />
+					<call-method-rule pattern="shipperName" methodname="setShipperName" paramcount="0" />
+					<call-method-rule pattern="shipperCompany" methodname="setShipperCompany" paramcount="0" />
+					<call-method-rule pattern="shipperDept" methodname="setShipperDept" paramcount="0" />
+					<call-method-rule pattern="shipperAddressLine1" methodname="setShipperAddressLine1" paramcount="0" />
+					<call-method-rule pattern="shipperAddressLine2" methodname="setShipperAddressLine2" paramcount="0" />
+					<call-method-rule pattern="shipperCity" methodname="setShipperCity" paramcount="0" />
+					<call-method-rule pattern="shipperState" methodname="setShipperState" paramcount="0" />
+					<call-method-rule pattern="shipperPostalCode" methodname="setShipperPostalCode" paramcount="0" />
+					<call-method-rule pattern="USRegionOriginZip" methodname="setUsRegionOriginZip" paramcount="0" />
+					<call-method-rule pattern="shipperCountryCode" methodname="setShipperCountryCode" paramcount="0" />
+					<call-method-rule pattern="regionCode" methodname="setRegionCode" paramcount="0" />
+					<call-method-rule pattern="recipientName" methodname="setRecipientName" paramcount="0" />
+					<call-method-rule pattern="recipientCompany" methodname="setRecipientCompany" paramcount="0" />
+					<call-method-rule pattern="recipientAddressLine1" methodname="setRecipientAddressLine1" paramcount="0" />
+					<call-method-rule pattern="recipientAddressLine2" methodname="setRecipientAddressLine2" paramcount="0" />
+					<call-method-rule pattern="recipientCity" methodname="setRecipientCity" paramcount="0" />
+					<call-method-rule pattern="recipientState" methodname="setRecipientState" paramcount="0" />
+					<call-method-rule pattern="recipientPostalCode" methodname="setRecipientPostalCode" paramcount="0" />
+					<call-method-rule pattern="recipientCountryCode" methodname="setRecipientCountryCode" paramcount="0" />
+					<call-method-rule pattern="deliveryDate" methodname="setDeliveryDate" paramcount="0" />
+					<call-method-rule pattern="deliveryTime" methodname="setDeliveryTime" paramcount="0" />
+					<call-method-rule pattern="recipientSignature" methodname="setRecipientSignature" paramcount="0" />
+				
+					<set-next-rule methodname="addShippingInvoiceTracking" />
+				</pattern>
+		
+				<set-next-rule methodname="add" />             
+	       	</pattern>
+	        <set-next-rule methodname="setShippingInvoices" />
+    	</pattern>
+    </pattern>
+</digester-rules>

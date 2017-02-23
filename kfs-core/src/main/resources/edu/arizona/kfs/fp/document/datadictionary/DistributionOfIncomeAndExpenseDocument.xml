@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	
+	<bean id="DistributionOfIncomeAndExpenseDocument" parent="DistributionOfIncomeAndExpenseDocument-parentBean">
+	  <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController"/>
+	</bean>
+
+	<!-- workflow attributes for routing -->
+	<bean id="DistributionOfIncomeAndExpenseDocument-workflowAttributes" parent="DistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean">
+	  <property name="routingTypeDefinitions">
+        <map>
+    	  <entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    	  <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    	  <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode"/>
+    	  <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    	  <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+    	</map>
+      </property>
+	</bean>
+</beans>

@@ -18,11 +18,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -40,11 +35,7 @@ import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.sys.*;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -57,23 +48,28 @@ import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Service implementation of ScrubberValidator.
  */
 public class ScrubberValidatorImpl implements ScrubberValidator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
 
-    private ConfigurationService kualiConfigurationService;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-    private AccountService accountService;
-    private BalanceTypeService balanceTypService;
-    private OptionsService optionsService;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected ParameterService parameterService;
+    protected AccountService accountService;
+    protected BalanceTypeService balanceTypService;
+    protected OptionsService optionsService;
 
-    private PersistenceService persistenceService;
-    private ScrubberValidator scrubberValidator;
-    private PersistenceStructureService persistenceStructureService;
-    private boolean continuationAccountIndicator;
+    protected PersistenceService persistenceService;
+    protected ScrubberValidator scrubberValidator;
+    protected PersistenceStructureService persistenceStructureService;
+    protected boolean continuationAccountIndicator;
     
 
     /**

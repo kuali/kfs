@@ -40,7 +40,9 @@ public interface AccountingDocumentRuleBaseConstants {
         public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "SUB_FUND_GROUPS";
         public static final String MANDATORY_TRANSFER_SUBTYPE_CODES = "MANDATORY_TRANSFER_OBJECT_SUB_TYPES";
         public static final String NONMANDATORY_TRANSFER_SUBTYPE_CODES = "NON_MANDATORY_TRANSFER_OBJECT_SUB_TYPES";
-        public static final String FUND_GROUP_BALANCING_SET = "FUND_GROUP_BALANCING_SET";
+        public static final String FUND_GROUP_BALANCING_SET = "FUND_GROUP_BALANCING_SET";        
+        // KFSCD-6 Block a Many to Many transfer within the TF & YETF documents
+        public static final String ALLOW_MANY_TO_MANY_TRANSFERS = "ALLOW_MANY_TO_MANY_TRANSFERS_IND";
         // doctype parameter
         public static final String DOCTYPE_SALES_TAX_CHECK = "SALES_TAX_APPLICABLE_DOCUMENT_TYPES";
 

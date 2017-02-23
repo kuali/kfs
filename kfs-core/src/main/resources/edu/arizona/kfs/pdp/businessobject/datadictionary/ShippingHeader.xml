@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:dd="http://rice.kuali.org/dd"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ShippingHeader" parent="ShippingHeader-parentBean" />
+
+  <bean id="ShippingHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingHeader" />
+    <property name="objectLabel" value="Shipping Header" />
+    <property name="attributes" >
+      <list>
+      	<ref bean="ShippingHeader-creationDate" />
+        <ref bean="ShippingHeader-transactionRefNumber" />       
+        <ref bean="ShippingHeader-shippingCompany" />
+        <ref bean="ShippingHeader-openCustomField" />        
+      </list>
+    </property>
+  </bean>
+
+ <!-- Attribute Definitions -->
+ 
+ <bean id="ShippingHeader-creationDate" parent="ShippingHeader-creationDate-parentBean" />
+ <bean id="ShippingHeader-creationDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creationDate" />
+    <property name="label" value="Creation Date" />
+    <property name="shortLabel" value="Creation Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>    
+  </bean>  
+  
+  <bean id="ShippingHeader-transactionRefNumber" parent="ShippingHeader-transactionRefNumber-parentBean" />
+  <bean id="ShippingHeader-transactionRefNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionRefNumber" />
+    <property name="label" value="Transaction Reference Number" />
+    <property name="shortLabel" value="Trans Ref Num" />
+     <property name="maxLength" value="20" />
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+ 
+  <bean id="ShippingHeader-shippingCompany" parent="ShippingHeader-shippingCompany-parentBean"/>  
+  <bean id="ShippingHeader-shippingCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shippingCompany" />
+    <property name="label" value="Shipping Company" />
+    <property name="shortLabel" value="Company" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>    
+  </bean>
+ 
+  <bean id="ShippingHeader-openCustomField" parent="ShippingHeader-openCustomField-parentBean" />
+  <bean id="ShippingHeader-openCustomField-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="openCustomField" />
+    <property name="label" value="Master EDI Number" />
+    <property name="shortLabel" value="EDI Num" />
+    <property name="maxLength" value="9" />
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  
+</beans>

@@ -1,0 +1,159 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  
+  <bean id="ProcurementCardLevel3Add" parent="ProcurementCardLevel3Add-parentBean" />
+  
+  <bean id="ProcurementCardLevel3Add-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Add" />
+  	<property name="objectLabel" value="Procurement Card Addendum" />
+  	<property name="attributes" >
+  		<list>
+  			<ref bean="ProcurementCardLevel3Add-documentNumber" />
+  			<ref bean="ProcurementCardLevel3Add-financialDocumentTransactionLineNumber" />
+  			<ref bean="ProcurementCardLevel3Add-invoiceNumber" />
+  			<ref bean="ProcurementCardLevel3Add-orderDate" />
+  			<ref bean="ProcurementCardLevel3Add-purchaseTime" />
+  			<ref bean="ProcurementCardLevel3Add-shipPostal" />
+  			<ref bean="ProcurementCardLevel3Add-destinationPostal" />
+  			<ref bean="ProcurementCardLevel3Add-destinationCountryCode" />
+  			<ref bean="ProcurementCardLevel3Add-taxAmount" />
+  			<ref bean="ProcurementCardLevel3Add-taxRate" />
+  			<ref bean="ProcurementCardLevel3Add-discountAmount" />
+  			<ref bean="ProcurementCardLevel3Add-freightAmount" />
+  			<ref bean="ProcurementCardLevel3Add-dutyAmount" />
+  		</list>
+  	</property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="ProcurementCardLevel3Add-documentNumber" parent="ProcurementCardLevel3Add-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Add-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3Add-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Add-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber"/>
+  
+  <bean id="ProcurementCardLevel3Add-invoiceNumber" parent="ProcurementCardLevel3Add-invoiceNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Add-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="invoiceNumber" />
+  	<property name="label" value="VAT Invoice" />
+  	<property name="shortLabel" value="Invoice" />
+  	<property name="maxLength" value="15" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="17" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-orderDate" parent="ProcurementCardLevel3Add-orderDate-parentBean" />
+  <bean id="ProcurementCardLevel3Add-orderDate-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="orderDate" />
+  	<property name="label" value="Order Date" />
+  	<property name="shortLabel" value="Date" />
+  	<property name="maxLength" value="10" />
+  	<property name="validationPattern" >
+  		<bean parent="DateValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-purchaseTime" parent="ProcurementCardLevel3Add-purchaseTime-parentBean" />
+  <bean id="ProcurementCardLevel3Add-purchaseTime-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="purchaseTime" />
+  	<property name="label" value="Purchase Time" />
+  	<property name="shortLabel" value="Time" />
+  	<property name="maxLength" value="23" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="25" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-shipPostal" parent="ProcurementCardLevel3Add-shipPostal-parentBean" />
+  <bean id="ProcurementCardLevel3Add-shipPostal-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="shipPostal" />
+  	<property name="label" value="Shipping Zip/Postal Code" />
+  	<property name="shortLabel" value="Zip" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-destinationPostal" parent="ProcurementCardLevel3Add-destinationPostal-parentBean" />
+  <bean id="ProcurementCardLevel3Add-destinationPostal-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="destinationPostal" />
+  	<property name="label" value="Destination Zip/Postal Code" />
+  	<property name="shortLabel" value="Zip" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-destinationCountryCode" parent="ProcurementCardLevel3Add-destinationCountryCode-parentBean" />
+  <bean id="ProcurementCardLevel3Add-destinationCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="destinationCountryCode" />
+  	<property name="label" value="Destination Contry Code" />
+  	<property name="shortLabel" value="Country Cd" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-taxAmount" parent="ProcurementCardLevel3Add-taxAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Add-taxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="taxAmount" />
+  	<property name="label" value="VAT Tax Amount" />
+  	<property name="shortLabel" value="Amount" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-taxRate" parent="ProcurementCardLevel3Add-taxRate-parentBean" />
+  <bean id="ProcurementCardLevel3Add-taxRate-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="taxRate" />
+  	<property name="label" value="VAT Tax Rate" />
+  	<property name="shortLabel" value="Rate" />
+  	<property name="maxLength" value="7" />
+  	<property name="validationPattern" >
+  		<bean parent="FloatingPointValidationPattern" />
+  	</property>
+  	<property name="control">
+  		<bean parent="TextControlDefinition"
+  			  p:size="9" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-discountAmount" parent="ProcurementCardLevel3Add-discountAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Add-discountAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="discountAmount" />
+  	<property name="label" value="Discount Amount" />
+  	<property name="shortLabel" value="Disc Amt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-freightAmount" parent="ProcurementCardLevel3Add-freightAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Add-freightAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="freightAmount" />
+  	<property name="label" value="Freight Amount" />
+  	<property name="shortLabel" value="Frght Amt" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Add-dutyAmount" parent="ProcurementCardLevel3Add-dutyAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Add-dutyAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="dutyAmount" />
+  	<property name="label" value="Duty Amount" />
+  	<property name="shortLabel" value="Duty Amt" />
+  </bean>
+  
+</beans>

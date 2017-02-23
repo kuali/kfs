@@ -364,7 +364,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>  
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     
 </class-descriptor>
 
@@ -409,7 +413,6 @@
     <field-descriptor name="recurringPaymentTypeDescription" column="RECUR_PMT_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
-
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" table="PUR_PO_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -619,6 +622,10 @@
     </reference-descriptor>
     <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
@@ -840,7 +847,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1078,7 +1089,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1555,7 +1570,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1793,7 +1812,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2031,7 +2054,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2268,7 +2295,11 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>      
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2521,6 +2552,10 @@
     </reference-descriptor>
     <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="buildingObj" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="deliveryCampusCode" />
+        <foreignkey field-ref="deliveryBuildingCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
@@ -3468,6 +3503,9 @@
     <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" table="PUR_PO_QT_LANG_T">

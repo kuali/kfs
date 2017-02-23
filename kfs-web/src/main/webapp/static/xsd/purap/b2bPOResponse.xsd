@@ -21,11 +21,26 @@
 <xsd:schema elementFormDefault="qualified"
 		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPOResponse"
 		    xmlns="http://www.kuali.org/kfs/purap/b2bPOResponse" 
-		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-	<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
-	
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+<!-- Simple Data Types from purapTypes.xsd -->
+
+    <xsd:simpleType name="statusCodeType">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="statusTextType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="200"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- Original Schema -->
+
 	<xsd:element name="Error">
 	  	<xsd:complexType>
 	  		<xsd:sequence>
@@ -51,8 +66,8 @@
         		      	<xsd:element name="Status">
 	        		      	<xsd:complexType>
 	        		      		<xsd:sequence>
-		        		      		<xsd:element name="StatusCode" type="purap:statusCodeType"/>
-		        		      		<xsd:element name="StatusText" type="purap:statusTextType"/>
+                                    <xsd:element name="StatusCode" type="statusCodeType"/>
+                                    <xsd:element name="StatusText" type="statusTextType"/>
 	        		      			<xsd:element name="Errors" minOccurs="0">
 	        		      				<xsd:complexType>
 									  		<xsd:sequence>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="ProcurementCardHolder-cardHolderName" parent="ProcurementCardHolder-cardHolderName-parentBean">
+        <property name="label" value="Cardholder Name" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderAlternateName" parent="ProcurementCardHolder-cardHolderAlternateName-parentBean">
+        <property name="label" value="Cardholder Alternate Name" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderLine1Address" parent="ProcurementCardHolder-cardHolderLine1Address-parentBean">
+        <property name="label" value="Cardholder Line1 Address" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderLine2Address" parent="ProcurementCardHolder-cardHolderLine2Address-parentBean">
+        <property name="label" value="Cardholder Line2 Address" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderCityName" parent="ProcurementCardHolder-cardHolderCityName-parentBean" >
+        <property name="label" value="Cardholder City Name" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderStateCode" parent="ProcurementCardHolder-cardHolderStateCode-parentBean">
+        <property name="label" value="Cardholder State Code" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderZipCode" parent="ProcurementCardHolder-cardHolderZipCode-parentBean">
+        <property name="label" value="Cardholder Postal (ZIP) Code" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardHolderWorkPhoneNumber" parent="ProcurementCardHolder-cardHolderWorkPhoneNumber-parentBean">
+        <property name="label" value="Cardholder Work Phone Number" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-cardNoteText" parent="ProcurementCardHolder-cardNoteText-parentBean" >
+        <property name="label" value="Original Vendor Name" />
+    </bean>
+
+    <bean id="ProcurementCardHolder-transactionCreditCardNumber" parent="ProcurementCardHolder-transactionCreditCardNumber-parentBean">
+        <property name="attributeSecurity">
+            <bean parent="AttributeSecurity">
+                <property name="mask" value="true" />
+                <property name="maskFormatter">
+                    <bean parent="MaskFormatterSubString" p:maskCharacter="*" p:maskLength="12" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

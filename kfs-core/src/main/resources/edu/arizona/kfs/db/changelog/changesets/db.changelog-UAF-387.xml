@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+ 
+    <changeSet id="UAF-387" author="Mark Moen">
+        <comment>
+        	Adding parameters so Person lookup returns correct results for all fields
+        </comment>
+        <sql>
+			update KULOWNER.KRCR_PARM_T set val = 'entityId=uaid;principalId=uaid;principalName=uid;givenName=sn;principals.principalName=uid;principals.principalId=uaid;principals.active=eduPersonAffiliation;lastName=sn;firstName=givenName;employmentInformation.employeeStatus=employeeStatus;employeeId=emplId;emailAddress=mail;phoneNumber=employeePhone;primaryDepartmentCode=employeePrimaryDept;employeeStatusCode=employeeStatus;employeeTypeCode=employeeType;employmentInformation.employeeId=emplId;names.lastName=sn;names.firstName=givenName;employmentInformation.employeeStatusCode=employeeStatus;employmentInformation.primaryDepartmentCode=employeeOfficialOrg,employeePoiPrimaryDept,dccPrimaryDept;' where nmspc_cd = 'KR-SYS' and parm_nm = 'KIM_TO_LDAP_FIELD_MAPPINGS';
+		</sql>
+		<rollback>
+			update KULOWNER.KRCR_PARM_T set val = 'entityId=uaid;principalId=uaid;principalName=uid;givenName=sn;principals.principalName=uid;principals.principalId=uaid;principals.active=eduPersonAffiliation;lastName=sn;firstName=givenName;employmentInformation.employeeStatus=employeeStatus;employmentInformation.employeeId=emplId;names.lastName=sn;names.firstName=givenName;employmentInformation.employeeStatusCode=employeeStatus;employmentInformation.primaryDepartmentCode=employeeOfficialOrg,employeePoiPrimaryDept,dccPrimaryDept;' where nmspc_cd = 'KR-SYS' and parm_nm = 'KIM_TO_LDAP_FIELD_MAPPINGS';
+		</rollback>
+    </changeSet>
+</databaseChangeLog>

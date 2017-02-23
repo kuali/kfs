@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PayeeMaintenanceDocument" parent="PayeeMaintenanceDocument-parentBean" />
+    <bean id="PayeeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.Payee" />
+        <property name="maintainableClass" value="edu.arizona.kfs.module.tax.document.PayeeMaintainableImpl" />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="PayeeMaintenanceDocument-EditPayee" />
+            </list>
+        </property>
+        <property name="allowsNewOrCopy" value="true" />
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="TXPA" />
+        <property name="businessRulesClass" value="edu.arizona.kfs.module.tax.document.validation.impl.PayeeRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+        <property name="workflowProperties">
+            <ref bean="PayeeMaintenanceDocument-workflowProperties" />
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    <bean id="PayeeMaintenanceDocument-EditPayee" parent="PayeeMaintenanceDocument-EditPayee-parentBean" />
+    <bean id="PayeeMaintenanceDocument-EditPayee-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Payee" />
+        <property name="title" value="Edit Payee" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" />
+                <bean parent="MaintainableFieldDefinition" p:name="headerTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="headerTaxNumber" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="headerOwnershipCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="headerOwnershipCategoryCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorName" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressTypeCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressLine1Address" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressLine2Address" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressCityName" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressStateCode" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressZipCode" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressCountryCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorForeignIndicator" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="taxYear" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="correctionIndicator" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorFederalWithholdingTaxBeginningDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorFederalWithholdingTaxEndDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="excludeIndicator" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+    <bean id="PayeeMaintenanceDocument-workflowProperties" parent="PayeeMaintenanceDocument-workflowProperties-parentBean" />
+    <bean id="PayeeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    </bean>
+
+</beans>

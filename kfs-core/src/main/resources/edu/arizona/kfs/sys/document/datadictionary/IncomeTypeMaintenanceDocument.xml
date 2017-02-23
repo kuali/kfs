@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- Income Type Business Object and Maintenance Document -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="IncomeTypeMaintenanceDocument" parent="IncomeTypeMaintenanceDocument-parentBean">
+    </bean>
+
+  <bean id="IncomeTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.sys.businessobject.IncomeType"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="IncomeTypeMaintenanceDocument-EditIncomeType"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>incomeTypeCode</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="TXIT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="IncomeTypeMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+  <bean id="IncomeTypeMaintenanceDocument-EditIncomeType" parent="IncomeTypeMaintenanceDocument-EditIncomeType-parentBean"/>
+
+  <bean id="IncomeTypeMaintenanceDocument-EditIncomeType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Main"/>
+    <property name="title" value="Income Type"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeTypeCode" p:readOnlyAfterAdd="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeTypeBox" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- workflow attributes -->
+  <bean id="IncomeTypeMaintenanceDocument-workflowAttributes" parent="IncomeTypeMaintenanceDocument-workflowAttributes-parentBean"/>
+  <bean id="IncomeTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+
+</beans>
+

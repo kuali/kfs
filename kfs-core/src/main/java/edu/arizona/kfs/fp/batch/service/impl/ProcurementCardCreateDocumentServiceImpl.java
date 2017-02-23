@@ -48,6 +48,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
     
     private GroupService procurementCardGroupService;
+    private static final int CARDHOLDER_NAME_MAX_LENGTH = 24;
     
     public GroupService getProcurementCardGroupService(){
         return procurementCardGroupService;
@@ -405,8 +406,8 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         ProcurementCardDefault procurementCardHolderDetail = getProcurementCardDefault(transaction.getTransactionCreditCardNumber());
 
         String cardHolderName = transaction.getCardHolderName();
-        if (cardHolderName.length() > 24) {
-            cardHolderName = transaction.getCardHolderName().substring(0, 24);
+        if (cardHolderName.length() > CARDHOLDER_NAME_MAX_LENGTH) {
+            cardHolderName = transaction.getCardHolderName().substring(0, CARDHOLDER_NAME_MAX_LENGTH);
         }
         if(ObjectUtils.isNotNull(procurementCardHolderDetail)) {
             pcardDocument.getDocumentHeader().setDocumentDescription(procurementCardHolderDetail.getCreditCardLastFour().trim() + " / " + cardHolderName);

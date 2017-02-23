@@ -62,8 +62,9 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
             explicitEntry.setUniversityFiscalPeriodCode(FINAL_ACCOUNTING_PERIOD);
             explicitEntry.setUniversityFiscalYear(prevFiscYr);
             
-            if( !getDocumentHeader().getDocumentDescription().contains("FY " + prevFiscYr) ) {
-                getDocumentHeader().setDocumentDescription("FY " + prevFiscYr + " " + getDocumentHeader().getDocumentDescription());
+            String documentDescription = getDocumentHeader().getDocumentDescription();
+            if(StringUtils.isNotEmpty(documentDescription) && !documentDescription.contains("FY " + prevFiscYr) ) {
+                getDocumentHeader().setDocumentDescription("FY " + prevFiscYr + " " + documentDescription);
             } 
             
             List<SourceAccountingLine> srcLines = getSourceAccountingLines();
@@ -158,7 +159,15 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
        
-        int allowBackpost = (Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, ALLOW_BACKPOST_DAYS)));
+        String allowBackpostParam = parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, ALLOW_BACKPOST_DAYS);
+        int allowBackpost = 0;
+        if (StringUtils.isNotEmpty(allowBackpostParam) && StringUtils.isNumeric(allowBackpostParam)) {
+            allowBackpost = (Integer.parseInt(allowBackpostParam));
+        }
+        else {
+            LOG.debug("Invalid value for allowBackpostParam: " + allowBackpostParam + ". Returning false");
+            return false;
+        }
 
         Calendar today = Calendar.getInstance();
         Integer currentFY = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();

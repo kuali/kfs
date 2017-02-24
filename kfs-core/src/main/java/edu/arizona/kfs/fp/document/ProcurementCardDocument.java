@@ -1,11 +1,20 @@
 package edu.arizona.kfs.fp.document;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +30,8 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
     private static final long serialVersionUID = 1L;
     
     private static final String HAS_RECONCILER_NODE = "HasReconciler";
+    private static final String FINAL_ACCOUNTING_PERIOD = "13";
+    private static final String ALLOW_BACKPOST_DAYS = "ALLOW_BACKPOST_DAYS";
     
     protected ProcurementCardHolder procurementCardHolder;
     
@@ -31,6 +42,56 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
 
     public void setProcurementCardHolder(ProcurementCardHolder procurementCardHolder) {
         this.procurementCardHolder = procurementCardHolder;
+    }
+    
+    /**
+     * @return the previous fiscal year used with all GLPE
+     */
+    protected static final Integer getPreviousFiscalYear() {
+        int i = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1;
+        return new Integer(i);
+    }
+
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        Date temp = getProcurementCardTransactionPostingDetailDate();
+        
+        if( temp != null && allowBackpost(temp) ) {
+            Integer prevFiscYr = getPreviousFiscalYear();
+            
+            explicitEntry.setUniversityFiscalPeriodCode(FINAL_ACCOUNTING_PERIOD);
+            explicitEntry.setUniversityFiscalYear(prevFiscYr);
+            
+            String documentDescription = getDocumentHeader().getDocumentDescription();
+            if(StringUtils.isNotEmpty(documentDescription) && !documentDescription.contains("FY " + prevFiscYr) ) {
+                getDocumentHeader().setDocumentDescription("FY " + prevFiscYr + " " + documentDescription);
+            } 
+            
+            List<SourceAccountingLine> srcLines = getSourceAccountingLines();
+            
+            for(SourceAccountingLine src : srcLines) {
+                src.setPostingYear(prevFiscYr);
+            }
+
+            List<TargetAccountingLine> trgLines = getTargetAccountingLines();
+            
+            for(TargetAccountingLine trg : trgLines) {
+                trg.setPostingYear(prevFiscYr);
+            }
+        }
+    }
+    
+    /**
+     * Get Transaction Date - CSU assumes there will be only one
+     */
+    private Date getProcurementCardTransactionPostingDetailDate() {
+        Date date = null;
+        
+        if(!getTransactionEntries().isEmpty()) {
+            date = ((ProcurementCardTransactionDetail)getTransactionEntries().get(0)).getTransactionPostingDate();
+        }
+        
+        return date;
     }
 
     /**
@@ -92,5 +153,45 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
         title = title + " / " + tranNumber + " / " + vendorName + " / $" + totAmount;
          
         return title;
+    }
+    
+    protected boolean allowBackpost(Date tranDate) {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+       
+        String allowBackpostParam = parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, ALLOW_BACKPOST_DAYS);
+        int allowBackpost = 0;
+        if (StringUtils.isNotEmpty(allowBackpostParam) && StringUtils.isNumeric(allowBackpostParam)) {
+            allowBackpost = (Integer.parseInt(allowBackpostParam));
+        }
+        else {
+            LOG.debug("Invalid value for allowBackpostParam: " + allowBackpostParam + ". Returning false");
+            return false;
+        }
+
+        Calendar today = Calendar.getInstance();
+        Integer currentFY = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
+        java.util.Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
+        
+        Calendar priorClosingDate = Calendar.getInstance();
+        priorClosingDate.setTime(priorClosingDateTemp);
+
+        // adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
+        Calendar allowBackpostDate = Calendar.getInstance();
+        allowBackpostDate.setTime(priorClosingDate.getTime());
+        allowBackpostDate.add(Calendar.DATE, allowBackpost + 1);
+
+        Calendar tranCal = Calendar.getInstance();
+        tranCal.setTime(tranDate);
+
+        // if today is after the closing date but before/equal to the allowed backpost date and the transaction date is for the
+        // prior year, set the year to prior year
+        if ((today.compareTo(priorClosingDate) > 0) && (today.compareTo(allowBackpostDate) <= 0) && (tranCal.compareTo(priorClosingDate) <= 0)) {
+            LOG.debug("allowBackpost() within range to allow backpost; posting entry to period 12 of previous FY");
+            return true;
+        }
+
+        LOG.debug("allowBackpost() not within range to allow backpost; posting entry to current FY");
+        return false;
     }
 }

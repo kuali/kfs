@@ -28,6 +28,7 @@
         <property name="jobNames">
 			<list merge="true">
 				<value>processShippingInvoiceJob</value>				
+				<value>pdpLoadBankDataJob</value>
 			</list>
 		</property>
     </bean>
@@ -241,5 +242,39 @@
 	
 	<bean id="pdpLoadFederalReserveBankDataStep" class="edu.arizona.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step" />
 	
+	<bean id="pdpLoadBankDataJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadAchBankStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loadAchBankStep" class="edu.arizona.kfs.pdp.batch.LoadAchBankStep" parent="step">
+		<property name="achBankService" ref="achBankService" />
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_failed_file_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="achBankService" class="edu.arizona.kfs.pdp.service.impl.AchBankServiceImpl">
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="achBankInputFileType" class="edu.arizona.kfs.pdp.batch.AchBankInputFileType">
+		<property name="directoryPath" value="${staging.directory}/pdp/achBanks" />
+		<property name="fileExtension" value="data" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="originationCodeDao" ref="originationCodeDao" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_audit_report" />
+		<property name="reportExtension" value="txt" />
+	</bean>
 
 </beans>

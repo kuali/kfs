@@ -24,6 +24,7 @@
         </property>
     </bean>
 
+    <!-- validations -->
     <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
     <import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
     <import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
@@ -32,19 +33,12 @@
     <import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
     <import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 
-    <bean id="procurementCardCreateDocumentService"  parent="procurementCardCreateDocumentService-parentBean"/>
-    <bean id="procurementCardCreateDocumentService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl" abstract="true">
-        <property name="parameterService" ref="parameterService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-        <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-        <property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
-        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
-        <property name="procurementCardCreateEmailService" ref="procurementCardCreateEmailService" />
-        <property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
-	<property name="procurementCardGroupService" ref="procurementCardGroupService" />
+    <bean id="procurementCardCreateDocumentService" parent="procurementCardCreateDocumentService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl">
+        <property name="procurementCardGroupService" ref="procurementCardGroupService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="batchFileOutputDirectoryName">
+            <value>${reports.directory}/fp</value>
+        </property>
     </bean>
 
     <bean id="procurementCardGroupService" parent="procurementCardGroupService-parentBean" />
@@ -52,10 +46,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
-
-    <!-- validations -->
-<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
-
 
     <bean id="procurementCardHolderDerivedRoleTypeService" class="edu.arizona.kfs.fp.identity.ProcurementCardHolderDerivedRoleTypeServiceImpl" />  
     <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -115,36 +105,17 @@
             </list>
         </property>
     </bean>
-    
-    <bean id="procurementCardInputFileType" class="org.kuali.kfs.fp.batch.ProcurementCardInputFileType"> 
-	    <property name="directoryPath">
-	       <value>${staging.directory}/fp/procurementCard</value>
-	    </property>
-	    <property name="fileExtension">
-	       <value>xml</value>
-	    </property>
-	    <property name="digestorRulesFileName">
-	       <value>edu/arizona/kfs/fp/batch/pcdoLevel3DigesterRules.xml</value>
-	    </property>
-	    <property name="schemaLocation">
-	       <value>${externalizable.static.content.url}/xsd/fp/procurementCardLevel3.xsd</value>
-	    </property>
-	    <property name="dateTimeService">
-	       <ref bean="dateTimeService"/>
-	    </property>
-	</bean>
-	
-	<bean id="procurementCardLoadTransactionsService" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardLoadTransactionsServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="batchInputFileService">
-			<ref bean="batchInputFileService" />
-		</property>
-		<property name="procurementCardInputFileType">
-			<ref bean="procurementCardInputFileType" />
-		</property>
-	</bean>
+
+    <bean id="procurementCardInputFileType" parent="procurementCardInputFileType-parentBean">
+        <property name="digestorRulesFileName">
+           <value>edu/arizona/kfs/fp/batch/pcdoLevel3DigesterRules.xml</value>
+        </property>
+        <property name="schemaLocation">
+           <value>${externalizable.static.content.url}/xsd/fp/procurementCardLevel3.xsd</value>
+        </property>
+    </bean>
+
+    <bean id="procurementCardLoadTransactionsService" parent="procurementCardLoadTransactionsService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardLoadTransactionsServiceImpl" />
 	
 	<bean id="disbursementVoucherCoverSheetService" class="edu.arizona.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl">
 		<property name="parameterService">

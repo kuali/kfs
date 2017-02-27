@@ -21,6 +21,11 @@
                 <value>edu/arizona/kfs/fp/ojb-fp.xml</value> 
             </list>
         </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>procurementCardHolderJob</value>
+            </list>
+        </property>
     </bean>
 
     <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
@@ -111,5 +116,62 @@
 	</bean>
 	
 	<bean id="disbursementVoucherDao" class="edu.arizona.kfs.fp.dataaccess.impl.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
+
+	 <bean id="procurementCardHolderJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="procurementCardHolderLoadStep" />
+                <ref bean="procurementCardHolderUpdateStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderLoadStep" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderLoadStep" parent="step">
+        <property name="procurementCardHolderLoadService">
+            <ref bean="procurementCardHolderLoadService" />
+        </property>
+    </bean>
+    
+    <bean id="procurementCardHolderUpdateStep" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderUpdateStep" parent="step">
+        <property name="procurementCardHolderUpdateService">
+            <ref bean="procurementCardHolderUpdateService" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderLoadService" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardHolderLoadServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="batchInputFileService">
+            <ref bean="batchInputFileService" />
+        </property>
+        <property name="procurementCardHolderInputFileType">
+            <ref bean="procurementCardHolderInputFileType" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderUpdateService" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardHolderUpdateServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+           <ref bean="dateTimeService"/>
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderInputFileType" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderInputFileType">
+        <property name="directoryPath">
+           <value>${staging.directory}/fp/procurementCardHolder</value>
+        </property>
+        <property name="fileExtension">
+           <value>xml</value>
+        </property>
+        <property name="digestorRulesFileName">
+           <value>edu/arizona/kfs/fp/batch/pcdhDigesterRules.xml</value>
+        </property>
+        <property name="schemaLocation">
+           <value>${externalizable.static.content.url}/xsd/fp/procurementCardHolder.xsd</value>
+        </property>
+    </bean>
 
 </beans>

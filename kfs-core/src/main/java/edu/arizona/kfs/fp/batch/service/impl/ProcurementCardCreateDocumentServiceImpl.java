@@ -2,9 +2,14 @@ package edu.arizona.kfs.fp.batch.service.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -22,6 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -33,10 +38,16 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.AutoPopulatingList;
 
 import edu.arizona.kfs.fp.batch.ProcurementCardRerouteDocumentsStep;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
@@ -44,28 +55,44 @@ import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardTransaction;
 import edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import edu.arizona.kfs.fp.document.ProcurementCardDocument;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.KFSParameterKeyConstants;
 
 public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl implements edu.arizona.kfs.fp.batch.service.ProcurementCardCreateDocumentService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
-    
+
     private GroupService procurementCardGroupService;
+    private ConfigurationService configurationService;
+    private String batchFileOutputDirectoryName;
+
     private static final int CARDHOLDER_NAME_MAX_LENGTH = 24;
+    private static final String AUTO_APPROVE_ERROR_LOG_SEPARATOR = "-----------------\n";
     
-    public GroupService getProcurementCardGroupService(){
+    public GroupService getProcurementCardGroupService() {
         return procurementCardGroupService;
     }
-    
-    public void setProcurementCardGroupService(GroupService procurementCardGroupService){
+
+    public void setProcurementCardGroupService(GroupService procurementCardGroupService) {
         this.procurementCardGroupService = procurementCardGroupService;
     }
 
-    public static final String REROUTE_PCDO_DOCUMENTS_IND_PARM_NM = "REROUTE_PCDO_DOCUMENTS_IND";
-    public static final String RECONCILER_GROUPS_TO_REROUTE_PARM_NM = "RECONCILER_GROUPS_TO_REROUTE";
-    
+    protected ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    protected String getBatchFileOutputDirectoryName() {
+        return batchFileOutputDirectoryName;
+    }
+
+    public void setBatchFileOutputDirectoryName(String batchFileOutputDirectoryName) {
+        this.batchFileOutputDirectoryName = batchFileOutputDirectoryName;
+    }
+
     /**
      * This method looks for ProcurementCardDocuments that are in route status at the "AccountFullEdit" route node and routed to the error account FO. 
      * Then checks for a valid reconciler and if found, reroutes the document back to the Reconciler.
@@ -79,7 +106,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     public boolean rerouteProcurementCardDocuments() {
         
         // check for reconciler group rerouting
-        boolean groupRerouting = parameterService.getParameterValueAsBoolean(ProcurementCardRerouteDocumentsStep.class, REROUTE_PCDO_DOCUMENTS_IND_PARM_NM);
+        boolean groupRerouting = parameterService.getParameterValueAsBoolean(ProcurementCardRerouteDocumentsStep.class, KFSParameterKeyConstants.ProcurementCardParameterConstants.REROUTE_PCDO_DOCUMENTS_IND_PARM_NM);
         
         Collection<ProcurementCardDocument> documents = null;
         documents = retrieveUAProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
@@ -118,13 +145,13 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
               //step two, reroute documents enroute to the reconciler group(s) that had group membership problems
                 else if (node.equals("ProcurementCardReconciler") && groupRerouting && 
                         parameterService.getParameter(ProcurementCardRerouteDocumentsStep.class,
-                                RECONCILER_GROUPS_TO_REROUTE_PARM_NM).getValue() != null
+                                KFSParameterKeyConstants.ProcurementCardParameterConstants.RECONCILER_GROUPS_TO_REROUTE_PARM_NM).getValue() != null
                         && parameterService
                                 .getParameter(ProcurementCardRerouteDocumentsStep.class,
-                                        RECONCILER_GROUPS_TO_REROUTE_PARM_NM)
+                                        KFSParameterKeyConstants.ProcurementCardParameterConstants.RECONCILER_GROUPS_TO_REROUTE_PARM_NM)
                                 .getValue().contains(procurementCardHolderDetail.getReconcilerGroupId())) {
                     LOG.info("Rerouting doc #" + pcardDocumentId + " at ProcurementCardReconciler, in "
-                            + RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
+                            + KFSParameterKeyConstants.ProcurementCardParameterConstants.RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
                             + procurementCardHolderDetail.getReconcilerGroupId());
                     requeueDocument(pcardDocumentId, node, "ProcurementCardReconciler", " Batch Reroute to Reconciler"); 
                     // pause between reroutes
@@ -359,53 +386,148 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
      */
     @Override
     public boolean autoApproveProcurementCardDocuments() {
-        //if auto approve is turned on
-        boolean autoApproveOn = super.parameterService.getParameterValueAsBoolean(
-                ProcurementCardAutoApproveDocumentsStep.class,
-                ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND);
+        // if auto approve is turned on
+        boolean autoApproveOn = parameterService.getParameterValueAsBoolean(ProcurementCardAutoApproveDocumentsStep.class, ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND);
 
-        if (!autoApproveOn) { // no auto approve?  then skip out of here...
+        if (!autoApproveOn) { // no auto approve? then skip out of here...
             return true;
         }
 
-        Collection<ProcurementCardDocument> pcardDocumentList = retrieveUAProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        StringBuffer autoApproveErrorStr = new StringBuffer();
 
-        // get number of days and type for auto approve
-        int autoApproveNumberDays = Integer
-                .parseInt(super.parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class,
-                        ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS));
-
+        // get Parameter information
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
-        for (ProcurementCardDocument pcardDocument: pcardDocumentList) {
-            try {
+        int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class, ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS));
+        Collection<ProcurementCardDocument> pcardDocumentList = retrieveUAProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        Collection<String> accountValues = parameterService.getParameterValuesAsString(ProcurementCardAutoApproveDocumentsStep.class, KFSParameterKeyConstants.ProcurementCardParameterConstants.SKIP_AUTO_APPROVE_PARM_NM);
+        Collection<String> objectSubTypeValues = parameterService.getParameterValuesAsString(ProcurementCardAutoApproveDocumentsStep.class, KFSParameterKeyConstants.ProcurementCardParameterConstants.SKIP_AUTO_APPROVE_SUB_TYPE_PARM_NM);
 
-                // prevent PCard documents from auto approving if they have capital asset info to collect
-                if(capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(pcardDocument)) {
-                    continue;
-                }
+        for (ProcurementCardDocument pcardDocument : pcardDocumentList) {
+            LOG.info("Checking document #" + pcardDocument.getDocumentNumber());
+            Timestamp docCreateDate = new Timestamp(pcardDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
 
-                // if number of days in route is passed the allowed number, call doc service for super user approve
-                Timestamp docCreateDate = new Timestamp( pcardDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis() );
-                if (KfsDateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
-                    // update document description to reflect the auto approval
-                    if (pcardDocument.getDocumentHeader().getDocumentDescription().startsWith("FY ")) {
-                        pcardDocument.getDocumentHeader().setDocumentDescription(pcardDocument.getDocumentHeader().getDocumentDescription().substring(0, 7) + " Auto Approve " + dateTimeService.toDateTimeString(currentDate));
-                    } else {
-                        pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
+            // If the document has been Enroute long enough and does not have a restricted account or restricted object subtype, then auto approve.
+            boolean isEnrouteLongEnough = KfsDateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays;
+            boolean isNotAccountingLineRestricted = !checkAutoApproveAccountingLineRestriction(pcardDocument, accountValues, objectSubTypeValues);
+            if (isEnrouteLongEnough && isNotAccountingLineRestricted) {
+                try {
+                    String documentErrorReason = blanketApproveDocument(pcardDocument, currentDate);
+                    if (documentErrorReason.length() > 0) {
+                        autoApproveErrorStr.append(documentErrorReason);
                     }
-                    LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
-                    pcardDocument.setAutoApprovedIndicator(true);
-                    getDocumentService().superUserApproveDocument(pcardDocument, "");
+                } catch (WorkflowException e) {
+                    // If an individual document has a problem with being auto approved, it should not stop the job from approving the rest.
+                    LOG.error("Error auto approving document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage(), e);
                 }
-            } catch (WorkflowException e) {
-                LOG.error("Error auto approving document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage(),e);
-                throw new RuntimeException(e.getMessage(),e);
-            } 
+            }
+        }
+
+        if (autoApproveErrorStr.length() > 0) {
+            outputErrorFile(autoApproveErrorStr.toString());
         }
 
         return true;
+
     }
-    
+
+    /**
+     * Returns true if the document contains an accounting line that is restricted from being auto-approved.
+     * 
+     * @param pcardDocument
+     * @param accountValues
+     * @param objectSubTypeValues
+     * @return
+     */
+    private boolean checkAutoApproveAccountingLineRestriction(ProcurementCardDocument pcardDocument, Collection<String> accountValues, Collection<String> objectSubTypeValues) {
+        @SuppressWarnings("unchecked")
+        List<ProcurementCardTargetAccountingLine> procurementCardTargetAccountingLines = (List<ProcurementCardTargetAccountingLine>) pcardDocument.getTargetAccountingLines();
+        for (ProcurementCardTargetAccountingLine procurementCardTargetAccountingLine : procurementCardTargetAccountingLines) {
+            if (procurementCardTargetAccountingLine.getAccountNumber() != null && accountValues.contains(procurementCardTargetAccountingLine.getAccountNumber())) {
+                return true;
+            }
+
+            if (procurementCardTargetAccountingLine.getObjectCode() != null && objectSubTypeValues.contains(procurementCardTargetAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * blanket approve document in a transaction. This method was created so each document
+     * is handled in its own transaction. This allows validation errors to be thrown without
+     * rolling back the entire process.
+     *
+     * @param pcardDocument
+     * @param accountList
+     * @param objectSubTypeList
+     * @param autoApproveNumberDays
+     * @throws WorkflowException
+     */
+    private String blanketApproveDocument(ProcurementCardDocument pcardDocument, Timestamp currentDate) throws WorkflowException {
+        StringBuilder errorMessage = new StringBuilder();
+
+        // update document description to reflect the auto approval
+        if (pcardDocument.getDocumentHeader().getDocumentDescription().startsWith("FY ")) {
+            pcardDocument.getDocumentHeader().setDocumentDescription(pcardDocument.getDocumentHeader().getDocumentDescription().substring(0, 7) + " Auto Approve " + dateTimeService.toDateTimeString(currentDate));
+        } else {
+            pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
+        }
+        LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
+        pcardDocument.setAutoApprovedIndicator(true);
+
+        try {
+            documentService.blanketApproveDocument(pcardDocument, "", null);
+        } catch (ValidationException e) {
+            LOG.error("Error auto approving document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage(), e);
+            errorMessage.append(pcardDocument.getDocumentNumber() + "\n");
+            errorMessage.append(e.getMessage() + "\n");
+            // grab and log all error messages that would have been displayed to the user.
+
+            for (Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : GlobalVariables.getMessageMap().getErrorMessages().entrySet()) {
+                for (ErrorMessage em : entry.getValue()) {
+                    errorMessage.append(expandErrorString(em.getErrorKey(), em.getMessageParameters()) + "\n");
+                }
+            }
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            errorMessage.append(AUTO_APPROVE_ERROR_LOG_SEPARATOR);
+        }
+        return errorMessage.toString();
+
+    }
+
+    /**
+     * Take the error key and expand as would happen when displaying error to the client.
+     *
+     * @param errorKey
+     * @param params
+     * @return
+     */
+    private String expandErrorString(String errorKey, String[] params) {
+        String questionText = configurationService.getPropertyValueAsString(errorKey);
+        for (int i = 0; i < params.length; i++) {
+            questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);
+        }
+        return questionText;
+    }
+
+    private void outputErrorFile(String errorString) {
+        String errorFile = batchFileOutputDirectoryName + File.separator + "pcdo_reroute_errors_" + dateTimeService.getCurrentCalendar().getTimeInMillis() + ".txt";
+        try {
+            BufferedWriter autoApproveErrorWriter = new BufferedWriter(new FileWriter(errorFile));
+            autoApproveErrorWriter.write("PCDO Auto Approve Errors, " + dateTimeService.toDateTimeString(new Date()) + "\n");
+            autoApproveErrorWriter.write(AUTO_APPROVE_ERROR_LOG_SEPARATOR);
+            autoApproveErrorWriter.write(errorString);
+            autoApproveErrorWriter.close();
+        } catch (IOException e) {
+            LOG.error("Error logging auto approve error.", e);
+            LOG.error("PCDO Auto Approve Errors, " + dateTimeService.toDateTimeString(new Date()) + "\n");
+            LOG.error(AUTO_APPROVE_ERROR_LOG_SEPARATOR);
+            LOG.error(errorString);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
     @Override
     protected String createAndValidateAccountingLines(org.kuali.kfs.fp.document.ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         //get default values from custom Procurement Cardholder table

@@ -8,33 +8,57 @@
       <docHandler>${kfs.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Frequisition.htm</helpDefinitionURL>
       <docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm</docSearchHelpURL>
-      <active>true</active>
+      <active>true</active>      
+      <routingVersion>2</routingVersion>
+      <validApplicationStatuses>
+        <status>Awaiting Content Approval</status>
+        <status>Disapproved - Content</status>
+        <status>Awaiting Accounting Lines</status>
+        <status>Disapproved - Accounting Lines</status>
+        <status>Awaiting Sub Account</status>
+        <status>Disapproved - Sub Account</status>
+        <status>Awaiting Fiscal Officer</status>
+        <status>Disapproved - Fiscal</status>
+        <status>Awaiting Base Org Review</status>
+        <status>Disapproved - Base Org Review</status>
+        <status>Awaiting Object SubType Review</status>
+        <status>Disapproved Object SubType Review</status>
+        <status>Awaiting Sub Fund</status>
+        <status>Disapproved - Sub Fund</status>
+        <status>Awaiting Commodity Code</status>
+        <status>Disapproved - Commodity Code</status>
+        <status>Awaiting Separation of Duties</status>
+        <status>Disapproved - Separation of Duties</status>
+        <status>Awaiting Contract Manager Assignment</status>
+        <status>Closed</status>
+        <status>Canceled</status>
+        <status>In Process</status>            	   
+      </validApplicationStatuses>
       <policies>
         <policy>
           <name>DOCUMENT_STATUS_POLICY</name>
           <stringValue>APP</stringValue>
         </policy>
       </policies>
-      <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Organization" />
-          <role name="Organization" nextNode="HasAccountingLines" />
+          <start name="AdHoc" nextNode="Organization" nextAppDocStatus = "Awaiting Content Approval"/>
+          <role name="Organization" nextNode="HasAccountingLines" nextAppDocStatus = "Awaiting Accounting Lines"/>
           <split name="HasAccountingLines" nextNode="SubAccount">
             <branch name="True">
-              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" />
+              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
             </branch>
             <branch name="False">
-              <role name="Initiator" nextNode="JoinHasAccountingLines" />
+              <role name="Initiator" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
             </branch>
             <join name="JoinHasAccountingLines" />
           </split>
-          <role name="SubAccount" nextNode="Account" /> 
-          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
-          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
-          <role name="ObjectSubTypeCode" nextNode="SubFund"/>
-          <role name="SubFund" nextNode="Commodity" />
-          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" />
+          <role name="SubAccount" nextNode="Account" nextAppDocStatus = "Awaiting Fiscal Officer"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" nextAppDocStatus="Awaiting Object SubType Review" />
+          <role name="ObjectSubTypeCode" nextNode="SubFund" nextAppDocStatus="Awaiting Sub Fund" />
+          <role name="SubFund" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code"/>  
+          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus ="Awaiting Separation of Duties"/> 
           <split name="AmountRequiresSeparationOfDutiesReview">
             <branch name="True">
               <role name="SeparationOfDuties" nextNode="Join" />

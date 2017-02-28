@@ -3,7 +3,6 @@ package edu.arizona.kfs.gl.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -36,7 +35,6 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 	private String organizationDocumentNumber;
 	private String projectCode;
 	
-	private Account account;
 	private SystemOptions option;
 	
 	public BudgetAdjustmentTransaction() {
@@ -209,14 +207,6 @@ public class BudgetAdjustmentTransaction extends PersistableBusinessObjectBase {
 
 	public void setProjectCode(String projectCode) {
 		this.projectCode = projectCode;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	public SystemOptions getOption() {

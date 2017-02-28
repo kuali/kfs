@@ -4,6 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="Asset" parent="Asset-parentBean">
+		<property name="boNotesEnabled" value="true" />
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes" />
+			</list>
+		</property>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="Asset-inventoryUnitCode" />
@@ -390,6 +396,28 @@
 							<bean parent="FieldDefinition" p:attributeName="assetLocationDocumentLookup" />
 							<bean parent="FieldDefinition" p:attributeName="assetMergeOrRetirementDocumentLookup" />
 							<bean parent="FieldDefinition" p:attributeName="camsComplexMaintenanceDocumentLookup" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Notes" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="boNotes" />
+								<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
+								<property name="numberOfColumns" value="1" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="noteText" />
+										<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
+										<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
+										<bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+									</list>
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>

@@ -71,33 +71,33 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasNewUnorderedItems"  nextAppDocStatus="Awaiting New Unordered Item Review"/>          	  
-          <split name="HasNewUnorderedItems" nextNode="Account" nextAppDocStatus = "Awaiting Fiscal Officer Review">
+          <split name="HasNewUnorderedItems" nextNode="Account">
             <branch name="True">
-              <role name="NewUnorderedItems" nextNode="Join" />
+              <role name="NewUnorderedItems" nextNode="Join" nextAppDocStatus = "Awaiting Fiscal Officer Review" />
             </branch>
             <branch name="False">
-              <simple name="NoOp" nextNode="Join" />
+              <simple name="NoOp" nextNode="Join" nextAppDocStatus = "Awaiting Fiscal Officer Review" />
             </branch>
             <join name="Join" />
           </split>
           <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
           <role name="AccountingOrganizationHierarchy" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus="Awaiting Separation of Duties" />
-          <split name="AmountRequiresSeparationOfDutiesReview" nextNode="ObjectSubTypeCode" nextAppDocStatus="Awaiting Object SubType Review">
+          <split name="AmountRequiresSeparationOfDutiesReview" nextNode="ObjectSubTypeCode">
             <branch name="True">
-              <role name="SeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+              <role name="SeparationOfDuties" nextNode="JoinSeparationOfDuties" nextAppDocStatus="Awaiting Object SubType Review"/>
             </branch>
             <branch name="False">
-              <simple name="NoSeparationOfDuties" nextNode="JoinSeparationOfDuties"/>
+              <simple name="NoSeparationOfDuties" nextNode="JoinSeparationOfDuties" nextAppDocStatus="Awaiting Object SubType Review"/>
             </branch>
             <join name="JoinSeparationOfDuties"/>
           </split>
           <role name="ObjectSubTypeCode" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Purchasing Approval"/>
-          <split name="RequiresContractManagementReview" nextNode="CentralAdministrationReview" nextAppDocStatus="Awaiting Buyer Approval">
+          <split name="RequiresContractManagementReview" nextNode="CentralAdministrationReview">
             <branch name="True">
-              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
+              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Buyer Approval"/>
             </branch>
             <branch name="False">
-              <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
+              <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Buyer Approval"/>
             </branch>
             <join name="JoinRequiresContractManagementReview"/>
           </split>

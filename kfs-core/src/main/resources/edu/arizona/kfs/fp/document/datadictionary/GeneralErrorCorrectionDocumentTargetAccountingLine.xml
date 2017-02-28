@@ -88,6 +88,12 @@
         <property name="webUILeaveFieldFunction" value="loadAccountInfo" />
         <property name="dynamicLabelProperty" value="account.accountName" />
         <property name="useShortLabel" value="true" />
+        <property name="overrideFields">
+            <list>
+                <bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
+                <bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+            </list>
+        </property>
     </bean>
 
     <bean id="GeneralErrorCorrectionDocument-targetAccountingField-subAccountNumber" parent="AccountingLineView-field">

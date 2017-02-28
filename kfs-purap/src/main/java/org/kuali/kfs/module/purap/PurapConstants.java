@@ -316,7 +316,7 @@ public class PurapConstants {
         public static final String APPDOC_WAITING_FOR_DEPARTMENT = "Waiting for Department";
         public static final String APPDOC_AMENDMENT = "Pending Amendment";
         public static final String APPDOC_PENDING_CLOSE = "Pending Close";
-        public static final String APPDOC_CANCELLED_CHANGE = "Cancelled Change";
+        public static final String APPDOC_CANCELLED_CHANGE = "Canceled Change";
         public static final String APPDOC_DISAPPROVED_CHANGE = "Disapproved Change";
         public static final String APPDOC_DAPRVD_CONTRACTS_GRANTS = "Disapproved C and G";
         public static final String APPDOC_PENDING_PAYMENT_HOLD = "Pending Payment Hold";
@@ -410,12 +410,25 @@ public class PurapConstants {
             poAppDocStatusMap.put(NODE_CONTRACTS_AND_GRANTS_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL);
             poAppDocStatusMap.put(NODE_BUDGET_OFFICE_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_BUDGET);
             poAppDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_TAX);
-            poAppDocStatusMap.put(NODE_OBJECT_SUB_TYPE_CODE, PurchaseOrderStatuses.APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);
+            poAppDocStatusMap.put(NODE_OBJECT_SUB_TYPE_CODE, PurchaseOrderStatuses.APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);            
+            poAppDocStatusMap.put(APPDOC_DAPRVD_UNORDERED_ITEM,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_FISCAL,PurchaseOrderStatuses.APPDOC_DAPRVD_FISCAL);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_CHART,PurchaseOrderStatuses.APPDOC_DAPRVD_CHART);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_SEP_OF_DUTY,PurchaseOrderStatuses.APPDOC_DAPRVD_SEP_OF_DUTY);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_PURCHASING, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_BUYER, PurchaseOrderStatuses.APPDOC_DAPRVD_BUYER);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_COMMODITY_CODE,  PurchaseOrderStatuses.APPDOC_DAPRVD_COMMODITY_CODE);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_CG_APPROVAL, PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_BUDGET, PurchaseOrderStatuses.APPDOC_DAPRVD_BUDGET);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_TAX, PurchaseOrderStatuses.APPDOC_DAPRVD_TAX);
+            poAppDocStatusMap.put(APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE, PurchaseOrderStatuses.APPDOC_DAPRVD_OBJECT_SUB_TYPE_CODE);            
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CANCELLED,  PurchaseOrderStatuses.APPDOC_CANCELLED);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CANCELLED_CHANGE,  PurchaseOrderStatuses.APPDOC_CANCELLED_CHANGE);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_VOID,  PurchaseOrderStatuses.APPDOC_VOID);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_IN_PROCESS,  PurchaseOrderStatuses.APPDOC_IN_PROCESS);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CLOSED,  PurchaseOrderStatuses.APPDOC_CLOSED);
             poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS,  PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE,  PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE);
 
             return poAppDocStatusMap;
 

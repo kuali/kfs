@@ -10,6 +10,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -20,6 +21,7 @@ import edu.arizona.kfs.fp.businessobject.ProcurementCardHolder;
 import org.apache.commons.lang.StringUtils;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail;
+import edu.arizona.kfs.fp.service.ProcurementCardService;
 
 public class ProcurementCardDocument extends org.kuali.kfs.fp.document.ProcurementCardDocument {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
@@ -93,6 +95,15 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
         
         return date;
     }
+
+    @Override
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        
+        success &= SpringContext.getBean(ProcurementCardService.class).generateUseTaxPendingEntries(this, sequenceHelper);
+        
+        return success;
+    } 
 
     /**
      * Answers true when invoice recurrence details are provided by the user

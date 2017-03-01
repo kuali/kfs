@@ -27,4 +27,5 @@ public class KFSParameterKeyConstants extends org.kuali.kfs.sys.KFSParameterKeyC
     }
 
 	public static final String ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND = "ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND";
+	public static final String GL_USETAX_TAX_REGION = "USE_TAX_TAX_REGION_CODE";
 }

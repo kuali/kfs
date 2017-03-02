@@ -44,7 +44,7 @@ public class ProcurementCardServiceImpl implements ProcurementCardService {
     @Override
     public boolean generateUseTaxPendingEntries(ProcurementCardDocument procurementCardDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        if (isUseTaxTransaction(procurementCardDocument)) {
+        if (hasUseTaxTransaction(procurementCardDocument)) {
             //load the use tax tax region
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put(TAX_REGION_CODE, parameterService.getParameterValueAsString(ProcurementCardDocument.class, KFSParameterKeyConstants.GL_USETAX_TAX_REGION));
@@ -82,65 +82,65 @@ public class ProcurementCardServiceImpl implements ProcurementCardService {
         String financialObjectCode = sourceDetail.getFinancialObjectCode();
         if (StringUtils.isBlank(financialObjectCode) || parameterEvaluatorService.getParameterEvaluator(ProcurementCardDocument.class, NON_TAXABLE_OBJECT_CODES, financialObjectCode).evaluationSucceeds()) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("isUseTaxTransaction() Use Tax Excluded Object Code - not posted");
+                LOG.debug("generateUseTaxPendingEntries() Use Tax Excluded Object Code - not posted");
             }
             return true;
         }
         
         KualiDecimal generatedTransactionAmount = new KualiDecimal(sourceDetail.getAmount().bigDecimalValue().multiply(taxRegionRate.getTaxRate())).abs();
         
-        GeneralLedgerPendingEntry e = new GeneralLedgerPendingEntry();
-        generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(procurementCardDocument, sourceDetail, sequenceHelper, e);
-        e.setTransactionLedgerEntryAmount(generatedTransactionAmount);
-        e.setTransactionLedgerEntryDescription(getUseTaxDescription(sourceDetail.getAmount(), taxRegionRate.getTaxRate()));
-        procurementCardDocument.customizeExplicitGeneralLedgerPendingEntry(sourceDetail, e);
-        procurementCardDocument.addPendingEntry(e);
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(procurementCardDocument, sourceDetail, sequenceHelper, explicitEntry);
+        explicitEntry.setTransactionLedgerEntryAmount(generatedTransactionAmount);
+        explicitEntry.setTransactionLedgerEntryDescription(getUseTaxDescription(sourceDetail.getAmount(), taxRegionRate.getTaxRate()));
+        procurementCardDocument.customizeExplicitGeneralLedgerPendingEntry(sourceDetail, explicitEntry);
+        procurementCardDocument.addPendingEntry(explicitEntry);
         sequenceHelper.increment();
     
         // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(e);
-        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(procurementCardDocument.getPostingYear(), e, sequenceHelper, offsetEntry);
-        procurementCardDocument.customizeOffsetGeneralLedgerPendingEntry(sourceDetail, e, offsetEntry);
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(procurementCardDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+        procurementCardDocument.customizeOffsetGeneralLedgerPendingEntry(sourceDetail, explicitEntry, offsetEntry);
     
         procurementCardDocument.addPendingEntry(offsetEntry);
         sequenceHelper.increment();
             
         //Create the entry and offset for the Use Tax account
-        e = new GeneralLedgerPendingEntry(e);
-        e.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-        e.setAccountNumber(taxRegion.getAccountNumber());
+        GeneralLedgerPendingEntry useTaxExplicitEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        useTaxExplicitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+        useTaxExplicitEntry.setAccountNumber(taxRegion.getAccountNumber());
         // Sub-Accounts, Sub-Object Codes or Project Codes on PCDO with Use Tax Cause GL Scrubber Errors
-        e.setSubAccountNumber(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
-        e.setProjectCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
-        e.setChartOfAccountsCode(taxRegion.getChartOfAccountsCode());
-        e.setFinancialSubObjectCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        e.setFinancialObjectCode(taxRegion.getFinancialObjectCode());
-        e.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
-        e.setFinancialObjectTypeCode(e.getFinancialObject().getFinancialObjectTypeCode());
-        if (StringUtils.equals(e.getTransactionDebitCreditCode(), KFSConstants.GL_DEBIT_CODE)) {
-            e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        useTaxExplicitEntry.setSubAccountNumber(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
+        useTaxExplicitEntry.setProjectCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
+        useTaxExplicitEntry.setChartOfAccountsCode(taxRegion.getChartOfAccountsCode());
+        useTaxExplicitEntry.setFinancialSubObjectCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
+        useTaxExplicitEntry.setFinancialObjectCode(taxRegion.getFinancialObjectCode());
+        useTaxExplicitEntry.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+        useTaxExplicitEntry.setFinancialObjectTypeCode(useTaxExplicitEntry.getFinancialObject().getFinancialObjectTypeCode());
+        if (StringUtils.equals(useTaxExplicitEntry.getTransactionDebitCreditCode(), KFSConstants.GL_DEBIT_CODE)) {
+            useTaxExplicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         } else {
-            e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            useTaxExplicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
-        e.setFinancialBalanceTypeCode(BalanceTypeService.ACTUAL_BALANCE_TYPE);
+        useTaxExplicitEntry.setFinancialBalanceTypeCode(BalanceTypeService.ACTUAL_BALANCE_TYPE);
 
-        procurementCardDocument.addPendingEntry(e);
+        procurementCardDocument.addPendingEntry(useTaxExplicitEntry);
         sequenceHelper.increment();
         
         // create the offset entry
-        offsetEntry = new GeneralLedgerPendingEntry(e);
-        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(procurementCardDocument.getPostingYear(), e, sequenceHelper, offsetEntry);
-        procurementCardDocument.customizeOffsetGeneralLedgerPendingEntry(sourceDetail, e, offsetEntry);
-        procurementCardDocument.addPendingEntry(offsetEntry);
+        GeneralLedgerPendingEntry useTaxOffsetEntry = new GeneralLedgerPendingEntry(useTaxExplicitEntry);
+        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(procurementCardDocument.getPostingYear(), useTaxExplicitEntry, sequenceHelper, useTaxOffsetEntry);
+        procurementCardDocument.customizeOffsetGeneralLedgerPendingEntry(sourceDetail, useTaxExplicitEntry, useTaxOffsetEntry);
+        procurementCardDocument.addPendingEntry(useTaxOffsetEntry);
         sequenceHelper.increment();
         
         return true;
     }
     
     @Override
-    public boolean isUseTaxTransaction(ProcurementCardDocument procurementCardDocument) {
+    public boolean hasUseTaxTransaction(ProcurementCardDocument procurementCardDocument) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("isUseTaxTransaction() started");
+            LOG.debug("hasUseTaxTransaction() started");
         }
         
         // Now check the sales tax amount and tax exempt indicator
@@ -150,7 +150,7 @@ public class ProcurementCardServiceImpl implements ProcurementCardService {
             if (transactionEntry.getTransactionSalesTaxAmount() != null 
                     && !transactionEntry.getTransactionSalesTaxAmount().equals(KualiDecimal.ZERO)) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("isUseTaxTransaction() Sales Tax greater than zero - not posted");
+                    LOG.debug("hasUseTaxTransaction() Sales Tax greater than zero - not posted");
                 }
                 return false;
             }
@@ -158,21 +158,21 @@ public class ProcurementCardServiceImpl implements ProcurementCardService {
             if (transactionEntry.getTransactionEditableSalesTaxAmount() != null
                     && !transactionEntry.getTransactionEditableSalesTaxAmount().equals(KualiDecimal.ZERO)) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("isUseTaxTransaction() Editable Sales Tax greater than zero - not posted");
+                    LOG.debug("hasUseTaxTransaction() Editable Sales Tax greater than zero - not posted");
                 }
                 return false;
             }
             //Is Tax Exempt Indicator on?
             if (transactionEntry.getTransactionTaxExemptIndicator()) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("isUseTaxTransaction() Use Tax Exempt - not posted");
+                    LOG.debug("hasUseTaxTransaction() Use Tax Exempt - not posted");
                 }
                 return false;
             }
             //Is AZ Vendor?
             if (StringUtils.equals(transactionEntry.getProcurementCardVendor().getVendorStateCode(), AZ)) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("isUseTaxTransaction() AZ Vendor - not posted");
+                    LOG.debug("hasUseTaxTransaction() AZ Vendor - not posted");
                 }
                 return false;
             }

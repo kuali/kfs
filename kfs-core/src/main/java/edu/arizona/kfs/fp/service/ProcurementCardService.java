@@ -6,11 +6,12 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 public interface ProcurementCardService {
 
     /**
-     * Is the PCDO a use tax transaction? Has no sales tax or is set as exempt and is the vendor
+     * This method iterates through all the transactions entries for this pcard document and returns true ONLY if none of them satisfies one of the four conditions: 
+     * AZ vendor, Sales tax already supplied, Sales Tax was edited/entered, or tax exempt indicator for the current transaction is on.
      * @param procurementCardDocument the PCDO to check
      * @return true if the PCDO is a use tax transaction, otherwise return false
      */
-    boolean isUseTaxTransaction(ProcurementCardDocument procurementCardDocument);
+    boolean hasUseTaxTransaction(ProcurementCardDocument procurementCardDocument);
     
     /**
      * Generate use tax entries for this PCDO if applicable.

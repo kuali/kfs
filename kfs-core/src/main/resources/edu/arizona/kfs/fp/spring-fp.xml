@@ -131,5 +131,12 @@
 			<ref bean="parameterEvaluatorService" />
 		</property>
 	</bean>
+	
+    <bean id="ProcurementCardService" class="edu.arizona.kfs.fp.service.impl.ProcurementCardServiceImpl">
+       <property name="parameterService" ref="parameterService"/>
+       <property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+       <property name="businessObjectService" ref="businessObjectService"/>
+       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+    </bean>
 
 </beans>

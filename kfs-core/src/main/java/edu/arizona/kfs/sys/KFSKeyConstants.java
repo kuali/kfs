@@ -34,4 +34,7 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     public static final String ERROR_INCOME_TYPE_CODE_REQUIRED = "error.income.type.code.required";
     public static final String ERROR_INCOME_TYPE_AMOUNT_REQUIRED = "error.income.type.amount.required";
 
+    // Procurement Cardholder
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDH = "message.batchUpload.title.procurementCardHolder";
+
 }

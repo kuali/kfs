@@ -81,6 +81,9 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
                     gecDoc.getGecEntryRelationships().add(gecEntryRelationship);
                 }
 
+                processAccountingLineOverrides(gecDoc, gecDoc.getSourceAccountingLines());
+                processAccountingLineOverrides(gecDoc, gecDoc.getTargetAccountingLines());
+
                 // next refresh should not attempt to retrieve these objects.
                 gecForm.setLookupResultsSequenceNumber(KFSConstants.EMPTY_STRING);
 
@@ -293,13 +296,17 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
 
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GeneralErrorCorrectionForm gecForm = (GeneralErrorCorrectionForm) form;
+        GeneralErrorCorrectionDocument gecDoc = (GeneralErrorCorrectionDocument) gecForm.getDocument();
+
         for (Object line : gecForm.getFinancialDocument().getSourceAccountingLines()) {
             AccountingLine sourceLine = (AccountingLine) line;
             AccountingLine targetLine = (AccountingLine) gecForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
             reverseAccountingLine(sourceLine, targetLine);
             insertAccountingLine(false, gecForm, targetLine);
-            processAccountingLineOverrides(targetLine);
         }
+
+        processAccountingLineOverrides(gecDoc, gecDoc.getSourceAccountingLines());
+        processAccountingLineOverrides(gecDoc, gecDoc.getTargetAccountingLines());
 
         resequenceAccountingLines(gecForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -395,6 +402,8 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
 
         reverseAccountingLine(sourceLine, targetLine);
         insertAccountingLine(false, gecForm, targetLine);
+
+        processAccountingLineOverrides(sourceLine);
         processAccountingLineOverrides(targetLine);
 
         resequenceAccountingLines(gecForm);
@@ -413,6 +422,8 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         copyAccountingLine(gecDocument, originalLine, targetLine);
         targetLine.setAmount(KualiDecimal.ZERO);
         insertAccountingLine(false, gecForm, targetLine);
+
+        processAccountingLineOverrides(originalLine);
         processAccountingLineOverrides(targetLine);
 
         resequenceAccountingLines(gecForm);

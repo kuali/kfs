@@ -9,6 +9,9 @@ import java.util.TreeMap;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -22,8 +25,6 @@ import edu.arizona.kfs.sys.KFSConstants;
  * This is the business object that represents the UA modifications for the GeneralErrorCorrectionDocument. This is a transactional document that
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
- *
- * @author Adam Kost <kosta@email.arizona.edu> with some code adapted from UCI
  */
 
 public class GeneralErrorCorrectionDocument extends org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument {
@@ -33,6 +34,7 @@ public class GeneralErrorCorrectionDocument extends org.kuali.kfs.fp.document.Ge
     private Set<GecEntryRelationship> gecEntryRelationships;
     private ErrorCertification errorCertification;
     private Integer errorCertID;
+    private DebitDeterminerService debitService;
 
 
     public GeneralErrorCorrectionDocument() {
@@ -182,6 +184,35 @@ public class GeneralErrorCorrectionDocument extends org.kuali.kfs.fp.document.Ge
         List managedCollections = super.buildListOfDeletionAwareLists();
         managedCollections.add(this.getGecEntryRelationships());
         return managedCollections;
+    }
+
+
+    /*
+     * GLPE generation service calls this on parent, but it does not handle the
+     * unnatural balance cases corectly (resulting GLPEs have their debit/credit
+     * flags always flipped to the natural balance 'normal' state).
+     *
+     * Since we know the source line's debit/credit flag is directly from a GLE but
+     * flipped, and we also know the target line's debit/credit flag is then directly
+     * from the source line's debit credit flag but flipped, then we have a transitive
+     * chain that tells us exactly what each flag should be along the way, without
+     * having to consult any other properties of the GLE or converted lines (aside from
+     * what the original GLE debit/credit flag is). This means we only need really
+     * simple logic to decide our debit/credit flag.
+     *
+     * @see org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase#isDebit()
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        return getDebitService().isDebitCode(((AccountingLine) postable).getDebitCreditCode());
+    }
+
+
+    private DebitDeterminerService getDebitService() {
+        if (debitService == null) {
+            debitService = SpringContext.getBean(DebitDeterminerService.class);
+        }
+        return debitService;
     }
 
 }

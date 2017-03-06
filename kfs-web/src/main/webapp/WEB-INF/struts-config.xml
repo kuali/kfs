@@ -298,7 +298,7 @@
 
 		<!-- Effort Certification Bean Definitions -->
 		<form-bean name="EffortCertificationForm"
-			type="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
+			type="edu.arizona.kfs.module.ec.document.web.struts.EffortCertificationForm" />
 		<form-bean name="CertificationRecreateForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm" />
 		<form-bean name="CertificationReportForm"
@@ -1008,6 +1008,13 @@
 				path="/jsp/module/common/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
+		<action path="/effortCertificationReport" name="EffortCertificationForm" input="/jsp/module/ec/EffortCertification.jsp"
+			type="edu.arizona.kfs.module.ec.document.web.struts.EffortCertificationAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ec/EffortCertification.jsp" />
+		</action>
+				
 		<action path="/effort*" name="{1}Form" input="/jsp/module/ec/{1}.jsp"
 			type="org.kuali.kfs.module.ec.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">

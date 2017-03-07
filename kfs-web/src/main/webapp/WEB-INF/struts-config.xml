@@ -298,11 +298,11 @@
 
 		<!-- Effort Certification Bean Definitions -->
 		<form-bean name="EffortCertificationForm"
-			type="edu.arizona.kfs.module.ec.document.web.struts.EffortCertificationForm" />
+			type="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
 		<form-bean name="CertificationRecreateForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm" />
 		<form-bean name="CertificationReportForm"
-			type="org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm" />
+			type="edu.arizona.kfs.module.ec.document.web.struts.CertificationReportForm" />
 		<!-- KFS incident report -->
 		<form-bean name="KualiExceptionIncidentForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
@@ -1008,11 +1008,11 @@
 				path="/jsp/module/common/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
-		<action path="/effortCertificationReport" name="EffortCertificationForm" input="/jsp/module/ec/EffortCertification.jsp"
-			type="edu.arizona.kfs.module.ec.document.web.struts.EffortCertificationAction" scope="request"
+		<action path="/effortCertificationReport" name="CertificationReportForm" input="/jsp/module/ec/CertificationReport.jsp"
+			type="edu.arizona.kfs.module.ec.document.web.struts.CertificationReportAction" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/ec/EffortCertification.jsp" />
+			<forward name="basic" path="/jsp/module/ec/CertificationReport.jsp" />
 		</action>
 				
 		<action path="/effort*" name="{1}Form" input="/jsp/module/ec/{1}.jsp"

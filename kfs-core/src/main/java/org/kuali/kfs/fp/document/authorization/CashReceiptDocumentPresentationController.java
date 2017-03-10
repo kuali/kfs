@@ -72,7 +72,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
                     GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CASH_DRAWER_DOES_NOT_EXIST, campusCode);
                     return false;
                 }
-                if (cashDrawer.isClosed()) {
+                if (cashDrawer.isClosed() || cashDrawer.isLocked()) {
                     return false;
                 }
             }

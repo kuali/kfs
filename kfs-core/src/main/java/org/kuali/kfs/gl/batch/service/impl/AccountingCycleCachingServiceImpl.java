@@ -56,18 +56,20 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactionalCachingService implements AccountingCycleCachingService {
+    private static final String GL_ENTTRY_ID_SEQ = "GL_ENTRY_ID_SEQ";
+
     protected org.kuali.kfs.sys.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao systemReferenceValueDao;
     protected org.kuali.kfs.coa.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao chartReferenceValueDao;
     protected LedgerPreparedStatementCachingDao ledgerDao;
-
     protected Map<String,Boolean> documentTypeValidCache;
-    
     protected UniversityDateService universityDateService;
     protected FinancialSystemDocumentTypeService financialSystemDocumentTypeService;
     protected DateTimeService dateTimeService;
+    protected SequenceAccessorService sequenceAccessorService;
 
     public void initialize() {
         super.initialize();
@@ -411,6 +413,10 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     }
 
     public void insertEntry(Entry entry) {
+        if (entry.getEntryId() == null) {
+            // Need to account for new entryId; surprisingly, oracle/ojb does not take care of this for us
+            entry.setEntryId(getSequenceAccessorService().getNextAvailableSequenceNumber(GL_ENTTRY_ID_SEQ).longValue());
+        }
         ledgerDao.insertEntry(entry, dateTimeService.getCurrentTimestamp());
     }
 
@@ -450,4 +456,13 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
+    public SequenceAccessorService getSequenceAccessorService() {
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+
 }

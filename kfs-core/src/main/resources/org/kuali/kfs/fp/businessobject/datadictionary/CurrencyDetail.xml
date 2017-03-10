@@ -43,6 +43,7 @@
         <ref bean="CurrencyDetail-financialDocumentOneDollarAmount"/>
         <ref bean="CurrencyDetail-oneDollarCount"/>
         <ref bean="CurrencyDetail-financialDocumentOtherDollarAmount"/>
+        <ref bean="CurrencyDetail-financialDocumentDollarAmount"/>
         <ref bean="CurrencyDetail-totalAmount"/>
       </list>
     </property>
@@ -277,6 +278,19 @@
     <property name="name" value="financialDocumentOtherDollarAmount"/>
     <property name="label" value="Other Dollar Amount"/>
     <property name="shortLabel" value="OthrDlrAmt"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="validationPattern" ref="GenericAmountValiationPattern" />
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="12" p:size="10"/>
+    </property>
+  </bean>
+  <bean id="CurrencyDetail-financialDocumentDollarAmount" parent="CurrencyDetail-financialDocumentDollarAmount-parentBean"/>
+
+  <bean id="CurrencyDetail-financialDocumentDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentDollarAmount"/>
+    <property name="label" value="Dollar Amount"/>
+    <property name="shortLabel" value="DlrAmt"/>
     <property name="maxLength" value="10"/>
     <property name="required" value="false"/>
     <property name="validationPattern" ref="GenericAmountValiationPattern" />

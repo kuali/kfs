@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ecModuleConfiguration" parent="ecModuleConfiguration-parentBean">
+        <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.module.ec</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+        	<list merge="true">
+        		<value>classpath:edu/arizona/kfs/module/ec/document/datadictionary/*.xml</value>
+        	</list>
+        </property>
+    </bean>
+
+    <bean id="effortCertificationDocumentService"  parent="effortCertificationDocumentService-parentBean" class="edu.arizona.kfs.module.ec.service.impl.EffortCertificationDocumentServiceImpl"/>
+
+</beans>

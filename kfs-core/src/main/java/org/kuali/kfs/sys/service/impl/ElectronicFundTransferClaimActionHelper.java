@@ -27,17 +27,21 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.kfs.sys.web.struts.ElectronicPaymentClaimClaimedHelper;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -50,13 +54,6 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private DataDictionaryService ddService;
     private BusinessObjectService boService;
     private DocumentService documentService;
-    
-    protected static final String ACTION_NAME = "claim";
-    protected static final String CHOSEN_DOCUMENT_PROPERTY = "chosenElectronicPaymentClaimingDocumentCode";
-    protected static final String CLAIM_PROPERTY = "claims";
-    protected static final String HAS_DOCUMENTATION_PROPERTY = "hasDocumentation";
-    protected static final String BASIC_FORWARD = "basic";
-    protected static final String PORTAL_FORWARD = "portal";
 
     /**
      * Claims the ElectronicPaymentClaim records with a document and then redirects to that docment.
@@ -67,7 +64,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         if (!form.hasAvailableClaimingDocumentStrategies()) {
-            throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
+            throw new AuthorizationException(currentUser.getPrincipalName(), KFSConstants.CLAIM, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }
         
         // did the user say they have documentation?  If not, give an error...
@@ -82,17 +79,21 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
             if (GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors() > 0) {
                 // if there were any errors, we'll need to redirect to the page again
-                return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             else if (claims.size() == 0) {
                 // no more claims to process...so don't make a document, just redirect to the portal
-                return mapping.findForward(PORTAL_FORWARD);
+                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
             }
         }
         
         // put any remaining claims into a claiming doc
         String chosenDoc = form.getChosenElectronicPaymentClaimingDocumentCode();
         continueClaiming &= checkChosenDocumentType(chosenDoc);
+        if (continueClaiming && KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE.equalsIgnoreCase(chosenDoc)) {
+            continueClaiming &= checkYEDIclaims(claims);
+        }
+        
         // get the requested document claiming helper
         if (continueClaiming) {
             
@@ -101,7 +102,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             String redirectURL = electronicPaymentClaimingService.createPaymentClaimingDocument(form.getClaims(), documentCreationHelper, currentUser);
             return new ActionForward(redirectURL, true);
         } else {
-            return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
     
@@ -113,7 +114,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     protected boolean checkChosenDocumentType(String chosenDoc) {
         boolean result = true;
         if (StringUtils.isBlank(chosenDoc)) {
-            GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CHOSEN_DOCUMENT_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[]{});
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CHOSEN_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_CODE, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[] {});
             result = false;
         }
         return result;
@@ -138,7 +139,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             count += 1;
         }
         if (chosenDocHelper == null || !chosenDocHelper.userMayUseToClaim(currentUser)) {
-            throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
+            throw new AuthorizationException(currentUser.getPrincipalName(), KFSConstants.CLAIM, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
         }
         return chosenDocHelper;
     }
@@ -167,7 +168,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
                         stratCount += 1;
                     }
                     if (!isValidDocRef) {
-                        GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]", KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CLAIMS + KFSConstants.SQUARE_BRACKET_LEFT + count + KFSConstants.SQUARE_BRACKET_RIGHT, KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
                         savePreClaimed = false;
                     }
                 }
@@ -202,8 +203,8 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      */
     protected boolean handleDocumentationForClaim(String hasDocumentation) {
         boolean success = true;
-        if (StringUtils.isBlank(hasDocumentation) || !hasDocumentation.equalsIgnoreCase("yep")) {
-            GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
+        if (StringUtils.isBlank(hasDocumentation) || !hasDocumentation.equalsIgnoreCase(KFSConstants.YEP)) {
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.HAS_DOCUMENTATION, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
             success = false;
         }
         
@@ -242,5 +243,29 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         this.documentService = documentService;
     }
     
-}
+    
+    /**
+     * Verifies that if Year End Distribution of Income and Expense (YEDI) is
+     * the chosenElectronicPaymentClaimingDocumentCode, all claims selected are
+     * not posted in the the current fiscal year.
+     * 
+     * @param claims
+     *            the list of selected claims
+     * @return true if the validation resulted in no errors, false if otherwise
+     */
+    protected boolean checkYEDIclaims(List<ElectronicPaymentClaim> claims) {
+        boolean result = true;
+        final Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        int count = 0;
 
+        for (ElectronicPaymentClaim claim : claims) {
+            if (currentFiscalYear.equals(claim.getFinancialDocumentPostingYear())) {
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CLAIMS + KFSConstants.SQUARE_BRACKET_LEFT + count + KFSConstants.SQUARE_BRACKET_RIGHT, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_CHOSEN_CLAIMING_DOCTYPE, new String[] {});
+                result = false;
+                break;
+            }
+            count += 1;
+        }
+        return result;
+    }
+}

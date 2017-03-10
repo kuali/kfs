@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="CrossOrganizationCodeMaintenanceDocument"                         parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass"        value="edu.arizona.kfs.coa.businessobject.CrossOrganizationCode"                                    />
+        <property name="maintainableClass"          value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"                                      />
+        <property name="documentAuthorizerClass"    value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"   />
+        <property name="workflowAttributes"         ref="CrossOrganizationCodeMaintenanceDocument-workflowAttributes"                                   />
+        <property name="allowsNewOrCopy"            value="true"                                                                                        />
+        <property name="documentTypeName"           value="CORG"                                                                                        />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="CrossOrganizationCodeMaintenanceDocument-Main" />
+            </list>
+        </property>
+        <property name="defaultExistenceChecks">
+            <list>
+                <bean parent="ReferenceDefinition"  p:attributeName="chart"         p:attributeToHighlightOnFail="chartOfAccountsCode"  />
+                <bean parent="ReferenceDefinition"  p:attributeName="organization"  p:attributeToHighlightOnFail="organizationCode"     />
+                <bean parent="ReferenceDefinition"  p:attributeName="leader"        p:attributeToHighlightOnFail="leader.principalName" />
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>code</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="CrossOrganizationCodeMaintenanceDocument-Main"                    parent="MaintainableSectionDefinition">
+        <property name="id"     value="Main" />
+        <property name="title"  value="Edit Cross Organization Code" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition"  p:name="code"          p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="name"   p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="organizationCode"               p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="leader.principalName"           p:required="true"   />
+                <bean parent="MaintainableFieldDefinition"  p:name="active"                         p:defaultValue="Y"  />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+
+    <bean id="CrossOrganizationCodeMaintenanceDocument-workflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes"/>
+</beans>

@@ -21,29 +21,122 @@
 <xsd:schema elementFormDefault="qualified"
 		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPunchOutOrder"
 		    xmlns="http://www.kuali.org/kfs/purap/b2bPunchOutOrder" 
-		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
-		    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 		    
-<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xsd/sys/xml.xsd"/>
-<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="../../xsd/purap/purapTypes.xsd" />
-<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../xsd/sys/types.xsd" />
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+<!-- Simple Data Types from purapTypes.xsd -->
+
+    <xsd:simpleType name="domainType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="DUNS|NetworkId|AribaNetworkUserId"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="dunsNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="amountType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="currencyType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="catalogNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="auxiliaryIDType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="300"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="itemDescriptionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4000"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="statusCodeType">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="statusTextType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="200"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="uomType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- Simple Data Types from types.xsd -->
+
+    <xsd:simpleType name="zeroToThirtyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToTwentyOneCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="21"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="zeroToFiftyFiveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="55"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="zeroToNinetyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="90"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="zeroToTwentyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- Original Schema -->
 
 <xsd:element name="Credential">
 	<xsd:complexType>
 		<xsd:sequence>
-			<xsd:element name="Identity" type="purap:dunsNumberType" />
+			<xsd:element name="Identity" type="dunsNumberType" />
 			<xsd:element name="SharedSecret" minOccurs="0" maxOccurs="1" type="xsd:string" /> <!-- Not used -->
 		</xsd:sequence>
-		<xsd:attribute name="domain" type="purap:domainType" use="required" />
+		<xsd:attribute name="domain" type="domainType" use="required" />
 	</xsd:complexType>
 </xsd:element>
   
 <xsd:element name="Money" default="0">
 	<xsd:complexType>
 		<xsd:simpleContent>
-			<xsd:extension base="purap:amountType">
-				<xsd:attribute name="currency" type="purap:currencyType" use="required" />
+			<xsd:extension base="amountType">
+				<xsd:attribute name="currency" type="currencyType" use="required" />
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -52,8 +145,8 @@
 <xsd:element name="ItemID">
 	<xsd:complexType>
 		<xsd:sequence>
-			<xsd:element name="SupplierPartID" type="purap:catalogNumberType" />
-			<xsd:element name="SupplierPartAuxiliaryID" type="purap:auxiliaryIDType" minOccurs="0"/>
+			<xsd:element name="SupplierPartID" type="catalogNumberType" />
+			<xsd:element name="SupplierPartAuxiliaryID" type="auxiliaryIDType" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:element>
@@ -69,7 +162,7 @@
 <xsd:element name="Description">
  	<xsd:complexType>
  		<xsd:simpleContent>
- 			<xsd:extension base="purap:itemDescriptionType">
+            <xsd:extension base="itemDescriptionType">
  				<xsd:attribute ref="xml:lang" use="required" />
  			</xsd:extension>
  		</xsd:simpleContent>
@@ -79,8 +172,8 @@
 <xsd:element name="Extrinsic">
  	<xsd:complexType>
  		<xsd:simpleContent>
- 			<xsd:extension base="kfs:zeroToThirtyCharType">
- 				<xsd:attribute name="name" type="kfs:oneToTwentyOneCharType" />
+            <xsd:extension base="zeroToThirtyCharType">
+                <xsd:attribute name="name" type="oneToTwentyOneCharType" />
  			</xsd:extension>
  		</xsd:simpleContent>
  	</xsd:complexType>
@@ -124,8 +217,8 @@
 						  <xsd:complexType>
 						  	<xsd:simpleContent>
 						  		<xsd:extension base="xsd:string">
-						  			<xsd:attribute name="code" type="purap:statusCodeType" />
-						  			<xsd:attribute name="text" type="purap:statusTextType" />
+									<xsd:attribute name="code" type="statusCodeType" />
+									<xsd:attribute name="text" type="statusTextType" />
 						  		</xsd:extension>
 						  	</xsd:simpleContent>
 						  </xsd:complexType>
@@ -159,19 +252,19 @@
 									  					<xsd:sequence>
 									  						<xsd:element ref="UnitPrice"/>
 									  						<xsd:element ref="Description"/>
-									  						<xsd:element name="UnitOfMeasure" type="purap:uomType" />
+															<xsd:element name="UnitOfMeasure" type="uomType" />
 									  						
 									  						<xsd:element name="Classification" maxOccurs="unbounded">
 															  	<xsd:complexType>
 															  		<xsd:simpleContent>
-															  			<xsd:extension base="kfs:zeroToThirtyCharType">
-															  				<xsd:attribute name="domain" type="kfs:oneToTwentyOneCharType" />
+																		<xsd:extension base="zeroToThirtyCharType">
+																			<xsd:attribute name="domain" type="oneToTwentyOneCharType" />
 															  			</xsd:extension>
 															  		</xsd:simpleContent>
 															  	</xsd:complexType>
 															</xsd:element> <!-- Classification -->
-															<xsd:element name="ManufacturerPartID" type="kfs:oneToTwentyOneCharType" minOccurs="0"/>
-															<xsd:element name="ManufacturerName" type="kfs:zeroToFiftyFiveCharType" minOccurs="0"/>
+															<xsd:element name="ManufacturerPartID" type="oneToTwentyOneCharType" minOccurs="0"/>
+															<xsd:element name="ManufacturerName" type="zeroToFiftyFiveCharType" minOccurs="0"/>
 															<xsd:element ref="Extrinsic" maxOccurs="unbounded"/>
 									  					</xsd:sequence>
 									  				</xsd:complexType>	
@@ -179,8 +272,8 @@
 									  			<xsd:element name="SupplierID" minOccurs="0" maxOccurs="unbounded"> <!-- Not used -->
 									  				<xsd:complexType>
 												 		<xsd:simpleContent>
-												 			<xsd:extension base="kfs:zeroToNinetyCharType">
-												 				<xsd:attribute name="domain" type="kfs:zeroToTwentyCharType" />
+															<xsd:extension base="zeroToNinetyCharType">
+																<xsd:attribute name="domain" type="zeroToTwentyCharType" />
 												 			</xsd:extension>
 												 		</xsd:simpleContent>
 												 	</xsd:complexType>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:dd="http://rice.kuali.org/dd"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+<bean id="ShippingAccount" parent="ShippingAccount-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 		<property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingAccount"/>
+ 		<property name="inquiryDefinition">
+ 			<ref bean="ShippingAccount-inquiryDefinition"/>
+ 		</property>
+ 		<property name="lookupDefinition">
+ 			<ref bean="ShippingAccount-lookupDefinition"/>
+ 		</property>
+ 		<property name="titleAttribute" value="shippingAccountNumber"/>
+ 		<property name="objectLabel" value="Shipping Account"/>
+ 		<property name="attributes">
+ 			<list>
+ 				<ref bean="ShippingAccount-shippingAccountNumber"/>
+ 				<ref bean="ShippingAccount-shippingAccountType"/>
+ 				<ref bean="ShippingAccount-accountNumber"/>
+ 				<ref bean="ShippingAccount-accountFiscalOfficerUserPrincipalId"/>
+ 				<ref bean="ShippingAccount-accountFiscalOfficerUser.principalName"/>
+ 				<ref bean="ShippingAccount-accountFiscalOfficerUser.name"/>
+ 				<ref bean="ShippingAccount-account.organizationCode"/>
+ 				<ref bean="ShippingAccount-account.organization.organizationName"/>
+ 				<ref bean="ShippingAccount-financialObjectCode"/>
+ 				<ref bean="ShippingAccount-chartOfAccountsCode"/>
+ 				<ref bean="ShippingAccount-contactPrincipalId"/>
+ 				<ref bean="ShippingAccount-contactUser.principalName"/>
+ 				<ref bean="ShippingAccount-contactUser.name"/>
+ 				<ref bean="ShippingAccount-subAccountNumber"/>
+ 				<ref bean="ShippingAccount-financialSubObjectCode"/>
+ 				<ref bean="ShippingAccount-projCode"/>
+ 				<ref bean="ShippingAccount-organizationReferenceId"/>
+ 				<ref bean="ShippingAccount-active"/>
+ 			</list>
+ 		</property>
+ 		<property name="relationships">
+ 			<list>
+ 				<dd:relationship objectAttribute="account">
+ 					<dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode"/>
+ 					<dd:primitiveAttribute source="accountNumber" target="accountNumber"/>
+ 				</dd:relationship>
+ 				<dd:relationship objectAttribute="contactUser">
+ 					<dd:primitiveAttribute source="contactPrincipalId" target="principalId"/>
+ 					<dd:supportAttribute source="contactUser.principalName" target="principalName" identifier="true"/>
+ 					<dd:supportAttribute source="contactUser.name" target="name"/>
+ 				</dd:relationship>		
+ 				<dd:relationship objectAttribute="accountFiscalOfficerUser">
+ 					<dd:primitiveAttribute source="account.accountFiscalOfficerSystemIdentifier" target="principalId"/>
+ 					<dd:supportAttribute source="accountFiscalOfficerUser.principalName" target="principalName" identifier="true"/>
+ 					<dd:supportAttribute source="accountFiscalOfficerUser.name" target="name"/>
+ 				</dd:relationship>
+ 			</list>
+ 		</property>
+ 	</bean>
+ 	
+ 	<!-- Attribute Definitions -->
+ 	
+ 	<bean id="ShippingAccount-shippingAccountNumber" parent="ShippingAccount-shippingAccountNumber-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-shippingAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+ 		<property name="name" value="shippingAccountNumber"/>
+ 		<property name="label" value="Shipping Account Number"/>
+ 		<property name="shortLabel" value="Shipping Account Number"/>
+ 		<property name="maxLength" value="9"/>
+ 		<property name="validationPattern">
+ 			<bean parent="AlphaNumericValidationPattern"/>
+ 		</property>
+ 		<property name="control">
+ 			<bean parent="TextControlDefinition" p:size="11"/>
+ 		</property>
+ 		<property name="required" value="true"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-shippingAccountType" parent="ShippingAccount-shippingAccountType-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-shippingAccountType-parentBean" abstract="true" parent="AttributeDefinition">
+ 		<property name="name" value="shippingAccountType"/>
+ 		<property name="forceUppercase" value="true"/>
+ 		<property name="label" value="Shipping Company"/>
+ 		<property name="shortLabel" value="Shipping Company"/>
+ 		<property name="maxLength" value="4"/>
+ 		<property name="validationPattern">
+ 			<bean parent="AlphaNumericValidationPattern"/>
+ 		</property>
+ 		<property name="required" value="true"/>
+ 		<property name="control">
+ 			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.pdp.businessobject.options.ShippingAcctTypeValuesFinder" p:includeKeyInLabel="false"/>
+ 		</property>
+ 	</bean>
+ 	<bean id="ShippingAccount-accountNumber" parent="ShippingAccount-accountNumber-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+ 		<property name="required" value="true"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-accountFiscalOfficerUserPrincipalId" parent="ShippingAccount-accountFiscalOfficerUserPrincipalId-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-accountFiscalOfficerUserPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+ 		<property name="name" value="account.accountFiscalOfficerSystemIdentifier"/>
+ 		<property name="label" value="Fiscal Officer ID"/>
+ 		<property name="shortLabel" value="Fiscal Officer ID"/>
+ 		<property name="required" value="true"/>
+ 		<property name="control">
+ 			<bean parent="HiddenControlDefinition"/>
+ 		</property>
+ 		<property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-accountFiscalOfficerUser.principalName" parent="ShippingAccount-accountFiscalOfficerUser.principalName-parentBean"/>
+ 	
+ 	<dd:boAttributeRef id="ShippingAccount-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" attributeName="accountFiscalOfficerUser.principalName" label="Fiscal Officer Principal Name" shortLabel="F.O. Principal Name" required="false">
+ 	    <dd:user universalIdAttribute="accountFiscalOfficerUserPrincipalId" userObjectAttribute="accountFiscalOfficerUser"/>
+ 	</dd:boAttributeRef>
+ 	
+ 	<bean id="ShippingAccount-accountFiscalOfficerUser.name" parent="ShippingAccount-accountFiscalOfficerUser.name-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-accountFiscalOfficerUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+ 		<property name="name" value="accountFiscalOfficerUser.name"/>
+ 		<property name="label" value="Fiscal Officer Name"/>
+ 		<property name="required" value="false"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-account.organizationCode" parent="ShippingAccount-account.organizationCode-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-account.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+ 		<property name="name" value="account.organizationCode"/>
+ 		<property name="label" value="Organization Code"/>
+ 		<property name="required" value="false"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-account.organization.organizationName" parent="ShippingAccount-account.organization.organizationName-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-account.organization.organizationName-parentBean" parent="Organization-organizationName">
+ 		<property name="name" value="account.organization.organizationName"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-financialObjectCode"	parent="ShippingAccount-financialObjectCode-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+ 	<bean id="ShippingAccount-chartOfAccountsCode" parent="ShippingAccount-chartOfAccountsCode-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
+ 	<bean id="ShippingAccount-contactPrincipalId" parent="ShippingAccount-contactPrincipalId-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-contactPrincipalId-parentBean" abstract="true" parent ="PersonImpl-principalId">
+ 		<property name="name" value="contactPrincipalId"/>
+ 		<property name="label" value="Shipping Account Contact ID"/>
+ 		<property name="shortLabel" value="Contact ID"/>
+ 		<property name="required" value="true"/>
+ 		<property name="control">
+ 			<bean parent="HiddenControlDefinition"/>
+ 		</property>
+ 		<property name="displayLabelAttribute" value="contactUser.principalName"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-contactUser.principalName" parent="ShippingAccount-contactUser.principalName-parentBean"/>
+ 	
+ 	<dd:boAttributeRef id="ShippingAccount-contactUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" attributeName="contactUser.principalName" label="Contact Principal Name" shortLabel="Principal Name" required="false">
+ 		<dd:user universalIdAttribute="contactPrincipalId" userObjectAttribute="contactUser"/>
+ 	</dd:boAttributeRef>
+ 	
+ 	<bean id="ShippingAccount-contactUser.name" parent="ShippingAccount-contactUser.name-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-contactUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+ 		<property name="name" value="contactUser.name"/>
+ 		<property name="label" value="Contact Name"/>
+ 		<property name="required" value="false"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-subAccountNumber" parent="ShippingAccount-subAccountNumber-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber"/>
+ 	<bean id="ShippingAccount-financialSubObjectCode" parent="ShippingAccount-financialSubObjectCode-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode"/>
+ 	<bean id="ShippingAccount-projCode" parent="ShippingAccount-projCode-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-projCode-parentBean" abstract="true" parent="ProjectCode-code">
+ 		<property name="name" value="projCode"/>
+ 	</bean>
+ 	<bean id="ShippingAccount-organizationReferenceId" parent="ShippingAccount-organizationReferenceId-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-organizationReferenceId-parentBean" abstract="true" parent="Entry-organizationReferenceId"/>
+ 	<bean id="ShippingAccount-active" parent="ShippingAccount-active-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+ 		<property name="name" value="active"/>
+ 		<property name="label" value="Shipping Account Active Indicator"/>
+ 		<property name="shortLabel" value="ShippingActive"/>
+ 	</bean>
+ 	
+ 	<!-- Business Object Inquiry Definition -->
+ 	
+ 	<bean id="ShippingAccount-inquiryDefinition" parent="ShippingAccount-inquiryDefinition-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+ 		<property name="title" value="Shipping Account Inquiry"/>
+ 		<property name="inquirySections">
+ 			<list>
+ 				<bean parent="InquirySectionDefinition">
+ 					<property name="title" value=""/>
+ 					<property name="numberOfColumns" value="1"/>
+ 					<property name="inquiryFields">
+ 						<list>
+ 							<bean parent="FieldDefinition" p:attributeName="shippingAccountNumber"/>
+ 							<bean parent="FieldDefinition" p:attributeName="shippingAccountType"/>
+ 							<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+ 							<bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+ 							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+ 							<bean parent="FieldDefinition" p:attributeName="contactUser.principalName"/>
+ 							<bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+ 							<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+ 							<bean parent="FieldDefinition" p:attributeName="projCode"/>
+ 							<bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+ 							<bean parent="FieldDefinition" p:attributeName="active"/>
+ 						</list>
+ 					</property>
+ 				</bean>
+ 			</list>
+ 		</property>
+ 	</bean>
+ 	
+ 	<!--  Business Object Lookup Definition  -->
+ 	
+ 	<bean id="ShippingAccount-lookupDefinition" parent="ShippingAccount-lookupDefinition-parentBean"/>
+ 	
+ 	<bean id="ShippingAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+ 		<property name="title" value="Shipping Account Lookup"/>
+ 		<property name="defaultSort">
+ 			<bean parent="SortDefinition">
+ 				<property name="attributeNames">
+ 					<list>
+ 						<value>shippingAccountNumber</value>
+ 					</list>
+ 				</property>
+ 			</bean>
+ 		</property>
+ 		<property name="lookupFields">
+ 			<list>
+ 				<bean parent="FieldDefinition" p:attributeName="shippingAccountNumber"/>
+ 				<bean parent="FieldDefinition" p:attributeName="contactUser.principalName"/>
+ 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+ 				<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+ 				<bean parent="FieldDefinition" p:attributeName="shippingAccountType"/>
+ 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName"/>
+ 				<bean parent="FieldDefinition" p:attributeName="account.organizationCode" p:noLookup="true"/>
+ 				<bean parent="FieldDefinition" p:attributeName="active"/>
+ 			</list>
+ 		</property>
+ 		<property name="resultFields">
+ 			<list>
+ 				<dd:field attributeName="shippingAccountNumber"/>
+ 				<dd:field attributeName="contactUser.name"/>
+ 				<dd:field attributeName="chartOfAccountsCode"/>
+ 				<dd:field attributeName="accountNumber"/>
+ 				<dd:field attributeName="shippingAccountType"/>
+ 				<dd:field attributeName="accountFiscalOfficerUser.name"/>
+ 				<dd:field attributeName="account.organizationCode"/>
+ 				<dd:field attributeName="account.organization.organizationName"/>
+ 				<dd:field attributeName="active"/>
+ 			</list>
+ 		</property>
+ 	</bean>
+</beans>

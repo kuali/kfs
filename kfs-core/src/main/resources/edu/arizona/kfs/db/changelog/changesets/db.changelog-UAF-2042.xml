@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2042-1" author="Mark Moen">
+        <comment>
+            UAF-2042 updating KRIM_TYP_T table to use the correct value for service name (srvc_nm).
+        </comment>
+		<update tableName="KRIM_TYP_T">
+			<column name="SRVC_NM" value="objectSubTypeCodeRoleTypeService"/>
+			<where>KIM_TYP_ID = '1102'</where>
+		</update>
+		<rollback>
+			<update tableName="KRIM_TYP_T">
+				<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}objectSubTypeCodeRoleTypeService"/>
+				<where>KIM_TYP_ID = '1102'</where>
+			</update>
+		</rollback>
+    </changeSet>
+    
+	<changeSet id="UAF-2042-2" author="Mark Moen">
+        <comment>
+            UAF-2042 updating KRIM_ATTR_DEFN_T table to use the correct value for cmpnt_nm
+        </comment>
+		<update tableName="KRIM_ATTR_DEFN_T">
+			<column name="CMPNT_NM" value="edu.arizona.kfs.sys.identity.KfsKimAttributes"/>
+			<where>KIM_ATTR_DEFN_ID = '1000'</where>
+		</update>
+		<rollback>
+			<update tableName="KRIM_ATTR_DEFN_T">
+				<column name="CMPNT_NM" value="org.kuali.kfs.sys.identity.KfsKimAttributes"/>
+				<where>KIM_ATTR_DEFN_ID = '1000'</where>
+			</update>
+		</rollback>
+    </changeSet>
+</databaseChangeLog>

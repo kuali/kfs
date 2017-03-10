@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2791-1" author="Adam Kost">
+        <preConditions onError="HALT" onFail="HALT">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='GeneralErrorCorrection'
+                        AND PARM_NM='OBJECT_SUB_TYPES'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2791 General Error Correction Step 1 Bugs Parameter Change OBJECT_SUB_TYPES
+        </comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="CA;FR;LD;OP;SA;BU;MT;PL;DR;LO;VA;HW;TN;PI;DR;PE"/>
+            <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='GeneralErrorCorrection'
+                    AND PARM_NM='OBJECT_SUB_TYPES'
+                    AND APPL_ID='KFS'
+            </where>
+        </update>
+        <rollback />
+    </changeSet>
+
+</databaseChangeLog>

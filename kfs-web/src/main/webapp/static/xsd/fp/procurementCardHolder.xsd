@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/kfs/fp/procurementCardHolder"
+    xmlns="http://www.kuali.org/kfs/fp/procurementCardHolder"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+    <xsd:simpleType name="oneToSixteenCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="16"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToThirtyFiveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="35"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToFortyFiveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="45"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="twoCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2"/>
+            <xsd:maxLength value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToTwentyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="20"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToTenCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="amountType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToFiftyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="accountType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="7"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToFourCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="oneToFortyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="creditCardNumber" type="oneToSixteenCharType"/>
+    <xsd:element name="cardHolderName" type="oneToThirtyFiveCharType"/>
+    <xsd:element name="cardHolderAlternateName" type="oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderLine1Address" type="oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderLine2Address" type="oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderCityName" type="oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderStateCode" type="twoCharType"/>
+    <xsd:element name="cardHolderZipCode" type="oneToTwentyCharType"/>
+    <xsd:element name="cardHolderWorkPhoneNumber" type="oneToTenCharType"/>
+    <xsd:element name="cardLimit" type="amountType"/>
+    <xsd:element name="cardCycleAmountLimit" type="amountType"/>
+    <xsd:element name="cardCycleVolumeLimit" type="xsd:integer"/>
+    <xsd:element name="cardMonthlyNumber" type="xsd:integer"/>
+    <xsd:element name="cardStatusCode" type="oneToFiftyCharType"/>
+    <xsd:element name="cardNoteText" type="oneToFiftyCharType"/>
+    <xsd:element name="chartOfAccountsCode" type="twoCharType"/>
+    <xsd:element name="accountNumber" type="accountType"/>
+    <xsd:element name="financialObjectCode" type="oneToFourCharType"/> 
+    <xsd:element name="organizationCode" type="oneToFourCharType"/>
+    <xsd:element name="cardHolderSystemId" type="oneToFortyCharType"/>
+    <xsd:element name="cardOpenDate" type="xsd:date"/>
+    <xsd:element name="cardCancelDate" type="xsd:date"/> 
+    <xsd:element name="cardExpireDate" type="xsd:string"/>
+ 
+    <!-- definition of complex type elements -->
+    <xsd:element name="cardHolders">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="cardHolder"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="cardHolder">
+        <xsd:complexType>
+            <xsd:sequence>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="creditCardNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderAlternateName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine1Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine2Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderCityName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderStateCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderZipCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderWorkPhoneNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleAmountLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleVolumeLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardMonthlyNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardStatusCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardNoteText" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="chartOfAccountsCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="accountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="financialObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="organizationCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderSystemId" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardOpenDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCancelDate" /> 
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardExpireDate" />
+             </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

@@ -18,21 +18,6 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -74,6 +59,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.io.*;
+import java.util.*;
+
 /**
  * The base implementation of CollectorHelperService
  * @see org.kuali.kfs.gl.batch.service.CollectorService
@@ -83,17 +71,17 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     private static final String CURRENCY_SYMBOL = "$";
 
-    private CollectorDetailService collectorDetailService;
-    private OriginEntryService originEntryService;
-    private OriginEntryGroupService originEntryGroupService;
-    private ParameterService parameterService;
-    private ConfigurationService configurationService;
-    private DateTimeService dateTimeService;
-    private BatchInputFileService batchInputFileService;
-    private CollectorScrubberService collectorScrubberService;
-    private AccountService accountService;
-    private PreScrubberService preScrubberService;
-    private String batchFileDirectoryName;
+    protected CollectorDetailService collectorDetailService;
+    protected OriginEntryService originEntryService;
+    protected OriginEntryGroupService originEntryGroupService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configurationService;
+    protected DateTimeService dateTimeService;
+    protected BatchInputFileService batchInputFileService;
+    protected CollectorScrubberService collectorScrubberService;
+    protected AccountService accountService;
+    protected PreScrubberService preScrubberService;
+    protected String batchFileDirectoryName;
     
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.

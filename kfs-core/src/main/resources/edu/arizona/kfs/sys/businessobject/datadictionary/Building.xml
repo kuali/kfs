@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="Building" parent="Building-parentBean">
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="Building-routeCode" />
+			</list>
+		</property>
+		<property name="inactivationBlockingDefinitions">
+			<list merge="true">
+				<bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="extension.routeCodeObj"/>
+			</list>
+		</property>
+		<property name="relationships">
+			<list merge="true">
+				<dd:relationship objectAttribute="extension.routeCodeObj">
+					<dd:primitiveAttribute source="extension.routeCode"
+						target="routeCode" />
+				</dd:relationship>
+
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="Building-routeCode" parent="Building-routeCode-parentBean" />
+	<dd:boAttributeRef id="Building-routeCode-parentBean"
+		abstract="true" parent="BuildingExtension-routeCode-parentBean"
+		attributeName="extension.routeCode" />
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="Building-inquiryDefinition" parent="Building-inquiryDefinition-parentBean">
+		<property name="title" value="Building Inquiry" />
+		<property name="inquirySections">
+			<list merge = "true">
+				<bean parent="InquirySectionDefinition" p:title="Additional Attributes">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="extension.routeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>		
+	</bean>
+
+	<!-- Lookup Definition not required for routeCode field -->
+
+	<bean id="Building-lookupDefinition" parent="Building-lookupDefinition-parentBean">
+		<property name="lookupFields">
+      		<list merge="true">
+        		<bean parent="FieldDefinition" p:attributeName="extension.routeCode"/>
+        	</list>
+        </property>	
+		<property name="resultFields">
+			<list merge="true">
+				<bean parent="FieldDefinition" p:attributeName="extension.routeCode" />
+			</list>
+		</property>
+	</bean>
+</beans>
+

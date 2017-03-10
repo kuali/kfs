@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="DisbursementVoucherDocument" parent="DisbursementVoucherDocument-parentBean">
+        <property name="documentClass" value="edu.arizona.kfs.fp.document.DisbursementVoucherDocument" />
+        <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+        <property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
+        <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController"/>
+        <property name="attributes">
+            <list merge = "true">
+                 <ref bean="DisbursementVoucherDocument-dvPaidYear"/>
+                 <ref bean="DisbursementVoucherDocument-dv1099Ind"/>
+                 <ref bean="DisbursementVoucherDocument-dv1099IndForSearching"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean">
+    	<property name="control"> 
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.fp.businessobject.options.PaymentMethodsForDVValuesFinder" p:includeKeyInLabel="false"/>
+		</property>
+	</bean>
+
+    <bean id="DisbursementVoucherDocument-sourceAccountingLineGroup" parent="DisbursementVoucherDocument-sourceAccountingLineGroup-parentBean">  
+        <property name="accountingLineClass" value="edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLine"/>
+    </bean>
+
+    <bean id="DisbursementVoucherDocument-accountingLineView" parent="DisbursementVoucherDocument-accountingLineView-parent">
+        <property name="elements">
+            <list>
+                <bean parent="AccountingLineView-sequenceNumber"/>
+                <bean parent="AccountingLineView-lines">
+                    <property name="lines">
+                        <list>
+                            <ref bean="accountingInformation"/>
+                            <bean parent="AccountingLineView-line">
+                                <property name="elementName" value="lineDescription"/>
+                                <property name="fields">
+                                    <list>
+                                        <bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+                                        <bean parent="AccountingLineView-field" p:name="extension.invoiceNumber" p:required="true"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+                <bean parent="AccountingLineView-actions"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DisbursementVoucherDocument-workflowAttributes" parent="DisbursementVoucherDocument-workflowAttributes-parentBean">
+        <property name="searchingTypeDefinitions">
+            <list merge="true">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+   				<property name="searchingAttribute">
+   					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+   						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.document.DisbursementVoucherDocument"/>
+   						<property name="attributeName" value="dv1099IndForSearching"/>
+   					</bean>
+   				</property>
+   				<property name="documentValues">
+   					<list>
+   						<value>dv1099IndForSearching</value>
+   					</list>
+   				</property>
+   			</bean>
+            
+             	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+	   				<property name="searchingAttribute">
+	   					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+	   						<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
+	   						<property name="attributeName" value="disbVchrPaymentMethodCode"/>
+	   					</bean>
+	   				</property>
+	   				<property name="documentValues">
+	   					<list>
+	   						<value>disbVchrPaymentMethodCode</value>
+	   					</list>
+	   				</property>
+	   			</bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.DisbursementVoucherSourceAccountingLineExtension" />
+                            <property name="attributeName" value="invoiceNumber" />
+                            <property name="showAttributeInSearchCriteria" value="true" />
+                            <property name="showAttributeInResultSet" value="true" />
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>sourceAccountingLines.extension.invoiceNumber</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="routingTypeDefinitions">
+          <map>
+            <entry key="Purchasing" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
+            <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+            <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
+            <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+            <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
+            <entry key="Campus" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
+            <!-- no qualifiers for tax review -->
+            <!-- no qualifiers for travel review -->
+            <entry key="PaymentMethod" value-ref="DisbursementVoucherDocument-RoutingType-PaymentMethod"/>
+            <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+          </map>
+        </property>
+    </bean>
+    
+    <bean id="DisbursementVoucherDocument-dvPaidYear" parent="DisbursementVoucherDocument-dvPaidYear-parentBean"/>
+
+	 <bean id="DisbursementVoucherDocument-dvPaidYear-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="name" value="dvPaidYear"/>
+       	<property name="forceUppercase" value="false"/>	    
+       	<property name="label" value="Calendar Year"/>
+	    <property name="shortLabel" value="Calendar Year"/>
+	    <property name="maxLength" value="4"/>
+	    <property name="required" value="false"/>
+	    <property name="control">
+	    	<bean parent="TextControlDefinition" p:size="5"/>
+	    </property>	    
+    </bean>
+    
+ 	<bean id="DisbursementVoucherDocument-dv1099Ind" parent="DisbursementVoucherDocument-dv1099Ind-parentBean"/>
+
+  	<bean id="DisbursementVoucherDocument-dv1099Ind-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    	<property name="name" value="dv1099Ind"/>
+ 	    <property name="label" value="1099 Classification"/>
+    	<property name="shortLabel" value="1099 Classification"/>
+  	</bean>
+  	    
+  	<bean id="DisbursementVoucherDocument-dv1099IndForSearching" parent="DisbursementVoucherDocument-dv1099IndForSearching-parentBean"/>
+    
+    <bean id="DisbursementVoucherDocument-dv1099IndForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+      <property name="name" value="dv1099IndForSearching"/>
+      <property name="label" value="1099 Classification"/>
+      <property name="shortLabel" value="1099 Classification"/>
+      <property name="control">
+      		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      </property>
+    </bean>
+</beans>

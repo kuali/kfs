@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="ErrorCertification" parent="ErrorCertification-parentBean" />
+	<bean id="ErrorCertification-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="edu.arizona.kfs.fp.businessobject.ErrorCertification" />
+		<property name="objectLabel" value="Error Certification" />
+		<property name="attributes">
+			<list>
+				<ref bean="ErrorCertification-versionNumber" />
+				<ref bean="ErrorCertification-errorCertID" />
+				<ref bean="ErrorCertification-expenditureDescription" />
+				<ref bean="ErrorCertification-expenditureProjectBenefit" />
+				<ref bean="ErrorCertification-errorDescription" />
+				<ref bean="ErrorCertification-errorCorrectionReason" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ErrorCertification-versionNumber" parent="AttributeReferenceDummy-versionNumber-parentBean" />
+
+	<bean id="ErrorCertification-errorCertID" parent="ErrorCertification-errorCertID-parentBean" />
+
+	<bean id="ErrorCertification-errorCertID-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="errorCertID" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Error Certification ID" />
+		<property name="shortLabel" value="Error Certification ID" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern" >
+		      <bean parent="NumericValidationPattern" />
+		</property>	
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="description" value="Error Cert Generated ID" />
+	</bean>
+
+	<bean id="ErrorCertification-expenditureDescription" parent="ErrorCertification-expenditureDescription-parentBean" />
+
+	<bean id="ErrorCertification-expenditureDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="expenditureDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Describe in detail the expenditures that are being transferred." />
+		<property name="shortLabel" value="Expenditure Description" />
+		<property name="maxLength" value="400" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
+
+	<bean id="ErrorCertification-expenditureProjectBenefit" parent="ErrorCertification-expenditureProjectBenefit-parentBean" />
+
+	<bean id="ErrorCertification-expenditureProjectBenefit-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="expenditureProjectBenefit" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="How did this expenditure benefit the project?" />
+		<property name="shortLabel" value="Project Benefit" />
+		<property name="maxLength" value="400" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
+	
+	<bean id="ErrorCertification-errorDescription" parent="ErrorCertification-errorDescription-parentBean" />
+
+	<bean id="ErrorCertification-errorDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="errorDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="How the error occurred?" />
+		<property name="shortLabel" value="Error Description" />
+		<property name="maxLength" value="400" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
+	
+	<bean id="ErrorCertification-errorCorrectionReason" parent="ErrorCertification-errorCorrectionReason-parentBean" />
+
+	<bean id="ErrorCertification-errorCorrectionReason-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="errorCorrectionReason" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Why is the error correction late?" />
+		<property name="shortLabel" value="Error Corr Reason" />
+		<property name="maxLength" value="400" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
+</beans>

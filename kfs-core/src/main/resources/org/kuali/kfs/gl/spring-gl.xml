@@ -2420,6 +2420,7 @@
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService"/>
 		<property name="systemReferenceValueDao" ref="systemLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="chartReferenceValueDao" ref="chartLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="ledgerDao" ref="generalLedgerPreparedStatementCachingDao" />

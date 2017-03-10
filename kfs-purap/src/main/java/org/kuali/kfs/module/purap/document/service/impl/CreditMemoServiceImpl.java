@@ -95,20 +95,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreditMemoServiceImpl implements CreditMemoService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoServiceImpl.class);
 
-    private AccountsPayableService accountsPayableService;
-    private CreditMemoDao creditMemoDao;
-    private DataDictionaryService dataDictionaryService;
-    private DocumentService documentService;
-    private ConfigurationService kualiConfigurationService;
-    private NoteService noteService;
-    private PaymentRequestService paymentRequestService;
-    private PurapAccountingService purapAccountingService;
-    private PurapGeneralLedgerService purapGeneralLedgerService;
-    private PurapService purapService;
-    private PurchaseOrderService purchaseOrderService;
-    private VendorService vendorService;
-    private WorkflowDocumentService workflowDocumentService;
-    private FinancialSystemDocumentService financialSystemDocumentService;
+    protected AccountsPayableService accountsPayableService;
+    protected CreditMemoDao creditMemoDao;
+    protected DataDictionaryService dataDictionaryService;
+    protected DocumentService documentService;
+    protected ConfigurationService kualiConfigurationService;
+    protected NoteService noteService;
+    protected PaymentRequestService paymentRequestService;
+    protected PurapAccountingService purapAccountingService;
+    protected PurapGeneralLedgerService purapGeneralLedgerService;
+    protected PurapService purapService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected VendorService vendorService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
 
 
     public void setAccountsPayableService(AccountsPayableService accountsPayableService) {

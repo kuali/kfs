@@ -1,0 +1,316 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardLevel3Rental" parent="ProcurementCardLevel3Rental-parentBean" />
+  
+  <bean id="ProcurementCardLevel3Rental-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Rental" />
+  	<property name="objectLabel" value="Procurement Card Rental" />
+  	<property name="attributes" >
+  		<list>
+  			<ref bean="ProcurementCardLevel3Rental-documentNumber" />
+  			<ref bean="ProcurementCardLevel3Rental-financialDocumentTransactionLineNumber" />
+  			<ref bean="ProcurementCardLevel3Rental-checkOutDate" />
+  			<ref bean="ProcurementCardLevel3Rental-rentalAgreementNum" />
+  			<ref bean="ProcurementCardLevel3Rental-renterName" />
+  			<ref bean="ProcurementCardLevel3Rental-returnCity" />
+  			<ref bean="ProcurementCardLevel3Rental-returnState" />
+  			<ref bean="ProcurementCardLevel3Rental-returnCountry" />
+  			<ref bean="ProcurementCardLevel3Rental-returnDate" />
+  			<ref bean="ProcurementCardLevel3Rental-returnLocation" />
+  			<ref bean="ProcurementCardLevel3Rental-customerSvcNum" />
+  			<ref bean="ProcurementCardLevel3Rental-rentalClass" />
+  			<ref bean="ProcurementCardLevel3Rental-dailyRate" />
+  			<ref bean="ProcurementCardLevel3Rental-weeklyRate" />
+  			<ref bean="ProcurementCardLevel3Rental-ratePerMile" />
+  			<ref bean="ProcurementCardLevel3Rental-maxFreeMiles" />
+  			<ref bean="ProcurementCardLevel3Rental-totalMiles" />
+  			<ref bean="ProcurementCardLevel3Rental-oneWayCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-insuranceCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-regularCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-towingCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-extraCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-lateReturnFee" />
+  			<ref bean="ProcurementCardLevel3Rental-adjustCode" />
+  			<ref bean="ProcurementCardLevel3Rental-adjustAmount" />
+  			<ref bean="ProcurementCardLevel3Rental-progCode" />
+  			<ref bean="ProcurementCardLevel3Rental-phoneCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-othrCharges" />
+  			<ref bean="ProcurementCardLevel3Rental-totalTaxAmount" /> 
+  		</list>
+  	</property>  	
+  </bean>
+  
+<!-- Attribute Definitions -->
+  <bean id="ProcurementCardLevel3Rental-documentNumber" parent="ProcurementCardLevel3Rental-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3Rental-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" />
+  
+  <bean id="ProcurementCardLevel3Rental-checkOutDate" parent="ProcurementCardLevel3Rental-checkOutDate-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-checkOutDate-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="checkOutDate" />
+  	<property name="label" value="Checkout Date" />
+  	<property name="shortLabel" value="Date" />
+  	<property name="maxLength" value="10" />
+  	<property name="validationPattern" >
+  		<bean parent="DateValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-rentalAgreementNum" parent="ProcurementCardLevel3Rental-rentalAgreementNum-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-rentalAgreementNum-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="rentalAgreementNum" />
+  	<property name="label" value="Rental Agreement Number" />
+  	<property name="shortLabel" value="Rental Num" />
+  	<property name="maxLength" value="9" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition" 
+  			  p:size="11" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-renterName" parent="ProcurementCardLevel3Rental-renterName-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-renterName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="renterName" />
+  	<property name="label" value="Renter Name" />
+  	<property name="shortLabel" value="Renter Name" />
+  	<property name="maxLength" value="40" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="42" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-returnCity" parent="ProcurementCardLevel3Rental-returnCity-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-returnCity-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="returnCity" />
+  	<property name="label" value="Return City" />
+  	<property name="shortLabel" value="Return City" />
+  	<property name="maxLength" value="18" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="20" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-returnState" parent="ProcurementCardLevel3Rental-returnState-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-returnState-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="returnState" />
+  	<property name="label" value="Return State" />
+  	<property name="shortLabel" value="Return St" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-returnCountry" parent="ProcurementCardLevel3Rental-returnCountry-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-returnCountry-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="returnCountry" />
+  	<property name="label" value="Return Country" />
+  	<property name="shortLabel" value="Return Country" />
+  	<property name="maxLength" value="3" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="5" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-returnDate" parent="ProcurementCardLevel3Rental-returnDate-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-returnDate-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="returnDate" />
+  	<property name="label" value="Return Date" />
+  	<property name="shortLabel" value="Return Dt" />
+  	<property name="maxLength" value="10" />
+  	<property name="validationPattern" >
+  		<bean parent="DateValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-returnLocation" parent="ProcurementCardLevel3Rental-returnLocation-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-returnLocation-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="returnLocation" />
+  	<property name="label" value="Return Location" />
+  	<property name="shortLabel" value="Return Loc" />
+  	<property name="maxLength" value="10" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-customerSvcNum" parent="ProcurementCardLevel3Rental-customerSvcNum-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-customerSvcNum-parentBean" abstract="true" parent="ProcurementCardLevel3Lodging-customerServiceNum">
+  	<property name="name" value="customerSvcNum" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-rentalClass" parent="ProcurementCardLevel3Rental-rentalClass-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-rentalClass-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="rentalClass" />
+  	<property name="label" value="Rental Class" />
+  	<property name="shortLabel" value="Rental Cls" />
+  	<property name="maxLength" value="2" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="4" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-dailyRate" parent="ProcurementCardLevel3Rental-dailyRate-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-dailyRate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="dailyRate" />
+  	<property name="label" value="Daily Rate" />
+  	<property name="shortLabel" value="Daily Rate" />	
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-weeklyRate" parent="ProcurementCardLevel3Rental-weeklyRate-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-weeklyRate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="weeklyRate" />
+  	<property name="label" value="Weekly Rate" />
+  	<property name="shortLabel" value="Weekly Rate" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-ratePerMile" parent="ProcurementCardLevel3Rental-ratePerMile-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-ratePerMile-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="ratePerMile" />
+  	<property name="label" value="Rate Per Mile" />
+  	<property name="shortLabel" value="Rate Mile" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-maxFreeMiles" parent="ProcurementCardLevel3Rental-maxFreeMiles-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-maxFreeMiles-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="maxFreeMiles" />
+  	<property name="label" value="Maximum Free Miles" />
+  	<property name="shortLabel" value="Max Free Miles" />
+  	<property name="maxLength" value="10" />
+  	<property name="validationPattern" >
+  		<bean parent="NumericValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-totalMiles" parent="ProcurementCardLevel3Rental-totalMiles-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-totalMiles-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="totalMiles" />
+  	<property name="label" value="Total Miles" />
+  	<property name="shortLabel" value="Tot Miles" />
+  	<property name="maxLength" value="10" />
+  	<property name="validationPattern" >
+  		<bean parent="NumericValidationPattern" />
+  	</property>
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="12" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-oneWayCharges" parent="ProcurementCardLevel3Rental-oneWayCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-oneWayCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="oneWayCharges" />
+  	<property name="label" value="One Way Charges" />
+  	<property name="shortLabel" value="One Way Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-insuranceCharges" parent="ProcurementCardLevel3Rental-insuranceCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-insuranceCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="insuranceCharges" />
+  	<property name="label" value="Insurance Charges" />
+  	<property name="shortLabel" value="Insurance Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-regularCharges" parent="ProcurementCardLevel3Rental-regularCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-regularCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="regularCharges" />
+  	<property name="label" value="Regular Mileage Charges" />
+  	<property name="shortLabel" value="Reg Charges" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-towingCharges" parent="ProcurementCardLevel3Rental-towingCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-towingCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="towingCharges" />
+  	<property name="label" value="Towing Charges" />
+  	<property name="shortLabel" value="Towing Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-extraCharges" parent="ProcurementCardLevel3Rental-extraCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-extraCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="extraCharges" />
+  	<property name="label" value="Extra Mileage Charges" />
+  	<property name="shortLabel" value="Extra Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-lateReturnFee" parent="ProcurementCardLevel3Rental-lateReturnFee-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-lateReturnFee-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="lateReturnFee" />
+  	<property name="label" value="Late Return Fee" />
+  	<property name="shortLabel" value="Late Fee" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-adjustCode" parent="ProcurementCardLevel3Rental-adjustCode-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-adjustCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="adjustCode" />
+  	<property name="label" value="Adjustment Code" />
+  	<property name="shortLabel" value="Adjust Cd" />
+  	<property name="maxLength" value="1" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="3" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-adjustAmount" parent="ProcurementCardLevel3Rental-adjustAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-adjustAmount-parentBean" abstract="true" parent="ProcurementCardLevel3Lodging-adjustmentAmount">
+  	<property name="name" value="adjustAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-progCode" parent="ProcurementCardLevel3Rental-progCode-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-progCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="progCode" />
+  	<property name="label" value="Program Code" />
+  	<property name="shortLabel" value="Program Cd" />
+  	<property name="maxLength" value="2" />
+  	<property name="control" >
+  		<bean parent="TextControlDefinition"
+  			  p:size="4" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-phoneCharges" parent="ProcurementCardLevel3Rental-phoneCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-phoneCharges-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="phoneCharges" />
+  	<property name="label" value="Phone Charges" />
+  	<property name="shortLabel" value="Phone Chg" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-othrCharges" parent="ProcurementCardLevel3Rental-othrCharges-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-othrCharges-parentBean" abstract="true" parent="ProcurementCardLevel3Lodging-otherCharges">
+  	<property name="name" value="othrCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3Rental-totalTaxAmount" parent="ProcurementCardLevel3Rental-totalTaxAmount-parentBean" />
+  <bean id="ProcurementCardLevel3Rental-totalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="totalTaxAmount" />
+  	<property name="label" value="Total Tax Amount" />
+  	<property name="shortLabel" value="Tot Tax Amt" />
+  </bean>
+ 
+</beans>

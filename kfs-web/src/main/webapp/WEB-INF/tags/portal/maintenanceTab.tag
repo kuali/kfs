@@ -51,7 +51,9 @@
       <maintenanceChannel:budgetConstruction /> 
     </c:if>
       <maintenanceChannel:system /> 
-    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}"> 
-      <maintenanceChannel:tem />
+    <c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
+	    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}"> 
+	      <maintenanceChannel:tem />
+	    </c:if>
     </c:if>
 </td>

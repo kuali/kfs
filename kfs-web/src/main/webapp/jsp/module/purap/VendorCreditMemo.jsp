@@ -60,6 +60,10 @@
 	
 	    <gl:generalLedgerPendingEntries />
 	    
+	    <sys:incomeTypes editingMode="${KualiForm.editingMode}" incomeTypeAttributes="${DataDictionary.CreditMemoIncomeType.attributes}" />
+	    
+	    <sys:docuware />
+	    
 		<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
 	    
 	    <kul:adHocRecipients />

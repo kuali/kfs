@@ -18,12 +18,12 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Non-Employee Travel Expense" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NON_EMPL_TRAVEL_TAB_ERRORS}">
+<kul:tab tabTitle="Travel" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NON_EMPL_TRAVEL_TAB_ERRORS}">
 	<c:set var="nonEmplTravelAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeTravel.attributes}" />
     <c:set var="travelExpenseAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeExpense.attributes}" />
    
     <div class="tab-container" align=center > 
-<h3>Non-Employee Travel Expense</h3>
+      <h3>Travel</h3>
 	  <table cellpadding=0 class="datatable" summary="Non-Employee Travel Section">
            
             <tr>
@@ -137,8 +137,8 @@
               <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${nonEmplTravelAttributes.disbVchrPerdiemCalculatedAmt}"/></div></th>
               <td><div class="left"><kul:htmlControlAttribute attributeEntry="${nonEmplTravelAttributes.disbVchrPerdiemCalculatedAmt}" property="document.dvNonEmployeeTravel.disbVchrPerdiemCalculatedAmt" readOnly="true"/></div>
               <c:if test="${fullEntryMode||travelEntryMode}">
-                   <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.clearTravelPerDiem" alt="Clear Per Diem" title="Clear Per Diem"/></div>
-                   <div class="right"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelPerDiem" alt="Calculate Per Diem" title="Calculate Per Diem"/></div>
+<%--                    <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.clearTravelPerDiem" alt="Clear Per Diem" title="Clear Per Diem"/></div> --%>
+<%--                    <div class="right"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelPerDiem" alt="Calculate Per Diem" title="Calculate Per Diem"/></div> --%>
               </c:if>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nonEmplTravelAttributes.disbVchrAutoRoundTripCode}"/></div></th>

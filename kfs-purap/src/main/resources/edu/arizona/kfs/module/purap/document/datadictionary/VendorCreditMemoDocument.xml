@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  	<bean id="VendorCreditMemoDocument" parent="VendorCreditMemoDocument-parentBean">
+	  	<property name="documentClass" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument" />
+	  	<property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController"/>
+		<property name="attributes">
+			<list merge="true">
+				<bean parent="PaymentMethodAttribute-SelectControl"/>
+				<ref bean="VendorCreditMemoDocument-paymentPaidYear"/>
+			    <ref bean="VendorCreditMemoDocument-payment1099Indicator"/>
+			    <ref bean="VendorCreditMemoDocument-payment1099IndicatorForSearching"/>
+			</list>
+		</property>
+    </bean>           
+
+    <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean">
+    	<property name="required" value="false"/>
+    </bean>
+      <!-- Add New Search Fields to DV, PREQ and CM Documents -->
+    <bean id="VendorCreditMemoDocument-paymentPaidYear" parent="VendorCreditMemoDocument-paymentPaidYear-parentBean"/>
+
+    <bean id="VendorCreditMemoDocument-paymentPaidYear-parentBean" abstract="true" parent="AttributeDefinition">
+   	  <property name="name" value="paymentPaidYear"/>
+      <property name="forceUppercase" value="false"/>	    
+      <property name="label" value="Calendar Year"/>
+      <property name="shortLabel" value="Calendar Year"/>
+      <property name="maxLength" value="4"/>
+      <property name="control">
+    	  <bean parent="TextControlDefinition" p:size="5"/>
+      </property>	    
+    </bean>
+    
+    <bean id="VendorCreditMemoDocument-payment1099Indicator" parent="VendorCreditMemoDocument-payment1099Indicator-parentBean"/>
+
+    <bean id="VendorCreditMemoDocument-payment1099Indicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+      <property name="name" value="payment1099Indicator"/>
+      <property name="label" value="1099 Classification"/>
+      <property name="shortLabel" value="1099 Classification"/>
+    </bean>
+  
+    <bean id="VendorCreditMemoDocument-payment1099IndicatorForSearching" parent="VendorCreditMemoDocument-payment1099IndicatorForSearching-parentBean"/>
+    
+    <bean id="VendorCreditMemoDocument-payment1099IndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+      <property name="name" value="payment1099IndicatorForSearching"/>
+      <property name="label" value="1099 Classification"/>
+      <property name="shortLabel" value="1099 Classification"/>
+      <property name="control">
+        <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      </property>
+    </bean>
+    
+    <bean id="VendorCreditMemoDocument-workflowAttributes" parent="VendorCreditMemoDocument-workflowAttributes-parentBean">
+	    <property name="searchingTypeDefinitions">
+	    	<list merge="true"> 	
+	            <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
+	                <property name="searchingAttribute">
+	                    <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+	                        <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument"/>
+	                        <property name="attributeName" value="payment1099IndicatorForSearching"/>
+	                    </bean>
+	                </property>
+	                <property name="documentValues">
+	                    <list>
+	                        <value>payment1099IndicatorForSearching</value>
+	                    </list>
+	                </property>
+	            </bean>    	
+	            <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+	                <property name="searchingAttribute">
+	                    <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+	                        <property name="businessObjectClassName" value="edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument"/>
+	                        <property name="attributeName" value="paymentMethodCode"/>
+	                    </bean>
+	                </property>
+	                <property name="documentValues">
+	                    <list>
+	                        <value>paymentMethodCode</value>
+	                    </list>
+	                </property>
+	            </bean>      			
+	   		</list>
+	   	</property>
+    </bean>	
+
+</beans>

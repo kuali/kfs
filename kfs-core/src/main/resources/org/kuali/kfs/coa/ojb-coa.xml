@@ -68,6 +68,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="laborBenefitRateCategoryCode" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="sourceOfFundsTypeCode" column="FUNDS_TYPE_CD" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -178,7 +179,7 @@
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
         <inverse-foreignkey field-ref="accountNumber" />
     </collection-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountType" table="CA_ACCOUNT_TYPE_T">
@@ -1882,6 +1883,15 @@
     <field-descriptor name="delegate" column="OBJ_ID" jdbc-type="VARCHAR" primarykey="true"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
   </class-descriptor>
 -->
+
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SourceOfFunds" table="CA_SOURCE_OF_FUNDS_T">
+	<field-descriptor name="typeCode" column="FUNDS_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	<field-descriptor name="sourceOfFundsName" column="SOF_NAME" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceOfFundsDescription" column="SOURCE_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+</class-descriptor>
 
 </descriptor-repository>
 

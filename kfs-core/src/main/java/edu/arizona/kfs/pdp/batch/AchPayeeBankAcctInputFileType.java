@@ -332,7 +332,12 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		String retval = null;
 		
 		if (map.keySet().size() == 1) {
-			retval = map.keySet().toArray()[0].toString();
+			if (map.keySet().contains(KIMPropertyConstants.Person.EMPLOYEE_ID)) {
+				retval = KIMPropertyConstants.Person.EMPLOYEE_ID;
+			}
+			else if (map.keySet().contains(KIMPropertyConstants.Person.ENTITY_ID)) {
+				retval = KIMPropertyConstants.Person.ENTITY_ID;
+			}
 		}
 		return retval;
 	}
@@ -345,7 +350,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		int cnt = 0;
 		
 		for (String id : idset) {
-			if (cnt < PdpConstants.ACHFileConstants.MAX_PERSON_SEARCH_ID_COUNT) {
+			if (cnt > PdpConstants.ACHFileConstants.MAX_PERSON_SEARCH_ID_COUNT) {
 				cnt = 0;
 				retval.add(s.toString());
 				s.setLength(0);
@@ -444,7 +449,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 			reportLine = new PayeeReportLine(currentPayeeAcct.getPayeeIdNumber(), payeeName, KFSConstants.ACHFileConstants.ACH_PAYEE_ACCT_INVALID_PAYEE_ID_TYP_ERROR);
 			reportLines.add(reportLine);
 		}
-		else if (isPayeeInOverrideGroup(payee, currentPayeeAcct)) {
+		else if (isPayeeInOverrideGroup(payee)) {
 			reportLine = new PayeeReportLine(currentPayeeAcct.getPayeeIdNumber(), payeeName, KFSConstants.ACHFileConstants.ACH_PAYEE_ACCT_OVERRIDE_EMPL_ERROR);
 			reportLines.add(reportLine);
 		}
@@ -560,7 +565,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		LOG.debug("overridePayeeMemberSet.size()=" + overridePayeeMemberSet.size());
 	}
 	
-	private boolean isPayeeInOverrideGroup(Person payee, PayeeACHAccount currentPayeeAcct) {
+	private boolean isPayeeInOverrideGroup(Person payee) {
 		boolean retval = false; 
 		
 		if (overridePayeeMemberSet == null) {

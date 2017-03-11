@@ -138,6 +138,13 @@ public class PayeeAchAccountServiceImpl implements PayeeAchAccountService {
 					payees2.add(payee);
 				}
 			}
+			
+			count = payees2.size();
+			
+			for (PayeeACHAccount payee : payees2) {
+				LOG.debug("deleted payee = " + payee);
+				businessObjectService.delete(payee);
+			}
 		}
 		else {
 			count = payees.size();
@@ -146,15 +153,6 @@ public class PayeeAchAccountServiceImpl implements PayeeAchAccountService {
 				LOG.debug("deleted payee = " + payee);
 				businessObjectService.delete(payee);
 			}
-			
-			return count;
-		}
-		
-		count = payees2.size();
-		
-		for (PayeeACHAccount payee : payees2) {
-			LOG.debug("deleted payee = " + payee);
-			businessObjectService.delete(payee);
 		}
 
 		return count;

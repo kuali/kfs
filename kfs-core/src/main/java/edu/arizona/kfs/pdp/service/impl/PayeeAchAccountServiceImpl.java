@@ -125,37 +125,37 @@ public class PayeeAchAccountServiceImpl implements PayeeAchAccountService {
 	
 	// this method will remove those accounts that match the PayeeIdentifierType on the File provided but not the list of payeeIdNumber's found on the BANKING_INFORMATION_OVERRIDE_GROUP group
 	private Integer removePayeeAchAccountsByPayeeType(String payeeType, List<String> overridePrincipalAndEmplIds) {
-		Integer count;
+		List<PayeeACHAccount> payeesToDelete = new ArrayList<PayeeACHAccount>();
+		
 		Map<String, String> criteria = new HashMap<String, String>();
 		criteria.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, payeeType);
+		Collection<PayeeACHAccount> fetchedPayees = businessObjectService.findMatching(PayeeACHAccount.class, criteria);
 		
-		Collection<PayeeACHAccount> payees = businessObjectService.findMatching(PayeeACHAccount.class, criteria);
-		List<PayeeACHAccount> payees2 = new ArrayList<PayeeACHAccount>();
-		
-		if (overridePrincipalAndEmplIds != null && !overridePrincipalAndEmplIds.isEmpty()) {
-			for (PayeeACHAccount payee : payees) {
+		if (overridePrincipalAndEmplIds == null || overridePrincipalAndEmplIds.isEmpty()) {
+			payeesToDelete.addAll(fetchedPayees);
+		} else {
+			for (PayeeACHAccount payee : fetchedPayees) {
 				if (!overridePrincipalAndEmplIds.contains(payee.getPayeeIdNumber())) {
-					payees2.add(payee);
+					payeesToDelete.add(payee);
 				}
 			}
-			
-			count = payees2.size();
-			
-			for (PayeeACHAccount payee : payees2) {
-				LOG.debug("deleted payee = " + payee);
-				businessObjectService.delete(payee);
-			}
 		}
-		else {
-			count = payees.size();
-			
-			for (PayeeACHAccount payee : payees) {
-				LOG.debug("deleted payee = " + payee);
-				businessObjectService.delete(payee);
-			}
-		}
+		
+		deletePayees(payeesToDelete);
 
-		return count;
+		return payeesToDelete.size();
+	}
+	
+	private void deletePayees(List<PayeeACHAccount> payees) {
+		if (payees == null || payees.isEmpty()) {
+			return;
+		}
+		
+		for (PayeeACHAccount payee : payees) {
+			LOG.debug("deleting payee = " + payee);
+		}
+		
+		businessObjectService.delete(payees);
 	}
 
 	protected String validateTypeUsedInFile(String inputFileName) {

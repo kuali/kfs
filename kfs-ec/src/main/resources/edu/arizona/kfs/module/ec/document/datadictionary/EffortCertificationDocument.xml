@@ -5,6 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+  <bean id="EffortCertificationDocument" parent="EffortCertificationDocument-parentBean"> 
+    <property name="documentAuthorizerClass" value="edu.arizona.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.ec.document.authorization.EffortDocumentPresentationController"/>    
+  </bean>
+
   <!-- Exported Workflow Attributes -->	
   <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean">
   	  <property name="routingTypeDefinitions">

@@ -38,4 +38,7 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_ACH_BANK = "message.batchUpload.title.achBank";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_ACH_PAYEE = "message.batchUpload.title.achPayee";
 
+    // Procurement Cardholder
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDH = "message.batchUpload.title.procurementCardHolder";
+
 }

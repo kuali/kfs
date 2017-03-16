@@ -242,4 +242,8 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
 		public static String SAVINGS = "32";
 	}
 
+    public static class ProcurementCardholder {
+        public static final String PCDH_FILE_TYPE_IDENTIFIER = "procurementCardHolderInputFileType";
+    }
+  
 }

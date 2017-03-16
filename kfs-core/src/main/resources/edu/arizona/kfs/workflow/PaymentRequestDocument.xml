@@ -13,7 +13,7 @@
 		  <validApplicationStatuses>
 	      	<status>Initiated</status>
 	      	<status>In Process</status>
-	      	<status>Canceled In Process</status>
+	      	<status>Canceled - In Process</status>
 	      	<status>Canceled</status>
 	      	<status>Department-Approved</status>
 	      	<status>Auto-Approved</status>

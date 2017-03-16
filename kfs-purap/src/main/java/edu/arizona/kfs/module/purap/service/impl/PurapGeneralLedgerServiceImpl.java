@@ -1,6 +1,7 @@
 package edu.arizona.kfs.module.purap.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -494,6 +495,84 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
         saveGLEntries(po.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesApproveAmendPo() gl entries created; exit method");
 	}
-    
-    
+
+
+	@Override
+	public void generateEntriesClosePurchaseOrder(PurchaseOrderDocument po) {
+        LOG.debug("generateEntriesClosePurchaseOrder() started");
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator<?> items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("generateEntriesClosePurchaseOrder() " + logItmNbr + " Calculate based on amounts");
+            }
+            itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if (itemAmount.compareTo(ZERO) != 0) {
+                Collections.sort((List) item.getSourceAccountingLines());
+                for (Iterator<PurApAccountingLine> iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                    	//section modified to comply with UAF-3391 criteria
+                        accountTotal = accountTotal.add(acct.getItemAccountOutstandingEncumbranceAmount());
+                        acct.setAlternateAmountForGLEntryCreation(acct.getItemAccountOutstandingEncumbranceAmount());
+                        //end of section modified
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("generateEntriesClosePurchaseOrder() difference: " + logItmNbr + " " + difference);
+                    }
+
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
+                    }
+                    else {
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
+                    }
+                }
+
+            }
+        }
+
+        po.setGlOnlySourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        if (shouldGenerateGLPEForPurchaseOrder(po)) {
+            generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+            saveGLEntries(po.getGeneralLedgerPendingEntries());
+            LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+        }
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator<?> items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                item.setItemOutstandingEncumberedQuantity(KualiDecimal.ZERO);
+            }
+            item.setItemOutstandingEncumberedAmount(KualiDecimal.ZERO);
+            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+            for (PurApAccountingLine purApAccountingLine : sourceAccountingLines) {
+                PurchaseOrderAccount account = (PurchaseOrderAccount) purApAccountingLine;
+                account.setItemAccountOutstandingEncumbranceAmount(KualiDecimal.ZERO);
+            }
+        }
+
+        LOG.debug("generateEntriesClosePurchaseOrder() exit method");
+	}
+
 }

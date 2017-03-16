@@ -152,5 +152,11 @@
     <bean id="b2bPurchaseOrderService" class="edu.arizona.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl" parent="b2bPurchaseOrderService-parentBean">
         <property name="b2bPurchaseOrderDtd" value="${b2b.purchase.order.dtd}"/>
     </bean>
-
+    
+	<bean id="electronicInvoiceHelperService" parent="electronicInvoiceHelperService-parentBean" class="edu.arizona.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />     
+    	<property name="kualiRuleService" ref="kualiRuleService" />        
+	</bean>
+  	
 </beans>

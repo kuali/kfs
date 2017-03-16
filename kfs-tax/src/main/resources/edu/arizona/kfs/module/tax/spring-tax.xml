@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="taxModuleConfiguration" parent="taxModuleConfiguration-parentBean" />
+    <bean id="taxModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-TAX" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>edu.arizona.kfs.module.tax</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:edu/arizona/kfs/module/tax/businessobject/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/tax/document/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>edu/arizona/kfs/module/tax/ojb-tax.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list>
+                <value>batchPayeeFormJob</value>
+                <value>payeeMasterExtractJob</value>
+            </list>
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${staging.directory}/1099</value>
+            <value>${reports.directory}/tax</value>
+            <value>${staging.directory}/tax</value>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="taxModuleService" parent="taxModuleService-parentBean" />
+    <bean id="taxModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="taxModuleConfiguration" />
+    </bean>
+
+    <bean id="payeeMasterExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="payeeMasterExtractStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="batchPayeeFormJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="batchPayeeFormStep" />
+                <ref bean="electronicFilingStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="payeeMasterExtractStep" class="edu.arizona.kfs.module.tax.batch.PayeeMasterExtractStep" parent="step">
+        <property name="taxBatchExtractService" ref="taxBatchExtractService" />
+    </bean>
+
+    <bean id="batchPayeeFormStep" class="edu.arizona.kfs.module.tax.batch.BatchPayeeFormStep" parent="step">
+        <property name="taxPayeeService" ref="taxPayeeService" />
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+        <property name="taxForm1099GeneratorService" ref="taxForm1099GeneratorService"></property>
+    </bean>
+
+    <bean id="electronicFilingStep" class="edu.arizona.kfs.module.tax.batch.ElectronicFilingStep" parent="step">
+        <property name="electronicFilingService" ref="electronicFilingService" />
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+        <property name="taxForm1099GeneratorService" ref="taxForm1099GeneratorService" />
+    </bean>
+
+    <bean id="taxReportingDao" parent="platformAwareDao" class="edu.arizona.kfs.module.tax.dataaccess.impl.TaxReportingDaoOjb">
+        <property name="nonPdpPaymentMethodCodes">
+            <set>
+                <value>W</value>
+                <value>F</value>
+                <value>M</value>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="taxBatchExtractService" class="edu.arizona.kfs.module.tax.service.impl.TaxBatchExtractServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+        <property name="incomeTypeHandlerService" ref="incomeTypeHandlerService" />
+        <property name="taxPayeeService" ref="taxPayeeService" />
+        <property name="taxReportingDao" ref="taxReportingDao" />
+        <property name="documentIncomeTypeSet">
+            <set>
+                <value>DV</value>
+                <value>DVCA</value>
+                <value>DVNC</value>
+                <value>PREQ</value>
+                <value>PRNC</value>
+                <value>CM</value>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="taxPayeeService" class="edu.arizona.kfs.module.tax.service.impl.TaxPayeeServiceImpl">
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="taxReportingDao" ref="taxReportingDao" />
+        <property name="form1099BoxInformation">
+            <map>
+                <entry key="1" value="RENTS" />
+                <entry key="2" value="ROYALTIES" />
+                <entry key="3" value="OTHER" />
+                <entry key="4" value="FEDERAL" />
+                <entry key="5" value="FISHING" />
+                <entry key="6" value="MEDICAL" />
+                <entry key="7" value="NONEMPLOYEE" />
+                <entry key="8" value="SUBSTITUTE" />
+                <entry key="10" value="CROP" />
+                <entry key="13" value="GOLDEN" />
+                <entry key="14" value="ATTORNEY" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="taxParameterHelperService" class="edu.arizona.kfs.module.tax.service.impl.TaxParameterHelperServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+        <property name="parameterEvaluatorService" ref="parameterEvaluatorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="taxForm1099GeneratorService" class="edu.arizona.kfs.module.tax.service.impl.TaxForm1099GeneratorServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+        <property name="taxPayeeService" ref="taxPayeeService" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="pdfDirectory" value="${staging.directory}/tax/pdf"/>
+    </bean>
+
+    <bean id="electronicFilingService" class="edu.arizona.kfs.module.tax.service.impl.ElectronicFilingServiceImpl">
+        <property name="taxPayeeService" ref="taxPayeeService" />
+        <property name="taxParameterHelperService" ref="taxParameterHelperService" />
+    </bean>
+
+</beans>

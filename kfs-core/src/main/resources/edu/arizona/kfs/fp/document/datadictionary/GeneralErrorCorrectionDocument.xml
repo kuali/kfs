@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean">
+		<property name="documentClass" value="edu.arizona.kfs.fp.document.GeneralErrorCorrectionDocument"/>
+    	<property name="promptBeforeValidationClass" value="edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentPreRules"/>
+        <property name="allowsErrorCorrection" value="false" />
+        <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.GeneralErrorCorrectionDocumentPresentationController" />
+        <property name="allowsCopy" value="false" />
+        <property name="accountingLineGroups">
+            <map>
+                <entry key="source" value-ref="AzGeneralErrorCorrectionDocument-sourceAccountingLineGroup" />
+                <entry key="target" value-ref="AzGeneralErrorCorrectionDocument-targetAccountingLineGroup"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- workflow attributes for routing -->
+    <bean id="GeneralErrorCorrectionDocument-workflowAttributes" parent="GeneralErrorCorrectionDocument-workflowAttributes-parentBean">
+        <property name="routingTypeDefinitions">
+            <map>
+                <entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+                <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode"/>
+                <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+                <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

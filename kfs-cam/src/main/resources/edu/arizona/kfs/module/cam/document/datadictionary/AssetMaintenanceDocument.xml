@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+  <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean">
+        <property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetMaintainableImpl" />
+        <property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetRule" />
+  </bean>
+
+ <!--  Maintenance Section Definition -->
+  
+  <bean id="AssetMaintenanceDocument-OrganizationInformation" parent="AssetMaintenanceDocument-OrganizationInformation-parentBean">
+        <property name="maintainableItems">
+            <list merge="true">
+                <bean parent="MaintainableFieldDefinition" p:name="extension.inventoryUnitCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.inventoryUnitChartOfAccountsCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.inventoryUnitOrganizationCode" p:required="true" />
+            </list>
+        </property>
+  </bean>
+  
+  <!-- Workflow Attribute Definitions -->
+  
+  <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean">
+        <property name="routingTypeDefinitions">
+            <map merge="true">
+                <entry key="Account" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-Account" />
+            </map>
+        </property>
+  </bean>
+
+</beans>

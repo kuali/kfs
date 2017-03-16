@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="AssetGlobalDetail" parent="AssetGlobalDetail-parentBean">
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="AssetGlobalDetail-inventoryUnitCode" />
+				<ref bean="AssetGlobalDetail-inventoryUnitChartOfAccountsCode" />
+				<ref bean="AssetGlobalDetail-inventoryUnitOrganizationCode" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list merge="true">
+				<dd:relationship objectAttribute="extension.assetInvUnitObj">
+					<dd:primitiveAttribute source="extension.inventoryUnitCode" target="inventoryUnitCode" />
+					<dd:primitiveAttribute source="extension.inventoryUnitChartOfAccountsCode" target="chartOfAccountsCode" />
+					<dd:primitiveAttribute source="extension.inventoryUnitOrganizationCode" target="organizationCode" />
+				</dd:relationship>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="AssetGlobalDetail-inventoryUnitCode" parent="AssetGlobalDetail-inventoryUnitCode-parentBean" />
+	<dd:boAttributeRef id="AssetGlobalDetail-inventoryUnitCode-parentBean" abstract="true" parent="AssetGlobalDetailExtension-inventoryUnitCode-parentBean" attributeName="extension.inventoryUnitCode" />
+
+	<bean id="AssetGlobalDetail-inventoryUnitChartOfAccountsCode" parent="AssetGlobalDetail-inventoryUnitChartOfAccountsCode-parentBean" />
+	<dd:boAttributeRef id="AssetGlobalDetail-inventoryUnitChartOfAccountsCode-parentBean" abstract="true" parent="AssetGlobalDetailExtension-inventoryUnitChartOfAccountsCode-parentBean" attributeName="extension.inventoryUnitChartOfAccountsCode" />
+
+	<bean id="AssetGlobalDetail-inventoryUnitOrganizationCode" parent="AssetGlobalDetail-inventoryUnitOrganizationCode-parentBean" />
+	<dd:boAttributeRef id="AssetGlobalDetail-inventoryUnitOrganizationCode-parentBean" abstract="true" parent="AssetGlobalDetailExtension-inventoryUnitOrganizationCode-parentBean" attributeName="extension.inventoryUnitOrganizationCode" />
+
+</beans>

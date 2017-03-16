@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="BuildingExtension" parent="BuildingExtension-parentBean" />
+
+	<bean id="BuildingExtension-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="edu.arizona.kfs.sys.businessobject.BuildingExtension" />
+		<property name="objectLabel" value="Building" />
+		<property name="attributes">
+			<list>
+		        <ref bean="BuildingExtension-campusCode" />
+        		<ref bean="BuildingExtension-buildingCode" />
+				<ref bean="BuildingExtension-routeCode"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BuildingExtension-campusCode" parent="Building-campusCode-parentBean" />
+	<bean id="BuildingExtension-buildingCode" parent="Building-buildingCode-parentBean" />
+
+	
+	<bean id="BuildingExtension-routeCode" parent="BuildingExtension-routeCode-parentBean" />
+	<dd:boAttributeRef id="BuildingExtension-routeCode-parentBean"
+		abstract="true" parent="RouteCode-routeCode-parentBean"
+		attributeName="routeCodeObj.routeCode" />
+	
+</beans>

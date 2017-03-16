@@ -20,11 +20,18 @@ package org.kuali.kfs.fp.document.authorization;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -33,20 +40,26 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends CapitalAccountingLinesAuthorizerBase {
 
+    private static volatile ParameterService parameterService; 
+
     /**
-     * This method determines if the current accounting line is editable based upon if electronic claims exists on the DI document.
+     * This method determines if the field is editable.
      *
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
      */
     @Override
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
-        final boolean canModify = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
-        if (canModify && accountingLine.isSourceAccountingLine()) {
-            return !hasElectronicPaymentClaims(accountingDocument);
+        boolean hasEditPermOnField = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
+        boolean isSourceAccountingLine = accountingLine.isSourceAccountingLine();
+        if (!isSourceAccountingLine) {
+            return hasEditPermOnField;
         }
-
-        return canModify;
+        boolean isEpcSourceLine = isEpcSourceLine(accountingDocument, accountingLine);
+        if (hasEditPermOnField && isSourceAccountingLine && !isEpcSourceLine) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -55,24 +68,38 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Capi
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        final boolean shouldRender = super.renderNewLine(accountingDocument, accountingGroupProperty);
-        if (shouldRender && accountingGroupProperty.contains("source")) {
-            return !hasElectronicPaymentClaims(accountingDocument);
+        boolean shouldRender = super.renderNewLine(accountingDocument, accountingGroupProperty);
+        boolean isSourceLines = accountingGroupProperty.contains(KFSConstants.SOURCE_ACCOUNTING_LINES_GROUP_NAME);
+        if (shouldRender && isSourceLines) {
+            boolean hasElectronicPaymentClaims = hasElectronicPaymentClaims(accountingDocument);
+            if (hasElectronicPaymentClaims) {
+                String namespaceCode = KFSConstants.CoreModuleNamespaces.FINANCIAL;
+                String componentCode = DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.URL_DOC_TYPE;
+                String parameterName = KFSParameterKeyConstants.FpParameterConstants.ALLOW_ADDITIONAL_FROM_LINE_IND;
+                String parameterValue = getParameterService().getParameterValueAsString(namespaceCode, componentCode, parameterName);
+                boolean isParameterTrue = StringUtils.isNotBlank(parameterValue) && parameterValue.equals(KFSConstants.ParameterValues.YES);
+                return isParameterTrue;
+            }
         }
         return shouldRender;
     }
 
     /**
-     * There's no edit permission on lines in the source group on documents claiming electronic payments
+     * There's no edit permission on lines in the source group on documents claiming electronic payments unless it is a new source line.
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      */
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-        final boolean hasEditPermOnLine = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
-        if (hasEditPermOnLine && accountingLineCollectionProperty.contains("source")) {
-            return !hasElectronicPaymentClaims(accountingDocument);
+        boolean hasEditPermOnLine = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
+        boolean isSourceAccountingLine = accountingLine.isSourceAccountingLine();
+        if (!isSourceAccountingLine) {
+            return hasEditPermOnLine;
         }
-        return hasEditPermOnLine;
+        boolean isEpcSourceLine = isEpcSourceLine(accountingDocument, accountingLine);
+        if (hasEditPermOnLine && isSourceAccountingLine && !isEpcSourceLine) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -93,4 +120,42 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Capi
         return (!ObjectUtils.isNull(epcs) && epcs.size() > 0);
     }
 
+    /**
+     * determine whether the given source accounting line is auto generated by
+     * ElectronicPaymentClaims
+     * 
+     * @param accountingDocument
+     *            the given document
+     * @param accountingLine
+     *            the given accounting line
+     * @return true if the given accounting line is auto generated by
+     *         ElectronicPaymentClaims
+     */
+    protected boolean isEpcSourceLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        boolean hasElectronicPaymentClaims = hasElectronicPaymentClaims(accountingDocument);
+        if (hasElectronicPaymentClaims) {
+            DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) accountingDocument;
+            List<ElectronicPaymentClaim> electronicPaymentClaims = diDoc.getElectronicPaymentClaims();
+            for (ElectronicPaymentClaim claim : electronicPaymentClaims) {
+                SourceAccountingLine generatingAccountingLine = claim.getGeneratingAccountingLine();
+                boolean equals = generatingAccountingLine.equals(accountingLine); //?
+                if (equals){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * retrieves the Parameter Service
+     * 
+     * @return ParameterService
+     */
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
 }

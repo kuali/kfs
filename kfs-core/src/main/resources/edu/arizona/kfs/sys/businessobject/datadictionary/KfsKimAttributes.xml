@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="KfsKimAttributes" parent="KfsKimAttributes-parentBean"
+		p:businessObjectClass="edu.arizona.kfs.sys.identity.KfsKimAttributes"
+		p:objectLabel="KFS Core KIM Attributes">
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="KfsKimAttributes-objectSubTypeCode" />
+				<ref bean="KfsKimAttributes-fundGroupCode" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list merge="true">
+ 				<dd:relationship objectAttribute="objectSubType">
+					<dd:primitiveAttribute source="financialObjectSubTypeCode"
+						target="code" />
+				</dd:relationship>
+				<dd:relationship objectAttribute="fundGroup">
+					<dd:primitiveAttribute source="fundGroupCode" target="code" />
+				</dd:relationship>  
+			</list>
+		</property>
+	</bean>
+
+	<bean id="KfsKimAttributes-objectSubTypeCode" parent="ObjectCode-financialObjectSubTypeCode-parentBean" />	
+	
+	<bean id="KfsKimAttributes-fundGroupCode" parent="FundGroup-code" p:name="fundGroupCode" />
+
+</beans>

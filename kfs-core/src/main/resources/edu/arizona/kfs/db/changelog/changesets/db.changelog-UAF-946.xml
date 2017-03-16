@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	
+    <changeSet id="UAF-946" author="Leaha Sullivan">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="CA_SOURCE_OF_FUNDS_T" />
+			</not>
+		</preConditions>
+		<comment>Creating table for Source Of Funds</comment>
+		<createTable tableName="CA_SOURCE_OF_FUNDS_T">
+			<column name="FUNDS_TYPE_CD" type="VARCHAR(3)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints nullable="false"/>
+			</column>
+			<column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="SOF_NAME" type="VARCHAR(40)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="SOURCE_DESC" type="VARCHAR(200)"/>
+			<column name="ACTIVE_IND" type="VARCHAR(1)"/>
+		</createTable>
+		<addPrimaryKey columnNames="FUNDS_TYPE_CD" constraintName="CA_SOURCE_OF_FUNDS_TP1" tableName="CA_SOURCE_OF_FUNDS_T"/>
+		<addUniqueConstraint tableName="CA_SOURCE_OF_FUNDS_T" columnNames="OBJ_ID" constraintName="CA_SOURCE_OF_FUNDS_TC0" />
+		<rollback>
+			<dropTable tableName="CA_SOURCE_OF_FUNDS_T"/>
+		</rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -410,6 +410,10 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      * @return true if upload is possible, false otherwise
      */
     protected boolean canUpload() {
+        String docInError = accountingDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
+        if (StringUtils.isNotBlank(docInError)) {
+            return false;
+        }
         return (canEdit && accountingDocument.getAccountingLineParser() != null && shouldUpload);
     }
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PayerMaintenanceDocument" parent="PayerMaintenanceDocument-parentBean" />
+    <bean id="PayerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.Payer" />
+        <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="PayerMaintenanceDocument-EditPayer" />
+            </list>
+        </property>
+        <property name="allowsNewOrCopy" value="true" />
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="TXPR" />
+        <property name="businessRulesClass" value="edu.arizona.kfs.module.tax.document.validation.impl.PayerRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+        <property name="workflowProperties">
+            <ref bean="PayerMaintenanceDocument-workflowProperties" />
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="PayerMaintenanceDocument-EditPayer" parent="PayerMaintenanceDocument-EditPayer-parentBean" />
+    <bean id="PayerMaintenanceDocument-EditPayer-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit 1099 Payer" />
+        <property name="title" value="Edit 1099 Payer" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" />
+                <bean parent="MaintainableFieldDefinition" p:name="nameControl" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="transCd" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="tinType" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="replaceAlpha" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="tin" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="testFlg" />
+                <bean parent="MaintainableFieldDefinition" p:name="name1" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="name2" />
+                <bean parent="MaintainableFieldDefinition" p:name="contact" />
+                <bean parent="MaintainableFieldDefinition" p:name="phoneNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="ext" />
+                <bean parent="MaintainableFieldDefinition" p:name="companyName1" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="companyName2" />
+                <bean parent="MaintainableFieldDefinition" p:name="address" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="city" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="state" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="zipCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="countryCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="email" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+
+    <bean id="PayerMaintenanceDocument-workflowProperties" parent="PayerMaintenanceDocument-workflowProperties-parentBean" />
+    <bean id="PayerMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    </bean>
+</beans>

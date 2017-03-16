@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AccountingDocument-defaultAccountingLineValuesAllowedValidation" class="edu.arizona.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
+    <property name="objectCodeAllowedValidation" ref="AccountingDocument-IsObjectCodeAllowed-DefaultValidation"/>
+    <property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation"/>
+    <property name="fundGroupAllowedValidation" ref="AccountingDocument-IsFundGroupAllowed-DefaultValidation"/>
+    <property name="subFundGroupAllowedValidation" ref="AccountingDocument-IsSubFundGroupAllowed-DefaultValidation"/>
+    <property name="objectSubTypeAllowedValidation" ref="AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation"/>
+    <property name="objectLevelAllowedValidation" ref="AccountingDocument-IsObjectLevelAllowed-DefaultValidation"/>
+    <property name="objectConsolidationAllowedValidation" ref="AccountingDocument-IsObjectConsolidationAllowed-DefaultValidation"/>
+    <!-- KITT-1934 -->
+    <property name="globalTransactionValidation" ref="AccountingDocument-GlobalTransactionValidation"/>
+  </bean>
+
+  <!-- KITT-803 -->
+  <!-- will only do sub type sub fund validation -->
+  <bean id="AccountingDocument-globalTransactionAccountingLineValuesAllowedValidation" class="edu.arizona.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
+    <property name="globalTransactionValidation" ref="AccountingDocument-GlobalTransactionValidation"/>
+  </bean>
+
+  <!-- KITT-296, KITT-803 -->
+  <bean id="AccountingDocument-GlobalTransactionValidation" scope="prototype" parent="AccountingDocument-GlobalTransactionValidation-parentBean"/>
+
+  <bean id="AccountingDocument-GlobalTransactionValidation-parentBean" class="edu.arizona.kfs.sys.document.validation.impl.AccountingLineGlobalTransactionValidation" abstract="true">
+    <property name="parameterService" ref="parameterService"/>
+    <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
+    <property name="docTypesToValidate">
+      <list>
+        <value>AdvanceDepositDocument</value>
+        <value>AssetPaymentDocument</value>
+        <value>AuxiliaryVoucherDocument</value>
+        <value>BudgetAdjustmentDocument</value>
+        <value>BenefitExpenseTransferDocument</value>
+        <value>CashReceiptDocument</value>
+        <value>CreditCardReceiptDocument</value>
+        <value>CustomerInvoiceDocument</value>
+        <value>DisbursementVoucherDocument</value>
+        <value>DistributionOfIncomeAndExpenseDocument</value>
+        <value>GeneralErrorCorrectionDocument</value>
+        <value>IndirectCostAdjustment</value>
+        <value>InternalBillingDocument</value>
+        <value>JournalVoucherDocument</value>
+        <value>NonCheckDisbursement</value>
+        <value>LaborJournalVoucherDocument</value>
+        <value>PaymentRequestDocument</value>
+        <value>PreEncumbranceDocument</value>
+        <value>ProcurementCardDocument</value>
+        <value>PurchaseOrderDocument</value>
+        <value>RequisitionDocument</value>
+        <value>SalaryExpenseTransferDocument</value>
+        <value>ServiceBillingDocument</value>
+        <value>YearEndBenefitExpenseTransferDocument</value>
+        <value>YearEndBudgetAdjustmentDocument</value>
+        <value>YearEndDistributionOfIncomeAndExpenseDocument</value>
+        <value>YearEndGeneralErrorCorrectionDocument</value>
+        <value>YearEndSalaryExpenseTransferDocument</value>
+      </list>
+    </property>
+  </bean>
+
+</beans>

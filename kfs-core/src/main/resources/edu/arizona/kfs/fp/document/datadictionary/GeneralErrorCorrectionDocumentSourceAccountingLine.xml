@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AzGeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean">
+        <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-sourceAccountingLineView" />
+        <property name="groupLabel" value="Reversing" />
+        <property name="accountingLineAuthorizerClass" value="edu.arizona.kfs.fp.document.authorization.GeneralErrorCorrectionReversingAccountingLinesAuthorizer" />
+        <property name="accountingLineGroupActions" ref="GeneralErrorCorrectionDocument-sourceGroupActions" />
+        <property name="importingAllowed" value="false" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean parent="AccountingLineView-action" p:actionMethod="copyAllAccountingLines" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif" />
+                <bean parent="AccountingLineView-action" p:actionMethod="deleteAllSourceAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineView" parent="AccountingLineView">
+       <property name="elements">
+         <list>
+             <ref bean="GeneralErrorCorrectionDocument-sourceAccountingLine-sequenceNumber" />
+             <ref bean="GeneralErrorCorrectionDocument-sourceAccountingLine-informationLines" />
+             <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-amount" />
+             <ref bean="GeneralErrorCorrectionDocument-sourceAccountingLine-actions" />
+         </list>
+     </property>
+   </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLine-sequenceNumber" parent="AccountingLineView-sequenceNumber" />
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLine-informationLines" parent="AccountingLineView-lines" >
+        <property name="lines">
+            <list>
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingInformation-accountingInformation" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingInformation-lineDescriptionInformation" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingInformation-salesTaxInformation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLine-actions" parent="AccountingLineView-actions" />
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingInformation-accountingInformation" parent="AccountingLineView-line">
+        <property name="elementName" value="accountingInformation" />
+        <property name="fields">
+            <list>
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-chartOfAccountsCode" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-accountNumber" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-subAccountNumber" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-financialObjectCode" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-financialSubObjectCode" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-projectCode" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-organizationReferenceId" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingInformation-lineDescriptionInformation" parent="AccountingLineView-line">
+        <property name="elementName" value="lineDescription" />
+        <property name="fields">
+            <list>
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-referenceOriginCode" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-referenceNumber" />
+                <ref bean="GeneralErrorCorrectionDocument-sourceAccountingField-financialDocumentLineDescription" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingInformation-salesTaxInformation" parent="salesTaxInformation" />
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-chartOfAccountsCode" parent="AccountingLineView-field">
+        <property name="name" value="chartOfAccountsCode" />
+        <property name="required" value="true" />
+        <property name="webUILeaveFieldFunction" value="loadChartInfo" />
+        <property name="dynamicLabelProperty" value="chart.finChartOfAccountDescription" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-accountNumber" parent="AccountingLineView-field">
+        <property name="name" value="accountNumber" />
+        <property name="required" value="true" />
+        <property name="webUILeaveFieldFunction" value="loadAccountInfo" />
+        <property name="dynamicLabelProperty" value="account.accountName" />
+        <property name="useShortLabel" value="true" />
+        <property name="overrideFields">
+            <list>
+                <bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
+                <bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-subAccountNumber" parent="AccountingLineView-field">
+        <property name="name" value="subAccountNumber" />
+        <property name="webUILeaveFieldFunction" value="loadSubAccountInfo" />
+        <property name="dynamicLabelProperty" value="subAccount.subAccountName" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-financialObjectCode" parent="AccountingLineView-field">
+        <property name="name" value="financialObjectCode" />
+        <property name="required" value="true" />
+        <property name="dynamicNameLabelGeneratorBeanName" value="objectCodeDynamicNameLabelGenerator" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-financialSubObjectCode" parent="AccountingLineView-field">
+        <property name="name" value="financialSubObjectCode" />
+        <property name="dynamicNameLabelGeneratorBeanName" value="subObjectCodeDynamicNameLabelGenerator" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-projectCode" parent="AccountingLineView-field">
+        <property name="name" value="projectCode" />
+        <property name="webUILeaveFieldFunction" value="loadProjectInfo" />
+        <property name="dynamicLabelProperty" value="project.name" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-organizationReferenceId" parent="AccountingLineView-field">
+        <property name="name" value="organizationReferenceId" />
+        <property name="useShortLabel" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-referenceOriginCode" parent="AccountingLineView-field">
+        <property name="name" value="referenceOriginCode" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-referenceNumber" parent="AccountingLineView-field">
+        <property name="name" value="referenceNumber" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-financialDocumentLineDescription" parent="AccountingLineView-field">
+        <property name="name" value="financialDocumentLineDescription" />
+        <property name="overrideColSpan" value="5" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingField-amount" parent="AccountingLineView-field">
+        <property name="name" value="amount" />
+        <property name="required" value="true" />
+    </bean>
+
+</beans>

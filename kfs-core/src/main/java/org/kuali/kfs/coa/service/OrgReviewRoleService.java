@@ -36,6 +36,7 @@ public interface OrgReviewRoleService {
 
     boolean hasAccountingOrganizationHierarchy(final String documentTypeName);
     boolean hasOrganizationHierarchy(final String documentTypeName);
+    boolean hasOrganizationFundReview(final String documentTypeName);
     String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName);
 
     RoleMember getRoleMemberFromKimRoleService( String roleMemberId );

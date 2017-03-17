@@ -235,4 +235,30 @@ public class PaymentRequestServiceImpl extends org.kuali.kfs.module.purap.docume
             }
         }
     }
+    
+    @Override
+    public void processPaymentRequestInReceivingStatus() {
+        List<PaymentRequestDocument> preqs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+
+        List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
+        for (PaymentRequestDocument preq : preqs) {
+
+            if (ObjectUtils.isNotNull(preq)) {
+                preqsAwaitingReceiving.add(preq);
+            }
+        }
+        for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
+        	// UAF-2837 : Removed doc status check of APPDOC_AWAITING_RECEIVING_REVIEW because it is handled in getcollection query criteria
+            if (preqDoc.isReceivingRequirementMet()) {
+                try {
+                    documentService.approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
+                }
+                catch (WorkflowException e) {
+                    LOG.error("processPaymentRequestInReceivingStatus() Error approving payment request document from awaiting receiving", e);
+                    throw new RuntimeException("Error approving payment request document from awaiting receiving", e);
+                }
+            }
+        }
+    }
+
 }

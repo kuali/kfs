@@ -803,11 +803,22 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(tableCell);
         itemsTable.addCell(" ");
         KualiDecimal totalDollarAmount = new KualiDecimal(BigDecimal.ZERO);
-        if (po instanceof PurchaseOrderRetransmitDocument) {
-            totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalDollarAmountForRetransmit();
+        if (!po.isUseTaxIndicator()){
+	        if (po instanceof PurchaseOrderRetransmitDocument) {
+	            totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalDollarAmountForRetransmit();
+	        }
+	        else {
+	            totalDollarAmount = po.getTotalDollarAmount();
+	        }
         }
         else {
-            totalDollarAmount = po.getTotalDollarAmount();
+        	// For PO and PORT, use tax should be excluded from invoice to vendor so it can be paid by university to state directly.
+        	if (po instanceof PurchaseOrderRetransmitDocument) {
+	            totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalPreTaxDollarAmountForRetransmit();
+	        }
+	        else {
+	            totalDollarAmount = po.getTotalPreTaxDollarAmount();
+	        }
         }
         tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_9_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);

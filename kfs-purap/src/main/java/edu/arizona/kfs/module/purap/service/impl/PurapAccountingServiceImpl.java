@@ -40,9 +40,9 @@ public class PurapAccountingServiceImpl extends org.kuali.kfs.module.purap.servi
                 e.printStackTrace();
             }
 
-            newAccountingLine.setChartOfAccountsCode(getDefaultAdditionalChargesChartOfAccountsCode());
-            newAccountingLine.setAccountNumber(getDefaultAdditionalChargesAccount());
-            newAccountingLine.setFinancialObjectCode(getDefaultAdditionalChargesFinancialObjectCode());
+            newAccountingLine.setChartOfAccountsCode(getParameterValue(PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_CHART_OF_ACCOUNTS));
+            newAccountingLine.setAccountNumber(getParameterValue(PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_ACCOUNT));
+            newAccountingLine.setFinancialObjectCode(getParameterValue(PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_OBJECT_CODE));
             
             newAccountingLine.setAccountLinePercent(ONE_HUNDRED);
             if ( LOG.isDebugEnabled() ) {
@@ -67,15 +67,8 @@ public class PurapAccountingServiceImpl extends org.kuali.kfs.module.purap.servi
         messages.putWarning(KRADConstants.GLOBAL_ERRORS, PurapKeyConstants.WARNING_ADDITIONAL_CHARGES_ACCOUNT_DEFAULTED);
     }
 
-    private String getDefaultAdditionalChargesAccount() {
-        return parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_ACCOUNT);
+    private String getParameterValue(String parameterName) {
+        return parameterService.getParameterValueAsString(PaymentRequestDocument.class, parameterName);
     }
     
-    private String getDefaultAdditionalChargesChartOfAccountsCode() {
-        return parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_CHART_OF_ACCOUNTS);
-    }
-    
-    private String getDefaultAdditionalChargesFinancialObjectCode() {
-        return parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.ADDITIONAL_CHARGES_CLEARING_OBJECT_CODE);
-    }
 }

@@ -23,6 +23,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class PurchasingAccountsPayableProcessingReport extends GeneralLedgerEntry {
     private Integer purapDocumentIdentifier;
     private KualiDecimal reportAmount;
+    // Add invoice status field for CAB AP searching
+    private String invoiceStatus;
 
     /**
      * Gets the purapDocumentIdentifier attribute. 
@@ -55,6 +57,13 @@ public class PurchasingAccountsPayableProcessingReport extends GeneralLedgerEntr
     public void setReportAmount(KualiDecimal reportAmount) {
         this.reportAmount = reportAmount;
     }
-    
+
+	public String getInvoiceStatus() {
+		return invoiceStatus;
+	}
+
+	public void setInvoiceStatus(String invoiceStatus) {
+		this.invoiceStatus = invoiceStatus;
+	}
     
 }

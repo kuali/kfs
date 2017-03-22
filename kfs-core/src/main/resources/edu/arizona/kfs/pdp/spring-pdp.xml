@@ -28,6 +28,8 @@
         <property name="jobNames">
 			<list merge="true">
 				<value>processShippingInvoiceJob</value>				
+				<value>pdpLoadBankDataJob</value>
+				<value>pdpLoadPayeeACHDataJob</value>
 			</list>
 		</property>
     </bean>
@@ -241,5 +243,78 @@
 	
 	<bean id="pdpLoadFederalReserveBankDataStep" class="edu.arizona.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step" />
 	
+	<bean id="pdpLoadBankDataJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadAchBankStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loadAchBankStep" class="edu.arizona.kfs.pdp.batch.LoadAchBankStep" parent="step">
+		<property name="achBankService" ref="achBankService" />
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_failed_file_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="achBankService" class="edu.arizona.kfs.pdp.service.impl.AchBankServiceImpl">
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="achBankInputFileType" class="edu.arizona.kfs.pdp.batch.AchBankInputFileType">
+		<property name="directoryPath" value="${staging.directory}/pdp/achBanks" />
+		<property name="fileExtension" value="data" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="originationCodeDao" ref="originationCodeDao" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_audit_report" />
+		<property name="reportExtension" value="txt" />
+	</bean>
+
+	<bean id="pdpLoadPayeeACHDataJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadAchPayeeBankAcctStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loadAchPayeeBankAcctStep" class="edu.arizona.kfs.pdp.batch.LoadAchPayeeBankAcctStep" parent="step">
+		<property name="payeeAchAccountService" ref="payeeAchAccountService" />
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achPayeeBankAcctInputFileType" ref="achPayeeBankAcctInputFileType" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-payee_ach_failed_file_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="payeeAchAccountService" class="edu.arizona.kfs.pdp.service.impl.PayeeAchAccountServiceImpl">
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achPayeeBankAcctInputFileType" ref="achPayeeBankAcctInputFileType" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="personService" ref="personService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="achPayeeBankAcctInputFileType" class="edu.arizona.kfs.pdp.batch.AchPayeeBankAcctInputFileType">
+		<property name="directoryPath" value="${staging.directory}/pdp/achPayeeBankAccounts" />
+		<property name="fileExtension" value="data" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadPayeeACHDataJob-payee_ach_audit_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="personService" ref="personService" />
+		<property name="originationCodeDao" ref="originationCodeDao" />
+	</bean>
 
 </beans>

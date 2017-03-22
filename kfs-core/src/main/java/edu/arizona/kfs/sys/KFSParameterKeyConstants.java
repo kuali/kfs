@@ -19,4 +19,7 @@ public class KFSParameterKeyConstants extends org.kuali.kfs.sys.KFSParameterKeyC
 		public static final String VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES = "VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES";
 	}
 	
+	public static final class ACHFileConstants {
+		public static final String BANKING_INFORMATION_OVERRIDE_GROUP = "BANKING_INFORMATION_OVERRIDE_GROUP";
+	}
 }

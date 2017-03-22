@@ -59,17 +59,6 @@ import edu.arizona.kfs.module.purap.PurapParameterConstants;
  * Accounts Payable Document Base
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
-    @Override
-	public Date getTransactionTaxDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class getItemUseTaxClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 

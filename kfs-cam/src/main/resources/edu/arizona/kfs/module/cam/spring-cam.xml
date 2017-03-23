@@ -51,4 +51,6 @@
 
     <bean id="assetRetirementReasonLookupableHelperService" scope="prototype" parent="assetRetirementReasonLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl"/>
     
+    <bean id="assetLookupableHelperService" scope="prototype" parent="assetLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl"/>
+    
 </beans>

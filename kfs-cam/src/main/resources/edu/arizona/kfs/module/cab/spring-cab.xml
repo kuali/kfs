@@ -49,7 +49,7 @@
 		<property name="purApInfoService" ref="purApInfoService" />
 	</bean>
 	
-	<bean id="generalLedgerEntryLookupableHelperService" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
+	<bean id="generalLedgerEntryLookupableHelperService" scope="prototype" parent="generalLedgerEntryLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
     </bean>
     
     <bean id="purchasingAccountsPayableReportDao" parent="platformAwareDao" class="edu.arizona.kfs.module.cab.dataaccess.impl.PurchasingAccountsPayableReportDaoOjb">

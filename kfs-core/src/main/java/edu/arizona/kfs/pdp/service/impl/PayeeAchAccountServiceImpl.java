@@ -161,44 +161,40 @@ public class PayeeAchAccountServiceImpl implements PayeeAchAccountService {
 	protected String validateTypeUsedInFile(String inputFileName) {
 		BufferedReader bufferedFileReader = null;
 		String firstType = KFSConstants.EMPTY_STRING;
-		
+
 		try {
-			try {
-				bufferedFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFileName), "UTF-8"));
-			}
-			catch (UnsupportedEncodingException ex) {
-				throw new RuntimeException("UnsupportedEncodingException on input file: [" + inputFileName + "]", ex);
-			}
-			catch (FileNotFoundException ex) {
-				throw new RuntimeException("FileNotFoundException on input file: [" + inputFileName + "]", ex);
-			}
-			
-			try {
-				PayeeACHAccount currentPayeeAcct;
-				boolean firstLine = true;
-				String fileLine;
-				while ((fileLine = bufferedFileReader.readLine()) != null) {
-					
-					if (fileLine.length() < PdpConstants.ACHFileConstants.PAYEE_ACH_ACCT_RECORD_LENGTH) {
-						throw new RuntimeException("invalid input file: [" + inputFileName + "] - record length=" + fileLine.length() +  " should bew " + PdpConstants.ACHFileConstants.PAYEE_ACH_ACCT_RECORD_LENGTH);
-					}
-					
-					currentPayeeAcct = PayeeACHAcctFlatFileConverter.convert(fileLine);
-					
-					if (firstLine) {
-						firstType = currentPayeeAcct.getPayeeIdentifierTypeCode();
-						firstLine = false;
-					}
-					else {
-						if (!firstType.equalsIgnoreCase(currentPayeeAcct.getPayeeIdentifierTypeCode())) {
-							throw new RuntimeException("The Bank ACH Account file contained payees of multiple types. This should never happen.");
-						}
+			PayeeACHAccount currentPayeeAcct;
+			boolean firstLine = true;
+			String fileLine;
+			bufferedFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFileName), "UTF-8"));
+
+			while ((fileLine = bufferedFileReader.readLine()) != null) {
+				
+				if (fileLine.length() < PdpConstants.ACHFileConstants.PAYEE_ACH_ACCT_RECORD_LENGTH) {
+					throw new RuntimeException("invalid input file: [" + inputFileName + "] - record length=" + fileLine.length() +  " should bew " + PdpConstants.ACHFileConstants.PAYEE_ACH_ACCT_RECORD_LENGTH);
+				}
+				
+				currentPayeeAcct = PayeeACHAcctFlatFileConverter.convert(fileLine);
+				
+				if (firstLine) {
+					firstType = currentPayeeAcct.getPayeeIdentifierTypeCode();
+					firstLine = false;
+				}
+				else {
+					if (!firstType.equalsIgnoreCase(currentPayeeAcct.getPayeeIdentifierTypeCode())) {
+						throw new RuntimeException("The Bank ACH Account file contained payees of multiple types. This should never happen.");
 					}
 				}
 			}
-			catch (IOException ex) {
-				throw new RuntimeException("IOException on input file: [" + inputFileName + "]", ex);
-			}
+		}
+		catch (UnsupportedEncodingException ex) {
+			throw new RuntimeException("UnsupportedEncodingException on input file: [" + inputFileName + "]", ex);
+		}
+		catch (FileNotFoundException ex) {
+			throw new RuntimeException("FileNotFoundException on input file: [" + inputFileName + "]", ex);
+		}
+		catch (IOException ex) {
+			throw new RuntimeException("IOException on input file: [" + inputFileName + "]", ex);
 		}
 		finally {
 			IOUtils.closeQuietly(bufferedFileReader);

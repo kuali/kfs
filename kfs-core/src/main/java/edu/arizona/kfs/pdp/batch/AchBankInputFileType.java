@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
@@ -139,7 +140,9 @@ public class AchBankInputFileType extends BatchInputFileTypeBase {
 			LOG.error("Error encountered reading from file content", e);
 			throw new ParseException("Error encountered reading from file content", e);
 		}
-		
+		finally {
+			IOUtils.closeQuietly(bufferedFileReader);
+		}
 		return bankList;
 	}
 
@@ -171,7 +174,7 @@ public class AchBankInputFileType extends BatchInputFileTypeBase {
 		
 		Map<String, String> pkMap = new HashMap<String, String>();
 		pkMap.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
-		ACHBank bank = (ACHBank) businessObjectService.findByPrimaryKey(ACHBank.class, pkMap);
+		ACHBank bank = businessObjectService.findByPrimaryKey(ACHBank.class, pkMap);
 		
 		return bank;
 	}
@@ -286,12 +289,7 @@ public class AchBankInputFileType extends BatchInputFileTypeBase {
 			throw new RuntimeException("Error writing to BufferedWriter " + e.getMessage(), e);
 		}
 		finally {
-			try {
-				writer.flush();
-				writer.close();
-			}
-			catch (Exception e) {
-			}
+			IOUtils.closeQuietly(writer);
 		}
 	}
 	

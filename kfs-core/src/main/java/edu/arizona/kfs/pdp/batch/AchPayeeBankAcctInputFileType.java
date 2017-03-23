@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -219,17 +220,13 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		return retval;
 	}
 	
-	private File getFile(String dir, String prefix, String ext, boolean wantTimestamp) {
+	private File getFile(String dir, String prefix, String ext) {
 		StringBuilder s = new StringBuilder(128);
 		s.append(dir);
 		s.append(File.separator);
 		s.append(prefix);
-		
-		if (wantTimestamp) {
-			s.append("_");
-			s.append(dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()));
-		}
-		
+		s.append("_");
+		s.append(dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()));
 		s.append(".");
 		s.append(ext);
 		
@@ -407,7 +404,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		else {
 			Map<String, String> pkMap = new HashMap<String, String>();
 			pkMap.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, routingNumber);
-			ACHBank bank = (ACHBank) businessObjectService.findByPrimaryKey(ACHBank.class, pkMap);
+			ACHBank bank = businessObjectService.findByPrimaryKey(ACHBank.class, pkMap);
 			retval = ObjectUtils.isNotNull(bank);
 		}
 		
@@ -510,7 +507,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		
 		map.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, routingNumbers);
 		
-		Collection<ACHBank> banks = (Collection<ACHBank>) businessObjectService.findMatching(ACHBank.class, map);
+		Collection<ACHBank> banks = businessObjectService.findMatching(ACHBank.class, map);
 		
 		existingRoutingNumberSet = new HashSet<String>();
 		
@@ -525,7 +522,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		Map<String, String> pkMap = new HashMap<String, String>();
 		pkMap.put(PdpPropertyConstants.PAYEE_ID_NUMBER, payeeIdNbr);
 		pkMap.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, payeeIdType);
-		PayeeACHAccount payeeACHAccount = (PayeeACHAccount) businessObjectService.findByPrimaryKey(PayeeACHAccount.class, pkMap);
+		PayeeACHAccount payeeACHAccount = businessObjectService.findByPrimaryKey(PayeeACHAccount.class, pkMap);
 		
 		return payeeACHAccount;
 	}
@@ -728,7 +725,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 	}
 	
 	protected void writeReport(List<PayeeReportLine> lines, String systemSource) {
-		File reportFile = getFile(reportPath, reportPrefix, reportExtension, true);
+		File reportFile = getFile(reportPath, reportPrefix, reportExtension);
 		BufferedWriter writer = null;
 		String payeeId;
 		String payeeNm;
@@ -757,8 +754,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		}
 		finally {
 			try {
-				writer.flush();
-				writer.close();
+				IOUtils.closeQuietly(writer);
 			}
 			catch (Exception e) {
 				LOG.error("Error encountered when closing BufferedWriter");

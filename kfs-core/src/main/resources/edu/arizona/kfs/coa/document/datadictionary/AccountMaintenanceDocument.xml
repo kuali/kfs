@@ -16,12 +16,64 @@
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.crossOrganization"   p:attributeToHighlightOnFail="extension.crossOrganizationCode"  />
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.faCostSubCategory"   p:attributeToHighlightOnFail="extension.faCostSubCatCode"       />
                 <bean parent="ReferenceDefinition"  p:attributeName="extension.taxRegionObj"		p:attributeToHighlightOnFail="extension.taxRegionCode" 			/>
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.institutionalFringeCoaCodeObj" p:attributeToHighlightOnFail="extension.institutionalFringeCoaCodeExt" />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.institutionalFringeAccountObj" p:attributeToHighlightOnFail="extension.institutionalFringeAccountExt" />
             </list>
         </property>
     </bean>
 
     <!-- Maintenance Section Definitions -->
 
+    <bean id="AccountMaintenanceDocument-AccountMaintenance" parent="AccountMaintenanceDocument-AccountMaintenance-parentBean"/>
+    <bean id="AccountMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Account Maintenance"/>
+        <property name="maintainableItems">
+            <list>
+                <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+                <dd:maintField attributeName="accountNumber" required="true"/>
+                <dd:maintField attributeName="accountName" required="true"/>
+                <dd:maintField attributeName="organizationCode" required="true" javascriptLeaveFieldFunction="onblur_responsibilityCenterCode"/>
+                <dd:maintField attributeName="organization.responsibilityCenterCode" unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="organization.responsibilityCenter.responsibilityCenterName" unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="accountPhysicalCampusCode" required="true"/>
+                <dd:maintField attributeName="accountCreateDate"/>
+                <dd:maintField attributeName="accountEffectiveDate" required="true" defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+                <dd:maintField attributeName="accountExpirationDate"/>
+                <dd:maintField attributeName="accountZipCode" required="true"/>
+                <dd:maintField attributeName="accountCityName" required="true"/>
+                <dd:maintField attributeName="accountStateCode" required="true"/>
+                <dd:maintField attributeName="accountStreetAddress" required="true"/>
+                <dd:maintField attributeName="accountOffCampusIndicator"/>
+                <dd:maintField attributeName="closed"/>
+                <dd:maintField attributeName="accountTypeCode" required="true" javascriptLeaveFieldFunction="update_laborBenefitRateCategoryCode" />
+                <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+                <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
+                <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>reportsToChartOfAccountsCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
+                <dd:maintField attributeName="sourceOfFundsTypeCode"/>
+                <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+                <dd:maintField attributeName="accountRestrictedStatusDate"/>
+                <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
+                <bean parent="MaintainableFieldDefinition" p:name="endowmentIncomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>endowmentIncomeAcctFinCoaCd</value>
+                        </list>
+                    </property>
+                </bean>
+                <dd:maintField attributeName="extension.institutionalFringeCoaCodeExt" />
+                <dd:maintField attributeName="extension.institutionalFringeAccountExt" />
+            </list>
+        </property>
+    </bean>
+    
     <bean id="AccountMaintenanceDocument-ExtendedAttributes" parent="AccountMaintenanceDocument-ExtendedAttributes-parentBean" />
     <bean id="AccountMaintenanceDocument-ExtendedAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
         <property name="id"     value="ExtendedAttributes" />

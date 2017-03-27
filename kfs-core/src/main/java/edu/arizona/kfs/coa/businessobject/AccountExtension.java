@@ -1,6 +1,7 @@
 package edu.arizona.kfs.coa.businessobject;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
@@ -22,19 +23,21 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
     private String accountNumber;
     private String budgetShellCode;
     private String crossOrganizationCode;
+    private String institutionalFringeCoaCodeExt;
+    private String institutionalFringeAccountExt;
 
     // Unused Database fields
     private String fundsTypeCode;
     private String taxRegionCode;
     private String faCostSubCatCode;
-    private String institutionalFringeCoaCodeExt;
-    private String institutionalFringeAccountExt;
 
     // Helper Objects
     private BudgetShellCode budgetShell;
     private CrossOrganizationCode crossOrganization;
     private FACostSubCategory faCostSubCategory;    // FA Subcategory Object
     private TaxRegion taxRegionObj;
+    private Account institutionalFringeAccountObj;
+    private Chart institutionalFringeCoaCodeObj;
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -146,4 +149,22 @@ public class AccountExtension extends PersistableBusinessObjectExtensionBase {
         }
         return boService;
     }
+    
+    public Account getInstitutionalFringeAccountObj() {
+        return institutionalFringeAccountObj;
+    }
+
+    public void setInstitutionalFringeAccountObj(Account institutionalFringeAccountObj) {
+        this.institutionalFringeAccountObj = institutionalFringeAccountObj;
+    }
+
+    public Chart getInstitutionalFringeCoaCodeObj() {
+        return institutionalFringeCoaCodeObj;
+    }
+
+    public void setInstitutionalFringeCoaCodeObj(Chart institutionalFringeCoaCodeObj) {
+        this.institutionalFringeCoaCodeObj = institutionalFringeCoaCodeObj;
+    }
+    
+    
 }

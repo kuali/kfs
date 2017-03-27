@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -29,7 +27,6 @@ public class EreSweepServiceImpl implements EreSweepService {
 	private EreSweepFileHandlerService fileHandler;
 	private EreSweepDao ereSweepDao;
 	private AccountExtensionDao accountExtensionDao;
-	private AccountingPeriodService accountingPeriodService;
 	private EreSweepParameterService ereSweepParameterService;
 
 	@Override
@@ -39,48 +36,37 @@ public class EreSweepServiceImpl implements EreSweepService {
 		LOG.info("processEreSweep: start=" + new Date());
 		LOG.info("EreSweep job run date=" + sqlDate);
 		
-		AccountingPeriod acctPeriod = accountingPeriodService.getByDate(sqlDate);
-
-		if (acctPeriod != null) {
-			LOG.info("fiscal year=" + acctPeriod.getUniversityFiscalYear() + ", fiscal period=" + acctPeriod.getUniversityFiscalPeriodCode());
+		List<String> includedSubFunds = Arrays.asList(ereSweepParameterService.getSubFundGroupParameters());
+		List<String> includedObjectCodes = Arrays.asList(ereSweepParameterService.getObjectSubTypesParameters());
+		
+		LOG.info("includedSubFunds = " + includedSubFunds);
+		LOG.info("includedObkectCodes = " + includedObjectCodes);
+		
+		fileHandler.startUp();
+		
+		List<EreSweepBalanceHelper> distinctBalances = ereSweepDao.getDistinctBalance(includedSubFunds, includedObjectCodes);
+		
+		// Iterate over the distinct balanceCollection Calculate BBA then Print to LD feed file
+		for (EreSweepBalanceHelper employeeBalance : distinctBalances) {
+			List<LedgerBalance> ledgerBalances = ereSweepDao.getMatchingBalances(employeeBalance, includedSubFunds, includedObjectCodes);
+			KualiDecimal amount = calculateCb(ledgerBalances);
 			
-			List<String> includedBalanceTypeCodes = ereSweepParameterService.getBalanceTypesParameters();
-			List<String> includedSubFunds = Arrays.asList(ereSweepParameterService.getSubFundGroupParameters());
-			List<String> includedObjectCodes = Arrays.asList(ereSweepParameterService.getObjectSubTypesParameters());
-			
-			
-			LOG.info("includedBalanceTypeCodes = " + includedBalanceTypeCodes);
-			LOG.info("includedSubFunds = " + includedSubFunds);
-			LOG.info("includedObkectCodes = " + includedObjectCodes);
-			
-			fileHandler.startUp();
-			
-			List<EreSweepBalanceHelper> distinctBalances = ereSweepDao.getDistinctBalance(includedSubFunds, includedObjectCodes, acctPeriod.getUniversityFiscalYear());
-			
-			// Iterate over the distinct balanceCollection Calculate BBA then Print to LD feed file
-			for (EreSweepBalanceHelper employeeBalance : distinctBalances) {
-				List<LedgerBalance> ledgerBalances = ereSweepDao.getMatchingBalances(employeeBalance, includedSubFunds, includedObjectCodes, includedBalanceTypeCodes, acctPeriod.getUniversityFiscalYear());
-				KualiDecimal amount = calculateCb(ledgerBalances);
+			if (amount.isNonZero()) {
+				LedgerBalance ledgerBalance = ledgerBalances.get(0);
 				
-				if (amount.isNonZero()) {
-					LedgerBalance ledgerBalance = ledgerBalances.get(0);
-					
-					String accountNumber = ledgerBalance.getAccountNumber();
-					String chartCode = ledgerBalance.getChartOfAccountsCode();
-					LOG.info("Account = " + accountNumber + " ChartCode = " + chartCode);
-					AccountExtension accountExt = accountExtensionDao.getAccountExtensionByPrimaryKey(accountNumber, chartCode);
-					if (ObjectUtils.isNull(accountExt) || StringUtils.isBlank(accountExt.getInstitutionalFringeAccountExt()) || StringUtils.isBlank(accountExt.getInstitutionalFringeCoaCodeExt())) {
-						fileHandler.prepareErrorFile(acctPeriod.getUniversityFiscalPeriodCode(), KualiDecimal.ZERO, ledgerBalance);
-					} else {
-						fileHandler.prepareOutputFile(accountExt, acctPeriod.getUniversityFiscalPeriodCode(), amount, ledgerBalance);
-					}
+				String accountNumber = ledgerBalance.getAccountNumber();
+				String chartCode = ledgerBalance.getChartOfAccountsCode();
+				LOG.info("Account = " + accountNumber + " ChartCode = " + chartCode);
+				AccountExtension accountExt = accountExtensionDao.getAccountExtensionByPrimaryKey(accountNumber, chartCode);
+				if (ObjectUtils.isNull(accountExt) || StringUtils.isBlank(accountExt.getInstitutionalFringeAccountExt()) || StringUtils.isBlank(accountExt.getInstitutionalFringeCoaCodeExt())) {
+					fileHandler.prepareErrorFile(KualiDecimal.ZERO, ledgerBalance);
+				} else {
+					fileHandler.prepareOutputFile(accountExt, amount, ledgerBalance);
 				}
 			}
-			
-			fileHandler.closeConnection();
-		} else {
-			throw new RuntimeException("cannot find accounting period for run date: " + jobRunDate);
 		}
+		
+		fileHandler.closeConnection();
 		
 		LOG.info("processEreSweeo: end = " + new Date());
 	}
@@ -122,10 +108,6 @@ public class EreSweepServiceImpl implements EreSweepService {
 
 	public void setAccountExtensionDao(AccountExtensionDao accountExtensionDao) {
 		this.accountExtensionDao = accountExtensionDao;
-	}
-
-	public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
-		this.accountingPeriodService = accountingPeriodService;
 	}
 
 	public void setEreSweepParameterService(EreSweepParameterService ereSweepParameterService) {

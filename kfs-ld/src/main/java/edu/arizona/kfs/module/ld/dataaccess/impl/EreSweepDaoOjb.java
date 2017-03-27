@@ -18,7 +18,7 @@ public class EreSweepDaoOjb extends PlatformAwareDaoBaseOjb implements EreSweepD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<LedgerBalance> getMatchingBalances(EreSweepBalanceHelper employeeBalance, List<String> includedSubFunds, List<String> includedObjectCodes, List<String> includedBalanceTypeCodes, Integer fiscalYear) {
+	public List<LedgerBalance> getMatchingBalances(EreSweepBalanceHelper employeeBalance, List<String> includedSubFunds, List<String> includedObjectCodes) {
 		Criteria criteria = new Criteria();
 		criteria.addIn(LaborPropertyConstants.LedgerBalance.ACCOUNT_SUB_FUND_GROUP_CD, includedSubFunds);
 		criteria.addIn(LaborPropertyConstants.LedgerBalance.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CD, includedObjectCodes);
@@ -28,19 +28,16 @@ public class EreSweepDaoOjb extends PlatformAwareDaoBaseOjb implements EreSweepD
 		criteria.addEqualTo(LaborPropertyConstants.LedgerBalance.FINANCIAL_OBJECT_CD, employeeBalance.getFinObjectCode());
 		criteria.addEqualTo(LaborPropertyConstants.LedgerBalance.EMPLOYEE_ID , employeeBalance.getEmployeeId());
 		criteria.addEqualTo(LaborPropertyConstants.LedgerBalance.POSITION_NUMBER, employeeBalance.getPositionNbr());
-		criteria.addEqualTo(LaborPropertyConstants.LedgerBalance.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-		criteria.addIn(LaborPropertyConstants.LedgerBalance.FINANCIAL_BALANCE_TYPE_CD, includedBalanceTypeCodes);
 		
 		ReportQueryByCriteria query = new ReportQueryByCriteria(LedgerBalance.class, criteria);
 		return (List<LedgerBalance>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	}
 
 	@Override
-	public List<EreSweepBalanceHelper> getDistinctBalance(List<String> includedSubFunds, List<String> includedObjectCodes, Integer fiscalYear) {
+	public List<EreSweepBalanceHelper> getDistinctBalance(List<String> includedSubFunds, List<String> includedObjectCodes) {
 		Criteria criteria = new Criteria();
 		criteria.addIn(LaborPropertyConstants.LedgerBalance.ACCOUNT_SUB_FUND_GROUP_CD, includedSubFunds);
 		criteria.addIn(LaborPropertyConstants.LedgerBalance.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CD, includedObjectCodes);
-		criteria.addEqualTo(LaborPropertyConstants.LedgerBalance.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 		
 		ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 		

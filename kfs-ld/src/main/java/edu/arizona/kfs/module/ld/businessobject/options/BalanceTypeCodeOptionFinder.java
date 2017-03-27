@@ -13,8 +13,7 @@ public class BalanceTypeCodeOptionFinder extends org.kuali.kfs.module.ld.busines
 
 	@Override
 	public List getKeyValues() {
-		List<ConcreteKeyValue> labels = new ArrayList<ConcreteKeyValue>();
-		labels = super.getKeyValues();
+		List<ConcreteKeyValue> labels = super.getKeyValues();;
 		
 		labels.add(new ConcreteKeyValue(LaborConstants.BALANCE_TYPE_CURRENT_BUDGET, LaborConstants.BALANCE_TYPE_CURRENT_BUDGET_LABEL_DESCRIPTION));
 		

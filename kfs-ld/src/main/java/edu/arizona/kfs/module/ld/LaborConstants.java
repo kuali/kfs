@@ -15,16 +15,14 @@ public class LaborConstants extends org.kuali.kfs.module.ld.LaborConstants {
 	public static final String EMPTY_SUB_OBJECT_STRING = "---";
 	public static final String BALANCE_TYPE_CURRENT_BUDGET = "CB";
 	public static final String BALANCE_TYPE_CURRENT_BUDGET_LABEL_DESCRIPTION = "Current Budget";
-	public static final String BALANCE_TYPES = "BALANCE_TYPES";
-	public static final String BALANCE_TYPES_NAMESPACE = "KFS-CAB";
-	public static final String BALANCE_TYPES_COMPONENT = "Batch";
 	public static final String PENDING_ENTRY_DEFAULT_ACCOUNT_NUMBER = "XXXX";
 	public static final String DOCUMENT_NUMBER_PREFIX = "SWADJ-";
 	public static final String ERE_SWEEP_DATA = "EreSweep.data";
 	public static final String ERE_SWEEP_ERROR_DATA = "EreSweepError.data";
 	public static final String ERE_SWEEP_DONE = "EreSweep.done";
 	public static final String ERE_SWEEP_RECON = "EreSweep.recon";
-	public static final String END_OF_LINE = ";\n";
 	public static final String FORMAT_LINE = "%s%n";
+	
+	public static final String[] BALANCE_TYPES = {"AC", "CB", "IE"};
 
 }

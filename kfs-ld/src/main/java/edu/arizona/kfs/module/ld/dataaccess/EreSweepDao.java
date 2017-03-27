@@ -15,20 +15,18 @@ public interface EreSweepDao {
 	 * @param employeeBalance
 	 * @param includedSubFunds
 	 * @param includedObjectCodes
-	 * @param includedBalanceTypeCodes
-	 * @param fiscalYear
 	 * @return A list of LedgerBalance objects
 	 */
-	public List<LedgerBalance> getMatchingBalances (EreSweepBalanceHelper employeeBalance, List<String> includedSubFunds, List<String> includedObjectCodes, List<String> includedBalanceTypeCodes, Integer fiscalYear);
-	
+	public List<LedgerBalance> getMatchingBalances (EreSweepBalanceHelper employeeBalance, List<String> includedSubFunds, List<String> includedObjectCodes);
+
 	/**
 	 * With the help of EreSweepBalanceHelper, this method returns a list of unique LedgerBalance objects
 	 * 
 	 * @param includedSubFunds
 	 * @param includedObjectCodes
-	 * @param fiscalYear
 	 * @return A list of distinct Ledger balances
 	 */
-	public List<EreSweepBalanceHelper> getDistinctBalance(List<String> includedSubFunds, List<String> includedObjectCodes, Integer fiscalYear);
+	public List<EreSweepBalanceHelper> getDistinctBalance(List<String> includedSubFunds, List<String> includedObjectCodes);
+
 	
 }

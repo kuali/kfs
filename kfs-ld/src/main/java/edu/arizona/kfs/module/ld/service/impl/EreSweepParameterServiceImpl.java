@@ -1,6 +1,7 @@
 package edu.arizona.kfs.module.ld.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
@@ -37,7 +38,7 @@ public class EreSweepParameterServiceImpl implements EreSweepParameterService {
 
 	@Override
 	public List<String> getBalanceTypesParameters() {
-		List<String> balanceTypes = new ArrayList<String>(parameterService.getParameterValuesAsString(LaborConstants.BALANCE_TYPES_NAMESPACE, LaborConstants.BALANCE_TYPES_COMPONENT, LaborParameterKeyConstants.BALANCE_TYPES));
+		List<String> balanceTypes = Arrays.asList(LaborConstants.BALANCE_TYPES);
 		return balanceTypes;
 	}
 	

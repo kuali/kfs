@@ -8,6 +8,5 @@ public class LaborParameterKeyConstants {
 	public static final String FRINGE_BUDGET_SWEEP_IND = "FRINGE_BUDGET_SWEEP_IND";
 	public static final String FISCAL_PERIODS_TO_EXCLUDE = "FISCAL_PERIODS";
 	public static final String FRINGE_SWEEP_ORIGINATION_CODE = "FRINGE_SWEEP_ORIGINATION_CODE";
-	public static final String BALANCE_TYPES = "BALANCE_TYPES";
 
 }

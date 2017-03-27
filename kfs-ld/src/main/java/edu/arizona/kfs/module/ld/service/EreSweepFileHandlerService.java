@@ -21,15 +21,18 @@ public interface EreSweepFileHandlerService {
 	 * Prepares and formats data that will be written to the EreSweep report
 	 * 
 	 * @param accountExtension
-	 * @param fiscalPeriod
+	 * @param cbAmount
+	 * @param ledgerBalance
 	 */
-	public void prepareOutputFile(AccountExtension accountExtension, String fiscalPeriod, KualiDecimal cbAmount, LedgerBalance ledgerBalance);
+	public void prepareOutputFile(AccountExtension accountExtension, KualiDecimal cbAmount, LedgerBalance ledgerBalance);
+
 	
 	/**
 	 * Prepares and formats data that will be written to the EreSweepError report
 	 * 
-	 * @param fiscalPeriod
+	 * @param cbAmount
+	 * @param ledgerBalance
 	 */
-	public void prepareErrorFile(String fiscalPeriod, KualiDecimal cbAmount, LedgerBalance ledgerBalance);
+	public void prepareErrorFile(KualiDecimal cbAmount, LedgerBalance ledgerBalance);
 
 }

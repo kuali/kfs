@@ -14,6 +14,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -36,6 +37,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 	private ParameterService parameterService;
 	private String batchFileDirectoryName;
 	private DateTimeService dateTimeService;
+	private  UniversityDateService universityDateService;
 
 	
 	@Override
@@ -122,7 +124,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		String outputFileRecon = batchFileDirectoryName + File.separator + LaborConstants.ERE_SWEEP_RECON;
 		try {
 			reconPrintWriter = new PrintWriter(new BufferedWriter(new FileWriter(outputFileRecon)));
-			reconPrintWriter.write("c gl_entry_t " + rowCount + LaborConstants.END_OF_LINE);
+			reconPrintWriter.format(LaborConstants.FORMAT_LINE, "c gl_entry_t " + rowCount + ";");
 			reconPrintWriter.write("e 01;");
 		}
 		catch (FileNotFoundException e) {
@@ -154,7 +156,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 	}
 
 	@Override
-	public void prepareOutputFile(AccountExtension accountExtension, String fiscalPeriod, KualiDecimal cbAmount, LedgerBalance ledgerBalance) {
+	public void prepareOutputFile(AccountExtension accountExtension, KualiDecimal cbAmount, LedgerBalance ledgerBalance) {
 		String originationCode = parameterService.getParameterValueAsString(EreSweepStep.class, LaborParameterKeyConstants.FRINGE_SWEEP_ORIGINATION_CODE);
 		LaborLedgerPendingEntry pendingEntry = new LaborLedgerPendingEntry();
 		
@@ -167,7 +169,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
 
 		// Setting up pendingEntry
-		pendingEntry = setPendingEntryProperties(fiscalPeriod, originationCode, today, cbAmount, ledgerBalance, pendingEntry);
+		pendingEntry = setPendingEntryProperties(originationCode, today, cbAmount, ledgerBalance, pendingEntry);
 		LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
 		outWriter.format(LaborConstants.FORMAT_LINE, entry.getLine());
 		rowCount++;
@@ -190,7 +192,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 	}
 
 	@Override
-	public void prepareErrorFile(String fiscalPeriod, KualiDecimal cbAmount, LedgerBalance ledgerBalance) {
+	public void prepareErrorFile(KualiDecimal cbAmount, LedgerBalance ledgerBalance) {
 		String originationCode = parameterService.getParameterValueAsString(EreSweepStep.class, LaborParameterKeyConstants.FRINGE_SWEEP_ORIGINATION_CODE);
 		LaborLedgerPendingEntry pendingEntry = new LaborLedgerPendingEntry();
 		
@@ -201,7 +203,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
 		
 		//Setting pendingEntry attributes
-		pendingEntry = setPendingEntryProperties(fiscalPeriod, originationCode, today, cbAmount, ledgerBalance, pendingEntry);
+		pendingEntry = setPendingEntryProperties(originationCode, today, cbAmount, ledgerBalance, pendingEntry);
 		LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
 		outErrorWriter.format(LaborConstants.FORMAT_LINE, entry.getLine());
 		rowCount++;
@@ -223,7 +225,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		}
 	}
 	
-	private LaborLedgerPendingEntry setPendingEntryProperties(String fiscalPeriod, String originationCode, Date today, KualiDecimal cbAmount, LedgerBalance ledgerBalance, LaborLedgerPendingEntry pendingEntry) {
+	private LaborLedgerPendingEntry setPendingEntryProperties(String originationCode, Date today, KualiDecimal cbAmount, LedgerBalance ledgerBalance, LaborLedgerPendingEntry pendingEntry) {
 		pendingEntry.setUniversityFiscalYear(ledgerBalance.getUniversityFiscalYear());
 		pendingEntry.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
 		pendingEntry.setAccountNumber(ledgerBalance.getAccountNumber());
@@ -233,7 +235,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		pendingEntry.setFinancialSubObjectCode(ledgerBalance.getFinancialSubObjectCode());
 		pendingEntry.setFinancialBalanceTypeCode(LaborConstants.FRINGE_FINANCIAL_BALANCE_TYPE_CODE);
 		pendingEntry.setFinancialObjectTypeCode(LaborConstants.FRINGE_FINANCIAL_OBJECT_TYPE_CODE);
-		pendingEntry.setUniversityFiscalPeriodCode(fiscalPeriod);
+		pendingEntry.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
 		pendingEntry.setDocumentNumber(LaborConstants.DOCUMENT_NUMBER_PREFIX + rowCount);
 		pendingEntry.setFinancialDocumentTypeCode(LaborConstants.FRINGE_FINANCIAL_DOCUMENT_TYPE_CODE);
 		pendingEntry.setFinancialSystemOriginationCode(originationCode);
@@ -248,7 +250,7 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		pendingEntry.setTransactionEncumbranceUpdateCode(KFSConstants.EMPTY_STRING);
 		pendingEntry.setTransactionPostingDate(today);
 		pendingEntry.setPayPeriodEndDate(null);
-		pendingEntry.setTransactionTotalHours(new BigDecimal(0.0));
+		pendingEntry.setTransactionTotalHours(BigDecimal.ZERO);
 		pendingEntry.setPayrollEndDateFiscalPeriodCode(KFSConstants.EMPTY_STRING);
 		pendingEntry.setEmplid(ledgerBalance.getEmplid());
 		pendingEntry.setPositionNumber(ledgerBalance.getPositionNumber());
@@ -278,4 +280,8 @@ public class EreSweepFileHandlerServiceImpl implements EreSweepFileHandlerServic
 		this.parameterService = parameterService;
 	}
 
+	public void setUniversityDateService(UniversityDateService universityDateService) {
+		this.universityDateService = universityDateService;
+	}
+	
 }

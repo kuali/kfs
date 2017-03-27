@@ -161,7 +161,6 @@
         <property name="fileHandler" ref="ereFileHandler" />
         <property name="ereSweepDao" ref="ereSweepDao" />
         <property name="ereSweepParameterService" ref="ereSweepParameterService" />
-        <property name="accountingPeriodService" ref="accountingPeriodService" />
         <property name="accountExtensionDao" ref="accountExtensionDao" />
     </bean>
 
@@ -174,6 +173,7 @@
     <bean id="ereFileHandler" class="edu.arizona.kfs.module.ld.service.impl.EreSweepFileHandlerServiceImpl" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="universityDateService" ref="universityDateService" />
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
     </bean>
 

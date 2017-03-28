@@ -163,7 +163,7 @@ public class PaymentRequestServiceImpl extends org.kuali.kfs.module.purap.docume
                     //there is a check in that method to throw NPE if accounts percents == 0..
                     //KFSMI-8487
                     if (summaryAccounts != null) {
-                    distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                  	    distributedAccounts = ((edu.arizona.kfs.module.purap.service.PurapAccountingService)purapAccountingService).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class, paymentRequestDocument.getItems());
                     }
                     if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
@@ -202,7 +202,7 @@ public class PaymentRequestServiceImpl extends org.kuali.kfs.module.purap.docume
                         //there is a check in that method to throw NPE if accounts percents == 0..
                         //KFSMI-8487
                         if (summaryAccounts != null) {
-                            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
+                      	    distributedAccounts = ((edu.arizona.kfs.module.purap.service.PurapAccountingService)purapAccountingService).generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class, paymentRequestDocument.getItems());
                         }
                     }
                 }

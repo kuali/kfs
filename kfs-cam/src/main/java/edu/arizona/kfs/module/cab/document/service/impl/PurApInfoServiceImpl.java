@@ -10,7 +10,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import edu.arizona.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurApInfoServiceImpl extends org.kuali.kfs.module.cab.document.service.impl.PurApInfoServiceImpl {

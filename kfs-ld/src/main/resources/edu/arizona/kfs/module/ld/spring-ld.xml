@@ -15,6 +15,12 @@
                 <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/overrides/*.xml</value>
                 <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/overrides/*.xml</value>
                 <value>classpath:edu/arizona/kfs/module/ld/document/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/ld/businessobject/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>ereSweepJob</value>
             </list>
         </property>
     </bean>
@@ -207,5 +213,40 @@
 
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
     </bean>
+
+    <bean id="ereSweepJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="ereSweepStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ereSweepStep" class="edu.arizona.kfs.module.ld.batch.EreSweepStep" parent="step">
+        <property name="ereSweepParameterService" ref="ereSweepParameterService" />
+        <property name="ereSweepService" ref="ereSweepService" />
+    </bean>
+
+    <bean id="ereSweepService" class="edu.arizona.kfs.module.ld.service.impl.EreSweepServiceImpl">
+        <property name="fileHandler" ref="ereFileHandler" />
+        <property name="ereSweepDao" ref="ereSweepDao" />
+        <property name="ereSweepParameterService" ref="ereSweepParameterService" />
+        <property name="accountExtensionDao" ref="accountExtensionDao" />
+    </bean>
+
+    <bean id="ereSweepDao" class="edu.arizona.kfs.module.ld.dataaccess.impl.EreSweepDaoOjb" parent="platformAwareDao" />
+
+    <bean id="ereSweepParameterService" class="edu.arizona.kfs.module.ld.service.impl.EreSweepParameterServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="ereFileHandler" class="edu.arizona.kfs.module.ld.service.impl.EreSweepFileHandlerServiceImpl" scope="prototype">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="universityDateService" ref="universityDateService" />
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    </bean>
+
+    <bean id="accountExtensionDao" class="edu.arizona.kfs.module.ld.dataaccess.impl.AccountExtensionDaoOjb" parent="platformAwareDao" />
 
 </beans>

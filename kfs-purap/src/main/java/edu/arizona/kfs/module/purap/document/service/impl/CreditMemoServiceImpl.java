@@ -234,14 +234,15 @@ public class CreditMemoServiceImpl extends org.kuali.kfs.module.purap.document.s
 
               		// PO is zero dollar unencumbered hence has no line detail amounts to prorate so use Credit memo itself line detail instead					
               		purapAccountingService.updateAccountAmounts(cmDocument);					
-              		summaryAccounts = purapAccountingService.generateSummary(cmDocument.getItems());	                                        
-              		distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);						
+              		summaryAccounts = purapAccountingService.generateSummary(cmDocument.getItems());
+              	    distributedAccounts = ((edu.arizona.kfs.module.purap.service.PurapAccountingService)purapAccountingService).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class, cmDocument.getItems());
               	}
               	else {
               		// ENCUMBERED CASE : Not UnEncumbered i.e IS ENCUMBERED hence safe to use SourceDocument for accounting line fill and pro-ration
               		purapAccountingService.updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
               		summaryAccounts = purapAccountingService.generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
-              		distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);
+              		// totalAmount != 0
+              	    distributedAccounts = ((edu.arizona.kfs.module.purap.service.PurapAccountingService)purapAccountingService).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class, cmDocument.getItems());
               	}
 
               	if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {

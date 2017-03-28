@@ -65,17 +65,14 @@ public class PurapAccountingServiceImpl extends org.kuali.kfs.module.purap.servi
                     PurApAccountingLine newAccountingLine = null;
                     try {
                         newAccountingLine = (PurApAccountingLine) clazz.newInstance();
+                        ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, account, newAccountingLine, PurapConstants.KNOWN_UNCOPYABLE_FIELDS);
+                        newAccountingLine.setAccountLinePercent(account.getAccountLinePercent());
+                        newAccounts.add(newAccountingLine);
                     }
-                    catch (InstantiationException e) {
-                        e.printStackTrace();
+                    catch (Exception e) {
+                        LOG.error("getFirstItemAccountsForDistribution() : Instantiate Purap Account error " + e.getMessage());
                     }
-                    catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, account, newAccountingLine, PurapConstants.KNOWN_UNCOPYABLE_FIELDS);
-                    newAccountingLine.setAccountLinePercent(account.getAccountLinePercent());
-                    newAccounts.add(newAccountingLine);
-               }
+                }
             	if (CollectionUtils.isNotEmpty(newAccounts)) {
             		break;
             	}

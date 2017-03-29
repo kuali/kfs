@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
+import edu.arizona.kfs.module.cam.businessobject.AssetExtension;
 import edu.arizona.kfs.sys.KFSConstants;
 
 @SuppressWarnings("deprecation")
@@ -101,5 +105,19 @@ public class AssetMaintainableImpl extends org.kuali.kfs.module.cam.document.Ass
         newBoNote = SpringContext.getBean(NoteService.class).createNote(newBoNote, getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
 
         return newBoNote;
+    }
+    
+    @Override
+    public void saveDataObject() {
+        // Save extension object first for Asset edit since Asset extension referenced collection can't be deleted though overriding BO buildListOfDeletionAwareLists, 
+    	// i.e. save Asset BO cannot delete BO reference list in depth.
+        if(KRADConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+            if (ObjectUtils.isNotNull(this.getBusinessObject().getExtension()) ) {
+                AssetExtension assetExt = (AssetExtension)this.getBusinessObject().getExtension();
+                getBusinessObjectService().linkAndSave(assetExt);
+            }
+        }
+
+    	super.saveDataObject();
     }
 }

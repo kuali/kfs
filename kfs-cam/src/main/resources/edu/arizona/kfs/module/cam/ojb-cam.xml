@@ -35,7 +35,10 @@
 			<foreignkey field-ref="inventoryUnitChartOfAccountsCode" />
 			<foreignkey field-ref="inventoryUnitOrganizationCode" />
 		</reference-descriptor>
-		
+				
+		<collection-descriptor name="assetAccountResponsibilities" element-class-ref="edu.arizona.kfs.module.cam.businessobject.AssetAccountResponsibility" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+			<inverse-foreignkey field-ref="capitalAssetNumber" />
+		</collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.cam.businessobject.Asset" table="CM_CPTLAST_T">
@@ -543,4 +546,15 @@
 	    </collection-descriptor>
 	</class-descriptor>
 	
+	<class-descriptor class="edu.arizona.kfs.module.cam.businessobject.AssetAccountResponsibility" table="CM_CPTLAST_AWARD_HIST_T">
+		<field-descriptor name="accountResponsibilityId" column="CM_CPTLAST_AWARD_HIST_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CM_CPTLAST_AWARD_HIST_NBR_SEQ"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
+		<field-descriptor name="accountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="grantNumber" column="GRANT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="effectiveDate" column="EFFECTIVE_DT" jdbc-type="DATE"/>
+		<field-descriptor name="sequenceId" column="SEQUENCE_ID" jdbc-type="VARCHAR"/>
+	</class-descriptor>
 </descriptor-repository>

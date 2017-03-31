@@ -4,6 +4,10 @@
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 	
+	<bean id="SalaryExpenseTransferDocument" parent="SalaryExpenseTransferDocument-parentBean">
+		<property name="documentClass" value="edu.arizona.kfs.module.ld.document.SalaryExpenseTransferDocument"/>
+	</bean>
+	
 	<!-- workflow attributes for routing -->
 	<bean id="SalaryExpenseTransferDocument-workflowAttributes" parent="SalaryExpenseTransferDocument-workflowAttributes-parentBean">
 	  	<property name="routingTypeDefinitions">

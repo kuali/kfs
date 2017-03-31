@@ -537,7 +537,7 @@
   						<xsd:choice minOccurs="0">
   							<xsd:sequence>
 								<xsd:element name="ManufacturerPartID" type="hundredCharsType" />
-  								<xsd:element name="ManufacturerName">
+  								<xsd:element name="ManufacturerName" minOccurs="0">
   									<xsd:complexType>
   										<xsd:simpleContent>
 											<xsd:extension base="hundredCharsType">

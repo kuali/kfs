@@ -16,6 +16,11 @@
             <list>
             </list>
         </property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/module/cab/businessobject/datadictionary/*.xml</value>
+			</list>
+		</property>
     </bean>
 
     <bean id="cabExtractJob" parent="unscheduledJobDescriptor">
@@ -49,7 +54,7 @@
 		<property name="purApInfoService" ref="purApInfoService" />
 	</bean>
 	
-	<bean id="generalLedgerEntryLookupableHelperService" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
+	<bean id="generalLedgerEntryLookupableHelperService" scope="prototype" parent="generalLedgerEntryLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
     </bean>
     
     <bean id="purchasingAccountsPayableReportDao" parent="platformAwareDao" class="edu.arizona.kfs.module.cab.dataaccess.impl.PurchasingAccountsPayableReportDaoOjb">
@@ -80,4 +85,7 @@
 		<property name="assetService" ref="assetService" />
 	</bean> 
 
+	<bean id="purApReportLookupableHelperService" scope="prototype" parent="purApReportLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cab.businessobject.lookup.PurApReportLookupableHelperServiceImpl">
+	</bean>
+	
 </beans>

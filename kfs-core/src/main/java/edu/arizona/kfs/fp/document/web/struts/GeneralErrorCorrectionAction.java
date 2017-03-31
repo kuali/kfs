@@ -16,10 +16,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -73,7 +73,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
                 }
 
                 for (Entry entry : rawValues) {
-                    SourceAccountingLine line = copyEntryToAccountingLine(entry);
+                    GECSourceAccountingLine line = copyEntryToAccountingLine(entry);
                     line.setDocumentNumber(gecDoc.getDocumentNumber());
                     super.insertAccountingLine(true, (KualiAccountingDocumentFormBase) form, line);
                     GecEntryRelationship gecEntryRelationship = new GecEntryRelationship(entry.getEntryId(), gecDoc.getDocumentNumber(), line.getSequenceNumber(), line.getFinancialDocumentLineTypeCode(), gecDoc.getDocumentHeader().getWorkflowDocument().getStatus().getCode(), entry);
@@ -174,8 +174,8 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
      * @param entry
      * @return
      */
-    private SourceAccountingLine copyEntryToAccountingLine(Entry entry) {
-        SourceAccountingLine retval = new SourceAccountingLine();
+    private GECSourceAccountingLine copyEntryToAccountingLine(Entry entry) {
+        GECSourceAccountingLine retval = new GECSourceAccountingLine();
         retval.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
         retval.setChartOfAccountsCode(entry.getChartOfAccountsCode());
         retval.setAccountNumber(entry.getAccountNumber());

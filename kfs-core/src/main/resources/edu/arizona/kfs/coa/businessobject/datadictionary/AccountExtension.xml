@@ -16,6 +16,8 @@
                 <ref bean="AccountExtension-crossOrganizationCode"  />
                 <ref bean="AccountExtension-faCostSubCatCode"       />
                 <ref bean="AccountExtension-taxRegionCode" 			/>
+                <ref bean="AccountExtension-institutionalFringeCoaCode" />
+                <ref bean="AccountExtension-institutionalFringeAccount" />
             </list>
         </property>
     </bean>
@@ -39,5 +41,13 @@
 	<dd:boAttributeRef id="AccountExtension-taxRegionCode-parentBean"
 		abstract="true" parent="TaxRegion-taxRegionCode-parentBean"
 		attributeName="taxRegionObj.taxRegionCode" />
+
+	<bean id="AccountExtension-institutionalFringeCoaCode" parent="AccountExtension-institutionalFringeCoaCode-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-institutionalFringeCoaCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode-parentBean" attributeName="institutionalFringeCoaCodeObj.chartOfAccountsCode" label="Institutional Fringe COA Code" shortLabel="Fringe COA Code" />
+
+	<bean id="AccountExtension-institutionalFringeAccount" parent="AccountExtension-institutionalFringeAccount-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-institutionalFringeAccount-parentBean" abstract="true" parent="Account-accountNumber-parentBean" attributeName="institutionalFringeAccountObj.accountNumber" label="Institutional Fringe Account" shortLabel="Fringe Account" />
 
 </beans>

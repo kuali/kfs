@@ -359,10 +359,10 @@
 </class-descriptor>
 
   <class-descriptor class="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" table="FP_PRCRMNT_CARD_DFLT_T">
-    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="creditCardNumber" column="CC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="creditCardLastFour" column="CC_LAST_FOUR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="cardHolderSystemId" column="CARD_HLDR_NET_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="cardHolderName" column="CARD_HLDR_NM" jdbc-type="VARCHAR" />

@@ -240,6 +240,13 @@
 	<reference-descriptor name="taxRegionObj" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="taxRegionCode" />
     </reference-descriptor>
+    <reference-descriptor name="institutionalFringeCoaCodeObj" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="institutionalFringeCoaCodeExt" />
+    </reference-descriptor>
+    <reference-descriptor name="institutionalFringeAccountObj" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retireve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="institutionalFringeCoaCodeExt" />
+        <foreignkey field-ref="institutionalFringeAccountExt" />
+    </reference-descriptor>
 </class-descriptor>
 
 </descriptor-repository> 

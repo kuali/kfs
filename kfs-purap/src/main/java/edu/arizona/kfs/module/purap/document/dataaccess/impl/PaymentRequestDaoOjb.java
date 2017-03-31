@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
@@ -104,4 +105,18 @@ public class PaymentRequestDaoOjb extends org.kuali.kfs.module.purap.document.da
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(edu.arizona.kfs.module.purap.document.PaymentRequestDocument.class, criteria));
     }
+    
+    @Override
+    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {
+        Criteria criteria = new Criteria();
+        criteria.addNotEqualTo("holdIndicator", "Y");
+        criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
+        // UAF-2837 : Added this criteria 
+    	criteria.addEqualTo("documentHeader.applicationDocumentStatus", PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+
+    	QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        return this.getPaymentRequestsByQueryByCriteria(qbc);
+
+    }
+
 }

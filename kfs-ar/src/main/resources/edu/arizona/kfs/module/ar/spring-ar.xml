@@ -16,6 +16,11 @@
             <list>
             </list>
         </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+				<value>classpath:edu/arizona/kfs/module/ar/document/datadictionary/*.xml</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="letterOfCreditJob" parent="unscheduledJobDescriptor">

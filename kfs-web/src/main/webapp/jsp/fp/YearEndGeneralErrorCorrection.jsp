@@ -49,7 +49,7 @@
                     <c:if test="${!readOnly}">
                         <input type="hidden" name="universityFiscalPeriodCodeLookupOverride" value="${KualiForm.universityFiscalPeriodCodeLookupOverride}" />
                         <gl:gecEntryLookup
-                            boClassName="edu.arizona.kfs.gl.businessobject.GecEntry"
+                            boClassName="org.kuali.kfs.gl.businessobject.Entry"
                             actionPath="yegecEntryLookup.do"
                             lookupParameters="universityFiscalYear:universityFiscalYear,glDocId:documentNumber,universityFiscalPeriodCodeLookupOverride:universityFiscalPeriodCode"
                             tabindexOverride="KualiForm.currentTabIndex"

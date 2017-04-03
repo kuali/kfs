@@ -4,8 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
   <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean">
-        <property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetMaintainableImpl" />
-        <property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetRule" />
+	  <property name="maintainableClass" value="edu.arizona.kfs.module.cam.document.AssetMaintainableImpl" />
+	  <property name="businessRulesClass" value="edu.arizona.kfs.module.cam.document.validation.impl.AssetRule" />
+	  <property name="documentAuthorizerClass" value="edu.arizona.kfs.module.cam.document.authorization.AssetAuthorizer"/>
+	  <property name="maintainableSections">
+		  <list merge="true">
+		  	<ref bean="AssetMaintenanceDocument-AccountResponsibility"/>
+		  </list>
+	  </property>
   </bean>
 
  <!--  Maintenance Section Definition -->
@@ -30,4 +36,29 @@
         </property>
   </bean>
 
+	<bean id="AssetMaintenanceDocument-AccountResponsibility" parent="AssetMaintenanceDocument-AccountResponsibility-parentBean"/>
+	  <bean id="AssetMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="awardHistory"/>  
+	    <property name="title" value="Account Responsibility"/>
+	    <property name="defaultOpen" value="false"/> 
+	    <property name="maintainableItems">
+	      <list>
+	        <bean parent="MaintainableCollectionDefinition">
+	          <property name="name" value="extension.assetAccountResponsibilities"/>
+	          <property name="businessObjectClass" value="edu.arizona.kfs.module.cam.businessobject.AssetAccountResponsibility"/>
+		      <property name="alwaysAllowCollectionDeletion" value="true" />
+			  <property name="includeAddLine" value="true" />	
+	          <property name="maintainableFields">
+	            <list>
+	              <bean parent="MaintainableFieldDefinition" p:name="sequenceId" p:required="true"/>
+	              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
+	              <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+	              <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="true"/>
+	              <bean parent="MaintainableFieldDefinition" p:name="grantNumber" p:required="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+	  </bean>
 </beans>

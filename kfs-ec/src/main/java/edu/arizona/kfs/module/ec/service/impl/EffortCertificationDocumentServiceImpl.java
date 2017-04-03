@@ -1,6 +1,7 @@
 package edu.arizona.kfs.module.ec.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,6 +103,35 @@ public class EffortCertificationDocumentServiceImpl extends org.kuali.kfs.module
         }
     }
     
+    @Override
+    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson, boolean isNewLine) {
+        boolean canBeAdded = true;
+        
+        // We don't want to adHoc route to the current user
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        String currentPrincipalName = currentUser.getPrincipalName();
+        String adHocName = adHocRoutePerson.getId();
+        if (StringUtils.isNotEmpty(currentPrincipalName)) {
+            if ((StringUtils.equals(currentPrincipalName, adHocName))) {
+                canBeAdded = false;
+            }
+        }
+        
+        if (canBeAdded) {
+            // check that we have not already added them for the same action
+            for (AdHocRoutePerson person : adHocRoutePersonList) {
+                if (isSameAdHocRoutePerson(person, adHocRoutePerson)) {
+                    canBeAdded = false;
+                    break;
+                }
+            }
+        }
+
+        if (canBeAdded) {
+            adHocRoutePersonList.add(adHocRoutePerson);            
+        }
+    }
+   
     protected boolean isDocumentStoppedInRouteNode(WorkflowDocument workflowDocument, String nodeName) {
         Set<String> names = workflowDocument.getCurrentNodeNames();
         if (CollectionUtils.isNotEmpty(names)) {

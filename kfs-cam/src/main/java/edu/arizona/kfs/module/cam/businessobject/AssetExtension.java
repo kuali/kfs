@@ -1,10 +1,14 @@
 package edu.arizona.kfs.module.cam.businessobject;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtensionBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -18,7 +22,8 @@ public class AssetExtension extends PersistableBusinessObjectExtensionBase {
 	
 	private Asset assetObj;
 	private AssetInventoryUnit assetInvUnitObj;
-
+	private List<AssetAccountResponsibility> assetAccountResponsibilities;
+	
 	protected LinkedHashMap<String, String> toStringMapper() {
 		LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
 		if (this.capitalAssetNumber != null) {
@@ -91,5 +96,19 @@ public class AssetExtension extends PersistableBusinessObjectExtensionBase {
 	public void setAssetInvUnitObj(AssetInventoryUnit assetInvUnitObj) {
 		this.assetInvUnitObj = assetInvUnitObj;
 	}
+
+	public List<AssetAccountResponsibility> getAssetAccountResponsibilities() {
+		return assetAccountResponsibilities;
+	}
+
+	public void setAssetAccountResponsibilities(List<AssetAccountResponsibility> assetAccountResponsibilities) {
+		this.assetAccountResponsibilities = assetAccountResponsibilities;
+	}
 	
+	@Override
+	public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+		List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+		managedLists.add(new ArrayList<PersistableBusinessObject>(getAssetAccountResponsibilities()));
+		return managedLists;
+	}
 }

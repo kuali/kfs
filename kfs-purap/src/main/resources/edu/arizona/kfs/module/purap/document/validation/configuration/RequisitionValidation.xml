@@ -50,14 +50,5 @@
       </list>
     </property>
   </bean>
-  
-  <!-- Route Document Event, check item type against account tax policy -->
-  <bean id="Requisition-routeDocumentValidation" parent="Requisition-routeDocumentValidation-parentBean" scope="prototype">
-      <property name="validations">
-          <list merge="true">
-              <bean parent="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" scope="prototype" />
-          </list>
-      </property>
-  </bean>
 
 </beans>

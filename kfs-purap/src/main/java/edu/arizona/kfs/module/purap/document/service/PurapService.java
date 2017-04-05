@@ -14,5 +14,5 @@ public interface PurapService extends org.kuali.kfs.module.purap.document.servic
      * @param item the given item
      * @return true if the item type is conflicted with tax policy
      */
-    boolean isItemTypeConflictWithTaxPolicy(PurchasingAccountsPayableDocument purchasingAccountsPayableDocument, PurApItem item);
+    public boolean isItemTypeConflictWithTaxPolicy(PurchasingAccountsPayableDocument purchasingAccountsPayableDocument, PurApItem item);
 }

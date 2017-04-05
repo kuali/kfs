@@ -14,4 +14,9 @@
 
 	<!-- replace the bank code validator with one aware of the documents with a payment method code -->
     <bean id="PurchasingAccountsPayable-bankCodeValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.AccountsPayableBankCodeValidation" abstract="true"/> 	
+    
+    <bean id="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.ItemTypeTaxPolicyValidation" abstract="true">
+        <property name="purapService" ref="purapService"/>
+    </bean>
+    
 </beans>

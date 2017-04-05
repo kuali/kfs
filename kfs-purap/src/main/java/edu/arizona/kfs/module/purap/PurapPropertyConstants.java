@@ -7,5 +7,7 @@ public class PurapPropertyConstants extends org.kuali.kfs.module.purap.PurapProp
     public static final String PAYMENT_REQUEST_INCOME_TYPE_IDENTIFIER = "paymentRequestIncomeTypeIdentifier";
     public static final String INCOME_TYPE_LINE_NUMBER = "incomeTypeLineNumber";
     public static final String BUILDING_OBJ = "buildingObj";
+    public static final String FIELD_NAME_ITEM_TYPE_CODE = "itemTypeCode";
+    public static final String REQUISITION_ITEMS_ERROR_PATH = "document.items";
 
 }

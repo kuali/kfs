@@ -1,6 +1,6 @@
 package edu.arizona.kfs.pdp.util;
 
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
+import edu.arizona.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSConstants;
 
 import edu.arizona.kfs.pdp.PdpConstants;

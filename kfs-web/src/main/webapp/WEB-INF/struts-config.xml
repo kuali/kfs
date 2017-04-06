@@ -349,6 +349,9 @@
             type="edu.arizona.kfs.module.tax.document.web.struts.PayeeSearchForm" />
             
         <form-bean name="ElectronicFilingReportForm" type="edu.arizona.kfs.module.tax.document.web.struts.ElectronicFilingReportForm" />
+
+        <!--  Check Reconciliation Form -->
+        <form-bean name="CheckReconciliationReportForm" type="edu.arizona.kfs.module.cr.document.web.struts.CheckReconciliationReportForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -375,6 +378,15 @@
 	</global-forwards>
 
 	<action-mappings>
+        <action path="/cr*" name="{1}Form"
+            input="/jsp/modules/cr/{1}.jsp"
+            type="edu.arizona.kfs.module.cr.document.web.struts.{1}Action"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/cr/{1}.jsp" />
+        </action>
+
         <action path="/camsAssetTransfer" name="AssetTransferForm" input="/jsp/module/cams/AssetTransfer.jsp"
             type="edu.arizona.kfs.module.cam.document.web.struts.AssetTransferAction" scope="request"
             parameter="methodToCall" validate="true" attribute="KualiForm">

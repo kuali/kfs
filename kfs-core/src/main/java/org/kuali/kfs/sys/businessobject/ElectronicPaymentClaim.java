@@ -21,6 +21,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
@@ -184,6 +185,10 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
             catch (WorkflowException we) {
                 throw new RuntimeException("Could not retrieve Document #"+documentNumber, we);
             }
+        }
+        // UAF-3068 : "generatingDocument" is private.  "extends" to override this method will have lots of work to do
+        if (this.generatingDocument != null && CollectionUtils.isEmpty(this.generatingDocument.getSourceAccountingLines())) {
+            generatingDocument.refreshReferenceObject(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES);
         }
         return this.generatingDocument;
     }

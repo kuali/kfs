@@ -27,6 +27,7 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     
     //DV NonEmployee
     public static final String ERROR_DV_PER_DIEM_START_DT_AFTER_END_DT = "error.dv.perDiemStartDtBeforeAfterEndDt";
+    public static final String ERROR_DV_DISALLOWED_BY_PAYMENT_METHOD = "error.dv.disallowedByPaymentMethod";
 
     // Income Type Error messages
     public static final String ERROR_INVALID_INCOME_TYPES_TOTAL_AMOUNT = "errors.document.ap.incomeTypesTotalAmount.invalid";

@@ -317,4 +317,23 @@
 		<property name="originationCodeDao" ref="originationCodeDao" />
 	</bean>
 
+	<bean id="pdpExtractPaymentService" class="edu.arizona.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
+		<property name="reportDirectoryName" value="${reports.directory}/pdp" />
+		<property name="fileName" value="pdp_sa_check_"/>
+		<property name="reportFileName" value="pdp_sa_check_report"/>
+		<property name="financialSystemOriginCode" value="SA"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
+		<property name="processDao" ref="pdpProcessDao"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="countryService" ref="countryService"/>	
+	</bean>	
+
 </beans>
+

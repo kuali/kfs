@@ -40,4 +40,9 @@
       <property name="disbursementVoucherPayeeService" ref="disbursementVoucherPayeeService" />
       <property name="disbursementVoucherPaymentReasonService" ref="disbursementVoucherPaymentReasonService" />
   </bean>
+  
+  <bean id="DisbursementVoucher-vendorInformationValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherVendorInformationValidation" abstract="true">
+    <property name="parameterService" ref="parameterService" />
+    <property name="businessObjectService" ref="businessObjectService" />
+  </bean>
 </beans>

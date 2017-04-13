@@ -18,6 +18,11 @@
                 <value>classpath:edu/arizona/kfs/module/ld/businessobject/datadictionary/*.xml</value>
             </list>
         </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/ld/ojb-ld.xml</value>
+            </list>
+        </property>
         <property name="jobNames">
             <list merge="true">
                 <value>ereSweepJob</value>

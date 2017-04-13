@@ -105,51 +105,16 @@ public class SalaryExpenseTransferDocument extends org.kuali.kfs.module.ld.docum
 	}
 
 	private Collection<LedgerBalance> findLedgerBalanceSimple(Map<String, String> fieldValues) {
-		OriginEntryFull originEntryFull = new OriginEntryFull(); 
 		List<LedgerBalance> ledgerBalanceToReturn = new ArrayList<LedgerBalance>();
 		Collection<LedgerBalance> ledgerBalances = getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
-		SystemOptions options = getSystemOptions(getUniversityDateService().getCurrentFiscalYear());
-
-		originEntryFull.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
 
 		for (LedgerBalance ledgerBalance : ledgerBalances) {
-			if (ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(originEntryFull.getFinancialBalanceTypeCode()) || ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_A2)) {
+			if (ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_ACTUAL) || ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_A2)) {
 				ledgerBalanceToReturn.add(ledgerBalance);
 			}
 		}
 		
 		return ledgerBalanceToReturn;
-	}
-
-	private SystemOptions getSystemOptions(Integer universityFiscalYear) {
-		SystemOptions options = null;
-		options = getOptionsService().getOptions(universityFiscalYear);
-		if (ObjectUtils.isNull(options)) {
-			options = getOptionsService().getCurrentYearOptions();
-		}
-		return options;
-	}
-
-	public UniversityDateService getUniversityDateService() {
-		if (ObjectUtils.isNull(universityDateService)) {
-			universityDateService = SpringContext.getBean(UniversityDateService.class);
-		}
-		return universityDateService;
-	}
-
-	public void setUniversityDateService(UniversityDateService universityDateService) {
-		this.universityDateService = universityDateService;
-	}
-
-	public OptionsService getOptionsService() {
-		if (ObjectUtils.isNull(optionsService)) {
-			optionsService = SpringContext.getBean(OptionsService.class);
-		}
-		return optionsService;
-	}
-	
-	public void setOptionsService(OptionsService optionsService) {
-		this.optionsService = optionsService;
 	}
 
 	public BusinessObjectService getBusinessObjectService() {

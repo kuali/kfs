@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -82,88 +83,101 @@ public class CheckReconciliationReportServiceImpl implements CheckReconciliation
     public void generateCsvReport(HttpServletResponse response, Date reportEndDate, Collection<CheckReconciliationReportLine> reportSet) throws Exception {
         LOG.info("Generating CSV Report.");
         prepareResponseHeadersForCsv(response);
-        java.io.PrintWriter out = response.getWriter();
+        java.io.PrintWriter out = null;
+        try {
+            out = response.getWriter();
 
-        boolean startReport = true;
-        boolean newAccount = false;
-        boolean newMonth = false;
-        String currentAccount = KFSConstants.EMPTY_STRING;
-        double accountTotal = 0.00;
-        int accountCount = 0;
-        String currentMonth = KFSConstants.EMPTY_STRING;
-        double monthTotal = 0.00;
-        int monthCount = 0;
-        double overallTotal = 0.00;
-        int overallCount = 0;
+            boolean startReport = true;
+            boolean newAccount = false;
+            boolean newMonth = false;
+            String currentAccount = KFSConstants.EMPTY_STRING;
+            double accountTotal = 0.00;
+            int accountCount = 0;
+            String currentMonth = KFSConstants.EMPTY_STRING;
+            double monthTotal = 0.00;
+            int monthCount = 0;
+            double overallTotal = 0.00;
+            int overallCount = 0;
 
-        String reportTitleLine = ",,As of " + CrConstants.MM_DD_YYYY.format(getReportAsOfDate(reportEndDate)) + ",,";
-        String reportColumnHeader = "Check No,Payee Id,Payee Name,Account No,Date,Amount";
+            String reportTitleLine = ",,As of " + CrConstants.MM_DD_YYYY.format(getReportAsOfDate(reportEndDate)) + ",,";
+            String reportColumnHeader = "Check No,Payee Id,Payee Name,Account No,Date,Amount";
 
-        for (CheckReconciliationReportLine reportLine : reportSet) {
-            if (startReport) {
-                out.println(reportTitleLine);
-                out.println(reportColumnHeader);
-                currentAccount = reportLine.getBankAccountNumber();
-                currentMonth = reportLine.getCheckMonth();
-                startReport = false;
+            for (CheckReconciliationReportLine reportLine : reportSet) {
+                if (startReport) {
+                    out.println(reportTitleLine);
+                    out.println(reportColumnHeader);
+                    currentAccount = reportLine.getBankAccountNumber();
+                    currentMonth = reportLine.getCheckMonth();
+                    startReport = false;
+                }
+
+                newMonth = !currentMonth.equals(reportLine.getCheckMonth());
+                newAccount = !currentAccount.equals(reportLine.getBankAccountNumber());
+                if (newMonth) {
+                    out.println("Sub-total: " + currentMonth + KFSConstants.COMMA + KFSConstants.COMMA + "Outstanding: " + monthCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(monthTotal));
+                    monthTotal = 0.00;
+                    monthCount = 0;
+                    currentMonth = reportLine.getCheckMonth();
+                }
+                if (newAccount) {
+                    out.println("Bank: " + currentAccount + KFSConstants.COMMA + KFSConstants.COMMA + "Total Outstanding: " + accountCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(accountTotal));
+                    out.println(",,,,");
+                    monthTotal = 0.00;
+                    accountTotal = 0.00;
+                    currentMonth = reportLine.getCheckMonth();
+                    monthCount = 0;
+                    accountCount = 0;
+                    currentAccount = reportLine.getBankAccountNumber();
+                }
+                if (newMonth || newAccount) {
+                    out.println(reportColumnHeader);
+                }
+
+                out.println(reportLine.getCheckNumber() + KFSConstants.COMMA + reportLine.getPayeeId() + " - " + reportLine.getPayeeTypeCode() + KFSConstants.COMMA + "\"" + reportLine.getPayeeName() + "\"" + KFSConstants.COMMA + reportLine.getBankAccountNumber() + KFSConstants.COMMA + reportLine.getCheckDate() + KFSConstants.COMMA + "\"" + CrConstants.REPORT_DECIMAL_FORMAT.format(reportLine.getAmount().doubleValue()) + "\"");
+                monthTotal += reportLine.getAmount();
+                monthCount++;
+                accountTotal += reportLine.getAmount();
+                accountCount++;
+                overallTotal += reportLine.getAmount();
+                overallCount++;
             }
 
-            newMonth = !currentMonth.equals(reportLine.getCheckMonth());
-            newAccount = !currentAccount.equals(reportLine.getBankAccountNumber());
-            if (newMonth) {
-                out.println("Sub-total: " + currentMonth + KFSConstants.COMMA + KFSConstants.COMMA + "Outstanding: " + monthCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(monthTotal));
-                monthTotal = 0.00;
-                monthCount = 0;
-                currentMonth = reportLine.getCheckMonth();
-            }
-            if (newAccount) {
-                out.println("Bank: " + currentAccount + KFSConstants.COMMA + KFSConstants.COMMA + "Total Outstanding: " + accountCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(accountTotal));
-                out.println(",,,,");
-                monthTotal = 0.00;
-                accountTotal = 0.00;
-                currentMonth = reportLine.getCheckMonth();
-                monthCount = 0;
-                accountCount = 0;
-                currentAccount = reportLine.getBankAccountNumber();
-            }
-            if (newMonth || newAccount) {
-                out.println(reportColumnHeader);
-            }
+            out.println("Sub-total: " + currentMonth + KFSConstants.COMMA + KFSConstants.COMMA + "Outstanding: " + monthCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(monthTotal));
+            out.println("Bank: " + currentAccount + KFSConstants.COMMA + KFSConstants.COMMA + "Total Outstanding: " + accountCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(accountTotal));
 
-            out.println(reportLine.getCheckNumber() + KFSConstants.COMMA + reportLine.getPayeeId() + " - " + reportLine.getPayeeTypeCode() + KFSConstants.COMMA + "\"" + reportLine.getPayeeName() + "\"" + KFSConstants.COMMA + reportLine.getBankAccountNumber() + KFSConstants.COMMA + reportLine.getCheckDate() + KFSConstants.COMMA + "\"" + CrConstants.REPORT_DECIMAL_FORMAT.format(reportLine.getAmount().doubleValue()) + "\"");
-            monthTotal += reportLine.getAmount();
-            monthCount++;
-            accountTotal += reportLine.getAmount();
-            accountCount++;
-            overallTotal += reportLine.getAmount();
-            overallCount++;
+            LOG.info("CSV Report complete. " + reportSet.size() + " total records. Outstanding: " + overallCount + ", Total:" + CrConstants.REPORT_DECIMAL_FORMAT.format(overallTotal));
+        } catch (Exception e) {
+            LOG.error("Error generating CSV report: " + e.getMessage());
+            throw e;
+        } finally {
+            IOUtils.closeQuietly(out);
         }
-
-        out.println("Sub-total: " + currentMonth + KFSConstants.COMMA + KFSConstants.COMMA + "Outstanding: " + monthCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(monthTotal));
-        out.println("Bank: " + currentAccount + KFSConstants.COMMA + KFSConstants.COMMA + "Total Outstanding: " + accountCount + KFSConstants.COMMA + KFSConstants.COMMA + KFSConstants.COMMA + CrConstants.REPORT_DECIMAL_FORMAT.format(accountTotal));
-
-        out.flush();
-        out.close();
-
-        LOG.info("CSV Report complete. " + reportSet.size() + " total records. Outstanding: " + overallCount + ", Total:" + CrConstants.REPORT_DECIMAL_FORMAT.format(overallTotal));
     }
 
     @Override
     public void generatePdfReport(HttpServletResponse response, Date reportEndDate, Collection<CheckReconciliationReportLine> reportSet) throws Exception {
         LOG.info("Generating PDF Report. " + reportSet.size() + " total records.");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
 
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(CrConstants.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-        String date = CrConstants.MM_DD_YYYY.format(getReportAsOfDate(reportEndDate));
-        Map<String, Object> reportData = new HashMap<String, Object>();
-        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, KFSConstants.EMPTY_STRING);
-        reportData.put(CrPropertyConstants.CheckReconciliationReport.END_DATE, date);
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(CrConstants.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
+            String date = CrConstants.MM_DD_YYYY.format(getReportAsOfDate(reportEndDate));
+            Map<String, Object> reportData = new HashMap<String, Object>();
+            reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+            reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, KFSConstants.EMPTY_STRING);
+            reportData.put(CrPropertyConstants.CheckReconciliationReport.END_DATE, date);
 
-        reportGenerationService.generateReportToOutputStream(reportData, reportSet, CrConstants.REPORT_TEMPLATE_CLASSPATH, baos);
-        WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, CrConstants.CR_REPORT_FILE_NAME + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
+            reportGenerationService.generateReportToOutputStream(reportData, reportSet, CrConstants.REPORT_TEMPLATE_CLASSPATH, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, CrConstants.CR_REPORT_FILE_NAME + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
 
-        LOG.info("PDF Report complete. " + reportSet.size() + " total records.");
+            LOG.info("PDF Report complete. " + reportSet.size() + " total records.");
+        } catch (Exception e) {
+            LOG.error("Error generating PDF report: " + e.getMessage());
+            throw e;
+        } finally {
+            IOUtils.closeQuietly(baos);
+        }
     }
 
     // Private methods

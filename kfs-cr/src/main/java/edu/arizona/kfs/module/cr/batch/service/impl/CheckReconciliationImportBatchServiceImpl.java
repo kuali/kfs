@@ -24,6 +24,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -149,10 +150,7 @@ public class CheckReconciliationImportBatchServiceImpl implements CheckReconcili
                 writeDoneFile(file);
             } catch (Exception e) {
                 LOG.error("Exception occured during loading of " + file.getAbsolutePath() + ". This file's processing has been rolledback.", e);
-                success = false;
                 throw new Exception(e);
-            } finally {
-
             }
         }
         writeLog();
@@ -234,7 +232,16 @@ public class CheckReconciliationImportBatchServiceImpl implements CheckReconcili
 
         int totalLinesProcessed = 0;
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String line = br.readLine();
+        String line = null;
+        try {
+            line = br.readLine();
+        } catch (Exception e) {
+            LOG.error("Error loading first line of file " + file.getName());
+            // end this method now if there's a failure at this point.
+            throw e;
+        } finally {
+            IOUtils.closeQuietly(br);
+        }
 
         while (line != null) {
 
@@ -244,7 +251,8 @@ public class CheckReconciliationImportBatchServiceImpl implements CheckReconcili
             } catch (BankNotFoundException e) {
                 CheckReconError cre = generateCheckReconError(e.getErrorCheckReconciliation(), "Error parsing line: " + e.getMessage() + ", loading of file " + file.getName() + " has been rolled back.");
                 checkReconErrorRecords.add(cre);
-                br.close();
+                // end processing and close the stream now if there is an error at this point. No finally because we want to continue processing if there is no exception.
+                IOUtils.closeQuietly(br);
                 throw e;
             }
 
@@ -258,11 +266,17 @@ public class CheckReconciliationImportBatchServiceImpl implements CheckReconcili
             }
 
             totalLinesProcessed++;
-            line = br.readLine();
+            try {
+                line = br.readLine();
+            } catch (Exception e) {
+                LOG.error("Error loading a line from file " + file.getName());
+                // end the loop and this method now if there's an I/O failure at this point.
+                line = null;
+            }
         }
 
+        IOUtils.closeQuietly(br);
         LOG.info("Processed Records : " + totalLinesProcessed);
-        br.close();
     }
 
     private void updateCheckReconciliation(CheckReconciliation cr, Collection<CheckReconciliation> existingRecords) {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -15,7 +16,12 @@ import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.OptionsServiceImpl;
+import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -30,6 +36,8 @@ public class SalaryExpenseTransferDocument extends org.kuali.kfs.module.ld.docum
 
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
+	private OptionsService optionsService;
+	private UniversityDateService universityDateService;
 
 	@Override
 	public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -82,8 +90,9 @@ public class SalaryExpenseTransferDocument extends org.kuali.kfs.module.ld.docum
 	public BigDecimal amountForCalculation(ExpenseTransferAccountingLine expenseTransferAccountingLine, String objectCode) {
 		Map<String, String> fieldValues = new HashMap<String, String>();
 		fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, expenseTransferAccountingLine.getPayrollEndDateFiscalYear().toString());
-		fieldValues.put(KFSPropertyConstants.EMPLID, expenseTransferAccountingLine.getEmplid());
 		fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+		fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, expenseTransferAccountingLine.getPositionNumber());
+		fieldValues.put(KFSPropertyConstants.EMPLID, expenseTransferAccountingLine.getEmplid());
 
 		Collection<LedgerBalance> ledgerBalances = findLedgerBalanceSimple(fieldValues);
 
@@ -96,16 +105,51 @@ public class SalaryExpenseTransferDocument extends org.kuali.kfs.module.ld.docum
 	}
 
 	private Collection<LedgerBalance> findLedgerBalanceSimple(Map<String, String> fieldValues) {
-		Collection<LedgerBalance> ledgerBalances = getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+		OriginEntryFull originEntryFull = new OriginEntryFull(); 
 		List<LedgerBalance> ledgerBalanceToReturn = new ArrayList<LedgerBalance>();
-		
+		Collection<LedgerBalance> ledgerBalances = getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+		SystemOptions options = getSystemOptions(getUniversityDateService().getCurrentFiscalYear());
+
+		originEntryFull.setFinancialBalanceTypeCode(options.getActualFinancialBalanceTypeCd());
+
 		for (LedgerBalance ledgerBalance : ledgerBalances) {
-			if (ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_ACTUAL) || ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_A2)) {
+			if (ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(originEntryFull.getFinancialBalanceTypeCode()) || ledgerBalance.getFinancialBalanceTypeCode().equalsIgnoreCase(LaborConstants.BALANCE_TYPE_A2)) {
 				ledgerBalanceToReturn.add(ledgerBalance);
 			}
 		}
 		
 		return ledgerBalanceToReturn;
+	}
+
+	private SystemOptions getSystemOptions(Integer universityFiscalYear) {
+		SystemOptions options = null;
+		options = getOptionsService().getOptions(universityFiscalYear);
+		if (ObjectUtils.isNull(options)) {
+			options = getOptionsService().getCurrentYearOptions();
+		}
+		return options;
+	}
+
+	public UniversityDateService getUniversityDateService() {
+		if (ObjectUtils.isNull(universityDateService)) {
+			universityDateService = SpringContext.getBean(UniversityDateService.class);
+		}
+		return universityDateService;
+	}
+
+	public void setUniversityDateService(UniversityDateService universityDateService) {
+		this.universityDateService = universityDateService;
+	}
+
+	public OptionsService getOptionsService() {
+		if (ObjectUtils.isNull(optionsService)) {
+			optionsService = SpringContext.getBean(OptionsService.class);
+		}
+		return optionsService;
+	}
+	
+	public void setOptionsService(OptionsService optionsService) {
+		this.optionsService = optionsService;
 	}
 
 	public BusinessObjectService getBusinessObjectService() {

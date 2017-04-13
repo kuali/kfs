@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -16,12 +15,7 @@ import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.OptionsServiceImpl;
-import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -36,8 +30,6 @@ public class SalaryExpenseTransferDocument extends org.kuali.kfs.module.ld.docum
 
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
-	private OptionsService optionsService;
-	private UniversityDateService universityDateService;
 
 	@Override
 	public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

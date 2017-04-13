@@ -35,4 +35,9 @@
   
   <bean id="DisbursementVoucher-incomeTypeTotalsValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherIncomeTypeTotalsValidation" abstract="true"/>
   
+  <bean id="DisbursementVoucher-paymentReasonValidation" class="edu.arizona.kfs.fp.document.validation.impl.DisbursementVoucherPaymentReasonValidation" abstract="true">
+      <property name="parameterService" ref="parameterService" />
+      <property name="disbursementVoucherPayeeService" ref="disbursementVoucherPayeeService" />
+      <property name="disbursementVoucherPaymentReasonService" ref="disbursementVoucherPaymentReasonService" />
+  </bean>
 </beans>

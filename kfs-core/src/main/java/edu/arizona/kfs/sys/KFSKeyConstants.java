@@ -41,4 +41,7 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     // Procurement Cardholder
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDH = "message.batchUpload.title.procurementCardHolder";
 
+    // DV Payment Reason
+    public static final String ERROR_DISBURSEMENT_VOUCHER_PAYMENT_REASON_CODE_INACTIVE = "error.disbursement.voucher.payment.reason.code.inactive";
+
 }

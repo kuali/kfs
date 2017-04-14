@@ -34,4 +34,35 @@ public class PdpConstants extends org.kuali.kfs.pdp.PdpConstants {
 		public static final int LENGTH_OF_PAYEE_ID_NUMBER = 40;
 
 	}
+	
+	public static class PrePaidChecksConstants {
+		public static final String PREPAID_PAYMENT_FILE_TYPE_INDENTIFIER = "prepaidChecksInputFileType";
+				
+		public static final String AUDIT_REPORT_ASTERISK = " * ";
+		public static final String AUDIT_REPORT_BAR = " | ";
+		public static final String AUDIT_REPORT_FILE_EXTENSION = ".report";
+		public static final String AUDIT_REPORT_HEADING = "PREPAID CHECK UPLOAD AUDIT REPORT                  ";
+		public static final String AUDIT_REPORT_SEPARATOR = "========================================================================";
+		public static final String AUDIT_REPORT_SUB_HEADING = "FILENAME: ";
+		public static final String AUDIT_REPORT_SUB_HEADING_ERRORS = "ERRORS:";
+		public static final String AUDIT_REPORT_SUB_HEADING_WARNINGS = "WARNINGS:";
+		public static final String AUDIT_REPORT_SUB_HEADING_CHECKS = "PREPAID PAYMENTS LOADED";
+		public static final String AUDIT_REPORT_TABLE_HEADING_CHECKS = "DISBURSEMENT NBR | DISBURSE DATE |  PAYEE ID   | PAYEE NAME                 |     AMOUNT    | STATUS";
+		public static final String AUDIT_REPORT_SEPARATOR_SINGLE = "------------------------------------------------------------------------";
+		public static final String AUDIT_REPORT_SEPARATOR_CHECKS = "----------------------------------------------------------------------------------------------------";		
+		public static final String SLASH = "/";
+		public static final String UNDERSCORE = "_";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_0 = "Source Document";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_1 = "Payment Detail ID";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_2 = "Invoice Number";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_3 = "Payee Name";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_4 = "Vendor Number";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_5 = "Pay Date";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_6 = "Disbursement Date";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_7 = "Payment Status";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_8 = "Disbursement Type";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_9 = "Disbursement Number";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_10 = "Payment Amount";
+		public static final String PAYEE_DETAIL_TABLE_HEADING_11 = "Net Payment Amount";
+	}
 }

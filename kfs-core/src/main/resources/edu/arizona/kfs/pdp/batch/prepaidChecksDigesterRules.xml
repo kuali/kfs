@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="pdp_file">
+        <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentFileLoad" />
+     
+        <pattern value="header">
+            <call-method-rule pattern="chart" methodname="setChart" paramcount="0" />
+            <call-method-rule pattern="unit" methodname="setUnit" paramcount="0" />
+            <call-method-rule pattern="sub_unit" methodname="setSubUnit" paramcount="0" />
+            <call-method-rule pattern="creation_date" methodname="setCreationDate" paramcount="0" />
+        </pattern>
+        
+        <pattern value="trailer">
+            <call-method-rule pattern="detail_count" methodname="setPaymentCount" paramcount="0" />
+            <call-method-rule pattern="detail_tot_amt" methodname="setPaymentTotalAmount" paramcount="0" />
+        </pattern>    
+  
+        <pattern value="group">  
+            <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentGroup" />
+
+            <call-method-rule pattern="payee_name" methodname="setPayeeName" paramcount="0" />
+            <call-method-rule pattern="payee_id" methodname="setPayeeId" paramcount="0" />
+            <alias attr-name="id_type" prop-name="payeeIdTypeCd" />
+            <set-properties-rule pattern="payee_id" />
+            
+            <call-method-rule pattern="payee_own_cd" methodname="setPayeeOwnerCd" paramcount="0" />
+            <call-method-rule pattern="address1" methodname="setLine1Address" paramcount="0" />
+            <call-method-rule pattern="address2" methodname="setLine2Address" paramcount="0" />
+            <call-method-rule pattern="address3" methodname="setLine3Address" paramcount="0" />
+            <call-method-rule pattern="address4" methodname="setLine4Address" paramcount="0" />
+            <call-method-rule pattern="city" methodname="setCity" paramcount="0" />
+            <call-method-rule pattern="state" methodname="setState" paramcount="0" />
+            <call-method-rule pattern="zip" methodname="setZipCd" paramcount="0" />
+            <call-method-rule pattern="country" methodname="setCountry" paramcount="0" />
+            <call-method-rule pattern="campus_address_ind" methodname="setCampusAddress" paramcount="0" paramtypes="java.lang.Boolean"/>
+            <call-method-rule pattern="payment_date" methodname="setPaymentDate" paramcount="0" />
+            <call-method-rule pattern="attachment_ind" methodname="setPymtAttachment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="immediate_ind" methodname="setProcessImmediate" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="special_handling_ind" methodname="setPymtSpecialHandling" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="taxable_ind" methodname="setTaxablePayment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="nra_ind" methodname="setNraPayment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="combine_group_ind" methodname="setCombineGroups" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="bank_code" methodname="setBankCode" paramcount="0" />
+            <call-method-rule pattern="disbursement_date" methodname="setDisbursementDate" paramcount="0" />
+            <call-method-rule pattern="disbursement_number" methodname="setDisbursementNbr" paramcount="0" />
+            <call-method-rule pattern="pmt_stat_cd" methodname="setPaymentStatusCode" paramcount="0" />
+            
+            <pattern value="detail">  
+                <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentDetail" />
+                
+                <call-method-rule pattern="source_doc_nbr" methodname="setCustPaymentDocNbr" paramcount="0" />
+                <call-method-rule pattern="invoice_nbr" methodname="setInvoiceNbr" paramcount="0" />
+                <call-method-rule pattern="po_nbr" methodname="setPurchaseOrderNbr" paramcount="0" />
+                <call-method-rule pattern="req_nbr" methodname="setRequisitionNbr" paramcount="0" />
+                <call-method-rule pattern="org_doc_nbr" methodname="setOrganizationDocNbr" paramcount="0" />
+                <call-method-rule pattern="customer_institution_identifier" methodname="setCustomerInstitutionNumber" paramcount="0" />
+                <call-method-rule pattern="invoice_date" methodname="setInvoiceDate" paramcount="0" />
+                <call-method-rule pattern="orig_invoice_amt" methodname="setOrigInvoiceAmount" paramcount="0" />
+                <call-method-rule pattern="net_payment_amt" methodname="setNetPaymentAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_discount_amt" methodname="setInvTotDiscountAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_ship_amt" methodname="setInvTotShipAmount" paramcount="0"/>
+                <call-method-rule pattern="invoice_tot_other_debits" methodname="setInvTotOtherDebitAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_other_credits" methodname="setInvTotOtherCreditAmount" paramcount="0" />
+                <call-method-rule pattern="fs_origin_cd" methodname="setFinancialSystemOriginCode" paramcount="0" />
+                <call-method-rule pattern="fdoc_typ_cd" methodname="setFinancialDocumentTypeCode" paramcount="0" />
+                         
+                <pattern value="accounting">  
+                    <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" />
+                    
+                    <call-method-rule pattern="coa_cd" methodname="setFinChartCode" paramcount="0" />
+                    <call-method-rule pattern="account_nbr" methodname="setAccountNbr" paramcount="0" />
+                    <call-method-rule pattern="sub_account_nbr" methodname="setSubAccountNbr" paramcount="0" />
+                    <call-method-rule pattern="object_cd" methodname="setFinObjectCode" paramcount="0" />
+                    <call-method-rule pattern="sub_object_cd" methodname="setFinSubObjectCode" paramcount="0" />      
+                    <call-method-rule pattern="org_ref_id" methodname="setOrgReferenceId" paramcount="0" />
+                    <call-method-rule pattern="project_cd" methodname="setProjectCode" paramcount="0" />
+                    <call-method-rule pattern="amount" methodname="setAccountNetAmount" paramcount="0" />
+                         
+                    <set-next-rule methodname="addAccountDetail" /> 
+                </pattern>
+                
+                <call-method-rule pattern="payment_text" methodname="addPaymentText" paramcount="0" />
+                   
+                <set-next-rule methodname="addPaymentDetails" />
+            </pattern>    
+            
+            <set-next-rule methodname="addPaymentGroup" />
+        </pattern>
+              
+    </pattern>    
+</digester-rules>

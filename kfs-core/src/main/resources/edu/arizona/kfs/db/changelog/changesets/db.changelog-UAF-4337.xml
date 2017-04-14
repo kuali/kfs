@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-4337" author="Jim Reese">
+        <comment>
+            UAF-4337 : Change Parm value for Cash Receipt. Changes the parameter from the Kuali foundation default of 'Y' to UA's preferred 'N'.
+        </comment>
+        <sql>
+            UPDATE KULOWNER.KRCR_PARM_T SET VAL = 'N' WHERE PARM_NM='DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND';
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE KULOWNER.KRCR_PARM_T SET VAL = 'Y' WHERE PARM_NM='DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND';
+            </sql>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>

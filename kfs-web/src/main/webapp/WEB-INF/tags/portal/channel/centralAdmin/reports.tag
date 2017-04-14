@@ -21,5 +21,11 @@
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="${ConfigProperties.application.url}/glTrialBalance.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.TrialBalanceReport&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 	</ul>
+
+    <strong>Check Reconciliation</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Check Reconciliation Report" url="${ConfigProperties.application.url}/crCheckReconciliationReport.do" /></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />

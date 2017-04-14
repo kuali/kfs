@@ -26,4 +26,5 @@
   <include file="changesets/db.changelog-UAF-3004.xml" />
   <include file="changesets/db.changelog-UAF-2788.xml" />
   <include file="changesets/db.changelog-UAF-2808.xml" />
+  <include file="changesets/db.changelog-UAF-31.xml" />
 </databaseChangeLog>

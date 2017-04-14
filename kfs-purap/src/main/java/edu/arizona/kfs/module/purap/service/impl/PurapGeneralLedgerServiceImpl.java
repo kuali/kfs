@@ -1,5 +1,7 @@
 package edu.arizona.kfs.module.purap.service.impl;
 
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,19 +9,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import edu.arizona.kfs.sys.KFSConstants;
-import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
-
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.KRADConstants;
-import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
-import edu.arizona.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.service.PurapAccountRevisionService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
@@ -28,11 +25,14 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
+import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
+import edu.arizona.kfs.module.purap.PurapConstants;
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
+import edu.arizona.kfs.sys.KFSConstants;
 
 
 public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl {
@@ -575,4 +575,91 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
         LOG.debug("generateEntriesClosePurchaseOrder() exit method");
 	}
 
+    @Override
+    public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po) {
+        LOG.debug("generateEntriesReopenPurchaseOrder() started");
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity());
+                item.setItemOutstandingEncumberedQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice())));
+            } else {
+                item.setItemOutstandingEncumberedAmount(item.getTotalAmount().subtract(item.getItemInvoicedTotalAmount()));
+            }
+            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+            for (PurApAccountingLine purApAccountingLine : sourceAccountingLines) {
+                PurchaseOrderAccount account = (PurchaseOrderAccount) purApAccountingLine;
+                account.setItemAccountOutstandingEncumbranceAmount(new KualiDecimal(item.getItemOutstandingEncumberedAmount().bigDecimalValue().multiply(account.getAccountLinePercent()).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue())));
+            }
+        }// endfor
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateEntriesReopenPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
+                }
+                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateEntriesReopenPurchaseOrder() " + logItmNbr + " Calculate based on quantities");
+                }
+                // do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                itemAmount = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
+            }
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if (itemAmount.compareTo(ZERO) != 0) {
+                // Sort accounts
+                Collections.sort((List) item.getSourceAccountingLines());
+
+                for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                        KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
+                        accountTotal = accountTotal.add(acctAmount);
+                        acct.setAlternateAmountForGLEntryCreation(acctAmount);
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("generateEntriesReopenPurchaseOrder() difference: " + logItmNbr + " " + difference);
+                    }
+
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
+                    } else {
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
+                    }
+                }
+
+            }
+        }// endfor
+
+        po.setGlOnlySourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        if (shouldGenerateGLPEForPurchaseOrder(po)) {
+            generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+            saveGLEntries(po.getGeneralLedgerPendingEntries());
+            LOG.debug("generateEntriesReopenPurchaseOrder() gl entries created; exit method");
+        }
+        LOG.debug("generateEntriesReopenPurchaseOrder() no gl entries created because the amount is 0; exit method");
+    }
 }

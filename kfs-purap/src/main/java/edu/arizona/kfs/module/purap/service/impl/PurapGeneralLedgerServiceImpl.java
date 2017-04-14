@@ -2,6 +2,7 @@ package edu.arizona.kfs.module.purap.service.impl;
 
 import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -617,7 +618,7 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
                     LOG.debug("generateEntriesReopenPurchaseOrder() " + logItmNbr + " Calculate based on quantities");
                 }
                 // do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
-                itemAmount = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
+                itemAmount = getItemAmount(item);
             }
 
             KualiDecimal accountTotal = ZERO;
@@ -662,4 +663,41 @@ public class PurapGeneralLedgerServiceImpl extends org.kuali.kfs.module.purap.se
         }
         LOG.debug("generateEntriesReopenPurchaseOrder() no gl entries created because the amount is 0; exit method");
     }
+
+    private KualiDecimal getItemAmount(PurchaseOrderItem item) {
+        BigDecimal scaledItemOutstandingEncumberedQuantity = getScaledBigDecimal(item.getItemOutstandingEncumberedQuantity());
+        BigDecimal scaledItemUnitPrice = getScaledBigDecimal(item.getItemUnitPrice());
+        BigDecimal scaledItemAmount = scaledItemOutstandingEncumberedQuantity.multiply(scaledItemUnitPrice);
+        KualiDecimal retval = new KualiDecimal(scaledItemAmount); // Default out for safety, this most likely will be updated again
+
+        BigDecimal originalTaxTotal = getScaledBigDecimal(item.getItemTaxAmount()); // Obtain the tax total -- this was calculated against (itemCount * unitPrice)
+        BigDecimal originalItemCount = getScaledBigDecimal(item.getItemQuantity()); // The original number of items
+        BigDecimal perItemPrice = getScaledBigDecimal(item.getItemUnitPrice()); // The price for one item
+        BigDecimal totalPrice = originalItemCount.multiply(perItemPrice); // Calculate total for n items
+
+        // Calculate tax rate, apply tax rate to this item's price, add the new tax to the item amount
+        if (totalPrice.compareTo(BigDecimal.ZERO) != 0) { // Avoid divide by zero
+            BigDecimal taxRatePercent = originalTaxTotal.divide(totalPrice, 4, BigDecimal.ROUND_HALF_UP);
+            BigDecimal reencumberedTax = scaledItemAmount.multiply(taxRatePercent);
+            scaledItemAmount = scaledItemAmount.add(reencumberedTax);
+            retval = new KualiDecimal(scaledItemAmount);
+        }
+
+        return retval;
+    }
+
+    private BigDecimal getScaledBigDecimal(KualiDecimal kualiDecimal) {
+        if (kualiDecimal == null) {
+            return getScaledBigDecimal(BigDecimal.ZERO);
+        }
+        return getScaledBigDecimal(kualiDecimal.bigDecimalValue());
+    }
+
+    private BigDecimal getScaledBigDecimal(BigDecimal bigDecimal) {
+        if (bigDecimal == null) {
+            return BigDecimal.ZERO.setScale(4, BigDecimal.ROUND_HALF_UP);
+        }
+        return bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
+    }
+
 }

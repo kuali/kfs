@@ -42,7 +42,7 @@
          <tr>
            <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>
            <td>
-             <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" keyValues="documentNumber=${currentTransaction.documentNumber}" render="true">
+             <kul:inquiry boClassName="edu.arizona.kfs.fp.businessobject.ProcurementCardHolder" keyValues="documentNumber=${currentTransaction.documentNumber}" render="true">
                <c:choose>
                  <c:when test="${KualiForm.transactionCreditCardNumbersViewStatus[ctr]}">
                    <bean:write name="KualiForm" property="document.procurementCardHolder.transactionCreditCardNumber" />

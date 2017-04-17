@@ -18,6 +18,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants;
@@ -40,6 +41,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -102,6 +104,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
      * 
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#rerouteProcurementCardDocuments(java.util.List)
      */
+    @Transactional
     @Override
     public boolean rerouteProcurementCardDocuments() {
         
@@ -132,7 +135,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                     pcardDocument.getTargetAccountingLine(0).setSubAccountNumber(procurementCardHolderDetail.getSubAccountNumber());
                     pcardDocument.getTargetAccountingLine(0).setFinancialSubObjectCode(procurementCardHolderDetail.getFinancialSubObjectCode());
                     LOG.info("Rerouting doc #" + pcardDocumentId + " at AccountFullEdit for error account Fiscal Officer.");             
-                    requeueDocument(pcardDocumentId, node, "HasReconciler", " Batch Reroute to Reconciler"); 
+                    requeueDocument(pcardDocument, node, "HasReconciler", " Batch Reroute to Reconciler");
                     // pause between reroutes
                     try {
                         Thread.sleep(3000);
@@ -153,7 +156,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                     LOG.info("Rerouting doc #" + pcardDocumentId + " at ProcurementCardReconciler, in "
                             + KFSParameterKeyConstants.ProcurementCardParameterConstants.RECONCILER_GROUPS_TO_REROUTE_PARM_NM + " group "
                             + procurementCardHolderDetail.getReconcilerGroupId());
-                    requeueDocument(pcardDocumentId, node, "ProcurementCardReconciler", " Batch Reroute to Reconciler"); 
+                    requeueDocument(pcardDocument, node, "ProcurementCardReconciler", " Batch Reroute to Reconciler");
                     // pause between reroutes
                     try {
                         Thread.sleep(3000);
@@ -183,19 +186,19 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     }
     
     @Override
-    public void requeueDocument(String pcardDocumentId, String node, String prevNode, String annotation) {
+    public void requeueDocument(ProcurementCardDocument pcardDocument, String node, String prevNode, String annotation) {
         //pcardDocumentId could have leading 0's; want these removed for processing calls
-        String documentId = StringUtils.stripStart(pcardDocumentId, "0");
-        WorkflowDocumentActionsService documentActions = KewApiServiceLocator.getWorkflowDocumentActionsService();
+        String documentId = StringUtils.stripStart(pcardDocument.getDocumentNumber(), "0");
+        WorkflowDocument documentActions = pcardDocument.getDocumentHeader().getWorkflowDocument();
         String systemUserPrincipalId = getSystemUserPrincipalId();
-        DocumentActionParameters actionParameters = DocumentActionParameters.create(documentId, systemUserPrincipalId, node + annotation);
+        documentActions.switchPrincipal(systemUserPrincipalId);
         ReturnPoint returnPoint = ReturnPoint.create(prevNode);
-        documentActions.superUserReturnToPreviousNode(actionParameters, false, returnPoint);
+        documentActions.superUserReturnToPreviousNode(returnPoint, node + annotation);
         // Use requeuer service to put the document back into action list of reconciler
         DocumentRefreshQueue docRequeue = KewApiServiceLocator.getDocumentRequeuerService(KFSConstants.APPLICATION_NAMESPACE_CODE, documentId, 0x0);
-        docRequeue.refreshDocument(documentId);    
+        docRequeue.refreshDocument(documentId);
        
-        LOG.info("Rerouting PCDO document # " + pcardDocumentId + ".");
+        LOG.info("Rerouting PCDO document # " + documentId + ".");
     }
     
     /*
@@ -270,7 +273,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
                 // create transaction detail record with accounting lines
                 String transactionSummary = createTransactionDetailRecord(pcardDocument, transaction, transactionLineNumber);
                 if(!transactionIssuesSummary.contains(transactionSummary)){
-                    transactionIssuesSummary = transactionIssuesSummary.concat(transactionIssuesSummary);
+                    transactionIssuesSummary = transactionIssuesSummary.concat(transactionSummary);
                 }
 
                 // update document total
@@ -545,6 +548,115 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         }
         
         return super.createAndValidateAccountingLines(pcardDocument, transaction, docTransactionDetail);
+    }
+    
+    @Override
+    protected ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+        ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
+        ProcurementCardDefault procurementCardHolderDetail = getProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+        
+        targetLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
+        targetLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
+        //set error account info as default
+        targetLine.setChartOfAccountsCode(getErrorChartCode());
+        targetLine.setAccountNumber(getErrorAccountNumber());
+        targetLine.setFinancialObjectCode(getDefaultObjectCode());
+        if (hasReconciler(procurementCardHolderDetail)) {
+            targetLine.setChartOfAccountsCode(StringUtils.isNotEmpty(procurementCardHolderDetail.getChartOfAccountsCode()) ? procurementCardHolderDetail.getChartOfAccountsCode() : getErrorChartCode());
+            targetLine.setAccountNumber(StringUtils.isNotEmpty(procurementCardHolderDetail.getAccountNumber()) ? procurementCardHolderDetail.getAccountNumber() : getErrorAccountNumber());
+            targetLine.setFinancialObjectCode(StringUtils.isNotEmpty(procurementCardHolderDetail.getFinancialObjectCode()) ? procurementCardHolderDetail.getFinancialObjectCode() : getDefaultObjectCode());
+        }
+        if (ObjectUtils.isNotNull(procurementCardHolderDetail)) {
+            targetLine.setSubAccountNumber(procurementCardHolderDetail.getSubAccountNumber());
+            targetLine.setFinancialSubObjectCode(procurementCardHolderDetail.getFinancialSubObjectCode());
+        }
+        targetLine.setProjectCode(transaction.getProjectCode());
+
+        if (KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
+            targetLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
+        }
+        else {
+            targetLine.setAmount(transaction.getFinancialDocumentTotalAmount());
+        }
+
+        return targetLine;
+    }
+    
+    @Override
+    protected String validateTargetAccountingLine(ProcurementCardTargetAccountingLine targetLine) {
+        String errorText = KFSConstants.EMPTY_STRING;
+
+        targetLine.refresh();
+        final String lineNumber = targetLine.getSequenceNumber() == null ? KFSPropertyConstants.NEW : targetLine.getSequenceNumber().toString();
+
+        if (!accountingLineRuleUtil.isValidChart(KFSConstants.EMPTY_STRING, targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setChartOfAccountsCode(getErrorChartCode());
+            targetLine.refresh();
+        }
+
+        if (!accountingLineRuleUtil.isValidAccount(KFSConstants.EMPTY_STRING, targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
+            //changing this line from delivered code to correct the error text
+            String tempErrorText = targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setChartOfAccountsCode(getErrorChartCode());
+            targetLine.setAccountNumber(getErrorAccountNumber());
+            targetLine.refresh();
+        }
+
+        if (!accountingLineRuleUtil.isValidObjectCode(KFSConstants.EMPTY_STRING, targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setFinancialObjectCode(getDefaultObjectCode());
+            targetLine.refresh();
+        }
+
+        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(KFSConstants.EMPTY_STRING, targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setSubAccountNumber("");
+        }
+
+        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(KFSConstants.EMPTY_STRING, targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setFinancialSubObjectCode("");
+        }
+
+        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(KFSConstants.EMPTY_STRING, targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
+            }
+            errorText += " Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
+
+            targetLine.setProjectCode(KFSConstants.EMPTY_STRING);
+        }
+
+        // clear out GlobalVariable message map, since we have taken care of the errors
+        GlobalVariables.setMessageMap(new MessageMap());
+
+        return errorText;
     }
     
     /**

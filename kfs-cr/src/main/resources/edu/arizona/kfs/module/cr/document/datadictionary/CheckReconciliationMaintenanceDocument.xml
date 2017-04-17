@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CheckReconciliationMaintenanceDocument" parent="CheckReconciliationMaintenanceDocument-parentBean" />
+    <bean id="CheckReconciliationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.cr.businessobject.CheckReconciliation" />
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+        <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.cr.document.authorization.CheckReconciliationMaintenanceDocumentPresentationController" />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="CheckReconciliationMaintenanceDocument-EditCheckReconciliation" />
+            </list>
+        </property>
+        <property name="allowsNewOrCopy" value="true" />
+        <property name="lockingKeys">
+            <list>
+                <value>checkNumber</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="CSCR" />
+        <property name="businessRulesClass" value="edu.arizona.kfs.module.cr.document.validation.impl.CheckReconciliationRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+        <property name="workflowProperties">
+            <ref bean="CheckReconciliationMaintenanceDocument-workflowProperties" />
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="CheckReconciliationMaintenanceDocument-EditCheckReconciliation" parent="CheckReconciliationMaintenanceDocument-EditCheckReconciliation-parentBean" />
+    <bean id="CheckReconciliationMaintenanceDocument-EditCheckReconciliation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Check Reconciliation" />
+        <property name="title" value="Edit Check Reconciliation" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" />
+                <bean parent="MaintainableFieldDefinition" p:name="checkNumber" p:required="true" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="payeeId" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="payeeTypeCode" p:unconditionallyReadOnly="true" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="checkDate" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="clearedDate" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="bankAccountNumber" p:required="true" p:readOnlyAfterAdd="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="amount" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="status" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="glTransIndicator" p:required="true" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="sourceCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Exported Workflow Properties -->
+
+    <bean id="CheckReconciliationMaintenanceDocument-workflowProperties" parent="CheckReconciliationMaintenanceDocument-workflowProperties-parentBean" />
+    <bean id="CheckReconciliationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    </bean>
+</beans>

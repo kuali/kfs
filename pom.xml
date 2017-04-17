@@ -22,7 +22,7 @@
   <modules>
     <module>kfs-core</module>
     <module>kfs-purap</module>
-   <module>kfs-ar</module>
+    <module>kfs-ar</module>
     <module>kfs-cam</module>
     <module>kfs-cg</module>
     <module>kfs-ec</module>
@@ -31,6 +31,7 @@
     <module>kfs-tem</module>
     <module>kfs-bc</module>
     <module>kfs-tax</module>
+    <module>kfs-cr</module>
     <module>kfs-web</module>
   </modules>
   <parent>

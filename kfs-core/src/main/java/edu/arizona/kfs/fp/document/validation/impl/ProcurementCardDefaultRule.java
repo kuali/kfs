@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
+import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 @SuppressWarnings("deprecation")
 public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.validation.impl.ProcurementCardDefaultRule {
@@ -47,6 +49,55 @@ public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.valida
         }
         
         return result;      
+    }
+	
+	@Override
+    protected boolean validateCardHolderDefault(org.kuali.kfs.fp.businessobject.ProcurementCardDefault procurementCardDefault) {
+        ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)procurementCardDefault;
+        boolean valid = true;
+        if (isCardHolderDefaultTurnedOn()) {
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderLine1Address())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_LINE1_ADDRESS, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderCityName())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderStateCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_STATE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderZipCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_ZIP_CODE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderWorkPhoneNumber())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (newProcurementCardDefault.getCardLimit() == null) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (newProcurementCardDefault.getCardCycleAmountLimit() == null) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (newProcurementCardDefault.getCardCycleVolLimit() == null) {
+                putFieldErrorWithLabel(KFSPropertyConstants.CARD_CYCLE_VOL_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardStatusCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_STATUS_CODE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardNoteText())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_NOTE_TEXT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+        }
+        return valid;
     }
 
 }

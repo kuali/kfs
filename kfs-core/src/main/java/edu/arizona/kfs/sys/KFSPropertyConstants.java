@@ -14,5 +14,6 @@ public class KFSPropertyConstants extends org.kuali.kfs.sys.KFSPropertyConstants
 
     public static final String GEC_DOCUMENT_NUMBER = "gecDocumentNumber";
     public static final String ENTRY_ID = "entryId";
+    public static final String CARD_CYCLE_VOL_LIMIT = "cardCycleVolLimit";
 
 }

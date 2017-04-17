@@ -33,12 +33,6 @@
 				<value>pdpLoadPrepaidChecksJob</value>
 			</list>
 		</property>
-		<property name="batchFileDirectories">
-          	<list merge="true">
-          		<value>${reports.directory}/pdp/prepaidChecks</value>            	
-            	<value>${staging.directory}/pdp/prepaidChecks</value>            	
-          	</list>
-        </property>
     </bean>
 
     <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>

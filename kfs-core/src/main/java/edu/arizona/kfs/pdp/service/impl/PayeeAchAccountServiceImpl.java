@@ -15,7 +15,6 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
@@ -29,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.arizona.kfs.pdp.PdpConstants;
 import edu.arizona.kfs.pdp.batch.LoadAchPayeeBankAcctStep;
+import edu.arizona.kfs.pdp.businessobject.PayeeACHAccount;
 import edu.arizona.kfs.pdp.service.PayeeAchAccountService;
 import edu.arizona.kfs.pdp.util.PayeeACHAcctFlatFileConverter;
 import edu.arizona.kfs.sys.KFSConstants;

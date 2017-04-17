@@ -163,4 +163,8 @@
 	      class="edu.arizona.kfs.module.purap.service.impl.PurapAccountingServiceImpl" />
 
   	
+    <bean id="purapService" class="edu.arizona.kfs.module.purap.document.service.impl.PurapServiceImpl" parent="purapService-parentBean">
+        <property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+    </bean>
+
 </beans>

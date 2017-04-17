@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.dataaccess.OriginationCodeDao;
@@ -39,6 +38,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import edu.arizona.kfs.pdp.PdpConstants;
+import edu.arizona.kfs.pdp.businessobject.PayeeACHAccount;
 import edu.arizona.kfs.pdp.util.PayeeACHAcctFlatFileConverter;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSKeyConstants;
@@ -631,7 +631,7 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		if (validAcct) {
 			
 			if (StringUtils.isNotBlank(newPayeeName) && !newPayeeName.equals(oldPayeeName)) {
-				existingPayeeAcct.setBankRoutingNumber(newBankRoutingNumber);
+				existingPayeeAcct.setPayeeName(newPayeeName);
 				changesMade = true;
 			}
 			
@@ -688,7 +688,6 @@ public class AchPayeeBankAcctInputFileType extends BatchInputFileTypeBase {
 		if (StringUtils.isBlank(bankRoutingNumber)) {
 			reportLine = new PayeeReportLine(payeeIdNumber, payeeName, KFSConstants.ACHFileConstants.ACH_PAYEE_ACCT_MISSING_ROUTING_ERROR);
 			reportLines.add(reportLine);
-			validAcct = false;
 		}
 		
 		if (StringUtils.isBlank(payeeName)) {

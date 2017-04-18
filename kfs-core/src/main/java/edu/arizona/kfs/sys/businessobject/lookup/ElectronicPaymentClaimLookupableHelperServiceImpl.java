@@ -87,6 +87,9 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends org.kuali
     
     private String getAmountCriteria(String fromAmount, String toAmount) {
         if (StringUtils.isNotBlank(fromAmount) && StringUtils.isNotBlank(toAmount)) {
+        	if (StringUtils.endsWith(fromAmount, ".")) {
+        		fromAmount = fromAmount + "0";
+        	}
             return fromAmount + SearchOperator.BETWEEN.op() + toAmount;
         }
         if (StringUtils.isNotBlank(fromAmount) && StringUtils.isBlank(toAmount)) {

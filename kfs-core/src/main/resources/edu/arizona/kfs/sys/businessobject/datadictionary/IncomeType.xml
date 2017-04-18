@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!-- Income Type Business Object and Maintenance Document -->
+  <bean id="IncomeType" parent="IncomeType-parentBean"/>
+
+  <bean id="IncomeType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.sys.businessobject.IncomeType"/>
+    <property name="inquiryDefinition" ref="IncomeType-inquiryDefinition" />
+    <property name="lookupDefinition" ref="IncomeType-lookupDefinition" />
+    <property name="objectLabel" value="1099 Income Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="IncomeType-incomeTypeCode"/>
+        <ref bean="IncomeType-incomeTypeDescription"/>
+        <ref bean="IncomeType-incomeTypeBox"/>
+        <ref bean="IncomeType-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="IncomeType-incomeTypeCode" parent="IncomeType-incomeTypeCode-parentBean"/>
+
+  <bean id="IncomeType-incomeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Income Type Code"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+  </bean>
+
+  <bean id="IncomeType-incomeTypeDescription" parent="IncomeType-incomeTypeDescription-parentBean"/>
+
+  <bean id="IncomeType-incomeTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Income Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="60"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="IncomeType-incomeTypeBox" parent="IncomeType-incomeTypeBox-parentBean"/>
+
+  <bean id="IncomeType-incomeTypeBox-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeTypeBox"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Income Type Box"/>
+    <property name="shortLabel" value="Box"/>
+    <property name="maxLength" value="3"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+  </bean>
+
+  <bean id="IncomeType-active" parent="IncomeType-active-parentBean"/>
+
+  <bean id="IncomeType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+  <bean id="IncomeType-inquiryDefinition" parent="IncomeType-inquiryDefinition-parentBean"/>
+  <bean id="IncomeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Income Type Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Income Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+		        <bean parent="FieldDefinition" p:attributeName="incomeTypeCode" />
+		        <bean parent="FieldDefinition" p:attributeName="incomeTypeDescription"/>
+		        <bean parent="FieldDefinition" p:attributeName="incomeTypeBox"/>
+		        <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+  <bean id="IncomeType-lookupDefinition" parent="IncomeType-lookupDefinition-parentBean"/>
+  <bean id="IncomeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Income Type Lookup"/>    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>incomeTypeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeBox"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTypeBox"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>
+

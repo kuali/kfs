@@ -3,9 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-	<bean id="PurchasingAccountsPayableDocument" parent="PurchasingAccountsPayableDocument-parentBean" />
-
-	<bean id="PurchasingAccountsPayableDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PurchasingAccountsPayableDocument" parent="PurchasingAccountsPayableDocument-parentBean" >
 		<property name="businessObjectClass" value="edu.arizona.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" />
 	</bean>
 </beans>

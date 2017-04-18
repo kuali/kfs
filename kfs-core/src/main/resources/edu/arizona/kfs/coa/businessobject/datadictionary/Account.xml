@@ -11,6 +11,8 @@
                 <ref bean="Account-crossOrganizationCode" />
                 <ref bean="Account-faCostSubCatCode" />
                 <ref bean="Account-taxRegionCode" />
+                <ref bean="Account-institutionalFringeCoaCode" />
+                <ref bean="Account-institutionalFringeAccount" />
             </list>
         </property>
         <property name="inactivationBlockingDefinitions">
@@ -34,6 +36,13 @@
 				<dd:relationship objectAttribute="extension.taxRegionObj">
 					<dd:primitiveAttribute source="extension.taxRegionCode" target="taxRegionCode" />
 				</dd:relationship>
+                <dd:relationship objectAttribute="extension.institutionalFringeCoaCodeObj">
+                    <dd:primitiveAttribute source="extension.institutionalFringeCoaCodeExt" target="chartOfAccountsCode" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="extension.institutionalFringeAccountObj" >
+                    <dd:primitiveAttribute source="extension.institutionalFringeCoaCodeExt" target="chartOfAccountsCode" />
+                    <dd:primitiveAttribute source="extension.institutionalFringeAccountExt" target="accountNumber" />
+                </dd:relationship>
             </list>
         </property>
     </bean>
@@ -57,6 +66,15 @@
 				p:allowWhitespace="false"/>
 		</property>
 	</bean>
+	
+	<bean id="Account-institutionalFringeCoaCode" parent="AccountExtension-institutionalFringeCoaCode-parentBean" >
+		<property name="name" value="extension.institutionalFringeCoaCodeExt" />
+	</bean>
+	
+	<bean id="Account-institutionalFringeAccount" parent="AccountExtension-institutionalFringeAccount-parentBean" >
+		<property name="name" value="extension.institutionalFringeAccountExt" />
+	</bean>
+	
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean">
@@ -72,6 +90,15 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="Account-inquirySectionDefinition-accountDetails" parent="Account-inquirySectionDefinition-accountDetails-parentBean">
+        <property name="inquiryFields">
+            <list merge="true">
+                <bean parent="FieldDefinition" p:attributeName="extension.institutionalFringeCoaCodeExt" />
+                <bean parent="FieldDefinition" p:attributeName="extension.institutionalFringeAccountExt" />
             </list>
         </property>
     </bean>

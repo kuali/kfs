@@ -22,7 +22,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
@@ -36,10 +35,8 @@ import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.sys.KFSConstants;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
-import edu.arizona.kfs.tax.TaxConstants;
-import edu.arizona.kfs.tax.TaxPropertyConstants;
-import edu.arizona.kfs.tax.document.IncomeTypeContainer;
-import edu.arizona.kfs.tax.document.IncomeTypeHandler;
+import edu.arizona.kfs.sys.document.IncomeTypeContainer;
+import edu.arizona.kfs.sys.document.IncomeTypeHandler;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
 
 
@@ -47,6 +44,9 @@ import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
  * Document class override to ensure that the bank code is synchronized with the
  * payment method code.
  */
+// org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController is deprecated
+// getReportable1099TransactionsFlag() and processAfterRetrieve() use unchecked Lists
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.DisbursementVoucherDocument implements IncomeTypeContainer <DisbursementVoucherIncomeType, String>{
 
     public static final String DOCUMENT_TYPE_DV_NON_CHECK = "DVNC";
@@ -67,7 +67,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         super.prepareForSave();
 
         DocumentDictionaryService documentDictionaryService = SpringContext.getBean(DocumentDictionaryService.class);
-        DocumentAuthorizer docAuth = documentDictionaryService.getDocumentAuthorizer(this);
+        DocumentAuthorizer docAuth = documentDictionaryService.getDocumentAuthorizer(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
 
         // First, only do this if the document is in initiated status - after that, we don't want to 
         // accidentally reset the bank code
@@ -86,7 +86,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
         } 
         else{           
-            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentDictionaryService.getDocumentPresentationController(this);
+            TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentDictionaryService.getDocumentPresentationController(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
             if(presentationController.getEditModes(this).contains(KFSConstants.Authorization.PAYMENT_METHOD_EDIT_MODE)){
                 synchronizeBankCodeWithPaymentMethod();
             }
@@ -99,33 +99,30 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             accountingLineExtension.setDocumentNumber(accountingLine.getDocumentNumber());
             accountingLineExtension.setSequenceNumber(accountingLine.getSequenceNumber());
         }
-        
-     // START KATTS-1961 Tag and JSP for DV, PREQ and CM Documents
+
         getIncomeTypeHandler().removeZeroValuedIncomeTypes();
-        // END KATTS-1961
-        
-        //KATTS-1939 Add New Search Fields to DV, PREQ and CM Documents 
-        // Only update paid year if the document is in final status 
-        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals( getDocumentHeader().getWorkflowDocument().getStatus().getCode() ) ) {
-        	if (paidDate != null) {
-                setDvPaidYear(getPaidDate().toString().substring(0, 4));                
+
+        // Only update paid year if the document is in final status
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
+            if (paidDate != null) {
+                setDvPaidYear(getPaidDate().toString().substring(0, 4));
+            } else {
+                setDvPaidYear(null);
             }
-            else {
-               setDvPaidYear(null);
-            }
-        }        
+        }
+
+        setDv1099Ind(false);
         for (DisbursementVoucherIncomeType incomeType : getIncomeTypes()) {
-            if ((StringUtils.isBlank(incomeType.getIncomeTypeCode()) || incomeType.getIncomeTypeCode().equals(TaxPropertyConstants.INCOME_TYPE_CODE_NOT_REPORTABLE))) {
-                setDv1099Ind(false);
-            }
-            else {
+            boolean isCodeExist = StringUtils.isNotBlank(incomeType.getIncomeTypeCode());
+            boolean isReportable = !incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE);
+            if (isCodeExist && isReportable) {
                 setDv1099Ind(true);
                 break;
             }
-        }      
-        //END KATTS-1939 
+        }
+
     }
-    
+
     public boolean isDv1099Ind() {
         return dv1099Ind;
     }
@@ -275,7 +272,6 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
         }
     }
 
-    @SuppressWarnings("deprecation")
     private boolean isIncomeTypeUpdateAllowed() {
         boolean retval = false;
 
@@ -293,7 +289,7 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             }
 
             HashMap<String, String> att = new HashMap<String, String>();
-            att.put(KimConstants.AttributeConstants.EDIT_MODE, TaxConstants.Authorization.VIEW_INCOME_TYPES_EDIT_MODE);
+            att.put(KimConstants.AttributeConstants.EDIT_MODE, KFSConstants.IncomeTypeConstants.IncomeTypesAuthorization.VIEW_INCOME_TYPES_EDIT_MODE);
             att.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KFSConstants.DOCUWARE_DV_DOC_TYPE);
             
             // see if current user can view 1099 tab

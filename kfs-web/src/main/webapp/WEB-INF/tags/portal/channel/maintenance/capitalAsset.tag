@@ -76,6 +76,11 @@
 				title="Asset Payment Document Type"
 				url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPaymentDocumentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="Inventory Unit"
+				url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.module.cam.businessobject.AssetInventoryUnit&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

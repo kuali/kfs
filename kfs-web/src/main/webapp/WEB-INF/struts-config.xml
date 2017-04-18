@@ -302,7 +302,7 @@
 		<form-bean name="CertificationRecreateForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm" />
 		<form-bean name="CertificationReportForm"
-			type="org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm" />
+			type="edu.arizona.kfs.module.ec.document.web.struts.CertificationReportForm" />
 		<!-- KFS incident report -->
 		<form-bean name="KualiExceptionIncidentForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
@@ -346,9 +346,12 @@
 			
 		<!--  Tax Form -->
         <form-bean name="PayeeSearchForm"
-            type="edu.arizona.kfs.tax.document.web.struts.PayeeSearchForm" />
+            type="edu.arizona.kfs.module.tax.document.web.struts.PayeeSearchForm" />
             
-        <form-bean name="ElectronicFilingReportForm" type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportForm" />
+        <form-bean name="ElectronicFilingReportForm" type="edu.arizona.kfs.module.tax.document.web.struts.ElectronicFilingReportForm" />
+
+        <!--  Check Reconciliation Form -->
+        <form-bean name="CheckReconciliationReportForm" type="edu.arizona.kfs.module.cr.document.web.struts.CheckReconciliationReportForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -375,15 +378,30 @@
 	</global-forwards>
 
 	<action-mappings>
+        <action path="/cr*" name="{1}Form"
+            input="/jsp/modules/cr/{1}.jsp"
+            type="edu.arizona.kfs.module.cr.document.web.struts.{1}Action"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/cr/{1}.jsp" />
+        </action>
+
+        <action path="/camsAssetTransfer" name="AssetTransferForm" input="/jsp/module/cams/AssetTransfer.jsp"
+            type="edu.arizona.kfs.module.cam.document.web.struts.AssetTransferAction" scope="request"
+            parameter="methodToCall" validate="true" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/cams/AssetTransfer.jsp" />
+        </action>
+
         <action path="/taxElectronicFilingReport" name="ElectronicFilingReportForm"
             input="/jsp/module/tax/ElectronicFilingReport.jsp"
-            type="edu.arizona.kfs.module.purap.document.web.struts.ElectronicFilingReportAction"
+            type="edu.arizona.kfs.module.tax.document.web.struts.ElectronicFilingReportAction"
             scope="request" parameter="methodToCall" validate="true"
             attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/tax/ElectronicFilingReport.jsp" />
         </action>
-
         <action path="/financialGeneralErrorCorrection"
             name="GeneralErrorCorrectionForm"
             input="/jsp/fp/GeneralErrorCorrection.jsp"
@@ -407,6 +425,7 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/fp/YearEndGeneralErrorCorrection.jsp" />
         </action>
+
 		<action path="/financialDisbursementVoucher" name="DisbursementVoucherForm" input="/jsp/fp/DisbursementVoucher.jsp"
 			type="edu.arizona.kfs.fp.document.web.struts.DisbursementVoucherAction" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -435,7 +454,6 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/gl/gecEntryMultipleValueLookup.jsp" />
         </action>
-
 		<!-- Core Action Mappings -->
 		<action path="/portal" name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
@@ -858,6 +876,15 @@
              <forward name="basic" path="/jsp/module/purap/PaymentRequest.jsp" /> 
         </action>
         
+        <action path="/purapRequisition"
+             input="/jsp/module/purap/Requisition.jsp"
+             name="RequisitionForm"
+             type="edu.arizona.kfs.module.purap.document.web.struts.RequisitionAction"
+             scope="request" attribute="KualiForm">
+             <set-property property="cancellable" value="true" />
+             <forward name="basic" path="/jsp/module/purap/Requisition.jsp" />
+        </action>
+        
         <action path="/purapVendorCreditMemo"
              input="/jsp/module/purap/VendorCreditMemo.jsp" 
              name="VendorCreditMemoForm"
@@ -993,6 +1020,13 @@
 				path="/jsp/module/common/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
+		<action path="/effortCertificationReport" name="CertificationReportForm" input="/jsp/module/ec/CertificationReport.jsp"
+			type="edu.arizona.kfs.module.ec.document.web.struts.CertificationReportAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ec/CertificationReport.jsp" />
+		</action>
+				
 		<action path="/effort*" name="{1}Form" input="/jsp/module/ec/{1}.jsp"
 			type="org.kuali.kfs.module.ec.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -1099,16 +1133,16 @@
 		</action>
 		
 		<action path="/tax*" name="{1}Form"
-            input="/jsp/tax/{1}.jsp"
-            type="edu.arizona.kfs.module.purap.document.web.struts.{1}Action"
+            input="/jsp/module/tax/{1}.jsp"
+            type="edu.arizona.kfs.module.tax.document.web.struts.{1}Action"
             scope="request" parameter="methodToCall" validate="true"
             attribute="KualiForm">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/tax/{1}.jsp" />
+            <forward name="basic" path="/jsp/module/tax/{1}.jsp" />
         </action>
         
         <action path="/downloadTaxForm" name="KualiForm"
-			type="edu.arizona.kfs.module.purap.document.web.struts.TaxFormAction"
+			type="edu.arizona.kfs.module.tax.document.web.struts.TaxFormAction"
 			scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
 		</action>
         

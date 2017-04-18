@@ -15,7 +15,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -34,20 +33,22 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType;
+import edu.arizona.kfs.module.purap.document.service.PurapIncomeTypeHandler;
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
-import edu.arizona.kfs.tax.document.IncomeTypeContainer;
-import edu.arizona.kfs.tax.document.IncomeTypeHandler;
+import edu.arizona.kfs.sys.KFSConstants;
+import edu.arizona.kfs.sys.document.IncomeTypeContainer;
 import edu.arizona.kfs.vnd.businessobject.VendorDetailExtension;
 
-
+@SuppressWarnings({ "unchecked", "deprecation" })
 public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.PaymentRequestDocument implements IncomeTypeContainer<PaymentRequestIncomeType, Integer> {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
+    private static final long serialVersionUID = -4229712908255426814L;
 
     public static final String DOCUMENT_TYPE_NON_CHECK = "PRNC";
     public static final String BANK = "bank";
 
-    private transient IncomeTypeHandler<PaymentRequestIncomeType, Integer> incomeTypeHandler;
+    private transient PurapIncomeTypeHandler<PaymentRequestIncomeType, Integer> incomeTypeHandler;
     private List<PaymentRequestIncomeType> incomeTypes;
     private String paymentPaidYear;
     private boolean payment1099Indicator;
@@ -56,7 +57,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
     protected String paymentMethodCode = "A"; // check
     protected transient PaymentMethod paymentMethod;
     protected static PaymentMethodGeneralLedgerPendingEntryService paymentMethodGeneralLedgerPendingEntryService;
-    
+
     public String getPaymentPaidYear() {
         return paymentPaidYear;
     }
@@ -118,33 +119,42 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        
+
         DocumentAuthorizer docAuth = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(this);
 
-        // First, only do this if the document is in initiated status - after that, we don't want to 
+        // First, only do this if the document is in initiated status - after that, we don't want to
         // accidentally reset the bank code
-        if (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode()) 
-        		|| KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
-            // need to check whether the user has the permission to edit the bank code 
-        	// if so, don't synchronize since we can't tell whether the value coming in 
-        	// was entered by the user or not.
-            
-            if (!docAuth.isAuthorizedByTemplate(this, 
-            		KFSConstants.CoreModuleNamespaces.KFS, 
-            		KFSConstants.PermissionTemplate.EDIT_BANK_CODE.name,
-            		GlobalVariables.getUserSession().getPrincipalId())) {
+        if (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode()) || KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
+            // need to check whether the user has the permission to edit the bank code
+            // if so, don't synchronize since we can't tell whether the value coming in
+            // was entered by the user or not.
+
+            if (!docAuth.isAuthorizedByTemplate(this, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.PermissionTemplate.EDIT_BANK_CODE.name, GlobalVariables.getUserSession().getPrincipalId())) {
                 synchronizeBankCodeWithPaymentMethod();
             } else {
                 // ensure that the name is updated properly
                 refreshReferenceObject(BANK);
             }
         }
+
         getIncomeTypeHandler().removeZeroValuedIncomeTypes();
+
+        // Only update paid year if the document is in final status
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
             if (paymentPaidTimestamp != null) {
                 setPaymentPaidYear(getPaymentPaidTimestamp().toString().substring(0, 4));
             } else {
                 setPaymentPaidYear(null);
+            }
+        }
+
+        setPayment1099Indicator(false);
+        for (PaymentRequestIncomeType incomeType : getIncomeTypes()) {
+            boolean isCodeExist = StringUtils.isNotBlank(incomeType.getIncomeTypeCode());
+            boolean isReportable = !incomeType.getIncomeTypeCode().equals(KFSConstants.IncomeTypeConstants.INCOME_TYPE_NON_REPORTABLE_CODE);
+            if (isCodeExist && isReportable) {
+                setPayment1099Indicator(true);
+                break;
             }
         }
 
@@ -155,8 +165,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
         if (bank != null) {
             setBankCode(bank.getBankCode());
             setBank(bank);
-        }
-        else {
+        } else {
             // no bank code, no bank needed
             setBankCode(null);
             setBank(null);
@@ -169,7 +178,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
         }
         return paymentMethodGeneralLedgerPendingEntryService;
     }
-    
+
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
@@ -195,14 +204,14 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
             }
         }
     }
-    
+
     @Override
     protected String getCustomDocumentTitle() {
 
         // set the workflow document title
         String poNumber = getPurchaseOrderIdentifier().toString();
         String vendorName = StringUtils.trimToEmpty(getVendorName());
-        // Changing to Total Dollar Amount as this will reflect pre-tax amount for use tax transactions  
+        // Changing to Total Dollar Amount as this will reflect pre-tax amount for use tax transactions
         String preqAmount = getTotalDollarAmount().toString();
 
         String documentTitle = "";
@@ -211,8 +220,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
         // if this doc is final or will be final
         if (CollectionUtils.isEmpty(nodeNames) || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
             documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
-        }
-        else {
+        } else {
             PurApAccountingLine theAccount = getFirstAccount();
             String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
             String subAccountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getSubAccountNumber()) : "");
@@ -220,9 +228,7 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
             String payDate = getDateTimeService().toDateString(getPaymentRequestPayDate());
             String indicator = getTitleIndicator();
             // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
-            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).
-                    append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" ").append(subAccountNumber)
-                    .append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" ").append(subAccountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
         }
         return documentTitle;
     }
@@ -242,94 +248,95 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
         return getTotalDollarAmountAllItems(null);
     }
 
-	@Override
-	public List<PaymentRequestIncomeType> getIncomeTypes() {
-		if (incomeTypes == null) {
-			incomeTypes = new ArrayList<PaymentRequestIncomeType>();
-		}
-		return incomeTypes;
-	}
+    @Override
+    public List<PaymentRequestIncomeType> getIncomeTypes() {
+        if (incomeTypes == null) {
+            incomeTypes = new ArrayList<PaymentRequestIncomeType>();
+        }
+        return incomeTypes;
+    }
 
-	public void setIncomeTypes(List<PaymentRequestIncomeType> incomeTypes) {
-		this.incomeTypes = incomeTypes;
-	}
+    public void setIncomeTypes(List<PaymentRequestIncomeType> incomeTypes) {
+        this.incomeTypes = incomeTypes;
+    }
 
-	@Override
-	public Integer getDocumentIdentifier() {
-		return getPurapDocumentIdentifier();
-	}
+    @Override
+    public Integer getDocumentIdentifier() {
+        return getPurapDocumentIdentifier();
+    }
 
-	@Override
-	public String getPaidYear() {
-		return getIncomeTypeHandler().getYearFromTimestamp(getPaymentPaidTimestamp());
-	}
+    @Override
+    public String getPaidYear() {
+        return getIncomeTypeHandler().getYearFromTimestamp(getPaymentPaidTimestamp());
+    }
 
-	@Override
-	public IncomeTypeHandler<PaymentRequestIncomeType, Integer> getIncomeTypeHandler() {
-		if (incomeTypeHandler == null) {
-			incomeTypeHandler = new IncomeTypeHandler<PaymentRequestIncomeType, Integer>(this, PaymentRequestIncomeType.class) {
-			};
-		}
-		return incomeTypeHandler;
-	}
+    @Override
+    public PurapIncomeTypeHandler<PaymentRequestIncomeType, Integer> getIncomeTypeHandler() {
+        if (incomeTypeHandler == null) {
+            incomeTypeHandler = new PurapIncomeTypeHandler<PaymentRequestIncomeType, Integer>(this, PaymentRequestIncomeType.class) {
+            };
+        }
+        return incomeTypeHandler;
+    }
 
-	@Override
-	public VendorHeader getVendorHeader() {
-		VendorHeader retval = getVendorDetail().getVendorHeader();
-		if (retval == null) {
-			retval = getIncomeTypeHandler().getVendorHeaderFromVendorNumber(getVendorNumber());
-		}
-		return retval;
-	}
+    @Override
+    public VendorHeader getVendorHeader() {
+        VendorHeader retval = getVendorDetail().getVendorHeader();
+        if (retval == null) {
+            retval = getIncomeTypeHandler().getVendorHeaderFromVendorNumber(getVendorNumber());
+        }
+        return retval;
+    }
 
-	@Override
-	public boolean getReportable1099TransactionsFlag() {
-		boolean retval = false;
-		if (getItems() != null) {
-			Iterator<PurApItem> it = getItems().iterator();
-			while (!retval && it.hasNext()) {
-				List<PurApAccountingLine> acctlines = it.next().getBaselineSourceAccountingLines();
-				if (acctlines != null) {
-					for (PurApAccountingLine acctline : acctlines) {
-						if (LOG.isDebugEnabled()) {
-							LOG.debug("financial object code: " + acctline.getFinancialObjectCode() + ", is reportable" + getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode()));
-						}
-						if (getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode())) {
-							retval = true;
-							break;
-						}
-					}
-				}
-			}
-		}
-		return retval;
-	}
+    @Override
+    public boolean getReportable1099TransactionsFlag() {
+        boolean retval = false;
+        if (getItems() != null) {
+            Iterator<PurApItem> it = getItems().iterator();
+            while (!retval && it.hasNext()) {
+                List<PurApAccountingLine> acctlines = it.next().getBaselineSourceAccountingLines();
+                if (acctlines != null) {
+                    for (PurApAccountingLine acctline : acctlines) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("financial object code: " + acctline.getFinancialObjectCode() + ", is reportable" + getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode()));
+                        }
+                        if (getIncomeTypeHandler().is1099Reportable(acctline.getFinancialObjectCode())) {
+                            retval = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return retval;
+    }
 
-	@Override
-	public String getRouteStatus() {
-		String retval = KFSConstants.EMPTY_STRING;
-		try {
-			retval = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-		} catch (Exception ex) {
-			LOG.warn(ex);
-		}
-		return retval;
-	}
+    @Override
+    public String getRouteStatus() {
+        String retval = KFSConstants.EMPTY_STRING;
+        try {
+            retval = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        } catch (Exception ex) {
+            LOG.warn(ex);
+        }
+        return retval;
+    }
 
-	@Override
-	public void populateDocumentForRouting() {
-		super.populateDocumentForRouting();
-		getIncomeTypeHandler().removeZeroValuedIncomeTypes();
-	}
+    @Override
+    public void populateDocumentForRouting() {
+        super.populateDocumentForRouting();
+        getIncomeTypeHandler().removeZeroValuedIncomeTypes();
+    }
 
-	@Override
-	public List buildListOfDeletionAwareLists() {
-		List managedLists = super.buildListOfDeletionAwareLists();
-		if (incomeTypes != null) {
-			managedLists.add(incomeTypes);
-		}
-		return managedLists;
-	}
+    @SuppressWarnings("rawtypes")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        if (incomeTypes != null) {
+            managedLists.add(incomeTypes);
+        }
+        return managedLists;
+    }
 
     public boolean getPayment1099IndicatorForSearching() {
         return payment1099Indicator;

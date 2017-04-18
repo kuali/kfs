@@ -172,6 +172,13 @@
             <xsd:maxLength value="10"/>
         </xsd:restriction>
     </xsd:simpleType>
+		
+    <xsd:simpleType name="zeroToFiftyCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 
 <!-- Original Schema -->
 
@@ -233,7 +240,7 @@
   				</xsd:complexType>
   			</xsd:element>
   		</xsd:sequence>
-		<xsd:attribute name="name" type="oneToFiftyCharType" use="optional" />
+		<xsd:attribute name="name" type="zeroToFiftyCharType" use="optional" />
   	</xsd:complexType>
   </xsd:element>
 
@@ -307,7 +314,7 @@
   			<xsd:element ref="Fax" minOccurs="0" maxOccurs="unbounded" />
   			<xsd:element ref="URL" minOccurs="0" maxOccurs="unbounded" />
   		</xsd:sequence>
-		<xsd:attribute name="role" type="oneToTwentyCharType" use="required" />
+		<xsd:attribute name="role" type="oneToTwentyCharType" use="optional" />
 		<xsd:attribute name="addressID" type="zeroToTwentyCharType" use="optional" />
   	</xsd:complexType>
   </xsd:element>
@@ -530,7 +537,7 @@
   						<xsd:choice minOccurs="0">
   							<xsd:sequence>
 								<xsd:element name="ManufacturerPartID" type="hundredCharsType" />
-  								<xsd:element name="ManufacturerName">
+  								<xsd:element name="ManufacturerName" minOccurs="0">
   									<xsd:complexType>
   										<xsd:simpleContent>
 											<xsd:extension base="hundredCharsType">
@@ -998,7 +1005,7 @@
 					<xsd:restriction base="xsd:string">
 						<!-- This is the only value allowed in kuali -->
 						<xsd:enumeration value="production"/>
-						<!-- <xsd:enumeration value="test"/>  -->
+						<xsd:enumeration value="test"/>
 					 </xsd:restriction>
 				 </xsd:simpleType>
   			</xsd:attribute>				

@@ -1,0 +1,302 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CheckReconciliation" parent="CheckReconciliation-parentBean" />
+    <bean id="CheckReconciliation-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.cr.businessobject.CheckReconciliation" />
+        <property name="lookupDefinition" ref="CheckReconciliation-lookupDefinition" />
+        <property name="inquiryDefinition" ref="CheckReconciliation-inquiryDefinition"/>
+        <property name="titleAttribute" value="checkReconciliation" />
+        <property name="objectLabel" value="Check Reconciliation" />
+        <property name="boNotesEnabled" value="true" />
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes" />
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="CheckReconciliation-id" />
+                <ref bean="CheckReconciliation-checkNumber" />
+                <ref bean="CheckReconciliation-bankAccountNumber" />
+                <ref bean="CheckReconciliation-checkDate" />
+                <ref bean="CheckReconciliation-amount" />
+                <ref bean="CheckReconciliation-status" />
+                <ref bean="CheckReconciliation-lastUpdate" />
+                <ref bean="CheckReconciliation-glTransIndicator" />
+                <ref bean="CheckReconciliation-sourceCode" />
+                <ref bean="CheckReconciliation-payeeId" />
+                <ref bean="CheckReconciliation-payeeTypeCode" />
+                <ref bean="CheckReconciliation-clearedDate" />
+                <ref bean="CheckReconciliation-statusChangeDate" />
+                <ref bean="CheckReconciliation-versionNumber" />
+                <ref bean="CheckReconciliation-payeeName" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="CheckReconciliation-id" parent="CheckReconciliation-id-parentBean" />
+    <bean id="CheckReconciliation-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Check Identifier" />
+        <property name="shortLabel" value="Check ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Check Identifier" />
+        <property name="description" value="Check Recon Generated ID" />
+    </bean>
+
+    <bean id="CheckReconciliation-checkNumber" parent="CheckReconciliation-checkNumber-parentBean" />
+    <bean id="CheckReconciliation-checkNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="checkNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Check Number" />
+        <property name="shortLabel" value="Check #" />
+        <property name="maxLength" value="9" />
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="9" />
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-bankAccountNumber" parent="CheckReconciliation-bankAccountNumber-parentBean" />
+    <bean id="CheckReconciliation-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bankAccountNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Bank Account Name" />
+        <property name="shortLabel" value="Bank Account Name" />
+        <property name="description" value="Bank Account Name" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.cr.businessobject.options.BankNameValuesFinder" p:includeKeyInLabel="true" />
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-checkDate" parent="CheckReconciliation-checkDate-parentBean" />
+    <bean id="CheckReconciliation-checkDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="checkDate" />
+        <property name="label" value="Check Date" />
+        <property name="shortLabel" value="Date" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="CheckReconciliation-amount" parent="CheckReconciliation-amount-parentBean" />
+    <bean id="CheckReconciliation-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="amount" />
+        <property name="required" value="true" />
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+    </bean>
+
+    <bean id="CheckReconciliation-status" parent="CheckReconciliation-status-parentBean" />
+    <bean id="CheckReconciliation-status-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="status" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Check Status" />
+        <property name="shortLabel" value="Status" />
+        <property name="description" value="Check Status" />
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.cr.businessobject.options.CheckReconciliationStatusValuesFinder" p:includeKeyInLabel="true" />
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-lastUpdate" parent="CheckReconciliation-lastUpdate-parentBean" />
+    <bean id="CheckReconciliation-lastUpdate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+        <property name="name" value="lastUpdate" />
+        <property name="label" value="Last Update" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="CheckReconciliation-glTransIndicator" parent="CheckReconciliation-glTransIndicator-parentBean" />
+    <bean id="CheckReconciliation-glTransIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="glTransIndicator" />
+        <property name="label" value="Trans Ind" />
+        <property name="shortLabel" value="Trans Ind" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="CheckReconciliation-sourceCode" parent="CheckReconciliation-sourceCode-parentBean" />
+    <bean id="CheckReconciliation-sourceCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceCode" />
+        <property name="label" value="Source Code" />
+        <property name="shortLabel" value="Src Cd" />
+        <property name="description" value="Payment Source Code" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.cr.businessobject.options.CheckReconSrcValuesFinder" p:includeKeyInLabel="true" />
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-payeeId" parent="CheckReconciliation-payeeId-parentBean" />
+    <bean id="CheckReconciliation-payeeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="payeeId" />
+        <property name="label" value="Payee ID"/>
+        <property name="shortLabel" value="Payee ID"/>
+        <property name="maxLength" value="25" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="25"/>
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-payeeTypeCode" parent="CheckReconciliation-payeeTypeCode-parentBean" />
+    <bean id="CheckReconciliation-payeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="payeeTypeCode" />
+        <property name="label" value="Payee ID Type"/>
+        <property name="shortLabel" value="Payee ID Type"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.cr.businessobject.options.PayeeIdTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-clearedDate" parent="CheckReconciliation-clearedDate-parentBean" />
+    <bean id="CheckReconciliation-clearedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="clearedDate" />
+        <property name="label" value="Cleared Date" />
+        <property name="shortLabel" value="Cleared Date" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="CheckReconciliation-statusChangeDate" parent="CheckReconciliation-statusChangeDate-parentBean" />
+    <bean id="CheckReconciliation-statusChangeDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="statusChangeDate" />
+        <property name="label" value="Status Change Date" />
+        <property name="shortLabel" value="Status Change Date" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="CheckReconciliation-versionNumber" parent="CheckReconciliation-versionNumber-parentBean" />
+    <bean id="CheckReconciliation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
+    <bean id="CheckReconciliation-payeeName" parent="CheckReconciliation-payeeName-parentBean" />
+    <bean id="CheckReconciliation-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="payeeName"/>
+        <property name="label" value="Payee Name"/>
+        <property name="shortLabel" value="Payee Name"/>
+        <property name="maxLength" value="45"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="32"/>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="CheckReconciliation-lookupDefinition" parent="CheckReconciliation-lookupDefinition-parentBean" />
+    <bean id="CheckReconciliation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Check Reconciliation Lookup" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>checkNumber</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="bankAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="checkNumber" />
+                <bean parent="FieldDefinition" p:attributeName="checkDate" />
+                <bean parent="FieldDefinition" p:attributeName="clearedDate" />
+                <bean parent="FieldDefinition" p:attributeName="status" />
+                <bean parent="FieldDefinition" p:attributeName="sourceCode" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="checkNumber" />
+                <bean parent="FieldDefinition" p:attributeName="payeeId" />
+                <bean parent="FieldDefinition" p:attributeName="payeeName" />
+                <bean parent="FieldDefinition" p:attributeName="payeeTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="checkDate" />
+                <bean parent="FieldDefinition" p:attributeName="clearedDate" />
+                <bean parent="FieldDefinition" p:attributeName="sourceCode" />
+                <bean parent="FieldDefinition" p:attributeName="amount" />
+                <bean parent="FieldDefinition" p:attributeName="status" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CheckReconciliation-inquiryDefinition" parent="CheckReconciliation-inquiryDefinition-parentBean" />
+    <bean id="CheckReconciliation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Check Reconciliation Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <ref bean="CheckReconciliation-inquirySectionDefinition-details" />
+                <ref bean="CheckReconciliation-inquirySectionDefinition-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-inquirySectionDefinition-details" parent="CheckReconciliation-inquirySectionDefinition-details-parentBean" />
+    <bean id="CheckReconciliation-inquirySectionDefinition-details-parentBean" abstract="true" parent="InquirySectionDefinition">
+        <property name="title" value="Check Reconciliation Details" />
+        <property name="numberOfColumns" value="1" />
+        <property name="inquiryFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="checkNumber" />
+                <bean parent="FieldDefinition" p:attributeName="bankAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="checkDate" />
+                <bean parent="FieldDefinition" p:attributeName="amount" />
+                <bean parent="FieldDefinition" p:attributeName="status" />
+                <bean parent="FieldDefinition" p:attributeName="lastUpdate" />
+                <bean parent="FieldDefinition" p:attributeName="glTransIndicator" />
+                <bean parent="FieldDefinition" p:attributeName="sourceCode" />
+                <bean parent="FieldDefinition" p:attributeName="payeeId" />
+                <bean parent="FieldDefinition" p:attributeName="payeeTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="payeeName" />
+                <bean parent="FieldDefinition" p:attributeName="clearedDate" />
+                <bean parent="FieldDefinition" p:attributeName="statusChangeDate" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CheckReconciliation-inquirySectionDefinition-notes" parent="CheckReconciliation-inquirySectionDefinition-notes-parentBean" />
+    <bean id="CheckReconciliation-inquirySectionDefinition-notes-parentBean" abstract="true" parent="InquirySectionDefinition">
+        <property name="title" value="Notes" />
+        <property name="numberOfColumns" value="1" />
+        <property name="inquiryFields">
+            <list>
+                <bean parent="InquiryCollectionDefinition">
+                    <property name="attributeName" value="boNotes" />
+                    <property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="noteText" />
+                            <bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
+                            <bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
+                            <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

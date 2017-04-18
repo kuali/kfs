@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:dd="http://rice.kuali.org/dd"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ShippingHeaderHistory" parent="ShippingHeaderHistory-parentBean" />
+
+  <bean id="ShippingHeaderHistory-parentBean" abstract="true" parent="ShippingHeader">
+    <property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingHeaderHistory" />
+    <property name="objectLabel" value="Shipping Header History" />
+    <property name="titleAttribute" value="loadDate"/>
+    <property name="attributes" >
+      <list merge="true">
+        <ref bean="ShippingHeaderHistory-loadDate" />
+        <ref bean="ShippingHeaderHistory-fileName" />
+        <ref bean="ShippingHeaderHistory-fileNameWithoutStagingDirectoryPrefix" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="ShippingHeaderHistory-loadDate" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="loadDate" />
+    <property name="label" value="File Load Date" />
+    <property name="shortLabel" value="Load Date" />
+    <property name="required" value="true"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+  </bean>
+
+  <bean id="ShippingHeaderHistory-fileName" parent="AttributeDefinition">
+    <property name="name" value="fileName" />
+    <property name="label" value="Shipping File Name" />
+    <property name="shortLabel" value="File Name" />
+    <property name="maxLength" value="255" />
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>    
+  </bean>
+
+  <bean id="ShippingHeaderHistory-fileNameWithoutStagingDirectoryPrefix" parent="ShippingHeaderHistory-fileName"
+  		p:name="fileNameWithoutStagingDirectoryPrefix" />
+
+</beans>

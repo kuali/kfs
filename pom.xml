@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
    The Kuali Financial System, a comprehensive financial management system for higher education.
-   
+
    Copyright 2005-2014 The Kuali Foundation
-   
+
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as
    published by the Free Software Foundation, either version 3 of the
    License, or (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU Affero General Public License for more details.
-   
+
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
@@ -22,7 +22,7 @@
   <modules>
     <module>kfs-core</module>
     <module>kfs-purap</module>
-   <module>kfs-ar</module>
+    <module>kfs-ar</module>
     <module>kfs-cam</module>
     <module>kfs-cg</module>
     <module>kfs-ec</module>
@@ -31,6 +31,7 @@
     <module>kfs-tem</module>
     <module>kfs-bc</module>
     <module>kfs-tax</module>
+    <module>kfs-cr</module>
     <module>kfs-web</module>
   </modules>
   <parent>
@@ -40,7 +41,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-release23-SNAPSHOT</version>
+  <version>ua-release29-SNAPSHOT</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
@@ -65,7 +66,7 @@
       <email>kfs.product.team@kuali.co</email>
     </developer>
   </developers>
-  <prerequisites> 
+  <prerequisites>
     <maven>${maven.require.version}</maven>
   </prerequisites>
   <properties>

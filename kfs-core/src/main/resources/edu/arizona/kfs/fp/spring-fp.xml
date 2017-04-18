@@ -184,4 +184,6 @@
       </property>
     </bean>
 
+    <bean id="disbursementVoucherExtractionHelperService" parent="disbursementVoucherExtractionHelperService-parentBean" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherExtractionHelperServiceImpl" />
+
 </beans>

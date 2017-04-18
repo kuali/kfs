@@ -1,5 +1,6 @@
 package edu.arizona.kfs.fp.document.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -11,12 +12,14 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -56,8 +59,28 @@ public class DisbursementVoucherExtractionHelperServiceImpl extends org.kuali.kf
         pd.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
+        KualiDecimal discountAmount = KualiDecimal.ZERO;
+
         // Handle accounts
         for (SourceAccountingLine sal : (List<? extends SourceAccountingLine>) document.getSourceAccountingLines()) {
+            KualiDecimal remitAmount = sal.getAmount();
+            KualiDecimal dvnraTaxAmount = SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document);
+
+            if (!KualiDecimal.ZERO.equals(dvnraTaxAmount)) {
+                if (document.getDvNonResidentAlienTax() != null && document.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && document.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(sal.getSequenceNumber().toString())) {
+                    if (sal.getAmount().isNegative()) {
+                        discountAmount = discountAmount.add(sal.getAmount());
+                    }
+                    continue;
+                } else {
+                    BigDecimal accountAmount = sal.getAmount().bigDecimalValue();
+                    BigDecimal taxPercentWhole = document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().add(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent()).bigDecimalValue();
+                    BigDecimal taxPercent = taxPercentWhole.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+                    KualiDecimal withholdingAmount = new KualiDecimal(accountAmount.multiply(taxPercent).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
+                    remitAmount = new KualiDecimal(accountAmount).subtract(withholdingAmount);
+                }
+            }
+
             PaymentAccountDetail pad = new PaymentAccountDetail();
             pad.setFinChartCode(sal.getChartOfAccountsCode());
             pad.setAccountNbr(sal.getAccountNumber());
@@ -80,9 +103,10 @@ public class DisbursementVoucherExtractionHelperServiceImpl extends org.kuali.kf
             } else {
                 pad.setProjectCode(KFSConstants.getDashProjectCode());
             }
-            pad.setAccountNetAmount(sal.getAmount());
+            pad.setAccountNetAmount(remitAmount);
             pd.addAccountDetail(pad);
         }
+        pd.setInvTotDiscountAmount(discountAmount);
 
         // Handle notes
         DisbursementVoucherPayeeDetail dvpd = document.getDvPayeeDetail();
@@ -231,4 +255,5 @@ public class DisbursementVoucherExtractionHelperServiceImpl extends org.kuali.kf
 
         return pd;
     }
+
 }

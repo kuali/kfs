@@ -30,7 +30,7 @@ public class CheckReconciliation extends PersistableBusinessObjectBase implement
     private KualiDecimal amount;
     private String status;
     private Timestamp lastUpdate;
-    private Boolean glTransIndicator;
+    private Boolean glTransIndicator = Boolean.FALSE;
     private String sourceCode;
     private String payeeId;
     private String payeeTypeCode;

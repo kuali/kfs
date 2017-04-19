@@ -254,4 +254,6 @@
 
     <bean id="accountExtensionDao" class="edu.arizona.kfs.module.ld.dataaccess.impl.AccountExtensionDaoOjb" parent="platformAwareDao" />
 
+    <bean id="laborPendingEntryConverterService" parent="laborPendingEntryConverterService-parentBean" class="edu.arizona.kfs.module.ld.document.service.impl.LaborPendingEntryConverterServiceImpl" />
+
 </beans>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="crModuleService" parent="crModuleService-parentBean" />
+    <bean id="crModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="crModuleConfiguration" />
+    </bean>
+
+    <bean id="crModuleConfiguration" parent="crModuleConfiguration-parentBean" />
+    <bean id="crModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-CR" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>edu.arizona.kfs.module.cr</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:edu/arizona/kfs/module/cr/businessobject/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/cr/document/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>edu/arizona/kfs/module/cr/ojb-cr.xml</value>
+            </list>
+        </property>
+        <property name="scriptConfigurationFilePaths">
+            <list>
+                <value>edu/arizona/kfs/module/cr/dwr-cr.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list>
+                <value>checkReconciliationJob</value>
+                <value>crGlTransactionJob</value>
+            </list>
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${staging.directory}/cr/import</value>
+            <value>${reports.directory}/cr/import</value>
+          </list>
+        </property>
+    </bean>
+
+    <!-- Jobs -->
+    <bean id="checkReconciliationJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="checkReconciliationImportStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="crGlTransactionJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="checkReconciliationTransactionStep" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Job Steps -->
+    <bean id="checkReconciliationImportStep" class="edu.arizona.kfs.module.cr.batch.CheckReconciliationImportStep" parent="step">
+        <property name="checkReconciliationImportBatchService" ref="checkReconciliationImportBatchService" />
+    </bean>
+
+    <bean id="checkReconciliationTransactionStep" class="edu.arizona.kfs.module.cr.batch.CheckReconciliationTransactionStep" parent="step">
+        <property name="checkReconciliationTransactionBatchService" ref="checkReconciliationTransactionBatchService" />
+    </bean>
+
+    <!-- Batch Services -->
+    <bean id="checkReconciliationImportBatchService" class="edu.arizona.kfs.module.cr.batch.service.impl.CheckReconciliationImportBatchServiceImpl">
+        <property name="checkReconciliationDao" ref="checkReconciliationDao" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="reportsDirectory" value="${reports.directory}/cr/import" />
+        <property name="stagingDirectory" value="${staging.directory}/cr/import" />
+    </bean>
+
+    <bean id="checkReconciliationTransactionBatchService" class="edu.arizona.kfs.module.cr.batch.service.impl.CheckReconciliationTransactionBatchServiceImpl">
+        <property name="checkReconciliationDao" ref="checkReconciliationDao" />
+        <property name="checkReconciliationPendingTransactionService" ref="checkReconciliationPendingTransactionService" />
+    </bean>
+
+    <!-- Dao -->
+    <bean id="checkReconciliationDao" parent="platformAwareDao" class="edu.arizona.kfs.module.cr.dataaccess.impl.CheckReconciliationDaoOjb">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <!-- Services -->
+    <bean id="checkReconciliationPayeeService" class="edu.arizona.kfs.module.cr.service.impl.CheckReconciliationPayeeServiceImpl">
+        <property name="checkReconciliationDao" ref="checkReconciliationDao" />
+    </bean>
+
+    <bean id="checkReconciliationPendingTransactionService" class="edu.arizona.kfs.module.cr.service.impl.CheckReconciliationPendingTransactionServiceImpl">
+        <property name="accountingPeriodService" ref="accountingPeriodService" />
+        <property name="bankService" ref="bankService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="flexibleOffsetAccountService" ref="flexibleOffsetAccountService" />
+        <property name="offsetDefinitionService" ref="offsetDefinitionService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="checkReconciliationReportService" class="edu.arizona.kfs.module.cr.service.impl.CheckReconciliationReportServiceImpl">
+        <property name="checkReconciliationDao" ref="checkReconciliationDao" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="reportGenerationService" ref="reportGenerationService" />
+    </bean>
+
+</beans>

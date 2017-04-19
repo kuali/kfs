@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="edu.arizona.kfs.module.cr.businessobject.CheckReconciliation" table="CHECK_RECONCILIATION_T">
+        <field-descriptor name="id" column="CR_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="CR_CR_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="checkNumber" column="CHECK_NBR" jdbc-type="INTEGER" />
+        <field-descriptor name="bankAccountNumber" column="BANK_ACCOUNT_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="checkDate" column="CHECK_DT" jdbc-type="DATE" />
+        <field-descriptor name="amount" column="AMOUNT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+        <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="glTransIndicator" column="GL_TRANS_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceCode" column="SRC_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="payeeId" column="PAYEE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="payeeTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="clearedDate" column="CLEARED_DT" jdbc-type="DATE" />
+        <field-descriptor name="statusChangeDate" column="STATUS_CHANGE_DT" jdbc-type="DATE" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+    </class-descriptor>
+
+    <class-descriptor class="edu.arizona.kfs.module.cr.businessobject.CheckReconSource" table="CHECK_RECONCILIATION_SOURCE_T">
+        <field-descriptor name="id" column="CRS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="CR_CRS_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="sourceCode" column="SRC_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceName" column="SRC_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+    </class-descriptor>
+
+</descriptor-repository>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-3159" author="Adam Kost">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from KRCR_NMSPC_T where NMSPC_CD = 'KFS-CR'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-3159 - Check Reconciliation Modification
+        </comment>
+        <sql>
+            <!-- Update Namespace Code on all tables -->
+            UPDATE KRCR_NMSPC_T             SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.coreservice.impl.namespace.NamespaceBo                            -->
+            UPDATE KRCR_CMPNT_T             SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.coreservice.impl.component.ComponentBo                            -->
+            UPDATE KRCR_DRVD_CMPNT_T        SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.coreservice.impl.component.DerivedComponentBo                     -->
+            UPDATE KRCR_PARM_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.coreservice.impl.parameter.ParameterBo                            -->
+            UPDATE KREN_CNTNT_TYP_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.ken.bo.NotificationContentTypeBo                                  -->
+            UPDATE KREW_ATTR_DEFN_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kew.impl.type.KewAttributeDefinitionBo                            -->
+            UPDATE KREW_TYP_T               SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kew.impl.type.KewTypeBo                                           -->
+            UPDATE KREW_PPL_FLW_T           SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo                                  -->
+            UPDATE KRIM_TYP_T               SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.type.KimTypeBo                                           -->
+            UPDATE KRIM_ATTR_DEFN_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.common.attribute.KimAttributeBo                          -->
+            UPDATE KRIM_GRP_T               SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.group.GroupBo                                            -->
+            UPDATE KRIM_ROLE_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.role.RoleBo / org.kuali.rice.kim.impl.role.RoleBoLite    -->
+            UPDATE KRIM_PERM_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.permission.PermissionBo                                  -->
+            UPDATE KRIM_PERM_TMPL_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.permission.PermissionTemplateBo                          -->
+            UPDATE KRIM_RSP_T               SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.responsibility.ResponsibilityBo                          -->
+            UPDATE KRIM_RSP_TMPL_T          SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.impl.responsibility.ResponsibilityTemplateBo                  -->
+            UPDATE KRIM_PND_ROLE_MT         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.bo.ui.PersonDocumentRole                                      -->
+            UPDATE KRIM_PND_GRP_PRNCPL_MT   SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.kim.bo.ui.PersonDocumentGroup                                     -->
+            UPDATE KRMS_ATTR_DEFN_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo                    -->
+            UPDATE KRMS_TYP_T               SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.KrmsTypeBo                                   -->
+            UPDATE KRMS_CNTXT_T             SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.ContextBo                                    -->
+            UPDATE KRMS_ACTN_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.ActionBo                                     -->
+            UPDATE KRMS_RULE_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.RuleBo                                       -->
+            UPDATE KRMS_TERM_SPEC_T         SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.TermSpecificationBo                          -->
+            UPDATE KRMS_TERM_RSLVR_T        SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.TermResolverBo                               -->
+            UPDATE KRMS_FUNC_T              SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.FunctionBo                                   -->
+            UPDATE KRMS_CTGRY_T             SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.rice.krms.impl.repository.CategoryBo                                   -->
+            UPDATE SH_FNCTNL_FIELD_DESCR_T  SET NMSPC_CD='KFS-CR' WHERE NMSPC_CD='KUALI-CR'; <!-- org.kuali.kfs.sys.businessobject.FunctionalFieldDescription                      -->
+
+            <!-- Add Component codes -->
+            INSERT INTO KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) VALUES ('KFS-CR' , 'CheckReconciliationImportStep'      , SYS_GUID() , 1 , 'Check Reconciliation Import Step'      , 'Y');
+            INSERT INTO KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) VALUES ('KFS-CR' , 'CheckReconciliationTransactionStep' , SYS_GUID() , 1 , 'Check Reconciliation Transaction Step' , 'Y');
+
+            <!-- Update Parameter fields -->
+            UPDATE KRCR_PARM_T              SET APPL_ID='KFS'                                       WHERE NMSPC_CD='KFS-CR';
+            UPDATE KRCR_PARM_T              SET CMPNT_CD='CheckReconciliationTransactionStep'       WHERE PARM_NM='CR_CLEARING_ACCOUNT'     AND NMSPC_CD='KFS-CR';
+            UPDATE KRCR_PARM_T              SET CMPNT_CD='CheckReconciliationTransactionStep'       WHERE PARM_NM='CR_CLEARING_OBJECT_CODE' AND NMSPC_CD='KFS-CR';
+
+            <!--Update Permission Fields -->
+            UPDATE KRIM_PERM_T              SET NM = REPLACE(NM, 'KUALI-CR', 'KFS-CR')              WHERE NM       LIKE '%KUALI-CR%'; <!-- org.kuali.rice.kim.impl.permission.PermissionBo -->
+            UPDATE KRIM_PERM_T              SET DESC_TXT = REPLACE(DESC_TXT, 'KUALI-CR', 'KFS-CR')  WHERE DESC_TXT LIKE '%KUALI-CR%'; <!-- org.kuali.rice.kim.impl.permission.PermissionBo -->
+            UPDATE KRIM_PERM_ATTR_DATA_T    SET ATTR_VAL='KFS-CR'                                   WHERE ATTR_VAL='KUALI-CR';        <!-- org.kuali.rice.kim.impl.permission.PermissionAttributeBo -->
+
+            <!--deactivate unused Document Types: -->
+            UPDATE KREW_DOC_TYP_T           SET ACTV_IND=0 WHERE DOC_TYP_NM IN ('CHCL', 'CHCK', 'CHCS');
+
+            <!--create permission to use the Check Reconciliation Report -->
+            INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID,VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
+                VALUES ('KFS_CR_USE_SCREEN' , SYS_GUID() , 1 , 29 , 'KFS-CR' , 'Use Screen [Check Reconciliation Report]' , 'Allows access to the Check Reconciliation Report' , 'Y');
+
+            <!--add permission attribute data to the Use Screen [Check Reconciliation Report] permission -->
+            INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID , OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+                VALUES ('KFS_CR_USE_SCREEN' , SYS_GUID() , 1 , 'KFS_CR_USE_SCREEN' , 12 , 2 , 'edu.arizona.kfs.module.cr.document.web.struts.CheckReconciliationReportAction');
+
+            <!-- add Roles to the Use Screen [Check Reconciliation Report] permission -->
+            <!-- KFS-FP UA FSO Cash Accounting -->
+            INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+                VALUES ('KFS_CR_USE_SCREEN_ROLE_1' , SYS_GUID() , 1 , '10436' , 'KFS_CR_USE_SCREEN' , 'Y');
+
+        </sql>
+        <rollback>
+            <sql>
+                DELETE FROM KRIM_ROLE_PERM_T        WHERE ROLE_PERM_ID='KFS_CR_USE_SCREEN_ROLE_1';
+                DELETE FROM KRIM_PERM_ATTR_DATA_T   WHERE ATTR_DATA_ID='KFS_CR_USE_SCREEN';
+                DELETE FROM KRIM_PERM_T             WHERE PERM_ID='KFS_CR_USE_SCREEN';
+
+                UPDATE KREW_DOC_TYP_T           SET ACTV_IND=1                                          WHERE DOC_TYP_NM IN ('CHCL', 'CHCK', 'CHCS');
+
+                UPDATE KRIM_PERM_ATTR_DATA_T    SET ATTR_VAL='KUALI-CR'                                 WHERE ATTR_VAL='KFS-CR';
+                UPDATE KRIM_PERM_T              SET NM = REPLACE(NM, 'KFS-CR', 'KUALI-CR')              WHERE NM       LIKE '%KFS-CR%';
+                UPDATE KRIM_PERM_T              SET DESC_TXT = REPLACE(DESC_TXT, 'KFS-CR', 'KUALI-CR')  WHERE DESC_TXT LIKE '%KFS-CR%';
+
+                UPDATE KRCR_PARM_T              SET CMPNT_CD='CheckReconciliationImportStep'       WHERE PARM_NM='CR_CLEARING_ACCOUNT'     AND NMSPC_CD='KFS-CR';
+                UPDATE KRCR_PARM_T              SET CMPNT_CD='CheckReconciliationImportStep'       WHERE PARM_NM='CR_CLEARING_OBJECT_CODE' AND NMSPC_CD='KFS-CR';
+                UPDATE KRCR_PARM_T              SET APPL_ID='KUALI' WHERE NMSPC_CD='KFS-CR';
+
+                DELETE FROM KRCR_CMPNT_T            WHERE NMSPC_CD='KFS-CR' AND CMPNT_CD='CheckReconciliationTransactionStep';
+                DELETE FROM KRCR_CMPNT_T            WHERE NMSPC_CD='KFS-CR' AND CMPNT_CD='CheckReconciliationImportStep';
+
+                UPDATE SH_FNCTNL_FIELD_DESCR_T  SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_CTGRY_T             SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_FUNC_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_TERM_RSLVR_T        SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_TERM_SPEC_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_RULE_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_ACTN_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_CNTXT_T             SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_TYP_T               SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRMS_ATTR_DEFN_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_PND_GRP_PRNCPL_MT   SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_PND_ROLE_MT         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_RSP_TMPL_T          SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_RSP_T               SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_PERM_TMPL_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_PERM_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_ROLE_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_GRP_T               SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_ATTR_DEFN_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRIM_TYP_T               SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KREW_PPL_FLW_T           SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KREW_TYP_T               SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KREW_ATTR_DEFN_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KREN_CNTNT_TYP_T         SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRCR_PARM_T              SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRCR_DRVD_CMPNT_T        SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRCR_CMPNT_T             SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+                UPDATE KRCR_NMSPC_T             SET NMSPC_CD='KUALI-CR' WHERE NMSPC_CD='KFS-CR';
+            </sql>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>

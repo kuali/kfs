@@ -83,4 +83,28 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" table="FP_ELCTRNC_PMT_CLM_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" index="true" />
+    <field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="paymentClaimStatusCode" column="PMT_CLM_STAT_CD" jdbc-type="VARCHAR" />
+
+    <!-- UAF-3068 -->
+    <reference-descriptor name="generatingDocument" class-ref="org.kuali.kfs.fp.document.AdvanceDepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <reference-descriptor name="generatingDocumentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="financialDocumentPostingYear" />
+    	<foreignkey field-ref="financialDocumentPostingPeriodCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

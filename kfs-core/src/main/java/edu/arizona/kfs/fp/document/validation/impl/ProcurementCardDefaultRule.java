@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
@@ -76,15 +77,15 @@ public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.valida
                 putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
                 valid = false;
             }
-            if (newProcurementCardDefault.getCardLimit() == null) {
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardLimit())) {
                 putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
                 valid = false;
             }
-            if (newProcurementCardDefault.getCardCycleAmountLimit() == null) {
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardCycleAmountLimit())) {
                 putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
                 valid = false;
             }
-            if (newProcurementCardDefault.getCardCycleVolLimit() == null) {
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardCycleVolLimit())) {
                 putFieldErrorWithLabel(KFSPropertyConstants.CARD_CYCLE_VOL_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
                 valid = false;
             }

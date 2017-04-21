@@ -584,71 +584,71 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
     
     @Override
     protected String validateTargetAccountingLine(ProcurementCardTargetAccountingLine targetLine) {
-        String errorText = KFSConstants.EMPTY_STRING;
+        StringBuilder errorText = new StringBuilder(KFSConstants.EMPTY_STRING);
 
         targetLine.refresh();
         final String lineNumber = targetLine.getSequenceNumber() == null ? KFSPropertyConstants.NEW : targetLine.getSequenceNumber().toString();
 
-        if (!accountingLineRuleUtil.isValidChart(KFSConstants.EMPTY_STRING, targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
+        if (!accountingLineRuleUtil.isValidChart(KFSConstants.EMPTY_STRING, targetLine.getChart(), getDataDictionaryService().getDataDictionary())) {
             String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
-            errorText += " " + tempErrorText;
+            errorText.append(" " + tempErrorText);
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.refresh();
         }
 
-        if (!accountingLineRuleUtil.isValidAccount(KFSConstants.EMPTY_STRING, targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
+        if (!accountingLineRuleUtil.isValidAccount(KFSConstants.EMPTY_STRING, targetLine.getAccount(), getDataDictionaryService().getDataDictionary()) || targetLine.getAccount().isExpired()) {
             //changing this line from delivered code to correct the error text
             String tempErrorText = targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
-            errorText += " " + tempErrorText;
+            errorText.append(" " + tempErrorText);
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.setAccountNumber(getErrorAccountNumber());
             targetLine.refresh();
         }
 
-        if (!accountingLineRuleUtil.isValidObjectCode(KFSConstants.EMPTY_STRING, targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (!accountingLineRuleUtil.isValidObjectCode(KFSConstants.EMPTY_STRING, targetLine.getObjectCode(), getDataDictionaryService().getDataDictionary())) {
             String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
-            errorText += " " + tempErrorText;
+            errorText.append(" " + tempErrorText);
 
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
             targetLine.refresh();
         }
 
-        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(KFSConstants.EMPTY_STRING, targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(KFSConstants.EMPTY_STRING, targetLine.getSubAccount(), getDataDictionaryService().getDataDictionary())) {
             String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
-            errorText += " " + tempErrorText;
+            errorText.append(" " + tempErrorText);
 
             targetLine.setSubAccountNumber("");
         }
 
-        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(KFSConstants.EMPTY_STRING, targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(KFSConstants.EMPTY_STRING, targetLine.getSubObjectCode(), getDataDictionaryService().getDataDictionary())) {
             String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
-            errorText += " " + tempErrorText;
+            errorText.append(" " + tempErrorText);
 
             targetLine.setFinancialSubObjectCode("");
         }
 
-        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(KFSConstants.EMPTY_STRING, targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(KFSConstants.EMPTY_STRING, targetLine.getProject(), getDataDictionaryService().getDataDictionary())) {
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
             }
-            errorText += " Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
+            errorText.append(" Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
 
             targetLine.setProjectCode(KFSConstants.EMPTY_STRING);
         }
@@ -656,7 +656,7 @@ public class ProcurementCardCreateDocumentServiceImpl extends org.kuali.kfs.fp.b
         // clear out GlobalVariable message map, since we have taken care of the errors
         GlobalVariables.setMessageMap(new MessageMap());
 
-        return errorText;
+        return errorText.toString();
     }
     
     /**

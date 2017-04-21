@@ -103,7 +103,7 @@
            </td>
            <c:if test="${KualiForm.enableSalesTaxIndicator}">
              <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionTaxExemptIndicator}"/></div></th>
-             <td valign=top><kul:htmlControlAttribute attributeEntry="${transactionAttributes.transactionTaxExemptIndicator}" property="document.transactionEntries[${ctr}].transactionTaxExemptIndicator" readOnly="false"/></td>
+             <td valign=top><kul:htmlControlAttribute attributeEntry="${transactionAttributes.transactionTaxExemptIndicator}" property="document.transactionEntries[${ctr}].transactionTaxExemptIndicator" readOnly="${!canEdit}"/></td>
            </c:if>
            <c:if test="${!KualiForm.enableSalesTaxIndicator}">
              <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionTaxExemptIndicator"/>

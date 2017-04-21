@@ -117,7 +117,7 @@
 		abstract="true" parent="PersonImpl-name">
 		<property name="name" value="cardHolderAlternateName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder Alternate Name" />
+		<property name="label" value="Cardholder Alternate Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="required" value="false" />
 		<property name="control">
@@ -130,7 +130,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cardHolderCityName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder City Name" />
+		<property name="label" value="Cardholder City Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="45" />
 		<property name="control">
@@ -143,7 +143,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cardHolderLine1Address" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder Line1 Address" />
+		<property name="label" value="Cardholder Line1 Address" />
 		<property name="shortLabel" value="Address" />
 		<property name="maxLength" value="45" />
 		<property name="control">
@@ -156,7 +156,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cardHolderLine2Address" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder Line2 Address" />
+		<property name="label" value="Cardholder Line2 Address" />
 		<property name="shortLabel" value="Address" />
 		<property name="maxLength" value="45" />
 		<property name="control">
@@ -169,7 +169,7 @@
 		abstract="true" parent="PersonImpl-name">
 		<property name="name" value="cardHolderName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder Name" />
+		<property name="label" value="Cardholder Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="37" />
@@ -180,7 +180,7 @@
 	<bean id="ProcurementCardHolder-cardHolderStateCode-parentBean"
 		abstract="true" parent="State-code">
 		<property name="name" value="cardHolderStateCode" />
-		<property name="label" value="Card Holder State Code" />
+		<property name="label" value="Cardholder State Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="required" value="false"/>
 	</bean>
@@ -191,7 +191,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cardHolderWorkPhoneNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Holder Work Phone Number" />
+		<property name="label" value="Cardholder Work Phone Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="10" />
 		<property name="control">
@@ -203,7 +203,7 @@
 	<bean id="ProcurementCardHolder-cardHolderZipCode-parentBean"
 		abstract="true" parent="PostalCode-code" >
 		<property name="name" value="cardHolderZipCode" />
-		<property name="label" value="Card Holder Postal (ZIP) Code" />
+		<property name="label" value="Cardholder Postal (ZIP) Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="required" value="false"/>
 		<property name="validationPattern">
@@ -232,7 +232,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="cardNoteText" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Card Note Text" />
+		<property name="label" value="Original Vendor Name" />
 		<property name="shortLabel" value="Text" />
 		<property name="maxLength" value="50" />
 		<property name="control">
@@ -305,7 +305,7 @@
 
 	<bean id="ProcurementCardHolder-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Procurement Card Holder Inquiry" />
+		<property name="title" value="Procurement Cardholder Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<ref bean="ProcurementCardHolder-inquirySectionDefinition" />

@@ -19,20 +19,28 @@
  -->
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://www.kuali.org/kfs/pdp/payment"
-    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
-    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/pdp/payment" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="../../xsd/sys/types.xsd" />
-    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="../../xsd/sys/ddTypes.xsd" />
-        
-    <!-- simple data types -->
+    <!-- simple data types -->    
     <xsd:simpleType name="versionType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="1.0"/>
         </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:simpleType name="oneToTwentyFiveCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="25"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="oneAlphaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+        
     <!-- definition of simple type elements -->
     <xsd:element name="chart" type="xsd:normalizedString"/>
     <xsd:element name="unit" type="xsd:normalizedString"/>
@@ -169,7 +177,7 @@
                       the maximum number of detail segments in this file and the setting MAX_NOTE_LINES
                       in the application settings file.
                       -->
-                <xsd:element maxOccurs="27" minOccurs="1" ref="detail"/>
+                <xsd:element maxOccurs="5000" minOccurs="1" ref="detail"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -206,7 +214,7 @@
                       the maximum number of detail segments in this file and the setting MAX_NOTE_LINES
                       in the application settings file.
                       -->
-                <xsd:element maxOccurs="26" minOccurs="0" ref="payment_text"/>
+                <xsd:element maxOccurs="5000" minOccurs="0" ref="payment_text"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -214,8 +222,8 @@
     <xsd:element name="payee_id">
         <xsd:complexType>
             <xsd:simpleContent>
-                <xsd:extension base="kfs:oneToTwentyFiveCharType">
-                    <xsd:attribute name="id_type" type="kfs:oneAlphaType" use="required"/>
+                <xsd:extension base="oneToTwentyFiveCharType">
+                    <xsd:attribute name="id_type" type="oneAlphaType" use="required"/>
                 </xsd:extension>
             </xsd:simpleContent>
         </xsd:complexType>

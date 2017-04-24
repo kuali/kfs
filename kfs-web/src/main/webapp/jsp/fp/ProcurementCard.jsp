@@ -40,6 +40,8 @@
 	<fp:capitalAssetModifyTab readOnly="${readOnly}"/>  
 
 	<gl:generalLedgerPendingEntries />
+	
+	<sys:docuware />
 
 	<kul:notes />
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="Account" parent="Account-parentBean">
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="Account-budgetShellCode" />
+                <ref bean="Account-crossOrganizationCode" />
+                <ref bean="Account-faCostSubCatCode" />
+                <ref bean="Account-taxRegionCode" />
+                <ref bean="Account-institutionalFringeCoaCode" />
+                <ref bean="Account-institutionalFringeAccount" />
+            </list>
+        </property>
+        <property name="inactivationBlockingDefinitions">
+            <list merge="true">
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.budgetShell"          />
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.crossOrganization"    />
+                <bean parent="InactivationBlockingDefinition"   p:blockedReferencePropertyName="extension.faCostSubCategory"    />
+            </list>
+        </property>
+        <property name="relationships">
+            <list merge="true">
+                <dd:relationship objectAttribute="extension.budgetShell">
+                    <dd:primitiveAttribute source="extension.budgetShellCode" target="code" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="extension.crossOrganization">
+                    <dd:primitiveAttribute source="extension.crossOrganizationCode" target="code" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="extension.faCostSubCategory">
+					<dd:primitiveAttribute source="extension.faCostSubCatCode" target="faCostSubCatCode" />
+				</dd:relationship>
+				<dd:relationship objectAttribute="extension.taxRegionObj">
+					<dd:primitiveAttribute source="extension.taxRegionCode" target="taxRegionCode" />
+				</dd:relationship>
+                <dd:relationship objectAttribute="extension.institutionalFringeCoaCodeObj">
+                    <dd:primitiveAttribute source="extension.institutionalFringeCoaCodeExt" target="chartOfAccountsCode" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="extension.institutionalFringeAccountObj" >
+                    <dd:primitiveAttribute source="extension.institutionalFringeCoaCodeExt" target="chartOfAccountsCode" />
+                    <dd:primitiveAttribute source="extension.institutionalFringeAccountExt" target="accountNumber" />
+                </dd:relationship>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <dd:boAttributeRef id="Account-budgetShellCode"         parent="AccountExtension-budgetShellCode"       attributeName="extension.budgetShellCode"       />
+    <dd:boAttributeRef id="Account-crossOrganizationCode"   parent="AccountExtension-crossOrganizationCode" attributeName="extension.crossOrganizationCode" />
+    
+    <bean id="Account-faCostSubCatCode" parent="Account-faCostSubCatCode-parentBean" />
+	<dd:boAttributeRef id="Account-faCostSubCatCode-parentBean" abstract="true" parent="AccountExtension-faCostSubCatCode-parentBean" attributeName="extension.faCostSubCatCode" />
+	
+	<bean id="Account-taxRegionCode" parent="Account-taxRegionCode-parentBean" />
+ 	<dd:boAttributeRef id="Account-taxRegionCode-parentBean" abstract="true" parent="AccountExtension-taxRegionCode-parentBean" attributeName="extension.taxRegionCode" />
+	
+	<bean id="Account-accountFiscalOfficerUser.principalName" parent="Account-accountFiscalOfficerUser.principalName-parentBean" >
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern"
+				p:allowDash="true"
+				p:allowUnderscore="true"
+				p:allowWhitespace="false"/>
+		</property>
+	</bean>
+	
+	<bean id="Account-institutionalFringeCoaCode" parent="AccountExtension-institutionalFringeCoaCode-parentBean" >
+		<property name="name" value="extension.institutionalFringeCoaCodeExt" />
+	</bean>
+	
+	<bean id="Account-institutionalFringeAccount" parent="AccountExtension-institutionalFringeAccount-parentBean" >
+		<property name="name" value="extension.institutionalFringeAccountExt" />
+	</bean>
+	
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean">
+        <property name="inquirySections">
+            <list merge="true">
+                <bean parent="InquirySectionDefinition" p:title="Additional Account Attributes">
+                    <property name="inquiryFields">
+                        <list>
+                            <dd:field attributeName="extension.budgetShellCode" />
+                            <dd:field attributeName="extension.crossOrganizationCode" />
+                            <dd:field attributeName="extension.faCostSubCatCode" />
+                            <dd:field attributeName="extension.taxRegionCode" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="Account-inquirySectionDefinition-accountDetails" parent="Account-inquirySectionDefinition-accountDetails-parentBean">
+        <property name="inquiryFields">
+            <list merge="true">
+                <bean parent="FieldDefinition" p:attributeName="extension.institutionalFringeCoaCodeExt" />
+                <bean parent="FieldDefinition" p:attributeName="extension.institutionalFringeAccountExt" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean">
+        <property name="lookupFields">
+            <list merge="true">
+                <dd:field attributeName="extension.budgetShellCode" />
+                <dd:field attributeName="extension.crossOrganizationCode" />
+            </list>
+        </property>
+    </bean>
+</beans>

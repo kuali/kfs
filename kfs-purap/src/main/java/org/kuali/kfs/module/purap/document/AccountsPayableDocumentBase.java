@@ -19,8 +19,11 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
@@ -33,20 +36,29 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import edu.arizona.kfs.module.purap.PurapConstants;
+import edu.arizona.kfs.module.purap.PurapParameterConstants;
+
 /**
  * Accounts Payable Document Base
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
+
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     protected Timestamp accountsPayableApprovalTimestamp;
@@ -613,5 +625,86 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public boolean shouldGiveErrorForEmptyAccountsProration() {
         return true;
     }
+    
+	@Override
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - start");
+
+        // handle the explicit entry
+        // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        processExplicitGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        boolean success = processOffsetGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
+        // ** START AZ ** KFSI-4830: handle use tax offset entries for PREQs and CMs
+        if(this instanceof PaymentRequestDocument || this instanceof VendorCreditMemoDocument) {
+            processUseTaxOffsetGeneralLedgerPendingEntries(sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
+        }
+        // ** END AZ **
+
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - end");
+        return success;
+    }
+
+    // ** START AZ ** KFSI-4830: Generate use tax offset entries
+    private void processUseTaxOffsetGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        // Get the object code for the use tax offsets from the parameter
+        String glpeOffsetObjectCode = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_OBJECT_CODE);
+        
+        // Get the use tax, tax region.
+        Map<String, String> pkMap = new HashMap<String, String>();
+        pkMap.put("taxRegionCode", parameterService.getParameterValueAsString(ProcurementCardDocument.class, PurapParameterConstants.GL_USETAX_TAX_REGION));
+        TaxRegion taxRegion = (TaxRegion) getBusinessObjectService().findByPrimaryKey(TaxRegion.class, pkMap);
+        
+        if(offsetEntry.getAccountNumber().equals(taxRegion.getAccountNumber())) {            
+            /** START AZ KFSI-6119 **/
+            //clear sub account number and sub object code
+            offsetEntry.setSubAccountNumber(null);
+            offsetEntry.setSubAccount(null);
+            offsetEntry.setFinancialSubObjectCode(null);
+            offsetEntry.setFinancialSubObject(null);
+            /** END AZ KFSI-6119 **/   
+            //**START AZ** KATTS-81 Project Codes should not be added to offset tax account
+            offsetEntry.setProjectCode(null);
+            //**END AZ**
+                     
+            SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(explicitEntry.getUniversityFiscalYear());
+            
+            sequenceHelper.increment();
+
+            // Generate and add the use tax offset entry for the explicit entry
+            GeneralLedgerPendingEntry useTaxExplicit = new GeneralLedgerPendingEntry(explicitEntry);
+            useTaxExplicit.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            useTaxExplicit.setTransactionLedgerEntryDescription(PurapConstants.GLPE_USE_TAX_GENERATED_OFFSET_DESCRIPTION);
+            useTaxExplicit.setFinancialObjectCode(glpeOffsetObjectCode);
+            useTaxExplicit.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
+            // Using the Debit/Credit code from the offset entry so it's the opposite of the explicit entry
+            useTaxExplicit.setTransactionDebitCreditCode(offsetEntry.getTransactionDebitCreditCode());
+            
+            addPendingEntry(useTaxExplicit);
+            
+            sequenceHelper.increment();
+            
+            // Generate and add the use tax offset entry for the offset entry
+            GeneralLedgerPendingEntry useTaxOffset = new GeneralLedgerPendingEntry(offsetEntry);
+            useTaxOffset.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            useTaxOffset.setTransactionLedgerEntryDescription(PurapConstants.GLPE_USE_TAX_GENERATED_OFFSET_DESCRIPTION);
+            useTaxOffset.setFinancialObjectCode(glpeOffsetObjectCode);
+            useTaxOffset.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
+            // Using the Debit/Credit code from the explicit entry so it's the opposite of the offset entry
+            useTaxOffset.setTransactionDebitCreditCode(explicitEntry.getTransactionDebitCreditCode());
+            
+            addPendingEntry(useTaxOffset);
+        }
+    }
+    // ** END AZ **
+
+
 }
 

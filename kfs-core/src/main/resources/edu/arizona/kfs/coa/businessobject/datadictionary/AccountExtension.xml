@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="AccountExtension" parent="AccountExtension-parentBean" />
+    <bean id="AccountExtension-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass"    value="edu.arizona.kfs.coa.businessobject.AccountExtension" />
+        <property name="objectLabel"            value="Account Extension" />
+        <property name="attributes">
+            <list>
+                <ref bean="AccountExtension-accountNumber"          />
+                <ref bean="AccountExtension-chartOfAccountsCode"    />
+                <ref bean="AccountExtension-budgetShellCode"        />
+                <ref bean="AccountExtension-crossOrganizationCode"  />
+                <ref bean="AccountExtension-faCostSubCatCode"       />
+                <ref bean="AccountExtension-taxRegionCode" 			/>
+                <ref bean="AccountExtension-institutionalFringeCoaCode" />
+                <ref bean="AccountExtension-institutionalFringeAccount" />
+            </list>
+        </property>
+    </bean>
+
+    <dd:boAttributeRef id="AccountExtension-accountNumber"          parent="Account-accountNumber"                          required="true"  attributeName="accountNumber"          />
+    <dd:boAttributeRef id="AccountExtension-chartOfAccountsCode"    parent="Chart-chartOfAccountsCode"                      required="true"  attributeName="chartOfAccountsCode"    />
+    <dd:boAttributeRef id="AccountExtension-budgetShellCode"        parent="BudgetShellCode-code"                required="false" attributeName="budgetShellCode"        />
+    <dd:boAttributeRef id="AccountExtension-crossOrganizationCode"  parent="CrossOrganizationCode-code"    required="false" attributeName="crossOrganizationCode"  />
+
+
+
+	<bean id="AccountExtension-faCostSubCatCode" parent="AccountExtension-faCostSubCatCode-parentBean" /> 		
+		
+	<dd:boAttributeRef id="AccountExtension-faCostSubCatCode-parentBean" 	
+		abstract="true" parent="FACostSubCategory-faCostSubCatCode-parentBean"   			
+		attributeName="faCostSubCatCode" label="FA Cost Subcategory"   			
+		shortLabel="FA Cost Subcat" />  
+		
+	<bean id="AccountExtension-taxRegionCode" parent="AccountExtension-taxRegionCode-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-taxRegionCode-parentBean"
+		abstract="true" parent="TaxRegion-taxRegionCode-parentBean"
+		attributeName="taxRegionObj.taxRegionCode" />
+
+	<bean id="AccountExtension-institutionalFringeCoaCode" parent="AccountExtension-institutionalFringeCoaCode-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-institutionalFringeCoaCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode-parentBean" attributeName="institutionalFringeCoaCodeObj.chartOfAccountsCode" label="Institutional Fringe COA Code" shortLabel="Fringe COA Code" />
+
+	<bean id="AccountExtension-institutionalFringeAccount" parent="AccountExtension-institutionalFringeAccount-parentBean" />
+
+	<dd:boAttributeRef id="AccountExtension-institutionalFringeAccount-parentBean" abstract="true" parent="Account-accountNumber-parentBean" attributeName="institutionalFringeAccountObj.accountNumber" label="Institutional Fringe Account" shortLabel="Fringe Account" />
+
+</beans>

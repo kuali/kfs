@@ -86,6 +86,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected String accountCfdaNumber;
     protected boolean accountOffCampusIndicator;
     protected boolean active;
+    protected String sourceOfFundsTypeCode;
 
     protected String accountFiscalOfficerSystemIdentifier;
     protected String accountsSupervisorySystemsIdentifier;
@@ -130,6 +131,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected BudgetRecordingLevel budgetRecordingLevel;
     protected SufficientFundsCode sufficientFundsCode;
     protected ContractsAndGrantsCfda cfda;
+    protected SourceOfFunds sourceOfFunds;
 
     protected Chart fringeBenefitsChartOfAccount;
     protected Chart continuationChartOfAccount;
@@ -2085,5 +2087,21 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     public void setAccountCountryCode(String accountCountryCode) {
         this.accountCountryCode = accountCountryCode;
+    }
+
+    public String getSourceOfFundsTypeCode() {
+    	return sourceOfFundsTypeCode;
+    }
+
+    public void setSourceOfFundsTypeCode(String sourceOfFundsTypeCode) {
+    	this.sourceOfFundsTypeCode = sourceOfFundsTypeCode;
+    }
+
+    public SourceOfFunds getSourceOfFunds() {
+    	return sourceOfFunds;
+    }
+
+    public void setSourceOfFunds(SourceOfFunds sourceOfFunds) {
+    	this.sourceOfFunds = sourceOfFunds;
     }
 }

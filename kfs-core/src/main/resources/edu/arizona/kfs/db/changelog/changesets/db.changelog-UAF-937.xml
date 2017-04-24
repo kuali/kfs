@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	
+    <changeSet id="UAF-937-1" author="Leaha Sullivan">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<not>
+				<columnExists tableName="CA_ACCOUNT_T" columnName="FUNDS_TYPE_CD" />
+			</not>	
+		</preConditions>
+		<comment>
+			Adding column for Source of Funds funds type code to account table
+		</comment>
+		<addColumn tableName="CA_ACCOUNT_T">
+			<column name="FUNDS_TYPE_CD" type="VARCHAR(3)"/>
+		</addColumn>
+		<createIndex tableName="CA_ACCOUNT_T" indexName="CA_ACCOUNT_TI29">
+			<column name="FUNDS_TYPE_CD" type="VARCHAR(3)"/>
+		</createIndex>
+		<addForeignKeyConstraint constraintName="CA_ACCOUNT_TR22" referencedTableName="CA_SOURCE_OF_FUNDS_T" baseColumnNames="FUNDS_TYPE_CD" baseTableName="CA_ACCOUNT_T"  referencedColumnNames="FUNDS_TYPE_CD" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" />
+		<rollback>
+			<dropColumn columnName="FUNDS_TYPE_CD" tableName="CA_ACCOUNT_T"/>
+		</rollback>
+	</changeSet>
+	
+	<changeSet id="UAF-937-2" author="Leaha Sullivan">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRCR_PARM_T
+					WHERE parm_nm='DISPLAY_SOURCE_OF_FUNDS_IND'
+			</sqlCheck>
+		</preConditions>
+		<comment>Adding parameter for Source Of Funds that show/hides the field on account document.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="CMPNT_CD" value="Account" />
+			<column name="PARM_NM" value="DISPLAY_SOURCE_OF_FUNDS_IND" />
+			<column name="OBJ_ID" value="UAF-937-1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Determines whether or not the Source of Funds field will display and will be required when creating or editing accounts." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>parm_nm='DISPLAY_SOURCE_OF_FUNDS_IND'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+</databaseChangeLog>

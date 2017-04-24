@@ -20,20 +20,6 @@
 
 <channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
-	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=KFST" /><br /><br />
-	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">
-	 	<strong>Accounts Receivable</strong><br/>
-	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTRL'/></li>
-			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
-		        <li><portal:portalLink displayTitle="true" title='Contracts & Grants Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CINV'/></li>
-			</c:if>
-	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CRM'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INV'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INVW'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=APP'/></li>
-	    </ul>
-	</c:if>
 	<c:if test="${ConfigProperties.module.capital.asset.enabled == 'true'}">
 	    <strong>Capital Asset Management</strong><br/>
 	    <ul class="chan">
@@ -60,7 +46,6 @@
 	<c:if test="${ConfigProperties.module.purchasing.enabled == 'true'}">
 		<strong>Purchasing/Accounts Payable</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=EIRT'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=PREQ'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=PO'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=RCV'/></li>
@@ -68,16 +53,18 @@
 	        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CM'/></li>
 	     </ul>
 	</c:if>
-    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
-	    <strong>Travel</strong><br/>
-        <ul class="chan">
-        	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CCAP&methodToCall=search" /></li>
-	        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTAP&methodToCall=search" /></li>
-            <li><portal:portalLink displayTitle="true" title='Entertainment Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=ENT&methodToCall=search'/></li>
-            <li><portal:portalLink displayTitle="true" title='Moving and Relocation Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=RELO&methodToCall=search'/></li>            
-            <li><portal:portalLink displayTitle="true" title='Travel Authorization' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TA&statusCodeForMultiboxSearching=OPEN&methodToCall=search'/></li>
-            <li><portal:portalLink displayTitle="true" title='Travel Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TR&methodToCall=search'/></li>
-        </ul>
+	<c:if test="${fn:trim(ConfigProperties.environment) != fn:trim(ConfigProperties.production.environment.code)}">
+	    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
+		    <strong>Travel</strong><br/>
+	        <ul class="chan">
+	        	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CCAP&methodToCall=search" /></li>
+		        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTAP&methodToCall=search" /></li>
+	            <li><portal:portalLink displayTitle="true" title='Entertainment Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=ENT&methodToCall=search'/></li>
+	            <li><portal:portalLink displayTitle="true" title='Moving and Relocation Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=RELO&methodToCall=search'/></li>            
+	            <li><portal:portalLink displayTitle="true" title='Travel Authorization' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TA&statusCodeForMultiboxSearching=OPEN&methodToCall=search'/></li>
+	            <li><portal:portalLink displayTitle="true" title='Travel Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TR&methodToCall=search'/></li>
+	        </ul>
+	    </c:if>
     </c:if>
     </div>
 <channel:portalChannelBottom />

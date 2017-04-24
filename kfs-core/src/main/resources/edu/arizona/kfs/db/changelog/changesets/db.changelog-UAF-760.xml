@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+		
+	<changeSet id="UAF-760" author="Mark Moen">
+		<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM KRCR_PARM_T
+					WHERE parm_nm='DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND '
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			UAF-760 Enhancement to Teller Process
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="CashReceipt"/>
+			<column name="PARM_NM" value="DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND"/>
+			<column name="OBJ_ID" value="UAF-760-1"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="Determines whether or not the cash/coin denomination entry sections will display on the Cash Receipt, as well as the Change Request tab. This will also hide fields on the Cash Reconciliation tab. Y=Display denomination detail and reconciliation fields. N=Hide fields."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>parm_nm='DISPLAY_CASH_RECEIPT_DENOMINATION_DETAIL_IND'</where>
+			</delete>
+		</rollback>
+	</changeSet>
+</databaseChangeLog>

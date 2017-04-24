@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="cabModuleConfiguration" parent="cabModuleConfiguration-parentBean">
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/module/cab/businessobject/datadictionary/*.xml</value>
+			</list>
+		</property>
+    </bean>
+
+    <bean id="cabExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="cabExtractStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="posterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="preAssetTaggingExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="preAssetTaggingStep" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="batchExtractService" class="edu.arizona.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl">
+    	<property name="extractDao" ref="extractDao" />
+		<property name="purchasingAccountsPayableItemAssetDao" ref="purchasingAccountsPayableItemAssetDao" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="purApLineService" ref="purApLineService" />
+		<property name="purApInfoService" ref="purApInfoService" />
+	</bean>
+	
+	<bean id="generalLedgerEntryLookupableHelperService" scope="prototype" parent="generalLedgerEntryLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl">
+    </bean>
+    
+    <bean id="purchasingAccountsPayableReportDao" parent="platformAwareDao" class="edu.arizona.kfs.module.cab.dataaccess.impl.PurchasingAccountsPayableReportDaoOjb">
+    </bean>
+    
+    <bean id="purApInfoService" class="edu.arizona.kfs.module.cab.document.service.impl.PurApInfoServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="purApLineDocumentService"  parent="purApLineDocumentService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="purApLineService" ref="purApLineService" />
+		<property name="purApInfoService" ref="purApInfoService" />
+		<property name="documentService" ref="documentService" />
+		<property name="assetGlobalService" ref="assetGlobalService" />
+		<property name="assetService" ref="assetService" />
+	</bean>  
+	
+	<bean id="glLineService"  parent="glLineService-parentBean" class="edu.arizona.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="assetGlobalService" ref="assetGlobalService"/>
+		<property name="objectTypeService" ref="objectTypeService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="documentHeaderService" ref="documentHeaderService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+		<property name="capitalAssetInformationDao" ref="capitalAssetInformationDao"/>
+		<property name="assetService" ref="assetService" />
+	</bean> 
+
+	<bean id="purApReportLookupableHelperService" scope="prototype" parent="purApReportLookupableHelperService-parentBean" class="edu.arizona.kfs.module.cab.businessobject.lookup.PurApReportLookupableHelperServiceImpl">
+	</bean>
+	
+</beans>

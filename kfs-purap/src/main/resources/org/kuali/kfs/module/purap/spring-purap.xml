@@ -480,9 +480,10 @@
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService"/>
     </bean>
-    
-    <bean id="autoClosePurchaseOrdersStep" class="org.kuali.kfs.module.purap.batch.AutoClosePurchaseOrdersStep" parent="step">
-        <property name="purchaseOrderService" ref="purchaseOrderService" />
+
+    <bean id="autoClosePurchaseOrdersStep" parent="autoClosePurchaseOrdersStep-parentBean"/>
+    <bean id="autoClosePurchaseOrdersStep-parentBean" abstract="true" class="org.kuali.kfs.module.purap.batch.AutoClosePurchaseOrdersStep" parent="step">
+        <property name="autoClosePurchaseOrderService" ref="autoClosePurchaseOrderService" />
     </bean>
     
     <bean id="autoCloseRecurringOrdersStep" class="org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep" parent="step">
@@ -750,6 +751,11 @@
 		
 	<bean id="purchaseOrderParameters" parent="PurchaseOrderParameters-parentBean" scope="prototype"/>	
 	<bean id="PurchaseOrderParameters-parentBean" class="org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters" scope="prototype" abstract="true" />
+
+    <bean id="autoClosePurchaseOrderService" parent="autoClosePurchaseOrderService-parentBean"/>
+    <bean id="autoClosePurchaseOrderService-parentBean" abstract="true" class="org.kuali.kfs.module.purap.batch.service.impl.AutoClosePurchaseOrderServiceImpl">
+        <property name="purchaseOrderService" ref="purchaseOrderService"/>
+    </bean>
 
     <!-- validations -->
 	<import resource="document/validation/configuration/PurapValidatorDefinitions.xml" />

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean">
+        <property name="maintainableSections">
+            <list merge="true">
+                <ref bean="AccountMaintenanceDocument-ExtendedAttributes" />
+            </list>
+        </property>
+        <property name="defaultExistenceChecks">
+            <list merge="true">
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.budgetShell"         p:attributeToHighlightOnFail="extension.budgetShellCode"        />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.crossOrganization"   p:attributeToHighlightOnFail="extension.crossOrganizationCode"  />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.faCostSubCategory"   p:attributeToHighlightOnFail="extension.faCostSubCatCode"       />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.taxRegionObj"		p:attributeToHighlightOnFail="extension.taxRegionCode" 			/>
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.institutionalFringeCoaCodeObj" p:attributeToHighlightOnFail="extension.institutionalFringeCoaCodeExt" />
+                <bean parent="ReferenceDefinition"  p:attributeName="extension.institutionalFringeAccountObj" p:attributeToHighlightOnFail="extension.institutionalFringeAccountExt" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="AccountMaintenanceDocument-AccountMaintenance" parent="AccountMaintenanceDocument-AccountMaintenance-parentBean"/>
+    <bean id="AccountMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Account Maintenance"/>
+        <property name="maintainableItems">
+            <list>
+                <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+                <dd:maintField attributeName="accountNumber" required="true"/>
+                <dd:maintField attributeName="accountName" required="true"/>
+                <dd:maintField attributeName="organizationCode" required="true" javascriptLeaveFieldFunction="onblur_responsibilityCenterCode"/>
+                <dd:maintField attributeName="organization.responsibilityCenterCode" unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="organization.responsibilityCenter.responsibilityCenterName" unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="accountPhysicalCampusCode" required="true"/>
+                <dd:maintField attributeName="accountCreateDate"/>
+                <dd:maintField attributeName="accountEffectiveDate" required="true" defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+                <dd:maintField attributeName="accountExpirationDate"/>
+                <dd:maintField attributeName="accountZipCode" required="true"/>
+                <dd:maintField attributeName="accountCityName" required="true"/>
+                <dd:maintField attributeName="accountStateCode" required="true"/>
+                <dd:maintField attributeName="accountStreetAddress" required="true"/>
+                <dd:maintField attributeName="accountOffCampusIndicator"/>
+                <dd:maintField attributeName="closed"/>
+                <dd:maintField attributeName="accountTypeCode" required="true" javascriptLeaveFieldFunction="update_laborBenefitRateCategoryCode" />
+                <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+                <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
+                <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>reportsToChartOfAccountsCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
+                <dd:maintField attributeName="sourceOfFundsTypeCode"/>
+                <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+                <dd:maintField attributeName="accountRestrictedStatusDate"/>
+                <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
+                <bean parent="MaintainableFieldDefinition" p:name="endowmentIncomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>endowmentIncomeAcctFinCoaCd</value>
+                        </list>
+                    </property>
+                </bean>
+                <dd:maintField attributeName="extension.institutionalFringeCoaCodeExt" />
+                <dd:maintField attributeName="extension.institutionalFringeAccountExt" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="AccountMaintenanceDocument-ExtendedAttributes" parent="AccountMaintenanceDocument-ExtendedAttributes-parentBean" />
+    <bean id="AccountMaintenanceDocument-ExtendedAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id"     value="ExtendedAttributes" />
+        <property name="title"  value="Additional Account Attributes" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="extension.budgetShellCode"       />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.crossOrganizationCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.taxRegionCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="extension.faCostSubCatCode" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- workflow attributes -->
+    <bean id="AccountMaintenanceDocument-workflowAttributes" parent="AccountMaintenanceDocument-workflowAttributes-parentBean">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="OrganizationFundReview" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationFundReview"/>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="AccountSupervisor" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="Award" value-ref="AccountMaintenanceDocument-RoutingType-Award"/>
+    			<entry key="SubFund" value-ref="RoutingType-MaintenanceDocument-SubFund"/>
+    		</map>
+		</property>
+    </bean>
+    
+    <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganizationFund" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.organizationCode</value>
+    			<value>newMaintainableObject.businessObject.subFundGroup.fundGroupCode</value>
+    			<value>newMaintainableObject.businessObject.subFundGroupCode</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="AccountMaintenanceDocument-RoutingType-OrganizationFundReview" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+    			<ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
+    			<ref bean="RoutingAttribute-fundGroupCode"/>
+    			<ref bean="RoutingAttribute-SubFund"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganizationFund"/>
+    		</list>
+    	</property>
+    </bean>
+</beans>

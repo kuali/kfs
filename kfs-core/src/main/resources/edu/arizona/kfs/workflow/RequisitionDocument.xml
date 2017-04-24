@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>REQS</name>
+      <parent>PUR</parent>
+      <label>Requisition</label>
+      <docHandler>${kfs.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frequisition.htm</helpDefinitionURL>
+      <docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm</docSearchHelpURL>
+      <active>true</active>      
+      <routingVersion>2</routingVersion>
+      <validApplicationStatuses>
+        <status>Awaiting Content Approval</status>
+        <status>Disapproved - Content</status>
+        <status>Awaiting Accounting Lines</status>
+        <status>Disapproved - Accounting Lines</status>
+        <status>Awaiting Sub Account</status>
+        <status>Disapproved - Sub Account</status>
+        <status>Awaiting Fiscal Officer</status>
+        <status>Disapproved - Fiscal</status>
+        <status>Awaiting Base Org Review</status>
+        <status>Disapproved - Base Org Review</status>
+        <status>Awaiting Object SubType Review</status>
+        <status>Disapproved Object SubType Review</status>
+        <status>Awaiting Sub Fund</status>
+        <status>Disapproved - Sub Fund</status>
+        <status>Awaiting Commodity Code</status>
+        <status>Disapproved - Commodity Code</status>
+        <status>Awaiting Separation of Duties</status>
+        <status>Disapproved - Separation of Duties</status>
+        <status>Awaiting Contract Manager Assignment</status>
+        <status>Closed</status>
+        <status>Canceled</status>
+        <status>In Process</status>            	   
+      </validApplicationStatuses>
+      <policies>
+        <policy>
+          <name>DOCUMENT_STATUS_POLICY</name>
+          <stringValue>APP</stringValue>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Organization" nextAppDocStatus = "Awaiting Content Approval"/>
+          <role name="Organization" nextNode="HasAccountingLines" nextAppDocStatus = "Awaiting Accounting Lines"/>
+          <split name="HasAccountingLines" nextNode="SubAccount">
+            <branch name="True">
+              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
+            </branch>
+            <branch name="False">
+              <role name="Initiator" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
+            </branch>
+            <join name="JoinHasAccountingLines" />
+          </split>
+          <role name="SubAccount" nextNode="Account" nextAppDocStatus = "Awaiting Fiscal Officer"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
+          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" nextAppDocStatus="Awaiting Object SubType Review" />
+          <role name="ObjectSubTypeCode" nextNode="SubFund" nextAppDocStatus="Awaiting Sub Fund" />
+          <role name="SubFund" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code"/>  
+          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus ="Awaiting Separation of Duties"/> 
+          <split name="AmountRequiresSeparationOfDutiesReview">
+            <branch name="True">
+              <role name="SeparationOfDuties" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Organization">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="HasAccountingLines">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpHasAccountingLines">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinHasAccountingLines" />
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubAccount">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Commodity">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="AmountRequiresSeparationOfDutiesReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2808" author="Natalia Ibanez">
+        <comment>
+            UAF-2808 Migrate old PCDH type documents to the new PCDM doc type
+        </comment>
+        <sql>
+            update KULOWNER.krew_doc_hdr_t set doc_typ_id=(select doc_typ_id from KULOWNER.KREW_DOC_TYP_T where DOC_TYP_NM='PCDM') where doc_typ_id = '344984';
+        </sql>
+        <rollback>
+            <sql>
+                update KULOWNER.krew_doc_hdr_t set doc_typ_id='344984' where doc_typ_id =(select doc_typ_id from KULOWNER.KREW_DOC_TYP_T where DOC_TYP_NM='PCDM');
+            </sql>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>

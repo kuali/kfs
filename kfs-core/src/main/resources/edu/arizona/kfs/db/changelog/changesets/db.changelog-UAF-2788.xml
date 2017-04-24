@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2788-1" author="Mark Moen">
+        <preConditions onError="HALT" onFail="HALT">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='DisbursementVoucher'
+                        AND PARM_NM='PAYMENT_REASON_CODE_ROYALTIES'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2788 disbursementVoucherPreDisbursementProcessorExtractJob is not working
+        </comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="R"/>
+            <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='DisbursementVoucher'
+                    AND PARM_NM='PAYMENT_REASON_CODE_ROYALTIES'
+                    AND APPL_ID='KFS'
+            </where>
+        </update>
+        <rollback>
+            <update tableName="KRCR_PARM_T">
+                <column name="VAL" value="" />
+                <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='DisbursementVoucher'
+                    AND PARM_NM='PAYMENT_REASON_CODE_ROYALTIES'
+                    AND APPL_ID='KFS'
+            </where>
+            </update>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="UAF-2788-2" author="Mark Moen">
+        <preConditions onError="HALT" onFail="HALT">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='DisbursementVoucher'
+                        AND PARM_NM='PAYMENT_REASON_CODE_RENTAL_PAYMENT'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2788 disbursementVoucherPreDisbursementProcessorExtractJob is not working
+        </comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="T"/>
+            <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='DisbursementVoucher'
+                    AND PARM_NM='PAYMENT_REASON_CODE_RENTAL_PAYMENT'
+                    AND APPL_ID='KFS'
+            </where>
+        </update>
+        <rollback>
+            <update tableName="KRCR_PARM_T">
+                <column name="VAL" value="" />
+                <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='DisbursementVoucher'
+                    AND PARM_NM='PAYMENT_REASON_CODE_RENTAL_PAYMENT'
+                    AND APPL_ID='KFS'
+                </where>
+            </update>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

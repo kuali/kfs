@@ -45,6 +45,8 @@
    		<img src="images-portal/icon-port-actionlist.gif" alt="action list" width="91" height="19" border="0"></portal:portalLink>
     	<portal:portalLink displayTitle="false" title='Document Search' url='${ConfigProperties.workflow.documentsearch.base.url}${empty backdoorIdUrl ? "" : "&"}${backdoorIdUrl}'>
     	<img src="images-portal/icon-port-docsearch.gif" alt="doc search" width="96" height="19" border="0"></portal:portalLink>
+    	<a class="portal_link" href="<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString("KFS-SYS", "All", "BI_REPORT_URL")%>" title="UAccess Analytics" target="_BLANK">
+		<img src="images-portal/icon-analytics-reports.jpg" alt="analytics/reports" width="131" height="19" border="0"></a>
      </div>
   </div>
 </div>

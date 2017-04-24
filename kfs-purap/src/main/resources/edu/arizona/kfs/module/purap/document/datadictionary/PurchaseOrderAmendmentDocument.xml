@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="PurchaseOrderAmendmentDocument" parent="PurchaseOrderAmendmentDocument-parentBean">
+    <property name="documentClass" value="edu.arizona.kfs.module.purap.document.PurchaseOrderAmendmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument"/>
+    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.purap.document.authorization.PurchaseOrderAmendmentDocumentPresentationController"/>
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="PurchaseOrderAmendmentDocument-routeCode"/>
+      </list>
+    </property>
+  </bean>
+    
+    <!-- Attribute Definitions -->
+   <bean id="PurchaseOrderAmendmentDocument-routeCode" parent="PurchaseOrderAmendmentDocument-routeCode-parentBean"/>
+   
+   <bean id="PurchaseOrderAmendmentDocument-routeCode-parentBean" abstract="true" parent="AttributeDefinition"> 
+		<property name="name" value="routeCode" /> 
+		<property name="label" value="Route Code" /> 
+		<property name="shortLabel" value="Route Code" />
+		<property name="maxLength" value="3" /> 
+		<property name="control"> 
+			<bean parent="TextControlDefinition" p:size="14" /> 
+		</property> 
+	</bean>
+   
+    
+   <!-- workflow attributes for routing -->
+    <bean id="PurchaseOrderAmendmentDocument-workflowAttributes" parent="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean">  
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <!-- no qualifiers for HasNewUnorderedItems -->
+    			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
+                <entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-sourceOnly"/>
+                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
+    		</map>
+    	</property>
+	</bean>
+</beans>
+

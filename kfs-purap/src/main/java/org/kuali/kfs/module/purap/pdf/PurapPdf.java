@@ -65,6 +65,7 @@ public class PurapPdf extends PdfPageEventHelper {
     Font ver_5_normal = FontFactory.getFont("VERDANA", 5, 0);
     Font ver_6_normal = FontFactory.getFont("VERDANA", 6, 0);
     Font ver_8_normal = FontFactory.getFont("VERDANA", 8, 0);
+    Font ver_9_normal = FontFactory.getFont("VERDANA", 9, 0);
     Font ver_10_normal = FontFactory.getFont("VERDANA", 10, 0);
     Font ver_11_normal = FontFactory.getFont("VERDANA", 11, 0);
     Font ver_12_normal = FontFactory.getFont("VERDANA", 12, 0);
@@ -76,10 +77,13 @@ public class PurapPdf extends PdfPageEventHelper {
 
     Font ver_6_bold = FontFactory.getFont("VERDANA", 6, 1);
     Font ver_8_bold = FontFactory.getFont("VERDANA", 8, 1);
+    Font ver_9_bold = FontFactory.getFont("VERDANA", 9, 1);
     Font ver_10_bold = FontFactory.getFont("VERDANA", 10, 1);
 
     Font cour_7_normal = FontFactory.getFont("COURIER", 7, 0);
+    Font cour_9_normal  = FontFactory.getFont("COURIER",  9, 0);
     Font cour_10_normal = FontFactory.getFont("COURIER", 10, 0);
+    Font cour_11_normal = FontFactory.getFont("COURIER", 11, 0);
     Font cour_16_bold = FontFactory.getFont("COURIER", 16, 1);
 
     static KualiDecimal zero = KualiDecimal.ZERO;

@@ -1,0 +1,154 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:dd="http://rice.kuali.org/dd" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	
+	<bean id="ShippingAccountMaintenanceDocument" parent="ShippingAccountMaintenanceDocument-parentBean" />
+	
+	<bean id="ShippingAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="edu.arizona.kfs.pdp.businessobject.ShippingAccount" />
+		<property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+		<property name="maintainableSections">
+			<list>
+				<ref bean="ShippingAccountMaintenanceDocument-EditShippingAccount" />
+			</list>
+		</property>
+		<property name="defaultExistenceChecks">
+			<list>
+				<bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" />
+				<bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="subAccount" p:attributeToHighlightOnFail="subAccountNumber" />
+				<bean parent="ReferenceDefinition" p:attributeName="objectCode" p:attributeToHighlightOnFail="financialObjectCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="subObjectCode" p:attributeToHighlightOnFail="financialSubObjectCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="projectCode" p:attributeToHighlightOnFail="projCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="contactUser" p:attributeToHighlightOnFail="contactPrincipalId" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>shippingAccountNumber</value>
+				<value>shippingAccountType</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="SHIP" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="workflowAttributes">
+			<ref bean="ShippingAccountMaintenanceDocument-workflowAttributes" />
+		</property>
+	</bean>
+	
+	<!-- Maintenance Section Definitions  -->
+	
+	<bean id="ShippingAccountMaintenanceDocument-EditShippingAccount" parent="ShippingAccountMaintenanceDocument-EditShippingAccount-parentBean" />
+	
+	<bean id="ShippingAccountMaintenanceDocument-EditShippingAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit SHIP Settings" />
+		<property name="title" value="Edit SHIP Settings" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="shippingAccountNumber" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="contactUser.principalName" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="projCode" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="shippingAccountType" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--  Workflow attributes -->
+	<bean id="ShippingAccountMaintenanceDocument-workflowAttributes" parent="ShippingAccountMaintenanceDocument-workflowAttributes-parentBean" />
+	
+	<bean id="ShippingAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+		<property name="routingTypeDefinitions">
+			<map>
+				<entry key="Account" value-ref="ShippingAccountMaintenanceDocument-RoutingType-Account"/>
+				<entry key="OrganizationHierarchy" value-ref="ShippingAccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+			</map>
+		</property>
+		
+		<property name="searchingTypeDefinitions">
+			<list>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="edu.arizona.kfs.pdp.businessobject.ShippingAccount"/>
+							<property name="attributeName" value="shippingAccountNumber"/>
+							<property name="showAttributeInSearchCriteria" value="false"/>
+							<property name="showAttributeInResultSet" value="false"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>newMaintainableObject.businessObject.shippingAccountNumber</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="accountNumber"/>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="organizationCode"/>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-DocumentValuePathGroup-Account" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+				<value>newMaintainableObject.businessObject.accountNumber</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+				<value>newMaintainableObject.businessObject.account.organizationCode</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="ShippingAccountMaintenanceDocument-RoutingAttribute-Chart"/>
+				<ref bean="ShippingAccountMaintenanceDocument-RoutingAttribute-Account"/>
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="ShippingAccountMaintenanceDocument-DocumentValuePathGroup-Account"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ShippingAccountMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="ShippingAccountMaintenanceDocument-RoutingAttribute-Chart"/>
+				<ref bean="ShippingAccountMaintenanceDocument-RoutingAttribute-Organization"/>
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="ShippingAccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
+			</list>
+		</property>
+	</bean>
+</beans>

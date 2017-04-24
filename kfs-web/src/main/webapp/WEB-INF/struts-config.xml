@@ -1065,6 +1065,16 @@
 			<forward name="running" path="/jsp/pdp/format/processRunning.jsp" />
 		</action>
 		
+        <action path="/financialProcurementCard"
+            name="ProcurementCardForm"
+            input="/jsp/fp/ProcurementCard.jsp"
+            type="edu.arizona.kfs.fp.document.web.struts.ProcurementCardAction"
+            scope="request" parameter="methodToCall" validate="true"
+            attribute="KualiForm">
+            <set-property property="cancellable" value="true"/>
+            <forward name="basic" path="/jsp/fp/ProcurementCard.jsp"/>
+        </action>
+		
 		<action path="/glTrialBalance"
 		    name="TrialBalanceReportForm"
 		    type="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction"

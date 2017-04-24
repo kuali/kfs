@@ -19,8 +19,17 @@ public class KFSParameterKeyConstants extends org.kuali.kfs.sys.KFSParameterKeyC
 		public static final String DEFAULT_TRANSACTION_OBJECT_CODE = "DEFAULT_TRANSACTION_OBJECT_CODE";
 		public static final String VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES = "VENDOR_DUNS_NUMBER_BY_SHIPPING_COMPANIES";
 	}
-	
 	public static final class ACHFileConstants {
 		public static final String BANKING_INFORMATION_OVERRIDE_GROUP = "BANKING_INFORMATION_OVERRIDE_GROUP";
 	}
+	
+    public static final class ProcurementCardParameterConstants {
+        public static final String REROUTE_PCDO_DOCUMENTS_IND_PARM_NM = "REROUTE_PCDO_DOCUMENTS_IND";
+        public static final String RECONCILER_GROUPS_TO_REROUTE_PARM_NM = "RECONCILER_GROUPS_TO_REROUTE";
+        public static final String SKIP_AUTO_APPROVE_PARM_NM = "SKIP_AUTO_APPROVE";
+        public static final String SKIP_AUTO_APPROVE_SUB_TYPE_PARM_NM = "SKIP_AUTO_APPROVE_SUB_TYPE";
+    }
+
+    public static final String ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND = "ENABLE_SALES_TAX_AMOUNT_TAX_EXEMPT_IND";
+    public static final String GL_USETAX_TAX_REGION = "USE_TAX_TAX_REGION_CODE";
 }

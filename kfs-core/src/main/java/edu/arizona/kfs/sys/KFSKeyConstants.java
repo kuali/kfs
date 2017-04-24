@@ -45,4 +45,8 @@ public class KFSKeyConstants extends org.kuali.kfs.sys.KFSKeyConstants {
     // DV Payment Reason
     public static final String ERROR_DISBURSEMENT_VOUCHER_PAYMENT_REASON_CODE_INACTIVE = "error.disbursement.voucher.payment.reason.code.inactive";
 
+  //PCDO
+    public static final String QUESTION_RETURN_DOCUMENT = "document.question.return.text";
+    public static final String MESSAGE_RETURN_NOTE_TEXT_INTRO = "message.return.noteTextIntro";
+    public static final String ERROR_DOCUMENT_RETURN_REASON_REQUIRED = "error.document.return.reasonRequired";
 }

@@ -15,6 +15,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
 
     public static final String INVOICE_NUMBER = "Invoice Number";
     public static final String DUPLICATE_INVOICE_QUESTION_ID = "DVDuplicateInvoice";
+    public static final String SYSTEM_USER_NAME = "SYSTEM_USER_NAME";
 
     public static final String GL_ENTRY_IMPORTING = "glEntryImporting";
     public static final String DOC_FORM_KEY_VALUE_88888888 = "88888888";

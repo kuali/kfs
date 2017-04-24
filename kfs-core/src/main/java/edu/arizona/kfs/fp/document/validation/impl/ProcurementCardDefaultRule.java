@@ -1,118 +1,104 @@
 package edu.arizona.kfs.fp.document.validation.impl;
 
-import edu.arizona.kfs.sys.KFSKeyConstants;
-import org.apache.commons.lang.StringUtils;
-import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
 
-    private ProcurementCardDefault newProcurementCardDefault;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardDefault;
+import edu.arizona.kfs.sys.KFSPropertyConstants;
 
-    /**
-     * Returns value from processCustomRouteDocumentBusinessRules(document)
-     *
-     * @param document maintenance document
-     * @return value from processCustomRouteDocumentBusinessRules(document)
-     *
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+@SuppressWarnings("deprecation")
+public class ProcurementCardDefaultRule extends org.kuali.kfs.fp.document.validation.impl.ProcurementCardDefaultRule {
 
-        return processCustomRouteDocumentBusinessRules(document);
-    }
+    protected static final String WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER = "warning.document.procurementcardholderdetail.cardholder.last.active";
 
-    /**
-     * Returns true procurement cardholder maintenance document is routed successfully
-     *
-     * @param document submitted procurement cardholder maintenance document
-     * @return true if procurement cardholder maintenance document is routed successfully
-     *
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean continueRouting = super.processCustomRouteDocumentBusinessRules(document);
-        newProcurementCardDefault = (ProcurementCardDefault)document.getNewMaintainableObject().getBusinessObject();
-
-        // check chart/account/organization is valid
-        continueRouting &= checkAccountValidity();
-
+        ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)document.getNewMaintainableObject().getBusinessObject();
+        
         // check membership of reconciler group against cardholder ID
-        continueRouting &= validateReconcilerGroup();
+        continueRouting &= checkGroupMembership(newProcurementCardDefault);
 
         return continueRouting;
     }
-
+    
     /**
-     * Returns true if chart/account/organization is valid
-     *
-     * @return true if chart/account/organization is valid
+     * @return true if cardholder is not only member of reconciler group
      */
-
-    protected boolean checkAccountValidity() {
-        boolean result = false;
-
-        // check that an org has been entered
-        if (StringUtils.isNotBlank(newProcurementCardDefault.getOrganizationCode())) {
-
-            if ( StringUtils.isNotBlank(newProcurementCardDefault.getChartOfAccountsCode()) ) {
-                Account defaultAccount = getAccountService().getByPrimaryId(newProcurementCardDefault.getChartOfAccountsCode(), newProcurementCardDefault.getAccountNumber());
-                // if the object doesn't exist, then we can't continue, so exit
-                if (ObjectUtils.isNull(defaultAccount)) {
-                    putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] {newProcurementCardDefault.getAccountNumber(), newProcurementCardDefault.getOrganizationCode()});
-                    return result;
-                }
-                if (newProcurementCardDefault.getOrganizationCode().equals(defaultAccount.getOrganizationCode())) {
-                    result = true;
-                }
-                if (!result) {
-                    putFieldError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ORG, new String[] {newProcurementCardDefault.getAccountNumber(), newProcurementCardDefault.getOrganizationCode()});
-                }
+	protected boolean checkGroupMembership(ProcurementCardDefault newProcurementCardDefault) {
+        boolean result = true;
+      
+        // check that a reconciler group id and cardholder id have been entered
+        if (StringUtils.isNotBlank(newProcurementCardDefault.getReconcilerGroupId()) && StringUtils.isNotBlank(newProcurementCardDefault.getCardHolderSystemId())) {           
+           
+            List<String> groupMembers = new ArrayList<String>();
+            groupMembers = getGroupService().getMemberPrincipalIds(newProcurementCardDefault.getReconcilerGroupId());
+            for (String groupMember : groupMembers) {
+                if (groupMembers.size() < 2 && groupMember.equals(newProcurementCardDefault.getCardHolderSystemId())) {
+                    //card holder is only remaining member of reconciler group 
+                    result = false;
+                }                
+            }
+            if (!result) { 
+                putGlobalError(WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER);                                        
             }
         }
-
-        return result;
+        
+        return result;      
     }
-
-    /**
-     * Checks if the card holder is the only remaining member of reconciler group
-     *
-     * @return true if the reconciler group has more members than the card holder
-     */
-
-    protected boolean validateReconcilerGroup() {
-
-        // check that a reconciler group id and cardholder id are not empty
-        if (StringUtils.isNotBlank(newProcurementCardDefault.getReconcilerGroupId()) && StringUtils.isNotBlank(newProcurementCardDefault.getCardHolderSystemId())) {
-            List<String> groupMembers = getGroupService().getMemberPrincipalIds(newProcurementCardDefault.getReconcilerGroupId());
-            //if there is only one member in the reconcilers group
-            if (groupMembers.size() == 1 ){
-                String groupMember  = groupMembers.get(0);
-                if ( groupMember.equals(newProcurementCardDefault.getCardHolderSystemId())) {
-                    //card holder is the only remaining member of reconciler group
-                    putFieldError("reconcilerGroupId", KFSKeyConstants.WARNING_CARDHOLDER_LAST_ACTIVE_MEMBER, (String[])null);
-                    return false;
-                }
+	
+	@Override
+    protected boolean validateCardHolderDefault(org.kuali.kfs.fp.businessobject.ProcurementCardDefault procurementCardDefault) {
+        ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)procurementCardDefault;
+        boolean valid = true;
+        if (isCardHolderDefaultTurnedOn()) {
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderLine1Address())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_LINE1_ADDRESS, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderCityName())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderStateCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_STATE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderZipCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_ZIP_CODE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardHolderWorkPhoneNumber())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardLimit())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardCycleAmountLimit())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (ObjectUtils.isNull(newProcurementCardDefault.getCardCycleVolLimit())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.CARD_CYCLE_VOL_LIMIT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardStatusCode())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_STATUS_CODE, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
+            }
+            if (StringUtils.isBlank(newProcurementCardDefault.getCardNoteText())) {
+                putFieldErrorWithLabel(KFSPropertyConstants.PROCUREMENT_CARD_NOTE_TEXT, KFSKeyConstants.ERROR_REQUIRED);
+                valid = false;
             }
         }
-
-        return true;
+        return valid;
     }
-
-
-    public AccountService getAccountService() {
-        return SpringContext.getBean(AccountService.class);
-    }
-
 
 }
-

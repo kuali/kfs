@@ -29,7 +29,7 @@ public class ProcurementCardDocument extends org.kuali.kfs.fp.document.Procureme
     /**
      * Default serial version UID, courtesy of Eclipse
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3228920537446507176L;
     
     private static final String HAS_RECONCILER_NODE = "HasReconciler";
     private static final String FINAL_ACCOUNTING_PERIOD = "13";

@@ -5,7 +5,7 @@ public class ProcurementCardHolder extends org.kuali.kfs.fp.businessobject.Procu
 	/**
 	 * Generated courtesy of Eclipse
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5967629176104254266L;
 
 	private ProcurementCardDefault procurementCardDefault;
 

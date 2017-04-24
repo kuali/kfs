@@ -8,7 +8,7 @@ import org.kuali.rice.kim.api.identity.Person;
 
 public class ProcurementCardAccountingLineAuthorizer extends org.kuali.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer {
     
-    /**
+    /*
      * The delivered code is incorrect. A Fiscal Officer should be able to change any of their own accounts, but not other Fiscal Officers accounts.
      * This is a copy of org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionByFieldName(AccountingDocument,AccountingLine,String,Person)
      */

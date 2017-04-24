@@ -436,14 +436,14 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
             // Don't process actual withholding entry
             String taxAccount = getTaxAccount();
             if (!offsetEntry.getAccountNumber().equals(taxAccount)) {
-                DisbursementVoucherNonResidentAlienTax dvnrat = ((DisbursementVoucherDocument) this).getDvNonResidentAlienTax();
+                DisbursementVoucherNonResidentAlienTax dvnrat = getDvNonResidentAlienTax();
                 BigDecimal amount = offsetEntry.getTransactionLedgerEntryAmount().bigDecimalValue();
                 BigDecimal taxPercentWhole = dvnrat.getFederalIncomeTaxPercent().add(dvnrat.getStateIncomeTaxPercent()).bigDecimalValue();
                 BigDecimal taxPercent = taxPercentWhole.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
                 KualiDecimal withholdingAmount = new KualiDecimal(amount.multiply(taxPercent).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
                 KualiDecimal remitAmount = new KualiDecimal(amount).subtract(withholdingAmount);
 
-                if ((withholdingAmount != null) && KualiDecimal.ZERO.compareTo(withholdingAmount) != 0) {
+                if (KualiDecimal.ZERO.compareTo(withholdingAmount) != 0) {
                     explicitEntry.setTransactionLedgerEntryAmount(remitAmount);
                     offsetEntry.setTransactionLedgerEntryAmount(remitAmount);
 

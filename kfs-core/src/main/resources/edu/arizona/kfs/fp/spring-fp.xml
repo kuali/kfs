@@ -213,4 +213,6 @@
       </property>
     </bean>
 
+    <bean id="disbursementVoucherExtractionHelperService" parent="disbursementVoucherExtractionHelperService-parentBean" class="edu.arizona.kfs.fp.document.service.impl.DisbursementVoucherExtractionHelperServiceImpl" />
+
 </beans>

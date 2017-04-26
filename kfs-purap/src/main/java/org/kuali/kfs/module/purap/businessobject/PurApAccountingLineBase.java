@@ -75,8 +75,17 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
     @Override
     public BigDecimal getAccountLinePercent() {
+    	/* UAF-4250
+    	 * 1. KFS3, this method return accountLinePercent without set scale, not sure why kfs6 changed ?
+    	 * 2. accountLinePercent is private, so can't override this method in PREQAccount
+    	 * 3. This is a base calss, if extend this class to override this method will require to change all child classes extend this class
+    	 */
         if (accountLinePercent != null) {
-            accountLinePercent = accountLinePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+        	if (this instanceof PaymentRequestAccount) {
+                accountLinePercent = accountLinePercent.setScale(4, BigDecimal.ROUND_HALF_UP);
+        	} else {
+                accountLinePercent = accountLinePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+        	}
             return accountLinePercent;
         }
         else {

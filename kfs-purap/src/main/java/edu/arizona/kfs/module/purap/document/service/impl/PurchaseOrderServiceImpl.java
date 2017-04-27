@@ -61,7 +61,8 @@ public class PurchaseOrderServiceImpl extends org.kuali.kfs.module.purap.documen
             // request
             Person currentUser = GlobalVariables.getUserSession().getPerson();
             if (currentUser.getPrincipalId().equals(printingRequest.getPrincipalId())) {
-                purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, currentUser, null);
+                Person systemUserPerson = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, KFSConstants.SYSTEM_USER);
             } else {
                 // there is a print request to another user, so we need to clear that user's action requests regardless of whether this user has action requests
                 purapWorkflowIntegrationService.clearFYIRequestAsSuperUser(printingRequest, "Action taken automatically as part of document initial print transmission by user " + currentUser.getName());

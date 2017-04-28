@@ -46,5 +46,11 @@
 	        <li><portal:portalLink displayTitle="true" title="Vendor Credit Memo" url="${ConfigProperties.application.url}/purapVendorCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=CM" /></li>
 	    </ul>
     </c:if>
+
+    <strong>Check Reconciliation</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Check Reconciliation" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=edu.arizona.kfs.module.cr.businessobject.CheckReconciliation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />

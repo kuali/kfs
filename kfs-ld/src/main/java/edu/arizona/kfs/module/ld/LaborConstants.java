@@ -25,4 +25,7 @@ public class LaborConstants extends org.kuali.kfs.module.ld.LaborConstants {
 	
 	public static final String[] BALANCE_TYPES = {"AC", "CB", "IE"};
 
+	//SalaryExpenseTransferDocument
+	public static final String BALANCE_TYPE_ACTUAL = "AC";
+	public static final String BALANCE_TYPE_A2 = "A2";
 }

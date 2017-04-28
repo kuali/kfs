@@ -33,6 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import edu.arizona.kfs.fp.businessobject.PaymentMethod;
 import edu.arizona.kfs.fp.service.PaymentMethodGeneralLedgerPendingEntryService;
 import edu.arizona.kfs.module.purap.businessobject.PaymentRequestIncomeType;
+import edu.arizona.kfs.module.purap.businessobject.PaymentRequestItem;
 import edu.arizona.kfs.module.purap.document.service.PurapIncomeTypeHandler;
 import edu.arizona.kfs.module.purap.service.PurapUseTaxEntryArchiveService;
 import edu.arizona.kfs.sys.KFSConstants;
@@ -340,6 +341,12 @@ public class PaymentRequestDocument extends org.kuali.kfs.module.purap.document.
 
     public boolean getPayment1099IndicatorForSearching() {
         return payment1099Indicator;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class getItemClass() {
+        return PaymentRequestItem.class;
     }
 
 }

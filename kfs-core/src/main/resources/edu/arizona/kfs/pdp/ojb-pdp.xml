@@ -203,5 +203,29 @@
 	<field-descriptor name="recipientSignature" column="RECIPIENT_SIGNATURE" jdbc-type="VARCHAR"/>
   </class-descriptor>
   <!-- END Creating history tables for use by BI processes -->
-  
+
+	<class-descriptor class="edu.arizona.kfs.pdp.businessobject.PayeeACHAccount" table="PDP_PAYEE_ACH_ACCT_T">
+		<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion" />
+		<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeIdNumber" column="PAYEE_ID_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="autoInactivationIndicator" column="AUTO_INACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="bankRoutingNumber" />
+		</reference-descriptor>
+
+		<reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.ACHTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="achTransactionType" />
+		</reference-descriptor>
+	</class-descriptor>
+
 </descriptor-repository>

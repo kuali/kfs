@@ -169,4 +169,16 @@
     </bean>
 
     <bean id="incomeTypeHandlerDao" parent="platformAwareDao" class="edu.arizona.kfs.sys.dataaccess.impl.IncomeTypeHandlerDaoOjb" />
+    
+    <bean id="electronicFundTransferClaimAction" parent="electronicFundTransferClaimAction-parentBean" 
+        class="edu.arizona.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper" />
+
+	<bean id="electronicPaymentClaimLookupableHelperService"
+		class="edu.arizona.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+		<property name="lookupDao">
+			<ref bean="lookupDao" />
+		</property>
+	</bean>
+    
 </beans>

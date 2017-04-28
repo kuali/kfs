@@ -1,26 +1,345 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:p="http://www.springframework.org/schema/p" 
-xmlns:dd="http://rice.kuali.org/dd" 
-xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
-  
-  <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean"/>
+  <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="documentTypeName" value="PCDO"/>
+    <property name="documentClass" value="edu.arizona.kfs.fp.document.ProcurementCardDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.ProcurementCardDocumentPresentationController"/>
+    
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsErrorCorrection" value="false"/>
+
+    <property name="validationMap" ref="ProcurementCardDocument-validations"/>
+    <property name="accountingLineGroups">
+    	<map>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="ProcurementCardDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>  
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="ProcurementCardDocument-workflowAttributes"/>
+    </property>   
   </bean>
   
+  <!-- Validations -->
+  <bean id="ProcurementCardDocument-validations" parent="ProcurementCardDocument-validations-parentBean"/>
+  <bean id="ProcurementCardDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+		    <entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>ProcurementCard-saveDocumentValidation</value>
+			</entry>	
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>ProcurementCard-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>ProcurementCard-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>ProcurementCard-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>ProcurementCard-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>ProcurementCard-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>ProcurementCard-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+
+  <!-- accounting line groups -->	
+  <bean id="ProcurementCardDocument-targetAccountingLineGroup" parent="ProcurementCardDocument-targetAccountingLineGroup-parentBean"/>	
+  <bean id="ProcurementCardDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="ProcurementCard-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine"/>
+	  <property name="groupLabel" value="Accounting Lines"/>
+	  <property name="accountingLineAuthorizerClass" value="edu.arizona.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
+  </bean>
+  
+  <bean id="ProcurementCard-accountingLineView" parent="ProcurementCard-accountingLineView-parent"/> 
+  <bean id="ProcurementCard-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-countedSequenceNumber"/>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation"/>
+							<bean parent="AccountingLineView-line">
+                                <property name="elementName" value="lineDescription"/>
+                                <property name="fields">
+                                    <list>
+                                        <bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+                                    </list>
+                                </property>
+                            </bean>
+							<ref bean="salesTaxInformation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+				<bean parent="AccountingLineView-actions"/>
+			</list>
+		</property>
+  </bean>
+  
+  <bean id="ProcurementCard-targetGroupTotals" class="org.springframework.beans.factory.config.ListFactoryBean">
+    	<property name="sourceList">
+    		<list>
+    			<bean class="org.kuali.kfs.fp.document.web.ProcurementCardGroupTotalDefinition" p:totalProperty="targetTotal" p:representedProperty="amount"/>
+    		</list>
+    	</property>
+  </bean>
+    
   <!-- workflow attributes for routing -->
-  <bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean">    
-   	<property name="routingTypeDefinitions">
-   		<map>
-    		<entry key="AccountFullEdit" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>   		
-   			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
-   			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly"/>
-   			<entry key="ObjectSubTypeCode" value-ref="RoutingType-AccountingDocument-ObjectSubTypeCode-targetOnly"/>
-   			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
-            <entry key="AutoApprove" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
-   		</map>
+  <bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean"/>    
+  <bean id="ProcurementCardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"> 
+  		<!-- KITT-916 --> 
+  		<property name="searchingTypeDefinitions" >
+            <list>            		
+            	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"/>
+    						<property name="attributeName" value="financialDocumentStatusCode"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+                        	<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+   					</property>
+  			  		<property name="documentValues">
+    					<list>
+    						<value>documentHeader.financialDocumentStatusCode</value>
+    					</list>
+    				</property>
+    			</bean>
+            	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail" />
+    						<property name="attributeName" value="transactionReferenceNumber" />
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>transactionEntries.transactionReferenceNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+            	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardDefault" />
+    						<property name="attributeName" value="creditCardLastFour" />
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>procurementCardHolder.procurementCardDefault.creditCardLastFour</value>
+    					</list>
+    				</property>
+    			</bean>    			
+            	<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail" />
+    						<property name="attributeName" value="transactionDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>transactionEntries.transactionDate</value>
+    					</list>
+    				</property>
+    			</bean>    			
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardHolder" />
+    						<property name="attributeName" value="cardHolderName" />
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>procurementCardHolder.cardHolderName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="edu.arizona.kfs.fp.businessobject.ProcurementCardHolder" />
+    						<property name="attributeName" value="cardHolderAlternateName" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>procurementCardHolder.cardHolderAlternateName</value>
+    					</list>
+    				</property>
+    			</bean>    			
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" />
+    						<property name="attributeName" value="vendorName" />
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>transactionEntries.procurementCardVendor.vendorName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.rice.kim.impl.group.GroupBo" />
+    						<property name="attributeName" value="name" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>procurementCardHolder.procurementCardDefault.reconcilerGroup.name</value>
+    					</list>
+    				</property>
+    			</bean>
+          </list>
+        </property> 
+        <!-- KITT-916 end  -->
+        <!-- start KITT-867 for object sub-type code-->
+    	<property name="routingTypeDefinitions">
+    		<map>
+     			<entry key="AccountFullEdit" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>   		
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly"/>
+    			<entry key="ObjectSubTypeCode" value-ref="RoutingType-ProcurementCardDocument-ObjectSubTypeCode"/>
+    			<entry key="ProcurementCardholder" value-ref="RoutingType-ProcurementCardDocument-ProcurementCardholder"/>
+    			<entry key="ProcurementCardReconciler" value-ref="RoutingType-ProcurementCardDocument-ProcurementCardReconciler"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
+    		</map>
+    	</property>
+    	<!-- end KITT-867 -->
+  </bean>
+  
+  <bean id="ProcurementCardDocument-RoutingAttribute-cardHolderSystemId" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="cardHolderSystemId"/>
+  </bean>
+  
+  <bean id="ProcurementCardDocument-RoutingAttribute-cardGroupId" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="cardGroupId"/>
+  </bean>
+
+  <!-- KITT-867 -->
+  <bean id="ProcurementCardDocument-RoutingAttribute-objectSubTypeCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="financialObjectSubTypeCode"/>
+  </bean>
+  <!-- end KITT-867 -->
+	
+  <bean id="ProcurementCardDocument-DocumentValuePathGroup-cardHolderSystemId" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+  	<property name="documentValues">
+		<list>
+	   		<value>procurementCardHolder.procurementCardDefault.cardHolderSystemId</value>   			
+		</list>
+  	</property>
+  </bean>
+  
+   <!-- KITT-909 -->
+   <bean id="ProcurementCardDocument-DocumentValuePathGroup-GroupCardholder" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+  	<property name="documentValues">
+		<list>
+	   		<value>procurementCardHolder.procurementCardDefault.reconcilerGroupId</value>
+	   		<value>procurementCardHolder.procurementCardDefault.cardHolderSystemId</value>    			
+		</list>
+  	</property>
+  </bean>
+  <!-- KITT-909 end -->
+
+  <!-- KITT-867 -->
+  <bean id="ProcurementCardDocument-DocumentCollectionPath-objectSubTypeCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+	<property name="documentValues">
+ 		<list>
+	   		<value>objectCode.financialObjectSubTypeCode</value>
+	   	</list>
    	</property>
   </bean>
+
+  <bean id="ProcurementCardDocument-DocumentValuePathGroup-objectSubTypeCode" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+  	<property name="documentCollectionPath">
+   		<bean parent="ProcurementCardDocument-DocumentCollectionPath-objectSubTypeCode">
+   			<property name="collectionPath" value="transactionEntries.targetAccountingLines" />
+   		</bean>
+   	</property>
+  </bean>
+  <!-- KITT-867 end -->
+   	
+  <bean id="RoutingType-ProcurementCardDocument-ProcurementCardholder" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+  	<property name="routingAttributes">
+    	<list>
+	    	<ref bean="ProcurementCardDocument-RoutingAttribute-cardHolderSystemId"/>		       
+        </list>
+    </property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ProcurementCardDocument-DocumentValuePathGroup-cardHolderSystemId"/>
+    		</list>
+    	</property>
+  </bean>  
+  
+  <bean id="RoutingType-ProcurementCardDocument-ProcurementCardReconciler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+  	<property name="routingAttributes">
+    	<list>
+	    	<ref bean="ProcurementCardDocument-RoutingAttribute-cardGroupId"/>	
+	    	<!-- KITT-909 -->
+	    	<ref bean="ProcurementCardDocument-RoutingAttribute-cardHolderSystemId"/> 
+	    	<!-- KITT-909 end -->    
+        </list>
+    </property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<!-- KITT-909 -->
+    			<ref bean="ProcurementCardDocument-DocumentValuePathGroup-GroupCardholder"/>
+    			<!-- KITT-909 end -->
+    		</list>
+    	</property>
+  </bean>
+  
+  <!-- KITT-867 -->
+  <bean id="RoutingType-ProcurementCardDocument-ObjectSubTypeCode" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+  	<property name="routingAttributes">
+    	<list>
+	    	<ref bean="ProcurementCardDocument-RoutingAttribute-objectSubTypeCode"/>		       
+        </list>
+    </property>
+    <property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ProcurementCardDocument-DocumentValuePathGroup-objectSubTypeCode"/>
+    		</list>
+    </property>  
+  </bean>  
+  <!-- end KITT-867 -->  
   
 </beans>

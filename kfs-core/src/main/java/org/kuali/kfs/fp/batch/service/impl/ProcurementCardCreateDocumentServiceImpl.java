@@ -1627,5 +1627,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
-
+    public boolean rerouteProcurementCardDocuments(){
+    	throw new UnsupportedOperationException();    	
+    }
 }

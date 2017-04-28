@@ -1,5 +1,6 @@
 package edu.arizona.kfs.fp.document;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,17 +8,25 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.KimConstants;
@@ -382,4 +391,116 @@ public class DisbursementVoucherDocument extends org.kuali.kfs.fp.document.Disbu
 		}
 		return retval;
 	}
+
+    @Override
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) - start");
+
+        // handle the explicit entry
+        // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        processExplicitGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        boolean success = processOffsetGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
+
+        processTaxWithholdingGeneralLedgerPendingEntries(sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
+
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail, GeneralLedgerPendingEntrySequenceHelper) - end");
+        return success;
+    }
+
+    @Override
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean value = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+        String taxAccount = getTaxAccount();
+        if (offsetEntry.getAccountNumber().equals(taxAccount)) {
+            // Get the object code for the tax offsets from the parameter
+            String glpeOffsetObjectCode = getGlpeOffsetObjectCode();
+            SystemOptions options = getOptionsService().getOptions(explicitEntry.getUniversityFiscalYear());
+            offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+            offsetEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.OBJECT_TYPE);
+        }
+        return value;
+    }
+
+    private void processTaxWithholdingGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        KualiDecimal dvnraTaxAmount = SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(this);
+        if (!KualiDecimal.ZERO.equals(dvnraTaxAmount)) {
+            // Don't process actual withholding entry
+            String taxAccount = getTaxAccount();
+            if (!offsetEntry.getAccountNumber().equals(taxAccount)) {
+                DisbursementVoucherNonResidentAlienTax dvnrat = getDvNonResidentAlienTax();
+                BigDecimal amount = offsetEntry.getTransactionLedgerEntryAmount().bigDecimalValue();
+                BigDecimal taxPercentWhole = dvnrat.getFederalIncomeTaxPercent().add(dvnrat.getStateIncomeTaxPercent()).bigDecimalValue();
+                BigDecimal taxPercent = taxPercentWhole.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+                KualiDecimal withholdingAmount = new KualiDecimal(amount.multiply(taxPercent).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
+                KualiDecimal remitAmount = new KualiDecimal(amount).subtract(withholdingAmount);
+
+                if (KualiDecimal.ZERO.compareTo(withholdingAmount) != 0) {
+                    explicitEntry.setTransactionLedgerEntryAmount(remitAmount);
+                    offsetEntry.setTransactionLedgerEntryAmount(remitAmount);
+
+                    GeneralLedgerPendingEntry txWithholdingExplicit = new GeneralLedgerPendingEntry(explicitEntry);
+                    txWithholdingExplicit.setTransactionLedgerEntryAmount(withholdingAmount);
+                    // Using the Debit/Credit code from the offset entry so it's the opposite of the explicit entry
+                    txWithholdingExplicit.setTransactionDebitCreditCode(offsetEntry.getTransactionDebitCreditCode());
+                    GeneralLedgerPendingEntry txWithholdingOffset = new GeneralLedgerPendingEntry(offsetEntry);
+                    txWithholdingOffset.setTransactionLedgerEntryAmount(withholdingAmount);
+                    // Using the Debit/Credit code from the explicit entry so it's the opposite of the offset entry
+                    txWithholdingOffset.setTransactionDebitCreditCode(explicitEntry.getTransactionDebitCreditCode());
+                    processTaxWithholdingGeneralLedgerPendingEntries(sequenceHelper, glpeSourceDetail, txWithholdingExplicit, txWithholdingOffset, parameterService);
+                }
+            }
+        }
+    }
+
+    private void processTaxWithholdingGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry, ParameterService parameterService) {
+
+        // create the explicit entry
+        sequenceHelper.increment();
+
+        GeneralLedgerPendingEntry taxWithholdingExplicit = new GeneralLedgerPendingEntry(explicitEntry);
+        taxWithholdingExplicit.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+        // Using the Debit/Credit code from the offset entry so it's the opposite of the explicit entry
+        taxWithholdingExplicit.setTransactionDebitCreditCode(offsetEntry.getTransactionDebitCreditCode());
+        addPendingEntry(taxWithholdingExplicit);
+
+        // create the offset entry
+        // Get the object code for the use tax offsets from the parameter
+        String glpeOffsetObjectCode = getGlpeOffsetObjectCode();
+        SystemOptions options = getOptionsService().getOptions(explicitEntry.getUniversityFiscalYear());
+
+        sequenceHelper.increment();
+
+        GeneralLedgerPendingEntry taxWithholdingOffset = new GeneralLedgerPendingEntry(offsetEntry);
+        taxWithholdingOffset.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+        taxWithholdingOffset.setFinancialObjectCode(glpeOffsetObjectCode);
+        taxWithholdingOffset.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
+        // Using the Debit/Credit code from the explicit entry so it's the opposite of the offset entry
+        taxWithholdingOffset.setTransactionDebitCreditCode(explicitEntry.getTransactionDebitCreditCode());
+
+        addPendingEntry(taxWithholdingOffset);
+
+    }
+
+    private String getTaxAccount() {
+        String taxAccount = getParameterService().getParameterValueAsString(KFSConstants.CoreModuleNamespaces.FINANCIAL, DISBURSEMENT_VOUCHER_TYPE, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
+        return taxAccount;
+    }
+
+    private String getGlpeOffsetObjectCode() {
+        String glpeOffsetObjectCode = getParameterService().getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE, KfsParameterConstants.DOCUMENT_COMPONENT, AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE);
+        return glpeOffsetObjectCode;
+    }
+
+    private OptionsService getOptionsService() {
+        return SpringContext.getBean(OptionsService.class);
+    }
 }

@@ -101,11 +101,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFare" />
 			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFees" />
 			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalTaxes" />
+			<ref bean="ProcurementCardTransactionDetail-editableSalesTaxAmount" />
+			<ref bean="ProcurementCardTransactionDetail-transactionNoReceiptIndicator"/>
 		</list>
 	</property>
 </bean>
 
 <!-- Attribute Definitions -->
+    <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount-parentBean">
+        <property name="validationPattern">
+            <bean parent="FloatingPointValidationPattern" p:allowNegative="true" />
+        </property>
+    </bean>
 
   <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber-parentBean" />  
   <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber-parentBean" parent="ProcurementCardLevel3Add-invoiceNumber" abstract="true">
@@ -576,6 +583,25 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
     <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean">
         <property name="label" value="Sales Tax Amount" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-editableSalesTaxAmount" parent="ProcurementCardTransactionDetail-editableSalesTaxAmount-parentBean"/>
+    <bean id="ProcurementCardTransactionDetail-editableSalesTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="transactionEditableSalesTaxAmount"/>
+        <property name="label" value="Enter Sales Tax"/>
+        <property name="shortLabel" value="Sales Tax"/>
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionNoReceiptIndicator" parent="ProcurementCardTransactionDetail-transactionNoReceiptIndicator-parentBean"/>
+    <bean id="ProcurementCardTransactionDetail-transactionNoReceiptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="transactionNoReceiptIndicator"/>
+        <property name="label" value="No Receipt"/>
+        <property name="shortLabel" value="No Receipt"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
     </bean>
 
 <!-- Business Object Inquiry Definition -->

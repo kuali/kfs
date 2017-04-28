@@ -24,6 +24,9 @@ public class ProcurementCardTransactionDetail extends org.kuali.kfs.fp.businesso
 	private List<ProcurementCardLevel3TempSvc>	procurementCardLevel3TempSvcs;
 	private List<ProcurementCardLevel3TransportLeg>	procurementCardLevel3TransportLegs;
 	
+	private KualiDecimal transactionEditableSalesTaxAmount;
+	private boolean transactionNoReceiptIndicator;
+
 	public ProcurementCardTransactionDetail() {
 		super();
 		procurementCardLevel3AddItems = new ArrayList<ProcurementCardLevel3AddItem>();
@@ -127,6 +130,22 @@ public class ProcurementCardTransactionDetail extends org.kuali.kfs.fp.businesso
 
 	public void setProcurementCardLevel3TransportLegs(List<ProcurementCardLevel3TransportLeg> procurementCardLevel3TransportLegs) {
 		this.procurementCardLevel3TransportLegs = procurementCardLevel3TransportLegs;
+	}
+
+	public KualiDecimal getTransactionEditableSalesTaxAmount() {
+		return transactionEditableSalesTaxAmount;
+	}
+
+	public void setTransactionEditableSalesTaxAmount(KualiDecimal transactionEditableSalesTaxAmount) {
+		this.transactionEditableSalesTaxAmount = transactionEditableSalesTaxAmount;
+	}
+
+	public boolean getTransactionNoReceiptIndicator() {
+		return transactionNoReceiptIndicator;
+	}
+
+	public void setTransactionNoReceiptIndicator(boolean transactionNoReceiptIndicator) {
+		this.transactionNoReceiptIndicator = transactionNoReceiptIndicator;
 	}
 
 	protected LinkedHashMap<String, String> toStringMapper() {

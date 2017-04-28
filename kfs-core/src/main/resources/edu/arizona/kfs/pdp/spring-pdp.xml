@@ -30,6 +30,7 @@
 				<value>processShippingInvoiceJob</value>				
 				<value>pdpLoadBankDataJob</value>
 				<value>pdpLoadPayeeACHDataJob</value>
+				<value>pdpLoadPrepaidChecksJob</value>
 			</list>
 		</property>
     </bean>
@@ -317,4 +318,76 @@
 		<property name="originationCodeDao" ref="originationCodeDao" />
 	</bean>
 
+	<bean id="pdpExtractPaymentService" class="edu.arizona.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
+		<property name="reportDirectoryName" value="${reports.directory}/pdp" />
+		<property name="fileName" value="pdp_sa_check_"/>
+		<property name="reportFileName" value="pdp_sa_check_report"/>
+		<property name="financialSystemOriginCode" value="SA"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
+		<property name="processDao" ref="pdpProcessDao"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="countryService" ref="countryService"/>	
+	</bean>	
+	
+	<bean id="pdpLoadPrepaidChecksJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadPrepaidChecksStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="loadPrepaidChecksStep" class="edu.arizona.kfs.pdp.batch.LoadPrepaidChecksStep" parent="step">
+		<property name="prepaidChecksService" ref="prepaidChecksService" />
+		<property name="prepaidChecksInputFileType" ref="prepaidChecksInputFileType" />		
+	</bean>
+	
+	<bean id="prepaidChecksInputFileType" class="edu.arizona.kfs.pdp.batch.PrepaidChecksInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/pdp/prepaidChecks</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>edu/arizona/kfs/pdp/batch/prepaidChecksDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/pdp/prepaidChecks.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>	   
+	</bean>
+	
+	<bean id="prepaidChecksService" class="edu.arizona.kfs.pdp.batch.service.impl.PrepaidChecksServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="batchInputFileService" ref="batchInputFileService"/>
+		<property name="paymentFileValidationService" ref="paymentFileValidationService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="pdpEmailService" ref="pdpEmailService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />		
+		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService" />
+		<property name="outgoingDirectoryName" value="${reports.directory}/pdp/prepaidChecks"/>
+		<property name="payeeFileNamePrefix" value="PAYEEDETAIL" />		
+	</bean>
+	
+	<bean id="pdpEmailService" class="edu.arizona.kfs.pdp.service.impl.PdpEmailServiceImpl">
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="mailService" ref="mailService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="achBankService" ref="pdpAchBankService" />	
+	</bean>
+		
 </beans>

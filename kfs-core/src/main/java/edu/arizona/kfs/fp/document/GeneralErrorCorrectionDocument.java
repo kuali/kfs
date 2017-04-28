@@ -1,6 +1,9 @@
 package edu.arizona.kfs.fp.document;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +15,16 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.TransactionalDocument;
 
 import edu.arizona.kfs.fp.businessobject.ErrorCertification;
 import edu.arizona.kfs.gl.businessobject.GecEntryRelationship;
@@ -214,5 +223,138 @@ public class GeneralErrorCorrectionDocument extends org.kuali.kfs.fp.document.Ge
         }
         return debitService;
     }
+
+    /*
+     * This is overridden in order to process a GEC deletion of a source line, which is different than the rest of the
+     * system. Great care was taken to leave the original parent logic as is, detect the GEC edge case, and process the
+     * case separately.
+     */
+    @Override
+    protected List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
+        List<AccountingLineEvent> addEvents = new ArrayList<AccountingLineEvent>();
+        List<AccountingLineEvent> updateEvents = new ArrayList<AccountingLineEvent>();
+        List<AccountingLineEvent> reviewEvents = new ArrayList<AccountingLineEvent>();
+        List<AccountingLineEvent> deleteEvents = new ArrayList<AccountingLineEvent>();
+
+        // generate events
+        Map persistedLineMap = buildAccountingLineMap(persistedLines);
+        Map<String, AccountingLine> gecLineMap = buildGecAccountingLineMap(persistedLines);
+
+        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
+        // so deletions can be detected by looking at whatever remains in persistedLineMap)
+        int index = 0;
+        for (Iterator i = currentLines.iterator(); i.hasNext(); index++) {
+            String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
+            AccountingLine currentLine = (AccountingLine) i.next();
+
+            //****** START GEC deviation from foundation (see UAF-3819) ******************/
+            // Special GEC case, deleting source lines breaks using sequence numbers as main identifier
+            if (currentLine != null && persistedLineMap != null && !persistedLineMap.isEmpty() && currentLine.isSourceAccountingLine()) {
+                String gecKey = buildGecLineCompositeKey(currentLine); // same key maker as used in building gecLineMap
+                AccountingLine persistedLine = gecLineMap.get(gecKey);
+                if (persistedLine != null) {
+                    // We got an exact match on a source line, which should just end up as a review after submit.
+                    // Note: This short circuit works due to this being a source line, and the fact that source
+                    //        lines are read-only in GEC. Thus, we can implicitly rule out an update event on any
+                    //        fields not considered in this.buildGecLineCompositeKey(...).
+                    ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                    reviewEvents.add(reviewEvent);
+                    persistedLineMap.remove(currentLine.getSequenceNumber());
+                    gecLineMap.remove(gecKey);
+                    continue;
+                }
+            }
+            //****** END GEC deviation from foundation ******************/
+
+            Integer key = currentLine.getSequenceNumber();
+            AccountingLine persistedLine = (AccountingLine) persistedLineMap.get(key);
+            // if line is both current and persisted...
+            if (persistedLine != null) {
+                // ...check for updates
+                if (!currentLine.isLike(persistedLine)) {
+                    UpdateAccountingLineEvent updateEvent = new UpdateAccountingLineEvent(indexedErrorPathPrefix, document, persistedLine, currentLine);
+                    updateEvents.add(updateEvent);
+                } else {
+                    ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                    reviewEvents.add(reviewEvent);
+                }
+
+                persistedLineMap.remove(key);
+            } else {
+                // it must be a new addition
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                addEvents.add(addEvent);
+            }
+        }
+
+        // detect deletions
+        for (Iterator i = persistedLineMap.entrySet().iterator(); i.hasNext(); ) {
+            // the deleted line is not displayed on the page, so associate the error with the whole group
+            String groupErrorPathPrefix = errorPathPrefix + org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_GROUP_SUFFIX;
+            Map.Entry e = (Map.Entry) i.next();
+            AccountingLine persistedLine = (AccountingLine) e.getValue();
+            DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, document, persistedLine, true);
+            deleteEvents.add(deleteEvent);
+        }
+
+
+        //
+        // merge the lists
+        List<AccountingLineEvent> lineEvents = new ArrayList<AccountingLineEvent>();
+        lineEvents.addAll(reviewEvents);
+        lineEvents.addAll(updateEvents);
+        lineEvents.addAll(addEvents);
+        lineEvents.addAll(deleteEvents);
+
+        return lineEvents;
+    }
+
+
+    // Stolen from super, necessary in order to build a composite key, as opposed to just
+    // using the line's sequence number as a key.
+    private Map<String, AccountingLine> buildGecAccountingLineMap(List accountingLines) {
+        Map<String, AccountingLine> lineMap = new HashMap<String, AccountingLine>();
+
+        for (Object o : accountingLines) {
+            AccountingLine accountingLine = (AccountingLine) o;
+            String compositeKey = buildGecLineCompositeKey(accountingLine);
+
+            Object oldLine = lineMap.put(compositeKey, accountingLine);
+
+            // verify that sequence numbers are unique...
+            if (oldLine != null) {
+                throw new IllegalStateException("AccountingLine map collision detected for composite key: " + compositeKey);
+            }
+        }
+
+        return lineMap;
+    }
+
+
+    /*
+     * This will build a unique String based on three line values; this differs
+     * from the 3-field PK that the DD yields -- we want amount to be
+     * considered as well, but then to also exclude the sequence number. We don't
+     * want to key on sequence, since the sequence changes with a line deletion, a
+     * state introduced by the new GEC specification.
+     *
+     * Also, we want to consider amount, which is safe to do in GEC so long as we
+     * are only dealing with source lines. Said another way, source lines are immutable
+     * under GEC, so we can use amount to detect an add/delete in that collection.
+     */
+    private String buildGecLineCompositeKey(AccountingLine accountingLine) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(accountingLine.isSourceAccountingLine() ? "sourceLine" : "targetLine");
+        sb.append("_docNum-");
+        sb.append(accountingLine.getDocumentNumber());
+        sb.append("_accountNum-");
+        sb.append(accountingLine.getAccount().getAccountNumber());
+        sb.append("_amount-");
+        sb.append(accountingLine.getAmount());
+
+        return sb.toString();
+    }
+
 
 }

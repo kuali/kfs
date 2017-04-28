@@ -11,12 +11,22 @@
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="AccountFullEdit" />
-          <role name="AccountFullEdit" nextNode="Account" />
-          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
-          <role name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
-          <role name="ObjectSubTypeCode" nextNode="SubFund"/>
-          <role name="SubFund" nextNode="RequiresAutoApprovalNotification" />
+          <start name="AdHoc" nextNode="HasReconciler" />
+          <split name="HasReconciler" nextNode="AccountFullEdit">
+            <branch name="True">
+              <requests name="ProcurementCardholder" nextNode="ProcurementCardReconciler" />
+              <requests name="ProcurementCardReconciler" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+          <requests name="AccountFullEdit" nextNode="Account" />
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <requests name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
+          <requests name="ObjectSubTypeCode" nextNode="SubFund" />
+          <requests name="SubFund" nextNode="RequiresAutoApprovalNotification" />
           <split name="RequiresAutoApprovalNotification">
             <branch name="True">
               <role name="AutoApprove" nextNode="joinOnAutoApproval" />
@@ -32,6 +42,7 @@
         <start name="AdHoc" />
         <role name="AccountFullEdit">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Account">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
@@ -45,10 +56,21 @@
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
+        <role name="ProcurementCardholder">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ProcurementCardReconciler">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
         <role name="SubFund">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
+        <split name="HasReconciler">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
         <split name="RequiresAutoApprovalNotification">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         </split>
@@ -58,6 +80,10 @@
         </role>
         <join name="joinOnAutoApproval" />
         <simple name="NoOpAutoApproval">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join" />
+        <simple name="NoOp">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
       </routeNodes>

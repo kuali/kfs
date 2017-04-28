@@ -401,6 +401,31 @@
 				</bean>
 
 				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Account Responsibility" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="extension.assetAccountResponsibilities" />
+								<property name="businessObjectClass" value="edu.arizona.kfs.module.cam.businessobject.AssetAccountResponsibility" />
+								<property name="numberOfColumns" value="2" />
+								<property name="summaryTitle" value="Source Asset" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="sequenceId" />
+										<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+										<bean parent="FieldDefinition" p:attributeName="grantNumber" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">

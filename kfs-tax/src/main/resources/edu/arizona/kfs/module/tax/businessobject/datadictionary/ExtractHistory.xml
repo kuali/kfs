@@ -1,0 +1,179 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="ExtractHistory" parent="ExtractHistory-parentBean" />
+    <bean id="ExtractHistory-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.ExtractHistory" />
+        <property name="lookupDefinition" ref="ExtractHistory-lookupDefinition" />
+        <property name="titleAttribute" value="ExtractHistory" />
+        <property name="objectLabel" value="Extract History" />
+        <property name="attributes">
+            <list>
+                <ref bean="ExtractHistory-id" />
+                <ref bean="ExtractHistory-replaceDataInd" />
+                <ref bean="ExtractHistory-paymentsExtracted" />
+                <ref bean="ExtractHistory-paymentsDeleted" />
+                <ref bean="ExtractHistory-payeesExtracted" />
+                <ref bean="ExtractHistory-extractStartDt" />
+                <ref bean="ExtractHistory-extractEndDt" />
+                <ref bean="ExtractHistory-extractDt" />
+                <ref bean="ExtractHistory-taxYear" />
+                <ref bean="ExtractHistory-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="ExtractHistory-id" parent="ExtractHistory-id-parentBean" />
+    <bean id="ExtractHistory-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Check Identifier" />
+        <property name="shortLabel" value="Check ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Extract Identifier" />
+        <property name="description" value="Extract Generated ID" />
+    </bean>
+
+    <bean id="ExtractHistory-replaceDataInd" parent="ExtractHistory-replaceDataInd-parentBean" />
+    <bean id="ExtractHistory-replaceDataInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="replaceDataInd" />
+        <property name="label" value="Replace Data" />
+        <property name="shortLabel" value="Replace Data" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="ExtractHistory-paymentsExtracted" parent="ExtractHistory-paymentsExtracted-parentBean" />
+    <bean id="ExtractHistory-paymentsExtracted-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="paymentsExtracted" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Payments Extracted" />
+        <property name="shortLabel" value="Payments Extracted" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="summary" value="Payments Extracted" />
+        <property name="description" value="1099 Vendor Payments Extracted" />
+    </bean>
+
+    <bean id="ExtractHistory-paymentsDeleted" parent="ExtractHistory-paymentsDeleted-parentBean" />
+    <bean id="ExtractHistory-paymentsDeleted-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="paymentsDeleted" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Payments Deleted" />
+        <property name="shortLabel" value="Payments Deleted" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="summary" value="Payments Deleted" />
+        <property name="description" value="1099 Vendor Payments Deleted" />
+    </bean>
+
+    <bean id="ExtractHistory-payeesExtracted" parent="ExtractHistory-payeesExtracted-parentBean" />
+    <bean id="ExtractHistory-payeesExtracted-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="payeesExtracted" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Payees Extracted" />
+        <property name="shortLabel" value="Payees Extracted" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="summary" value="payees Extracted" />
+        <property name="description" value="1099 Vendor Payees Extracted" />
+    </bean>
+
+    <bean id="ExtractHistory-extractStartDt" parent="ExtractHistory-extractStartDt-parentBean" />
+    <bean id="ExtractHistory-extractStartDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="extractStartDt" />
+        <property name="label" value="Extract Start Date" />
+        <property name="shortLabel" value="Extract Start Date" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="ExtractHistory-extractEndDt" parent="ExtractHistory-extractEndDt-parentBean" />
+    <bean id="ExtractHistory-extractEndDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="extractEndDt" />
+        <property name="label" value="Extract End Date" />
+        <property name="shortLabel" value="Extract End Date" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="ExtractHistory-extractDt" parent="ExtractHistory-extractDt-parentBean" />
+    <bean id="ExtractHistory-extractDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="extractDt" />
+        <property name="label" value="Extract Date" />
+        <property name="shortLabel" value="Extract Date" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="ExtractHistory-taxYear" parent="ExtractHistory-taxYear-parentBean" />
+    <bean id="ExtractHistory-taxYear-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="taxYear" />
+        <property name="label" value="Tax Year" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.tax.businessobject.options.YearValuesFinder" p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+
+    <bean id="ExtractHistory-versionNumber" parent="ExtractHistory-versionNumber-parentBean" />
+    <bean id="ExtractHistory-versionNumber-parentBean" abstract="true"
+        parent="GenericAttributes-versionNumber">
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="ExtractHistory-lookupDefinition" parent="ExtractHistory-lookupDefinition-parentBean" />
+    <bean id="ExtractHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Extract History Lookup" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="taxYear" />
+                <bean parent="FieldDefinition" p:attributeName="replaceDataInd" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="extractDt" />
+                <bean parent="FieldDefinition" p:attributeName="taxYear" />
+                <bean parent="FieldDefinition" p:attributeName="extractStartDt" />
+                <bean parent="FieldDefinition" p:attributeName="extractEndDt" />
+                <bean parent="FieldDefinition" p:attributeName="replaceDataInd" />
+                <bean parent="FieldDefinition" p:attributeName="payeesExtracted" />
+                <bean parent="FieldDefinition" p:attributeName="paymentsExtracted" />
+                <bean parent="FieldDefinition" p:attributeName="paymentsDeleted" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AssetLocationGlobalMaintenanceDocument-workflowAttributes" parent="AssetLocationGlobalMaintenanceDocument-workflowAttributes-parentBean">
+        <property name="routingTypeDefinitions">
+            <map merge="true">
+                <entry key="Account" value-ref="RoutingType-AssetLocationGlobalMaintenanceDocument-Account" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="RoutingType-AssetLocationGlobalMaintenanceDocument-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <list>
+                <ref bean="RoutingAttribute-chartOfAccountsCode" />
+                <ref bean="RoutingAttribute-accountNumber" />
+            </list>
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <ref bean="DocumentValuePathGroup-AssetLocationGlobalMaintenanceDocument-Account-assetLocationGlobalDetails" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocumentValuePathGroup-AssetLocationGlobalMaintenanceDocument-Account-assetLocationGlobalDetails" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+        <property name="documentCollectionPath">
+            <bean parent="DocumentCollectionPath-AssetDetail-chartAndAccountNumber">
+                <property name="collectionPath" value="newMaintainableObject.businessObject.assetLocationGlobalDetails" />
+            </bean>
+        </property>
+    </bean>
+
+</beans>

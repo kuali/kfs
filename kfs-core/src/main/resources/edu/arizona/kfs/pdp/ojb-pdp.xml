@@ -1,0 +1,231 @@
+<descriptor-repository version="1.0">
+	<class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingAccount" table="PDP_SHIPPING_ACCT_T">
+		<field-descriptor name="shippingAccountNumber" column="SHIPPING_ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="shippingAccountType" column="SHIPPING_ACCT_TYP" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="contactPrincipalId" column="PRNCPL_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="projCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		
+		<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode"/>
+			<foreignkey field-ref="accountNumber"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode"/>
+			<foreignkey field-ref="accountNumber"/>
+			<foreignkey field-ref="subAccountNumber"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode"/>
+			<foreignkey field-ref="financialObjectCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode"/>
+			<foreignkey field-ref="accountNumber"/>
+			<foreignkey field-ref="financialObjectCode"/>
+			<foreignkey field-ref="financialSubObjectCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="projectCode" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="projCode"/>
+		</reference-descriptor>	
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingHeader" table="PDP_SHIPPING_HEADER_T">	
+	    <field-descriptor name="creationDate" column="CREATION_DT" jdbc-type="DATE" primarykey="true"/>
+	    <field-descriptor name="transactionRefNumber" column="TRANSACTION_REF_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>    
+	    <field-descriptor name="masterEDINumber" column="MASTER_EDI_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="shippingCompany" column="SHIPPING_CO" jdbc-type="VARCHAR"/>
+		<field-descriptor name="openCustomField" column="OPEN_CUSTOM_FIELD" jdbc-type="VARCHAR"/>
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingInvoice" table="PDP_SHIPPING_INVOICE_LOAD_T">
+	    <field-descriptor name="invoiceNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="masterEDINumber" column="MASTER_EDI_NBR" jdbc-type="VARCHAR"/>    
+	    <field-descriptor name="shippingCompany" column="SHIPPING_CO" jdbc-type="VARCHAR"/>    
+	    <field-descriptor name="creationDate" column="CREATION_DT" jdbc-type="DATE"/>
+	    <field-descriptor name="transactionRefNumber" column="TRANSACTION_REF_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="invoiceDate" column="INVOICE_DT" jdbc-type="DATE"/>
+	    <field-descriptor name="totalInvoiceCharge" column="TOTAL_INVOICE_CHARGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	    <field-descriptor name="billToAccountNumber" column="BILL_TO_ACCT_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="openCustomField" column="OPEN_CUSTOM_FIELD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="invoiceType" column="INVOICE_TYP_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="settlementOption" column="SETTLEMENT_OPTION_CD" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="totalInvoiceTransactions" column="TOTAL_INVOICE_TRANS_NUM" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+	    <field-descriptor name="otherAccountNumber" column="OTHER_ACCT_NBR" jdbc-type="VARCHAR"/> 
+		<collection-descriptor name="invoiceTrackingElements" element-class-ref="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTracking" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="sequenceRowNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="invoiceNumber" />
+		</collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTracking" table="PDP_SHIPPING_INV_TRACKING_T">
+	    <field-descriptor name="invoiceNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	    <field-descriptor name="trackingNumber" column="TRACKING_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	    <field-descriptor name="sequenceRowNumber" column="SEQ_ROW_NBR" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PDP_SHIPPING_INV_TRACKING_SEQ"/>
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	    <field-descriptor name="referenceNumber" column="REFERENCE_NBR" jdbc-type="VARCHAR"/>
+	    <field-descriptor name="netCharge" column="NET_CHARGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>	    
+		<field-descriptor name="currencyCode" column="CURRENCY_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="volumeDiscountAmount" column="VOLUME_DISC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="fuelSurchargeAmount" column="FUEL_SURCHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="declaredValueAmount" column="DECLARED_VALUE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="miscChargeAmount" column="MISC_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="declaredValue" column="DECLARED_VALUE" jdbc-type="VARCHAR" />
+		<field-descriptor name="numberOfPieces" column="NBR_OF_PIECES" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+		<field-descriptor name="shipperName" column="SHIPPER_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperCompany" column="SHIPPER_COMPANY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperDept" column="SHIPPER_DEPT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperAddressLine1" column="SHIPPER_ADDR_LINE_1" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperAddressLine2" column="SHIPPER_ADDR_LINE_2" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperCity" column="SHIPPER_CITY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperState" column="SHIPPER_STATE_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperPostalCode" column="SHIPPER_POSTAL_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="usRegionOriginZip" column="US_REGION_ORIGIN_ZIP" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipperCountryCode" column="SHIPPER_CNTRY_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="regionCode" column="REGION_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientName" column="RECIPIENT_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientCompany" column="RECIPIENT_COMPANY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientAddressLine1" column="RECIPIENT_ADDR_LINE_1" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientAddressLine2" column="RECIPIENT_ADDR_LINE_2" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientCity" column="RECIPIENT_CITY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientState" column="RECIPIENT_STATE_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientPostalCode" column="RECIPIENT_POSTAL_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientCountryCode" column="RECIPIENT_CNTRY_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="deliveryDate" column="DELIVERY_DATE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="deliveryTime" column="DELIVERY_TIME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="recipientSignature" column="RECIPIENT_SIGNATURE" jdbc-type="VARCHAR"/>		
+		<field-descriptor name="rebillIndicator" column="REBILL_IND" jdbc-type="VARCHAR"/>
+		<field-descriptor name="shipDate" column="SHIP_DT" jdbc-type="DATE"/>
+    </class-descriptor>    
+
+  <!-- Creating history tables for use by BI processes -->
+  <class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingHeaderHistory" table="PDP_SHIPPING_HEADER_HIST_T">
+    <field-descriptor name="loadDate" column="LOAD_DT" jdbc-type="TIMESTAMP" primarykey="true"/>
+    <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="creationDate" column="CREATION_DT" jdbc-type="DATE" primarykey="true"/>
+    <field-descriptor name="transactionRefNumber" column="TRANSACTION_REF_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="openCustomField" column="OPEN_CUSTOM_FIELD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="shippingCompany" column="SHIPPING_CO" jdbc-type="VARCHAR"/>
+    <collection-descriptor name="invoices" element-class-ref="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="invoiceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="loadDate" />
+        <inverse-foreignkey field-ref="fileName" />
+    </collection-descriptor>    
+  </class-descriptor>
+
+  <class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceHistory" table="PDP_SHIPPING_INVOICE_HIST_T">
+    <field-descriptor name="loadDate" column="LOAD_DT" jdbc-type="TIMESTAMP" primarykey="true"/>
+    <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="invoiceNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="openCustomField" column="OPEN_CUSTOM_FIELD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="shippingCompany" column="SHIPPING_CO" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="creationDate" column="CREATION_DT" jdbc-type="DATE"/>
+    <field-descriptor name="transactionRefNumber" column="TRANSACTION_REF_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceDate" column="INVOICE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="totalInvoiceCharge" column="TOTAL_INVOICE_CHARGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="billToAccountNumber" column="BILL_TO_ACCT_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceType" column="INVOICE_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="settlementOption" column="SETTLEMENT_OPTION_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="totalInvoiceTransactions" column="TOTAL_INVOICE_TRANS_NUM" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+    <field-descriptor name="otherAccountNumber" column="OTHER_ACCT_NBR" jdbc-type="VARCHAR"/>
+    
+    <collection-descriptor name="invoiceTrackingElements" element-class-ref="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTrackingHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="sequenceRowNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="loadDate" />
+        <inverse-foreignkey field-ref="fileName" />
+        <inverse-foreignkey field-ref="invoiceNumber" />
+    </collection-descriptor>    
+  </class-descriptor>
+
+  <class-descriptor class="edu.arizona.kfs.pdp.businessobject.ShippingInvoiceTrackingHistory" table="PDP_SHIPPING_INV_TRACK_HIST_T">
+    <field-descriptor name="loadDate" column="LOAD_DT" jdbc-type="TIMESTAMP" primarykey="true"/>
+    <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="invoiceNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="trackingNumber" column="TRACKING_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="sequenceRowNumber" column="SEQ_ROW_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="referenceNumber" column="REFERENCE_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="netCharge" column="NET_CHARGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="currencyCode" column="CURRENCY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="volumeDiscountAmount" column="VOLUME_DISC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="fuelSurchargeAmount" column="FUEL_SURCHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="declaredValueAmount" column="DECLARED_VALUE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="miscChargeAmount" column="MISC_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="declaredValue" column="DECLARED_VALUE" jdbc-type="VARCHAR" />
+	<field-descriptor name="numberOfPieces" column="NBR_OF_PIECES" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="shipperName" column="SHIPPER_NAME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperCompany" column="SHIPPER_COMPANY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperDept" column="SHIPPER_DEPT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperAddressLine1" column="SHIPPER_ADDR_LINE_1" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperAddressLine2" column="SHIPPER_ADDR_LINE_2" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperCity" column="SHIPPER_CITY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperState" column="SHIPPER_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperPostalCode" column="SHIPPER_POSTAL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="usRegionOriginZip" column="US_REGION_ORIGIN_ZIP" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipperCountryCode" column="SHIPPER_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="regionCode" column="REGION_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientName" column="RECIPIENT_NAME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientCompany" column="RECIPIENT_COMPANY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientAddressLine1" column="RECIPIENT_ADDR_LINE_1" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientAddressLine2" column="RECIPIENT_ADDR_LINE_2" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientCity" column="RECIPIENT_CITY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientState" column="RECIPIENT_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientPostalCode" column="RECIPIENT_POSTAL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientCountryCode" column="RECIPIENT_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliveryDate" column="DELIVERY_DATE" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliveryTime" column="DELIVERY_TIME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="recipientSignature" column="RECIPIENT_SIGNATURE" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+  <!-- END Creating history tables for use by BI processes -->
+
+	<class-descriptor class="edu.arizona.kfs.pdp.businessobject.PayeeACHAccount" table="PDP_PAYEE_ACH_ACCT_T">
+		<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion" />
+		<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeIdNumber" column="PAYEE_ID_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="autoInactivationIndicator" column="AUTO_INACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="bankRoutingNumber" />
+		</reference-descriptor>
+
+		<reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.ACHTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="achTransactionType" />
+		</reference-descriptor>
+	</class-descriptor>
+
+</descriptor-repository>

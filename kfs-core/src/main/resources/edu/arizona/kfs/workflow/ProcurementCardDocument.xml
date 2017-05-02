@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PCDO</name>
+      <parent>FP</parent>
+      <label>Procurement Card</label>
+      <docHandler>${kfs.url}/financialProcurementCard.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fprocurementcard.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasReconciler" />
+          <split name="HasReconciler" nextNode="AccountFullEdit">
+            <branch name="True">
+              <requests name="ProcurementCardholder" nextNode="ProcurementCardReconciler" />
+              <requests name="ProcurementCardReconciler" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+          <requests name="AccountFullEdit" nextNode="Account" />
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <requests name="AccountingOrganizationHierarchy" nextNode="ObjectSubTypeCode" />
+          <requests name="ObjectSubTypeCode" nextNode="SubFund" />
+          <requests name="SubFund" nextNode="RequiresAutoApprovalNotification" />
+          <split name="RequiresAutoApprovalNotification">
+            <branch name="True">
+              <role name="AutoApprove" nextNode="joinOnAutoApproval" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval" />
+            </branch>
+            <join name="joinOnAutoApproval" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountFullEdit">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ObjectSubTypeCode">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ProcurementCardholder">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="ProcurementCardReconciler">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="HasReconciler">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <split name="RequiresAutoApprovalNotification">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="AutoApprove">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="joinOnAutoApproval" />
+        <simple name="NoOpAutoApproval">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean">
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/sys/businessobject/datadictionary/*.xml</value>
+				<value>classpath:edu/arizona/kfs/sys/document/datadictionary/*.xml</value>
+			</list>
+		</property>
+        <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.sys</value>
+            </list>
+        </property>
+		<property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/sys/ojb-sys.xml</value>
+            </list>
+        </property>
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+        <property name="jobNames">
+        	<list merge="true">
+        		<value>buildingImportJob</value>
+        		<value>roomImportJob</value>
+        	</list>
+        </property>        
+    </bean>
+	
+    <import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+    
+    <bean id="buildingImportJob" parent="unscheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="buildingImportStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="buildingImportStep" class="edu.arizona.kfs.sys.batch.BuildingImportStep" parent="step">
+    	<property name="buildingImportService">
+    		<ref bean="buildingImportService" />
+    	</property>
+    </bean>
+    
+    <bean id="buildingImportService" class="edu.arizona.kfs.sys.batch.service.impl.BuildingImportServiceImpl">
+    	<property name="archibusUsaCountryCode" value="USA" />
+    	<property name="kfsUsCountryCode" value="US" />
+    	<property name="batchFileDirectoryName" value="${staging.directory}/sys/import" />
+    	<property name="reportDirectoryName" value="${reports.directory}/sys" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="ddService" ref="dataDictionaryService" />
+    	<property name="dateTimeService" ref="dateTimeService" />
+    	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
+    </bean>
+    
+    <bean id="roomImportJob" parent="unscheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="roomImportStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roomImportStep" class="edu.arizona.kfs.sys.batch.RoomImportStep" parent="step">
+    	<property name="roomImportService">
+    		<ref bean="roomImportService" />
+    	</property>
+    </bean>
+    
+    <bean id="roomImportService" class="edu.arizona.kfs.sys.batch.service.impl.RoomImportServiceImpl">
+    	<property name="batchFileDirectoryName" value="${staging.directory}/sys/import" />
+    	<property name="reportDirectoryName" value="${reports.directory}/sys" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="ddService" ref="dataDictionaryService" />
+    	<property name="dateTimeService" ref="dateTimeService" />
+    	<property name="buildingAndRoomImportDao" ref="buildingAndRoomImportDao" />
+    </bean>
+
+    <bean id="buildingAndRoomImportDao" class="edu.arizona.kfs.sys.dataaccess.impl.BuildingAndRoomImportsDaoOjb">
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="scheduleJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="scheduleStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purgeJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="purgePendingAttachmentsStep" />
+                <ref bean="purgeOldLookupResultsStep" />
+                <ref bean="purgeTempFilesStep" />
+                <ref bean="purgeSessionDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purgeReportsAndStagingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="filePurgeStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoDisapproveJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoDisapproveDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask" lazy-init="false">
+        <!-- wait 60 seconds before starting repeated execution -->
+        <property name="delay" value="60000" />
+        <!-- run every 5 seconds -->
+        <property name="period" value="5000" />
+        <property name="timerTask" ref="remoteBatchJobInvoker" />
+    </bean>
+
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref bean="scheduledTask" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="remoteBatchJobInvoker" class="edu.arizona.kfs.sys.batch.RemoteBatchJobInvoker">
+        <property name="directoryToWatch">
+            <value>${batchinvoker.directory.towatch}</value>
+        </property>
+        <property name="historyDirectory">
+            <value>${batchinvoker.directory.history}</value>
+        </property>
+        <property name="runFileSuffix">
+            <value>.run</value>
+        </property>
+        <property name="statusFileSuffix">
+            <value>.status</value>
+        </property>
+        <property name="hostFileSuffix">
+            <value>.runnable</value>
+        </property>
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="schedulerService" ref="schedulerService" />
+    </bean>
+
+	<bean id="docuwareService" 	class="edu.arizona.kfs.sys.service.impl.DocuwareServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+    <bean id="incomeTypeHandlerService" class="edu.arizona.kfs.sys.service.impl.IncomeTypeHandlerServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="incomeTypeHandlerDao" ref="incomeTypeHandlerDao" />
+    </bean>
+
+    <bean id="incomeTypeHandlerDao" parent="platformAwareDao" class="edu.arizona.kfs.sys.dataaccess.impl.IncomeTypeHandlerDaoOjb" />
+    
+    <bean id="electronicFundTransferClaimAction" parent="electronicFundTransferClaimAction-parentBean" 
+        class="edu.arizona.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper" />
+
+	<bean id="electronicPaymentClaimLookupableHelperService"
+		class="edu.arizona.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+		<property name="lookupDao">
+			<ref bean="lookupDao" />
+		</property>
+	</bean>
+    
+</beans>

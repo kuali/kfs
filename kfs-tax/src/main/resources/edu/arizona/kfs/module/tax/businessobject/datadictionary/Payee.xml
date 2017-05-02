@@ -1,0 +1,286 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Payee" parent="Payee-parentBean" />
+    <bean id="Payee-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.arizona.kfs.module.tax.businessobject.Payee" />
+        <property name="inquiryDefinition">
+            <ref bean="Payee-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="Payee-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="vendorName" />
+        <property name="objectLabel" value="Payee" />
+        <property name="attributes">
+            <list>
+                <ref bean="Payee-vendorName" />
+                <ref bean="Payee-payeeId" />
+                <ref bean="Payee-headerTypeCode" />
+                <ref bean="Payee-headerTaxNumber" />
+                <ref bean="Payee-headerOwnershipCode" />
+                <ref bean="Payee-headerOwnershipCategoryCode" />
+                <ref bean="Payee-addressTypeCode" />
+                <ref bean="Payee-addressLine1Address" />
+                <ref bean="Payee-addressLine2Address" />
+                <ref bean="Payee-addressCityName" />
+                <ref bean="Payee-addressStateCode" />
+                <ref bean="Payee-addressZipCode" />
+                <ref bean="Payee-addressCountryCode" />
+                <ref bean="Payee-vendorForeignIndicator" />
+                <ref bean="Payee-correctionIndicator" />
+                <ref bean="Payee-taxYear" />
+                <ref bean="Payee-vendorFederalWithholdingTaxBeginningDate" />
+                <ref bean="Payee-vendorFederalWithholdingTaxEndDate" />
+                <ref bean="Payee-excludeIndicator" />
+                <ref bean="Payee-vendorHeaderGeneratedIdentifier" />
+                <ref bean="Payee-vendorDetailAssignedIdentifier" />
+                <ref bean="Payee-vendorNumber" />
+                <ref bean="Payee-versionNumber" />
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="vendorDetail" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorNumber" p:targetName="vendorNumber" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorHeaderGeneratedIdentifier" p:targetName="vendorHeaderGeneratedIdentifier" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorDetailAssignedIdentifier" p:targetName="vendorDetailAssignedIdentifier" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="Payee-payeeId" parent="Payee-payeeId-parentBean" />
+    <bean id="Payee-payeeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Payee Identifier" />
+        <property name="shortLabel" value="Payee ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Payee Identifier" />
+        <property name="description" value="Payee Generated ID." />
+    </bean>
+
+    <bean id="Payee-vendorName" parent="Payee-vendorName-parentBean" />
+    <bean id="Payee-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+        <property name="name" value="vendorName" />
+    </bean>
+
+    <bean id="Payee-headerTypeCode" parent="Payee-headerTypeCode-parentBean" />
+    <bean id="Payee-headerTypeCode-parentBean" abstract="true" parent="VendorHeader-vendorTypeCode">
+        <property name="name" value="headerTypeCode" />
+    </bean>
+
+    <bean id="Payee-headerTaxNumber" parent="Payee-headerTaxNumber-parentBean" />
+    <bean id="Payee-headerTaxNumber-parentBean" abstract="true" parent="VendorHeader-vendorTaxNumber">
+        <property name="name" value="headerTaxNumber" />
+    </bean>
+    <bean id="Payee-headerOwnershipCode" parent="Payee-headerOwnershipCode-parentBean" />
+
+    <bean id="Payee-headerOwnershipCode-parentBean" abstract="true"
+        parent="VendorHeader-vendorOwnershipCode">
+        <property name="name" value="headerOwnershipCode" />
+    </bean>
+
+    <bean id="Payee-headerOwnershipCategoryCode" parent="Payee-headerOwnershipCategoryCode-parentBean" />
+    <bean id="Payee-headerOwnershipCategoryCode-parentBean" abstract="true" parent="VendorHeader-vendorOwnershipCategoryCode">
+        <property name="name" value="headerOwnershipCategoryCode" />
+    </bean>
+
+    <bean id="Payee-addressTypeCode" parent="Payee-addressTypeCode-parentBean" />
+    <bean id="Payee-addressTypeCode-parentBean" abstract="true" parent="VendorAddress-vendorAddressTypeCode">
+        <property name="name" value="addressTypeCode" />
+    </bean>
+
+    <bean id="Payee-addressLine1Address" parent="Payee-addressLine1Address-parentBean" />
+    <bean id="Payee-addressLine1Address-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
+        <property name="name" value="addressLine1Address" />
+        <property name="maxLength" value="40" />
+    </bean>
+
+    <bean id="Payee-addressLine2Address" parent="Payee-addressLine2Address-parentBean" />
+    <bean id="Payee-addressLine2Address-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
+        <property name="name" value="addressLine2Address" />
+        <property name="maxLength" value="40" />
+    </bean>
+
+    <bean id="Payee-addressCityName" parent="Payee-addressCityName-parentBean" />
+    <bean id="Payee-addressCityName-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
+        <property name="name" value="addressCityName" />
+        <property name="maxLength" value="40" />
+    </bean>
+
+    <bean id="Payee-addressStateCode" parent="Payee-addressStateCode-parentBean" />
+    <bean id="Payee-addressStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="addressStateCode" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="State Code" />
+        <property name="shortLabel" value="State Cd" />
+        <property name="maxLength" value="2" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="2" />
+        </property>
+    </bean>
+
+    <bean id="Payee-addressZipCode" parent="Payee-addressZipCode-parentBean" />
+    <bean id="Payee-addressZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
+        <property name="name" value="addressZipCode" />
+        <property name="maxLength" value="9" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="Payee-addressCountryCode" parent="Payee-addressCountryCode-parentBean" />
+    <bean id="Payee-addressCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
+        <property name="name" value="addressCountryCode" />
+    </bean>
+
+    <bean id="Payee-vendorForeignIndicator" parent="Payee-vendorForeignIndicator-parentBean" />
+    <bean id="Payee-vendorForeignIndicator-parentBean" abstract="true" parent="VendorHeader-vendorForeignIndicator">
+        <property name="name" value="vendorForeignIndicator" />
+    </bean>
+
+    <bean id="Payee-vendorFederalWithholdingTaxBeginningDate" parent="Payee-vendorFederalWithholdingTaxBeginningDate-parentBean" />
+    <bean id="Payee-vendorFederalWithholdingTaxBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="vendorFederalWithholdingTaxBeginningDate" />
+        <property name="label" value="Backup Withholding Begin Date" />
+        <property name="shortLabel" value="Begin Date" />
+        <property name="maxLength" value="10" />
+    </bean>
+
+    <bean id="Payee-vendorFederalWithholdingTaxEndDate" parent="Payee-vendorFederalWithholdingTaxEndDate-parentBean" />
+    <bean id="Payee-vendorFederalWithholdingTaxEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="vendorFederalWithholdingTaxEndDate" />
+        <property name="label" value="Backup Withholding End Date" />
+        <property name="shortLabel" value="End Date" />
+        <property name="maxLength" value="10" />
+    </bean>
+
+    <bean id="Payee-correctionIndicator" parent="Payee-correctionIndicator-parentBean" />
+    <bean id="Payee-correctionIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="correctionIndicator" />
+        <property name="label" value="Correction Indicator" />
+        <property name="required" value="true" />
+        <property name="shortLabel" value="Correction Ind" />
+        <property name="summary" value="1099 Payee Correction Ind" />
+        <property name="description" value="1099 Payee Correction Ind" />
+    </bean>
+
+    <bean id="Payee-taxYear" parent="Payee-taxYear-parentBean" />
+    <bean id="Payee-taxYear-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="taxYear" />
+        <property name="label" value="Tax Year" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.module.tax.businessobject.options.YearValuesFinder" p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+
+    <bean id="Payee-vendorHeaderGeneratedIdentifier" parent="Payee-vendorHeaderGeneratedIdentifier-parentBean" />
+    <bean id="Payee-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier" />
+
+    <bean id="Payee-vendorDetailAssignedIdentifier" parent="Payee-vendorDetailAssignedIdentifier-parentBean" />
+    <bean id="Payee-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier" />
+
+    <bean id="Payee-vendorNumber" parent="Payee-vendorNumber-parentBean" />
+    <bean id="Payee-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+        <property name="maxLength" value="10" />
+    </bean>
+
+    <bean id="Payee-excludeIndicator" parent="Payee-excludeIndicator-parentBean" />
+    <bean id="Payee-excludeIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="excludeIndicator" />
+        <property name="label" value="Exclude" />
+        <property name="shortLabel" value="Exclude" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="Payee-versionNumber" parent="Payee-versionNumber-parentBean" />
+    <bean id="Payee-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
+    <!-- Busines Object Lookup Definition -->
+
+    <bean id="Payee-inquiryDefinition" parent="Payee-inquiryDefinition-parentBean" />
+    <bean id="Payee-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="1099 Process Payee Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="vendorName" />
+                            <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="headerTypeCode" />
+                            <bean parent="FieldDefinition" p:attributeName="taxYear" />
+                            <bean parent="FieldDefinition" p:attributeName="headerOwnershipCode" />
+                            <bean parent="FieldDefinition" p:attributeName="headerOwnershipCategoryCode" />
+                            <bean parent="FieldDefinition" p:attributeName="vendorForeignIndicator" />
+                            <bean parent="FieldDefinition" p:attributeName="correctionIndicator" />
+                            <bean parent="FieldDefinition" p:attributeName="excludeIndicator" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Payee-lookupDefinition" parent="Payee-lookupDefinition-parentBean" />
+    <bean id="Payee-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="1099 Process Payee Lookup" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>vendorName</value>
+                        <value>taxYear</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="vendorName" />
+                <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+                <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier" />
+                <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier" />
+                <bean parent="FieldDefinition" p:attributeName="taxYear" />
+                <bean parent="FieldDefinition" p:attributeName="headerTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="headerOwnershipCategoryCode" />
+                <bean parent="FieldDefinition" p:attributeName="headerOwnershipCode" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="vendorName" />
+                <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+                <bean parent="FieldDefinition" p:attributeName="taxYear" />
+                <bean parent="FieldDefinition" p:attributeName="headerTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="headerOwnershipCode" />
+                <bean parent="FieldDefinition" p:attributeName="headerOwnershipCategoryCode" />
+                <bean parent="FieldDefinition" p:attributeName="excludeIndicator" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

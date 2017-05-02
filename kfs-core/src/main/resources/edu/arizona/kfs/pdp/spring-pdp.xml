@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" >
+    	<property name="dataDictionaryPackages">
+    		<list merge="true">
+    			<value>classpath:edu/arizona/kfs/pdp/businessobject/datadictionary/*.xml</value>
+    			<value>classpath:edu/arizona/kfs/pdp/document/datadictionary/*.xml</value>
+    		</list>
+    	</property>
+    	<property name="packagePrefixes">
+    		<list merge="true">
+    			<value>edu.arizona.kfs.pdp</value>
+    		</list>
+    	</property>
+    	<property name="databaseRepositoryFilePaths">
+    		<list merge="true">
+    			<value>edu/arizona/kfs/pdp/ojb-pdp.xml</value>
+    		</list>
+    	</property>
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+        <property name="jobNames">
+			<list merge="true">
+				<value>processShippingInvoiceJob</value>				
+				<value>pdpLoadBankDataJob</value>
+				<value>pdpLoadPayeeACHDataJob</value>
+				<value>pdpLoadPrepaidChecksJob</value>
+			</list>
+		</property>
+    </bean>
+
+    <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
+    <bean id="paymentFileValidationService-parentBean" class="edu.arizona.kfs.pdp.service.impl.PaymentFileValidationServiceImpl" abstract="true">
+        <property name="customerProfileService" ref="pdpCustomerProfileService"/>
+        <property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="subAccountService" ref="subAccountService"/>
+        <property name="objectCodeService" ref="objectCodeService"/>
+        <property name="subObjectCodeService" ref="subObjectCodeService"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="bankService" ref="bankService"/>
+        <property name="originationCodeService" ref="originationCodeService"/>
+        <property name="documentTypeService" ref="rice.kew.documentTypeService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService" />
+    </bean>
+
+    <bean id="pdpLoadPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpLoadPaymentsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="purchasingPreDisbursementImmediatesExtractJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpNightlyLoadPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpLoadPaymentsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="disbursementVoucherPreDisbursementProcessorExtractJob" value="softDependency"/>
+                <entry key="purchasingPreDisbursementExtractJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpDailyReportJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpDailyReportStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="pdpNightlyLoadPaymentsJob" value="softDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="pdpLoadFederalReserveBankDataJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+            <!-- pdpDownloadFederalReserveBankFileStep was commented out because the fix will be addressed on UAF-3059 per epic specs -->
+            <!-- <ref bean="pdpDownloadFederalReserveBankFileStep" /> -->
+                <ref bean="pdpLoadFederalReserveBankDataStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpInactivatePayeeAchAccountsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpInactivatePayeeAchAccountsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractGlTransactionsStepJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractGlTransactionsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractAchPaymentsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractAchPaymentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpExtractCanceledChecksJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpExtractCanceledChecksStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpClearPendingTransactionsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpClearPendingTransactionsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="pdpExtractGlTransactionsStepJob" value="softDependency"/>
+                <entry key="posterJob" value="hardDependency"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="processPdpCancelsAndPaidJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="processPdpCancelsAndPaidStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pdpSendAchAdviceNotificationsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="pdpSendAchAdviceNotificationsStep" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="processShippingInvoiceJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="shippingInvoiceLoadStep" />
+			</list>
+		</property>
+	</bean>
+    	
+    <bean id="shippingInputFileType" class="edu.arizona.kfs.pdp.batch.ShippingInputFileType">
+    	<property name="directoryPath">
+	    	<value>${staging.directory}/pdp/shipping</value>
+	    </property>
+	    <property name="fileExtension">
+	    	<value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	    	<value>edu/arizona/kfs/pdp/batch/shippingDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	    	<value>${externalizable.static.content.url}/xsd/pdp/shipping.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	    	<ref bean="dateTimeService"/>
+	    </property>
+	</bean>
+	
+	<bean id="shippingInvoiceDao" parent="platformAwareDao" class="edu.arizona.kfs.pdp.dataaccess.impl.ShippingInvoiceDaoOjb" />
+	
+	<bean id="shippingInvoiceLoadService" class="edu.arizona.kfs.pdp.batch.service.impl.ShippingInvoiceLoadServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="shippingInputFileType">
+			<ref bean="shippingInputFileType" />
+		</property>	
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>			
+	</bean>
+
+	<bean id="shippingInvoiceProcessService" class="edu.arizona.kfs.pdp.batch.service.impl.ShippingInvoiceProcessServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>		
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="shippingInvoiceDao">
+			<ref bean="shippingInvoiceDao" />
+		</property>
+	</bean>	
+	
+	<bean id="shippingInvoiceLoadStep" class="edu.arizona.kfs.pdp.batch.ShippingInvoiceLoadStep" parent="step">
+		<property name="shippingInvoiceLoadService">
+			<ref bean="shippingInvoiceLoadService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="shippingInputFileType">
+		    <ref bean="shippingInputFileType" />
+		</property>
+        <property name="shippingInvoiceProcessServiceService">
+            <ref bean="shippingInvoiceProcessService" />
+        </property>	
+	</bean>	
+	
+	<bean id="pdpLoadFederalReserveBankDataStep" class="edu.arizona.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step" />
+	
+	<bean id="pdpLoadBankDataJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadAchBankStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loadAchBankStep" class="edu.arizona.kfs.pdp.batch.LoadAchBankStep" parent="step">
+		<property name="achBankService" ref="achBankService" />
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_failed_file_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="achBankService" class="edu.arizona.kfs.pdp.service.impl.AchBankServiceImpl">
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achBankInputFileType" ref="achBankInputFileType" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="achBankInputFileType" class="edu.arizona.kfs.pdp.batch.AchBankInputFileType">
+		<property name="directoryPath" value="${staging.directory}/pdp/achBanks" />
+		<property name="fileExtension" value="data" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="originationCodeDao" ref="originationCodeDao" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-ach_bank_audit_report" />
+		<property name="reportExtension" value="txt" />
+	</bean>
+
+	<bean id="pdpLoadPayeeACHDataJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadAchPayeeBankAcctStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loadAchPayeeBankAcctStep" class="edu.arizona.kfs.pdp.batch.LoadAchPayeeBankAcctStep" parent="step">
+		<property name="payeeAchAccountService" ref="payeeAchAccountService" />
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achPayeeBankAcctInputFileType" ref="achPayeeBankAcctInputFileType" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadBankDataJob-payee_ach_failed_file_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="payeeAchAccountService" class="edu.arizona.kfs.pdp.service.impl.PayeeAchAccountServiceImpl">
+		<property name="batchInputFileService" ref="batchInputFileService" />
+		<property name="achPayeeBankAcctInputFileType" ref="achPayeeBankAcctInputFileType" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="personService" ref="personService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="achPayeeBankAcctInputFileType" class="edu.arizona.kfs.pdp.batch.AchPayeeBankAcctInputFileType">
+		<property name="directoryPath" value="${staging.directory}/pdp/achPayeeBankAccounts" />
+		<property name="fileExtension" value="data" />
+		<property name="reportPath" value="${reports.directory}/pdp" />
+		<property name="reportPrefix" value="pdpLoadPayeeACHDataJob-payee_ach_audit_report" />
+		<property name="reportExtension" value="txt" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="personService" ref="personService" />
+		<property name="originationCodeDao" ref="originationCodeDao" />
+	</bean>
+
+	<bean id="pdpExtractPaymentService" class="edu.arizona.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
+		<property name="reportDirectoryName" value="${reports.directory}/pdp" />
+		<property name="fileName" value="pdp_sa_check_"/>
+		<property name="reportFileName" value="pdp_sa_check_report"/>
+		<property name="financialSystemOriginCode" value="SA"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
+		<property name="processDao" ref="pdpProcessDao"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="countryService" ref="countryService"/>	
+	</bean>	
+	
+	<bean id="pdpLoadPrepaidChecksJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadPrepaidChecksStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="loadPrepaidChecksStep" class="edu.arizona.kfs.pdp.batch.LoadPrepaidChecksStep" parent="step">
+		<property name="prepaidChecksService" ref="prepaidChecksService" />
+		<property name="prepaidChecksInputFileType" ref="prepaidChecksInputFileType" />		
+	</bean>
+	
+	<bean id="prepaidChecksInputFileType" class="edu.arizona.kfs.pdp.batch.PrepaidChecksInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/pdp/prepaidChecks</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>edu/arizona/kfs/pdp/batch/prepaidChecksDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/pdp/prepaidChecks.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>	   
+	</bean>
+	
+	<bean id="prepaidChecksService" class="edu.arizona.kfs.pdp.batch.service.impl.PrepaidChecksServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="batchInputFileService" ref="batchInputFileService"/>
+		<property name="paymentFileValidationService" ref="paymentFileValidationService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="pdpEmailService" ref="pdpEmailService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />		
+		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService" />
+		<property name="outgoingDirectoryName" value="${reports.directory}/pdp/prepaidChecks"/>
+		<property name="payeeFileNamePrefix" value="PAYEEDETAIL" />		
+	</bean>
+	
+	<bean id="pdpEmailService" class="edu.arizona.kfs.pdp.service.impl.PdpEmailServiceImpl">
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="mailService" ref="mailService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="achBankService" ref="pdpAchBankService" />	
+	</bean>
+		
+</beans>

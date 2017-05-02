@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="arModuleConfiguration" parent="arModuleConfiguration-parentBean">
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+				<value>classpath:edu/arizona/kfs/module/ar/document/datadictionary/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="letterOfCreditJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="letterOfCreditCreateAndRouteDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="upcomingMilestoneNotificationJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="upcomingMilestoneNotificationStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="contractsGrantsInvoiceDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="contractsGrantsInvoiceDocumentBatchStep" />
+                <ref bean="contractsGrantsInvoiceRouteDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="lockboxJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="lockboxLoadStep" />
+                <ref bean="lockboxStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="nightlyOutJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="invoiceRecurrenceJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="invoiceRecurrenceStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerLoadJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="customerLoadStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerInvoiceWriteoffBatchJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="customerInvoiceWriteoffBatchStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerAgingReportNotificationJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="customerAgingReportNotificationStep" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

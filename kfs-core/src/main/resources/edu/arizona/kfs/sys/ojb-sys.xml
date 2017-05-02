@@ -1,0 +1,110 @@
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="edu.arizona.kfs.sys.businessobject.BatchFileUploads" table="SYS_BATCH_FILE_UPLOADS_T">
+        <field-descriptor name="id" column="BATCH_FILE_UPLOADS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="BATCH_FILE_UPLOADS_ID" autoincrement="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="batchFileName" column="BATCH_FILE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="batchDate" column="BATCH_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="transactionCount" column="TRANS_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
+        <field-descriptor name="batchTotalAmount" column="BATCH_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="submiterUserId" column="SBMTR_USR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileProcessTimestamp" column="FILE_PROC_TS" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="batchName" column="BATCH_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
+    </class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.sys.businessobject.Building" table="SH_BUILDING_T">
+	    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="buildingName" column="BLDG_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingStreetAddress" column="BLDG_STR_ADDR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingAddressCityName" column="BLDG_ADDR_CTY_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingAddressStateCode" column="BLDG_ADDR_ST_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingAddressZipCode" column="BLDG_ADDR_ZIP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="alternateBuildingCode" column="ALTRNT_BLDG_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="buildingAddressCountryCode" column="BLDG_ADDR_CNTRY_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	    <reference-descriptor name="extension" class-ref="edu.arizona.kfs.sys.businessobject.BuildingExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+		    <foreignkey field-ref="campusCode" />
+		    <foreignkey field-ref="buildingCode" />
+	    </reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.BuildingExtension" table="SH_BUILDING_EXT_T">
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	    <field-descriptor name="routeCode" column="ROUTE_CODE" jdbc-type="VARCHAR" />
+	    <reference-descriptor name="routeCodeObj" class-ref="edu.arizona.kfs.sys.businessobject.RouteCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		    <foreignkey field-ref="routeCode" />
+	    </reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.RouteCode" table="SYS_ROUTECODE_T">
+	    <field-descriptor name="routeCode" column="ROUTE_CODE" jdbc-type="VARCHAR" primarykey="true" index="true"  />
+	    <field-descriptor name="routeCodeDesc" column="ROUTE_CODE_DESC" jdbc-type="VARCHAR" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusBuildings" table="PS_UA_DPT_KFS_BLDG ">
+		<field-descriptor name="buildingCode" column="BL_ID_ALPHA" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingId" column="BL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="campusCode" column="CAMPUS_ID_NUM" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingName" column="SHORT_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingStreetAddress" column="ADDRESS_1" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressCityName" column="CITY_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressStateCode" column="STATE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressZipCode" column="ZIP" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingAddressCountryCode" column="CTRY_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="routeCode" column="ROUTE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="BL_STATUS" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="edu.arizona.kfs.sys.businessobject.ArchibusRooms" table="PS_UA_DPT_KFS_ROOM">
+		<field-descriptor name="buildingCode" column="BL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomNumber" column="RM_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="buildingRoomType" column="RM_USE" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDepartment" column="DP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomDescription" column="NAME_ROOM" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+    <class-descriptor class="edu.arizona.kfs.sys.businessobject.IncomeType" table="TAX_INC_TYP_T">
+        <field-descriptor name="incomeTypeCode" column="INC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="incomeTypeDescription" column="INC_TYP_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="incomeTypeBox" column="INC_TYP_BOX" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" table="FP_ELCTRNC_PMT_CLM_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" index="true" />
+    <field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="paymentClaimStatusCode" column="PMT_CLM_STAT_CD" jdbc-type="VARCHAR" />
+
+    <!-- UAF-3068 -->
+    <reference-descriptor name="generatingDocument" class-ref="org.kuali.kfs.fp.document.AdvanceDepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <reference-descriptor name="generatingDocumentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="financialDocumentPostingYear" />
+    	<foreignkey field-ref="financialDocumentPostingPeriodCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+</descriptor-repository>

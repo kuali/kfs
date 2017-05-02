@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-2969-1" author="Mark Moen">
+        <preConditions onError="HALT" onFail="HALT">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM KRCR_PARM_T
+                    WHERE NMSPC_CD='KFS-FP'
+                        AND CMPNT_CD='ProcurementCardCreateDocumentsStep'
+                        AND PARM_NM='PROCUREMENT_CARD_HOLDER_DEFAULT_IND'
+                        AND APPL_ID='KFS'
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UAF-2969 Procurement Card Reconciliation Step 6 (FYI to Cardholder and Original Vendor Name Mapping)
+        </comment>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="N"/>
+            <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='ProcurementCardCreateDocumentsStep'
+                    AND PARM_NM='PROCUREMENT_CARD_HOLDER_DEFAULT_IND'
+                    AND APPL_ID='KFS'
+            </where>
+        </update>
+        <rollback>
+            <update tableName="KRCR_PARM_T">
+                <column name="VAL" value="Y" />
+                <where>NMSPC_CD='KFS-FP'
+                    AND CMPNT_CD='ProcurementCardCreateDocumentsStep'
+                    AND PARM_NM='PROCUREMENT_CARD_HOLDER_DEFAULT_IND'
+                    AND APPL_ID='KFS'
+                </where>
+            </update>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

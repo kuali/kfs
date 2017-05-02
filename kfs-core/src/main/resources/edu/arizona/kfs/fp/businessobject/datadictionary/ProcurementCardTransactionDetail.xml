@@ -1,0 +1,921 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+<bean id="ProcurementCardTransactionDetail" parent="ProcurementCardTransactionDetail-parentBean">
+	<property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail"/>
+	<property name="attributes">
+		<list merge="true">
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.orderDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.purchaseTime" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.shipPostal" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationPostal" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationCountryCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxRate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.discountAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.freightAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Add.dutyAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userEffectiveDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.oilBrandName" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.odometerReading" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fleetId" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.messageId" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.usage" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelServiceType" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelProductCd" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.productTypeCd" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelQuantity" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitOfMeasure" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitPrice" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelSaleAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelDiscountAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount1" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount2" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.totalAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericEffectiveDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericData" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.arriveDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.departureDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.folioNum" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.propertyPhoneNum" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.customerServiceNum" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.prePaidAmt" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomRate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.programCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.callCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.foodSvcCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.miniBarCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.giftShopCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.laundryCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.healthClubCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.movieCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.busCtrCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.parkingCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.adjustmentAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.checkOutDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalAgreementNum" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.renterName" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCity" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnState" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCountry" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnLocation" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.customerSvcNum" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalClass" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.dailyRate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.weeklyRate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.ratePerMile" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.maxFreeMiles" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalMiles" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.oneWayCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.insuranceCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.regularCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.towingCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.extraCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.lateReturnFee" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.progCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.phoneCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.othrCharges" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalTaxAmount" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.passengerName"/>
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departureCity" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyName" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.ticketNumber" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.customerCode" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issueDate" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issuingCarrier" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFare" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFees" />
+			<ref bean="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalTaxes" />
+			<ref bean="ProcurementCardTransactionDetail-editableSalesTaxAmount" />
+			<ref bean="ProcurementCardTransactionDetail-transactionNoReceiptIndicator"/>
+		</list>
+	</property>
+</bean>
+
+<!-- Attribute Definitions -->
+    <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount-parentBean">
+        <property name="validationPattern">
+            <bean parent="FloatingPointValidationPattern" p:allowNegative="true" />
+        </property>
+    </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber-parentBean" />  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.invoiceNumber-parentBean" parent="ProcurementCardLevel3Add-invoiceNumber" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.invoiceNumber" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.orderDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.orderDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.orderDate-parentBean" parent="ProcurementCardLevel3Add-orderDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.orderDate" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.purchaseTime" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.purchaseTime-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.purchaseTime-parentBean" parent="ProcurementCardLevel3Add-purchaseTime" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.purchaseTime" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.shipPostal" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.shipPostal-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.shipPostal-parentBean" parent="ProcurementCardLevel3Add-shipPostal" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.shipPostal" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationPostal" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationPostal-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationPostal-parentBean" parent="ProcurementCardLevel3Add-destinationPostal" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.destinationPostal" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationCountryCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationCountryCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.destinationCountryCode-parentBean" parent="ProcurementCardLevel3Add-destinationCountryCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.destinationCountryCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxAmount-parentBean" parent="ProcurementCardLevel3Add-taxAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.taxAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxRate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxRate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.taxRate-parentBean" parent="ProcurementCardLevel3Add-taxRate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.taxRate" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.discountAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.discountAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.discountAmount-parentBean" parent="ProcurementCardLevel3Add-discountAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.discountAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.freightAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.freightAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.freightAmount-parentBean" parent="ProcurementCardLevel3Add-freightAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.freightAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.dutyAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Add.dutyAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Add.dutyAmount-parentBean" parent="ProcurementCardLevel3Add-dutyAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Add.dutyAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userEffectiveDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userEffectiveDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userEffectiveDate-parentBean" parent="ProcurementCardLevel3AddUser-userEffectiveDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3AddUser.userEffectiveDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3AddUser.userAmount-parentBean" parent="ProcurementCardLevel3AddUser-userAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3AddUser.userAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.oilBrandName" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.oilBrandName-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.oilBrandName-parentBean" parent="ProcurementCardLevel3Fuel-oilBrandName" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.oilBrandName" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.odometerReading" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.odometerReading-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.odometerReading-parentBean" parent="ProcurementCardLevel3Fuel-odometerReading" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.odometerReading" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fleetId" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fleetId-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fleetId-parentBean" parent="ProcurementCardLevel3Fuel-fleetId" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fleetId" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.messageId" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.messageId-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.messageId-parentBean" parent="ProcurementCardLevel3Fuel-messageId" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.messageId" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.usage" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.usage-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.usage-parentBean" parent="ProcurementCardLevel3Fuel-usage" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.usage" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelServiceType" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelServiceType-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelServiceType-parentBean" parent="ProcurementCardLevel3Fuel-fuelServiceType" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelServiceType" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelProductCd" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelProductCd-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelProductCd-parentBean" parent="ProcurementCardLevel3Fuel-fuelProductCd" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelProductCd" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.productTypeCd" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.productTypeCd-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.productTypeCd-parentBean" parent="ProcurementCardLevel3Fuel-productTypeCd" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.productTypeCd" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelQuantity" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelQuantity-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelQuantity-parentBean" parent="ProcurementCardLevel3Fuel-fuelQuantity" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelQuantity" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitOfMeasure" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitOfMeasure-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitOfMeasure-parentBean" parent="ProcurementCardLevel3Fuel-fuelUnitOfMeasure" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelUnitOfMeasure" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitPrice" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitPrice-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelUnitPrice-parentBean" parent="ProcurementCardLevel3Fuel-fuelUnitPrice" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelUnitPrice" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelSaleAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelSaleAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelSaleAmount-parentBean" parent="ProcurementCardLevel3Fuel-fuelSaleAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelSaleAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelDiscountAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelDiscountAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.fuelDiscountAmount-parentBean" parent="ProcurementCardLevel3Fuel-fuelDiscountAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.fuelDiscountAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount1" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount1-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount1-parentBean" parent="ProcurementCardLevel3Fuel-taxAmount1" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.taxAmount1" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount2" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount2-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.taxAmount2-parentBean" parent="ProcurementCardLevel3Fuel-taxAmount2" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.taxAmount2" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.totalAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.totalAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Fuel.totalAmount-parentBean" parent="ProcurementCardLevel3Fuel-totalAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Fuel.totalAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericEffectiveDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericEffectiveDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericEffectiveDate-parentBean" parent="ProcurementCardLevel3Generic-genericEffectiveDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Generic.genericEffectiveDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericData" parent="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericData-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Generic.genericData-parentBean" parent="ProcurementCardLevel3Generic-genericData" abstract="true">
+  	<property name="name" value="procurementCardLevel3Generic.genericData" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.arriveDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.arriveDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.arriveDate-parentBean" parent="ProcurementCardLevel3Lodging-arriveDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.arriveDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.departureDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.departureDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.departureDate-parentBean" parent="ProcurementCardLevel3Lodging-departureDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.departureDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.folioNum" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.folioNum-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.folioNum-parentBean" parent="ProcurementCardLevel3Lodging-folioNum" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.folioNum" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.propertyPhoneNum" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.propertyPhoneNum-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.propertyPhoneNum-parentBean" parent="ProcurementCardLevel3Lodging-propertyPhoneNum" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.propertyPhoneNum" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.customerServiceNum" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.customerServiceNum-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.customerServiceNum-parentBean" parent="ProcurementCardLevel3Lodging-customerServiceNum" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.customerServiceNum" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.prePaidAmt" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.prePaidAmt-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.prePaidAmt-parentBean" parent="ProcurementCardLevel3Lodging-prePaidAmt" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.prePaidAmt" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomRate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomRate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomRate-parentBean" parent="ProcurementCardLevel3Lodging-roomRate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.roomRate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.roomTax-parentBean" parent="ProcurementCardLevel3Lodging-roomTax" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.roomTax" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.programCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.programCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.programCode-parentBean" parent="ProcurementCardLevel3Lodging-programCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.programCode" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.callCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.callCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.callCharges-parentBean" parent="ProcurementCardLevel3Lodging-callCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.callCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.foodSvcCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.foodSvcCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.foodSvcCharges-parentBean" parent="ProcurementCardLevel3Lodging-foodSvcCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.foodSvcCharges" />
+  </bean>
+
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.miniBarCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.miniBarCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.miniBarCharges-parentBean" parent="ProcurementCardLevel3Lodging-miniBarCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.miniBarCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.giftShopCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.giftShopCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.giftShopCharges-parentBean" parent="ProcurementCardLevel3Lodging-giftShopCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.giftShopCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.laundryCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.laundryCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.laundryCharges-parentBean" parent="ProcurementCardLevel3Lodging-laundryCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.laundryCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.healthClubCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.healthClubCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.healthClubCharges-parentBean" parent="ProcurementCardLevel3Lodging-healthClubCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.healthClubCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.movieCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.movieCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.movieCharges-parentBean" parent="ProcurementCardLevel3Lodging-movieCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.movieCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.busCtrCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.busCtrCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.busCtrCharges-parentBean" parent="ProcurementCardLevel3Lodging-busCtrCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.busCtrCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.parkingCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.parkingCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.parkingCharges-parentBean" parent="ProcurementCardLevel3Lodging-parkingCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.parkingCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCode-parentBean" parent="ProcurementCardLevel3Lodging-otherCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.otherCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.otherCharges-parentBean" parent="ProcurementCardLevel3Lodging-otherCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.otherCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.adjustmentAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.adjustmentAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Lodging.adjustmentAmount-parentBean" parent="ProcurementCardLevel3Lodging-adjustmentAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Lodging.adjustmentAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.checkOutDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.checkOutDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.checkOutDate-parentBean" parent="ProcurementCardLevel3Rental-checkOutDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.checkOutDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalAgreementNum" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalAgreementNum-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalAgreementNum-parentBean" parent="ProcurementCardLevel3Rental-rentalAgreementNum" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.rentalAgreementNum" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.renterName" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.renterName-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.renterName-parentBean" parent="ProcurementCardLevel3Rental-renterName" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.renterName" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCity" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCity-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCity-parentBean" parent="ProcurementCardLevel3Rental-returnCity" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.returnCity" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnState" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnState-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnState-parentBean" parent="ProcurementCardLevel3Rental-returnState" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.returnState" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCountry" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCountry-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnCountry-parentBean" parent="ProcurementCardLevel3Rental-returnCountry" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.returnCountry" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnDate-parentBean" parent="ProcurementCardLevel3Rental-returnDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.returnDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnLocation" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnLocation-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.returnLocation-parentBean" parent="ProcurementCardLevel3Rental-returnLocation" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.returnLocation" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.customerSvcNum" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.customerSvcNum-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.customerSvcNum-parentBean" parent="ProcurementCardLevel3Rental-customerSvcNum" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.customerSvcNum" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalClass" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalClass-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.rentalClass-parentBean" parent="ProcurementCardLevel3Rental-rentalClass" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.rentalClass" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.dailyRate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.dailyRate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.dailyRate-parentBean" parent="ProcurementCardLevel3Rental-dailyRate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.dailyRate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.weeklyRate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.weeklyRate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.weeklyRate-parentBean" parent="ProcurementCardLevel3Rental-weeklyRate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.weeklyRate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.ratePerMile" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.ratePerMile-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.ratePerMile-parentBean" parent="ProcurementCardLevel3Rental-ratePerMile" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.ratePerMile" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.maxFreeMiles" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.maxFreeMiles-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.maxFreeMiles-parentBean" parent="ProcurementCardLevel3Rental-maxFreeMiles" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.maxFreeMiles" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalMiles" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalMiles-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalMiles-parentBean" parent="ProcurementCardLevel3Rental-totalMiles" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.totalMiles" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.oneWayCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.oneWayCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.oneWayCharges-parentBean" parent="ProcurementCardLevel3Rental-oneWayCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.oneWayCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.insuranceCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.insuranceCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.insuranceCharges-parentBean" parent="ProcurementCardLevel3Rental-insuranceCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.insuranceCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.regularCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.regularCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.regularCharges-parentBean" parent="ProcurementCardLevel3Rental-regularCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.regularCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.towingCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.towingCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.towingCharges-parentBean" parent="ProcurementCardLevel3Rental-towingCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.towingCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.extraCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.extraCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.extraCharges-parentBean" parent="ProcurementCardLevel3Rental-extraCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.extraCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.lateReturnFee" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.lateReturnFee-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.lateReturnFee-parentBean" parent="ProcurementCardLevel3Rental-lateReturnFee" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.lateReturnFee" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustCode-parentBean" parent="ProcurementCardLevel3Rental-adjustCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.adjustCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.adjustAmount-parentBean" parent="ProcurementCardLevel3Rental-adjustAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.adjustAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.progCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.progCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.progCode-parentBean" parent="ProcurementCardLevel3Rental-progCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.progCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.phoneCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.phoneCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.phoneCharges-parentBean" parent="ProcurementCardLevel3Rental-phoneCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.phoneCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.othrCharges" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.othrCharges-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.othrCharges-parentBean" parent="ProcurementCardLevel3Rental-othrCharges" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.othrCharges" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalTaxAmount" parent="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalTaxAmount-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Rental.totalTaxAmount-parentBean" parent="ProcurementCardLevel3Rental-totalTaxAmount" abstract="true">
+  	<property name="name" value="procurementCardLevel3Rental.totalTaxAmount" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.passengerName" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.passengerName-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.passengerName-parentBean" parent="ProcurementCardLevel3Transport-passengerName" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.passengerName" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departDate-parentBean" parent="ProcurementCardLevel3Transport-departDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.departDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departureCity" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departureCity-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.departureCity-parentBean" parent="ProcurementCardLevel3Transport-departureCity" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.departureCity" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyCode-parentBean" parent="ProcurementCardLevel3Transport-agencyCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.agencyCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyName" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyName-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.agencyName-parentBean" parent="ProcurementCardLevel3Transport-agencyName" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.agencyName" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.ticketNumber" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.ticketNumber-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.ticketNumber-parentBean" parent="ProcurementCardLevel3Transport-ticketNumber" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.ticketNumber" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.customerCode" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.customerCode-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.customerCode-parentBean" parent="ProcurementCardLevel3Transport-customerCode" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.customerCode" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issueDate" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issueDate-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issueDate-parentBean" parent="ProcurementCardLevel3Transport-issueDate" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.issueDate" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issuingCarrier" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issuingCarrier-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.issuingCarrier-parentBean" parent="ProcurementCardLevel3Transport-issuingCarrier" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.issuingCarrier" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFare" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFare-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFare-parentBean" parent="ProcurementCardLevel3Transport-totalFare" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.totalFare" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFees" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFees-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalFees-parentBean" parent="ProcurementCardLevel3Transport-totalFees" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.totalFees" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalTaxes" parent="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalTaxes-parentBean" />
+  <bean id="ProcurementCardTransactionDetail-procurementCardLevel3Transport.totalTaxes-parentBean" parent="ProcurementCardLevel3Transport-totalTaxes" abstract="true">
+  	<property name="name" value="procurementCardLevel3Transport.totalTaxes" />
+  </bean>
+  
+  <bean id="ProcurementCardTransactionDetail-transactionTaxExemptIndicator" parent="ProcurementCardTransactionDetail-transactionTaxExemptIndicator-parentBean">
+  	<property name="label" value="Tax Exempt Indicator"/>
+  </bean>
+  
+    <bean id="ProcurementCardTransactionDetail-transactionPostingDate" parent="ProcurementCardTransactionDetail-transactionPostingDate-parentBean">
+        <property name="label" value="Post Date" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber" parent="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean">
+        <property name="label" value="Transaction ID Number" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean">
+        <property name="label" value="Sales Tax Amount" />
+        <property name="required" value="false" />
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-editableSalesTaxAmount" parent="ProcurementCardTransactionDetail-editableSalesTaxAmount-parentBean"/>
+    <bean id="ProcurementCardTransactionDetail-editableSalesTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="transactionEditableSalesTaxAmount"/>
+        <property name="label" value="Enter Sales Tax"/>
+        <property name="shortLabel" value="Sales Tax"/>
+    </bean>
+
+    <bean id="ProcurementCardTransactionDetail-transactionNoReceiptIndicator" parent="ProcurementCardTransactionDetail-transactionNoReceiptIndicator-parentBean"/>
+    <bean id="ProcurementCardTransactionDetail-transactionNoReceiptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="transactionNoReceiptIndicator"/>
+        <property name="label" value="No Receipt"/>
+        <property name="shortLabel" value="No Receipt"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="ProcurementCardTransactionDetail-inquiryDefinition" parent="ProcurementCardTransactionDetail-inquiryDefinition-parentBean">
+  	<property name="inquirySections">
+  		<list merge="true">
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Shipping Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.invoiceNumber" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.orderDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.purchaseTime" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.shipPostal" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationPostal" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.destinationCountryCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.taxRate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.discountAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.freightAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Add.dutyAmount" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition" p:title="Procurement Card Items">
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="1" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="InquiryCollectionDefinition" p:attributeName="procurementCardLevel3AddItems" p:businessObjectClass="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3AddItem">
+  							<property name="numberOfColumns" value="4" />
+  							<property name="inquiryFields">
+  								<list>
+  									<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="itemCommodityCode" />
+  									<bean parent="FieldDefinition" p:attributeName="itemProductCode" />
+  									<bean parent="FieldDefinition" p:attributeName="itemDescription" />
+  									<bean parent="FieldDefinition" p:attributeName="itemQuantity" />
+  									<bean parent="FieldDefinition" p:attributeName="itemUnitCode" />
+  									<bean parent="FieldDefinition" p:attributeName="itemAmount" />
+  									<bean parent="FieldDefinition" p:attributeName="itemTaxRate" />
+  									<bean parent="FieldDefinition" p:attributeName="itemTaxAmount" />
+  									<bean parent="FieldDefinition" p:attributeName="itemDiscountAmount" />
+  									<bean parent="FieldDefinition" p:attributeName="itemExtendedAmount" />
+  								</list>
+  							</property>
+  						</bean>
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card User Amounts" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3AddUser.userEffectiveDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3AddUser.userAmount" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Fuel Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.oilBrandName" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.odometerReading" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fleetId" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.messageId" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.usage" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelServiceType" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelProductCd" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.productTypeCd" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelQuantity" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelUnitOfMeasure" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelUnitPrice" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelSaleAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.fuelDiscountAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.taxAmount1" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.taxAmount2" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Fuel.totalAmount" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Generic Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Generic.genericEffectiveDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Generic.genericData" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Lodging Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.arriveDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.departureDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.folioNum" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.propertyPhoneNum" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.customerServiceNum" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.prePaidAmt" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.roomRate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.roomTax" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.programCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.callCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.foodSvcCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.miniBarCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.giftShopCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.laundryCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.healthClubCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.movieCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.busCtrCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.parkingCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.otherCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.otherCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Lodging.adjustmentAmount" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition" p:title="Procurement Card Non Fuel">
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="1" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="InquiryCollectionDefinition" p:attributeName="procurementCardLevel3NonFuels" p:businessObjectClass="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3NonFuel">
+  							<property name="numberOfColumns" value="4" />
+  							<property name="inquiryFields">
+  								<list>
+  									<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="nonFuelProductCode" />
+  									<bean parent="FieldDefinition" p:attributeName="itemDesc" />
+  									<bean parent="FieldDefinition" p:attributeName="itemQuant" />
+  									<bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasure" />
+  									<bean parent="FieldDefinition" p:attributeName="taxRateApplied" />
+  									<bean parent="FieldDefinition" p:attributeName="itemTaxAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="alternateTaxId" />
+  									<bean parent="FieldDefinition" p:attributeName="itemDiscountAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="itemTotal" />
+  								</list>
+  							</property>
+  						</bean>
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Rental Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.checkOutDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.rentalAgreementNum" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.renterName" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.returnCity" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.returnState" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.returnCountry" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.returnDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.returnLocation" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.customerSvcNum" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.rentalClass" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.dailyRate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.weeklyRate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.ratePerMile" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.maxFreeMiles" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.totalMiles" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.oneWayCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.insuranceCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.regularCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.towingCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.extraCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.lateReturnFee" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.adjustCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.adjustAmount" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.progCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.phoneCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.othrCharges" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Rental.totalTaxAmount" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition" p:title="Procurement Card Ship Services">
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="1" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="InquiryCollectionDefinition" p:attributeName="procurementCardLevel3ShipSvcs" p:businessObjectClass="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3ShipSvc">
+  							<property name="numberOfColumns" value="4" />
+  							<property name="inquiryFields">
+  								<list>
+  									<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="courierName" />
+  									<bean parent="FieldDefinition" p:attributeName="trackingNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="serviceDescription" />
+  									<bean parent="FieldDefinition" p:attributeName="pickupDate" />
+  									<bean parent="FieldDefinition" p:attributeName="originZip" />
+  									<bean parent="FieldDefinition" p:attributeName="originCountryCd" />
+  									<bean parent="FieldDefinition" p:attributeName="destinationZip" />
+  									<bean parent="FieldDefinition" p:attributeName="destinationCountryCd" />
+  									<bean parent="FieldDefinition" p:attributeName="netAmount" />
+  									<bean parent="FieldDefinition" p:attributeName="taxAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="discAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="numberOfPackages" />
+  									<bean parent="FieldDefinition" p:attributeName="weight" />
+  									<bean parent="FieldDefinition" p:attributeName="unitsOfMeasure" />
+  									<bean parent="FieldDefinition" p:attributeName="senderName" />
+  									<bean parent="FieldDefinition" p:attributeName="senderAddress" />
+  									<bean parent="FieldDefinition" p:attributeName="receiverName" />
+  									<bean parent="FieldDefinition" p:attributeName="receiverAddress" />
+  									<bean parent="FieldDefinition" p:attributeName="customerRefNumber" />
+  								</list>
+  							</property>
+  						</bean>
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition" p:title="Procurement Card Temporary Services">
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="1" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="InquiryCollectionDefinition" p:attributeName="procurementCardLevel3TempSvcs" p:businessObjectClass="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3TempSvc">
+  							<property name="numberOfColumns" value="4" />
+  							<property name="inquiryFields">
+  								<list>
+  									<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="weekEndingDate" />
+  									<bean parent="FieldDefinition" p:attributeName="serviceDesc" />
+  									<bean parent="FieldDefinition" p:attributeName="employeeName" />
+  									<bean parent="FieldDefinition" p:attributeName="regularRate" />
+  									<bean parent="FieldDefinition" p:attributeName="regularHours" />
+  									<bean parent="FieldDefinition" p:attributeName="overtimeRate" />
+  									<bean parent="FieldDefinition" p:attributeName="overtimeHours" />
+  									<bean parent="FieldDefinition" p:attributeName="miscExpenseAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="subTotalAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="salesTaxAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="discountAmt" />
+  									<bean parent="FieldDefinition" p:attributeName="startDate" />
+  									<bean parent="FieldDefinition" p:attributeName="supervisor" />
+  									<bean parent="FieldDefinition" p:attributeName="timeSheetNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="commodityCode" />
+  									<bean parent="FieldDefinition" p:attributeName="jobCode" />
+  								</list>
+  							</property>
+  						</bean>
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition">
+  				<property name="title" value="Procurement Card Transport Information" />
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="2" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.passengerName" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.departDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.departureCity" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.agencyCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.agencyName" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.ticketNumber" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.customerCode" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.issueDate" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.issuingCarrier" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.totalFare" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.totalFees" />
+  						<bean parent="FieldDefinition" p:attributeName="procurementCardLevel3Transport.totalTaxes" />
+  					</list>
+  				</property>
+  			</bean>
+  			<bean parent="InquirySectionDefinition" p:title="Procurement Card Transport Leg">
+  				<property name="defaultOpen" value="false" />
+  				<property name="numberOfColumns" value="1" />
+  				<property name="inquiryFields">
+  					<list>
+  						<bean parent="InquiryCollectionDefinition" p:attributeName="procurementCardLevel3TransportLegs" p:businessObjectClass="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3TransportLeg">
+  							<property name="numberOfColumns" value="4" />
+  							<property name="inquiryFields">
+  								<list>
+  									<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="carrierCode" />
+  									<bean parent="FieldDefinition" p:attributeName="serviceClass" />
+  									<bean parent="FieldDefinition" p:attributeName="departCity" />
+  									<bean parent="FieldDefinition" p:attributeName="conjunctionTicket" />
+  									<bean parent="FieldDefinition" p:attributeName="exchangeTicket" />
+  									<bean parent="FieldDefinition" p:attributeName="destinationCity" />
+  									<bean parent="FieldDefinition" p:attributeName="fareBasisCode" />
+  									<bean parent="FieldDefinition" p:attributeName="flightNumber" />
+  									<bean parent="FieldDefinition" p:attributeName="departTime" />
+  									<bean parent="FieldDefinition" p:attributeName="departTimeSegment" />
+  									<bean parent="FieldDefinition" p:attributeName="arriveTime" />
+  									<bean parent="FieldDefinition" p:attributeName="arriveTimeSegment" />
+  									<bean parent="FieldDefinition" p:attributeName="fare" />
+  									<bean parent="FieldDefinition" p:attributeName="fees" />
+  									<bean parent="FieldDefinition" p:attributeName="taxes" />
+  									<bean parent="FieldDefinition" p:attributeName="endorsements" />
+  									<bean parent="FieldDefinition" p:attributeName="controlCode" />
+  								</list>
+  							</property>
+  						</bean>
+  					</list>
+  				</property>
+  			</bean>
+  		</list>
+  	</property>
+  </bean>
+  
+</beans>

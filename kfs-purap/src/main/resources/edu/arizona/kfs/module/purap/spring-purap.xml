@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean">
+		<property name="packagePrefixes">
+			<list merge="true">
+				<value>edu.arizona.kfs.module.purap</value>
+			</list>
+		</property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+				<value>classpath:edu/arizona/kfs/module/purap/document/datadictionary/*.xml</value>
+				<value>classpath:edu/arizona/kfs/module/purap/businessobject/datadictionary/*.xml</value>
+			</list>
+		</property>
+        <property name="triggerNames">
+            <list>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/purap/ojb-purap.xml</value>
+            </list>
+        </property>
+	</bean>
+
+    <import resource="document/validation/configuration/RequisitionValidation.xml"/>
+    <import resource="document/validation/configuration/PurapValidatorDefinitions.xml"/>
+    <import resource="document/validation/configuration/PaymentRequestValidation.xml"/>
+    <import resource="document/validation/configuration/VendorCreditMemoValidation.xml"/>
+
+    <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="faxPendingDocumentStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoClosePurchaseOrdersJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoClosePurchaseOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoCloseRecurringOrdersJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoCloseRecurringOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purchasingPreDisbursementImmediatesExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="approveLineItemReceivingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="approveLineItemReceivingStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="purchasingPreDisbursementExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
+                <ref bean="purchasingPreDisbursementExtractStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="autoApprovePaymentRequestsJob" value="softDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="autoApprovePaymentRequestsJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoApprovePaymentRequestsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="receivingPaymentRequestJob" value="softDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="receivingPaymentRequestJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="receivingPaymentRequestStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="electronicInvoiceExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="electronicInvoiceExtractStep" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="purapUseTaxEntryArchiveService" class="edu.arizona.kfs.module.purap.service.impl.PurapUseTaxEntryArchiveServiceImpl"/>
+	
+	
+    <bean id="purapGeneralLedgerService" parent="purapGeneralLedgerService-parentBean" class="edu.arizona.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
+        <property name="purapUseTaxEntryArchiveService" ref="purapUseTaxEntryArchiveService"/>
+        <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService"/>
+    </bean>
+    
+    <bean id="paymentRequestService" parent="paymentRequestService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl">
+    	<property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
+    </bean>
+    
+	<bean id="creditMemoService" class="edu.arizona.kfs.module.purap.document.service.impl.CreditMemoServiceImpl">
+        <property name="accountsPayableService" ref="accountsPayableService" />
+		<property name="creditMemoDao" ref="creditMemoDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="documentService" ref="documentService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="noteService" ref="noteService" />
+        <property name="paymentRequestService" ref="paymentRequestService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" />
+        <property name="purapService" ref="purapService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="vendorService" ref="vendorService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="paymentMethodGeneralLedgerPendingEntryService" ref="paymentMethodGeneralLedgerPendingEntryService" />
+    </bean>
+    
+    <bean id="receivingService" parent="receivingService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+    </bean>
+
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="edu.arizona.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
+    	
+    <bean id="b2bPurchaseOrderService" class="edu.arizona.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl" parent="b2bPurchaseOrderService-parentBean">
+        <property name="b2bPurchaseOrderDtd" value="${b2b.purchase.order.dtd}"/>
+    </bean>
+    
+	<bean id="electronicInvoiceHelperService" parent="electronicInvoiceHelperService-parentBean" class="edu.arizona.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />     
+    	<property name="kualiRuleService" ref="kualiRuleService" />        
+	</bean>
+
+    <bean id="purapAccountingService" parent="purapAccountingService-parentBean"
+	      class="edu.arizona.kfs.module.purap.service.impl.PurapAccountingServiceImpl" />
+
+  	
+    <bean id="purapService" class="edu.arizona.kfs.module.purap.document.service.impl.PurapServiceImpl" parent="purapService-parentBean">
+        <property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+    </bean>
+
+    <bean id="purchaseOrderService" parent="purchaseOrderService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl" />
+
+    <bean id="purapWorkflowIntegrationService" parent="purapWorkflowIntegrationService-parentBean" class="edu.arizona.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">
+        <property name="documentService" ref="documentService" />
+    </bean>
+
+</beans>

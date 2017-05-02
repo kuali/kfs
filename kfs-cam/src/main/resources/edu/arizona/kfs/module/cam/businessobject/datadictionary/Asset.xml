@@ -1,0 +1,468 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="Asset" parent="Asset-parentBean">
+		<property name="boNotesEnabled" value="true" />
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes" />
+			</list>
+		</property>
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="Asset-inventoryUnitCode" />
+				<ref bean="Asset-inventoryUnitChartOfAccountsCode" />
+				<ref bean="Asset-inventoryUnitOrganizationCode" />
+				<ref bean="Asset-organizationOwnerAccountChartOfAccountsCode" />
+				<ref bean="Asset-organizationOwnerAccountOrganizationCode" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list merge="true">
+				<dd:relationship objectAttribute="extension.assetInvUnitObj">
+					<dd:primitiveAttribute source="extension.inventoryUnitCode" target="inventoryUnitCode" />
+					<dd:primitiveAttribute source="extension.inventoryUnitChartOfAccountsCode" target="chartOfAccountsCode" />
+					<dd:primitiveAttribute source="extension.inventoryUnitOrganizationCode" target="organizationCode" />
+				</dd:relationship>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attributes added for extended attribute tab -->
+
+	<bean id="Asset-inventoryUnitCode" parent="Asset-inventoryUnitCode-parentBean" />
+	<dd:boAttributeRef id="Asset-inventoryUnitCode-parentBean" abstract="true" parent="AssetExtension-inventoryUnitCode-parentBean" attributeName="extension.inventoryUnitCode" />
+
+	<bean id="Asset-inventoryUnitChartOfAccountsCode" parent="Asset-inventoryUnitChartOfAccountsCode-parentBean" />
+	<dd:boAttributeRef id="Asset-inventoryUnitChartOfAccountsCode-parentBean" abstract="true" parent="AssetExtension-inventoryUnitChartOfAccountsCode-parentBean" attributeName="extension.inventoryUnitChartOfAccountsCode" />
+
+	<bean id="Asset-inventoryUnitOrganizationCode" parent="Asset-inventoryUnitOrganizationCode-parentBean" />
+	<dd:boAttributeRef id="Asset-inventoryUnitOrganizationCode-parentBean" abstract="true" parent="AssetExtension-inventoryUnitOrganizationCode-parentBean" attributeName="extension.inventoryUnitOrganizationCode" />
+
+	<bean id="Asset-organizationOwnerAccountChartOfAccountsCode" parent="Asset-organizationOwnerAccountChartOfAccountsCode-parentBean" />
+	<dd:boAttributeRef id="Asset-organizationOwnerAccountChartOfAccountsCode-parentBean" abstract="true" parent="AssetExtension-organizationOwnerAccountChartOfAccountsCode-parentBean" attributeName="extension.organizationOwnerAccountChartOfAccountsCode" />
+
+	<bean id="Asset-organizationOwnerAccountOrganizationCode" parent="Asset-organizationOwnerAccountOrganizationCode-parentBean" />
+	<dd:boAttributeRef id="Asset-organizationOwnerAccountOrganizationCode-parentBean" abstract="true" parent="AssetExtension-organizationOwnerAccountOrganizationCode-parentBean" attributeName="extension.organizationOwnerAccountOrganizationCode" />
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="Asset-inquiryDefinition" parent="Asset-inquiryDefinition-parentBean">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="defaultOpen" value="false" />
+					<property name="title" value="Asset Detail Information" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
+							<bean parent="FieldDefinition" p:attributeName="organizationOwnerChartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="organizationOwnerAccountNumber" />
+							<bean parent="FieldDefinition" p:attributeName="organizationOwnerAccount.organizationCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+							<bean parent="FieldDefinition" p:attributeName="acquisitionTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="inventoryStatus.inventoryStatusCode" />
+							<bean parent="FieldDefinition" p:attributeName="conditionCode" />
+							<bean parent="FieldDefinition" p:attributeName="capitalAssetDescription" />
+							<bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="vendorName" />
+							<bean parent="FieldDefinition" p:attributeName="manufacturerName" />
+							<bean parent="FieldDefinition" p:attributeName="manufacturerModelNumber" />
+							<bean parent="FieldDefinition" p:attributeName="serialNumber" />
+							<bean parent="FieldDefinition" p:attributeName="campusTagNumber" />
+							<bean parent="FieldDefinition" p:attributeName="oldTagNumber" />
+							<bean parent="FieldDefinition" p:attributeName="governmentTagNumber" />
+							<bean parent="FieldDefinition" p:attributeName="nationalStockNumber" />
+							<bean parent="FieldDefinition" p:attributeName="lastInventoryDate" />
+							<bean parent="FieldDefinition" p:attributeName="createDate" />
+							<bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear" />
+							<bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode" />
+							<bean parent="FieldDefinition" p:attributeName="capitalAssetInServiceDate" />
+							<bean parent="FieldDefinition" p:attributeName="depreciationDate" />
+							<bean parent="FieldDefinition" p:attributeName="totalCostAmount" />
+							<bean parent="FieldDefinition" p:attributeName="federalContribution" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Asset Location" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="On Campus" />
+							<bean parent="FieldDefinition" p:attributeName="campusCode" />
+							<bean parent="FieldDefinition" p:attributeName="buildingCode" />
+							<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber" />
+							<bean parent="FieldDefinition" p:attributeName="buildingSubRoomNumber" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Off Campus" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationContactName" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationStreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationCityName" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationState.code" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.postalZipCode.code" />
+							<bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationCountry.name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Organization Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="organizationInventoryName" />
+							<bean parent="FieldDefinition" p:attributeName="representativeUniversalIdentifier" />
+							<bean parent="FieldDefinition" p:attributeName="assetRepresentative.principalName" />
+							<bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationText" />
+							<bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationTagNumber" />
+							<bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationAssetTypeIdentifier" />
+							<bean parent="FieldDefinition" p:attributeName="receiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="replacementAmount" />
+							<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitCode" />
+							<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitChartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitOrganizationCode" />
+							<bean parent="FieldDefinition" p:attributeName="extension.organizationOwnerAccountChartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="extension.organizationOwnerAccountOrganizationCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="id" value="paymentInformation" />
+					<property name="title" value="Payments" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="Asset-AssetPayment-InquiryCollectionDefinition" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Payments Summary" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="paymentTotalCost" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Payments Lookup" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="lookup" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Fabrication Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="estimatedFabricationCompletionDate" />
+							<bean parent="FieldDefinition" p:attributeName="fabricationEstimatedTotalAmount" />
+							<bean parent="FieldDefinition" p:attributeName="fabricationEstimatedRetentionYears" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Land Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="landCountyName" />
+							<bean parent="FieldDefinition" p:attributeName="landAcreageSize" />
+							<bean parent="FieldDefinition" p:attributeName="landParcelNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Asset Depreciation Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="assetPrimaryDepreciationMethod.depreciationMethodCode" />
+							<bean parent="FieldDefinition" p:attributeName="capitalAssetType.depreciableLifeLimit" />
+							<bean parent="FieldDefinition" p:attributeName="baseAmount" />
+							<bean parent="FieldDefinition" p:attributeName="salvageAmount" />
+							<bean parent="FieldDefinition" p:attributeName="accumulatedDepreciation" />
+							<bean parent="FieldDefinition" p:attributeName="bookValue" />
+							<bean parent="FieldDefinition" p:attributeName="yearToDateDepreciation" />
+							<bean parent="FieldDefinition" p:attributeName="currentMonthDepreciation" />
+							<bean parent="FieldDefinition" p:attributeName="prevYearDepreciation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="View Asset Merge History" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="mergeHistory" />
+								<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" />
+								<property name="numberOfColumns" value="1" />
+								<property name="summaryTitle" value="Source Asset" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
+										<bean parent="FieldDefinition" p:attributeName="assetRetirementGlobal.retirementDate" />
+									</list>
+								</property>
+								<property name="summaryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="View Asset Separate History" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="separateHistory.separateSourceCapitalAssetNumber" />
+							<bean parent="FieldDefinition" p:attributeName="separateHistory.separateDocumentHeaderFinalDate" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="View Retirement Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.documentNumber" />
+							<bean parent="FieldDefinition" p:attributeName="retirementReasonCode" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementDate" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Merge" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Sale" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.buyerDescription" />
+							<bean parent="FieldDefinition" p:attributeName="salePrice" />
+							<bean parent="FieldDefinition" p:attributeName="estimatedSellingPrice" />
+							<bean parent="FieldDefinition" p:attributeName="cashReceiptFinancialDocumentNumber" />
+							<bean parent="FieldDefinition" p:attributeName="retirementChartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="retirementAccountNumber" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Stolen" />
+							<bean parent="FieldDefinition" p:attributeName="campusPoliceDepartmentCaseNumber" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="External Transfer/Gift" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementContactName" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementCityName" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementState.code" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.postalZipCode.code" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementCountry.name" />
+							<bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="View Equipment Loan Information" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="loanDate" />
+							<bean parent="FieldDefinition" p:attributeName="expectedReturnDate" />
+							<bean parent="FieldDefinition" p:attributeName="loanReturnDate" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Borrower Address" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationContactName" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationStreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationCityName" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationState.code" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.postalZipCode.code" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationCountry.name" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationPhoneNumber" />
+							<bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Stored at Address" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationStreetAddress" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationCityName" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationState.code" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.postalZipCode.code" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationCountry.name" />
+							<bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationPhoneNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Warranty" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyNumber" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyContactName" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyPhoneNumber" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyPurchaseOrderNumber" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyBeginningDate" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyEndingDate" />
+							<bean parent="FieldDefinition" p:attributeName="assetWarranty.warrantyText" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Repair History" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="assetRepairHistory" />
+								<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory" />
+								<property name="numberOfColumns" value="2" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="incidentDate" />
+										<bean parent="FieldDefinition" p:attributeName="problemDescription" />
+										<bean parent="FieldDefinition" p:attributeName="repairContactName" />
+										<bean parent="FieldDefinition" p:attributeName="estimatedRepairDate" />
+										<bean parent="FieldDefinition" p:attributeName="repairDate" />
+										<bean parent="FieldDefinition" p:attributeName="repairAmount" />
+										<bean parent="FieldDefinition" p:attributeName="repairSolutionDescription" />
+										<bean parent="FieldDefinition" p:attributeName="repairNoteText" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Components" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="assetComponents" />
+								<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent" />
+								<property name="numberOfColumns" value="2" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="componentNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentDescription" />
+										<bean parent="FieldDefinition" p:attributeName="componentConditionCode" />
+										<bean parent="FieldDefinition" p:attributeName="componentVendorName" />
+										<bean parent="FieldDefinition" p:attributeName="componentManufacturerName" />
+										<bean parent="FieldDefinition" p:attributeName="componentManufacturerModelNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentSerialNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentOrganizationTagNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentContactPhoneNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentOrganizationText" />
+										<bean parent="FieldDefinition" p:attributeName="componentEstimatedLifetimeLimit" />
+										<bean parent="FieldDefinition" p:attributeName="componentReplacementAmount" />
+										<bean parent="FieldDefinition" p:attributeName="governmentTagNumber" />
+										<bean parent="FieldDefinition" p:attributeName="nationalStockNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyContactName" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyPurchaseOrderNumber" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyBeginningDate" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyEndingDate" />
+										<bean parent="FieldDefinition" p:attributeName="componentWarrantyText" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Lookup Related Capital Asset Document(s)" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="assetMaintenanceDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetFabricationDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetCreateOrSeparateDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetPaymentDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetTransferDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetEquipmentLoanOrReturnDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetLocationDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="assetMergeOrRetirementDocumentLookup" />
+							<bean parent="FieldDefinition" p:attributeName="camsComplexMaintenanceDocumentLookup" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Account Responsibility" />
+					<property name="defaultOpen" value="false" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="extension.assetAccountResponsibilities" />
+								<property name="businessObjectClass" value="edu.arizona.kfs.module.cam.businessobject.AssetAccountResponsibility" />
+								<property name="numberOfColumns" value="2" />
+								<property name="summaryTitle" value="Source Asset" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="sequenceId" />
+										<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+										<bean parent="FieldDefinition" p:attributeName="grantNumber" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Notes" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="boNotes" />
+								<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
+								<property name="numberOfColumns" value="1" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="noteText" />
+										<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
+										<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
+										<bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+		<property name="inquirableClass" value="org.kuali.kfs.module.cam.businessobject.inquiry.AssetInquirableImpl" />
+		<property name="authorizerClass" value="org.kuali.kfs.module.cam.businessobject.authorization.AssetInquiryAuthorizer" />
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="Asset-lookupDefinition" parent="Asset-lookupDefinition-parentBean">
+		<property name="lookupFields">
+			<list merge="true">
+				<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitCode" />
+				<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitChartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="extension.inventoryUnitOrganizationCode" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

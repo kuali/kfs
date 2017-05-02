@@ -62,14 +62,13 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardDefault;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
-import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
-import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.businessobject.ProcurementCardVendor;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
@@ -95,7 +94,23 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Add;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3AddItem;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3AddUser;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Fuel;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Generic;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Lodging;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3NonFuel;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Rental;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3ShipSvc;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3Transport;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3TransportLeg;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTranAddItem;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTranNonFuel;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTranShipSvc;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTranTransportLeg;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTransaction;
+import edu.arizona.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 
 /**
  * This is the default implementation of the ProcurementCardCreateDocumentService interface.
@@ -656,7 +671,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         transactionDetail.setDocumentNumber(pcardDocument.getDocumentNumber());
         transactionDetail.setFinancialDocumentTransactionLineNumber(transactionLineNumber);
         transactionDetail.setTransactionDate(transaction.getTransactionDate());
-        transactionDetail.setTransactionReferenceNumber(transaction.getTransactionReferenceNumber());
+        transactionDetail.setTransactionReferenceNumber(new Long(transaction.getTransactionReferenceNumber()).toString());        
         transactionDetail.setTransactionBillingCurrencyCode(transaction.getTransactionBillingCurrencyCode());
         transactionDetail.setTransactionCurrencyExchangeRate(transaction.getTransactionCurrencyExchangeRate());
         transactionDetail.setTransactionDate(transaction.getTransactionDate());
@@ -681,6 +696,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         // create transaction vendor record
         createTransactionVendorRecord(pcardDocument, transaction, transactionDetail);
+        
+        createTransactionLevel3AddRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3ItemsRecords(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3AddUserRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3FuelRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3GenericRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3LodgingRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3NonFuelRecords(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3RentalRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3ShipSvcRecords(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3TransportRecord(pcardDocument, transaction, transactionDetail);
+        createTransactionLevel3TransLegRecords(pcardDocument, transaction, transactionDetail);
 
         // add transaction detail to document
         pcardDocument.getTransactionEntries().add(transactionDetail);
@@ -714,7 +741,400 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         transactionDetail.setProcurementCardVendor(transactionVendor);
     }
-
+    
+    /**
+     * Creates a transaction level 3 addendum record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 addendum record on.
+     */
+    protected void createTransactionLevel3AddRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getOrderDate())) {
+            ProcurementCardLevel3Add procurementCardLevel3Add = new ProcurementCardLevel3Add();
+    
+            procurementCardLevel3Add.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Add.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Add.setInvoiceNumber(transaction.getInvoiceNumber());
+            procurementCardLevel3Add.setOrderDate(transaction.getOrderDate());
+            procurementCardLevel3Add.setPurchaseTime(transaction.getPurchaseTime());
+            procurementCardLevel3Add.setShipPostal(transaction.getShipPostal());
+            procurementCardLevel3Add.setDestinationPostal(transaction.getDestinationPostal());
+            procurementCardLevel3Add.setDestinationCountryCode(transaction.getDestinationCountryCode());
+            procurementCardLevel3Add.setTaxAmount(transaction.getTaxAmount());
+            procurementCardLevel3Add.setTaxRate(transaction.getTaxRate());
+            procurementCardLevel3Add.setDiscountAmount(transaction.getDiscountAmount());
+            procurementCardLevel3Add.setFreightAmount(transaction.getFreightAmount());
+            procurementCardLevel3Add.setDutyAmount(transaction.getDutyAmount());
+            
+            transactionDetail.setProcurementCardLevel3Add(procurementCardLevel3Add);
+        }
+    }
+    
+    /**
+     * Creates transaction level 3 item records and adds them to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 item records on.
+     */
+    protected void createTransactionLevel3ItemsRecords(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+    	List<ProcurementCardTranAddItem> procurementCardTranAddItems = new ArrayList<ProcurementCardTranAddItem>();
+        List<ProcurementCardLevel3AddItem> procurementCardLevel3AddItems = new ArrayList<ProcurementCardLevel3AddItem>();
+        ProcurementCardLevel3AddItem procurementCardLevel3AddItem;
+        int sequenceNumber = 1;
+        
+        procurementCardTranAddItems = (List<ProcurementCardTranAddItem>) businessObjectService.findAll(ProcurementCardTranAddItem.class);
+        
+        for (ProcurementCardTranAddItem procurementCardTranAddItem: procurementCardTranAddItems) {
+            if (procurementCardTranAddItem.getTransactionSequenceRowNumber().intValue() == transaction.getTransactionSequenceRowNumber().intValue()) {
+                procurementCardLevel3AddItem = new ProcurementCardLevel3AddItem();
+                procurementCardLevel3AddItem.setDocumentNumber(pcardDocument.getDocumentNumber());
+                procurementCardLevel3AddItem.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+                procurementCardLevel3AddItem.setSequenceNumber(sequenceNumber);
+                procurementCardLevel3AddItem.setItemCommodityCode(procurementCardTranAddItem.getItemCommodityCode());
+                procurementCardLevel3AddItem.setItemProductCode(procurementCardTranAddItem.getItemProductCode());
+                procurementCardLevel3AddItem.setItemDescription(procurementCardTranAddItem.getItemDescription());
+                procurementCardLevel3AddItem.setItemQuantity(procurementCardTranAddItem.getItemQuantity());
+                procurementCardLevel3AddItem.setItemUnitCode(procurementCardTranAddItem.getItemUnitCode());
+                procurementCardLevel3AddItem.setItemAmount(procurementCardTranAddItem.getItemAmount());
+                procurementCardLevel3AddItem.setItemDebitCreditCode(procurementCardTranAddItem.getItemDebitCreditCode());
+                procurementCardLevel3AddItem.setItemTaxRate(procurementCardTranAddItem.getItemTaxRate());
+                procurementCardLevel3AddItem.setItemTaxAmount(procurementCardTranAddItem.getItemTaxAmount());
+                procurementCardLevel3AddItem.setItemDiscountAmount(procurementCardTranAddItem.getItemDiscountAmount());
+                procurementCardLevel3AddItem.setItemExtendedAmount(procurementCardTranAddItem.getItemExtendedAmount());
+                procurementCardLevel3AddItems.add(procurementCardLevel3AddItem);     
+                sequenceNumber++;
+            }            
+        }
+        if (ObjectUtils.isNotNull(procurementCardLevel3AddItems)) {
+            transactionDetail.setProcurementCardLevel3AddItems(procurementCardLevel3AddItems);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 addendum user record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 addendum user record on.
+     */
+    protected void createTransactionLevel3AddUserRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getUserEffectiveDate())) {        
+            ProcurementCardLevel3AddUser procurementCardLevel3AddUser = new ProcurementCardLevel3AddUser();
+    
+            procurementCardLevel3AddUser.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3AddUser.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3AddUser.setUserEffectiveDate(transaction.getUserEffectiveDate());
+            procurementCardLevel3AddUser.setUserAmount(transaction.getUserAmount());
+            
+            transactionDetail.setProcurementCardLevel3AddUser(procurementCardLevel3AddUser);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 fuel record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 fuel record on.
+     */
+    protected void createTransactionLevel3FuelRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getFuelSaleAmount())) {    
+            ProcurementCardLevel3Fuel procurementCardLevel3Fuel = new ProcurementCardLevel3Fuel();
+    
+            procurementCardLevel3Fuel.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Fuel.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Fuel.setOilBrandName(transaction.getOilBrandName());
+            procurementCardLevel3Fuel.setOdometerReading(transaction.getOdometerReading());
+            procurementCardLevel3Fuel.setFleetId(transaction.getFleetId());
+            procurementCardLevel3Fuel.setMessageId(transaction.getMessageId());
+            procurementCardLevel3Fuel.setUsage(transaction.getUsage());
+            procurementCardLevel3Fuel.setFuelServiceType(transaction.getFuelServiceType());
+            procurementCardLevel3Fuel.setFuelProductCd(transaction.getFuelProductCd());
+            procurementCardLevel3Fuel.setProductTypeCd(transaction.getProductTypeCd());
+            procurementCardLevel3Fuel.setFuelQuantity(transaction.getFuelQuantity());
+            procurementCardLevel3Fuel.setFuelUnitOfMeasure(transaction.getFuelUnitOfMeasure());
+            procurementCardLevel3Fuel.setFuelUnitPrice(transaction.getFuelUnitPrice());
+            procurementCardLevel3Fuel.setFuelSaleAmount(transaction.getFuelSaleAmount());
+            procurementCardLevel3Fuel.setFuelDiscountAmount(transaction.getFuelDiscountAmount());
+            procurementCardLevel3Fuel.setTaxAmount1(transaction.getTaxAmount1());
+            procurementCardLevel3Fuel.setTaxAmount2(transaction.getTaxAmount2());
+            procurementCardLevel3Fuel.setTotalAmount(transaction.getTotalAmount());
+            
+            transactionDetail.setProcurementCardLevel3Fuel(procurementCardLevel3Fuel);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 generic record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 generic user record on.
+     */
+    protected void createTransactionLevel3GenericRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getGenericEffectiveDate())) {    
+            ProcurementCardLevel3Generic procurementCardLevel3Generic = new ProcurementCardLevel3Generic();
+    
+            procurementCardLevel3Generic.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Generic.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Generic.setGenericEffectiveDate(transaction.getGenericEffectiveDate());
+            procurementCardLevel3Generic.setGenericData(transaction.getGenericData());
+            
+            transactionDetail.setProcurementCardLevel3Generic(procurementCardLevel3Generic);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 lodging record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 lodging record on.
+     */
+    protected void createTransactionLevel3LodgingRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getArriveDate())) {    
+            ProcurementCardLevel3Lodging procurementCardLevel3Lodging = new ProcurementCardLevel3Lodging();
+    
+            procurementCardLevel3Lodging.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Lodging.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Lodging.setArriveDate(transaction.getArriveDate());
+            procurementCardLevel3Lodging.setDepartureDate(transaction.getDepartureDate());
+            procurementCardLevel3Lodging.setFolioNum(transaction.getFolioNum());
+            procurementCardLevel3Lodging.setPropertyPhoneNum(transaction.getPropertyPhoneNum());
+            procurementCardLevel3Lodging.setCustomerServiceNum(transaction.getCustomerServiceNum());
+            procurementCardLevel3Lodging.setPrePaidAmt(transaction.getPrePaidAmt());
+            procurementCardLevel3Lodging.setRoomRate(transaction.getRoomRate());
+            procurementCardLevel3Lodging.setRoomTax(transaction.getRoomTax());
+            procurementCardLevel3Lodging.setProgramCode(transaction.getProgramCode());
+            procurementCardLevel3Lodging.setCallCharges(transaction.getCallCharges());
+            procurementCardLevel3Lodging.setFoodSvcCharges(transaction.getFoodSvcCharges());
+            procurementCardLevel3Lodging.setMiniBarCharges(transaction.getMiniBarCharges());
+            procurementCardLevel3Lodging.setGiftShopCharges(transaction.getGiftShopCharges());
+            procurementCardLevel3Lodging.setLaundryCharges(transaction.getLaundryCharges());
+            procurementCardLevel3Lodging.setHealthClubCharges(transaction.getHealthClubCharges());
+            procurementCardLevel3Lodging.setMovieCharges(transaction.getMovieCharges());
+            procurementCardLevel3Lodging.setBusCtrCharges(transaction.getBusCtrCharges());
+            procurementCardLevel3Lodging.setParkingCharges(transaction.getParkingCharges());
+            procurementCardLevel3Lodging.setOtherCode(transaction.getOtherCode());
+            procurementCardLevel3Lodging.setOtherCharges(transaction.getOtherCharges());
+            procurementCardLevel3Lodging.setAdjustmentAmount(transaction.getAdjustmentAmount());
+            
+            transactionDetail.setProcurementCardLevel3Lodging(procurementCardLevel3Lodging);
+        }
+    }
+    
+    /**
+     * Creates transaction level 3 item records and adds them to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 item records on.
+     */
+    protected void createTransactionLevel3NonFuelRecords(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+    	List<ProcurementCardTranNonFuel> procurementCardTranNonFuels = new ArrayList<ProcurementCardTranNonFuel>();
+        List<ProcurementCardLevel3NonFuel> procurementCardLevel3NonFuels = new ArrayList<ProcurementCardLevel3NonFuel>();
+        ProcurementCardLevel3NonFuel procurementCardLevel3NonFuel;
+        int sequenceNumber = 1;
+        
+        procurementCardTranNonFuels = (List<ProcurementCardTranNonFuel>) businessObjectService.findAll(ProcurementCardTranNonFuel.class);
+        
+        for (ProcurementCardTranNonFuel procurementCardTranNonFuel: procurementCardTranNonFuels) {
+            if (procurementCardTranNonFuel.getTransactionSequenceRowNumber().intValue() == transaction.getTransactionSequenceRowNumber().intValue()) {
+                procurementCardLevel3NonFuel = new ProcurementCardLevel3NonFuel();
+                procurementCardLevel3NonFuel.setDocumentNumber(pcardDocument.getDocumentNumber());
+                procurementCardLevel3NonFuel.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+                procurementCardLevel3NonFuel.setSequenceNumber(sequenceNumber);
+                procurementCardLevel3NonFuel.setNonFuelProductCode(procurementCardTranNonFuel.getNonFuelProductCode());
+                procurementCardLevel3NonFuel.setItemDesc(procurementCardTranNonFuel.getItemDesc());
+                procurementCardLevel3NonFuel.setItemQuant(procurementCardTranNonFuel.getItemQuant());
+                procurementCardLevel3NonFuel.setItemUnitOfMeasure(procurementCardTranNonFuel.getItemUnitOfMeasure());
+                procurementCardLevel3NonFuel.setTaxRateApplied(procurementCardTranNonFuel.getTaxRateApplied());
+                procurementCardLevel3NonFuel.setItemTaxAmt(procurementCardTranNonFuel.getItemTaxAmt());
+                procurementCardLevel3NonFuel.setAlternateTaxId(procurementCardTranNonFuel.getAlternateTaxId());
+                procurementCardLevel3NonFuel.setItemDiscountAmt(procurementCardTranNonFuel.getItemDiscountAmt());
+                procurementCardLevel3NonFuel.setItemTotal(procurementCardTranNonFuel.getItemTotal());                
+                procurementCardLevel3NonFuels.add(procurementCardLevel3NonFuel);     
+                sequenceNumber++;
+            }            
+        }
+        if (ObjectUtils.isNotNull(procurementCardLevel3NonFuels)) {
+            transactionDetail.setProcurementCardLevel3NonFuels(procurementCardLevel3NonFuels);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 rental record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 rental record on.
+     */
+    protected void createTransactionLevel3RentalRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getRegularCharges())) {  
+            ProcurementCardLevel3Rental procurementCardLevel3Rental = new ProcurementCardLevel3Rental();
+    
+            procurementCardLevel3Rental.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Rental.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Rental.setCheckOutDate(transaction.getCheckOutDate());
+            procurementCardLevel3Rental.setRentalAgreementNum(transaction.getRentalAgreementNum());
+            procurementCardLevel3Rental.setRenterName(transaction.getRenterName());
+            procurementCardLevel3Rental.setReturnCity(transaction.getReturnCity());
+            procurementCardLevel3Rental.setReturnState(transaction.getReturnState());
+            procurementCardLevel3Rental.setReturnCountry(transaction.getReturnCountry());
+            procurementCardLevel3Rental.setReturnDate(transaction.getReturnDate());
+            procurementCardLevel3Rental.setReturnLocation(transaction.getReturnLocation());
+            procurementCardLevel3Rental.setCustomerSvcNum(transaction.getCustomerSvcNum());
+            procurementCardLevel3Rental.setRentalClass(transaction.getRentalClass());
+            procurementCardLevel3Rental.setDailyRate(transaction.getDailyRate());
+            procurementCardLevel3Rental.setWeeklyRate(transaction.getWeeklyRate());
+            procurementCardLevel3Rental.setRatePerMile(transaction.getRatePerMile());
+            procurementCardLevel3Rental.setMaxFreeMiles(transaction.getMaxFreeMiles());
+            procurementCardLevel3Rental.setTotalMiles(transaction.getTotalMiles());
+            procurementCardLevel3Rental.setOneWayCharges(transaction.getOneWayCharges());
+            procurementCardLevel3Rental.setInsuranceCharges(transaction.getInsuranceCharges());
+            procurementCardLevel3Rental.setRegularCharges(transaction.getRegularCharges());
+            procurementCardLevel3Rental.setTowingCharges(transaction.getTowingCharges());
+            procurementCardLevel3Rental.setExtraCharges(transaction.getExtraCharges());
+            procurementCardLevel3Rental.setLateReturnFee(transaction.getLateReturnFee());
+            procurementCardLevel3Rental.setAdjustCode(transaction.getAdjustCode());
+            procurementCardLevel3Rental.setAdjustAmount(transaction.getAdjustAmount());
+            procurementCardLevel3Rental.setProgCode(transaction.getProgCode());
+            procurementCardLevel3Rental.setPhoneCharges(transaction.getPhoneCharges());
+            procurementCardLevel3Rental.setOthrCharges(transaction.getOthrCharges());
+            procurementCardLevel3Rental.setTotalTaxAmount(transaction.getTotalTaxAmount());
+        
+            transactionDetail.setProcurementCardLevel3Rental(procurementCardLevel3Rental);
+        }
+    }
+    
+    /**
+     * Creates transaction level 3 ship services records and adds them to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 ship services records on.
+     */
+    protected void createTransactionLevel3ShipSvcRecords(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+    	List<ProcurementCardTranShipSvc> procurementCardTranShipSvcs = new ArrayList<ProcurementCardTranShipSvc>();
+        List<ProcurementCardLevel3ShipSvc> procurementCardLevel3ShipSvcs = new ArrayList<ProcurementCardLevel3ShipSvc>();
+        ProcurementCardLevel3ShipSvc procurementCardLevel3ShipSvc;
+        int sequenceNumber = 1;
+        
+        procurementCardTranShipSvcs = (List<ProcurementCardTranShipSvc>) businessObjectService.findAll(ProcurementCardTranShipSvc.class);
+        
+        for (ProcurementCardTranShipSvc procurementCardTranShipSvc: procurementCardTranShipSvcs) {
+            if (procurementCardTranShipSvc.getTransactionSequenceRowNumber().intValue() == transaction.getTransactionSequenceRowNumber().intValue()) {
+                procurementCardLevel3ShipSvc = new ProcurementCardLevel3ShipSvc();
+                procurementCardLevel3ShipSvc.setDocumentNumber(pcardDocument.getDocumentNumber());
+                procurementCardLevel3ShipSvc.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+                procurementCardLevel3ShipSvc.setSequenceNumber(sequenceNumber);
+                procurementCardLevel3ShipSvc.setCourierName(procurementCardTranShipSvc.getCourierName());
+                procurementCardLevel3ShipSvc.setTrackingNumber(procurementCardTranShipSvc.getTrackingNumber());
+                procurementCardLevel3ShipSvc.setServiceDescription(procurementCardTranShipSvc.getServiceDescription());
+                procurementCardLevel3ShipSvc.setPickupDate(procurementCardTranShipSvc.getPickupDate());
+                procurementCardLevel3ShipSvc.setOriginZip(procurementCardTranShipSvc.getOriginZip());
+                procurementCardLevel3ShipSvc.setOriginCountryCd(procurementCardTranShipSvc.getOriginCountryCd());
+                procurementCardLevel3ShipSvc.setDestinationZip(procurementCardTranShipSvc.getDestinationZip());
+                procurementCardLevel3ShipSvc.setDestinationCountryCd(procurementCardTranShipSvc.getDestinationCountryCd());
+                procurementCardLevel3ShipSvc.setNetAmount(procurementCardTranShipSvc.getNetAmount());
+                procurementCardLevel3ShipSvc.setTaxAmt(procurementCardTranShipSvc.getTaxAmt());
+                procurementCardLevel3ShipSvc.setDiscAmt(procurementCardTranShipSvc.getDiscAmt());
+                procurementCardLevel3ShipSvc.setNumberOfPackages(procurementCardTranShipSvc.getNumberOfPackages());
+                procurementCardLevel3ShipSvc.setWeight(procurementCardTranShipSvc.getWeight());
+                procurementCardLevel3ShipSvc.setUnitsOfMeasure(procurementCardTranShipSvc.getUnitsOfMeasure());
+                procurementCardLevel3ShipSvc.setSenderName(procurementCardTranShipSvc.getSenderName());
+                procurementCardLevel3ShipSvc.setSenderAddress(procurementCardTranShipSvc.getSenderAddress());
+                procurementCardLevel3ShipSvc.setReceiverName(procurementCardTranShipSvc.getReceiverName());
+                procurementCardLevel3ShipSvc.setReceiverAddress(procurementCardTranShipSvc.getReceiverAddress());
+                procurementCardLevel3ShipSvc.setCustomerRefNumber(procurementCardTranShipSvc.getCustomerRefNumber());
+                procurementCardLevel3ShipSvcs.add(procurementCardLevel3ShipSvc);     
+                sequenceNumber++;
+            }            
+        }
+        if (ObjectUtils.isNotNull(procurementCardLevel3ShipSvcs)) {
+            transactionDetail.setProcurementCardLevel3ShipSvcs(procurementCardLevel3ShipSvcs);
+        }
+    }
+    
+    /**
+     * Creates a transaction level 3 transport record and adds it to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 transport record on.
+     */
+    protected void createTransactionLevel3TransportRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+        if (ObjectUtils.isNotNull(transaction.getPassengerName())) {  
+            ProcurementCardLevel3Transport procurementCardLevel3Transport = new ProcurementCardLevel3Transport();
+    
+            procurementCardLevel3Transport.setDocumentNumber(pcardDocument.getDocumentNumber());
+            procurementCardLevel3Transport.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+            procurementCardLevel3Transport.setPassengerName(transaction.getPassengerName());
+            procurementCardLevel3Transport.setDepartDate(transaction.getDepartDate());
+            procurementCardLevel3Transport.setDepartureCity(transaction.getDepartureCity());
+            procurementCardLevel3Transport.setAgencyCode(transaction.getAgencyCode());
+            procurementCardLevel3Transport.setAgencyName(transaction.getAgencyName());
+            procurementCardLevel3Transport.setTicketNumber(transaction.getTicketNumber());
+            procurementCardLevel3Transport.setCustomerCode(transaction.getCustomerCode());
+            procurementCardLevel3Transport.setIssueDate(transaction.getIssueDate());
+            procurementCardLevel3Transport.setIssuingCarrier(transaction.getIssuingCarrier());
+            procurementCardLevel3Transport.setTotalFare(transaction.getTotalFare());
+            procurementCardLevel3Transport.setTotalFees(transaction.getTotalFees());
+            procurementCardLevel3Transport.setTotalTaxes(transaction.getTotalTaxes());
+            
+            transactionDetail.setProcurementCardLevel3Transport(procurementCardLevel3Transport);
+        }
+    }
+    
+    /**
+     * Creates transaction level 3 transport leg records and adds them to the transaction detail.
+     * 
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the level 3 transport leg records on.
+     */
+    protected void createTransactionLevel3TransLegRecords(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+    	List<ProcurementCardTranTransportLeg> procurementCardTranTransportLegs = new ArrayList<ProcurementCardTranTransportLeg>();
+        List<ProcurementCardLevel3TransportLeg> procurementCardLevel3TransportLegs = new ArrayList<ProcurementCardLevel3TransportLeg>();
+        ProcurementCardLevel3TransportLeg procurementCardLevel3TransportLeg;
+        int sequenceNumber = 1;
+        
+        procurementCardTranTransportLegs = (List<ProcurementCardTranTransportLeg>) businessObjectService.findAll(ProcurementCardTranTransportLeg.class);
+        
+        for (ProcurementCardTranTransportLeg procurementCardTranTransportLeg: procurementCardTranTransportLegs) {
+            if (procurementCardTranTransportLeg.getTransactionSequenceRowNumber().intValue() == transaction.getTransactionSequenceRowNumber().intValue()) {
+                procurementCardLevel3TransportLeg = new ProcurementCardLevel3TransportLeg();
+                procurementCardLevel3TransportLeg.setDocumentNumber(pcardDocument.getDocumentNumber());
+                procurementCardLevel3TransportLeg.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
+                procurementCardLevel3TransportLeg.setSequenceNumber(sequenceNumber);
+                procurementCardLevel3TransportLeg.setCarrierCode(procurementCardTranTransportLeg.getCarrierCode());
+                procurementCardLevel3TransportLeg.setServiceClass(procurementCardTranTransportLeg.getServiceClass());
+                procurementCardLevel3TransportLeg.setDepartCity(procurementCardTranTransportLeg.getDepartCity());
+                procurementCardLevel3TransportLeg.setConjunctionTicket(procurementCardTranTransportLeg.getConjunctionTicket());
+                procurementCardLevel3TransportLeg.setExchangeTicket(procurementCardTranTransportLeg.getExchangeTicket());
+                procurementCardLevel3TransportLeg.setDestinationCity(procurementCardTranTransportLeg.getDestinationCity());
+                procurementCardLevel3TransportLeg.setFareBasisCode(procurementCardTranTransportLeg.getFareBasisCode());
+                procurementCardLevel3TransportLeg.setFlightNumber(procurementCardTranTransportLeg.getFlightNumber());
+                procurementCardLevel3TransportLeg.setDepartTime(procurementCardTranTransportLeg.getDepartTime());
+                procurementCardLevel3TransportLeg.setDepartTimeSegment(procurementCardTranTransportLeg.getDepartTimeSegment());
+                procurementCardLevel3TransportLeg.setArriveTime(procurementCardTranTransportLeg.getArriveTime());
+                procurementCardLevel3TransportLeg.setArriveTimeSegment(procurementCardTranTransportLeg.getArriveTimeSegment());
+                procurementCardLevel3TransportLeg.setFare(procurementCardTranTransportLeg.getFare());
+                procurementCardLevel3TransportLeg.setFees(procurementCardTranTransportLeg.getFees());
+                procurementCardLevel3TransportLeg.setTaxes(procurementCardTranTransportLeg.getTaxes());
+                procurementCardLevel3TransportLeg.setEndorsements(procurementCardTranTransportLeg.getEndorsements());
+                procurementCardLevel3TransportLeg.setControlCode(procurementCardTranTransportLeg.getControlCode());
+                procurementCardLevel3TransportLegs.add(procurementCardLevel3TransportLeg);     
+                sequenceNumber++;
+            }            
+        }
+        if (ObjectUtils.isNotNull(procurementCardLevel3TransportLegs)) {
+            transactionDetail.setProcurementCardLevel3TransportLegs(procurementCardLevel3TransportLegs);
+        }
+    }
+        
     /**
      * From the transaction accounting attributes, creates source and target accounting lines. Attributes are validated first, and
      * replaced with default and error values if needed. There will be 1 source and 1 target line generated.
@@ -1207,5 +1627,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
-
+    public boolean rerouteProcurementCardDocuments(){
+    	throw new UnsupportedOperationException();    	
+    }
 }

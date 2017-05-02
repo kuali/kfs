@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"> 
+
+  <!-- Here we will include all changesets in the proper order -->
+  <!-- include file="changesets/db.changelog-UAF-###.xml" -->
+  
+  <include file="changesets/db.changelog-UAF-387.xml" />
+  <include file="changesets/db.changelog-UAF-37.xml" />
+  <include file="changesets/db.changelog-UAF-41.xml" />
+  <include file="changesets/db.changelog-UAF-946.xml" />
+  <include file="changesets/db.changelog-UAF-937.xml" />
+  <include file="changesets/db.changelog-UAF-760.xml" />
+  <include file="changesets/db.changelog-UAF-432.xml" />
+  <include file="changesets/db.changelog-UAF-50.xml" />
+  <include file="changesets/db.changelog-UAF-475.xml" />
+  <include file="changesets/db.changelog-UAF-2042.xml" />
+  <include file="changesets/db.changelog-UAF-2404.xml" />
+  <include file="changesets/db.changelog-UAF-2450.xml" />
+  <include file="changesets/db.changelog-UAF-1790.xml" />
+  <include file="changesets/db.changelog-UAF-2791.xml" />
+  <include file="changesets/db.changelog-UAF-2877.xml" />
+  <include file="changesets/db.changelog-UAF-3004.xml" />
+  <include file="changesets/db.changelog-UAF-2788.xml" />
+  <include file="changesets/db.changelog-UAF-2808.xml" />
+  <include file="changesets/db.changelog-UAF-31.xml" />
+  <include file="changesets/db.changelog-UAF-4337.xml" />
+  <include file="changesets/db.changelog-UAF-2969.xml" />
+</databaseChangeLog>

@@ -1,0 +1,268 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardLevel3TransportLeg" parent="ProcurementCardLevel3TransportLeg-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.ProcurementCardLevel3TransportLeg" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProcurementCardLevel3TransportLeg-inquiryDefinition" />
+    </property>
+    <property name="objectLabel" value="Procurement Card Transport Leg" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProcurementCardLevel3TransportLeg-documentNumber" />
+        <ref bean="ProcurementCardLevel3TransportLeg-financialDocumentTransactionLineNumber" />
+        <ref bean="ProcurementCardLevel3TransportLeg-sequenceNumber" />
+        <ref bean="ProcurementCardLevel3TransportLeg-carrierCode" />
+        <ref bean="ProcurementCardLevel3TransportLeg-serviceClass" />
+        <ref bean="ProcurementCardLevel3TransportLeg-departCity" />
+        <ref bean="ProcurementCardLevel3TransportLeg-conjunctionTicket" />
+        <ref bean="ProcurementCardLevel3TransportLeg-exchangeTicket" />
+        <ref bean="ProcurementCardLevel3TransportLeg-destinationCity" />
+        <ref bean="ProcurementCardLevel3TransportLeg-fareBasisCode" />
+        <ref bean="ProcurementCardLevel3TransportLeg-flightNumber" />
+        <ref bean="ProcurementCardLevel3TransportLeg-departTime" />
+        <ref bean="ProcurementCardLevel3TransportLeg-departTimeSegment" />
+        <ref bean="ProcurementCardLevel3TransportLeg-arriveTime" />
+        <ref bean="ProcurementCardLevel3TransportLeg-arriveTimeSegment" />
+        <ref bean="ProcurementCardLevel3TransportLeg-fare" />
+        <ref bean="ProcurementCardLevel3TransportLeg-fees" />
+        <ref bean="ProcurementCardLevel3TransportLeg-taxes" />
+        <ref bean="ProcurementCardLevel3TransportLeg-endorsements" />
+        <ref bean="ProcurementCardLevel3TransportLeg-controlCode" />
+      </list>
+    </property>
+  </bean>
+  
+<!-- Attribute Definitions -->  
+  <bean id="ProcurementCardLevel3TransportLeg-documentNumber" parent="ProcurementCardLevel3TransportLeg-documentNumber-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="forceUppercase" value="true" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-financialDocumentTransactionLineNumber" parent="ProcurementCardLevel3TransportLeg-financialDocumentTransactionLineNumber-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" />
+  
+  <bean id="ProcurementCardLevel3TransportLeg-sequenceNumber" parent="ProcurementCardLevel3TransportLeg-sequenceNumber-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-sequenceNumber-parentBean" abstract="true" parent="ProcurementCardLevel3AddItem-sequenceNumber">
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-carrierCode" parent="ProcurementCardLevel3TransportLeg-carrierCode-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-carrierCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carrierCode" />
+    <property name="label" value="Carrier Code" />
+    <property name="shortLabel" value="Carrier" />
+    <property name="maxLength" value="25" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="27" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-serviceClass" parent="ProcurementCardLevel3TransportLeg-serviceClass-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-serviceClass-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="serviceClass" />
+    <property name="label" value="Service Class" />
+    <property name="shortLabel" value="Svc Class" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="4" />
+    </property>
+  </bean>
+
+  <bean id="ProcurementCardLevel3TransportLeg-departCity" parent="ProcurementCardLevel3TransportLeg-departCity-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-departCity-parentBean" abstract="true" parent="ProcurementCardLevel3Transport-departureCity">
+    <property name="name" value="departCity" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-conjunctionTicket" parent="ProcurementCardLevel3TransportLeg-conjunctionTicket-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-conjunctionTicket-parentBean" abstract="true"  parent="AttributeDefinition">
+  	<property name="name" value="conjunctionTicket" />
+  	<property name="label" value="Conjunction Ticket" />
+  	<property name="shortLabel" value="Conj Ticket" />
+  	<property name="maxLength" value="15" />
+  	<property name="control" >
+  	  <bean parent="TextControlDefinition"
+  	  		p:size="17" />
+  	</property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-exchangeTicket" parent="ProcurementCardLevel3TransportLeg-exchangeTicket-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-exchangeTicket-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exchangeTicket" />
+    <property name="label" value="Exchange Ticket" />
+    <property name="shortLabel" value="Exch Ticket" />
+    <property name="maxLength" value="15" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="17" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-destinationCity" parent="ProcurementCardLevel3TransportLeg-destinationCity-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-destinationCity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="destinationCity" />
+    <property name="label" value="Destination City" />
+    <property name="shortLabel" value="Dest City" />
+    <property name="maxLength" value="5" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="7" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-fareBasisCode" parent="ProcurementCardLevel3TransportLeg-fareBasisCode-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-fareBasisCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fareBasisCode" />
+    <property name="label" value="Fare Basis Code" />
+    <property name="shortLabel" value="Fare Cd" />
+    <property name="maxLength" value="15" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="17" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-flightNumber" parent="ProcurementCardLevel3TransportLeg-flightNumber-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-flightNumber-parentBean"  abstract="true" parent="AttributeDefinition">
+    <property name="name" value="flightNumber" />
+    <property name="label" value="Flight Number" />
+    <property name="shortLabel" value="Flight Num" />
+    <property name="maxLength" value="5" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="7" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-departTime" parent="ProcurementCardLevel3TransportLeg-departTime-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-departTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="departTime" />
+    <property name="label" value="Departure Time" />
+    <property name="shortLabel" value="Depart Time" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="6" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-departTimeSegment" parent="ProcurementCardLevel3TransportLeg-departTimeSegment-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-departTimeSegment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="departTimeSegment" />
+    <property name="label" value="Departure Time Segment" />
+    <property name="shortLabel" value="Depart Time Seg" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="3" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-arriveTime" parent="ProcurementCardLevel3TransportLeg-arriveTime-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-arriveTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="arriveTime" />
+    <property name="label" value="Arrival Time" />
+    <property name="shortLabel" value="Arrive Time" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="6" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-arriveTimeSegment" parent="ProcurementCardLevel3TransportLeg-arriveTimeSegment-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-arriveTimeSegment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="arriveTimeSegment" />
+    <property name="label" value="Arrival Time Segment" />
+    <property name="shortLabel" value="Arrive Time Seg" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="3" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-fare" parent="ProcurementCardLevel3TransportLeg-fare-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-fare-parentBean" abstract="true" parent="ProcurementCardLevel3Transport-totalFare">
+  	<property name="name" value="fare" />
+  	<property name="label" value="Fare" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-fees" parent="ProcurementCardLevel3TransportLeg-fees-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-fees-parentBean" abstract="true" parent="ProcurementCardLevel3Transport-totalFees">
+    <property name="name" value="fees" />
+    <property name="label" value="Fees" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-taxes" parent="ProcurementCardLevel3TransportLeg-taxes-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-taxes-parentBean" abstract="true" parent="ProcurementCardLevel3Transport-totalTaxes">
+    <property name="name" value="taxes" />
+    <property name="label" value="Taxes" />
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-endorsements" parent="ProcurementCardLevel3TransportLeg-endorsements-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-endorsements-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="endorsements" />
+    <property name="label" value="Endorsements" />
+    <property name="shortLabel" value="Endorsements" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="22" />
+    </property>
+  </bean>
+  
+  <bean id="ProcurementCardLevel3TransportLeg-controlCode" parent="ProcurementCardLevel3TransportLeg-controlCode-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-controlCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="controlCode" />
+    <property name="label" value="Control Number" />
+    <property name="shortLabel" value="Control" />
+    <property name="maxLength" value="13" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+      		p:size="15" />
+    </property>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->  
+  <bean id="ProcurementCardLevel3TransportLeg-inquiryDefinition" parent="ProcurementCardLevel3TransportLeg-inquiryDefinition-parentBean" />
+  <bean id="ProcurementCardLevel3TransportLeg-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Procurement Card Transport Leg Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Procurement Card Transport Leg" />
+          <property name="numberOfColumns" value="4" />
+          <property name="inquiryFields" >
+          	<list>
+          	  <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+          	  <bean parent="FieldDefinition" p:attributeName="carrierCode" />
+          	  <bean parent="FieldDefinition" p:attributeName="serviceClass" />
+          	  <bean parent="FieldDefinition" p:attributeName="departCity" />
+          	  <bean parent="FieldDefinition" p:attributeName="conjunctionTicket" />
+          	  <bean parent="FieldDefinition" p:attributeName="exchangeTicket" />
+          	  <bean parent="FieldDefinition" p:attributeName="destinationCity" />
+          	  <bean parent="FieldDefinition" p:attributeName="fareBasisCode" />
+          	  <bean parent="FieldDefinition" p:attributeName="flightNumber" />
+          	  <bean parent="FieldDefinition" p:attributeName="departTime" />
+          	  <bean parent="FieldDefinition" p:attributeName="departTimeSegment" />
+          	  <bean parent="FieldDefinition" p:attributeName="arriveTime" />
+          	  <bean parent="FieldDefinition" p:attributeName="arriveTimeSegment" />
+          	  <bean parent="FieldDefinition" p:attributeName="fare" />
+          	  <bean parent="FieldDefinition" p:attributeName="fees" />
+          	  <bean parent="FieldDefinition" p:attributeName="taxes" />
+          	  <bean parent="FieldDefinition" p:attributeName="endorsements" />
+          	  <bean parent="FieldDefinition" p:attributeName="controlCode" />
+          	</list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

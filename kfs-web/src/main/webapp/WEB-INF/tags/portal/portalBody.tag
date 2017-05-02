@@ -55,6 +55,9 @@
           <c:when test='${selectedTab == "main"}'>
               <portal:mainTab />
           </c:when>
+          <c:when test='${selectedTab == "centralAdmin"}'>
+              <portal:centralAdminTab />
+          </c:when>
           <c:when test='${selectedTab == "maintenance"}'>
               <portal:maintenanceTab />
           </c:when>

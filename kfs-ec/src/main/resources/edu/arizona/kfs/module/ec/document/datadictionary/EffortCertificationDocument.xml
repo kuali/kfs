@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EffortCertificationDocument" parent="EffortCertificationDocument-parentBean"> 
+    <property name="documentAuthorizerClass" value="edu.arizona.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="edu.arizona.kfs.module.ec.document.authorization.EffortDocumentPresentationController"/>    
+  </bean>
+
+  <!-- Exported Workflow Attributes -->	
+  <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean">
+  	  <property name="routingTypeDefinitions">
+  	  		<map>  	  			
+  	  			<entry key="Account" value-ref="RoutingType-EffortCertificationDocument-Account"/>
+  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement"/>
+  	  			<entry key="Award" value-ref="RoutingType-EffortCertificationDocument-Award"/>
+  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-EffortCertificationDocument-OrganizationHierarchy"/>
+  	  			<!-- no qualifiers for Management node -->
+  	  		</map>
+  	  </property>	
+  </bean>
+  
+  <!-- define the routing types -->  
+  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy" parent="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean">  
+  	<property name="routingAttributes">
+  		<list>
+  			<ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
+  			<ref bean="RoutingAttribute-chartOfAccountsCode"/>
+  			<ref bean="RoutingAttribute-organizationCode"/>
+  			<ref bean="RoutingAttribute-overrideCode"/>
+  			<ref bean="RoutingAttribute-fundGroupCode"/>
+  			<ref bean="RoutingAttribute-subFundGroupCode"/>
+  			<ref bean="RoutingAttribute-objectSubTypeCode"/>
+  		</list>
+  	</property>
+  	<property name="documentValuePathGroups">
+  		<list>
+  			<ref bean="DocumentValuePathGroup-EffortCertificationDocument-OrganizationHierarchy-detailLines"/>
+  		</list>
+  	</property>
+  </bean>  
+  
+  <bean id="DocumentCollectionPath-detailLine-chartOrganizationAndOverrideCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+  	<property name="documentValues">
+  		<list>
+  			<value>chartOfAccountsCode</value>
+  			<value>account.organizationCode</value>
+  			<value>overrideCode</value>
+  			<value>account.subFundGroup.fundGroupCode</value>
+  			<value>account.subFundGroupCode</value>
+  			<value>financialObject.financialObjectSubTypeCode</value>
+  		</list>
+  	</property>
+  </bean>  
+</beans>

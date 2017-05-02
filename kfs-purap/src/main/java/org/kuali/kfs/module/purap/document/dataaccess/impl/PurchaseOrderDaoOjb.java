@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -190,7 +191,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      */
     @Override
     public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes) {
-        LOG.debug("getAllOpenPurchaseOrders() started");
+        LOG.debug("getAllOpenPurchaseOrdersForAutoClose() started");
         Criteria criteria = new Criteria();
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
         criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
@@ -198,12 +199,13 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         for (String excludeCode : excludedVendorChoiceCodes) {
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         QueryByCriteria qbc = new QueryByCriteria(AutoClosePurchaseOrderView.class, criteria);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
+            LOG.debug("getAllOpenPurchaseOrdersForAutoClose() Query criteria is " + criteria.toString());
         }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        LOG.debug("getAllOpenPurchaseOrders() ended.");
+        LOG.debug("getAllOpenPurchaseOrdersForAutoClose() ended.");
 
         return l;
     }

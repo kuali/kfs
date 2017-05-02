@@ -75,7 +75,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     private LaborModuleService laborModuleService;
     private KualiModuleService kualiModuleService;
-    private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;

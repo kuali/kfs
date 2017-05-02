@@ -44,7 +44,21 @@
 			</c:if>
 		</c:if>
 
-
+		<%-- Central Admin  --%>
+		<c:if test='${selectedTab == "centralAdmin"}'>
+			<li class="red">
+				<a class="red" href="portal.do?selectedTab=centralAdmin"
+					title="Central Admin">Central Admin</a>
+			</li>
+		</c:if>
+		<c:if test='${selectedTab != "centralAdmin"}'>
+			<li class="green">
+				<a class="green"
+					href="portal.do?selectedTab=centralAdmin"
+					title="Central Admin">Central Admin</a>
+			</li>
+		</c:if>
+		
 		<%-- Administration  --%>
 		<c:if test='${selectedTab == "maintenance"}'>
 			<li class="red">

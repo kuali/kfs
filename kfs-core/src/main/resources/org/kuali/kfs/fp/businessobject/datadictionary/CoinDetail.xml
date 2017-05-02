@@ -41,6 +41,7 @@
         <ref bean="CoinDetail-financialDocumentOneCentAmount"/>
         <ref bean="CoinDetail-oneCentCount"/>
         <ref bean="CoinDetail-financialDocumentOtherCentAmount"/>
+        <ref bean="CoinDetail-financialDocumentCentAmount"/>
         <ref bean="CoinDetail-totalAmount"/>
       </list>
     </property>
@@ -248,6 +249,19 @@
     <property name="name" value="financialDocumentOtherCentAmount"/>
     <property name="label" value="Other Cent Amount"/>
     <property name="shortLabel" value="OthrCntAmt"/>
+    <property name="maxLength" value="6"/>
+    <property name="required" value="false"/>
+    <property name="validationPattern" ref="GenericAmountValiationPattern" />
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="8" p:size="6"/>
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentCentAmount" parent="CoinDetail-financialDocumentCentAmount-parentBean"/>
+
+  <bean id="CoinDetail-financialDocumentCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentCentAmount"/>
+    <property name="label" value="Cent Amount"/>
+    <property name="shortLabel" value="CntAmt"/>
     <property name="maxLength" value="6"/>
     <property name="required" value="false"/>
     <property name="validationPattern" ref="GenericAmountValiationPattern" />

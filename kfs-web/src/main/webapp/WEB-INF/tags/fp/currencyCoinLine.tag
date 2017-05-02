@@ -39,6 +39,7 @@
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />
 <c:set var="coinAttributes" value="${DataDictionary.CoinDetail.attributes}" />
 <c:set var="tabindexOverrideBase" value="20" />
+<c:set var="displayCashReceiptDenominationDetail" value="${KualiForm.displayCashReceiptDenominationDetail}" />
 
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
         <c:if test="${showConfirm}">
@@ -53,14 +54,18 @@
         </c:if>
         <tr>
           <th>&nbsp;</th>
-          <th>Count</th>
+          <c:if test="${displayCashReceiptDenominationDetail or showConfirm}">
+          	<th>Count</th>
+          </c:if>
           <th>Amount</th>
           <c:if test="${showConfirm}">
           	<th>Count</th>
           	<th>Amount</th>
           </c:if>
           <th>&nbsp;</th>
-          <th>Count</th>
+          <c:if test="${displayCashReceiptDenominationDetail or showConfirm}">
+          	<th>Count</th>
+          </c:if>
           <th>Amount</th>
           <c:if test="${showConfirm}">
           	<th>Count</th>
@@ -68,6 +73,8 @@
           </c:if>
         </tr>
         
+   <c:choose>
+	<c:when test="${displayCashReceiptDenominationDetail}">
         <tr>
           <td>
             <kul:htmlAttributeLabel labelFor="${currencyProperty}.hundredDollarCount" attributeEntry="${currencyAttributes.hundredDollarCount}" />
@@ -309,4 +316,60 @@
           <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${confirmedCoinProperty}.totalAmount" /></strong></td>
           </c:if>
         </tr>
-      </table>
+       </c:when>
+       <c:otherwise>
+       	<tr>
+          <td>
+            <kul:htmlAttributeLabel labelFor="${currencyProperty}.financialDocumentDollarAmount" attributeEntry="${currencyAttributes.financialDocumentDollarAmount}" />
+          </td>
+          <c:if test="${showConfirm}">
+			<td>&nbsp;</td>
+		  </c:if>
+          <td>
+            $<kul:htmlControlAttribute property="${currencyProperty}.financialDocumentDollarAmount" attributeEntry="${currencyAttributes.financialDocumentDollarAmount}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase}" />
+          </td>
+          <c:if test="${showConfirm}">
+          <td>&nbsp;</td>
+          <td>
+            $<kul:htmlControlAttribute property="${confirmedCurrencyProperty}.financialDocumentDollarAmount" attributeEntry="${currencyAttributes.financialDocumentDollarAmount}" readOnly="${!confirmMode}"/>
+          </td>
+          </c:if>
+          <td>
+            <kul:htmlAttributeLabel labelFor="${coinProperty}.financialDocumentCentAmount" attributeEntry="${coinAttributes.financialDocumentCentAmount}" />
+          </td>
+          <c:if test="${showConfirm}">
+		  	<td>&nbsp;</td>
+		  </c:if>
+          <td>
+            $<kul:htmlControlAttribute property="${coinProperty}.financialDocumentCentAmount" attributeEntry="${coinAttributes.financialDocumentCentAmount}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase + 5}"/>
+          </td>
+          <c:if test="${showConfirm}">
+          <td>&nbsp;</td>
+          <td>
+            $<kul:htmlControlAttribute property="${confirmedCoinProperty}.financialDocumentCentAmount" attributeEntry="${coinAttributes.financialDocumentCentAmount}" readOnly="${!confirmMode}"/>
+          </td>
+          </c:if>
+        </tr>
+        <tr>
+          <c:choose>
+          	<c:when test="${showConfirm}">
+          	  <td class="total-line" colspan="2">&nbsp;</td>
+	          <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${currencyProperty}.totalAmount" /></strong></td>
+	          <td class="total-line" colspan="1">&nbsp;</td>
+	          <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${confirmedCurrencyProperty}.totalAmount" /></strong></td>
+	          <td class="total-line" colspan="2">&nbsp;</td>
+	          <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${coinProperty}.totalAmount" /></strong></td>
+	          <td class="total-line" colspan="1">&nbsp;</td>
+	          <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${confirmedCoinProperty}.totalAmount" /></strong></td>
+          	</c:when>
+          	<c:otherwise>
+          	  <td class="total-line" colspan="">&nbsp;</td>
+          	  <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${currencyProperty}.totalAmount" /></strong></td>
+          	  <td class="total-line" colspan="">&nbsp;</td>
+          	  <td class="total-line"><strong>Total: <bean:write name="KualiForm" property="${coinProperty}.totalAmount" /></strong></td>
+          	</c:otherwise>
+          </c:choose>
+        </tr>
+      </c:otherwise>
+    </c:choose>
+  </table>

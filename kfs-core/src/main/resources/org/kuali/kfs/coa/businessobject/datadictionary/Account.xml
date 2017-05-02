@@ -109,6 +109,7 @@
 		<ref bean="Account-reportsToOrganizationCode" />
 		<ref bean="Account-reportsToCOACode" />
 		<ref bean="Account-responsibilityCenterName" />
+		<ref bean="Account-sourceOfFundsTypeCode" />
       </list>
     </property>
     <property name="accessRestrictedAttributes">
@@ -227,6 +228,13 @@
 		        	<property name="primitiveAttributes">
 		        		<list>
 		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountDescription.campusCode" p:targetName="code" />
+		        		</list>
+		        	</property>
+		        </bean>
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="sourceOfFunds">
+		        	<property name="primitiveAttributes">
+		        		<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="sourceOfFundsTypeCode" p:targetName="typeCode" />
 		        		</list>
 		        	</property>
 		        </bean>
@@ -992,6 +1000,11 @@
 		<property name="name" value="subFundGroup.fundGroupCode" />
 	</bean>
 
+	<bean id="Account-sourceOfFundsTypeCode" parent="Account-sourceOfFundsTypeCode-parentBean" />
+	<bean id="Account-sourceOfFundsTypeCode-parentBean" abstract="true" parent="SourceOfFunds-typeCode">
+		<property name="name" value="sourceOfFundsTypeCode" />
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -1041,6 +1054,7 @@
 				<bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="financialHigherEdFunction.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="sourceOfFundsTypeCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusDate" />
 				<bean parent="FieldDefinition"

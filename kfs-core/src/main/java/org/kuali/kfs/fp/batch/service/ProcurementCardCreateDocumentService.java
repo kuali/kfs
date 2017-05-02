@@ -47,4 +47,12 @@ public interface ProcurementCardCreateDocumentService {
      * @return True if the auto approve was successful, false otherwise.
      */
     public boolean autoApproveProcurementCardDocuments();
+    
+    /**
+     * Looks for ProcurementCardDocuments that are in route status at the "AccountFullEdit" route node and routed to the error account FO. 
+     * Then checks for a valid reconciler and if found, reroutes the document back to the Reconciler.
+     * 
+     * @return True if the re-routing was successful, false otherwise.
+     */
+    public boolean rerouteProcurementCardDocuments();
 }

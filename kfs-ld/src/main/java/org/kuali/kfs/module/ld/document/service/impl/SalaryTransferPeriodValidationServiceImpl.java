@@ -18,11 +18,6 @@
  */
 package org.kuali.kfs.module.ld.document.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.integration.ec.EffortCertificationModuleService;
@@ -45,15 +40,20 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService
  */
 @Transactional
 public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransferPeriodValidationService {
-    private EffortCertificationModuleService effortCertificationService;
-    private DocumentService documentService;
-    private NoteService noteService;
-    private ConfigurationService kualiConfigurationService;
+    protected EffortCertificationModuleService effortCertificationService;
+    protected DocumentService documentService;
+    protected NoteService noteService;
+    protected ConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)

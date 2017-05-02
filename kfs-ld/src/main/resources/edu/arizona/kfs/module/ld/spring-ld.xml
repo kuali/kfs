@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean">
+          <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.module.ld</value>               
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+                <value>classpath:org/kuali/kfs/module/ld/businessobject/datadictionary/overrides/*.xml</value>
+                <value>classpath:org/kuali/kfs/module/ld/document/datadictionary/overrides/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/ld/document/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/module/ld/businessobject/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/module/ld/ojb-ld.xml</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>ereSweepJob</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborGLScrubberValidator" parent="laborGLScrubberValidator-parentBean" />
+    <bean id="laborGLScrubberValidator-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl" parent="scrubberValidator" abstract="true" />
+
+    <bean id="laborScrubberValidator" parent="laborScrubberValidator-parentBean" />
+    <bean id="laborScrubberValidator-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl" abstract="true">
+        <property name="scrubberValidator" ref="laborGLScrubberValidator"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="persistenceStructureService" ref="persistenceStructureService"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="balanceTypService" ref="balanceTypService"/>
+        <property name="optionsService" ref="optionsService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
+    </bean>
+
+    <bean id="salaryTransferPeriodValidationService" parent="salaryTransferPeriodValidationService-parentBean" />
+    <bean id="salaryTransferPeriodValidationService-parentBean" class="edu.arizona.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl" abstract="true">
+        <property name="effortCertificationService" ref="effortCertificationModuleService"/>
+        <property name="documentService" ref="documentService"/>
+        <property name="noteService" ref="noteService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="globalTransactionEditService" ref="globalTransactionEditService"/>
+    </bean>
+
+    <bean id="laborNightlyOutJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborNightlyOutStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborScrubberJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="createLaborBackupGroupStep" />
+                <ref bean="laborPreScrubberStep" />
+                <ref bean="laborScrubberSortStep" />
+                <ref bean="laborScrubberStep" />
+                <ref bean="laborDemergerSortStep" />
+                <ref bean="laborDemergerStep" />
+                <ref bean="aggregateLaborScrubberReportsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborEnterpriseFeedJob" value="hardDependency" />
+                <entry key="laborNightlyOutJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborEnterpriseFeedJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborEnterpriseFeedStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="laborPosterJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborPosterSortStep" />
+                <ref bean="laborPosterStep" />
+                <ref bean="laborFileRenameStep" />
+                <ref bean="laborBalanceSummaryStep" />
+                <ref bean="aggregateLaborPosterReportsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborScrubberJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborBalancingJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborBalancingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborPosterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborFeedJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborFeedStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborPosterJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="clearLaborPendingEntriesJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="laborClearGLEntryStep" />
+                <ref bean="clearLaborPendingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="laborFeedJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborTransactionDescriptionService" class="org.kuali.kfs.module.ld.service.impl.LaborTransactionDescriptionServiceImpl">
+        <property name="transactionDescriptionMap">
+            <map>
+                <entry key="PAY" value="NORMAL PAYROLL ACTIVITY" />
+                <entry key="PAYN" value="PAYROLL ACCRUAL REVERSAL" />
+                <entry key="PAYA" value="PAYROLL ACCRUALS" />
+                <entry key="PAYC" value="PAYROLL CHECK CANCELLATIONS" />
+                <entry key="PAYE" value="PAYROLL ENCUMBRANCES" />
+                <entry key="ET" value="PAYROLL EXPENSE TRANSFERS" />
+                <entry key="SACH" value="PAYROLL EXPENSE TRANSFERS" />
+                <entry key="HDRW" value="PAYROLL HAND DRAWN CHECK PAYMENTS" />
+                <entry key="OPAY" value="PAYROLL OVERPAYMENT COLLECTIONS" />
+                <entry key="RETR" value="PAYROLL RETROACTIVE ADJUSTMENTS" />
+                <entry key="LLPR" value="NORMAL PAYROLL ACTIVITY"/>
+                <entry key="LLPE" value="PAYROLL ENCUMBRANCES"/>
+                <entry key="BA" value="POSITION BUDGET"/>
+                <entry key="BRV" value="POSITION BUDGET REVISION"/>
+                <entry key="BTR" value="POSITION BUDGET TRANSFER"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="laborPosterService" parent="laborPosterService-parentBean" class="edu.arizona.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
+        <property name="laborOriginEntryService">
+            <ref bean="laborOriginEntryService" />
+        </property>
+        <property name="originEntryGroupService">
+            <ref bean="laborOriginEntryGroupService" />
+        </property>
+        <property name="laborTransactionDescriptionService">
+            <ref bean="laborTransactionDescriptionService" />
+        </property>
+
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+
+        <property name="reportWriterService">
+            <ref bean="laborPosterReportWriterService" />
+        </property>
+        <property name="errorListingReportWriterService">
+            <ref bean="laborPosterErrorListingReportWriterService" />
+        </property>
+        <property name="ledgerSummaryReportWriterService">
+            <ref bean="laborPosterLedgerSummaryReportWriterService" />
+        </property>
+        <property name="laborGlEntryStatisticsReportWriterService">
+            <ref bean="laborGlEntryStatisticsReportWriterService" />
+        </property>
+
+        <property name="laborPosterTransactionValidator">
+            <ref bean="laborPosterTransactionValidator" />
+        </property>
+
+        <property name="laborLedgerEntryPoster">
+            <ref bean="laborLedgerEntryPoster" />
+        </property>
+        <property name="laborLedgerBalancePoster">
+            <ref bean="laborLedgerBalancePoster" />
+        </property>
+        <property name="laborGLLedgerEntryPoster">
+            <ref bean="laborGLLedgerEntryPoster" />
+        </property>
+
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    </bean>
+
+    <bean id="ereSweepJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="ereSweepStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ereSweepStep" class="edu.arizona.kfs.module.ld.batch.EreSweepStep" parent="step">
+        <property name="ereSweepParameterService" ref="ereSweepParameterService" />
+        <property name="ereSweepService" ref="ereSweepService" />
+    </bean>
+
+    <bean id="ereSweepService" class="edu.arizona.kfs.module.ld.service.impl.EreSweepServiceImpl">
+        <property name="fileHandler" ref="ereFileHandler" />
+        <property name="ereSweepDao" ref="ereSweepDao" />
+        <property name="ereSweepParameterService" ref="ereSweepParameterService" />
+        <property name="accountExtensionDao" ref="accountExtensionDao" />
+    </bean>
+
+    <bean id="ereSweepDao" class="edu.arizona.kfs.module.ld.dataaccess.impl.EreSweepDaoOjb" parent="platformAwareDao" />
+
+    <bean id="ereSweepParameterService" class="edu.arizona.kfs.module.ld.service.impl.EreSweepParameterServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="ereFileHandler" class="edu.arizona.kfs.module.ld.service.impl.EreSweepFileHandlerServiceImpl" scope="prototype">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="universityDateService" ref="universityDateService" />
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    </bean>
+
+    <bean id="accountExtensionDao" class="edu.arizona.kfs.module.ld.dataaccess.impl.AccountExtensionDaoOjb" parent="platformAwareDao" />
+
+    <bean id="laborPendingEntryConverterService" parent="laborPendingEntryConverterService-parentBean" class="edu.arizona.kfs.module.ld.document.service.impl.LaborPendingEntryConverterServiceImpl" />
+
+</beans>

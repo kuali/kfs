@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PaymentMethod" parent="PaymentMethod-parentBean"/>
+
+  <bean id="PaymentMethod-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.PaymentMethod"/>
+    <property name="inquiryDefinition" ref="PaymentMethod-inquiryDefinition" />
+    <property name="lookupDefinition" ref="PaymentMethod-lookupDefinition" />
+    <property name="titleAttribute" value="paymentMethodCode"/>
+    <property name="objectLabel" value="Payment Method"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PaymentMethod-paymentMethodCode"/>
+        <ref bean="PaymentMethod-paymentMethodName"/>
+        <ref bean="PaymentMethod-bankCode"/>
+        <ref bean="PaymentMethod-assessedFees"/>
+        <ref bean="PaymentMethod-processedUsingPdp"/>
+        <ref bean="PaymentMethod-interdepartmentalPayment"/>
+        <ref bean="PaymentMethod-offsetUsingClearingAccount"/>
+        <ref bean="PaymentMethod-displayOnDisbursementVoucherDocument"/>
+        <ref bean="PaymentMethod-displayOnVendorDocument"/>
+        <ref bean="PaymentMethod-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+	<!--
+		New singleton for the payment method values finder, can be referenced by all uses.
+	-->
+	<bean name="PaymentMethodSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="edu.arizona.kfs.sys.businessobject.options.PaymentMethodValuesFinder" />
+	<bean id="PaymentMethodAttribute-SelectControl" parent="PaymentMethod-paymentMethodCode" p:control-ref="PaymentMethodSelectControl" />
+
+  <bean id="PaymentMethod-paymentMethodCode" parent="PaymentMethod-paymentMethodCode-parentBean"/>
+  <bean id="PaymentMethod-paymentMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentMethodCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Method Code"/>
+    <property name="shortLabel" value="PmtMthCd"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2" />
+    </property>
+  </bean>
+
+  <bean id="PaymentMethod-paymentMethodName" parent="PaymentMethod-paymentMethodName-parentBean"/>
+  <bean id="PaymentMethod-paymentMethodName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentMethodName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Payment Method Description"/>
+    <property name="shortLabel" value="PmtMthDesc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+  </bean>
+
+  <bean id="PaymentMethod-bankCode" parent="PaymentMethod-bankCode-parentBean"/>
+  <bean id="PaymentMethod-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="PaymentMethod-assessedFees" parent="PaymentMethod-assessedFees-parentBean"/>
+  <bean id="PaymentMethod-assessedFees-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="assessedFees"/>
+    <property name="label" value="Fee Indicator"/>
+    <property name="shortLabel" value="FeeInd"/>
+  </bean>
+
+  <bean id="PaymentMethod-processedUsingPdp" parent="PaymentMethod-processedUsingPdp-parentBean"/>
+  <bean id="PaymentMethod-processedUsingPdp-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="processedUsingPdp"/>
+    <property name="label" value="PDP Indicator"/>
+    <property name="shortLabel" value="PDPInd"/>
+  </bean>
+
+  <bean id="PaymentMethod-interdepartmentalPayment" parent="PaymentMethod-interdepartmentalPayment-parentBean"/>
+  <bean id="PaymentMethod-interdepartmentalPayment-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="interdepartmentalPayment"/>
+    <property name="label" value="Interdepartmental Payment Indicator"/>
+    <property name="shortLabel" value="IntDptPmtInd"/>
+  </bean>
+
+  <bean id="PaymentMethod-offsetUsingClearingAccount" parent="PaymentMethod-offsetUsingClearingAccount-parentBean"/>
+  <bean id="PaymentMethod-offsetUsingClearingAccount-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="offsetUsingClearingAccount"/>
+    <property name="label" value="Clearing Account Indicator"/>
+    <property name="shortLabel" value="ClrAcctInd"/>
+  </bean>
+
+  <bean id="PaymentMethod-displayOnDisbursementVoucherDocument" parent="PaymentMethod-displayOnDisbursementVoucherDocument-parentBean"/>
+  <bean id="PaymentMethod-displayOnDisbursementVoucherDocument-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="displayOnDisbursementVoucherDocument"/>
+    <property name="label" value="Display on DV?"/>
+    <property name="shortLabel" value="On DV?"/>
+  </bean>
+
+  <bean id="PaymentMethod-displayOnVendorDocument" parent="PaymentMethod-displayOnVendorDocument-parentBean"/>
+  <bean id="PaymentMethod-displayOnVendorDocument-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="displayOnVendorDocument"/>
+    <property name="label" value="Display on Vendor Doc?"/>
+    <property name="shortLabel" value="Vendor Doc?"/>
+  </bean>
+
+  <bean id="PaymentMethod-active" parent="PaymentMethod-active-parentBean"/>
+  <bean id="PaymentMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+  <bean id="PaymentMethod-lookupDefinition" parent="PaymentMethod-lookupDefinition-parentBean"/>
+  <bean id="PaymentMethod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Method Lookup"/>    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>paymentMethodCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="paymentMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentMethodName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+        <bean parent="FieldDefinition" p:attributeName="assessedFees"/>
+        <bean parent="FieldDefinition" p:attributeName="processedUsingPdp"/>
+        <bean parent="FieldDefinition" p:attributeName="interdepartmentalPayment"/>
+        <bean parent="FieldDefinition" p:attributeName="offsetUsingClearingAccount"/>
+        <bean parent="FieldDefinition" p:attributeName="displayOnDisbursementVoucherDocument"/>
+        <bean parent="FieldDefinition" p:attributeName="displayOnVendorDocument"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="paymentMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentMethodName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+        <bean parent="FieldDefinition" p:attributeName="assessedFees"/>
+        <bean parent="FieldDefinition" p:attributeName="processedUsingPdp"/>
+        <bean parent="FieldDefinition" p:attributeName="interdepartmentalPayment"/>
+        <bean parent="FieldDefinition" p:attributeName="offsetUsingClearingAccount"/>
+        <bean parent="FieldDefinition" p:attributeName="displayOnDisbursementVoucherDocument"/>
+        <bean parent="FieldDefinition" p:attributeName="displayOnVendorDocument"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PaymentMethod-inquiryDefinition" parent="PaymentMethod-inquiryDefinition-parentBean"/>
+  <bean id="PaymentMethod-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Method Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Payment Method"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+		        <bean parent="FieldDefinition" p:attributeName="paymentMethodCode" p:noInquiry="true" />
+		        <bean parent="FieldDefinition" p:attributeName="paymentMethodName"/>
+		        <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="assessedFees"/>
+		        <bean parent="FieldDefinition" p:attributeName="processedUsingPdp"/>
+		        <bean parent="FieldDefinition" p:attributeName="interdepartmentalPayment"/>
+		        <bean parent="FieldDefinition" p:attributeName="offsetUsingClearingAccount"/>
+		        <bean parent="FieldDefinition" p:attributeName="displayOnDisbursementVoucherDocument"/>
+		        <bean parent="FieldDefinition" p:attributeName="displayOnVendorDocument"/>
+		        <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Payment Method Charts"/>
+          <property name="inquiryFields">
+           	<list>
+		        <bean parent="InquiryCollectionDefinition">
+		          <property name="attributeName" value="paymentMethodCharts"/>
+		          <property name="businessObjectClass" value="edu.arizona.kfs.fp.businessobject.PaymentMethodChart"/>
+		          <property name="numberOfColumns" value="1"/>
+                  <property name="summaryTitle" value="Chart/Eff. Date"/>
+		          <property name="summaryFields">
+		            <list>
+		              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+		            </list>
+		          </property>
+		          <property name="inquiryFields">
+		            <list>
+		              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+		              <bean parent="FieldDefinition" p:attributeName="feeIncomeChartOfAccountsCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="feeIncomeAccountNumber"/>
+		              <bean parent="FieldDefinition" p:attributeName="feeIncomeFinancialObjectCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="feeExpenseFinancialObjectCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="feeAmount"/>
+		              <bean parent="FieldDefinition" p:attributeName="clearingChartOfAccountsCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="clearingAccountNumber"/>
+		              <bean parent="FieldDefinition" p:attributeName="clearingFinancialObjectCode"/>
+		              <bean parent="FieldDefinition" p:attributeName="active"/>
+		            </list>
+		          </property>
+		        </bean>
+	        </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>
+

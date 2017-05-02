@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:dd="http://rice.kuali.org/dd" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+			 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd       
+			 http://rice.kuali.org/dd         
+			 http://rice.kuali.org/dd/dd.xsd">
+
+
+ <bean id="OrgReviewRoleMaintenanceDocument" parent="OrgReviewRoleMaintenanceDocument-parentBean" p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" 
+  		p:maintainableClass="edu.arizona.kfs.coa.document.OrgReviewRoleMaintainableImpl">
+    <property name="lockingKeys">
+      <list merge="true">
+        <value>fundGroupCode</value>
+        <value>subFundGroupCode</value>
+        <value>financialObjectSubTypeCode</value>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list merge="true">
+      	<bean parent="ReferenceDefinition" p:attributeName="fundGroup" p:attributeToHighlightOnFail="fundGroupCode" />
+      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" />
+      	<bean parent="ReferenceDefinition" p:attributeName="objectSubType" p:attributeToHighlightOnFail="financialObjectSubTypeCode" />
+      </list>
+    </property>
+
+    <property name="businessRulesClass" value="edu.arizona.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="OrgReviewRoleMaintenanceDocument-RoleDetails" parent="OrgReviewRoleMaintenanceDocument-RoleDetails-parentBean">
+    <property name="maintainableItems">
+      <list>
+      	<dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+        <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="fundGroupCode" required="false"/>
+        <dd:maintField attributeName="subFundGroupCode" required="false"/>
+        <dd:maintField attributeName="financialObjectSubTypeCode" required="false"/>
+        <dd:maintField attributeName="financialSystemDocumentTypeCode" required="true"/>
+        <dd:maintField attributeName="reviewRolesIndicator" required="true"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

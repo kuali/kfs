@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="cardHolders">
+        <object-create-rule classname="java.util.ArrayList" />
+
+        <pattern value="cardHolder">
+            <object-create-rule classname="edu.arizona.kfs.fp.businessobject.ProcurementCardHolderLoad" />
+
+            <call-method-rule pattern="creditCardNumber" methodname="setCreditCardNumber" paramcount="0" />
+            <call-method-rule pattern="cardHolderName" methodname="setCardHolderName" paramcount="0" />
+            <call-method-rule pattern="cardHolderAlternateName" methodname="setCardHolderAlternateName" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine1Address" methodname="setCardHolderLine1Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine2Address" methodname="setCardHolderLine2Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderCityName" methodname="setCardHolderCityName" paramcount="0" />
+            <call-method-rule pattern="cardHolderStateCode" methodname="setCardHolderStateCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderZipCode" methodname="setCardHolderZipCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderWorkPhoneNumber" methodname="setCardHolderWorkPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="cardLimit" methodname="setCardLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleAmountLimit" methodname="setCardCycleAmountLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleVolumeLimit" methodname="setCardCycleVolumeLimit" paramcount="0" />
+            <call-method-rule pattern="cardMonthlyNumber" methodname="setCardMonthlyNumber" paramcount="0" />
+            <call-method-rule pattern="cardStatusCode" methodname="setCardStatusCode" paramcount="0" />
+            <call-method-rule pattern="cardNoteText" methodname="setCardNoteText" paramcount="0" />
+            <call-method-rule pattern="chartOfAccountsCode" methodname="setChartOfAccountsCode" paramcount="0" />
+            <call-method-rule pattern="accountNumber" methodname="setAccountNumber" paramcount="0" />
+            <call-method-rule pattern="financialObjectCode" methodname="setFinancialObjectCode" paramcount="0" />
+            <call-method-rule pattern="organizationCode" methodname="setOrganizationCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderSystemId" methodname="setCardHolderSystemId" paramcount="0" />
+            <call-method-rule pattern="cardOpenDate" methodname="setCardOpenDate" paramcount="0" />
+            <call-method-rule pattern="cardCancelDate" methodname="setCardCancelDate" paramcount="0" />
+            <call-method-rule pattern="cardExpireDate" methodname="setCardExpireDate" paramcount="0" />
+            
+            <set-next-rule methodname="add" />
+        </pattern>
+
+    </pattern>
+</digester-rules>

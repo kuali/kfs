@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean">
+        <property name="packagePrefixes">
+            <list merge="true">
+                <value>edu.arizona.kfs.fp</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list merge="true">
+                <value>classpath:edu/arizona/kfs/fp/businessobject/datadictionary/*.xml</value>
+                <value>classpath:edu/arizona/kfs/fp/document/datadictionary/*.xml</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list merge="true">
+                <value>edu/arizona/kfs/fp/ojb-fp.xml</value> 
+            </list>
+        </property>
+        <property name="jobNames">
+            <list merge="true">
+                <value>procurementCardHolderJob</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- validations -->
+    <import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+    <import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
+    <import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
+    <import resource="document/validation/configuration/CreditCardReceiptValidation.xml" />
+    <import resource="document/validation/configuration/DistributionOfIncomeAndExpenseValidation.xml" />
+    <import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
+    <import resource="document/validation/configuration/ProcurementCardValidation.xml" />
+
+    <bean id="procurementCardCreateDocumentService" parent="procurementCardCreateDocumentService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl">
+        <property name="procurementCardGroupService" ref="procurementCardGroupService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="batchFileOutputDirectoryName">
+            <value>${reports.directory}/fp</value>
+        </property>
+    </bean>
+
+    <bean id="procurementCardGroupService" parent="procurementCardGroupService-parentBean" />
+    <bean id="procurementCardGroupService-parentBean" class="org.kuali.rice.kim.impl.group.GroupServiceImpl" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
+    </bean>
+
+    <bean id="procurementCardHolderDerivedRoleTypeService" class="edu.arizona.kfs.fp.identity.ProcurementCardHolderDerivedRoleTypeServiceImpl" />  
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsSoapServiceDefinition"
+                p:service-ref="procurementCardHolderDerivedRoleTypeService"
+                p:localServiceName="procurementCardHolderDerivedRoleTypeService" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardReconcilerDerivedRoleTypeService" class="edu.arizona.kfs.fp.identity.ProcurementCardReconcilerDerivedRoleTypeServiceImpl" />  
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsSoapServiceDefinition"
+                p:service-ref="procurementCardReconcilerDerivedRoleTypeService"
+                p:localServiceName="procurementCardReconcilerDerivedRoleTypeService" />
+        </property>
+    </bean>
+
+    <bean id="disbursementVoucherInvoiceService" class="edu.arizona.kfs.fp.service.impl.DisbursementVoucherInvoiceServiceImpl" />
+
+    <bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean" class="edu.arizona.kfs.fp.businessobject.lookup.UaDisbursementPayeeLookupableHelperServiceImpl" />
+
+	<bean id="paymentMethodGeneralLedgerPendingEntryService" parent="paymentMethodGeneralLedgerPendingEntryService-parentBean"/>
+	<bean id="paymentMethodGeneralLedgerPendingEntryService-parentBean" class="edu.arizona.kfs.fp.service.impl.PaymentMethodGeneralLedgerPendingEntryServiceImpl" abstract="true">
+		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+		<property name="objectCodeService" ref="objectCodeService"/>
+		<property name="optionsService" ref="optionsService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="bankService" ref="bankService"/>
+		<property name="purchasingAccountsPayableModuleService" ref="purchasingAccountsPayableModuleService"/>
+	</bean>
+
+ 
+    <bean id="procurementCardDocumentJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="procurementCardLoadStep" />
+                <ref bean="procurementCardCreateDocumentsStep" />
+                <ref bean="procurementCardRouteDocumentsStep" />
+                <ref bean="procurementCardAutoApproveDocumentsStep" />
+                <ref bean="procurementCardRerouteDocumentsStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="procurementCardRerouteDocumentsStep" class="edu.arizona.kfs.fp.batch.ProcurementCardRerouteDocumentsStep" parent="step">
+        <property name="procurementCardCreateDocumentService">
+            <ref bean="procurementCardCreateDocumentService" />
+        </property>
+    </bean>
+
+    <bean id="disbursementVoucherPreDisbursementProcessorExtractJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="disbursementVoucherPreDisbursementProcessorExtractStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="procurementCardInputFileType" parent="procurementCardInputFileType-parentBean">
+        <property name="digestorRulesFileName">
+           <value>edu/arizona/kfs/fp/batch/pcdoLevel3DigesterRules.xml</value>
+        </property>
+        <property name="schemaLocation">
+           <value>${externalizable.static.content.url}/xsd/fp/procurementCardLevel3.xsd</value>
+        </property>
+    </bean>
+
+    <bean id="procurementCardLoadTransactionsService" parent="procurementCardLoadTransactionsService-parentBean" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardLoadTransactionsServiceImpl" />
+	
+	<bean id="disbursementVoucherCoverSheetService" class="edu.arizona.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="parameterEvaluatorService">
+			<ref bean="parameterEvaluatorService" />
+		</property>
+	</bean>
+	
+    <bean id="ProcurementCardService" class="edu.arizona.kfs.fp.service.impl.ProcurementCardServiceImpl">
+       <property name="parameterService" ref="parameterService"/>
+       <property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+       <property name="businessObjectService" ref="businessObjectService"/>
+       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+    </bean>
+    
+	<bean id="disbursementVoucherDao" class="edu.arizona.kfs.fp.dataaccess.impl.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
+
+	 <bean id="procurementCardHolderJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="procurementCardHolderLoadStep" />
+                <ref bean="procurementCardHolderUpdateStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderLoadStep" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderLoadStep" parent="step">
+        <property name="procurementCardHolderLoadService">
+            <ref bean="procurementCardHolderLoadService" />
+        </property>
+    </bean>
+    
+    <bean id="procurementCardHolderUpdateStep" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderUpdateStep" parent="step">
+        <property name="procurementCardHolderUpdateService">
+            <ref bean="procurementCardHolderUpdateService" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderLoadService" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardHolderLoadServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="batchInputFileService">
+            <ref bean="batchInputFileService" />
+        </property>
+        <property name="procurementCardHolderInputFileType">
+            <ref bean="procurementCardHolderInputFileType" />
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderUpdateService" class="edu.arizona.kfs.fp.batch.service.impl.ProcurementCardHolderUpdateServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+           <ref bean="dateTimeService"/>
+        </property>
+    </bean>
+
+    <bean id="procurementCardHolderInputFileType" class="edu.arizona.kfs.fp.batch.ProcurementCardHolderInputFileType">
+        <property name="directoryPath">
+           <value>${staging.directory}/fp/procurementCardHolder</value>
+        </property>
+        <property name="fileExtension">
+           <value>xml</value>
+        </property>
+        <property name="digestorRulesFileName">
+           <value>edu/arizona/kfs/fp/batch/pcdhDigesterRules.xml</value>
+        </property>
+        <property name="schemaLocation">
+           <value>${externalizable.static.content.url}/xsd/fp/procurementCardHolder.xsd</value>
+        </property>
+    </bean>
+
+    <bean id="procurementCardDefaultLookupableHelperService" scope="prototype" parent="procurementCardDefaultLookupableHelperService-parentBean" />
+    <bean id="procurementCardDefaultLookupableHelperService-parentBean" abstract="true"  class="edu.arizona.kfs.fp.businessobject.lookup.ProcurementCardDefaultLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+
+    <bean id="procurementCardDefaultLookupable"  parent="procurementCardDefaultLookupable-parentBean" scope="prototype"/>
+    <bean id="procurementCardDefaultLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+      <property name="lookupableHelperService">
+        <ref bean="procurementCardDefaultLookupableHelperService" />
+      </property>
+    </bean>
+
+    <bean id="disbursementVoucherExtractionHelperService" parent="disbursementVoucherExtractionHelperService-parentBean" class="edu.arizona.kfs.fp.document.service.impl.DisbursementVoucherExtractionHelperServiceImpl" />
+
+</beans>

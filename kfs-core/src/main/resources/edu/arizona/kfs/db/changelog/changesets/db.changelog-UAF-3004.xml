@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    UAF-3004
+        These changesets will create three new columns on the GL Entry table (GLE),
+    including a new object id for Rice to work with, a new GUID for each entry, and
+    a new GEC document number column. Further, these new columns will get appropriate
+    constraints and indexes added. Next, a new GEC Entry Relationship table is
+    created, then records added for existing GEC Doc -> Accounting Line -> GL Entry
+    relationships, with a minimal column count. The GEC Relationship table will similarly
+    have its own constraints/indexes/composite-PK applied.
+
+    There's several non-standard things going on here, so I'll point them out now:
+        1. We need to disable a BI trigger on the GLE table, since otherwise, each of
+    the 78MM records would update BI's reporting view, twice. Since we are not changing
+    financial information, and the new columns would not be in BI reports anyway, there
+    is no conflict in disabling the trigger for the duration of these changesets.
+        2. The new GLE sequence is based on the highest ID that's generated after the fact.
+    We don't really care if the sequence is interupted, it just turns out to be a nice
+    way of doing things, since this will work no matter the intial data set. To do it though,
+    we use PL/SQL, and the oracle built-in "ROWNUM". Liquibase has mechanisms to allow this,
+    but it does mean this script is RDBMS-specific to oracle.
+        3. These changesets represent large operations on 78MM+ rows -first updating, then
+    rolling back- I wanted to avoid spending cycles where we could. Since the main rollbacks
+    include dropping either columns or tables, then we really don't care about rolling back
+    the intermediate updates, constraints, or indexes; these will implicitly be deleted
+    when either a column is dropped, or the entire table is dropped. So to save time
+    and redo-log space, I stub-out several intermediate rollbacks with a no-op, which
+    tricks liquibase into thinking a particular rollback was performed and completed. The
+    end result is that the involved GLE table is restored to its original state, and all
+    other objects get deleted, either explicitly or implicitly so.
+        4. Note that rollbacks are executed in reverse order of each changeset's operations.
+    For insance, all 11 changesets' main SQL block is executed sequentially, and then each
+    rollback is applied in reverse sequence, 11 to 0.
+    Knowing this should make it clear why and where I decided to stub-out the rollbacks.
+-->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="UAF-3004_00" author="Scott Skinner">
+        <comment>
+            UAF-3004_00 (1/12) - Disable BI trigger, otherwise the DB will thrash, and redo logs will overfill.
+        </comment>
+        <sql>
+            <!--
+                This trigger updates a view for reporting, but we will update brand new columns that
+                are not part of their reports, and aren't part of any auditing (non-financial data).
+            -->
+            alter trigger BIUD_GL_ENTRY_T disable;
+        </sql>
+        <rollback>
+            <sql>
+                <!--
+                    This will be the last rollback (rollbacks are executed in reverse order
+                    of changesets), which is good, since we wanted it to be off the entire
+                    time.
+                -->
+                alter trigger BIUD_GL_ENTRY_T enable;
+            </sql>
+        </rollback>
+
+    </changeSet>
+    <changeSet id="UAF-3004_01" author="Scott Skinner">
+        <comment>
+            UAF-3004_01 (2/12) - Create new columns in GLE table, subsequent changesets rely on these.
+        </comment>
+        <sql dbms="oracle">
+             <!--
+                Note the 'dbms' attrtribute on the 'sql' element: multi-column
+                alter is not part of the the ANSI/ISO SQL standard.
+             -->
+            alter table GL_ENTRY_T
+                add(ENTRY_ID NUMBER(19,0),
+                    GEC_FDOC_NBR VARCHAR2(36 BYTE),
+                    OBJ_ID VARCHAR2(36 BYTE));
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    Note: This will also delete all constraints and indexes on these columns,
+                          which are introduced in future changesets; this means those changesets
+                          won't need their own rollbacks when creating constraints/indexes on these
+                          columns. Also note the 'dbms' attrtribute on the sql element: multi-column
+                          delete is not in the ANSI/ISO SQL standard.
+                -->
+                alter table GL_ENTRY_T
+                    drop (ENTRY_ID, GEC_FDOC_NBR, OBJ_ID);
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_02" author="Scott Skinner">
+        <comment>
+            UAF-3004_02 (3/12) - Populate two of the new GLE columns with Oracle DB internal functions.
+        </comment>
+        <sql dbms="oracle">
+            <!--
+                Note the 'dbms' attribute of the sql element here: this is needed since ROWNUM
+                and SYS_GUID() are specific to oracle, and are not standard ANSI/ISO SQL.
+            -->
+            update GL_ENTRY_T
+                set ENTRY_ID = ROWNUM,
+                    OBJ_ID = SYS_GUID();
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    These columns are being deleted in UAF-3004_01's rollback, so no need to do
+                    anything here; this saves us an hour+ in the liquibase tests.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+
+    </changeSet>
+    <changeSet id="UAF-3004_03" author="Scott Skinner">
+        <comment>
+            UAF-3004_03 (4/12) - Add not-null constraints and indexes on newly populated ENTRY_ID and OBJ_ID.
+        </comment>
+        <sql>
+            <!--
+                It is best practice to set explicit constraints, in case the index goes away
+                with its implicit contstraints, the others remains.
+            -->
+            ALTER TABLE GL_ENTRY_T MODIFY (ENTRY_ID NOT NULL ENABLE);
+            CREATE UNIQUE INDEX GL_ENTRY_TI17 ON GL_ENTRY_T(ENTRY_ID);
+            ALTER TABLE GL_ENTRY_T MODIFY (OBJ_ID DEFAULT SYS_GUID() NOT NULL ENABLE);
+            CREATE UNIQUE INDEX GL_ENTRY_TI18 ON GL_ENTRY_T(OBJ_ID);
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    No rollback here, since UAF-3004_01's rollback drops these columns first, which
+                    implicitly drops these indexes and contstraints. This is a hack to save time.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+
+    </changeSet>
+    <changeSet id="UAF-3004_04" author="Scott Skinner">
+        <comment>
+            UAF-3004_04 (5/12) - Create sequence for use on new GLE ENTRY_ID column.
+        </comment>
+        <sql dbms="oracle" endDelimiter="/">
+            <!--
+                Note the 'dbms' attribute of the sql element here: this following code block is
+                oracle-specific PL/SQL. We also need to use liquibase's 'endLimiter', which the
+                PL/SQL syntax needs.
+                Actual function: select the highest ENTRY_ID value, and set the new sequence's
+                starting point one up from that.
+             -->
+            DECLARE
+                new_start_id number;
+            BEGIN
+                select MAX(ENTRY_ID) + 1 into new_start_id from GL_ENTRY_T;
+                execute immediate 'CREATE SEQUENCE GL_ENTRY_ID_SEQ START WITH ' || new_start_id || ' INCREMENT BY 1 NOMAXVALUE CACHE 500 NOCYCLE';
+            END;
+            /
+        </sql>
+        <rollback>
+            <sql>
+                <!--
+                    We do need to explictly drop this, since sequnces are not bound to
+                    tables or columns.
+                -->
+                drop sequence GL_ENTRY_ID_SEQ;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_05" author="Scott Skinner">
+        <comment>
+            UAF-3004_05 (6/12) - Associate existing Entries to their related GEC documents.
+        </comment>
+        <sql dbms="oracle">
+            <!--
+                Note the 'dbms' attribute of the sql element here: the following code block uses
+                an oracle specific join for update, which is the only valid syntax that oracle accepts
+                for a join within an update clause.
+            -->
+            update
+            (select GL_ENTRY_T.GEC_FDOC_NBR as GLE_FDOC_NBR,
+                FP_ERROR_COR_DOC_T.FDOC_NBR as GEC_FDOC_NBR
+                from GL_ENTRY_T
+                inner join FP_ERROR_COR_DOC_T
+                on GL_ENTRY_T.FDOC_NBR = FP_ERROR_COR_DOC_T.FDOC_NBR
+            ) u
+            set u.GLE_FDOC_NBR = u.GEC_FDOC_NBR;
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    No rollback here, since UAF-3004_01's rollback drops these columns, which means
+                    we don't want to waste our time nulling the column out. This is a hack to save time.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_06" author="Scott Skinner">
+        <comment>
+            UAF-3004_06 (7/12) - Create new GEC Entry Relationship table.
+        </comment>
+        <sql>
+            CREATE TABLE FP_GEC_ENTRY_REL_T  (
+                ENTRY_ID            NUMBER(19,0),
+                GEC_FDOC_NBR        VARCHAR2(14),
+                GEC_FDOC_LN_TYP_CD  VARCHAR2(1),
+                GEC_ACCT_LINE_NBR   NUMBER(7,0),
+                GEC_DOC_HDR_STAT_CD VARCHAR2(1),
+                VER_NBR             NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,
+                OBJ_ID              VARCHAR2(36 BYTE) DEFAULT SYS_GUID() NOT NULL ENABLE
+            );
+        </sql>
+        <rollback>
+            <sql>
+                <!--
+                    All associated constraints and indexes will be deleted by this rollback, so no
+                    need for other changesets that create them to delete in their individual rollback.
+                -->
+                drop table FP_GEC_ENTRY_REL_T;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_07" author="Scott Skinner">
+        <comment>
+            UAF-3004_07 (8/12) - Populate the new GEC Entry Relationship table.
+        </comment>
+        <sql>
+            <!--
+                For every GEC doc, join on all it's associated lines, then join each line on its related
+                entry, and finally insert a new GEC Entry Relation record of each result.
+            -->
+            insert into FP_GEC_ENTRY_REL_T (ENTRY_ID, GEC_FDOC_NBR, GEC_FDOC_LN_TYP_CD, GEC_ACCT_LINE_NBR, VER_NBR, OBJ_ID)
+            select c.ENTRY_ID, a.FDOC_NBR, b.FDOC_LN_TYP_CD, b.FDOC_LINE_NBR, 1, SYS_GUID()
+            from FP_ERROR_COR_DOC_T a
+            inner join FP_ACCT_LINES_T b
+                on a.FDOC_NBR = b.FDOC_NBR
+            inner join GL_ENTRY_T c
+                on b.FDOC_POST_YR = c.UNIV_FISCAL_YR
+                and b.FDOC_NBR = c.FDOC_NBR
+                and b.ACCOUNT_NBR = c.ACCOUNT_NBR
+                and b.FIN_OBJECT_CD = c.FIN_OBJECT_CD
+                and b.FDOC_LINE_NBR = c.TRN_ENTR_SEQ_NBR;
+        </sql>
+        <rollback>
+            <sql  dbms="oracle">
+                <!--
+                    No need to rollback records, since UAF-3004_06's rollback drops this table anyway; this
+                    saves us time in the liquibase tests.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_08" author="Scott Skinner">
+        <comment>
+            UAF-3004_08 (9/12) - Create indexes on the new GEC Entry Relationship table.
+        </comment>
+        <sql>
+            CREATE INDEX FDOC_NBR_IDX ON FP_GEC_ENTRY_REL_T(GEC_FDOC_NBR);
+            CREATE INDEX ENTRY_ID_IDX ON FP_GEC_ENTRY_REL_T(ENTRY_ID);
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    No need to rollback indexes, since UAF-3004_06's rollback drops this table anyway; this
+                    saves us time in liquibase tests.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_09" author="Scott Skinner">
+        <comment>
+            UAF-3004_09 (10/12) - Populate the route status code for each GEC Entry Relationship record.
+        </comment>
+        <sql>
+            <!--
+                This works since KREW_DOC_HDR_T.DOC_HDR_ID is a unique PK.
+            -->
+            update FP_GEC_ENTRY_REL_T a
+            set a.GEC_DOC_HDR_STAT_CD = (
+                select b.DOC_HDR_STAT_CD
+                from KREW_DOC_HDR_T b
+                where a.GEC_FDOC_NBR = b.DOC_HDR_ID
+            );
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    No need to rollback records, since UAF-3004_06's rollback drops this table anyway; this
+                    saves us time in liquibase tests.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="UAF-3004_10" author="Scott Skinner">
+        <comment>
+            UAF-3004_10 (11/12) - Set constraints on the GEC Entry Relationship table, now that it's populated.
+        </comment>
+        <sql>
+            <!--
+                We should always have non-null for these; the composite PK is necessary for the lookup mechanism
+                in the framework, but also reflects data integrity. We do this now, since inserts and updates
+                will go faster without any contstraints.
+            -->
+            ALTER TABLE FP_GEC_ENTRY_REL_T MODIFY (ENTRY_ID NOT NULL ENABLE);
+            ALTER TABLE FP_GEC_ENTRY_REL_T MODIFY (GEC_FDOC_NBR NOT NULL ENABLE);
+            ALTER TABLE FP_GEC_ENTRY_REL_T MODIFY (GEC_FDOC_LN_TYP_CD NOT NULL ENABLE);
+            ALTER TABLE FP_GEC_ENTRY_REL_T MODIFY (GEC_ACCT_LINE_NBR NOT NULL ENABLE);
+            ALTER TABLE FP_GEC_ENTRY_REL_T MODIFY (GEC_DOC_HDR_STAT_CD NOT NULL ENABLE);
+            ALTER TABLE FP_GEC_ENTRY_REL_T ADD CONSTRAINT GEC_ENTRY_RELATIONSHIP_TP1 PRIMARY KEY (ENTRY_ID, GEC_FDOC_NBR, GEC_FDOC_LN_TYP_CD, GEC_ACCT_LINE_NBR) ENABLE;
+        </sql>
+        <rollback>
+            <sql dbms="oracle">
+                <!--
+                    No need to drop constraints, since UAF-3004_06's rollback drops this table anyway; this
+                    saves us time in liquibase tests.
+                -->
+                select 1 from dual;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

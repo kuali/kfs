@@ -15,6 +15,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.util.ObjectPopulationUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import edu.arizona.kfs.module.purap.service.PurapAccountingService;
 
@@ -98,12 +99,15 @@ public class PurapAccountingServiceImpl extends org.kuali.kfs.module.purap.servi
                 }
                 UseTaxContainer useTaxContainer = new UseTaxContainer();
                 for (PurApItemUseTax itemUseTax : purApItem.getUseTaxItems()) {
-                    if (useTaxItemMap.containsKey(itemUseTax)) {
-                        useTaxContainer = useTaxItemMap.get(itemUseTax);
+                	// UAF-4250 : this 'usetax accounts' is for GLPE generation; however, the usetaxamount
+                	// should not be changed unless they are in the same item/account/objcd etc.
+                	PurApItemUseTax itemUseTaxCopy = (PurApItemUseTax)ObjectUtils.deepCopy(itemUseTax);
+                    if (useTaxItemMap.containsKey(itemUseTaxCopy)) {
+                        useTaxContainer = useTaxItemMap.get(itemUseTaxCopy);
                         PurApItemUseTax exisitingItemUseTax = useTaxContainer.getUseTax();
                         // if already in set we need to add on the old amount
                         KualiDecimal tax = exisitingItemUseTax.getTaxAmount();
-                        tax = tax.add(itemUseTax.getTaxAmount());
+                        tax = tax.add(itemUseTaxCopy.getTaxAmount());
                         exisitingItemUseTax.setTaxAmount(tax);
 
                         List<PurApItem> items = useTaxContainer.getItems();
@@ -112,8 +116,8 @@ public class PurapAccountingServiceImpl extends org.kuali.kfs.module.purap.servi
 
                     }
                     else {
-                        useTaxContainer = new UseTaxContainer(itemUseTax, purApItem);
-                        useTaxItemMap.put(itemUseTax, useTaxContainer);
+                        useTaxContainer = new UseTaxContainer(itemUseTaxCopy, purApItem);
+                        useTaxItemMap.put(itemUseTaxCopy, useTaxContainer);
                         useTaxAccounts.add(useTaxContainer);
                     }
                 }
